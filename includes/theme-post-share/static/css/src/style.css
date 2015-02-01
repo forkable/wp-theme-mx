@@ -1,0 +1,49 @@
+.bdshare_t{
+
+}
+	.bdshare_t .description{
+		float:left;
+	}
+	.bdshare_t a{
+	}
+html span.bds_more,html .bds_tools a{
+	display:inline;
+	float:none;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	margin-top:-4px;
+	-moz-transition:all .3s;
+	-webkit-transition:all .3s;
+	transition:all .3s;
+}
+	html span.bds_more,html .bds_tools a:hover,
+	html span.bds_more,html .bds_tools a:active{
+		opacity:.5 !important;
+		/*
+		-ms-transform: rotate(45deg);
+		-webkit-transform: rotate(45deg);
+		-moz-transform: rotate(45deg);	
+		transform: rotate(45deg);
+		*/
+	}
+html .bds_more{
+	background-position:0 5px!important;
+}
+
+html #bdshare{
+	padding-bottom:0;
+	font-size:100%;
+}
+html span.bds_more,
+html .bds_tools a{
+	height:14px;
+}
+html #bdshare_l{
+	box-shadow:0 1px 3px rgba(0,0,0,.3);
+	border-radius:3px;
+	overflow:hidden;
+}
+html #bdshare_l_c{
+	width:100%;
+}

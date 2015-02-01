@@ -1,0 +1,2248 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: KMTF-1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-01-31 12:08+0800\n"
+"PO-Revision-Date: 2015-01-31 12:08+0800\n"
+"Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
+"Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: ___;gettext;gettext_noop;__e;esc_html__;_n\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.7.3\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: category.php:31 includes/theme-widget-rank/theme-widget-rank.php:85
+#: includes/theme-widget-tags/theme-widget-tags.php:87 index.php:29
+msgid "No data yet."
+msgstr "此类别暂无资料"
+
+#: core/core-features.php:704
+msgid "Sorry, referer is invalid."
+msgstr "抱歉，无效的来路。"
+
+#: core/core-features.php:722
+msgid "Sorry, security code is invalid."
+msgstr "抱歉，无效的安全码。"
+
+#: core/core-features.php:1319 core/core-features.php:1385 functions.php:1199
+msgid "&lsaquo; Previous"
+msgstr "&lsaquo;  上一页"
+
+#: core/core-features.php:1354 core/core-features.php:1386 functions.php:1223
+msgid "Next &rsaquo;"
+msgstr "下一页 &rsaquo;"
+
+#: core/core-features.php:1384
+msgid "&laquo; First"
+msgstr "&laquo; 首页"
+
+#: core/core-features.php:1387
+msgid "Last &raquo;"
+msgstr "尾页 &raquo;"
+
+#: core/core-features.php:1721
+#: includes/theme-widget-category-post/theme-widget-category-post.php:133
+msgid "Select category"
+msgstr "选择目录"
+
+#: core/core-features.php:1765
+#, php-format
+msgid "(%s)"
+msgstr "（%s）"
+
+#: core/core-features.php:1770
+#: includes/theme-widget-rank/theme-widget-rank.php:268
+msgid "No category, pleass go to add some categories."
+msgstr "暂无分类目录，请去添加一些分类。"
+
+#: core/core-features.php:1788
+msgid "Select page"
+msgstr "选择页面"
+
+#: core/core-functions.php:661
+msgid "Just"
+msgstr "刚刚"
+
+#: core/core-functions.php:667
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d 秒前"
+
+#: core/core-functions.php:674
+msgid "a minute ago"
+msgstr "一分钟前"
+
+#: core/core-functions.php:676
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d 分钟前"
+
+#: core/core-functions.php:684
+msgid "an hour ago"
+msgstr "一小时前"
+
+#: core/core-functions.php:686
+#, php-format
+msgid "%d hours ago"
+msgstr "%d 小时前"
+
+#: core/core-functions.php:693
+msgid "yesterday"
+msgstr "昨天"
+
+#: core/core-functions.php:699
+#, php-format
+msgid "%d days ago"
+msgstr "%d 天前"
+
+#: core/core-functions.php:705
+msgid "M j"
+msgstr "m月d日"
+
+#: core/core-functions.php:708
+msgid "M j, Y"
+msgstr "Y年m月d日"
+
+#: core/core-options.php:100
+msgid "theme settings"
+msgstr "主题设置"
+
+#: core/core-options.php:120
+msgid "Settings have been saved."
+msgstr "设置已保存。"
+
+#: core/core-options.php:128
+#: includes/_theme-custom-sign/theme-custom-sign.php:148
+#: includes/_theme-quick-sign/theme-quick-sign.php:399
+#: includes/theme-clean-up/theme-clean-up.php:177
+#: includes/theme-open-sign/theme-open-sign.php:225
+#: includes/theme-post-thumb/theme-post-thumb.php:242
+#: includes/theme-quick-comment/theme-quick-comment.php:342
+msgid "Loading, please wait..."
+msgstr "加载中，请稍候…"
+
+#: core/core-options.php:132
+msgid "Theme common settings."
+msgstr "主题通用的设置。"
+
+#: core/core-options.php:132
+msgid "Basic Settings"
+msgstr "基本设置"
+
+#: core/core-options.php:139
+msgid "Theme appearance/template settings."
+msgstr "主题的外观/模板设置。"
+
+#: core/core-options.php:139
+msgid "Page Settings"
+msgstr "页面设置"
+
+#: core/core-options.php:146
+msgid "Theme special settings, you need to know what are you doing."
+msgstr "主题独有的设置，您需要知道自己正在做什么。"
+
+#: core/core-options.php:146
+msgid "Advanced Settings"
+msgstr "高级设置"
+
+#: core/core-options.php:153
+msgid "Developer Mode"
+msgstr "开发者模式"
+
+#: core/core-options.php:159
+msgid "About & Help"
+msgstr "关于&amp;帮助"
+
+#: core/core-options.php:168
+msgid "Save all settings"
+msgstr "保存所有设置"
+
+#: core/core-options.php:169
+msgid "Something error with theme? Try to restore:)"
+msgstr "主题数据出错？还原默认设置试试：）"
+
+#: core/core-options.php:169
+msgid "Restore default theme options"
+msgstr "还原主题默认选项"
+
+#: core/core-options.php:273 core/core-options.php:291
+msgid "Theme settings"
+msgstr "主题设置"
+
+#: footer.php:13
+#, php-format
+msgid "Copyright &copy; %s %s."
+msgstr "Copyright &copy; %s %s."
+
+#: footer.php:14
+#, php-format
+msgid "Theme %s by %s."
+msgstr "Theme %s by %s."
+
+#: footer.php:14 functions.php:30
+msgid "INN STUDIO"
+msgstr "INN STUDIO"
+
+#: footer.php:15
+#, php-format
+msgid "Powered by %s."
+msgstr "Powered by %s."
+
+#: footer.php:20
+msgid "Click to show QR code for this page"
+msgstr "扫描二维码即可访问此页面。"
+
+#: footer.php:24
+msgid "Scan the QR code to visit this page"
+msgstr "扫描二维码即可访问此页面。"
+
+#: functions.php:27
+msgid "INN 2015"
+msgstr "INN 2015"
+
+#: functions.php:28
+msgid "http://inn-studio.com/inn2015"
+msgstr "http://inn-studio.com/inn2015"
+
+#: functions.php:29
+msgid "http://inn-studio.com"
+msgstr "http://inn-studio.com/"
+
+#: functions.php:40
+msgid "Professional edition"
+msgstr "专业版"
+
+#: functions.php:41
+msgid ""
+"This is an unique theme, beautiful UI, delicate features, excellent "
+"efficiency, good experience, all in one for your blog."
+msgstr ""
+"这是一款独特的主题，漂亮的界面、精致的功能、优秀的效率、人性化的体验，一切只"
+"为您的博客。"
+
+#: functions.php:53
+msgid "Header menu"
+msgstr "头部菜单"
+
+#: functions.php:54
+msgid "Header menu mobile"
+msgstr "头部菜单手机版"
+
+#: functions.php:55
+msgid "Header menu tools"
+msgstr "头部工具栏菜单"
+
+#: functions.php:99
+msgid "Post Toc"
+msgstr "文章目录"
+
+#: functions.php:100
+msgid "[Top]"
+msgstr "[目录]"
+
+#: functions.php:112
+msgid "Home widget area"
+msgstr "首页小工具区域"
+
+#: functions.php:114
+msgid "Appears on home in the sidebar."
+msgstr "显示在首页的边栏中。"
+
+#: functions.php:117
+msgid "Archive page widget area"
+msgstr "归档页面小工具区域"
+
+#: functions.php:119
+msgid "Appears on archive page in the sidebar."
+msgstr "显示在归档页面的边栏中。"
+
+#: functions.php:122
+msgid "Footer widget area"
+msgstr "底部 小工具区域"
+
+#: functions.php:124
+msgid "Appears on all page in the footer."
+msgstr "显示在每个页面的底部。"
+
+#: functions.php:129
+msgid "Singular post widget area"
+msgstr "单文章小工具区域"
+
+#: functions.php:131
+msgid "Appears on post in the sidebar."
+msgstr "显示在文章页面的边栏中。"
+
+#: functions.php:134
+msgid "Singular page widget area"
+msgstr "单页 小工具区域"
+
+#: functions.php:136
+msgid "Appears on page in the sidebar."
+msgstr "显示在单页的边栏中。"
+
+#: functions.php:139
+msgid "Sign page widget area"
+msgstr "登录页面 小工具区域"
+
+#: functions.php:141
+msgid "Appears on sign page in the sidebar."
+msgstr "显示在登录页面的边栏中。"
+
+#: functions.php:144
+msgid "404 page widget area"
+msgstr "404 页面小工具区域"
+
+#: functions.php:146
+msgid "Appears on 404 no found page in the sidebar."
+msgstr "显示在 404 页面的边栏中。"
+
+#: functions.php:179
+msgid "Lastest"
+msgstr "最新"
+
+#: functions.php:183
+msgid "Popular"
+msgstr "最赞"
+
+#: functions.php:187 includes/theme-widget-rank/theme-widget-rank.php:217
+msgid "Random"
+msgstr "随机"
+
+#: functions.php:393 includes/theme-post-thumb/theme-post-thumb.php:53
+#: includes/theme-post-thumb/theme-post-thumb.php:55
+#: includes/theme-widget-rank/theme-widget-rank.php:205
+msgid "Thumb up"
+msgstr "顶/赞"
+
+#: functions.php:400
+msgid "Comment count"
+msgstr "评论统计"
+
+#: functions.php:408 functions.php:600
+#: includes/theme-post-views/theme-post-views.php:183
+msgid "Views"
+msgstr "查看数"
+
+#: functions.php:486
+msgid "Sticky post"
+msgstr "顶置文章"
+
+#: functions.php:586
+msgid "Category"
+msgstr "分类"
+
+#: functions.php:595
+#, php-format
+msgid "Views all post by %s"
+msgstr "查看 %s 目录下的所有文章"
+
+#: functions.php:606
+msgid "Edit post"
+msgstr "编辑文章"
+
+#: functions.php:609 functions.php:610
+msgid "Post link"
+msgstr "文章链接"
+
+#: functions.php:632 functions.php:706 functions.php:720
+#, php-format
+msgid "Views all posts by %s tag"
+msgstr "查看 %s 标签下的所有文章"
+
+#: functions.php:652
+msgid "Good! I like it."
+msgstr "赞！我喜欢"
+
+#: functions.php:654
+msgid "Good"
+msgstr "赞"
+
+#: functions.php:656
+msgid "Bad idea!"
+msgstr "坏主意！"
+
+#: functions.php:658
+msgid "Bad"
+msgstr "渣"
+
+#: functions.php:681
+msgid "comment"
+msgstr "评论"
+
+#: functions.php:681
+msgid "comments"
+msgstr "评论"
+
+#: functions.php:697
+msgid ", "
+msgstr "、"
+
+#: functions.php:792 functions.php:802
+msgid "No more post found"
+msgstr "暂无更多文章"
+
+#: functions.php:794
+#, php-format
+msgid "Previous post: %s"
+msgstr "上一篇：%s"
+
+#: functions.php:795 functions.php:946 functions.php:1095
+msgid "&laquo;"
+msgstr "&laquo;"
+
+#: functions.php:804
+#, php-format
+msgid "Next post: %s"
+msgstr "下一篇：%s"
+
+#: functions.php:806 functions.php:947 functions.php:1096
+msgid "&raquo;"
+msgstr "&raquo;"
+
+#: functions.php:839
+msgid "Back to Homepage"
+msgstr "返回到首页"
+
+#: functions.php:839
+msgid "Home"
+msgstr "首页"
+
+#: functions.php:850
+msgid "Category Browser"
+msgstr "目录浏览"
+
+#: functions.php:857
+msgid "Tags Browser"
+msgstr "标签归档浏览"
+
+#: functions.php:875
+msgid "Date Browser"
+msgstr "日期归档浏览"
+
+#: functions.php:879
+#, php-format
+msgid "Search Result: %s"
+msgstr "搜索结果：%s"
+
+#: functions.php:885
+msgid "Author posts"
+msgstr "作者文章"
+
+#: functions.php:889
+msgid "Archive Browser"
+msgstr "归档浏览"
+
+#: functions.php:907
+#, php-format
+msgid "View all posts in %s"
+msgstr "查看 %s 目录下的所有文章"
+
+#: functions.php:914
+msgid "Not found"
+msgstr "暂无资料"
+
+#: functions.php:974
+msgid "Leave a comment"
+msgstr "留下评论"
+
+#: functions.php:975
+msgid "Cancel reply"
+msgstr "取消回复"
+
+#: functions.php:983
+msgid "Name"
+msgstr "姓名"
+
+#: functions.php:984 includes/_theme-quick-sign/theme-quick-sign.php:403
+#: includes/theme-quick-comment/theme-quick-comment.php:349
+msgid "Email"
+msgstr "邮箱"
+
+#: functions.php:1000
+msgid "Write a omment"
+msgstr "留下评论"
+
+#: functions.php:1012
+msgid "No data"
+msgstr "暂无资料"
+
+#: functions.php:1018 functions.php:1019
+msgid "Pic-face"
+msgstr "图片表情"
+
+#: functions.php:1024 functions.php:1025
+msgid "Emoticons"
+msgstr "颜文表情"
+
+#: functions.php:1032 includes/theme-quick-comment/theme-quick-comment.php:347
+msgid "Post comment"
+msgstr "发表评论"
+
+#: functions.php:1112
+msgid ""
+"Sorry, I was not able to find what you need, what about look at other "
+"content :)"
+msgstr "抱歉，我没能找到您需要的内容，不放看看其他东西 ：）"
+
+#: functions.php:1122 includes/theme-widget-adbox/theme-widget-adbox.php:54
+msgid "All"
+msgstr "全部"
+
+#: functions.php:1123
+msgid "Daily"
+msgstr "每日"
+
+#: functions.php:1124
+msgid "Weekly"
+msgstr "每周"
+
+#: functions.php:1125
+msgid "Monthly"
+msgstr "每月"
+
+#: functions.php:1242 functions.php:1251
+msgid "&larr; Preview page"
+msgstr "&larr; 上一页"
+
+#: functions.php:1243 functions.php:1270
+msgid "Next page &rarr;"
+msgstr "下一页 &rarr;"
+
+#: functions.php:1255 functions.php:1286
+msgid "Next post &rarr;"
+msgstr "下一页 &rarr;"
+
+#: functions.php:1255 functions.php:1286
+#, php-format
+msgid "%s &rarr;"
+msgstr "%s &rarr;"
+
+#: functions.php:1266 functions.php:1281
+msgid "&larr; Preview post"
+msgstr "&larr; 上一页"
+
+#: functions.php:1266 functions.php:1281
+#, php-format
+msgid "&larr; %s"
+msgstr "&larr; %s"
+
+#: functions.php:1325
+msgid "No data yet"
+msgstr "此类别暂无资料"
+
+#: functions.php:1349
+msgid "Next page"
+msgstr "下一页"
+
+#: functions.php:1352
+msgid "Previous page"
+msgstr "上一页"
+
+#: header.php:29
+#, php-format
+msgid ""
+"We recommend that you upgrade your web browser so that you can get the most "
+"of the %s website. Upgrading your browser should only take a few minutes. "
+"Please download the latest version of one of the following free browsers:"
+msgstr ""
+"我们建议您升级您的浏览器以更好地访问 %s。升级您的浏览器只需花费几分钟时间，可"
+"从选择下列数款浏览器中选择下载："
+
+#: header.php:31
+msgid "Chrome"
+msgstr "谷歌浏览器"
+
+#: header.php:32
+msgid "Firefox"
+msgstr "火狐浏览器"
+
+#: header.php:33
+msgid "Opera"
+msgstr "欧朋浏览器"
+
+#: header.php:34
+msgid "Maxthon"
+msgstr "傲游浏览器"
+
+#: header.php:35
+msgid "Internet Explorer"
+msgstr "IE 浏览器"
+
+#: header.php:64
+msgid "Navigation"
+msgstr "导航菜单"
+
+#: header.php:86 header.php:87 header.php:90
+msgid "Search"
+msgstr "搜索"
+
+#: header.php:86
+msgid "Search keyword"
+msgstr "搜索关键词"
+
+#: header.php:87
+msgid "Submit"
+msgstr "提交"
+
+#: includes/_theme-comment-face/theme-comment-face.php:57
+msgid "Face settings"
+msgstr "表情设置"
+
+#: includes/_theme-comment-face/theme-comment-face.php:61
+msgid "Theme comment face emoticons (one per line)"
+msgstr "颜文字表情（一行一个）"
+
+#: includes/_theme-comment-face/theme-comment-face.php:81
+msgid "Face"
+msgstr "表情"
+
+#: includes/_theme-custom-sign/theme-custom-sign.php:63
+#: includes/_theme-quick-sign/theme-quick-sign.php:400
+msgid "Login"
+msgstr "登录"
+
+#: includes/_theme-custom-sign/theme-custom-sign.php:70
+#: includes/_theme-quick-sign/theme-quick-sign.php:401
+msgid "Register"
+msgstr "注册"
+
+#: includes/_theme-custom-sign/theme-custom-sign.php:77
+msgid "Recover password"
+msgstr "找回密码"
+
+#: includes/_theme-custom-sign/theme-custom-sign.php:103
+msgid "Sign"
+msgstr "登录"
+
+#: includes/_theme-custom-sign/theme-custom-sign.php:149
+#: includes/theme-open-sign/theme-open-sign.php:226
+msgid "Sorry, server error please try again later."
+msgstr "抱歉，服务器错误请稍后重试。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:66
+msgid "Login successfully, page is refreshing, please wait..."
+msgstr "登录成功，页面正在刷新，请稍候…"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:80
+msgid "Sorry, twice password does not match, please try again"
+msgstr "抱歉，两次密码不相同，请修正后重试。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:85
+#, php-format
+msgid ""
+"Sorry, you nick name is invalid, at least %d characters in length, please "
+"try again."
+msgstr "抱歉，您的昵称长度太短，至少需要 %d 个字符，请重试。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:96
+msgid "Register successfully, page is refreshing, please wait..."
+msgstr "注册成功，页面正在刷新，请稍候…"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:107
+msgid "Sorry, your email address is invalid, please check it and try again."
+msgstr "抱歉，您的邮箱地址不正确，请检查并再尝试。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:117
+msgid "Sorry, the email does not exist."
+msgstr "抱歉，该邮箱不存在。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:139
+#, php-format
+msgid "Dear %s!"
+msgstr "亲爱的 %s！"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:141
+#, php-format
+msgid ""
+"You are receiving this email because you forgot your password. We already "
+"made an address for your account, you can access this address ( %s ) to log-"
+"in and change your password in 3 hours."
+msgstr ""
+"您接收到这封邮件是因为您忘记了密码。我们已为您创建了一个地址，您可以在 3 小时"
+"内，访问此链接地址（ %s ）登录并修改您的密码。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:143
+#, php-format
+msgid "-- From %s"
+msgstr "—— 来自 %s"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:145
+msgid "You are applying to retrieve your password."
+msgstr "您正在申请找回密码。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:169
+msgid ""
+"Success, we sent an email that includes how to retrieve your password, "
+"please check it out in 3 hours."
+msgstr "成功，我们已发送了一封包括如何找回密码的邮件，请您在 3 小时内查收。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:174
+msgid "Error, server can not send email, please contact the administrator."
+msgstr "抱歉，服务器无法发送邮件，请联系管理员。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:185
+msgid "Invalid param."
+msgstr "抱歉，无效的类型参数。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:193
+msgid "Invalid email."
+msgstr "抱歉，无效的电子邮件。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:202
+msgid "Invalid twice password."
+msgstr "抱歉，两次密码无效。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:210
+msgid "Empty token."
+msgstr "空令牌。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:218
+#: includes/_theme-quick-sign/theme-quick-sign.php:226
+msgid "This token is expired."
+msgstr "抱歉，该令牌已过期。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:235
+msgid "The token email and you account email do not match."
+msgstr "令牌邮箱与您的帐号邮箱不匹配。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:244
+msgid "Sorry, your account email is not exist."
+msgstr "抱歉，您张帐号电子邮件不存在。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:250
+msgid "Sorry, the user do not apply recover yet."
+msgstr "抱歉，该用户未申请密码寻回。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:259
+msgid ""
+"Congratulation, your account has been recovered! Password has been updated. "
+"Redirecting home page, please wait..."
+msgstr "恭喜，您的帐号已成功寻回！密码已更新。正在跳转到首页，请稍候……"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:265
+msgid "Invalid type."
+msgstr "抱歉，无效的类型。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:294
+#: includes/_theme-quick-sign/theme-quick-sign.php:330
+msgid "Sorry, password is invalid, please try again."
+msgstr "抱歉，密码无效，请重试。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:298
+#: includes/_theme-quick-sign/theme-quick-sign.php:334
+msgid "Sorry, email is invalid, please try again."
+msgstr "抱歉，邮箱无效，请重试。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:308
+msgid "Sorry, your email and password do not match, please try again."
+msgstr "抱歉，您的邮箱和密码不匹配，请重试。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:339
+msgid "Sorry, nickname is invalid, please try again."
+msgstr "抱歉，昵称无效，请输入另一个后重试。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:346
+msgid "Sorry, email already exists, please change another one and try again."
+msgstr "抱歉，邮箱已经存在，请输入另一个再尝试。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:402
+#: includes/theme-quick-comment/theme-quick-comment.php:348
+msgid "Nickname"
+msgstr "昵称"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:404
+msgid "Password"
+msgstr "密码"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:405
+msgid "Re-type password"
+msgstr "重复密码"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:406
+msgid "Login / Register"
+msgstr "登录/注册"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:407
+msgid "Remember me"
+msgstr "下次自动登录"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:408
+#, php-format
+msgid "Login successful, closing tip after %d seconds."
+msgstr "登录成功，%d 秒后关闭提示。"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:409
+msgid "Login successful, page is refreshing, please wait.."
+msgstr "登录成功，页面正在刷新，请稍候…"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:410
+msgid "Forgot my password?"
+msgstr "忘记了密码？"
+
+#: includes/_theme-quick-sign/theme-quick-sign.php:411
+#: includes/theme-clean-up/theme-clean-up.php:178
+#: includes/theme-post-thumb/theme-post-thumb.php:243
+#: includes/theme-quick-comment/theme-quick-comment.php:353
+msgid "Server error or network is disconnected."
+msgstr "服务器错误或网络未连接。"
+
+#: includes/theme-cache-request/theme-cache-request.php:19
+#: includes/theme-quick-comment/theme-quick-comment.php:22
+msgid "Referer error"
+msgstr "来路错误"
+
+#: includes/theme-cache/theme-cache.php:95
+msgid "Theme cache"
+msgstr "主题缓存"
+
+#: includes/theme-cache/theme-cache.php:96
+msgid ""
+"Maybe the theme used cache for improve performance, you can clean it when "
+"you modify some site contents if you want."
+msgstr ""
+"或许主题使用了缓存提高了性能，当您改变了站点内容时候，您可以选择清空缓存。"
+
+#: includes/theme-cache/theme-cache.php:101
+msgid "Memcache cache"
+msgstr "Memcache 缓存"
+
+#: includes/theme-cache/theme-cache.php:105
+msgid "Are you sure DELETE object-cache.php to disable theme object cache?"
+msgstr "你确定删除 object-cache.php 来禁用主题对象缓存吗？"
+
+#: includes/theme-cache/theme-cache.php:106
+msgid "Disable theme object cache"
+msgstr "禁用主题对象缓存"
+
+#: includes/theme-cache/theme-cache.php:109
+msgid ""
+"Are you sure RE-CREATE object-cache.php to re-enable theme object cache?"
+msgstr "你确定重建 object-cache.php 来重新启用主题对象缓存吗？"
+
+#: includes/theme-cache/theme-cache.php:110
+msgid "Re-enable theme object cache"
+msgstr "重新启用的主题对象缓存"
+
+#: includes/theme-cache/theme-cache.php:115
+msgid "Enable theme object cache"
+msgstr "启用主题对象缓存"
+
+#: includes/theme-cache/theme-cache.php:118
+msgid "Save your settings before click."
+msgstr "点击之前保存设置。"
+
+#: includes/theme-cache/theme-cache.php:124
+#: includes/theme-min-rebuild/theme-min-rebuild.php:35
+msgid "Control"
+msgstr "操作"
+
+#: includes/theme-cache/theme-cache.php:128
+msgid "Theme cache has been cleaned or rebuilt."
+msgstr "主题缓存已被清空或重建。"
+
+#: includes/theme-cache/theme-cache.php:132
+#: includes/theme-cache/theme-cache.php:134
+#: includes/theme-cache/theme-cache.php:136
+#: includes/theme-setting-import/theme-setting-import.php:158
+msgid "Processing, please wait..."
+msgstr "处理中，请稍候…"
+
+#: includes/theme-cache/theme-cache.php:132
+msgid "Clean all cache"
+msgstr "清空全部缓存"
+
+#: includes/theme-cache/theme-cache.php:134
+msgid "Clean widget cache"
+msgstr "清空小工具缓存"
+
+#: includes/theme-cache/theme-cache.php:136
+msgid "Clean menu cache"
+msgstr "清空菜单缓存"
+
+#: includes/theme-cache/theme-cache.php:139
+msgid "Save your settings before clean"
+msgstr "在清空前请保存您的设置"
+
+#: includes/theme-cache/theme-cache.php:152
+#, php-format
+msgid "Can not delete the %s file, please make sure the folder can be written."
+msgstr "无法删除 %s 文件，请确保该文件夹可写。"
+
+#: includes/theme-cache/theme-cache.php:157
+#, php-format
+msgid "Can not create the %s file, please make sure the folder can be written."
+msgstr "无法创建 %s 文件，请确定文件夹是否可写。"
+
+#: includes/theme-clean-up/theme-clean-up.php:20
+msgid "Database Optimization"
+msgstr "数据库优化"
+
+#: includes/theme-clean-up/theme-clean-up.php:21
+msgid ""
+"If your site works for a long time, maybe will have some redundant data in "
+"the database, they will reduce the operating speed of the your site, "
+"recommend to clean them regularly."
+msgstr ""
+"如果您的站点运作了一段很长的时间，也许会在数据库中产生了一些冗余数据，它们会"
+"降低站点的运作效率，建议定期清理。"
+
+#: includes/theme-clean-up/theme-clean-up.php:22
+msgid "Attention: this action will be auto clean up all theme cache."
+msgstr "注意：这个操作将会清空所有主题缓存。"
+
+#: includes/theme-clean-up/theme-clean-up.php:26
+msgid "Clean redundant post data"
+msgstr "清理冗余文章数据"
+
+#: includes/theme-clean-up/theme-clean-up.php:28
+msgid "Delete revision &amp; draft &amp; auto-draft &amp; trash posts"
+msgstr "删除修订 &amp; 草稿 &amp; 自动草稿 & 垃圾箱文章"
+
+#: includes/theme-clean-up/theme-clean-up.php:29
+msgid "Delete orphan post meta"
+msgstr "删除冗余的文章元数据"
+
+#: includes/theme-clean-up/theme-clean-up.php:33
+msgid "Clean redundant comment data"
+msgstr "删除冗余的评论元数据"
+
+#: includes/theme-clean-up/theme-clean-up.php:35
+msgid "Delete moderated &amp; spam &amp; trash comments"
+msgstr "删除待审核 &amp; 广告 &amp; 垃圾箱评论"
+
+#: includes/theme-clean-up/theme-clean-up.php:36
+msgid "Delete orphan comment meta"
+msgstr "删除冗余的评论元数据"
+
+#: includes/theme-clean-up/theme-clean-up.php:40
+msgid "Clean redundant other data"
+msgstr "清理其它冗余数据"
+
+#: includes/theme-clean-up/theme-clean-up.php:42
+msgid "Delete orphan relationship"
+msgstr "删除冗余的关系数据"
+
+#: includes/theme-clean-up/theme-clean-up.php:46
+msgid "Optimizate the WP Database"
+msgstr "立即优化"
+
+#: includes/theme-clean-up/theme-clean-up.php:48
+msgid "Optimizate Now"
+msgstr "立即优化"
+
+#: includes/theme-clean-up/theme-clean-up.php:158
+msgid "No param"
+msgstr "无参数"
+
+#: includes/theme-clean-up/theme-clean-up.php:166
+#, php-format
+msgid "Database updated in %s s."
+msgstr "数据库已在 %s 秒内更新。"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:28
+msgid "Comment reply notifier"
+msgstr "评论回复通知"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:30
+msgid ""
+"It will send a mail to notify the being reply comment author when comment "
+"has been reply, if your server supports."
+msgstr "如果您的服务器支持，当评论被回复时，它将会发送一封通知邮件给被回复人。"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:34
+#: includes/theme-link-manager/theme-link-manager.php:28
+#: includes/theme-post-copyright/theme-post-copyright.php:38
+#: includes/theme-post-share/theme-post-share.php:77
+#: includes/theme-post-thumb/theme-post-thumb.php:49
+msgid "Enable or not?"
+msgstr "启用"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:35
+#: includes/theme-link-manager/theme-link-manager.php:29
+#: includes/theme-post-copyright/theme-post-copyright.php:39
+#: includes/theme-post-share/theme-post-share.php:78
+#: includes/theme-post-thumb/theme-post-thumb.php:50
+msgid "Enable"
+msgstr "启用"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:63
+#, php-format
+msgid "[%s] Your comment has been approved in \"%s\"."
+msgstr "[%s] 您的评论通过审核于《%s》。"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:66
+#, php-format
+msgid "Your comment has been approved in \"%s\"."
+msgstr "您的评论已通过审核与《%s》。"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:67
+#, php-format
+msgid "Comment content: %s"
+msgstr "评论内容：%s"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:68
+#, php-format
+msgid "Article URL: %s"
+msgstr "文章 URL：%s"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:69
+#, php-format
+msgid "Comment URL: %s"
+msgstr "评论 URL：%s"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:106
+#, php-format
+msgid "[%s] Your comment has a reply in \"%s\"."
+msgstr "[%s] 您的评论有回复于《%s》。"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:109
+#, php-format
+msgid "Your comment: %s"
+msgstr "您的评论：%s"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:110
+#, php-format
+msgid "%s's reply: %s"
+msgstr "%s的回复：%s"
+
+#: includes/theme-comment-notify/theme-comment-notify.php:111
+#, php-format
+msgid "Views the comment: %s"
+msgstr "查看此条评论：%s"
+
+#: includes/theme-defender/theme-defender.php:43
+#, php-format
+msgid ""
+"Your behavior looks like brute Force attack, page will be refreshed after %s "
+"seconds automatically."
+msgstr "您的行为看起来洪水攻击，页面将会在 %s 秒后自动刷新。"
+
+#: includes/theme-defender/theme-defender.php:45
+msgid "Defender"
+msgstr "防御者"
+
+#: includes/theme-dev-mode/theme-dev-mode.php:41
+msgid "Related Options"
+msgstr "相关选项"
+
+#: includes/theme-dev-mode/theme-dev-mode.php:42
+msgid ""
+"For developers to debug the site and it will affect the user experience if "
+"enable, please note."
+msgstr ""
+"针对开发人员进行网站的相关调试，开启前台性能提示将会影响前台的体验，请注意。"
+
+#: includes/theme-dev-mode/theme-dev-mode.php:47
+msgid "Developer mode"
+msgstr "开发者模式"
+
+#: includes/theme-dev-mode/theme-dev-mode.php:50
+msgid "Enabled"
+msgstr "启用"
+
+#: includes/theme-dev-mode/theme-dev-mode.php:58
+msgid "Theme Options"
+msgstr "主题选项"
+
+#: includes/theme-dev-mode/theme-dev-mode.php:128
+msgid "Theme Performance"
+msgstr "主题性能："
+
+#: includes/theme-dev-mode/theme-dev-mode.php:129
+#: includes/theme-dev-mode/theme-dev-mode.php:134
+#: includes/theme-dev-mode/theme-dev-mode.php:139
+msgid "Time (second)"
+msgstr "时间（秒）"
+
+#: includes/theme-dev-mode/theme-dev-mode.php:130
+#: includes/theme-dev-mode/theme-dev-mode.php:135
+#: includes/theme-dev-mode/theme-dev-mode.php:140
+msgid "Query"
+msgstr "查询数"
+
+#: includes/theme-dev-mode/theme-dev-mode.php:131
+#: includes/theme-dev-mode/theme-dev-mode.php:136
+#: includes/theme-dev-mode/theme-dev-mode.php:141
+msgid "Memory (MB)"
+msgstr "内存（兆）"
+
+#: includes/theme-dev-mode/theme-dev-mode.php:133
+msgid "Basic Performance"
+msgstr "基本性能："
+
+#: includes/theme-dev-mode/theme-dev-mode.php:138
+msgid "Final Performance"
+msgstr "最终性能："
+
+#: includes/theme-group-order/theme-group-order.php:11
+#: includes/theme-group-order/theme-group-order.php:41
+#: includes/theme-group-order/theme-group-order.php:49
+#: includes/theme-group-order/theme-group-order.php:58
+msgid "Group"
+msgstr "分组"
+
+#: includes/theme-group-order/theme-group-order.php:41
+#: includes/theme-group-order/theme-group-order.php:49
+msgid ""
+"You can give a group number for similar categories or tags. For example: "
+"Red, green, blue can be group 1 of categories. Small, medium, large can be "
+"group 2 of categories."
+msgstr ""
+"你可以给一组号码相似类别或标签。例如：红色，绿色，蓝色可以是类别的组1。小，"
+"中，大可以是类组2 。"
+
+#: includes/theme-help/theme-help.php:27
+msgid "Theme Information"
+msgstr "主题信息"
+
+#: includes/theme-help/theme-help.php:31
+msgid "Theme name"
+msgstr "主题名称"
+
+#: includes/theme-help/theme-help.php:35
+msgid "Theme version"
+msgstr "主题版本"
+
+#: includes/theme-help/theme-help.php:39
+msgid "Theme edition"
+msgstr "主题性质"
+
+#: includes/theme-help/theme-help.php:43
+msgid "Theme description"
+msgstr "主题描述"
+
+#: includes/theme-help/theme-help.php:47
+msgid "Theme URI"
+msgstr "主题网址"
+
+#: includes/theme-help/theme-help.php:51
+msgid "Theme author"
+msgstr "主题作者"
+
+#: includes/theme-help/theme-help.php:55
+msgid "Author site"
+msgstr "作者网站"
+
+#: includes/theme-help/theme-help.php:59
+msgid "Feedback and technical support"
+msgstr "反馈与技术支持"
+
+#: includes/theme-help/theme-help.php:63
+msgid "E-Mail"
+msgstr "电子邮箱"
+
+#: includes/theme-help/theme-help.php:67
+msgid "QQ"
+msgstr "QQ"
+
+#: includes/theme-help/theme-help.php:77
+msgid "QQ group"
+msgstr "QQ 群"
+
+#: includes/theme-help/theme-help.php:89
+msgid "Donate"
+msgstr "请一杯咖啡"
+
+#: includes/theme-help/theme-help.php:92 includes/theme-help/theme-help.php:93
+msgid "Donation by Paypal"
+msgstr "用Paypal（贝宝）捐赠"
+
+#: includes/theme-help/theme-help.php:95 includes/theme-help/theme-help.php:96
+msgid "Donation by Alipay"
+msgstr "用Alipay（支付宝）捐赠"
+
+#: includes/theme-help/theme-help.php:103
+msgid "Theme core"
+msgstr "内核程序"
+
+#: includes/theme-help/theme-help.php:119
+#: includes/theme-help/theme-help.php:123
+#, php-format
+msgid "Donate to INN STUDIO (%s)"
+msgstr "捐赠给 INN 工作室（%s）"
+
+#: includes/theme-help/theme-help.php:120
+msgid "Message for INN STUDIO:"
+msgstr "给 INN 工作室留言："
+
+#: includes/theme-link-manager/theme-link-manager.php:21
+msgid "Link manager"
+msgstr "链接管理器"
+
+#: includes/theme-link-manager/theme-link-manager.php:23
+msgid ""
+"Enables the Link manager that existed in WordPress until version 3.5. But in "
+"fact it is not recommend to enable, because you can use Menu instead of Link "
+"manager."
+msgstr ""
+"使存在于 WordPress 3.5 版本前的链接管理器。但实际上并不建议使用它，因为你可以"
+"用“菜单”来代替“链路管理器”。"
+
+#: includes/theme-maintenance-mode/theme-maintenance-mode.php:31
+#: includes/theme-maintenance-mode/theme-maintenance-mode.php:54
+msgid "Maintenance Mode"
+msgstr "维护模式"
+
+#: includes/theme-maintenance-mode/theme-maintenance-mode.php:32
+msgid ""
+"If your site needs to test privately, maybe fill a URL in the redirect area "
+"that the the visitors will see the redirect page but yourself, otherwise "
+"left blank."
+msgstr ""
+"如果您的站点需要内测，您可以填写跳转地址到下面的区域，这样访客访问站点时便会"
+"跳转到您所指定的网址，但管理员则不会。"
+
+#: includes/theme-maintenance-mode/theme-maintenance-mode.php:33
+msgid ""
+"Attention: if theme has frontend log-in page, please DO NOT use maintenance "
+"mode, or you can not log-in to background."
+msgstr ""
+"注意：如果主题拥有前台登录页面，请不要使用维护模式，否则您将无法登录后台。"
+
+#: includes/theme-maintenance-mode/theme-maintenance-mode.php:37
+msgid "Redirect URL (include http://):"
+msgstr "跳转地址（包括 http://）："
+
+#: includes/theme-maintenance-mode/theme-maintenance-mode.php:39
+msgid "Optional template URL: "
+msgstr "可选的模板地址："
+
+#: includes/theme-maintenance-mode/theme-maintenance-mode.php:65
+msgid "We&rsquo;ll be back soon!"
+msgstr "我们稍后就回来！"
+
+#: includes/theme-maintenance-mode/theme-maintenance-mode.php:66
+#, php-format
+msgid ""
+"Sorry for the inconvenience but we&rsquo;re performing some maintenance at "
+"the moment. If you need to you can always <a href=\"mailto:%s\">contact us</"
+"a>, otherwise we&rsquo;ll be back online shortly!"
+msgstr ""
+"很抱歉给您带来不便，我们目前执行一些维护。如果需要您可以随时<a href=\"mailto:"
+"%s\">联系我们</a>，我们很快就回来！"
+
+#: includes/theme-min-rebuild/theme-min-rebuild.php:30
+msgid "Rebuild minify version"
+msgstr "重建压缩版文件"
+
+#: includes/theme-min-rebuild/theme-min-rebuild.php:31
+msgid ""
+"Rebuild the minify version file of JS and CSS. If you have edit JS or CSS "
+"file, please run it. May take several minutes."
+msgstr ""
+"重建 JS 和 CSS 的压缩版文件。如果你曾经修改过 JS 或 CSS 文件，请运行它。执行"
+"过程可能需数分钟。"
+
+#: includes/theme-min-rebuild/theme-min-rebuild.php:39
+msgid "Files have been rebuilt."
+msgstr "文件已经重建完成。"
+
+#: includes/theme-min-rebuild/theme-min-rebuild.php:43
+msgid "Rebuilding, please wait..."
+msgstr "重建中，请稍后…"
+
+#: includes/theme-min-rebuild/theme-min-rebuild.php:43
+msgid "Start rebuild"
+msgstr "开始重建"
+
+#: includes/theme-min-rebuild/theme-min-rebuild.php:44
+msgid "Save your settings before rebuild"
+msgstr "在重建前请保存您的设置"
+
+#: includes/theme-open-sign/theme-open-sign.php:107
+msgid "Invalid callback data."
+msgstr "无效的回调数据。"
+
+#: includes/theme-open-sign/theme-open-sign.php:174
+msgid "Redirecting, please wait..."
+msgstr "跳转中，请稍后……"
+
+#: includes/theme-open-sign/theme-open-sign.php:175
+msgid "Redirecting"
+msgstr "跳转中……"
+
+#: includes/theme-open-sign/theme-open-sign.php:201
+msgid "Invalid type param."
+msgstr "抱歉，无效的类型参数。"
+
+#: includes/theme-post-copyright/theme-post-copyright.php:26
+msgid "Post Copyright Settings"
+msgstr "文章版权设置"
+
+#: includes/theme-post-copyright/theme-post-copyright.php:28
+msgid ""
+"Posts copyright settings maybe protect your word. Here are some keywords "
+"that can be used:"
+msgstr "分享您的文章到每个地方。以下有一些关键词供您使用："
+
+#: includes/theme-post-copyright/theme-post-copyright.php:30
+#: includes/theme-post-share/theme-post-share.php:66
+msgid "Post Title text"
+msgstr "文章标题文字"
+
+#: includes/theme-post-copyright/theme-post-copyright.php:31
+#: includes/theme-post-share/theme-post-share.php:67
+msgid "Post URL"
+msgstr "文章地址"
+
+#: includes/theme-post-copyright/theme-post-copyright.php:32
+#: includes/theme-post-share/theme-post-share.php:68
+msgid "Blog name"
+msgstr "博客名称"
+
+#: includes/theme-post-copyright/theme-post-copyright.php:33
+#: includes/theme-post-share/theme-post-share.php:69
+msgid "Blog URL"
+msgstr "博客地址"
+
+#: includes/theme-post-copyright/theme-post-copyright.php:42
+msgid "HTML code:"
+msgstr "HTML 代码："
+
+#: includes/theme-post-copyright/theme-post-copyright.php:48
+#: includes/theme-post-share/theme-post-share.php:86
+msgid "Restore"
+msgstr "还原"
+
+#: includes/theme-post-copyright/theme-post-copyright.php:52
+msgid "Restore the post copyright settings"
+msgstr "还原文章分享设置"
+
+#: includes/theme-post-copyright/theme-post-copyright.php:79
+msgid "Permanent URL: "
+msgstr "永久地址："
+
+#: includes/theme-post-copyright/theme-post-copyright.php:82
+msgid "Welcome to reprint: "
+msgstr "欢迎转载："
+
+#: includes/theme-post-copyright/theme-post-copyright.php:82
+msgid ""
+"Addition to indicate the original, the article of <a href=\"%blog_url%\">"
+"%blog_name%</a> comes from internet. If infringement, please contact me to "
+"delete."
+msgstr ""
+"除非注明，<a href=\"%blog_url%\">%blog_name%</a> 的文章均来自网络。如有侵权，"
+"请及时告知删除。"
+
+#: includes/theme-post-share/theme-post-share.php:61
+msgid "Posts share settings"
+msgstr "文章分享设置"
+
+#: includes/theme-post-share/theme-post-share.php:63
+msgid "Share your post to everywhere. Here are some keywords that can be used:"
+msgstr "分享您的文章到每个地方。以下有一些关键词供您使用："
+
+#: includes/theme-post-share/theme-post-share.php:70
+msgid "The first picture of the post."
+msgstr "文章的第一幅图"
+
+#: includes/theme-post-share/theme-post-share.php:71
+msgid "The excerpt of post."
+msgstr "文章摘要"
+
+#: includes/theme-post-share/theme-post-share.php:72
+msgid "The content of post."
+msgstr "文章内容"
+
+#: includes/theme-post-share/theme-post-share.php:81
+msgid "HTML codes"
+msgstr "HTML 代码"
+
+#: includes/theme-post-share/theme-post-share.php:90
+msgid "Restore the post share settings"
+msgstr "还原文章分享设置"
+
+#: includes/theme-post-share/theme-post-share.php:106
+msgid "-- from %blog_name%"
+msgstr "—— 来自 %blog_name%"
+
+#: includes/theme-post-share/theme-post-share.php:110
+msgid "Share to: "
+msgstr "转贴到："
+
+#: includes/theme-post-share/theme-post-share.php:111
+#: includes/theme-post-share/theme-post-share.php:112
+#: includes/theme-post-share/theme-post-share.php:113
+#, php-format
+msgid "Share to %s"
+msgstr "分享到%s"
+
+#: includes/theme-post-share/theme-post-share.php:111
+msgid "Sina Weibo"
+msgstr "渣浪微博"
+
+#: includes/theme-post-share/theme-post-share.php:112
+msgid "QQ zone"
+msgstr "QQ空间"
+
+#: includes/theme-post-share/theme-post-share.php:113
+msgid "Baidu"
+msgstr "百度"
+
+#: includes/theme-post-thumb/theme-post-thumb.php:44
+msgid "Post Thumb Up or Down Settings"
+msgstr "文章顶踩设置"
+
+#: includes/theme-post-thumb/theme-post-thumb.php:45
+msgid ""
+"Agree or not? Just thumb up or down! You can set some sentences to show "
+"randomly when votes success. Multiple sentences that please use New Line to "
+"split them."
+msgstr ""
+"喜欢与否？只需要顶踩一下！您能设置一些提示语，当投票成功时候能随机地显示。不"
+"同的语句请用“换行”分隔。"
+
+#: includes/theme-post-thumb/theme-post-thumb.php:59
+#: includes/theme-post-thumb/theme-post-thumb.php:61
+msgid "Thumb down"
+msgstr "踩/喷"
+
+#: includes/theme-post-thumb/theme-post-thumb.php:72
+#: includes/theme-post-thumb/theme-post-thumb.php:88
+#, php-format
+msgid "You thumbed up, I am agree it, too!%sYou are right, I think so."
+msgstr "您顶了我一下，我好舒服哦！%s嗯，您说的对，我也同意。"
+
+#: includes/theme-post-thumb/theme-post-thumb.php:73
+#: includes/theme-post-thumb/theme-post-thumb.php:89
+#, php-format
+msgid "You thumbed down, you are a honest guy!%sYou are right, I think so."
+msgstr "您踩了我一下，看来您是一个诚实的人！%s嗯，您说的对，我也同意。"
+
+#: includes/theme-post-thumb/theme-post-thumb.php:123
+msgid "You have already voted."
+msgstr "您已经投过票了。"
+
+#: includes/theme-post-thumb/theme-post-thumb.php:127
+msgid "Not enough parameter."
+msgstr "缺少参数"
+
+#: includes/theme-post-thumb/theme-post-thumb.php:137
+msgid "I like it"
+msgstr "我喜欢"
+
+#: includes/theme-post-thumb/theme-post-thumb.php:150
+msgid "I dislike it"
+msgstr "我不喜欢"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:35
+#: includes/theme-quick-comment/theme-quick-comment.php:81
+msgid "Invail post id."
+msgstr "无效的文章 ID。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:44
+msgid "This post comment has closed."
+msgstr "这篇文章的评论已关闭。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:89
+msgid "Invail comment content"
+msgstr "无效的评论内容。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:108
+msgid "Anonymous"
+msgstr "匿名"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:119
+msgid "Invail email address."
+msgstr "无效的电子邮箱地址。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:150
+msgid "System can not create comment."
+msgstr "系统无法创建评论。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:171
+msgid "No comment yet."
+msgstr "暂无评论"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:183
+msgid "Invail type"
+msgstr "无效的类型。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:225
+msgid "Blocked comment from frontend."
+msgstr "已禁止前台评论"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:247
+msgid "Sorry, you must be logged in to post a comment."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:257
+msgid "Sorry, the post does not exist."
+msgstr "抱歉，文章不存在。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:272
+msgid "Sorry, comments are closed for this item."
+msgstr "抱歉，该文章的评论已被关闭。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:281
+msgid "Sorry, can not comment on trash post."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:290
+msgid "Sorry, can not comment draft post."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:299
+msgid "Sorry, the post needs password to comment."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:310
+#, php-format
+msgid "Total %d comments"
+msgstr "共 %d 条评论"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:312
+#: includes/theme-quick-comment/theme-quick-comment.php:324
+msgid "Join the comments"
+msgstr "加入讨论"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:317
+msgid "Loading comment list, please wait..."
+msgstr "评论列表加载中，请稍候…"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:343
+msgid "Commented successfully, thank you!"
+msgstr "发表评论成功，感谢您的参与！"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:344
+msgid "Message"
+msgstr "提示"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:345
+msgid "No comment yet, you are first commenter."
+msgstr "暂无评论，果断抢沙发。"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:346
+msgid "Comment"
+msgstr "评论"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:350
+msgid "Closing tip after 3s"
+msgstr "3秒后关闭提示"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:351
+msgid "Reply"
+msgstr "回复"
+
+#: includes/theme-quick-comment/theme-quick-comment.php:352
+msgid "Error"
+msgstr "错误"
+
+#: includes/theme-recommended-post/theme-recommended-post.php:28
+msgid "Recommended post"
+msgstr "推荐文章"
+
+#: includes/theme-recommended-post/theme-recommended-post.php:45
+msgid "Set it to recommended post"
+msgstr "设置推荐文章"
+
+#: includes/theme-recommended-post/theme-recommended-post.php:97
+msgid "Recommended posts"
+msgstr "推荐文章"
+
+#: includes/theme-recommended-post/theme-recommended-post.php:98
+msgid "Some feature will be use recommended posts."
+msgstr "有些功能将会使用到推荐文章。"
+
+#: includes/theme-recommended-post/theme-recommended-post.php:102
+msgid "Posts"
+msgstr "文章"
+
+#: includes/theme-recommended-post/theme-recommended-post.php:122
+#: includes/theme-recommended-post/theme-recommended-post.php:127
+msgid "No any post yet"
+msgstr "暂无任何资料"
+
+#: includes/theme-related-post/theme-related-post.php:27
+msgid "Related Post Settings"
+msgstr "相关文章设置"
+
+#: includes/theme-related-post/theme-related-post.php:28
+msgid ""
+"The related posts will be displayed below the post content and some settings "
+"in here."
+msgstr "相关文章将会在日志下方显示，下面是一些相关设置。"
+
+#: includes/theme-related-post/theme-related-post.php:32
+msgid "Related post title:"
+msgstr "相关文章标题："
+
+#: includes/theme-related-post/theme-related-post.php:34
+msgid "Related post title"
+msgstr "文章标题文字"
+
+#: includes/theme-related-post/theme-related-post.php:35
+msgid "For example: Maybe you will like them"
+msgstr "例如：或许您会喜欢"
+
+#: includes/theme-related-post/theme-related-post.php:39
+msgid "How many posts to show:"
+msgstr "显示最新的多少篇文章"
+
+#: includes/theme-related-post/theme-related-post.php:41
+msgid "Related post number"
+msgstr "显示数量"
+
+#: includes/theme-related-post/theme-related-post.php:42
+msgid "For example: 10"
+msgstr "例如：10"
+
+#: includes/theme-related-post/theme-related-post.php:51
+msgid "Maybe you will like them"
+msgstr "或许您会喜欢"
+
+#: includes/theme-seo/theme-seo.php:42
+msgid "SEO settings"
+msgstr "SEO 设置"
+
+#: includes/theme-seo/theme-seo.php:43
+#, php-format
+msgid ""
+"Fill in the appropriate keywords, can improve search engine friendliness. "
+"Use different key words in English comma (%s) to separate."
+msgstr ""
+"适当填写关键词，能提高对搜索引擎的友好度。不同关键词请用英文逗号（%s）分隔。"
+
+#: includes/theme-seo/theme-seo.php:47
+msgid "Site description"
+msgstr "站点描述"
+
+#: includes/theme-seo/theme-seo.php:50
+msgid "Recommend to control that less than 100 words."
+msgstr "建议控制在 100 个字内。"
+
+#: includes/theme-seo/theme-seo.php:54
+msgid "Site keywords"
+msgstr "站点关键词"
+
+#: includes/theme-seo/theme-seo.php:57
+#, php-format
+msgid "For example: graphic design%s 3D design ..."
+msgstr "例如：平面设计%s三维设计 ……"
+
+#: includes/theme-setting-import/theme-setting-import.php:23
+msgid "Import & Export Theme Settings"
+msgstr "导入 & 导出主题选项"
+
+#: includes/theme-setting-import/theme-setting-import.php:25
+msgid ""
+"You can select the settings file to upload and restore settings if you have "
+"the *.txt file. If you want to export the settings backup, please click the "
+"export button."
+msgstr ""
+"如果您有 *.txt 文件，可以将其上传并还原。如果您想导出设置备份，请点击点出按"
+"钮。"
+
+#: includes/theme-setting-import/theme-setting-import.php:31
+msgid "Import: "
+msgstr "导入"
+
+#: includes/theme-setting-import/theme-setting-import.php:36
+msgid "Select a setting file to restore"
+msgstr "选择一个文件还原"
+
+#: includes/theme-setting-import/theme-setting-import.php:43
+msgid "Export: "
+msgstr "导出"
+
+#: includes/theme-setting-import/theme-setting-import.php:46
+msgid "Start export settings file"
+msgstr "开始导出设置文件"
+
+#: includes/theme-setting-import/theme-setting-import.php:78
+#: includes/theme-setting-import/theme-setting-import.php:122
+msgid "Settings has been restored, refreshing page, please wait... "
+msgstr "设置将会被还原，页面正在刷新，请稍候…"
+
+#: includes/theme-setting-import/theme-setting-import.php:84
+msgid "Invalid content. "
+msgstr "抱歉，私信内容无效。"
+
+#: includes/theme-setting-import/theme-setting-import.php:91
+#: includes/theme-setting-import/theme-setting-import.php:125
+msgid "Invalid user. "
+msgstr "非法用户。"
+
+#: includes/theme-setting-import/theme-setting-import.php:159
+msgid "Error: Your browser does not support HTML5. "
+msgstr "错误：您的浏览器不支持 HTML5。"
+
+#: includes/theme-setting-import/theme-setting-import.php:160
+msgid "Error: failed to complete the operation. "
+msgstr "错误：无法完成操作。"
+
+#: includes/theme-setting-import/theme-setting-import.php:161
+msgid "Error: Not match file. "
+msgstr "错误：文件不匹配。"
+
+#: includes/theme-statistics/theme-statistics.php:26
+msgid "Statistics Settings"
+msgstr "统计设置"
+
+#: includes/theme-statistics/theme-statistics.php:27
+msgid ""
+"You can put the statistics codes into the text area if you need. (The "
+"statistics codes maybe JavasSript)"
+msgstr ""
+"如果你需要的话，可以把统计代码到文本区域（统计代码可以是 JavaScript） 。"
+
+#: includes/theme-statistics/theme-statistics.php:31
+msgid "The statistics codes"
+msgstr "统计代码"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:56
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:81
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:95
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:112
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:146
+msgid "Regenerate Thumbnails"
+msgstr "重建缩略图"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:56
+msgid "Regen. Thumbnails"
+msgstr "重建缩略图"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:81
+msgid "Regenerate the thumbnails for this single image"
+msgstr "给单张图片重建缩略图"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:154
+msgid "Cheatin&#8217; uh?"
+msgstr "作弊&#8217; 嗯？"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:168
+#, php-format
+msgid "Unable to find any images. Are you sure <a href='%s'>some exist</a>?"
+msgstr "不能找到任何图片。你确定<a href='%s'>他们存在</a>吗？"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:179
+msgid ""
+"Please be patient while the thumbnails are regenerated. This can take a "
+"while if your server is slow (inexpensive hosting) or if you have many "
+"images. Do not navigate away from this page until this script is done or the "
+"thumbnails will not be resized. You will be notified via this page when the "
+"regenerating is completed."
+msgstr ""
+"请耐心等待，正在重建缩略图中。这可能需要一段时间，如果你的服务器渣（廉价主"
+"机） ，或者如果你有很多的图像。直到这个脚本重建完缩略图大小之前，请不要离开此"
+"页面。在重建完毕时，您将收到提示消息。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:183
+#, php-format
+msgid "To go back to the previous page, <a href=\"%s\">click here</a>."
+msgstr "返回上一页， <a href=\"%s\">请点击</a>。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:184
+#, php-format
+msgid ""
+"All done! %1$s image(s) were successfully resized in %2$s seconds and there "
+"were %3$s failure(s). To try regenerating the failed images again, <a href="
+"\"%4$s\">click here</a>. %5$s"
+msgstr ""
+"任务完成！在 %2$s 秒内已成功重建了 %1$s 张图片，失败 %3$s 张。要尝试重建失败"
+"的图片， <a href=\"%4$s\">请点击此处</a>。%5$s"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:185
+#, php-format
+msgid ""
+"All done! %1$s image(s) were successfully resized in %2$s seconds and there "
+"were 0 failures. %3$s"
+msgstr "任务完成！在 %2$s 秒内已成功重建了 %1$s 张图片，失败 0 张。%3$s"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:189
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:338
+msgid "You must enable Javascript in order to proceed!"
+msgstr "你必须启用 Javascript 才能继续操作！"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:195
+msgid "Abort Resizing Images"
+msgstr "终止修改图片尺寸"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:197
+msgid "Debugging Information"
+msgstr "调试信息"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:200
+#, php-format
+msgid "Total Images: %s"
+msgstr "合计图片：%s"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:201
+#, php-format
+msgid "Images Resized: %s"
+msgstr "图片重设大小：%s"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:202
+#, php-format
+msgid "Resize Failures: %s"
+msgstr "重建失败：%s"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:233
+msgid "Stopping..."
+msgstr "正在停止中…"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:285
+#, php-format
+msgid ""
+"The resize request was abnormally terminated (ID %s). This is likely due to "
+"the image exceeding available memory or some other type of fatal error."
+msgstr ""
+"调整大小请求异常终止（ID %s）。这可能是由于超过可用内存或一些其他类型的致命错"
+"误的图像。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:328
+#, php-format
+msgid ""
+"Use this tool to regenerate thumbnails for all images that you have uploaded "
+"to your blog. This is useful if you've changed any of the thumbnail "
+"dimensions on the <a href='%s'>media settings page</a>. Old thumbnails will "
+"be kept to avoid any broken images due to hard-coded URLs."
+msgstr ""
+"使用这个工具重新生成缩略图已上传到博客的所有图像。请在<a href='%s'>媒体设置页"
+"面</a>中改变缩略图大小 。由于页面的图片URL，旧的缩略图将会被保留。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:330
+#, php-format
+msgid ""
+"You can regenerate specific images (rather than all images) from the <a "
+"href='%s'>Media</a> page. Hover over an image's row and click the link to "
+"resize just that one image or use the checkboxes and the &quot;Bulk "
+"Actions&quot; dropdown to resize multiple images (WordPress 3.1+ only)."
+msgstr ""
+"您可以重新生成特定的图像（而不是全部图片） ，从<a href='%s'>媒体</a>页。将鼠"
+"标悬停在图像的行，单击该链接来调整一个图像或使用复选框和&quot;批量操作&quot;"
+"下拉调整多个图像（WordPress 3.1 + ） 。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:332
+msgid ""
+"Thumbnail regeneration is not reversible, but you can just change your "
+"thumbnail dimensions back to the old values and click the button again if "
+"you don't like the results."
+msgstr ""
+"重建缩略图操作是不可逆的，如果你不喜欢这个结果，你可以再次点击按钮，改变缩略"
+"图大小重建回旧尺寸。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:334
+msgid "To begin, just press the button below."
+msgstr "立即开始，只需点击下面的按钮。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:336
+msgid "Regenerate All Thumbnails"
+msgstr "重建所有缩略图"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:360
+#, php-format
+msgid "Failed resize: %s is an invalid image ID."
+msgstr "重建失败：%s 是无效的图片ID。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:363
+msgid "Your user account doesn't have permission to resize images"
+msgstr "你的用户帐号没有重建缩略图尺寸的权限。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:368
+#, php-format
+msgid "The originally uploaded image file cannot be found at %s"
+msgstr "在 %s 中无法找到最初上传的图片。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:377
+msgid "Unknown failure reason."
+msgstr "位置失败原因。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:382
+#, php-format
+msgid "&quot;%1$s&quot; (ID %2$s) was successfully resized in %3$s seconds."
+msgstr "&quot;%1$s&quot; （ID %2$s） 在 %3$s 秒内已经成功重建。"
+
+#: includes/theme-thumb-rebuild/theme-thumb-rebuild.php:388
+#, php-format
+msgid ""
+"&quot;%1$s&quot; (ID %2$s) failed to resize. The error message was: %3$s"
+msgstr "&quot;%1$s&quot; （ID %2$s）重建失败。错误信息：%3$s"
+
+#: includes/theme-tinymce-plus/theme-tinymce-plus.php:31
+msgid "Next Page"
+msgstr "下一页"
+
+#: includes/theme-update/theme-update.php:20
+msgid "http://update.inn-studio.com"
+msgstr "http://update.cn.inn-studio.com"
+
+#: includes/theme-widget-adbox/theme-widget-adbox.php:18
+msgid "Advertisement code <small>(Custom)</small>"
+msgstr "广告代码 <small>（定制）</small>"
+
+#: includes/theme-widget-adbox/theme-widget-adbox.php:21
+msgid "Show your advertisement."
+msgstr "显示您的广告"
+
+#: includes/theme-widget-adbox/theme-widget-adbox.php:41
+msgid "Advertisement"
+msgstr "广告"
+
+#: includes/theme-widget-adbox/theme-widget-adbox.php:48
+msgid "Type"
+msgstr "类型"
+
+#: includes/theme-widget-adbox/theme-widget-adbox.php:55
+msgid "Desktop"
+msgstr "桌面"
+
+#: includes/theme-widget-adbox/theme-widget-adbox.php:56
+msgid "Mobile"
+msgstr "手机"
+
+#: includes/theme-widget-adbox/theme-widget-adbox.php:60
+msgid "Code"
+msgstr "代码"
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:19
+msgid "Category posts <small>(custom)</small>"
+msgstr "分类目录文章<small>（定制）</small>"
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:22
+msgid "Show your posts by category."
+msgstr "根据分类目录显示的日志。"
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:37
+#: includes/theme-widget-category-post/theme-widget-category-post.php:110
+msgid "Category posts"
+msgstr "分类目录文章"
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:83
+msgid "No post in this category"
+msgstr "此分类中无任何文章"
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:100
+#: includes/theme-widget-rank/theme-widget-rank.php:40
+msgid "More &raquo;"
+msgstr "更多 &raquo;"
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:118
+msgid "Title"
+msgstr "标题"
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:128
+msgid "Category: "
+msgstr "暂无分类"
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:144
+msgid "Show date: "
+msgstr "显示日期："
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:155
+msgid "Hide"
+msgstr "隐藏"
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:156
+msgid "Show"
+msgstr "显示"
+
+#: includes/theme-widget-category-post/theme-widget-category-post.php:160
+msgid "Post number"
+msgstr "文章数量"
+
+#: includes/theme-widget-comments/theme-widget-comments.php:19
+msgid "Latest comments <small>(Custom)</small>"
+msgstr "最新评论 <small>（定制）</small>"
+
+#: includes/theme-widget-comments/theme-widget-comments.php:22
+msgid "Show the latest comments"
+msgstr "显示最新的评论"
+
+#: includes/theme-widget-comments/theme-widget-comments.php:66
+msgid "No any comment yet."
+msgstr "暂无任何评论。"
+
+#: includes/theme-widget-comments/theme-widget-comments.php:76
+msgid "Latest comments"
+msgstr "最新评论"
+
+#: includes/theme-widget-comments/theme-widget-comments.php:82
+#: includes/theme-widget-comments/theme-widget-comments.php:89
+#: includes/theme-widget-rank/theme-widget-rank.php:118
+#: includes/theme-widget-rank/theme-widget-rank.php:125
+#: includes/theme-widget-tags/theme-widget-tags.php:129
+#: includes/theme-widget-tags/theme-widget-tags.php:136
+msgid "Title (optional)"
+msgstr "标题（可选）"
+
+#: includes/theme-widget-comments/theme-widget-comments.php:93
+msgid "Comments number"
+msgstr "评论数量"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:13
+msgid "Posts rank <small>(Custom)</small>"
+msgstr "文章排行 <small>（定制）</small>"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:16
+#: includes/theme-widget-rank/theme-widget-rank.php:24
+msgid "Posts rank"
+msgstr "排行榜"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:39
+#: includes/theme-widget-rank/theme-widget-rank.php:40
+#, php-format
+msgid "Views more about %s"
+msgstr "查看更多%s"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:109
+msgid "Posts ranking"
+msgstr "排行榜"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:129
+#: includes/theme-widget-rank/theme-widget-rank.php:136
+msgid "Post number (required)"
+msgstr "文章数量（必填）"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:140
+msgid "Categories: "
+msgstr "分类目录："
+
+#: includes/theme-widget-rank/theme-widget-rank.php:149
+msgid "Date"
+msgstr "日期"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:164
+msgid "Content type"
+msgstr "内容类型"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:174
+msgid "Image type"
+msgstr "图片类型"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:179
+msgid "Text type"
+msgstr "文本类型"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:184
+msgid "Order by"
+msgstr "排序"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:198
+msgid "Most views"
+msgstr "最多查看"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:212
+msgid "Recommended"
+msgstr "推荐文章"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:222
+msgid "Latest"
+msgstr "最新"
+
+#: includes/theme-widget-tags/theme-widget-tags.php:12
+msgid "Popular tags <small>(Custom)</small>"
+msgstr "热门标签 <small>（定制）</small>"
+
+#: includes/theme-widget-tags/theme-widget-tags.php:15
+msgid "Show the most popular tags."
+msgstr "显示最热门的标签。"
+
+#: includes/theme-widget-tags/theme-widget-tags.php:121
+msgid "Hot tags"
+msgstr "热门标签"
+
+#: includes/theme-widget-tags/theme-widget-tags.php:140
+#: includes/theme-widget-tags/theme-widget-tags.php:147
+msgid "Tags number (required)"
+msgstr "标签数量（必填）"
+
+#: includes/theme-widget-tags/theme-widget-tags.php:152
+#: includes/theme-widget-tags/theme-widget-tags.php:157
+msgid "Sticky tags (optional, one tag per line)"
+msgstr "固定标签（可选，一行一个）"
+
+#: index.php:7
+msgid "Latest posts"
+msgstr "最新日志"
+
+#: single.php:8
+msgid "Maybe you would like them"
+msgstr "或许您会喜欢"
+
+#~ msgid "Your comment has been approved in \"%s\""
+#~ msgstr "您的评论已通过审核与《%s》"
+
+#~ msgid "Your comment (%s) has been approved."
+#~ msgstr "您的评论（%s）已通过审核。"
+
+#~ msgid "View it on \"%s\"."
+#~ msgstr "查看 %s"
+
+#~ msgid "Your comment (%s) about \"%s\" has a reply."
+#~ msgstr "您对《%s》的评论（%s）有一条回复。"
+
+#~ msgid "Post views settings"
+#~ msgstr "文章查看数设置"
+
+#~ msgid "Count your post views."
+#~ msgstr "统计您的日志查看数"
+
+#~ msgid "Comment AJAX Settings"
+#~ msgstr "AJAX 评论设置"
+
+#~ msgid ""
+#~ "Visitor submitted comment without refreshing page. Recommended enable to "
+#~ "improve the user experience."
+#~ msgstr "用户提交评论不需要刷新页面即可显示。建议启用提高用户体验。"
+
+#~ msgid "Enable comment AJAX"
+#~ msgstr "启用 AJAX 评论"
+
+#~ msgid "Error: please fill the required fields(name, email)."
+#~ msgstr "错误：请输入必须的字段（姓名，邮箱）。"
+
+#~ msgid "Error: please enter a valid email address."
+#~ msgstr "错误：请输入一个合法的邮箱地址。"
+
+#~ msgid "Error: please type a comment."
+#~ msgstr "错误：请输入评论内容。"
+
+#~ msgid "Param error"
+#~ msgstr "参数错误"
+
+#~ msgid "Data sent."
+#~ msgstr "数据传送完毕。"
+
+#~ msgid "Member"
+#~ msgstr "会员"
+
+#~ msgid "Profile"
+#~ msgstr "资料"
+
+#~ msgid "Edit"
+#~ msgstr "编辑"
+
+#~ msgid "Invalid nickname."
+#~ msgstr "无效的昵称。"
+
+#~ msgid "Your profile data has been updated."
+#~ msgstr "您的资料数据已更新。"
+
+#~ msgid "Current password is invalid, please try again."
+#~ msgstr "当前密码不正确，请重新输入。"
+
+#~ msgid "Twice password is invalid, please try again."
+#~ msgstr "两次密码不正确，请重新输入。"
+
+#~ msgid "Your password has been updated."
+#~ msgstr "您的密码已更新。"
+
+#~ msgid "Contribution settings"
+#~ msgstr "投稿设置"
+
+#~ msgid "Which category will be added when contributes"
+#~ msgstr "投稿的时候哪些分类将会被自动添加"
+
+#~ msgid "Contribution category"
+#~ msgstr "投稿分类"
+
+#~ msgid "Share your story"
+#~ msgstr "分享您的趣事"
+
+#~ msgid "Login required."
+#~ msgstr "需要登录。"
+
+#~ msgid "File error."
+#~ msgstr "文件错误"
+
+#~ msgid "Invalid file type."
+#~ msgstr "抱歉，无效的文件类型。"
+
+#~ msgid "Image has been uploaded."
+#~ msgstr "图片成功上传。"
+
+#~ msgid "Invalid post content."
+#~ msgstr "抱歉，无效的文章内容。"
+
+#~ msgid ""
+#~ "Thank you for sharing, everybody will get your happiness in few minutes. "
+#~ "%s"
+#~ msgstr "感谢分享，几分钟后大家将会感受到你的欢乐。%s"
+
+#~ msgid "Share anthor one~"
+#~ msgstr "再来一发～"
+
+#~ msgid "Invalid typ."
+#~ msgstr "抱歉，无效的类型。"
+
+#~ msgid "Click to delete this image"
+#~ msgstr "点击删除此张图片"
+
+#~ msgid "Already reached max number of tags."
+#~ msgstr "已达到最大标签数量。"
+
+#~ msgid "Now share anthor one again?"
+#~ msgstr "不放再分享一篇？"
+
+#~ msgid "&raquo; detail"
+#~ msgstr "&raquo; 详细"
+
+#, fuzzy
+#~ msgid "Views hot keyword"
+#~ msgstr "查看热门关键词"
+
+#, fuzzy
+#~ msgid "Not data in this category"
+#~ msgstr "在 %s 分类目录中找不到数据"
+
+#, fuzzy
+#~ msgid "Theme home box settings"
+#~ msgstr "首页盒子设置"
+
+#, fuzzy
+#~ msgid "Home box control"
+#~ msgstr "盒子操作"
+
+#, fuzzy
+#~ msgid "Add a new home box"
+#~ msgstr "添加一个新的盒子"
+
+#, fuzzy
+#~ msgid "Delete a home box"
+#~ msgstr "删除一个盒子"
+
+#, fuzzy
+#~ msgid "Home box"
+#~ msgstr "首页盒子"
+
+#~ msgid "Display different content on homepage."
+#~ msgstr "在首页中显示不同的内容。"
+
+#, fuzzy
+#~ msgid "Box title"
+#~ msgstr "幻灯片标题 - %s"
+
+#, fuzzy
+#~ msgid "Show posts number"
+#~ msgstr "文章数量："
+
+#, fuzzy
+#~ msgid "Must be common multiple of 5 and 2."
+#~ msgstr "必须是 2 和 5 的公倍数。"
+
+#, fuzzy
+#~ msgid "Show thumbnail number"
+#~ msgstr "显示特色图数量："
+
+#, fuzzy
+#~ msgid "Keywords"
+#~ msgstr "搜索关键词"
+
+#, fuzzy
+#~ msgid "Tag1 = http://www.inn-studio.com"
+#~ msgstr "例如 标签1 = http://inn-studio.com"
+
+#, fuzzy
+#~ msgid "1 tag 1 line."
+#~ msgstr "例如（1个标签1行）：标签1 = http://abc.com"
+
+#~ msgid "Clean theme cache"
+#~ msgstr "清空主题缓存"
