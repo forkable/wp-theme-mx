@@ -51,7 +51,7 @@ class theme_functions{
 		register_nav_menus(
 			array(
 				'menu-header' 			=> ___('Header menu'),
-				//'menu-header-mobile' 	=> ___('Header menu mobile'),
+				'menu-header-mobile' 	=> ___('Header menu mobile'),
 				'menu-top-bar' 			=> ___('Top bar menu'),
 				'menu-tools' 			=> ___('Header menu tools'),
 			)

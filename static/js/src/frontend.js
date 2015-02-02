@@ -18,8 +18,8 @@ define(function(require, exports, module){
 			exports.lazyload();
 			exports.search();
 			exports.mobile_menu.init();
-			setTimeout(function(){exports.qrcode.init();},1000);
-			exports.scroll_top_fixed();
+			//setTimeout(function(){exports.qrcode.init();},1000);
+			//exports.scroll_top_fixed();
 			
 		});
 	};

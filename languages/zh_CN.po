@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-31 12:08+0800\n"
-"PO-Revision-Date: 2015-01-31 12:08+0800\n"
+"POT-Creation-Date: 2015-02-02 16:09+0800\n"
+"PO-Revision-Date: 2015-02-02 16:09+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 #: category.php:31 includes/theme-widget-rank/theme-widget-rank.php:85
-#: includes/theme-widget-tags/theme-widget-tags.php:87 index.php:29
+#: includes/theme-widget-tags/theme-widget-tags.php:87
 msgid "No data yet."
 msgstr "此类别暂无资料"
 
@@ -30,11 +30,11 @@ msgstr "抱歉，无效的来路。"
 msgid "Sorry, security code is invalid."
 msgstr "抱歉，无效的安全码。"
 
-#: core/core-features.php:1319 core/core-features.php:1385 functions.php:1199
+#: core/core-features.php:1319 core/core-features.php:1385 functions.php:1205
 msgid "&lsaquo; Previous"
 msgstr "&lsaquo;  上一页"
 
-#: core/core-features.php:1354 core/core-features.php:1386 functions.php:1223
+#: core/core-features.php:1354 core/core-features.php:1386 functions.php:1229
 msgid "Next &rsaquo;"
 msgstr "下一页 &rsaquo;"
 
@@ -118,9 +118,10 @@ msgid "Settings have been saved."
 msgstr "设置已保存。"
 
 #: core/core-options.php:128
-#: includes/_theme-custom-sign/theme-custom-sign.php:148
 #: includes/_theme-quick-sign/theme-quick-sign.php:399
 #: includes/theme-clean-up/theme-clean-up.php:177
+#: includes/theme-custom-ctb/theme-custom-ctb.php:247
+#: includes/theme-custom-sign/theme-custom-sign.php:157
 #: includes/theme-open-sign/theme-open-sign.php:225
 #: includes/theme-post-thumb/theme-post-thumb.php:242
 #: includes/theme-quick-comment/theme-quick-comment.php:342
@@ -175,56 +176,29 @@ msgstr "还原主题默认选项"
 msgid "Theme settings"
 msgstr "主题设置"
 
-#: footer.php:13
-#, php-format
-msgid "Copyright &copy; %s %s."
-msgstr "Copyright &copy; %s %s."
-
-#: footer.php:14
-#, php-format
-msgid "Theme %s by %s."
-msgstr "Theme %s by %s."
-
-#: footer.php:14 functions.php:30
-msgid "INN STUDIO"
-msgstr "INN STUDIO"
-
-#: footer.php:15
-#, php-format
-msgid "Powered by %s."
-msgstr "Powered by %s."
-
-#: footer.php:20
-msgid "Click to show QR code for this page"
-msgstr "扫描二维码即可访问此页面。"
-
-#: footer.php:24
-msgid "Scan the QR code to visit this page"
-msgstr "扫描二维码即可访问此页面。"
-
 #: functions.php:27
-msgid "INN 2015"
-msgstr "INN 2015"
+msgid "MX"
+msgstr ""
 
 #: functions.php:28
-msgid "http://inn-studio.com/inn2015"
-msgstr "http://inn-studio.com/inn2015"
+msgid "http://inn-studio.com/mx"
+msgstr ""
 
 #: functions.php:29
 msgid "http://inn-studio.com"
 msgstr "http://inn-studio.com/"
+
+#: functions.php:30
+msgid "INN STUDIO"
+msgstr "INN STUDIO"
 
 #: functions.php:40
 msgid "Professional edition"
 msgstr "专业版"
 
 #: functions.php:41
-msgid ""
-"This is an unique theme, beautiful UI, delicate features, excellent "
-"efficiency, good experience, all in one for your blog."
-msgstr ""
-"这是一款独特的主题，漂亮的界面、精致的功能、优秀的效率、人性化的体验，一切只"
-"为您的博客。"
+msgid "MX - Dream starts"
+msgstr "MX - 梦想起航"
 
 #: functions.php:53
 msgid "Header menu"
@@ -235,360 +209,336 @@ msgid "Header menu mobile"
 msgstr "头部菜单手机版"
 
 #: functions.php:55
+msgid "Top bar menu"
+msgstr "顶栏菜单"
+
+#: functions.php:56
 msgid "Header menu tools"
 msgstr "头部工具栏菜单"
 
-#: functions.php:99
+#: functions.php:100
 msgid "Post Toc"
 msgstr "文章目录"
 
-#: functions.php:100
+#: functions.php:101
 msgid "[Top]"
 msgstr "[目录]"
 
-#: functions.php:112
+#: functions.php:113
 msgid "Home widget area"
 msgstr "首页小工具区域"
 
-#: functions.php:114
+#: functions.php:115
 msgid "Appears on home in the sidebar."
 msgstr "显示在首页的边栏中。"
 
-#: functions.php:117
+#: functions.php:118
 msgid "Archive page widget area"
 msgstr "归档页面小工具区域"
 
-#: functions.php:119
+#: functions.php:120
 msgid "Appears on archive page in the sidebar."
 msgstr "显示在归档页面的边栏中。"
 
-#: functions.php:122
+#: functions.php:123
 msgid "Footer widget area"
 msgstr "底部 小工具区域"
 
-#: functions.php:124
+#: functions.php:125
 msgid "Appears on all page in the footer."
 msgstr "显示在每个页面的底部。"
 
-#: functions.php:129
+#: functions.php:130
 msgid "Singular post widget area"
 msgstr "单文章小工具区域"
 
-#: functions.php:131
+#: functions.php:132
 msgid "Appears on post in the sidebar."
 msgstr "显示在文章页面的边栏中。"
 
-#: functions.php:134
+#: functions.php:135
 msgid "Singular page widget area"
 msgstr "单页 小工具区域"
 
-#: functions.php:136
+#: functions.php:137
 msgid "Appears on page in the sidebar."
 msgstr "显示在单页的边栏中。"
 
-#: functions.php:139
+#: functions.php:140
 msgid "Sign page widget area"
 msgstr "登录页面 小工具区域"
 
-#: functions.php:141
+#: functions.php:142
 msgid "Appears on sign page in the sidebar."
 msgstr "显示在登录页面的边栏中。"
 
-#: functions.php:144
+#: functions.php:145
 msgid "404 page widget area"
 msgstr "404 页面小工具区域"
 
-#: functions.php:146
+#: functions.php:147
 msgid "Appears on 404 no found page in the sidebar."
 msgstr "显示在 404 页面的边栏中。"
 
-#: functions.php:179
+#: functions.php:180
 msgid "Lastest"
 msgstr "最新"
 
-#: functions.php:183
+#: functions.php:184
 msgid "Popular"
 msgstr "最赞"
 
-#: functions.php:187 includes/theme-widget-rank/theme-widget-rank.php:217
+#: functions.php:188 includes/theme-widget-rank/theme-widget-rank.php:217
 msgid "Random"
 msgstr "随机"
 
-#: functions.php:393 includes/theme-post-thumb/theme-post-thumb.php:53
+#: functions.php:399 includes/theme-post-thumb/theme-post-thumb.php:53
 #: includes/theme-post-thumb/theme-post-thumb.php:55
 #: includes/theme-widget-rank/theme-widget-rank.php:205
 msgid "Thumb up"
 msgstr "顶/赞"
 
-#: functions.php:400
+#: functions.php:406
 msgid "Comment count"
 msgstr "评论统计"
 
-#: functions.php:408 functions.php:600
+#: functions.php:414 functions.php:606
 #: includes/theme-post-views/theme-post-views.php:183
 msgid "Views"
 msgstr "查看数"
 
-#: functions.php:486
+#: functions.php:492
 msgid "Sticky post"
 msgstr "顶置文章"
 
-#: functions.php:586
+#: functions.php:592
 msgid "Category"
 msgstr "分类"
 
-#: functions.php:595
+#: functions.php:601
 #, php-format
 msgid "Views all post by %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:606
+#: functions.php:612
 msgid "Edit post"
 msgstr "编辑文章"
 
-#: functions.php:609 functions.php:610
+#: functions.php:615 functions.php:616
 msgid "Post link"
 msgstr "文章链接"
 
-#: functions.php:632 functions.php:706 functions.php:720
+#: functions.php:638 functions.php:712 functions.php:726
 #, php-format
 msgid "Views all posts by %s tag"
 msgstr "查看 %s 标签下的所有文章"
 
-#: functions.php:652
+#: functions.php:658
 msgid "Good! I like it."
 msgstr "赞！我喜欢"
 
-#: functions.php:654
+#: functions.php:660
 msgid "Good"
 msgstr "赞"
 
-#: functions.php:656
+#: functions.php:662
 msgid "Bad idea!"
 msgstr "坏主意！"
 
-#: functions.php:658
+#: functions.php:664
 msgid "Bad"
 msgstr "渣"
 
-#: functions.php:681
+#: functions.php:687
 msgid "comment"
 msgstr "评论"
 
-#: functions.php:681
+#: functions.php:687
 msgid "comments"
 msgstr "评论"
 
-#: functions.php:697
+#: functions.php:703
 msgid ", "
 msgstr "、"
 
-#: functions.php:792 functions.php:802
+#: functions.php:798 functions.php:808
 msgid "No more post found"
 msgstr "暂无更多文章"
 
-#: functions.php:794
+#: functions.php:800
 #, php-format
 msgid "Previous post: %s"
 msgstr "上一篇：%s"
 
-#: functions.php:795 functions.php:946 functions.php:1095
+#: functions.php:801 functions.php:952 functions.php:1101
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: functions.php:804
+#: functions.php:810
 #, php-format
 msgid "Next post: %s"
 msgstr "下一篇：%s"
 
-#: functions.php:806 functions.php:947 functions.php:1096
+#: functions.php:812 functions.php:953 functions.php:1102
 msgid "&raquo;"
 msgstr "&raquo;"
 
-#: functions.php:839
+#: functions.php:845
 msgid "Back to Homepage"
 msgstr "返回到首页"
 
-#: functions.php:839
+#: functions.php:845
 msgid "Home"
 msgstr "首页"
 
-#: functions.php:850
+#: functions.php:856
 msgid "Category Browser"
 msgstr "目录浏览"
 
-#: functions.php:857
+#: functions.php:863
 msgid "Tags Browser"
 msgstr "标签归档浏览"
 
-#: functions.php:875
+#: functions.php:881
 msgid "Date Browser"
 msgstr "日期归档浏览"
 
-#: functions.php:879
+#: functions.php:885
 #, php-format
 msgid "Search Result: %s"
 msgstr "搜索结果：%s"
 
-#: functions.php:885
+#: functions.php:891
 msgid "Author posts"
 msgstr "作者文章"
 
-#: functions.php:889
+#: functions.php:895
 msgid "Archive Browser"
 msgstr "归档浏览"
 
-#: functions.php:907
+#: functions.php:913
 #, php-format
 msgid "View all posts in %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:914
+#: functions.php:920
 msgid "Not found"
 msgstr "暂无资料"
 
-#: functions.php:974
+#: functions.php:980
 msgid "Leave a comment"
 msgstr "留下评论"
 
-#: functions.php:975
+#: functions.php:981
 msgid "Cancel reply"
 msgstr "取消回复"
 
-#: functions.php:983
+#: functions.php:989
 msgid "Name"
 msgstr "姓名"
 
-#: functions.php:984 includes/_theme-quick-sign/theme-quick-sign.php:403
+#: functions.php:990 includes/_theme-quick-sign/theme-quick-sign.php:403
 #: includes/theme-quick-comment/theme-quick-comment.php:349
 msgid "Email"
 msgstr "邮箱"
 
-#: functions.php:1000
+#: functions.php:1006
 msgid "Write a omment"
 msgstr "留下评论"
 
-#: functions.php:1012
+#: functions.php:1018
 msgid "No data"
 msgstr "暂无资料"
 
-#: functions.php:1018 functions.php:1019
+#: functions.php:1024 functions.php:1025
 msgid "Pic-face"
 msgstr "图片表情"
 
-#: functions.php:1024 functions.php:1025
+#: functions.php:1030 functions.php:1031
 msgid "Emoticons"
 msgstr "颜文表情"
 
-#: functions.php:1032 includes/theme-quick-comment/theme-quick-comment.php:347
+#: functions.php:1038 includes/theme-quick-comment/theme-quick-comment.php:347
 msgid "Post comment"
 msgstr "发表评论"
 
-#: functions.php:1112
+#: functions.php:1118
 msgid ""
 "Sorry, I was not able to find what you need, what about look at other "
 "content :)"
 msgstr "抱歉，我没能找到您需要的内容，不放看看其他东西 ：）"
 
-#: functions.php:1122 includes/theme-widget-adbox/theme-widget-adbox.php:54
+#: functions.php:1128 includes/theme-widget-adbox/theme-widget-adbox.php:54
 msgid "All"
 msgstr "全部"
 
-#: functions.php:1123
+#: functions.php:1129
 msgid "Daily"
 msgstr "每日"
 
-#: functions.php:1124
+#: functions.php:1130
 msgid "Weekly"
 msgstr "每周"
 
-#: functions.php:1125
+#: functions.php:1131
 msgid "Monthly"
 msgstr "每月"
 
-#: functions.php:1242 functions.php:1251
+#: functions.php:1248 functions.php:1257
 msgid "&larr; Preview page"
 msgstr "&larr; 上一页"
 
-#: functions.php:1243 functions.php:1270
+#: functions.php:1249 functions.php:1276
 msgid "Next page &rarr;"
 msgstr "下一页 &rarr;"
 
-#: functions.php:1255 functions.php:1286
+#: functions.php:1261 functions.php:1292
 msgid "Next post &rarr;"
 msgstr "下一页 &rarr;"
 
-#: functions.php:1255 functions.php:1286
+#: functions.php:1261 functions.php:1292
 #, php-format
 msgid "%s &rarr;"
 msgstr "%s &rarr;"
 
-#: functions.php:1266 functions.php:1281
+#: functions.php:1272 functions.php:1287
 msgid "&larr; Preview post"
 msgstr "&larr; 上一页"
 
-#: functions.php:1266 functions.php:1281
+#: functions.php:1272 functions.php:1287
 #, php-format
 msgid "&larr; %s"
 msgstr "&larr; %s"
 
-#: functions.php:1325
+#: functions.php:1331
 msgid "No data yet"
 msgstr "此类别暂无资料"
 
-#: functions.php:1349
+#: functions.php:1355
 msgid "Next page"
 msgstr "下一页"
 
-#: functions.php:1352
+#: functions.php:1358
 msgid "Previous page"
 msgstr "上一页"
 
-#: header.php:29
-#, php-format
-msgid ""
-"We recommend that you upgrade your web browser so that you can get the most "
-"of the %s website. Upgrading your browser should only take a few minutes. "
-"Please download the latest version of one of the following free browsers:"
-msgstr ""
-"我们建议您升级您的浏览器以更好地访问 %s。升级您的浏览器只需花费几分钟时间，可"
-"从选择下列数款浏览器中选择下载："
+#: header.php:50
+msgid "Contribution"
+msgstr "投稿"
 
-#: header.php:31
-msgid "Chrome"
-msgstr "谷歌浏览器"
+#: header.php:59 includes/_theme-quick-sign/theme-quick-sign.php:400
+#: includes/theme-custom-sign/theme-custom-sign.php:72
+msgid "Login"
+msgstr "登录"
 
-#: header.php:32
-msgid "Firefox"
-msgstr "火狐浏览器"
+#: header.php:61 includes/_theme-quick-sign/theme-quick-sign.php:401
+#: includes/theme-custom-sign/theme-custom-sign.php:79
+msgid "Register"
+msgstr "注册"
 
-#: header.php:33
-msgid "Opera"
-msgstr "欧朋浏览器"
-
-#: header.php:34
-msgid "Maxthon"
-msgstr "傲游浏览器"
-
-#: header.php:35
-msgid "Internet Explorer"
-msgstr "IE 浏览器"
-
-#: header.php:64
-msgid "Navigation"
+#: header.php:102
+msgid "Navigation menu"
 msgstr "导航菜单"
-
-#: header.php:86 header.php:87 header.php:90
-msgid "Search"
-msgstr "搜索"
-
-#: header.php:86
-msgid "Search keyword"
-msgstr "搜索关键词"
-
-#: header.php:87
-msgid "Submit"
-msgstr "提交"
 
 #: includes/_theme-comment-face/theme-comment-face.php:57
 msgid "Face settings"
@@ -601,29 +551,6 @@ msgstr "颜文字表情（一行一个）"
 #: includes/_theme-comment-face/theme-comment-face.php:81
 msgid "Face"
 msgstr "表情"
-
-#: includes/_theme-custom-sign/theme-custom-sign.php:63
-#: includes/_theme-quick-sign/theme-quick-sign.php:400
-msgid "Login"
-msgstr "登录"
-
-#: includes/_theme-custom-sign/theme-custom-sign.php:70
-#: includes/_theme-quick-sign/theme-quick-sign.php:401
-msgid "Register"
-msgstr "注册"
-
-#: includes/_theme-custom-sign/theme-custom-sign.php:77
-msgid "Recover password"
-msgstr "找回密码"
-
-#: includes/_theme-custom-sign/theme-custom-sign.php:103
-msgid "Sign"
-msgstr "登录"
-
-#: includes/_theme-custom-sign/theme-custom-sign.php:149
-#: includes/theme-open-sign/theme-open-sign.php:226
-msgid "Sorry, server error please try again later."
-msgstr "抱歉，服务器错误请稍后重试。"
 
 #: includes/_theme-quick-sign/theme-quick-sign.php:66
 msgid "Login successfully, page is refreshing, please wait..."
@@ -687,6 +614,7 @@ msgid "Error, server can not send email, please contact the administrator."
 msgstr "抱歉，服务器无法发送邮件，请联系管理员。"
 
 #: includes/_theme-quick-sign/theme-quick-sign.php:185
+#: includes/theme-custom-ctb/theme-custom-ctb.php:108
 msgid "Invalid param."
 msgstr "抱歉，无效的类型参数。"
 
@@ -1015,6 +943,84 @@ msgstr "%s的回复：%s"
 #, php-format
 msgid "Views the comment: %s"
 msgstr "查看此条评论：%s"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:25
+msgid "Contribution settings"
+msgstr "投稿设置"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:26
+msgid "Which category will be added when contributes"
+msgstr "投稿的时候哪些分类将会被自动添加"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:30
+msgid "Contribution category"
+msgstr "投稿分类"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:60
+msgid "Share your story"
+msgstr "分享您的趣事"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:99
+msgid "Login required."
+msgstr "需要登录。"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:114
+msgid "File error."
+msgstr "文件错误"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:126
+msgid "Invalid file type."
+msgstr "抱歉，无效的文件类型。"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:149
+#: includes/theme-custom-ctb/theme-custom-ctb.php:248
+msgid "Image has been uploaded."
+msgstr "图片成功上传。"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:160
+msgid "Invalid post content."
+msgstr "抱歉，无效的文章内容。"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:224
+#: includes/theme-custom-ctb/theme-custom-ctb.php:251
+#, php-format
+msgid ""
+"Thank you for sharing, everybody will get your happiness in few minutes. %s"
+msgstr "感谢分享，几分钟后大家将会感受到你的欢乐。%s"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:224
+msgid "Share anthor one~"
+msgstr "再来一发～"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:230
+msgid "Invalid typ."
+msgstr "抱歉，无效的类型。"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:249
+msgid "Click to delete this image"
+msgstr "点击删除此张图片"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:250
+msgid "Already reached max number of tags."
+msgstr "已达到最大标签数量。"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:251
+msgid "Now share anthor one again?"
+msgstr "不放再分享一篇？"
+
+#: includes/theme-custom-ctb/theme-custom-ctb.php:252
+#: includes/theme-custom-sign/theme-custom-sign.php:158
+#: includes/theme-open-sign/theme-open-sign.php:226
+msgid "Sorry, server error please try again later."
+msgstr "抱歉，服务器错误请稍后重试。"
+
+#: includes/theme-custom-sign/theme-custom-sign.php:86
+msgid "Recover password"
+msgstr "找回密码"
+
+#: includes/theme-custom-sign/theme-custom-sign.php:112
+msgid "Sign"
+msgstr "登录"
 
 #: includes/theme-defender/theme-defender.php:43
 #, php-format
@@ -2059,13 +2065,76 @@ msgstr "标签数量（必填）"
 msgid "Sticky tags (optional, one tag per line)"
 msgstr "固定标签（可选，一行一个）"
 
-#: index.php:7
-msgid "Latest posts"
-msgstr "最新日志"
-
 #: single.php:8
 msgid "Maybe you would like them"
 msgstr "或许您会喜欢"
+
+#~ msgid "Copyright &copy; %s %s."
+#~ msgstr "Copyright &copy; %s %s."
+
+#~ msgid "Theme %s by %s."
+#~ msgstr "Theme %s by %s."
+
+#~ msgid "Powered by %s."
+#~ msgstr "Powered by %s."
+
+#~ msgid "Click to show QR code for this page"
+#~ msgstr "扫描二维码即可访问此页面。"
+
+#~ msgid "Scan the QR code to visit this page"
+#~ msgstr "扫描二维码即可访问此页面。"
+
+#~ msgid "INN 2015"
+#~ msgstr "INN 2015"
+
+#~ msgid "http://inn-studio.com/inn2015"
+#~ msgstr "http://inn-studio.com/inn2015"
+
+#~ msgid ""
+#~ "This is an unique theme, beautiful UI, delicate features, excellent "
+#~ "efficiency, good experience, all in one for your blog."
+#~ msgstr ""
+#~ "这是一款独特的主题，漂亮的界面、精致的功能、优秀的效率、人性化的体验，一切"
+#~ "只为您的博客。"
+
+#~ msgid ""
+#~ "We recommend that you upgrade your web browser so that you can get the "
+#~ "most of the %s website. Upgrading your browser should only take a few "
+#~ "minutes. Please download the latest version of one of the following free "
+#~ "browsers:"
+#~ msgstr ""
+#~ "我们建议您升级您的浏览器以更好地访问 %s。升级您的浏览器只需花费几分钟时"
+#~ "间，可从选择下列数款浏览器中选择下载："
+
+#~ msgid "Chrome"
+#~ msgstr "谷歌浏览器"
+
+#~ msgid "Firefox"
+#~ msgstr "火狐浏览器"
+
+#~ msgid "Opera"
+#~ msgstr "欧朋浏览器"
+
+#~ msgid "Maxthon"
+#~ msgstr "傲游浏览器"
+
+#~ msgid "Internet Explorer"
+#~ msgstr "IE 浏览器"
+
+#~ msgid "Navigation"
+#~ msgstr "导航菜单"
+
+#~ msgid "Search"
+#~ msgstr "搜索"
+
+#~ msgid "Search keyword"
+#~ msgstr "搜索关键词"
+
+#~ msgid "Submit"
+#~ msgstr "提交"
+
+#~ msgid "Latest posts"
+#~ msgstr "最新日志"
 
 #~ msgid "Your comment has been approved in \"%s\""
 #~ msgstr "您的评论已通过审核与《%s》"
@@ -2134,53 +2203,6 @@ msgstr "或许您会喜欢"
 
 #~ msgid "Your password has been updated."
 #~ msgstr "您的密码已更新。"
-
-#~ msgid "Contribution settings"
-#~ msgstr "投稿设置"
-
-#~ msgid "Which category will be added when contributes"
-#~ msgstr "投稿的时候哪些分类将会被自动添加"
-
-#~ msgid "Contribution category"
-#~ msgstr "投稿分类"
-
-#~ msgid "Share your story"
-#~ msgstr "分享您的趣事"
-
-#~ msgid "Login required."
-#~ msgstr "需要登录。"
-
-#~ msgid "File error."
-#~ msgstr "文件错误"
-
-#~ msgid "Invalid file type."
-#~ msgstr "抱歉，无效的文件类型。"
-
-#~ msgid "Image has been uploaded."
-#~ msgstr "图片成功上传。"
-
-#~ msgid "Invalid post content."
-#~ msgstr "抱歉，无效的文章内容。"
-
-#~ msgid ""
-#~ "Thank you for sharing, everybody will get your happiness in few minutes. "
-#~ "%s"
-#~ msgstr "感谢分享，几分钟后大家将会感受到你的欢乐。%s"
-
-#~ msgid "Share anthor one~"
-#~ msgstr "再来一发～"
-
-#~ msgid "Invalid typ."
-#~ msgstr "抱歉，无效的类型。"
-
-#~ msgid "Click to delete this image"
-#~ msgstr "点击删除此张图片"
-
-#~ msgid "Already reached max number of tags."
-#~ msgstr "已达到最大标签数量。"
-
-#~ msgid "Now share anthor one again?"
-#~ msgstr "不放再分享一篇？"
 
 #~ msgid "&raquo; detail"
 #~ msgstr "&raquo; 详细"

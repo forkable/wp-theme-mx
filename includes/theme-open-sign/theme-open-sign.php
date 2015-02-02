@@ -30,6 +30,15 @@ class theme_open_sign{
 		add_action('wp_ajax_nopriv_isos_cb',					get_class() . '::process_cb');
 		add_action('wp_ajax_nopriv_isos_redirect_get_auth',		get_class() . '::process_redirect_get_auth');
 	}
+	public static function get_login_url($type){
+		switch($type){
+			case 'sina':
+			case 'weibo':
+				return self::get_process_auth_url('sina');
+			case 'qq':
+				return self::get_process_auth_url('qq');
+		}
+	}
 	public static function get_process_auth_url($type){
 		if(!in_array($type,self::$open_types)) return false;
 		$url = theme_features::get_process_url(array(
