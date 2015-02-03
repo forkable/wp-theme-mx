@@ -9,64 +9,78 @@
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 	<?php echo theme_features::get_theme_css('modules/fa-fonts','normal');?>
-	<?php echo theme_features::get_theme_css('modules/pure','normal',true);?>
+	<?php echo theme_features::get_theme_css('modules/bootstrap','normal');?>
+	<?php echo theme_features::get_theme_css('modules/bootstrap-theme','normal');?>
 	<?php echo theme_features::get_theme_css('frontend/style','normal',true);?>
 	<link rel="shortcut icon" href="<?php //echo theme_features::get_theme_images_url('frontend/favicon.ico',true);?>" type="image/x-icon" />
 	<?php wp_head();?>
 </head>
 <body <?php body_class(); ?>>
-<div class="top-bar-container">
-	<div class="top-bar pure-g">
-		<div class="pure-u-1-1">
-		<div class="top-bar-menu-container">
+<div class="top-bar-container nav-bar">
+	<div class="top-bar container">
+		<div class="top-bar-menu-container nav navbar-nav navbar-left">
 			<?php
 			/** 
 			 * menu top-bar
 			 */
-			wp_nav_menu(array(
-				'theme_location' => 'menu-top-bar',
-				'menu_class' => 'menu',
-				'container' => 'nav',
-				'container_class' => 'pure-menu pure-menu-open pure-menu-horizontal',
-				'menu_id' => 'menu-top-bar',
-				'walker' => new pure_nav_menu_walker,
-				'fallback_cb' => false,
-			));
+            wp_nav_menu( array(
+                'theme_location'    => 'menu-top-bar',
+                'container'         => 'nav',
+                'container_class'   => 'collapse navbar-collapse',
+                'menu_class'        => 'nav navbar-nav',
+                'menu_id' 			=> 'menu-top-bar',
+                'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+                'walker'            => new wp_bootstrap_navwalker())
+            );
 			?>
 		</div>
-		<div class="top-bar-tools">
-			<?php
-			/**
-			 * if user logged
-			 */
-			if(is_user_logged_in()){
-				?>
-				<a href="javascript:void(0);" class="meta user-avatar">
-					<?php echo get_avatar(get_current_user_id());?>
-					<span class="tx"><?php echo wp_get_current_user()->display_name;?></span>
-				</a>
-				<!-- ctb -->
-				<?php if(class_exists('theme_custom_ctb')){ ?>
-					<a href="<?php echo esc_url(theme_custom_ctb::get_url());?>" class="meta tool-contribution">
-						<i class="fa fa-pencil-square-o"></i>
-						<?php echo ___('Contribution');?>
+		<div class="top-bar-tools navbar-right">
+			<div class="btn-group btn-group-xs">
+				<?php
+				/**
+				 * if user logged
+				 */
+				if(is_user_logged_in()){
+					?>
+					<!-- ctb -->
+					<?php if(method_exists('theme_custom_ctb','get_url')){ ?>
+						<a href="<?php echo esc_url(theme_custom_ctb::get_url());?>" class="btn btn-primary meta tool-contribution">
+							<i class="fa fa-pencil-square-o"></i>
+							<?php echo ___('Contribution');?>
+						</a>
+					<?php } ?>
+					<!-- favor -->
+					<?php if(method_exists('theme_custom_favor','get_url')){ ?>
+						<a href="<?php echo esc_url(theme_custom_favor::get_url());?>" class="meta tool-favor btn btn-xs">
+							<i class="fa fa-heart"></i>
+							<?php echo ___('My favor');?>
+						</a>
+					<?php } ?>
+					
+					<!-- pm -->
+					<?php if(class_exists('theme_pm')){ ?>
+						<a href="<?php echo esc_url(theme_pm::get_url());?>" class="meta tool-favor btn btn-xs">
+							<i class="fa fa-envelope"></i>
+							<?php echo ___('My favor');?>
+							<?php if(theme_pm::get_unread_count() != 0){ ?>
+								<span class="badge"><?php echo theme_pm::get_unread_count();?></span>
+							<?php } ?>
+						</a>
+					<?php } ?>
+					
+					<a href="###" class="btn btn-default meta user-avatar">
+						<?php echo get_avatar(get_current_user_id());?>
+						<span class="tx"><?php echo wp_get_current_user()->display_name;?></span>
 					</a>
-				<?php } ?>
-				<!-- favor -->
-				<?php if(class_exists('theme_custom_favor')){ ?>
-					<a href="<?php echo esc_url(theme_custom_favor::get_url());?>" class="meta tool-favor">
-						<i class="fa fa-heart"></i>
-						<?php echo ___('My favor');?>
-					</a>
-				<?php } ?>
+				</div>
 			<?php
 			/**
 			 * is visitor
 			 */
 			}else{
 				?>
-				<div class="sign-in-container meta">
-					<a class="sign-in sign-in-meta" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
+				<div class="btn-group btn-group-sm">
+					<a class="sign-in sign-in-meta btn btn-primary" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
 						<i class="fa fa-user"></i>
 						<?php echo ___('Login');?>
 					</a>
@@ -77,14 +91,14 @@
 					if(method_exists('theme_open_sign','get_login_url')){
 						if(theme_open_sign::get_login_url('qq')){
 							?>
-							<a href="<?php echo esc_url(theme_open_sign::get_login_url('qq'));?>" class="open-sign sign-in-meta qq" title="<?php echo ___('Login from QQ');?>">
+							<a href="<?php echo esc_url(theme_open_sign::get_login_url('qq'));?>" class="open-sign sign-in-meta qq btn btn-primary" title="<?php echo ___('Login from QQ');?>">
 								<i class="fa fa-qq"></i>
 							</a>
 						<?php
 						}
 						if(theme_open_sign::get_login_url('sina')){
 							?>
-							<a href="<?php echo esc_url(theme_open_sign::get_login_url('sina'));?>" class="open-sign sign-in-meta sina" title="<?php echo ___('Login from Weibo');?>">
+							<a href="<?php echo esc_url(theme_open_sign::get_login_url('sina'));?>" class="open-sign sign-in-meta sina btn btn-primary" title="<?php echo ___('Login from Weibo');?>">
 								<i class="fa fa-weibo"></i>
 							</a>
 						<?php 
@@ -92,75 +106,72 @@
 					}
 				?>
 				</div>
-				
-				<a class="sign-up meta button-small button-success pure-button" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
-					<i class="fa fa-user-plus"></i>
-					<?php echo ___('Register');?>
-				</a>
+				<div class="sign-up-container meta btn-group">
+					<a class="sign-up meta btn btn-success" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
+						<i class="fa fa-user-plus"></i>
+						<?php echo ___('Register');?>
+					</a>
+				</div>
 			<?php
 			}
 			?>
 		</div>
 	</div><!-- /.top-bar -->
-	</div>
-</div><!-- /.top-bar-container -->
+</div><!-- /.container -->
 
 <?php
 /** 
  * banner
  */
 if(get_header_image()){ ?>
-	<div class="banner pure-g">
+	<div class="banner">
 		<?php if(display_header_text()){ ?>
+		<div class="container">
 			<h1 hidden><?php echo esc_html(get_bloginfo('name'));?></h1>
 			<h2 hidden><?php echo esc_html(get_bloginfo('description'));?></h2>
+		</div>
 		<?php } ?>
 	</div>
 <?php } ?>
 
 
-<div class="menu-header-container pure-g">
-	<div class="pure-u-1-1">
-		<?php
-		/** 
-		 * menu menu-header
-		 */
-		wp_nav_menu(array(
-			'theme_location' => 'menu-header',
-			'menu_class' => 'menu',
-			'container' => 'nav',
-			'container_class' => 'menu-header pure-hidden-xs pure-hidden-sm pure-menu pure-menu-open pure-menu-horizontal',
-			'menu_id' => 'menu-header',
-			'walker' => new pure_nav_menu_walker,
-			'fallback_cb' => false,
-		));
-		?>
-		<div class="menu-mobile-toggle pure-hidden-md pure-hidden-lg pure-hidden-xl">
-			<a href="javascript:void(0);" class="toggle pure-button" data-target="#menu-header-mobile">
-				<i class="fa fa-bars"></i>
-				<?php echo ___('Navigation menu');?>
-			</a>
-		</div>
+<div class="menu-header-container">
+	<div class=" navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header">
+				<a href="javascript:void(0);" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-menu">
+					<i class="fa fa-bars"></i>
+					<?php echo ___('Navigation menu');?>
+				</a>
+				
+				
+			</div>
+			<div class="navbar-collapse navbar-left collapse navbar-collapse-menu">
+			<?php
+			/** 
+			 * menu menu-header
+			 */
+			wp_nav_menu(array(
+	            'theme_location'    => 'menu-header',
+	            'container'         => 'nav',
+	            'container_class'   => 'menu-header collapse navbar-collapse',
+	            'menu_class'        => 'menu nav navbar-nav',
+	            'menu_id' 			=> 'menu-header',
+	            'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+	            'walker'            => new wp_bootstrap_navwalker
+	       	));
+			?>
+			</div>
 
-		<!-- search -->
-		<form action="" id="header-search" class="pure-form">
-			<input type="search" name="s" id="header-search-s" placeholder="<?php echo ___('Keywords');?>" value="<?php echo esc_attr(get_search_query())?>" required />
-			<button type="submit" class="pure-button pure-button-primary"><?php echo ___('Search');?></button>
-		</form>
-		<?php
-		/** 
-		 * menu menu-header
-		 */
-		wp_nav_menu(array(
-			'theme_location' => 'menu-header-mobile',
-			'menu_class' => 'menu',
-			'container' => 'nav',
-			'container_class' => 'menu-header-mobile hide pure-menu pure-menu-open',
-			'container_id' => 'menu-header-mobile',
-			'menu_id' => 'menu-header-mobile',
-			'walker' => new pure_nav_menu_walker,
-			'fallback_cb' => false,
-		));
-		?>
+			
+			<form class="navbar-form navbar-right" role="search" action="/search" method="get">
+	            <div class="input-group">
+	                <input name="s" class="form-control input-sm" placeholder="<?php echo ___('Keywords');?>" value="<?php echo esc_attr(get_search_query())?>" type="search">
+	                <span class="input-group-btn">
+	                    <button class="btn btn-default btn-sm" type="submit"><i class="fa fa-search"></i></button>
+	                </span>
+	            </div>
+	        </form>		
+		</div>
 	</div>
 </div>

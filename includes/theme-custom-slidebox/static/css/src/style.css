@@ -1,0 +1,26 @@
+.slidebox-item{
+	border-bottom:1px solid rgb(200,200,200);
+}
+	.slidebox-upload{
+		position:relative;
+		float:right;
+		width:19%;
+		text-align:center;
+		overflow:hidden;
+	}
+
+	.slidebox-file{
+		position:absolute;
+		font-size:30px;
+		right:-10px;
+		bottom:-10px;
+		opacity:0;
+		cursor:pointer;
+	}
+	.slidebox-del{
+		float:right;
+		color:red !important;
+	}
+	.slidebox-img-url{
+		width:80%;
+	}

@@ -2,7 +2,7 @@
 /** 
  * sign
  */
-theme_custom_sign::init();
+//theme_custom_sign::init();
 class theme_custom_sign{
 	public static $iden = 'theme_custom_sign';
 	public static $page_slug = 'sign';
