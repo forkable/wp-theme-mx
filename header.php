@@ -1,6 +1,6 @@
 <!DOCTYPE html><html <?php language_attributes(); ?>><head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-	<title><?php echo class_exists('theme_seo_plus') ? theme_seo_plus::wp_title( '-', false, 'right' ) : wp_title( '-', false, 'right' );?></title>
+	<title><?php wp_title(' - ',true,'right');?></title>
 	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
 	<meta name="renderer" content="webkit" />
 	<meta name="viewport" content="width=device-width" />
@@ -16,7 +16,7 @@
 	<?php wp_head();?>
 </head>
 <body <?php body_class(); ?>>
-<div class="top-bar-container nav-bar">
+<div class="top-bar-container nav-bar navbar-default">
 	<div class="top-bar container">
 		<div class="top-bar-menu-container nav navbar-nav navbar-left">
 			<?php
@@ -35,13 +35,13 @@
 			?>
 		</div>
 		<div class="top-bar-tools navbar-right">
-			<div class="btn-group btn-group-xs">
-				<?php
-				/**
-				 * if user logged
-				 */
-				if(is_user_logged_in()){
-					?>
+			<?php
+			/**
+			 * if user logged
+			 */
+			if(is_user_logged_in()){
+				?>
+				<div class="btn-group btn-group-xs">
 					<!-- ctb -->
 					<?php if(method_exists('theme_custom_ctb','get_url')){ ?>
 						<a href="<?php echo esc_url(theme_custom_ctb::get_url());?>" class="btn btn-primary meta tool-contribution">
@@ -79,7 +79,7 @@
 			 */
 			}else{
 				?>
-				<div class="btn-group btn-group-sm">
+				<div class="btn-group btn-group-xs">
 					<a class="sign-in sign-in-meta btn btn-primary" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
 						<i class="fa fa-user"></i>
 						<?php echo ___('Login');?>
@@ -106,7 +106,7 @@
 					}
 				?>
 				</div>
-				<div class="sign-up-container meta btn-group">
+				<div class="sign-up-container meta btn-group btn-group-xs">
 					<a class="sign-up meta btn btn-success" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
 						<i class="fa fa-user-plus"></i>
 						<?php echo ___('Register');?>
@@ -136,17 +136,26 @@ if(get_header_image()){ ?>
 
 
 <div class="menu-header-container">
-	<div class=" navbar navbar-default">
+	<div class="navbar navbar-default">
 		<div class="container">
 			<div class="navbar-header">
-				<a href="javascript:void(0);" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-menu">
-					<i class="fa fa-bars"></i>
-					<?php echo ___('Navigation menu');?>
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".menu-header">
+	                <span class="sr-only"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	            </button>
+	            <a href="<?php echo home_url();?>" class="navbar-brand">
+					<?php echo get_bloginfo('name');?>
 				</a>
+				<div class="visible-xs">
+					<a class="mx-navbar-toggle" href="javascript:void(0);" data-toggle="collapse" data-target=".navbar-collapse-form">
+						<i class="fa fa-search"></i>
+					</a>
+				</div>
+					
 				
-				
-			</div>
-			<div class="navbar-collapse navbar-left collapse navbar-collapse-menu">
+			</div><!-- /.navbar-header -->
 			<?php
 			/** 
 			 * menu menu-header
@@ -154,24 +163,24 @@ if(get_header_image()){ ?>
 			wp_nav_menu(array(
 	            'theme_location'    => 'menu-header',
 	            'container'         => 'nav',
-	            'container_class'   => 'menu-header collapse navbar-collapse',
+	            'container_class'   => 'menu-header navbar-left navbar-collapse collapse',
 	            'menu_class'        => 'menu nav navbar-nav',
 	            'menu_id' 			=> 'menu-header',
 	            'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
 	            'walker'            => new wp_bootstrap_navwalker
 	       	));
 			?>
-			</div>
-
-			
-			<form class="navbar-form navbar-right" role="search" action="/search" method="get">
-	            <div class="input-group">
-	                <input name="s" class="form-control input-sm" placeholder="<?php echo ___('Keywords');?>" value="<?php echo esc_attr(get_search_query())?>" type="search">
-	                <span class="input-group-btn">
-	                    <button class="btn btn-default btn-sm" type="submit"><i class="fa fa-search"></i></button>
-	                </span>
-	            </div>
-	        </form>		
+	
+			<div class="collapse navbar-collapse navbar-right navbar-collapse-form mx-navbar-form">
+				<form class="navbar-form" role="search" action="" method="get">
+		            <div class="input-group">
+		                <input name="s" class="form-control input-sm" placeholder="<?php echo ___('Keywords');?>" value="<?php echo esc_attr(get_search_query())?>" type="search">
+		                <span class="input-group-btn">
+		                    <button class="btn btn-default btn-sm" type="submit"><i class="fa fa-search"></i></button>
+		                </span>
+		            </div>
+		        </form>		
+	    	</div>
 		</div>
 	</div>
 </div>

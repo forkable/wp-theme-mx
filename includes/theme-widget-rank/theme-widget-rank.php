@@ -18,8 +18,6 @@ class widget_rank extends WP_Widget{
 		);
 	}
 	public static function frontend_display($args,$instance){
-		// var_dump($args);
-		// var_dump($instance);
 		$instance_defaults = array(
 			'title' => ___('Posts rank'),
 			'posts_per_page' => 6,
@@ -29,27 +27,28 @@ class widget_rank extends WP_Widget{
 			'content_type' => 'tx',
 		);
 		$instance = wp_parse_args($instance,$instance_defaults);
-		// var_dump($instance);
-		global $wp_query,$post;
-		
-		?>
-		
-		<h3 class="widget-title">
-			<?php if(isset($instance['category__in'][0])){ ?>
-				<a class="link" href="<?php echo get_category_link($instance['category__in'][0]);?>" title="<?php echo esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>" target="_blank"><span class="icon-bars"></span><span class="after-icon"><?php echo esc_html($instance['title']);?></span></a>
-				<a href="<?php echo get_category_link($instance['category__in'][0]);?>" title="<?php echo esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>" target="_blank" class="more"><?php echo esc_html(___('More &raquo;'));?></a>
-			<?php }else{ ?>
-				<span class="icon-bars"></span><span class="after-icon"><?php echo esc_html($instance['title']);?></span>
-			<?php } ?>
-		</h3>
+		echo $args['before_title'];
+		if(isset($instance['category__in'][0])){ ?>
+			<a class="link" href="<?php echo get_category_link($instance['category__in'][0]);?>" title="<?php echo esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>">
+				<i class="fa fa-bar-chart"></i> 
+				<?php echo esc_html($instance['title']);?>
+			</a>
+			<a href="<?php echo get_category_link($instance['category__in'][0]);?>" title="<?php echo esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>" class="more"><?php echo esc_html(___('More &raquo;'));?></a>
+		<?php }else{ ?>
+			<i class="fa fa-bar-chart"></i> 
+			<?php echo esc_html($instance['title']);?>
+		<?php } ?>
 		<?php
+		echo $args['after_title'];
+		
+		global $wp_query,$post;
 		$wp_query = theme_functions::get_posts_query(array(
 			'category__in' => (array)$instance['category__in'],
 			'posts_per_page' => (int)$instance['posts_per_page'],
 			'date' => $instance['date'],
 			'orderby' => $instance['orderby'],
 		));
-		$content_type_class = $instance['content_type'] === 'tx' ? ' post-tx-lists ' : ' post-img-lists ';
+		$content_type_class = $instance['content_type'] === 'tx' ? ' post-tx-lists ' : ' post-mixed-lists ';
 		/** 
 		 * set container tag
 		 */

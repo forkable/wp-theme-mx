@@ -2,9 +2,8 @@ define(function(require, exports, module){
 	'use strict';
 	var $ = require('modules/jquery'),
 		jQuery = $,
-		dialog = require('modules/jquery.dialog'),
+		uploader = require('modules/uploader'),
 		tools = require('modules/tools');
-	require('modules/jquery.filedrop');
 	exports.init = function(){
 		jQuery(document).ready(function(){
 			exports.bind();
@@ -46,62 +45,57 @@ define(function(require, exports, module){
 		/** 
 		 * bind upload event
 		 */
-		var upload = new exports.file();
-		upload.$item = exports.cache.$item;
-		upload.init();
+		exports.cache.$item.each(function(){
+			exports.file({
+				$item : $(this)
+			});
+		});
+
 		
 	}
-	exports.file = function(){
-		this.$item = '';
-		
-		this.init = function(){
-			var $item = this.$item,
-				$file = $item.find('.slidebox-file'),
-				$area = $item.find('.slidebox-upload-area'),
-				$tip = $item.find('.slidebox-upload-tip'),
-				$url = $item.find('.slidebox-img-url');
-			$file.filedrop({
-				fallback_id : $file[0].id,
-				url : exports.config.process_url,
-				paramname : 'img',
-				uploadStarted : function(i, file, len){
-					$area.hide();
-					$tip.html(tools.status_tip('loading',exports.config.lang.M00001)).show();
-				},
-				uploadFinished: function(i, file, data, time) {
-					if(data && data.status === 'success'){
-						$url.val(data.url);
-						$tip.html(tools.status_tip('success',data.msg));
-					}else if(data && data.status === 'error'){
-						$tip.html(tools.status_tip('error',data.msg));
-					}else{
-						$tip.html(tools.status_tip('error',data.msg));
-					}
-					$area.show();
-					$file.val('');
-				},
-				error: function(err, file, i){
-					$tip.html(tools.status_tip('error',err));
-					$area.show();
-					$file.val('');
+	exports.file = function(args){
+		var that = this,
+			$item = args.$item,
+			$file = $item.find('.slidebox-file'),
+			$area = $item.find('.slidebox-upload-area'),
+			$tip = $item.find('.slidebox-upload-tip'),
+			$url = $item.find('.slidebox-img-url');
+		var upload = new uploader.init({
+			url : exports.config.process_url,
+			$file : $file,
+			paramname : 'img',
+			onstart : function(i,file,count){
+				$area.hide();
+				$tip.html(tools.status_tip('loading',exports.config.lang.M00001)).show();
+			},
+			onalways : function(data,i,file,count) {
+				if(data && data.status === 'success'){
+					$url.val(data.url);
+					$tip.html(tools.status_tip('success',data.msg));
+				}else if(data && data.status === 'error'){
+					$tip.html(tools.status_tip('error',data.msg));
+				}else{
+					$tip.html(tools.status_tip('error',exports.config.lang.E00001));
 				}
-			});
-		}
+				$area.show();
+				$file.val('');
+			}
+		});
 	}
 	exports.event_add = function($add){
 		$add.on('click',function(){
-			var tpl = exports.config.tpl.replace(exports.config.placeholder_pattern,exports.get_next_id_number());
-			exports.cache.$new_item = $(tpl).hide();
-			exports.event_del(exports.cache.$new_item.find('.slidebox-del'));
+			var tpl = exports.config.tpl.replace(exports.config.placeholder_pattern,exports.get_next_id_number()),
+				$new_item = $(tpl).hide();
+			exports.event_del($new_item.find('.slidebox-del'));
 			/** 
 			 * bind upload event
 			 */
-			var upload = new exports.file();
-			upload.$item = exports.cache.$new_item;
-			upload.init();
+			exports.file({
+				$item : $new_item
+			});
 			
-			exports.cache.$control_box.before(exports.cache.$new_item);
-			exports.cache.$new_item.fadeIn().find('input').eq(0).focus();
+			exports.cache.$control_box.before($new_item);
+			$new_item.fadeIn().find('input').eq(0).focus();
 			
 		});
 	}
@@ -133,24 +127,4 @@ define(function(require, exports, module){
 		return tpl;
 		
 	}
-	
-	exports.dialog = function(args){
-		args.quickClose = true;
-		var set_content = function(){
-			if(args.id){
-				dialog.get(args.id).content(args.content).show(exports.cache.$current_btn[0]);
-			}else{
-				exports.cache.dialog.content(args.content).show(exports.cache.$current_btn[0]);
-			}
-		},
-		retry_set = function(){
-			exports.cache.dialog = dialog(args).show(exports.cache.$current_btn[0]);
-		};
-		try{
-			set_content();
-		}catch(e){
-			retry_set();
-		}
-	}
-	
 });

@@ -11,7 +11,7 @@ theme_custom_slidebox::init();
 class theme_custom_slidebox{
 	public static $iden = 'theme_custom_slidebox';
 	public static $file_exts = array('png','jpg','gif');
-	public static $image_size = array(500,300,true);
+	public static $image_size = array(368,230,true);
 	public static function init(){
 		add_action('after_backend_tab_init',get_class() . '::js_backend'); 
 		add_action('backend_css',get_class() . '::backend_css'); 
@@ -217,63 +217,79 @@ class theme_custom_slidebox{
 		$boxes = (array)theme_options::get_options(self::$iden);
 	
 		$cache_id = md5(serialize($boxes));
-		$cache = theme_cache::get($cache_id);
-		if($cache){
-			echo $cache;
-			return;
-		}
+		//$cache = theme_cache::get($cache_id);
+		//if($cache){
+		//	echo $cache;
+		//	return;
+		//}
 		
+		if(is_null_array($boxes) || count($boxes) < 2) return false;
 		krsort($boxes);
-		if(is_null_array($boxes)) return false;
 		ob_start();
 		?>
-		<div id="slidebox-ready" class="hidden-xs"><?php echo status_tip('loading','middle',___('Loading silde-box...'));?></div>
-		<div id="slidebox" class="hidden-xs">
+		<div id="slidebox" class="carousel slide">
+		<ol class="carousel-indicators">
+			<?php for($len=count($boxes),$i=0;$i<$len;$i++){ ?>
+				<li data-target="#slidebox" data-slide-to="<?php echo $i; ?>" class="<?php echo $i==0?'active':null;?>"></li>
+			<?php } ?>
+		</ol>
+		<div class="carousel-inner">
 			<?php
+			$i = 0;
 			foreach($boxes as $k => $v){
 				$rel_nofollow = isset($v['rel']['nofollow']) ? ' rel="nofollow" ' : null;
 				$target_blank = isset($v['target']['blank']) ? ' target="blank" ' : null;
 				?>
 				<a 
+					class="item <?php echo $i==0?'active':null;?>"
 					href="<?php echo esc_url($v['link-url']);?>" 
 					title="<?php echo esc_attr($v['title']);?>"
 					<?php echo $rel_nofollow;?>
 					<?php echo $target_blank;?>
 				>
-					<img src="<?php echo esc_url($v['img-url']);?>" alt="<?php echo esc_attr($v['title']);?>" width="<?php echo self::$image_size[0];?>" height="<?php echo self::$image_size[1];?>"/>
-					<div class="bg">
-					
-						<h3>
-							<?php echo esc_html($v['title']);?>
-							<?php if(isset($v['subtitle']) && !empty($v['subtitle'])){ ?>
-								<small><?php echo esc_html($v['subtitle']);?></small>
-							<?php } ?>
-						</h3>
-						<?php
-						if(isset($v['catids']) && is_array($v['catids'])){
-							?>
-							<div class="cats">
+					<div class="fill" style="background-image:url('<?php echo esc_url($v['img-url']);?>');">
+		                <div class="carousel-caption">
+		                    <h2>
+			                    <?php echo esc_html($v['title']);?>
+								<?php if(isset($v['subtitle']) && !empty($v['subtitle'])){ ?>
+									<small><?php echo esc_html($v['subtitle']);?></small>
+								<?php } ?>
+			                </h2>
 							<?php
-							foreach($v['catids'] as $catid){
-								$cat_name = get_cat_name($catid);
-								if(class_exists('theme_colorful_cats')){
-									$cat_colors = theme_options::get_options(theme_colorful_cats::$iden);
-									$cat_color = isset($cat_colors[$catid]) ? $cat_colors[$catid] : '0c94d7';
-								}else{
-									$cat_color = '0c94d7';
-								}
+							if(isset($v['catids']) && is_array($v['catids'])){
 								?>
-								<span class="cat" style="background-color:#<?php echo $cat_color;?>"><?php echo esc_html($cat_name);?></span>
+								<div class="cats">
+									<?php
+									foreach($v['catids'] as $catid){
+										$cat_name = get_cat_name($catid);
+										if(class_exists('theme_colorful_cats')){
+											$cat_colors = theme_options::get_options(theme_colorful_cats::$iden);
+											$cat_color = isset($cat_colors[$catid]) ? $cat_colors[$catid] : '0c94d7';
+										}else{
+											$cat_color = '0c94d7';
+										}
+										?>
+										<span class="cat" style="background-color:#<?php echo $cat_color;?>"><?php echo esc_html($cat_name);?></span>
+									<?php } ?>
+								</div>
 							<?php } ?>
-							</div>
-						<?php } ?>
-					</div><!-- /.bg -->
+						</div>
+	            	</div>
 				</a>
-				<?php
-			}
+				<?php 
+				$i++;
+			} 
 			?>
-			
+		</div>
 
+        <!-- Controls -->
+        <a class="left carousel-control" href="#slidebox" data-slide="prev">
+            <span class="icon-prev"></span>
+        </a>
+        <a class="right carousel-control" href="#slidebox" data-slide="next">
+            <span class="icon-next"></span>
+        </a>
+        
 		</div>
 		<?php
 		$cache = html_compress(ob_get_contents());

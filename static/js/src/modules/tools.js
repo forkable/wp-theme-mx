@@ -1,7 +1,7 @@
 define(function(require, exports, module){
 	var $ = require('modules/jquery'),jQuery = $;
 	
-	
+	exports.$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? $('html') : $('body');
 	/**
 	 * validate
 	 *
@@ -262,31 +262,31 @@ define(function(require, exports, module){
 		
 			switch(type){
 				case 'success':
-					icon = 'checkmark-circle';
+					icon = 'check-circle';
 					break;
 				case 'error' :
-					icon = 'cancel-circle';
+					icon = 'times-circle';
 					break;
 				case 'info':
 				case 'warning':
-					icon = 'warning';
+					icon = 'exclamation-circle';
 					break;
 				case 'question':
 				case 'help':
-					icon = 'help';
+					icon = 'question-circle';
 					break;
 				case 'ban':
-					icon = 'minus';
+					icon = 'minus-circle';
 					break;
 				case 'loading':
 				case 'spinner':
-					icon = 'spinner';
+					icon = 'circle-o-notch';
 					break;
 				default:
 					icon = type;
 			}
 
-			var tpl = '<' + wrapper + ' class="tip-status tip-status-' + size + ' tip-status-' + type + '"><span class="icon-' + icon + '"></span><span class="after-icon">' + content + '</span></' + wrapper + '>';
+			var tpl = '<' + wrapper + ' class="tip-status tip-status-' + size + ' tip-status-' + type + '"><i class="fa fa-' + icon + '"></i> ' + content + '</' + wrapper + '>';
 			return tpl;
 	}
 

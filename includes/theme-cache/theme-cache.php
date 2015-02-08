@@ -226,10 +226,11 @@ class theme_cache{
 	 * @param mixed $data Cache contents
 	 * @param string $group Cache group
 	 * @return int $expire Cache expire time (s)
-	 * @version 2.0.1
+	 * @version 2.0.2
 	 * @author KM@INN STUDIO
 	 */
 	public static function set($key,$data,$group = '',$expire = 3600){
+		if(theme_dev_mode::is_enabled()) return false;
 		$key = self::build_key($key,$group);
 		$keys = (array)self::get('keys');
 		$keys_id = self::build_key('keys');
@@ -252,10 +253,15 @@ class theme_cache{
 	 * @param string $group Cache group
 	 * @param bool $force True to get cache forced
 	 * @return mixed
-	 * @version 2.0.0
+	 * @version 2.0.1
 	 * @author KM@INN STUDIO
 	 */
 	public static function get($key,$group = '',$force = false){
+		/**
+		 * if dev mode enabled, do NOT get data from cache
+		 */
+		if(theme_dev_mode::is_enabled()) return false;
+		
 		$key = self::build_key($key,$group);
 		if(wp_using_ext_object_cache()){
 			return wp_cache_get($key,$group);

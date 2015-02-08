@@ -1,2 +1,2 @@
-define(function(require,exports,module){var $=require('modules/jquery'),jQuery=$;require('modules/jquery.slides');exports.config={width:1000,height:400}
-exports.init=function(){$(document).ready(function(){var $slide=$('#slidebox');if(!$slide[0])return;$slide.slidesjs({width:exports.config.width,height:exports.config.height,navigation:false,play:{auto:true},callback:{loaded:function(number){$slide.show();$('#slidebox-ready').hide();}}})});}});
+define(function(require,exports,module){var $=require('modules/jquery'),jQuery=$;require('modules/bootstrap');exports.config={width:500,height:300}
+exports.init=function(){$(document).ready(function(){var $slide=$('#slidebox');if(!$slide[0])return;$slide.carousel({interval:5000})});}});

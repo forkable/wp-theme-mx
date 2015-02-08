@@ -295,7 +295,7 @@ function ___($text = null,$tdomain = null){
  * @example status_tip('error','content');
  * @example status_tip('error','big','content');
  * @example status_tip('error','big','content','span');
- * @version 2.0.0
+ * @version 2.0.1
  * @author KM@INN STUDIO
  */
 function status_tip(){
@@ -328,32 +328,32 @@ function status_tip(){
 
 	switch($type){
 		case 'success':
-			$icon = 'checkmark-circle';
+			$icon = 'check-circle';
 			break;
 		case 'error' :
-			$icon = 'cancel-circle';
+			$icon = 'times-circle';
 			break;
 		case 'info':
 		case 'warning':
-			$icon = 'warning';
+			$icon = 'exclamation-circle';
 			break;
 		case 'question':
 		case 'help':
-			$icon = 'help';
+			$icon = 'question-circle';
 			break;
 		case 'ban':
-			$icon = 'minus';
+			$icon = 'minus-circle';
 			break;
 		case 'loading':
 		case 'spinner':
-			$icon = 'spinner';
+			$icon = 'circle-o-notch';
 			break;
 		default:
 			$icon = $type;
 	}
 
 	
-	$tpl = '<' . $wrapper . ' class="tip-status tip-status-' . $size . ' tip-status-' . $type . '"><span class="icon-' . $icon . '"></span><span class="after-icon">' . $content . '</span></' . $wrapper . '>';
+	$tpl = '<' . $wrapper . ' class="tip-status tip-status-' . $size . ' tip-status-' . $type . '"><i class="fa fa-' . $icon . '"></i> ' . $content . '</' . $wrapper . '>';
 	return $tpl;
 }
 

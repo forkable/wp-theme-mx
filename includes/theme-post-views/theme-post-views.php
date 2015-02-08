@@ -2,7 +2,7 @@
 /*
 Feature Name:	Post Views
 Feature URI:	http://www.inn-studio.com
-Version:		1.2.0
+Version:		1.2.1
 Description:	Count the post views.
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -190,6 +190,16 @@ class theme_post_views{
 	}
 	public static function admin_css(){
 		?><style>.fixed .column-views{width:3em}</style><?php
+	}
+}
+if(!function_exists('get_the_views')){
+	function get_the_views($post_id = null){
+		return theme_post_views::display($post_id);
+	}
+}
+if(!function_exists('the_views')){
+	function the_views($post_id = null){
+		echo get_the_views($post_id);
 	}
 }
 ?>

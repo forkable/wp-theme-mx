@@ -16,7 +16,7 @@ class theme_functions{
 	public static $iden = 'mx';
 	public static $theme_edition = 1;
 	public static $theme_date = '2015-02-01 00:00';
-	public static $thumbnail_size ='thumbnail';
+	public static $thumbnail_size = array('thumbnail',150,150);
 	public static $comment_avatar_size = 60;
 	public static $cache_expire = 3600;
 	/** 
@@ -67,7 +67,8 @@ class theme_functions{
 		add_filter('use_default_gallery_style','__return_false');
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form' ) );
 		add_theme_support('post-thumbnails');
-		set_post_thumbnail_size(200, 150);
+		add_image_size(self::$thumbnail_size[0],self::$thumbnail_size[1],self::$thumbnail_size[2],true);
+		set_post_thumbnail_size(self::$thumbnail_size[1],self::$thumbnail_size[2]);
 		add_theme_support('title-tag');
 		/** 
 		 * query_vars
@@ -125,7 +126,7 @@ class theme_functions{
 				'name' 			=> ___('Footer widget area'),
 				'id'			=> 'widget-area-footer',
 				'description' 	=> ___('Appears on all page in the footer.'),
-				'before_widget' => '<div class="grid-25 tablet-grid-25 mobile-grid-100"><aside id="%1$s"><div class="widget %2$s">',
+				'before_widget' => '<div class="col-xs-12 col-sm-6 col-md-3"><aside id="%1$s"><div class="panel panel-default widget %2$s">',
 				'after_widget'		=> '</div></aside></div>',
 			),
 			array(
@@ -154,10 +155,10 @@ class theme_functions{
 				'name'				=> $v['name'],
 				'id'				=> $v['id'],
 				'description'		=> $v['description'],
-				'before_widget'		=> isset($v['before_widget']) ? $v['before_widget'] : '<aside id="%1$s"><div class="widget %2$s">',
+				'before_widget'		=> isset($v['before_widget']) ? $v['before_widget'] : '<aside id="%1$s"><div class="panel panel-default widget %2$s">',
 				'after_widget'		=> isset($v['after_widget']) ? $v['after_widget'] : '</div></aside>',
-				'before_title'		=> isset($v['before_title']) ? $v['before_title'] : '<h3 class="widget-title">',
-				'after_title'		=> isset($v['after_title']) ? $v['after_widget'] : '</h3>',
+				'before_title'		=> isset($v['before_title']) ? $v['before_title'] : '<div class="panel-heading panel-heading-default mx-card-header clearfix"><h3 class="widget-title">',
+				'after_title'		=> isset($v['after_title']) ? $v['after_widget'] : '</h3></div>',
 			));
 		}
 	}
@@ -370,14 +371,35 @@ class theme_functions{
 		$classes[] = 'post-list post-img-list';
 		$post_title = get_the_title();
 
-		$excerpt = get_the_excerpt() ? ' - ' . get_the_excerpt() : null;
+		$excerpt = get_the_excerpt() ? get_the_excerpt() : null;
 
 		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 		?>
 		<li class="<?php echo esc_attr(implode(' ',$classes));?>">
-			<a class="post-list-bg" href="<?php echo get_permalink();?>">
-				<img class="post-list-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-original="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="150" height="150"/>
-			<h3 class="post-list-title" title="<?php echo esc_attr($post_title),esc_attr($excerpt);?>"><?php echo esc_html($post_title);?></h3>
+			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
+				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-original="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+				<div class="extra row">
+					<h3 class="post-list-title col-xs-12"><?php echo esc_html($post_title);?></h3>
+					<div class="metas">
+						<div class="author meta col-xs-12">
+							<i class="fa fa-user"></i>
+							<?php the_author();?>
+						</div>
+						
+						<?php if(function_exists('the_views')){ ?>
+							<div class="view meta col-xs-6">
+								<i class="fa fa-play-circle"></i>
+								<?php the_views();?>
+							</div>
+						<?php } ?>
+
+						<div class="comments meta col-xs-6">
+							<i class="fa fa-comment"></i>
+							<?php echo (int)$post->comment_count;?>
+						</div>
+					</div><!-- /.metas -->
+				</div>
+					
 			</a>
 		</li>
 		<?php
@@ -489,30 +511,87 @@ class theme_functions{
 		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 		?>
 		
-		<section <?php post_class($classes);?>>
+		<div <?php post_class($classes);?>>
 			<?php if(is_sticky()){ ?>
 				<div class="sticky-post" title="<?php echo esc_attr(___('Sticky post'));?>"></div>
 			<?php } ?>
 			<a class="post-list-bg" href="<?php echo get_permalink();?>">
-				<img class="post-list-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" data-original="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="150" height="150"/>
-				<div class="area-tx">
+				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-original="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+				<div class="caption area-tx">
 					<h3 class="post-list-title" title="<?php echo esc_attr($post_title);?>"><?php echo esc_html($post_title);?></h3>
-					<p class="excerpt" title="<?php echo esc_attr($excerpt);?>"><?php echo esc_html($excerpt);?></p>		
-					<div class="exten">
-						<div class="item"></div>
+					<p class="excerpt"><?php echo esc_html($excerpt);?></p>
+					<div class="row hide">
+						<?php if($show_views === true && function_exists('the_views')) { ?>
+							<div class="col-xs-6">
+								<i class="fa fa-play-circle"></i>
+								<?php the_views();?>
+							</div>
+						<?php } ?>
+						<?php if($show_comms === true) { ?>
+							<div class="col-xs-6">
+								<i class="fa fa-comment"></i>
+								<?php echo (int)$post->comment_count;?>
+							</div>
+						<?php } ?>
 					</div>
 				</div>
 			</a>
-		</section>
+			<div class="extra"></div>
+		</div>
 		<?php
 	}
 	public static function widget_rank_tx_content($args){
 		self::archive_tx_content($args);
 	}
 	public static function widget_rank_img_content(){
-		self::archive_img_content(array(
-			'classes' => array('grid-50 tablet-grid-50 mobile-grid-50')
-		));
+		global $post;
+		
+		$defaults = array(
+			'classes' => array('grid-50','tablet-grid-50','mobile-grid-50'),
+			'lazyload' => true,
+		);
+		$r = wp_parse_args($args,$defaults);
+		extract($r,EXTR_SKIP);
+
+		global $post;
+		$classes[] = 'post-list post-img-list';
+		$post_title = get_the_title();
+
+		$excerpt = get_the_excerpt() ? get_the_excerpt() : null;
+
+		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
+		?>
+		<li <?php post_class(array('media'));?>>
+			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
+				<div class="media-left">
+					<img class="media-object" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-original="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading"><?php the_title();?></h4>
+					<div class="extra row">
+						<div class="metas">
+							<div class="author meta col-xs-12">
+								<i class="fa fa-user"></i>
+								<?php the_author();?>
+							</div>
+							
+							<?php if(function_exists('the_views')){ ?>
+								<div class="view meta col-xs-6">
+									<i class="fa fa-play-circle"></i>
+									<?php the_views();?>
+								</div>
+							<?php } ?>
+
+							<div class="comments meta col-xs-6">
+								<i class="fa fa-comment"></i>
+								<?php echo (int)$post->comment_count;?>
+							</div>
+						</div><!-- /.metas -->
+					</div>					
+				</div>
+			</a>
+		</li>
+		<?php
 	}
 	public static function page_content($args = array()){
 		global $post;
@@ -562,7 +641,7 @@ class theme_functions{
 		global $post;
 		
 		$defaults = array(
-			'classes'			=> array('grid-100','tablet-grid-100','mobile-grid-100'),
+			'classes'			=> array(''),
 			'show_author' 		=> true,
 			'show_date' 		=> true,
 			'show_views' 		=> true,
@@ -578,77 +657,92 @@ class theme_functions{
 		/** 
 		 * classes
 		 */
-		$classes[] = 'singluar-post';
+		$classes[] = 'singluar-post panel panel-default';
 		?>
 		<article id="post-<?php the_ID();?>" <?php post_class($classes);?>>
-			<?php if(!empty($post_title)){ ?>
-				<h3 class="entry-title"><?php echo esc_html($post_title);?></h3>
-			<?php } ?>
-			<!-- author avatar -->
-			<header class="post-header post-metas">
-				<!-- category -->
-				<?php
-				$cats = get_the_category_list(', ');
-				if(!empty($cats)){
-					?>
-					<span class="post-meta post-category" title="<?php echo esc_attr(___('Category'));?>">
-						<span class="icon-folder"></span><span class="after-icon"><?php echo $cats;?></span>
-					</span>
+			<div class="panel-heading">
+				<?php if(!empty($post_title)){ ?>
+					<h3 class="entry-title panel-title"><?php echo esc_html($post_title);?></h3>
 				<?php } ?>
-				<!-- time -->
-				<time class="post-meta post-time" datetime="<?php echo esc_attr(get_the_time('Y-m-d H:i:s'));?>">
-					<span class="icon-clock"></span><span class="after-icon"><?php echo esc_html(friendly_date((get_the_time('U'))));?></span>
-				</time>
-				<!-- author link -->
-				<a class="post-meta post-author" href="<?php echo get_author_posts_url(get_the_author_meta('ID'));?>" title="<?php echo esc_attr(sprintf(___('Views all post by %s'),get_the_author()));?>">
-					<span class="icon-user"></span><span class="after-icon"><?php the_author();?></span>
-				</a>
-				<!-- views -->
-				<?php if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
-					<span class="post-meta post-views" title="<?php echo esc_attr(___('Views'));?>">
-						<span class="icon-play"></span><span class="after-icon"><?php echo esc_html(theme_post_views::display());?></span>
-					</span>
-				<?php } ?>
-				<!-- edit link -->
-				<?php if(is_user_logged_in() && current_user_can('edit_post',$post->ID)){ ?>
-					<a href="<?php echo get_edit_post_link();?>" class="post-meta edit-post-link"><span class="icon-pencil"></span><span class="after-icon"><?php echo esc_html(___('Edit post'));?></span></a>
-				<?php } ?>
-				<!-- permalink -->
-				<a href="<?php echo get_permalink();?>" class="post-meta permalink" title="<?php echo esc_attr(___('Post link'));?>">
-					<span class="icon-link"></span><span class="after-icon"><?php echo esc_html(___('Post link'));?></span>
-				</a>
-			</header>
+				<header class="post-header post-metas clearfix">
+					
+					<!-- category -->
+					<?php
+					$cats = get_the_category_list('<i class="split"> / </i> ');
+					if(!empty($cats)){
+						?>
+						<span class="post-meta post-category" title="<?php echo esc_attr(___('Category'));?>">
+							<i class="fa fa-folder-open"></i>
+							<?php echo $cats;?>
+						</span>
+					<?php } ?>
+					
+					<!-- time -->
+					<time class="post-meta post-time" datetime="<?php echo esc_attr(get_the_time('Y-m-d H:i:s'));?>">
+						<i class="fa fa-clock-o"></i>
+						<?php echo esc_html(friendly_date((get_the_time('U'))));?>
+					</time>
+					<!-- author link -->
+					<a class="post-meta post-author" href="<?php echo get_author_posts_url(get_the_author_meta('ID'));?>" title="<?php echo esc_attr(sprintf(___('Views all post by %s'),get_the_author()));?>">
+						<i class="fa fa-user"></i>
+						<?php the_author();?>
+					</a>
+					<!-- views -->
+					<?php if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
+						<span class="post-meta post-views" title="<?php echo esc_attr(___('Views'));?>">
+							<i class="fa fa-play-circle"></i>
+							<?php echo esc_html(theme_post_views::display());?>
+						</span>
+					<?php } ?>
+					<!-- edit link -->
+					<?php if(is_user_logged_in() && current_user_can('edit_post',$post->ID)){ ?>
+						<a href="<?php echo get_edit_post_link();?>" class="post-meta edit-post-link">
+							<i class="fa fa-pencil-square"></i>
+							<?php echo esc_html(___('Edit post'));?>
+						</a>
+					<?php } ?>
+					<!-- permalink -->
+					<a href="<?php echo get_permalink();?>" class="post-meta permalink" title="<?php echo esc_attr(___('Post link'));?>">
+						<i class="fa fa-link"></i>
+						<?php echo esc_html(___('Post link'));?>
+					</a>
+
+				</header>
+			</div>
+
 			<!-- post-content -->
-			<div class="post-content content-reset">
+			<div class="post-content content-reset panel-body clearfix">
 				<?php the_content();?>
 			</div>
 			<?php echo theme_features::get_prev_next_pagination(array(
 				'numbers_class' => array('btn btn-primary')
 			));?>
+			
 			<?php
 			/** 
 			 * tags
 			 */
-			// self::the_post_tags();
 			$tags = get_the_tags();
 			if(!empty($tags)){
 				?>
-				<div class="post-tags">
-				<?php
-				foreach($tags as $tag){
-					?>
-					<a href="<?php echo get_tag_link($tag->term_id);?>" class="post-meta tag" title="<?php echo sprintf(___('Views all posts by %s tag'),esc_attr($tag->name));?>">
-						<span class="icon-tag"></span><span class="after-icon"><?php echo esc_html($tag->name);?></span>
-					</a>
+				<div class="post-tags btn-group btn-group-xs clearfix">
 					<?php
-				}
-				?>
+					foreach($tags as $tag){
+						?>
+						<a href="<?php echo get_tag_link($tag->term_id);?>" class="tag btn btn-default" title="<?php echo sprintf(___('Views all posts by %s tag'),esc_attr($tag->name));?>">
+							<i class="fa fa-tag"></i> 
+							<?php echo esc_html($tag->name);?>
+						</a>
+						<?php
+					}
+					?>
 				</div>
 				<?php
 			}
 			?>
+			
 			<!-- post-footer -->
-			<footer class="post-footer post-metas">
+			<footer class="post-footer post-metas panel-footer clearfix">
 				
 				<?php
 				/** 
@@ -656,26 +750,48 @@ class theme_functions{
 				 */
 				if(class_exists('theme_post_thumb') && theme_post_thumb::is_enabled()){
 					?>
-					<div class="post-thumb">
-						<a data-post-thumb="<?php echo $post->ID;?>,up" href="javascript:void(0);" class="post-meta theme-thumb theme-thumb-up" title="<?php echo ___('Good! I like it.');?>">
-							<span class="icon-thumbs-o-up"></span><span class="after-icon count"><?php echo theme_post_thumb::get_thumb_up_count();?></span>
-							 <span class="tx hide-on-mobile"><?php echo ___('Good');?></span>
+					<div class="post-thumb post-meta">
+						<a data-post-thumb="<?php echo $post->ID;?>,up" href="javascript:void(0);" class="theme-thumb theme-thumb-up" title="<?php echo ___('Good! I like it.');?>">
+							<i class="fa fa-thumbs-up"></i> 
+							<span class="count"><?php echo theme_post_thumb::get_thumb_up_count();?></span>
+							 <span class="tx hidden-xs"><?php echo ___('Good');?></span>
 						</a>
-						<a data-post-thumb="<?php echo $post->ID;?>,down" href="javascript:void(0);" class="post-meta theme-thumb theme-thumb-down" title="<?php echo ___('Bad idea!');?>">
-							<span class="icon-thumbs-o-down"></span><span class="after-icon count"><?php echo theme_post_thumb::get_thumb_down_count();?></span>
-							<span class="tx hide-on-mobile"><?php echo ___('Bad');?></span>
-						</a>
+						<!-- <a data-post-thumb="<?php echo $post->ID;?>,down" href="javascript:void(0);" class="theme-thumb theme-thumb-down" title="<?php echo ___('Bad idea!');?>">
+							<i class="fa fa-thumbs-down"></i> 
+							<span class="count"><?php echo theme_post_thumb::get_thumb_down_count();?></span>
+							<span class="tx hidden-xs"><?php echo ___('Bad');?></span>
+						</a> -->
 					</div>
 				
 				<?php } /** end thumb-up */ ?>
-				
+
+				<?php
+				/**
+				 * bookmark
+				 */
+				if(class_exists('theme_bookmark')){
+					$is_marked = theme_bookmark::is_marked($post->ID,get_current_user_id());
+					?>
+					<div class="post-meta post-bookmark">
+						<a 
+							href="javascript:void(0);" 
+							class="btn btn-primary <?php echo $is_marked ? 'marked' : null;?>" 
+							data-post-id="<?php echo $post->ID;?>"
+							
+						>
+							<i class="fa fa-heart"></i>
+							<?php echo (int)theme_bookmark::get_count($post->ID);?>
+						</a>
+					</div>
+				<?php } ?>
+
 				<?php
 				/** 
 				 * post-share
 				 */
 				if(class_exists('theme_post_share') && theme_post_share::is_enabled()){
 					?>
-					<div class="post-meta">
+					<div class="post-meta post-share">
 						<?php echo theme_post_share::display();?>
 					</div>
 					<?php
@@ -689,7 +805,8 @@ class theme_functions{
 				$comment_tx = $comment_count <= 1 ? ___('comment') : ___('comments');
 				?>
 				<a href="javascript:void(0);" class="post-meta quick-comment comment-count" data-post-id="<?php echo $post->ID;?>">
-					<span class="icon-comment"></span><span class="after-icon"><span class="comment-count-number"><?php echo esc_html($comment_count);?></span> <span class="hide-on-mobile"><?php echo esc_html($comment_tx);?></span></span>
+					<i class="fa fa-comment"></i>
+					<span class="comment-count-number"><?php echo esc_html($comment_count);?></span> <span class="hidden-xs"><?php echo esc_html($comment_tx);?></span>
 				</a>
 				
 			</footer>
@@ -748,14 +865,14 @@ class theme_functions{
 	public static function get_thumbnail_src($post_id = null,$size = null){
 		global $post;
 
-		$size = $size ? $size : self::$thumbnail_size;
+		$size = $size ? $size : self::$thumbnail_size[0];
 		$post_id = $post_id ? $post_id : $post->ID;
 		$src = null;
 		if(empty($src)){
 			$src = get_img_source(get_the_post_thumbnail($post_id,$size));
 		}
 		if(!$src){
-			$src = theme_features::get_theme_images_url('frontend/thumb-preview.png');
+			$src = theme_features::get_theme_images_url('frontend/thumb-preview.jpg');
 		}
 		return $src;
 	}
@@ -828,7 +945,7 @@ class theme_functions{
      * 
      * 
      * @return string The html code
-     * @version 2.0.4
+     * @version 2.0.5
      * @author KM@INN STUDIO
      * 
      */
@@ -844,8 +961,8 @@ class theme_functions{
 		$links = array();
     	if(is_home()) return null;
 		
-		$links['home'] = '<a href="' . home_url() . '" class="home" title="' .___('Back to Homepage'). '"><span class="icon-home"></span><span class="after-icon hide-on-mobile">' . esc_html(___('Home')) . '</span></a>';
-		$split = '<span class="split">&raquo;</span>';
+		$links['home'] = '<a href="' . home_url() . '" class="home" title="' .___('Back to Homepage'). '"><i class="fa fa-home"></i></a>';
+		$split = '<span class="split"><i class="fa fa-angle-right"></i></span>';
 		
     	/* category */
     	if(is_category()){
@@ -855,14 +972,14 @@ class theme_functions{
 				$links_cats = explode('%split%',$links_cat);
 				array_pop($links_cats);
 				$links['category'] = implode($split,$links_cats);
-				$links['curr_text'] = esc_html(___('Category Browser'));
+				//$links['curr_text'] = esc_html(___('Category Browser'));
 			}
     	/* tag */
     	}else if(is_tag()){
     		$tag_id = theme_features::get_current_tag_id();
 			$tag_obj = get_tag($tag_id);
     		$links['tag'] = '<a href="'. esc_url(get_tag_link($tag_id)).'">' . esc_html(theme_features::get_current_tag_name()).'</a>';
-    		$links['curr_text'] = esc_html(___('Tags Browser'));
+    		//$links['curr_text'] = esc_html(___('Tags Browser'));
     		/* date */
     	}else if(is_date()){
     		global $wp_query;
@@ -880,27 +997,27 @@ class theme_functions{
     			$date_link = get_year_link($year);
     		}
     		$links['date'] = '<a href="'.$date_link.'">' . esc_html(wp_title('',false)).'</a>';
-    		$links['curr_text'] = esc_html(___('Date Browser'));
+    		//$links['curr_text'] = esc_html(___('Date Browser'));
     	/* search*/
     	}else if(is_search()){
     		// $nav_link = null;
-    		$links['curr_text'] = esc_html(sprintf(___('Search Result: %s'),get_search_query()));
+    		//$links['curr_text'] = esc_html(sprintf(___('Search Result: %s'),get_search_query()));
 		/* author */
 		}else if(is_author()){
 			global $author;
 			$user = get_user_by('id',$author);
 			$links['author'] = '<a href="'.get_author_posts_url($author).'">'.esc_html($user->display_name).'</a>';
-			$links['curr_text'] = esc_html(___('Author posts'));
+			//$links['curr_text'] = esc_html(___('Author posts'));
     	/* archive */
     	}else if(is_archive()){
     		$links['archive'] = '<a href="'.get_current_url().'">'.wp_title('',false).'</a>';
-    		$links['curr_text'] = esc_html(___('Archive Browser'));
+    		//$links['curr_text'] = esc_html(___('Archive Browser'));
     	/* Singular */
     	}else if(is_singular()){
 			global $post;
 			/* The page parent */
 			if($post->post_parent){
-				$links['singluar'] = '<a href="' .get_page_link($post->post_parent). '">' .esc_html(get_the_title($post->post_parent)). '</a>';
+				//$links['singluar'] = '<a href="' .get_page_link($post->post_parent). '">' .esc_html(get_the_title($post->post_parent)). '</a>';
 			}
 			/**
 			 * post / page
@@ -915,7 +1032,7 @@ class theme_functions{
 					$links['singluar'] = '<a href="' . esc_html(get_category_link($cat->cat_ID)) . '" title="' . esc_attr(sprintf(___('View all posts in %s'),$cat->name)) . '">' . esc_html($cat->name) . '</a>';
 				}
     		}
-    		$links['curr_text'] = esc_html(get_the_title());
+    		//$links['curr_text'] = esc_html(get_the_title());
     	/* 404 */
     	}else if(is_404()){
     		// $nav_link = null;
@@ -961,7 +1078,7 @@ class theme_functions{
 			return $output;
 		}
 	}
-	
+	//public static function bs_
 	public static function get_theme_respond($args = null){
 		global $post,$current_user;
 		$defaults = array(
@@ -1024,13 +1141,13 @@ class theme_functions{
 						<ul class="comment-face-btns grid-parent grid-40 tablet-grid-40 mobile-grid-30">
 							<li class="btn grid-parent grid-50 tablet-grid-50 mobile-grid-50" data-faces="">
 								<a title="<?php echo esc_attr(___('Pic-face'));?>" href="javascript:void(0);" class="comment-face-btn">
-									<span class="icon-happy"></span><span class="after-icon hide-on-mobile"><?php echo esc_html(___('Pic-face'));?></span>
+									<span class="icon-happy"></span><span class="after-icon hidden-xs"><?php echo esc_html(___('Pic-face'));?></span>
 								</a>
 								<div class="comment-face-box type-image"></div>
 							</li>
 							<li class="btn grid-parent grid-50 tablet-grid-50 mobile-grid-50">
 								<a title="<?php echo esc_attr(___('Emoticons'));?>" href="javascript:void(0);" class="comment-face-btn">
-									<span class="icon-happy2"></span><span class="after-icon hide-on-mobile"><?php echo esc_html(___('Emoticons'));?></span>
+									<span class="icon-happy2"></span><span class="after-icon hidden-xs"><?php echo esc_html(___('Emoticons'));?></span>
 								</a>
 								<div class="comment-face-box type-text"><?php echo $a_content;?></div>
 							</li>
@@ -1300,6 +1417,116 @@ class theme_functions{
 		</nav>
 		<?php
 	}
+	public static function the_related_posts_plus($args_query = null){
+		global $wp_query,$post;
+		$defaults_query = array(
+			'posts_per_page' => 6,
+			'post__not_in' => array($post->ID),
+			'orderby' => 'latest',
+		);
+		$args_query = wp_parse_args($args_query,$defaults_query);
+		$content_args = array(
+			'classes' => array('col-xs-6 col-sm-4 col-md-2')
+		);
+		?>
+		<div class="related-posts panel panel-default" role="tabpanel">
+			<ul class="nav nav-tabs panel-heading" role="tablist">
+				<li role="presentation" class="active"><a href="#related-same-tag" aria-controls="related-same-tag" role="tab" data-toggle="tab">
+					<i class="fa fa-tag"></i> 
+					<?php echo ___('Same tag');?>
+				</a></li>
+				<li role="presentation"><a href="#related-same-cat" aria-controls="related-same-cat" role="tab" data-toggle="tab">
+					<i class="fa fa-folder-open"></i> 
+					<?php echo ___('Same category');?>
+				</a></li>
+				<li role="presentation"><a href="#related-same-author" aria-controls="related-same-author" role="tab" data-toggle="tab">
+					<i class="fa fa-user"></i> 
+					<?php echo ___('Same author');?>
+				</a></li>
+			</ul>
+
+			<div class="tab-content panel-body">
+				<div role="tabpanel" class="tab-pane active" id="related-same-tag">
+					<?php
+					$same_tag_query = $args_query;
+					$same_tag_query['tag__in'] = array_map(function($term){
+						return $term->term_id;
+					},get_the_tags());
+					$wp_query = self::get_posts_query($same_tag_query);
+					if(have_posts()){
+						?>
+						<ul class="row post-img-lists">
+							<?php
+							while(have_posts()){
+								the_post();
+								self::archive_img_content($content_args);
+							}
+						?>
+						</ul>
+					<?php 
+					}else{
+						echo status_tip('info',___('No data.'));
+					}
+					wp_reset_postdata();
+					?>
+				</div>
+
+				<div role="tabpanel" class="tab-pane" id="related-same-cat">
+					<?php
+					$same_cat_query = $args_query;
+					$same_cat_query['category__in'] = array_map(function($term){
+						return $term->term_id;
+					},get_the_category());
+					$wp_query = self::get_posts_query($same_cat_query);
+					if(have_posts()){
+						?>
+						<ul class="row post-img-lists">
+							<?php
+							while(have_posts()){
+								the_post();
+								self::archive_img_content($content_args);
+							}
+						?>
+						</ul>
+					<?php 
+					}else{
+						echo status_tip('info',___('No data.'));
+					}
+					wp_reset_postdata();
+					?>
+				</div>
+				<div role="tabpanel" class="tab-pane" id="related-same-author">
+					<?php
+					$author_query = $args_query;
+					$author_query['author'] = get_the_author_meta('ID');
+					$wp_query = self::get_posts_query($same_cat_query);
+					if(have_posts()){
+						?>
+						<ul class="row post-img-lists">
+							<?php
+							while(have_posts()){
+								the_post();
+								self::archive_img_content($content_args);
+							}
+						?>
+						</ul>
+					<?php 
+					}else{
+						echo status_tip('info',___('No data.'));
+					}
+					wp_reset_postdata();
+					wp_reset_query();
+					?>
+				</div>
+			</div>
+		</div>
+		<?php
+		/**
+		 * get same tags posts
+		 */
+		
+		
+	}
 	/** 
 	 * the_related_posts
 	 */
@@ -1319,7 +1546,7 @@ class theme_functions{
 		$posts = theme_related_post::get_posts($args_query);
 		if(!is_null_array($posts)){
 			?>
-			<ul class="related-posts-img">
+			<ul class="related-posts-img post-img-lists">
 				<?php
 				foreach($posts as $post){
 					setup_postdata($post);
@@ -1366,82 +1593,123 @@ class theme_functions{
 		$output .= theme_features::get_pagination($args);
 		return $output;
 	}
+	/**
+	 * the_recommended
+	 */
+	public static function the_recommended(){
+		$recomms = (array)theme_options::get_options(theme_recommended_post::$iden);
+		if(empty($recomms)) return false;
+		$cache_id = md5(serialize($recomms));
+		$cache = theme_cache::get($cache_id);
+		if(!empty($cache)){
+			echo $cache;
+			return $cache;
+		}
+		global $post,$wp_query;
+		$wp_query = self::get_posts_query(array(
+			'posts_per_page' => 8,
+			'orderby' => 'recomm',
+		));
+		ob_start();
+		if(have_posts()){
+			?>
+			<ul class="home-recomm row post-img-lists">
+				<?php
+				while(have_posts()){
+					the_post();
+					self::archive_img_content(array(
+						'classes' => array('col-sm-4')
+					));
+				}
+				?>
+			</ul>
+			<?php
+		}else{
+			
+		}
+		$cache = ob_get_contents();
+		ob_end_clean();
+		theme_cache::set($cache_id,null,$cache);
+		wp_reset_query();
+		wp_reset_postdata();
+		echo $cache;
+		return $cache;
+	}
+	public static function the_homebox($args = null){
+		if(!class_exists('theme_custom_homebox')) return false;
+		$opt = (array)theme_options::get_options(theme_custom_homebox::$iden);
+		if(empty($opt)) return false;
+		global $wp_query,$post;
+		foreach($opt as $k => $v){
+			?>
+<div class="homebox panel panel-default mx-card">
+	
+	<div class="panel-heading mx-card-header clearfix">
+		<h3 class="pull-left">
+			<?php 
+			if(empty($v['link'])){
+				echo $v['title'];
+			}else{
+				?>
+				<a href="<?php echo esc_url($v['link']);?>"><?php echo $v['title'];?> <small class="hidden-xs"><?php echo ___('&raquo; more');?></small></a>
+				<?php
+			}
+			?>
+		</h3>
+		<div class="mx-card-header-extra pull-right">
+			<div class="keywords btn-group">
+				<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){ ?>
+					<a class="" href="<?php echo esc_url($kw['url']);?>">
+						<?php echo $kw['name'];?>
+					</a>
+				<?php } ?>
+			</div>
+			<div class="nplink btn-group btn-group-xs">
+				<a 
+					title="<?php echo ___('Preview page');?>"
+					href="javascript:void(0);" 
+					class="btn btn-default preview disabled" 
+					data-cat-id="<?php echo implode(',',$v['cats']);?>"
+					data-paged="1"
+				><i class="fa fa-caret-left"></i></a>
+				<a 
+					title="<?php echo ___('Next page');?>"
+					href="javascript:void(0);" 
+					class="btn btn-default next" 
+					data-cat-id="<?php echo implode(',',$v['cats']);?>"
+					data-paged="1"
+				><i class="fa fa-caret-right"></i></a>
+			</div>
+			
+		</div>
+	</div>
+	<div class="row mx-card-body post-mixed-list-container">
+		<?php
+		$wp_query = self::get_posts_query(array(
+			'orderby' => 'lastest',
+			'category__in' => $v['cats'],
+			'posts_per_page' => 12
+		));
+		if(have_posts()){
+			while(have_posts()){
+				the_post();
+				self::archive_content(array(
+					'classes' => array('col-lg-6 col-md-6 col-xs-6 col-sm-12')
+				));
+			}
+		}else{
+			
+		}
+		wp_reset_postdata();
+		wp_reset_query();
+		?>
+	</div>
+</div>
+	<?php
+		} /** end foreach */
+	}
 }
 
-class bs_nav_menu_walker extends Walker {
-	public $tree_type = array( 'post_type', 'taxonomy', 'custom' );
-
-	public $db_fields = array( 'parent' => 'menu_item_parent', 'id' => 'db_id' );
-
-	public function start_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "\n$indent<ul class=\"sub-menu dropdown-menu\">\n";
-	}
-
-	public function end_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "$indent</ul>\n";
-	}
-
-	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
-		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
-		$classes[] = 'menu-item-' . $item->ID;
-		
-		if ( $args->has_children ) {
-			$class_names = "dropdown ";
-		}
-		
-		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
-
-		if(strpos($class_names,'current') !== false)
-			$class_names .= ' pure-menu-selected';
-
-		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
-
-		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args, $depth );
-		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
-
-		$output .= $indent . '<li' . $id . $class_names .'>';
-
-		$atts = array();
-		$atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
-		$atts['target'] = ! empty( $item->target )     ? $item->target     : '';
-		$atts['rel']    = ! empty( $item->xfn )        ? $item->xfn        : '';
-		$atts['href']   = ! empty( $item->url )        ? $item->url        : '';
-		$atts['class']   = $args->has_children        ? 'dropdown-toggle'        : '';
-		$atts['data-toggle']   = $args->has_children        ? 'dropdown'        : '';
-		
-
-		$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
-
-		$attributes = '';
-		foreach ( $atts as $attr => $value ) {
-			if ( ! empty( $value ) ) {
-				$value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
-				$attributes .= ' ' . $attr . '="' . $value . '"';
-			}
-		}
-
-		$item_output = $args->before;
-		$item_output .= '<a'. $attributes .'>';
-		/** This filter is documented in wp-includes/post-template.php */
-		$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
-		
-		if ( $args->has_children ) 
-    		$item_output .= '<b class="caret"></b>';
-    		
-		$item_output .= '</a>';
-		$item_output .= $args->after;
-
-	$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
-	}
-
-	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
-		$output .= "</li>\n";
-	}
-
-} // Walker_Nav_Menu
 /**
 * Class Name: wp_bootstrap_navwalker
 * GitHub URI: https://github.com/twittem/wp-bootstrap-navwalker
