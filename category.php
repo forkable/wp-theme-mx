@@ -1,42 +1,35 @@
 <?php get_header();?>
-<div class="container grid-container">
-		
-	<div id="main" class="main grid-70 tablet-grid-70 mobile-grid-100">
-		
-		
-		<dl class="mod mod-mixed">
-			<dt class="hide"><?php echo esc_html(single_cat_title('',false));?></dt>
-			<dd class="mod-title"><?php echo theme_functions::get_crumb();?></dd>
-			<?php if($paged > 1){ ?>
-				<dd>
-					<div class="area-pagination">
-						<?php echo theme_functions::get_post_pagination('posts-pagination posts-pagination-top');?>
-					</div>
-				</dd>
-			<?php } ?>
-			<dd class="mod-body">
-				<?php
-				if(have_posts()){
-					while(have_posts()){
-						the_post();
-						theme_functions::archive_content(array(
-							'classes' => array('grid-parent grid-50 tablet-grid-50 mobile-grid-100')
-						));
+<div class="container">
+	<?php echo theme_functions::get_crumb();?>
+	<div class="row">
+		<div id="main" class="col-md-9 col-sm-12">
+			<div class="panel panel-default mx-panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<i class="fa fa-folder-open"></i> 
+						<?php echo sprintf(___('Current browsing: %s'),'<a href="' . get_category_link(theme_features::get_current_cat_id()) . '"><strong>' . single_cat_title(null,false) . '</strong></a>');?>
+					</h3>
+				</div>
+				<div class="panel-body row mx-card-body post-mixed-list-container">
+					<?php
+					if(have_posts()){
+						while(have_posts()){
+							the_post();
+							theme_functions::archive_content(array(
+								'classes' => array('col-lg-6 col-md-6 col-sm-12 col-xs-12')
+							));
+						}
 						?>
-						
-						<?php
-					}/** end while */
-	
-				}else{/** end have_posts */
-					echo status_tip('info',___('No data yet.'));
-				}
-				?>
-				
-			</dd>
-		</dl>
-		<div class="area-pagination">
-			<?php echo theme_functions::get_post_pagination('posts-pagination posts-pagination-bottom');?>
-		</div>
+						<div class="area-pagination">
+							<?php echo theme_functions::get_post_pagination('posts-pagination posts-pagination-bottom');?>
+						</div>
+					<?php }else{ ?>
+
+					<?php } ?>
+				</div>
+			</div>
+		</div><!-- /#main -->
+		<?php get_sidebar() ;?>
 	</div>
 	
 	<?php get_sidebar();?>

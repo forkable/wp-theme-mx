@@ -2,7 +2,7 @@
 /** 
  * sign
  */
-//theme_custom_sign::init();
+theme_custom_sign::init();
 class theme_custom_sign{
 	public static $iden = 'theme_custom_sign';
 	public static $page_slug = 'sign';
@@ -21,6 +21,7 @@ class theme_custom_sign{
 		add_filter('show_admin_bar', 		get_class() . '::action_show_admin_bar');
 		add_filter('login_url', 			get_class() . '::filter_wp_login_url',10,2);
 		add_filter('register_url', 			get_class() . '::filter_wp_registration_url');
+		add_filter('wp_title',				get_class() . '::wp_title',10,2);
 	}
 	
 	public static function filter_login_headerurl($login_header_url){
@@ -77,14 +78,14 @@ class theme_custom_sign{
 			),
 			'register' => array(
 				'text' => ___('Register'),
-				'icon' => 'user-add',
+				'icon' => 'user-plus',
 				'url' => add_query_arg(array(
 					'tab' => 'register'
 				),$baseurl),
 			),
 			'recover' => array(
 				'text' => ___('Recover password'),
-				'icon' => 'help',
+				'icon' => 'key',
 				'url' => add_query_arg(array(
 					'tab' => 'recover'
 				),$baseurl),
@@ -100,6 +101,7 @@ class theme_custom_sign{
 		if(is_page(self::$page_slug) && is_user_logged_in()){
 			$redirect = get_query_var('redirect');
 			$redirect ? wp_redirect($redirect) : wp_redirect(home_url());
+			die();
 		}
 	}
 	public static function page_create(){
@@ -131,6 +133,17 @@ class theme_custom_sign{
 			}
 			// self::$pages[$k] = $page;
 		}
+	}
+	public static function wp_title($title, $sep){
+		if(is_user_logged_in() || !is_page(self::$page_slug)) return $title;
+		$tab_active = get_query_var('tab');
+		$tabs = self::get_tabs();
+		if(!empty($tab_active) && isset($tabs[$tab_active])){
+			$title = $tabs[$tab_active]['text'];
+		}else{
+			$title = $tabs['login']['text'];
+		}
+		return $title . $sep . get_bloginfo('name');
 	}
 	public static function process(){
 		$output = array();

@@ -16,7 +16,7 @@ class theme_functions{
 	public static $iden = 'mx';
 	public static $theme_edition = 1;
 	public static $theme_date = '2015-02-01 00:00';
-	public static $thumbnail_size = array('thumbnail',150,150);
+	public static $thumbnail_size = array('thumbnail',300,300);
 	public static $comment_avatar_size = 60;
 	public static $cache_expire = 3600;
 	/** 
@@ -155,9 +155,9 @@ class theme_functions{
 				'name'				=> $v['name'],
 				'id'				=> $v['id'],
 				'description'		=> $v['description'],
-				'before_widget'		=> isset($v['before_widget']) ? $v['before_widget'] : '<aside id="%1$s"><div class="panel panel-default widget %2$s">',
+				'before_widget'		=> isset($v['before_widget']) ? $v['before_widget'] : '<aside id="%1$s"><div class="panel panel-default mx-panel widget %2$s">',
 				'after_widget'		=> isset($v['after_widget']) ? $v['after_widget'] : '</div></aside>',
-				'before_title'		=> isset($v['before_title']) ? $v['before_title'] : '<div class="panel-heading panel-heading-default mx-card-header clearfix"><h3 class="widget-title">',
+				'before_title'		=> isset($v['before_title']) ? $v['before_title'] : '<div class="panel-heading panel-heading-default mx-panel-heading clearfix"><h3 class="widget-title panel-title">',
 				'after_title'		=> isset($v['after_title']) ? $v['after_widget'] : '</h3></div>',
 			));
 		}
@@ -267,7 +267,7 @@ class theme_functions{
 		
 		return $wp_query;
 	}
-	public static function get_posts_query($args){
+	public static function get_posts_query($args,$query_args = null){
 		global $paged;
 		$options = theme_options::get_options();
 		$defaults = array(
@@ -281,7 +281,7 @@ class theme_functions{
 		);
 		$r = wp_parse_args($args,$defaults);
 		extract($r);
-		$query_args = array(
+		$query_args = wp_parse_args($query_args,array(
 			'posts_per_page' => $posts_per_page,
 			'paged' => $paged,
 			'ignore_sticky_posts' => 1,
@@ -289,8 +289,7 @@ class theme_functions{
 			'post_status' => 'publish',
 			'post_type' => 'post',
 			'has_password' => false,
-			
-		);
+		));
 		
 		switch($orderby){
 			case 'views':
@@ -341,7 +340,6 @@ class theme_functions{
 					break;
 				default:
 					$after = 'day';
-					break;
 			}
 			$query_args['date_query'] = array(
 				array(
@@ -1417,14 +1415,93 @@ class theme_functions{
 		</nav>
 		<?php
 	}
-	public static function the_related_posts_plus($args_query = null){
+	/**
+	 * Theme comment
+	 * 
+	 * 
+	 * @param object $comment
+	 * @param n/a $args
+	 * @param int $depth
+	 * @return string
+	 * @version 1.0.0
+	 * 
+	 * @author INN STUDIO
+	 * 
+	 */
+	public static function theme_comment( $comment, $args, $depth ) {
+		$GLOBALS['comment'] = $comment;
+		$defaults = array(
+			'lazy' => true,
+		);
+		$args = wp_parse_args($args,$defaults);
+		// extract($r,EXTR_SKIP);
+		// var_dump($args);
+		switch ( $comment->comment_type ){
+			default :
+				$classes = array();
+				if(!empty( $args['has_children'])) $classes[] = 'parent';
+				if($comment->comment_approved == '0') $classes[] = 'moderation';
+				$lazy_attr = $args['lazy'] === true ? 'data-original' : 'src';
+
+				$author_avatar = '<img alt="' . get_comment_author() . '" ' . $lazy_attr . '="' . get_img_source(get_avatar($comment,self::$comment_avatar_size)) . '" class="comment-author-avatar avatar" witdh="' . self::$comment_avatar_size . '" height="' . self::$comment_avatar_size . '"/>';
+				$author_avatar_sm = '<img alt="' . get_comment_author() . '" ' . $lazy_attr . '="' . get_img_source(get_avatar($comment,self::$comment_avatar_size)) . '" class="comment-author-avatar-sm avatar" witdh="20" height="20"/>';
+
+				$author_avatar_html = !get_comment_author_url() ? $author_avatar : '<a rel="external nofollow" href="' . get_comment_author_url() . '" class="comment-author-vcard" target="_blank">' . $author_avatar . '</a>';
+				?>
+				<li <?php comment_class($classes);?> id="comment-<?php comment_ID();?>">
+					<article id="comment-body-<?php comment_ID(); ?>" class="comment-body">
+						<header class="comment-area-img">
+							<?php echo $author_avatar_html;?>
+						</header>
+						<div class="comment-area-tx">
+							<div class="comment-content content-reset">
+								<?php comment_text(); ?>
+								<?php if ($comment->comment_approved == '0'){ ?>
+									<div class="comment-awaiting-moderation"><?php echo status_tip('info',___('Your comment is awaiting moderation.')); ?></div>
+								<?php } ?>
+							</div><!-- .comment-content -->
+							<footer class="comment-meta">
+								<span class="comment-meta-data comment-author-name">
+									<?php echo $author_avatar_sm;?>
+									<?php if(!get_comment_author_url()){ ?>
+										<?php echo get_comment_author();?>
+									<?php }else{ ?>
+										<a href="<?php echo get_comment_author_url();?>" target="blank" rel="external nofollow"><?php echo get_comment_author();?></a>
+									<?php } ?>
+								</span>
+								<time class="comment-meta-data comment-time" datetime="<?php echo get_comment_time('c');?>">
+									<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
+										<i class="fa fa-clock-o"></i> 
+										<?php echo friendly_date(get_comment_time('U')); ?>
+									</a>
+								</time>
+								<span class="comment-meta-data comment-reply reply">
+									<?php
+									comment_reply_link(array_merge($args,array(
+										'add_below'		=> 'comment-body', 
+										'depth' 		=> $depth,
+										'reply_text' 	=>  '<i class="fa fa-comments-o"></i> ' . ___('Reply'),
+										'login_text' 	=>  '<i class="fa fa-comments-o"></i> ' . ___('Log in to leave a comment'),
+										'max_depth' 	=> $args['max_depth'],
+									)));
+									?>
+								</span><!-- .reply -->
+							</footer><!-- .comment-meta -->
+						</div><!-- .comment-area-tx -->
+					</article><!-- .comment-body -->
+					<?php
+		}
+	}
+	public static function the_related_posts_plus($args = null){
 		global $wp_query,$post;
-		$defaults_query = array(
+		$defaults = array(
 			'posts_per_page' => 6,
-			'post__not_in' => array($post->ID),
 			'orderby' => 'latest',
 		);
-		$args_query = wp_parse_args($args_query,$defaults_query);
+		$query_args = array(
+			'post__not_in' => array($post->ID),
+		);
+		$args = wp_parse_args($args,$defaults);
 		$content_args = array(
 			'classes' => array('col-xs-6 col-sm-4 col-md-2')
 		);
@@ -1448,11 +1525,19 @@ class theme_functions{
 			<div class="tab-content panel-body">
 				<div role="tabpanel" class="tab-pane active" id="related-same-tag">
 					<?php
-					$same_tag_query = $args_query;
-					$same_tag_query['tag__in'] = array_map(function($term){
-						return $term->term_id;
-					},get_the_tags());
-					$wp_query = self::get_posts_query($same_tag_query);
+					$same_tag_args = $args;
+					$same_tag_query = $query_args;
+					if(!get_the_tags()){
+						$same_tag_query['category__in'] = array_map(function($term){
+							return $term->term_id;
+						},get_the_category());
+						$same_tag_args['orderby'] = 'random';
+					}else{
+						$same_tag_query['tag__in'] = array_map(function($term){
+							return $term->term_id;
+						},get_the_tags());
+					}
+					$wp_query = self::get_posts_query($same_tag_args,$same_tag_query);
 					if(have_posts()){
 						?>
 						<ul class="row post-img-lists">
@@ -1463,9 +1548,9 @@ class theme_functions{
 							}
 						?>
 						</ul>
-					<?php 
-					}else{
-						echo status_tip('info',___('No data.'));
+					<?php }else{ ?>
+						<div class="page-tip"><?php echo status_tip('info',___('No data.'));?></div>
+					<?php
 					}
 					wp_reset_postdata();
 					?>
@@ -1473,11 +1558,12 @@ class theme_functions{
 
 				<div role="tabpanel" class="tab-pane" id="related-same-cat">
 					<?php
-					$same_cat_query = $args_query;
+					$same_cat_args = $args;
+					$same_cat_query = $query_args;
 					$same_cat_query['category__in'] = array_map(function($term){
 						return $term->term_id;
 					},get_the_category());
-					$wp_query = self::get_posts_query($same_cat_query);
+					$wp_query = self::get_posts_query($same_cat_args,$same_cat_query);
 					if(have_posts()){
 						?>
 						<ul class="row post-img-lists">
@@ -1488,18 +1574,19 @@ class theme_functions{
 							}
 						?>
 						</ul>
-					<?php 
-					}else{
-						echo status_tip('info',___('No data.'));
+					<?php }else{ ?>
+						<div class="page-tip"><?php echo status_tip('info',___('No data.'));?></div>
+					<?php
 					}
 					wp_reset_postdata();
 					?>
 				</div>
 				<div role="tabpanel" class="tab-pane" id="related-same-author">
 					<?php
-					$author_query = $args_query;
-					$author_query['author'] = get_the_author_meta('ID');
-					$wp_query = self::get_posts_query($same_cat_query);
+					$same_author_args = $args;
+					$same_author_query = $query_args;
+					$same_author_query['author'] = get_the_author_meta('ID');
+					$wp_query = self::get_posts_query($same_author_args,$same_author_query);
 					if(have_posts()){
 						?>
 						<ul class="row post-img-lists">
@@ -1510,9 +1597,9 @@ class theme_functions{
 							}
 						?>
 						</ul>
-					<?php 
-					}else{
-						echo status_tip('info',___('No data.'));
+					<?php }else{ ?>
+						<div class="page-tip"><?php echo status_tip('info',___('No data.'));?></div>
+					<?php
 					}
 					wp_reset_postdata();
 					wp_reset_query();
@@ -1642,10 +1729,10 @@ class theme_functions{
 		global $wp_query,$post;
 		foreach($opt as $k => $v){
 			?>
-<div class="homebox panel panel-default mx-card">
+<div class="homebox panel panel-default mx-panel">
 	
-	<div class="panel-heading mx-card-header clearfix">
-		<h3 class="pull-left">
+	<div class="panel-heading mx-panel-heading clearfix">
+		<h3 class="panel-title mx-panel-title">
 			<?php 
 			if(empty($v['link'])){
 				echo $v['title'];
@@ -1656,8 +1743,8 @@ class theme_functions{
 			}
 			?>
 		</h3>
-		<div class="mx-card-header-extra pull-right">
-			<div class="keywords btn-group">
+		<div class="mx-panel-heading-extra">
+			<div class="keywords btn-group hidden-xs">
 				<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){ ?>
 					<a class="" href="<?php echo esc_url($kw['url']);?>">
 						<?php echo $kw['name'];?>
@@ -1694,7 +1781,7 @@ class theme_functions{
 			while(have_posts()){
 				the_post();
 				self::archive_content(array(
-					'classes' => array('col-lg-6 col-md-6 col-xs-6 col-sm-12')
+					'classes' => array('col-lg-6 col-md-6 col-xs-12 col-sm-12')
 				));
 			}
 		}else{

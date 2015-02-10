@@ -6,7 +6,15 @@ class theme_open_sign{
 	
 	public static $iden = 'theme_open_sign';
 	public static $open_types = array('sina','qq');
-	
+	public static $user_meta_key = array(
+		'qq' => array(
+			'open_id' 	=> 'qq_open_id',
+			'token' 	=> 'qq_token',
+			'avatar'	=> 'qq_avatar',
+			'expire' 	=> 'qq-expire',
+			'access'	=> 'qq-access',
+		)
+	);
 	public static $key_user_open = array(
 		'id' => 'isos_open_id',
 		'type' => 'isos_open_type',
@@ -22,6 +30,10 @@ class theme_open_sign{
 		'sina' => array(
 			'akey' => '3461043641',
 			'skey' => 'efd4767a4d2a664b1bfbb65b10febb5e',
+		),
+		'qq' => array(
+			'akey' => '101143877',
+			'skey' => '5a1a4ae98a224a33318ceb3dcd6f3188',
 		)
 	);
 	
@@ -181,8 +193,7 @@ class theme_open_sign{
 				}
 				wp_die(
 					___('Redirecting, please wait...'),
-					___('Redirecting'),
-					302
+					___('Redirecting')
 				);
 			}else if(isset($_GET['qq']) && $_GET['qq'] === 'get-auth'){
 			
@@ -192,7 +203,11 @@ class theme_open_sign{
 		 * qq
 		 */
 		}else if(isset($_GET['qq'])){
-		
+			include dirname(__FILE__) . '/inc/open/qq/qqConnectAPI.php';
+			$qc = new QC();
+			$token = $qc->qq_callback();
+			$open_id = $qc->get_openid();
+			$open_info = $qc->get_user_info();
 		
 		}
 		

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-02 16:09+0800\n"
-"PO-Revision-Date: 2015-02-02 16:09+0800\n"
+"POT-Creation-Date: 2015-02-10 12:22+0800\n"
+"PO-Revision-Date: 2015-02-10 12:30+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -17,10 +17,64 @@ msgstr ""
 "X-Generator: Poedit 1.7.3\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: category.php:31 includes/theme-widget-rank/theme-widget-rank.php:85
-#: includes/theme-widget-tags/theme-widget-tags.php:87
-msgid "No data yet."
-msgstr "此类别暂无资料"
+#: category.php:10
+#, php-format
+msgid "Current browsing: %s"
+msgstr "正在浏览：%s"
+
+#: comments.php:7
+#, php-format
+msgid "Comments list (%d)"
+msgstr "评论列表（%d）"
+
+#: comments.php:9
+msgid "Comments list"
+msgstr "评论列表"
+
+#: comments.php:60
+msgid "Comments are closed."
+msgstr "评论已关闭"
+
+#: comments.php:72 comments.php:73
+msgid "(required)"
+msgstr "（需要）"
+
+#: comments.php:77 functions.php:1098
+msgid "Cancel reply"
+msgstr "取消回复"
+
+#: comments.php:78
+msgid "Leave a Reply"
+msgstr "留下评论"
+
+#: comments.php:79
+#, php-format
+msgid "Leave a Reply to %s"
+msgstr "回复给 %s"
+
+#: comments.php:83 comments.php:91
+#: includes/_theme-quick-comment/theme-quick-comment.php:348
+#: includes/_theme-quick-sign/theme-quick-sign.php:402
+msgid "Nickname"
+msgstr "昵称"
+
+#: comments.php:99 comments.php:108 functions.php:1107
+#: includes/_theme-quick-comment/theme-quick-comment.php:349
+#: includes/_theme-quick-sign/theme-quick-sign.php:403
+msgid "Email"
+msgstr "邮箱"
+
+#: comments.php:135 includes/_theme-quick-comment/theme-quick-comment.php:346
+msgid "Comment"
+msgstr "评论"
+
+#: comments.php:145
+msgid "Comment content"
+msgstr "人……人家才不是特意要你留言呢，哼哒！"
+
+#: comments.php:153
+msgid "Submit"
+msgstr "提交"
 
 #: core/core-features.php:704
 msgid "Sorry, referer is invalid."
@@ -30,11 +84,11 @@ msgstr "抱歉，无效的来路。"
 msgid "Sorry, security code is invalid."
 msgstr "抱歉，无效的安全码。"
 
-#: core/core-features.php:1319 core/core-features.php:1385 functions.php:1205
+#: core/core-features.php:1319 core/core-features.php:1385 functions.php:1322
 msgid "&lsaquo; Previous"
 msgstr "&lsaquo;  上一页"
 
-#: core/core-features.php:1354 core/core-features.php:1386 functions.php:1229
+#: core/core-features.php:1354 core/core-features.php:1386 functions.php:1346
 msgid "Next &rsaquo;"
 msgstr "下一页 &rsaquo;"
 
@@ -57,7 +111,8 @@ msgid "(%s)"
 msgstr "（%s）"
 
 #: core/core-features.php:1770
-#: includes/theme-widget-rank/theme-widget-rank.php:268
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:60
+#: includes/theme-widget-rank/theme-widget-rank.php:267
 msgid "No category, pleass go to add some categories."
 msgstr "暂无分类目录，请去添加一些分类。"
 
@@ -118,13 +173,15 @@ msgid "Settings have been saved."
 msgstr "设置已保存。"
 
 #: core/core-options.php:128
+#: includes/_theme-quick-comment/theme-quick-comment.php:342
 #: includes/_theme-quick-sign/theme-quick-sign.php:399
 #: includes/theme-clean-up/theme-clean-up.php:177
+#: includes/theme-comment-ajax/theme-comment-ajax.php:372
 #: includes/theme-custom-ctb/theme-custom-ctb.php:247
 #: includes/theme-custom-sign/theme-custom-sign.php:157
-#: includes/theme-open-sign/theme-open-sign.php:225
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:321
+#: includes/theme-open-sign/theme-open-sign.php:234
 #: includes/theme-post-thumb/theme-post-thumb.php:242
-#: includes/theme-quick-comment/theme-quick-comment.php:342
 msgid "Loading, please wait..."
 msgstr "加载中，请稍候…"
 
@@ -176,9 +233,32 @@ msgstr "还原主题默认选项"
 msgid "Theme settings"
 msgstr "主题设置"
 
+#: footer.php:8
+msgid "Please set some widgets in footer."
+msgstr "请放一些小工具到底部栏目"
+
+#: footer.php:15
+#, php-format
+msgid "Copyright &copy; %s %s."
+msgstr "Copyright &copy; %s %s."
+
+#: footer.php:16
+#, php-format
+msgid "Theme %s by %s."
+msgstr "Theme %s by %s."
+
+#: footer.php:16 functions.php:30
+msgid "INN STUDIO"
+msgstr "INN STUDIO"
+
+#: footer.php:17
+#, php-format
+msgid "Powered by %s."
+msgstr "Powered by %s."
+
 #: functions.php:27
 msgid "MX"
-msgstr ""
+msgstr "MX"
 
 #: functions.php:28
 msgid "http://inn-studio.com/mx"
@@ -187,10 +267,6 @@ msgstr ""
 #: functions.php:29
 msgid "http://inn-studio.com"
 msgstr "http://inn-studio.com/"
-
-#: functions.php:30
-msgid "INN STUDIO"
-msgstr "INN STUDIO"
 
 #: functions.php:40
 msgid "Professional edition"
@@ -216,329 +292,341 @@ msgstr "顶栏菜单"
 msgid "Header menu tools"
 msgstr "头部工具栏菜单"
 
-#: functions.php:100
+#: functions.php:103
 msgid "Post Toc"
 msgstr "文章目录"
 
-#: functions.php:101
+#: functions.php:104
 msgid "[Top]"
 msgstr "[目录]"
 
-#: functions.php:113
+#: functions.php:116
 msgid "Home widget area"
 msgstr "首页小工具区域"
 
-#: functions.php:115
+#: functions.php:118
 msgid "Appears on home in the sidebar."
 msgstr "显示在首页的边栏中。"
 
-#: functions.php:118
+#: functions.php:121
 msgid "Archive page widget area"
 msgstr "归档页面小工具区域"
 
-#: functions.php:120
+#: functions.php:123
 msgid "Appears on archive page in the sidebar."
 msgstr "显示在归档页面的边栏中。"
 
-#: functions.php:123
+#: functions.php:126
 msgid "Footer widget area"
 msgstr "底部 小工具区域"
 
-#: functions.php:125
+#: functions.php:128
 msgid "Appears on all page in the footer."
 msgstr "显示在每个页面的底部。"
 
-#: functions.php:130
+#: functions.php:133
 msgid "Singular post widget area"
 msgstr "单文章小工具区域"
 
-#: functions.php:132
+#: functions.php:135
 msgid "Appears on post in the sidebar."
 msgstr "显示在文章页面的边栏中。"
 
-#: functions.php:135
+#: functions.php:138
 msgid "Singular page widget area"
 msgstr "单页 小工具区域"
 
-#: functions.php:137
+#: functions.php:140
 msgid "Appears on page in the sidebar."
 msgstr "显示在单页的边栏中。"
 
-#: functions.php:140
+#: functions.php:143
 msgid "Sign page widget area"
 msgstr "登录页面 小工具区域"
 
-#: functions.php:142
+#: functions.php:145
 msgid "Appears on sign page in the sidebar."
 msgstr "显示在登录页面的边栏中。"
 
-#: functions.php:145
+#: functions.php:148
 msgid "404 page widget area"
 msgstr "404 页面小工具区域"
 
-#: functions.php:147
+#: functions.php:150
 msgid "Appears on 404 no found page in the sidebar."
 msgstr "显示在 404 页面的边栏中。"
 
-#: functions.php:180
+#: functions.php:183
 msgid "Lastest"
 msgstr "最新"
 
-#: functions.php:184
+#: functions.php:187
 msgid "Popular"
 msgstr "最赞"
 
-#: functions.php:188 includes/theme-widget-rank/theme-widget-rank.php:217
+#: functions.php:191 includes/theme-widget-rank/theme-widget-rank.php:216
 msgid "Random"
 msgstr "随机"
 
-#: functions.php:399 includes/theme-post-thumb/theme-post-thumb.php:53
+#: functions.php:421 includes/theme-post-thumb/theme-post-thumb.php:53
 #: includes/theme-post-thumb/theme-post-thumb.php:55
-#: includes/theme-widget-rank/theme-widget-rank.php:205
+#: includes/theme-widget-rank/theme-widget-rank.php:204
 msgid "Thumb up"
 msgstr "顶/赞"
 
-#: functions.php:406
+#: functions.php:428
 msgid "Comment count"
 msgstr "评论统计"
 
-#: functions.php:414 functions.php:606
+#: functions.php:436 functions.php:690
 #: includes/theme-post-views/theme-post-views.php:183
 msgid "Views"
 msgstr "查看数"
 
-#: functions.php:492
+#: functions.php:514
 msgid "Sticky post"
 msgstr "顶置文章"
 
-#: functions.php:592
+#: functions.php:672
 msgid "Category"
 msgstr "分类"
 
-#: functions.php:601
+#: functions.php:684
 #, php-format
 msgid "Views all post by %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:612
+#: functions.php:699
 msgid "Edit post"
 msgstr "编辑文章"
 
-#: functions.php:615 functions.php:616
+#: functions.php:703 functions.php:705
 msgid "Post link"
 msgstr "文章链接"
 
-#: functions.php:638 functions.php:712 functions.php:726
+#: functions.php:730 functions.php:829 functions.php:843
 #, php-format
 msgid "Views all posts by %s tag"
 msgstr "查看 %s 标签下的所有文章"
 
-#: functions.php:658
+#: functions.php:752
 msgid "Good! I like it."
 msgstr "赞！我喜欢"
 
-#: functions.php:660
+#: functions.php:755
 msgid "Good"
 msgstr "赞"
 
-#: functions.php:662
+#: functions.php:757
 msgid "Bad idea!"
 msgstr "坏主意！"
 
-#: functions.php:664
+#: functions.php:760
 msgid "Bad"
 msgstr "渣"
 
-#: functions.php:687
+#: functions.php:803
 msgid "comment"
 msgstr "评论"
 
-#: functions.php:687
+#: functions.php:803
 msgid "comments"
 msgstr "评论"
 
-#: functions.php:703
+#: functions.php:820
 msgid ", "
 msgstr "、"
 
-#: functions.php:798 functions.php:808
+#: functions.php:915 functions.php:925
 msgid "No more post found"
 msgstr "暂无更多文章"
 
-#: functions.php:800
+#: functions.php:917
 #, php-format
 msgid "Previous post: %s"
 msgstr "上一篇：%s"
 
-#: functions.php:801 functions.php:952 functions.php:1101
+#: functions.php:918 functions.php:1069 functions.php:1218
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: functions.php:810
+#: functions.php:927
 #, php-format
 msgid "Next post: %s"
 msgstr "下一篇：%s"
 
-#: functions.php:812 functions.php:953 functions.php:1102
+#: functions.php:929 functions.php:1070 functions.php:1219
 msgid "&raquo;"
 msgstr "&raquo;"
 
-#: functions.php:845
+#: functions.php:962
 msgid "Back to Homepage"
 msgstr "返回到首页"
 
-#: functions.php:845
-msgid "Home"
-msgstr "首页"
-
-#: functions.php:856
-msgid "Category Browser"
-msgstr "目录浏览"
-
-#: functions.php:863
-msgid "Tags Browser"
-msgstr "标签归档浏览"
-
-#: functions.php:881
-msgid "Date Browser"
-msgstr "日期归档浏览"
-
-#: functions.php:885
-#, php-format
-msgid "Search Result: %s"
-msgstr "搜索结果：%s"
-
-#: functions.php:891
-msgid "Author posts"
-msgstr "作者文章"
-
-#: functions.php:895
-msgid "Archive Browser"
-msgstr "归档浏览"
-
-#: functions.php:913
+#: functions.php:1030
 #, php-format
 msgid "View all posts in %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:920
+#: functions.php:1037
 msgid "Not found"
 msgstr "暂无资料"
 
-#: functions.php:980
+#: functions.php:1097
 msgid "Leave a comment"
 msgstr "留下评论"
 
-#: functions.php:981
-msgid "Cancel reply"
-msgstr "取消回复"
-
-#: functions.php:989
+#: functions.php:1106
 msgid "Name"
 msgstr "姓名"
 
-#: functions.php:990 includes/_theme-quick-sign/theme-quick-sign.php:403
-#: includes/theme-quick-comment/theme-quick-comment.php:349
-msgid "Email"
-msgstr "邮箱"
-
-#: functions.php:1006
+#: functions.php:1123
 msgid "Write a omment"
 msgstr "留下评论"
 
-#: functions.php:1018
+#: functions.php:1135
 msgid "No data"
 msgstr "暂无资料"
 
-#: functions.php:1024 functions.php:1025
+#: functions.php:1141 functions.php:1142
 msgid "Pic-face"
 msgstr "图片表情"
 
-#: functions.php:1030 functions.php:1031
+#: functions.php:1147 functions.php:1148
 msgid "Emoticons"
 msgstr "颜文表情"
 
-#: functions.php:1038 includes/theme-quick-comment/theme-quick-comment.php:347
+#: functions.php:1155
+#: includes/_theme-quick-comment/theme-quick-comment.php:347
 msgid "Post comment"
 msgstr "发表评论"
 
-#: functions.php:1118
+#: functions.php:1235
 msgid ""
 "Sorry, I was not able to find what you need, what about look at other "
 "content :)"
 msgstr "抱歉，我没能找到您需要的内容，不放看看其他东西 ：）"
 
-#: functions.php:1128 includes/theme-widget-adbox/theme-widget-adbox.php:54
+#: functions.php:1245 includes/theme-widget-adbox/theme-widget-adbox.php:54
 msgid "All"
 msgstr "全部"
 
-#: functions.php:1129
+#: functions.php:1246
 msgid "Daily"
 msgstr "每日"
 
-#: functions.php:1130
+#: functions.php:1247
 msgid "Weekly"
 msgstr "每周"
 
-#: functions.php:1131
+#: functions.php:1248
 msgid "Monthly"
 msgstr "每月"
 
-#: functions.php:1248 functions.php:1257
+#: functions.php:1365 functions.php:1374
 msgid "&larr; Preview page"
 msgstr "&larr; 上一页"
 
-#: functions.php:1249 functions.php:1276
+#: functions.php:1366 functions.php:1393
 msgid "Next page &rarr;"
 msgstr "下一页 &rarr;"
 
-#: functions.php:1261 functions.php:1292
+#: functions.php:1378 functions.php:1409
 msgid "Next post &rarr;"
 msgstr "下一页 &rarr;"
 
-#: functions.php:1261 functions.php:1292
+#: functions.php:1378 functions.php:1409
 #, php-format
 msgid "%s &rarr;"
 msgstr "%s &rarr;"
 
-#: functions.php:1272 functions.php:1287
+#: functions.php:1389 functions.php:1404
 msgid "&larr; Preview post"
 msgstr "&larr; 上一页"
 
-#: functions.php:1272 functions.php:1287
+#: functions.php:1389 functions.php:1404
 #, php-format
 msgid "&larr; %s"
 msgstr "&larr; %s"
 
-#: functions.php:1331
+#: functions.php:1460
+msgid "Your comment is awaiting moderation."
+msgstr "您的评论正在审核中。"
+
+#: functions.php:1483
+#: includes/_theme-quick-comment/theme-quick-comment.php:351
+msgid "Reply"
+msgstr "回复"
+
+#: functions.php:1484
+msgid "Log in to leave a comment"
+msgstr "登录以评论"
+
+#: functions.php:1513
+msgid "Same tag"
+msgstr "相同标签"
+
+#: functions.php:1517
+msgid "Same category"
+msgstr "相同分类"
+
+#: functions.php:1521
+msgid "Same author"
+msgstr "相同作者"
+
+#: functions.php:1552 functions.php:1578 functions.php:1601
+msgid "No data."
+msgstr "暂无资料"
+
+#: functions.php:1647
 msgid "No data yet"
 msgstr "此类别暂无资料"
 
-#: functions.php:1355
+#: functions.php:1671 functions.php:1763
 msgid "Next page"
 msgstr "下一页"
 
-#: functions.php:1358
+#: functions.php:1674
 msgid "Previous page"
 msgstr "上一页"
 
-#: header.php:50
+#: functions.php:1741
+msgid "&raquo; more"
+msgstr "&raquo; 更多"
+
+#: functions.php:1756
+msgid "Preview page"
+msgstr "上一页"
+
+#: header.php:49
 msgid "Contribution"
 msgstr "投稿"
 
-#: header.php:59 includes/_theme-quick-sign/theme-quick-sign.php:400
+#: header.php:56 header.php:64
+msgid "My favor"
+msgstr "我的收藏"
+
+#: header.php:85 includes/_theme-quick-sign/theme-quick-sign.php:400
 #: includes/theme-custom-sign/theme-custom-sign.php:72
 msgid "Login"
 msgstr "登录"
 
-#: header.php:61 includes/_theme-quick-sign/theme-quick-sign.php:401
+#: header.php:94
+msgid "Login from QQ"
+msgstr "使用 QQ 登录"
+
+#: header.php:101
+msgid "Login from Weibo"
+msgstr "使用渣浪微博登录"
+
+#: header.php:112 includes/_theme-quick-sign/theme-quick-sign.php:401
 #: includes/theme-custom-sign/theme-custom-sign.php:79
 msgid "Register"
 msgstr "注册"
 
-#: header.php:102
-msgid "Navigation menu"
-msgstr "导航菜单"
+#: header.php:177
+msgid "Keywords"
+msgstr "搜索关键词"
 
 #: includes/_theme-comment-face/theme-comment-face.php:57
 msgid "Face settings"
@@ -551,6 +639,126 @@ msgstr "颜文字表情（一行一个）"
 #: includes/_theme-comment-face/theme-comment-face.php:81
 msgid "Face"
 msgstr "表情"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:22
+#: includes/theme-cache-request/theme-cache-request.php:19
+#: includes/theme-comment-ajax/theme-comment-ajax.php:83
+msgid "Referer error"
+msgstr "来路错误"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:35
+#: includes/_theme-quick-comment/theme-quick-comment.php:81
+msgid "Invail post id."
+msgstr "无效的文章 ID。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:44
+msgid "This post comment has closed."
+msgstr "这篇文章的评论已关闭。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:89
+msgid "Invail comment content"
+msgstr "无效的评论内容。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:108
+msgid "Anonymous"
+msgstr "匿名"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:119
+msgid "Invail email address."
+msgstr "无效的电子邮箱地址。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:150
+msgid "System can not create comment."
+msgstr "系统无法创建评论。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:171
+msgid "No comment yet."
+msgstr "暂无评论"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:183
+msgid "Invail type"
+msgstr "无效的类型。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:225
+#: includes/theme-comment-ajax/theme-comment-ajax.php:80
+msgid "Blocked comment from frontend."
+msgstr "已禁止前台评论"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:247
+#: includes/theme-comment-ajax/theme-comment-ajax.php:138
+msgid "Sorry, you must be logged in to post a comment."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:257
+#: includes/theme-comment-ajax/theme-comment-ajax.php:320
+msgid "Sorry, the post does not exist."
+msgstr "抱歉，文章不存在。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:272
+#: includes/theme-comment-ajax/theme-comment-ajax.php:335
+msgid "Sorry, comments are closed for this item."
+msgstr "抱歉，该文章的评论已被关闭。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:281
+#: includes/theme-comment-ajax/theme-comment-ajax.php:344
+msgid "Sorry, can not comment on trash post."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:290
+#: includes/theme-comment-ajax/theme-comment-ajax.php:353
+msgid "Sorry, can not comment draft post."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:299
+#: includes/theme-comment-ajax/theme-comment-ajax.php:362
+msgid "Sorry, the post needs password to comment."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:310
+#, php-format
+msgid "Total %d comments"
+msgstr "共 %d 条评论"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:312
+#: includes/_theme-quick-comment/theme-quick-comment.php:324
+msgid "Join the comments"
+msgstr "加入讨论"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:317
+msgid "Loading comment list, please wait..."
+msgstr "评论列表加载中，请稍候…"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:343
+#: includes/theme-comment-ajax/theme-comment-ajax.php:226
+#: includes/theme-comment-ajax/theme-comment-ajax.php:373
+msgid "Commented successfully, thank you!"
+msgstr "发表评论成功，感谢您的参与！"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:344
+#: includes/theme-comment-ajax/theme-comment-ajax.php:374
+msgid "Message"
+msgstr "提示"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:345
+msgid "No comment yet, you are first commenter."
+msgstr "暂无评论，果断抢沙发。"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:350
+msgid "Closing tip after 3s"
+msgstr "3秒后关闭提示"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:352
+msgid "Error"
+msgstr "错误"
+
+#: includes/_theme-quick-comment/theme-quick-comment.php:353
+#: includes/_theme-quick-sign/theme-quick-sign.php:411
+#: includes/theme-clean-up/theme-clean-up.php:178
+#: includes/theme-comment-ajax/theme-comment-ajax.php:375
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:322
+#: includes/theme-post-thumb/theme-post-thumb.php:243
+msgid "Server error or network is disconnected."
+msgstr "服务器错误或网络未连接。"
 
 #: includes/_theme-quick-sign/theme-quick-sign.php:66
 msgid "Login successfully, page is refreshing, please wait..."
@@ -679,11 +887,6 @@ msgstr "抱歉，昵称无效，请输入另一个后重试。"
 msgid "Sorry, email already exists, please change another one and try again."
 msgstr "抱歉，邮箱已经存在，请输入另一个再尝试。"
 
-#: includes/_theme-quick-sign/theme-quick-sign.php:402
-#: includes/theme-quick-comment/theme-quick-comment.php:348
-msgid "Nickname"
-msgstr "昵称"
-
 #: includes/_theme-quick-sign/theme-quick-sign.php:404
 msgid "Password"
 msgstr "密码"
@@ -712,18 +915,6 @@ msgstr "登录成功，页面正在刷新，请稍候…"
 #: includes/_theme-quick-sign/theme-quick-sign.php:410
 msgid "Forgot my password?"
 msgstr "忘记了密码？"
-
-#: includes/_theme-quick-sign/theme-quick-sign.php:411
-#: includes/theme-clean-up/theme-clean-up.php:178
-#: includes/theme-post-thumb/theme-post-thumb.php:243
-#: includes/theme-quick-comment/theme-quick-comment.php:353
-msgid "Server error or network is disconnected."
-msgstr "服务器错误或网络未连接。"
-
-#: includes/theme-cache-request/theme-cache-request.php:19
-#: includes/theme-quick-comment/theme-quick-comment.php:22
-msgid "Referer error"
-msgstr "来路错误"
 
 #: includes/theme-cache/theme-cache.php:95
 msgid "Theme cache"
@@ -766,6 +957,7 @@ msgid "Save your settings before click."
 msgstr "点击之前保存设置。"
 
 #: includes/theme-cache/theme-cache.php:124
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:206
 #: includes/theme-min-rebuild/theme-min-rebuild.php:35
 msgid "Control"
 msgstr "操作"
@@ -873,6 +1065,49 @@ msgstr "无参数"
 msgid "Database updated in %s s."
 msgstr "数据库已在 %s 秒内更新。"
 
+#: includes/theme-comment-ajax/theme-comment-ajax.php:61
+msgid "Comment AJAX Settings"
+msgstr "AJAX 评论设置"
+
+#: includes/theme-comment-ajax/theme-comment-ajax.php:62
+msgid ""
+"Visitor submitted comment without refreshing page. Recommended enable to "
+"improve the user experience."
+msgstr "用户提交评论不需要刷新页面即可显示。建议启用提高用户体验。"
+
+#: includes/theme-comment-ajax/theme-comment-ajax.php:66
+msgid "Enable comment AJAX"
+msgstr "启用 AJAX 评论"
+
+#: includes/theme-comment-ajax/theme-comment-ajax.php:69
+#: includes/theme-comment-notify/theme-comment-notify.php:35
+#: includes/theme-link-manager/theme-link-manager.php:29
+#: includes/theme-post-copyright/theme-post-copyright.php:39
+#: includes/theme-post-share/theme-post-share.php:78
+#: includes/theme-post-thumb/theme-post-thumb.php:50
+msgid "Enable"
+msgstr "启用"
+
+#: includes/theme-comment-ajax/theme-comment-ajax.php:148
+msgid "Error: please fill the required fields(name, email)."
+msgstr "错误：请输入必须的字段（姓名，邮箱）。"
+
+#: includes/theme-comment-ajax/theme-comment-ajax.php:152
+msgid "Error: please enter a valid email address."
+msgstr "错误：请输入一个合法的邮箱地址。"
+
+#: includes/theme-comment-ajax/theme-comment-ajax.php:161
+msgid "Error: please type a comment."
+msgstr "错误：请输入评论内容。"
+
+#: includes/theme-comment-ajax/theme-comment-ajax.php:268
+msgid "Param error"
+msgstr "参数错误"
+
+#: includes/theme-comment-ajax/theme-comment-ajax.php:289
+msgid "Data sent."
+msgstr "数据传送完毕。"
+
 #: includes/theme-comment-notify/theme-comment-notify.php:28
 msgid "Comment reply notifier"
 msgstr "评论回复通知"
@@ -889,14 +1124,6 @@ msgstr "如果您的服务器支持，当评论被回复时，它将会发送一
 #: includes/theme-post-share/theme-post-share.php:77
 #: includes/theme-post-thumb/theme-post-thumb.php:49
 msgid "Enable or not?"
-msgstr "启用"
-
-#: includes/theme-comment-notify/theme-comment-notify.php:35
-#: includes/theme-link-manager/theme-link-manager.php:29
-#: includes/theme-post-copyright/theme-post-copyright.php:39
-#: includes/theme-post-share/theme-post-share.php:78
-#: includes/theme-post-thumb/theme-post-thumb.php:50
-msgid "Enable"
 msgstr "启用"
 
 #: includes/theme-comment-notify/theme-comment-notify.php:63
@@ -1010,9 +1237,67 @@ msgstr "不放再分享一篇？"
 
 #: includes/theme-custom-ctb/theme-custom-ctb.php:252
 #: includes/theme-custom-sign/theme-custom-sign.php:158
-#: includes/theme-open-sign/theme-open-sign.php:226
+#: includes/theme-open-sign/theme-open-sign.php:235
 msgid "Sorry, server error please try again later."
 msgstr "抱歉，服务器错误请稍后重试。"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:60
+msgid "&raquo; detail"
+msgstr "&raquo; 详细"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:85
+msgid "Not data in this category"
+msgstr "在此分类目录中找不到数据"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:115
+msgid "link"
+msgstr "链接"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:124
+msgid "Theme home box settings"
+msgstr "首页盒子设置"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:137
+msgid "Home box control"
+msgstr "盒子操作"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:139
+msgid "Add a new home box"
+msgstr "添加一个新的盒子"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:163
+#: includes/theme-custom-homebox/theme-custom-homebox.php:171
+msgid "Box title"
+msgstr "幻灯片标题 - %s"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:176
+msgid "Box link"
+msgstr "盒子链接"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:184
+msgid "Box link (include http://)"
+msgstr "盒子地址（包括 http://）"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:189
+msgid "Categories"
+msgstr "分类"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:195
+msgid "Keywords and links"
+msgstr "关键词与链接"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:197
+msgid "Eg. Tag1 = http://inn-studio.com"
+msgstr "例如 标签1 = http://inn-studio.com"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:198
+msgid "Per keyword/line"
+msgstr "一行一个关键词"
+
+#: includes/theme-custom-homebox/theme-custom-homebox.php:199
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:175
+msgid "Delete this item"
+msgstr "删除此条目"
 
 #: includes/theme-custom-sign/theme-custom-sign.php:86
 msgid "Recover password"
@@ -1021,6 +1306,96 @@ msgstr "找回密码"
 #: includes/theme-custom-sign/theme-custom-sign.php:112
 msgid "Sign"
 msgstr "登录"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:77
+msgid "Invaild file type."
+msgstr "无效的文件类型。"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:86
+msgid "You have not permission to upload."
+msgstr "您没有上传的权限。"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:107
+msgid "Upload success."
+msgstr "上传成功。"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:130
+#, php-format
+msgid "Slide-box title - %s"
+msgstr "幻灯片标题 - %s"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:131
+msgid "Title will be display as attribute-alt"
+msgstr "将会被作用于 alt 属性"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:134
+msgid "Subtitles (optional)"
+msgstr "子标题（可选）"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:135
+msgid "Subtitle can be date or any text"
+msgstr "子标题可以是日期或任何纯文本"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:136
+msgid "Current date"
+msgstr "当前日期"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:140
+msgid "Categories (optional)"
+msgstr "分类目录（可选）"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:150
+msgid "Link url"
+msgstr "链接 url"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:151
+msgid "Url address"
+msgstr "Url 地址"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:154
+msgid "Image url"
+msgstr "图片 url"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:157
+msgid "Image address"
+msgstr "图片地址"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:158
+msgid "Upload image"
+msgstr "上传图片"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:164
+msgid "Addon options"
+msgstr "附加选项"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:168
+msgid "Nofollow link"
+msgstr "Nofollow 链接"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:172
+msgid "Open in new window"
+msgstr "在新窗口中打开"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:190
+msgid "Slide-box settings"
+msgstr "幻灯片设置"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:192
+#, php-format
+msgid ""
+"You can set images and link to slide-box on homepage. Image size is %s&times;"
+"%s px. Remember save your settings when all done."
+msgstr ""
+"您可以设置图片和链接在首页的幻灯片中。图像尺寸为 %s&times;%s 象素。记得完成设"
+"置后保存哦。"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:192
+msgid "unlimited"
+msgstr "不限制"
+
+#: includes/theme-custom-slidebox/theme-custom-slidebox.php:208
+msgid "Add a new item"
+msgstr "添加新条目"
 
 #: includes/theme-defender/theme-defender.php:43
 #, php-format
@@ -1261,19 +1636,19 @@ msgstr "开始重建"
 msgid "Save your settings before rebuild"
 msgstr "在重建前请保存您的设置"
 
-#: includes/theme-open-sign/theme-open-sign.php:107
+#: includes/theme-open-sign/theme-open-sign.php:116
 msgid "Invalid callback data."
 msgstr "无效的回调数据。"
 
-#: includes/theme-open-sign/theme-open-sign.php:174
+#: includes/theme-open-sign/theme-open-sign.php:183
 msgid "Redirecting, please wait..."
 msgstr "跳转中，请稍后……"
 
-#: includes/theme-open-sign/theme-open-sign.php:175
+#: includes/theme-open-sign/theme-open-sign.php:184
 msgid "Redirecting"
 msgstr "跳转中……"
 
-#: includes/theme-open-sign/theme-open-sign.php:201
+#: includes/theme-open-sign/theme-open-sign.php:210
 msgid "Invalid type param."
 msgstr "抱歉，无效的类型参数。"
 
@@ -1437,109 +1812,6 @@ msgstr "我喜欢"
 #: includes/theme-post-thumb/theme-post-thumb.php:150
 msgid "I dislike it"
 msgstr "我不喜欢"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:35
-#: includes/theme-quick-comment/theme-quick-comment.php:81
-msgid "Invail post id."
-msgstr "无效的文章 ID。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:44
-msgid "This post comment has closed."
-msgstr "这篇文章的评论已关闭。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:89
-msgid "Invail comment content"
-msgstr "无效的评论内容。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:108
-msgid "Anonymous"
-msgstr "匿名"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:119
-msgid "Invail email address."
-msgstr "无效的电子邮箱地址。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:150
-msgid "System can not create comment."
-msgstr "系统无法创建评论。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:171
-msgid "No comment yet."
-msgstr "暂无评论"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:183
-msgid "Invail type"
-msgstr "无效的类型。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:225
-msgid "Blocked comment from frontend."
-msgstr "已禁止前台评论"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:247
-msgid "Sorry, you must be logged in to post a comment."
-msgstr "抱歉，您必须登陆后才能发表评论。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:257
-msgid "Sorry, the post does not exist."
-msgstr "抱歉，文章不存在。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:272
-msgid "Sorry, comments are closed for this item."
-msgstr "抱歉，该文章的评论已被关闭。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:281
-msgid "Sorry, can not comment on trash post."
-msgstr "抱歉，您必须登陆后才能发表评论。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:290
-msgid "Sorry, can not comment draft post."
-msgstr "抱歉，您必须登陆后才能发表评论。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:299
-msgid "Sorry, the post needs password to comment."
-msgstr "抱歉，您必须登陆后才能发表评论。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:310
-#, php-format
-msgid "Total %d comments"
-msgstr "共 %d 条评论"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:312
-#: includes/theme-quick-comment/theme-quick-comment.php:324
-msgid "Join the comments"
-msgstr "加入讨论"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:317
-msgid "Loading comment list, please wait..."
-msgstr "评论列表加载中，请稍候…"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:343
-msgid "Commented successfully, thank you!"
-msgstr "发表评论成功，感谢您的参与！"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:344
-msgid "Message"
-msgstr "提示"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:345
-msgid "No comment yet, you are first commenter."
-msgstr "暂无评论，果断抢沙发。"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:346
-msgid "Comment"
-msgstr "评论"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:350
-msgid "Closing tip after 3s"
-msgstr "3秒后关闭提示"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:351
-msgid "Reply"
-msgstr "回复"
-
-#: includes/theme-quick-comment/theme-quick-comment.php:352
-msgid "Error"
-msgstr "错误"
 
 #: includes/theme-recommended-post/theme-recommended-post.php:28
 msgid "Recommended post"
@@ -1926,7 +2198,7 @@ msgid "No post in this category"
 msgstr "此分类中无任何文章"
 
 #: includes/theme-widget-category-post/theme-widget-category-post.php:100
-#: includes/theme-widget-rank/theme-widget-rank.php:40
+#: includes/theme-widget-rank/theme-widget-rank.php:36
 msgid "More &raquo;"
 msgstr "更多 &raquo;"
 
@@ -1972,8 +2244,8 @@ msgstr "最新评论"
 
 #: includes/theme-widget-comments/theme-widget-comments.php:82
 #: includes/theme-widget-comments/theme-widget-comments.php:89
-#: includes/theme-widget-rank/theme-widget-rank.php:118
-#: includes/theme-widget-rank/theme-widget-rank.php:125
+#: includes/theme-widget-rank/theme-widget-rank.php:117
+#: includes/theme-widget-rank/theme-widget-rank.php:124
 #: includes/theme-widget-tags/theme-widget-tags.php:129
 #: includes/theme-widget-tags/theme-widget-tags.php:136
 msgid "Title (optional)"
@@ -1988,58 +2260,63 @@ msgid "Posts rank <small>(Custom)</small>"
 msgstr "文章排行 <small>（定制）</small>"
 
 #: includes/theme-widget-rank/theme-widget-rank.php:16
-#: includes/theme-widget-rank/theme-widget-rank.php:24
+#: includes/theme-widget-rank/theme-widget-rank.php:22
 msgid "Posts rank"
 msgstr "排行榜"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:39
-#: includes/theme-widget-rank/theme-widget-rank.php:40
+#: includes/theme-widget-rank/theme-widget-rank.php:32
+#: includes/theme-widget-rank/theme-widget-rank.php:36
 #, php-format
 msgid "Views more about %s"
 msgstr "查看更多%s"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:109
+#: includes/theme-widget-rank/theme-widget-rank.php:84
+#: includes/theme-widget-tags/theme-widget-tags.php:87
+msgid "No data yet."
+msgstr "此类别暂无资料"
+
+#: includes/theme-widget-rank/theme-widget-rank.php:108
 msgid "Posts ranking"
 msgstr "排行榜"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:129
-#: includes/theme-widget-rank/theme-widget-rank.php:136
+#: includes/theme-widget-rank/theme-widget-rank.php:128
+#: includes/theme-widget-rank/theme-widget-rank.php:135
 msgid "Post number (required)"
 msgstr "文章数量（必填）"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:140
+#: includes/theme-widget-rank/theme-widget-rank.php:139
 msgid "Categories: "
 msgstr "分类目录："
 
-#: includes/theme-widget-rank/theme-widget-rank.php:149
+#: includes/theme-widget-rank/theme-widget-rank.php:148
 msgid "Date"
 msgstr "日期"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:164
+#: includes/theme-widget-rank/theme-widget-rank.php:163
 msgid "Content type"
 msgstr "内容类型"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:174
+#: includes/theme-widget-rank/theme-widget-rank.php:173
 msgid "Image type"
 msgstr "图片类型"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:179
+#: includes/theme-widget-rank/theme-widget-rank.php:178
 msgid "Text type"
 msgstr "文本类型"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:184
+#: includes/theme-widget-rank/theme-widget-rank.php:183
 msgid "Order by"
 msgstr "排序"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:198
+#: includes/theme-widget-rank/theme-widget-rank.php:197
 msgid "Most views"
 msgstr "最多查看"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:212
+#: includes/theme-widget-rank/theme-widget-rank.php:211
 msgid "Recommended"
 msgstr "推荐文章"
 
-#: includes/theme-widget-rank/theme-widget-rank.php:222
+#: includes/theme-widget-rank/theme-widget-rank.php:221
 msgid "Latest"
 msgstr "最新"
 
@@ -2065,18 +2342,52 @@ msgstr "标签数量（必填）"
 msgid "Sticky tags (optional, one tag per line)"
 msgstr "固定标签（可选，一行一个）"
 
-#: single.php:8
-msgid "Maybe you would like them"
-msgstr "或许您会喜欢"
+#: sidebar.php:12
+msgid "Please set some widgets in homepage."
+msgstr "请在【外观 - 小组件】中为首页设置一些小组件"
 
-#~ msgid "Copyright &copy; %s %s."
-#~ msgstr "Copyright &copy; %s %s."
+#: sidebar.php:25
+msgid "Please set some widgets in archive."
+msgstr "请在【外观 - 小组件】中为归档页面设置一些小组件"
 
-#~ msgid "Theme %s by %s."
-#~ msgstr "Theme %s by %s."
+#: sidebar.php:38
+msgid "Please set some widgets in singluar post."
+msgstr "请在【外观 - 小组件】中为单文章设置一些小组件"
 
-#~ msgid "Powered by %s."
-#~ msgstr "Powered by %s."
+#: sidebar.php:51
+msgid "Please set some widgets in singluar page."
+msgstr "请在【外观 - 小组件】中为单页面设置一些小组件"
+
+#: sidebar.php:64
+msgid "Please set some widgets in 404 page."
+msgstr "请在【外观 - 小组件】中为404页面设置一些小组件"
+
+#~ msgid "Home"
+#~ msgstr "首页"
+
+#~ msgid "Category Browser"
+#~ msgstr "目录浏览"
+
+#~ msgid "Tags Browser"
+#~ msgstr "标签归档浏览"
+
+#~ msgid "Date Browser"
+#~ msgstr "日期归档浏览"
+
+#~ msgid "Search Result: %s"
+#~ msgstr "搜索结果：%s"
+
+#~ msgid "Author posts"
+#~ msgstr "作者文章"
+
+#~ msgid "Archive Browser"
+#~ msgstr "归档浏览"
+
+#~ msgid "Navigation menu"
+#~ msgstr "导航菜单"
+
+#~ msgid "Maybe you would like them"
+#~ msgstr "或许您会喜欢"
 
 #~ msgid "Click to show QR code for this page"
 #~ msgstr "扫描二维码即可访问此页面。"
@@ -2130,9 +2441,6 @@ msgstr "或许您会喜欢"
 #~ msgid "Search keyword"
 #~ msgstr "搜索关键词"
 
-#~ msgid "Submit"
-#~ msgstr "提交"
-
 #~ msgid "Latest posts"
 #~ msgstr "最新日志"
 
@@ -2153,32 +2461,6 @@ msgstr "或许您会喜欢"
 
 #~ msgid "Count your post views."
 #~ msgstr "统计您的日志查看数"
-
-#~ msgid "Comment AJAX Settings"
-#~ msgstr "AJAX 评论设置"
-
-#~ msgid ""
-#~ "Visitor submitted comment without refreshing page. Recommended enable to "
-#~ "improve the user experience."
-#~ msgstr "用户提交评论不需要刷新页面即可显示。建议启用提高用户体验。"
-
-#~ msgid "Enable comment AJAX"
-#~ msgstr "启用 AJAX 评论"
-
-#~ msgid "Error: please fill the required fields(name, email)."
-#~ msgstr "错误：请输入必须的字段（姓名，邮箱）。"
-
-#~ msgid "Error: please enter a valid email address."
-#~ msgstr "错误：请输入一个合法的邮箱地址。"
-
-#~ msgid "Error: please type a comment."
-#~ msgstr "错误：请输入评论内容。"
-
-#~ msgid "Param error"
-#~ msgstr "参数错误"
-
-#~ msgid "Data sent."
-#~ msgstr "数据传送完毕。"
 
 #~ msgid "Member"
 #~ msgstr "会员"
@@ -2204,28 +2486,9 @@ msgstr "或许您会喜欢"
 #~ msgid "Your password has been updated."
 #~ msgstr "您的密码已更新。"
 
-#~ msgid "&raquo; detail"
-#~ msgstr "&raquo; 详细"
-
 #, fuzzy
 #~ msgid "Views hot keyword"
 #~ msgstr "查看热门关键词"
-
-#, fuzzy
-#~ msgid "Not data in this category"
-#~ msgstr "在 %s 分类目录中找不到数据"
-
-#, fuzzy
-#~ msgid "Theme home box settings"
-#~ msgstr "首页盒子设置"
-
-#, fuzzy
-#~ msgid "Home box control"
-#~ msgstr "盒子操作"
-
-#, fuzzy
-#~ msgid "Add a new home box"
-#~ msgstr "添加一个新的盒子"
 
 #, fuzzy
 #~ msgid "Delete a home box"
@@ -2239,10 +2502,6 @@ msgstr "或许您会喜欢"
 #~ msgstr "在首页中显示不同的内容。"
 
 #, fuzzy
-#~ msgid "Box title"
-#~ msgstr "幻灯片标题 - %s"
-
-#, fuzzy
 #~ msgid "Show posts number"
 #~ msgstr "文章数量："
 
@@ -2253,10 +2512,6 @@ msgstr "或许您会喜欢"
 #, fuzzy
 #~ msgid "Show thumbnail number"
 #~ msgstr "显示特色图数量："
-
-#, fuzzy
-#~ msgid "Keywords"
-#~ msgstr "搜索关键词"
 
 #, fuzzy
 #~ msgid "Tag1 = http://www.inn-studio.com"
