@@ -60,6 +60,16 @@ define(function(require, exports, module){
 						that.tip(data.status,data.msg);
 						that.$fm.find('.form-group-submit').show();
 						that.$fm.find('.submit').removeAttr('disabled');
+						/**
+						 * email_pwd_not_match
+						 */
+						if(data.code && data.code.indexOf('pwd') !== false){
+							that.$fm.find('input:password').eq(0).focus().select();
+						}else if(data.code && data.code.indexOf('email') !== false){
+							that.$fm.find('input:email').eq(0).focus().select();
+						}else if(data.code && data.code.indexOf('server') === false){
+							that.$fm.find(':required').eq(0).focus().select();
+						}
 					}else{
 						that.tip(data.status,that.error_tx);
 						that.$fm.find('.form-group-submit').show();

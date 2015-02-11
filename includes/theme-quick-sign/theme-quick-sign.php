@@ -3,7 +3,7 @@
 /**
  * Theme quick sign
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @author KM@INN STUDIO
  */
 theme_quick_sign::init();
@@ -72,16 +72,10 @@ class theme_quick_sign{
 			 * register
 			 */
 			case 'register':
-				$repwd = isset($user['pwd-again']) ? $user['pwd-again'] : null;
 				$at_least_len = 2;
-				if($pwd !== $repwd){
+				if(!isset($user['nickname']) || mb_strlen($user['nickname']) < $at_least_len){
 					$output['status'] = 'error';
-					$output['id'] = 'pwd_not_match';
-					$output['msg'] = ___('Sorry, twice password does not match, please try again');
-					die(theme_features::json_format($output));
-				}else if(!isset($user['nickname']) || mb_strlen($user['nickname']) < $at_least_len){
-					$output['status'] = 'error';
-					$output['id'] = 'invalid_nickname';
+					$output['code'] = 'invalid_nickname';
 					$output['msg'] = sprintf(___('Sorry, you nick name is invalid, at least %d characters in length, please try again.'),$at_least_len);
 					die(theme_features::json_format($output));
 				}else{
@@ -103,7 +97,7 @@ class theme_quick_sign{
 			case 'recover':
 				if(!is_email($email)){
 					$output['status'] = 'error';
-					$output['id'] = 'invalid_email';
+					$output['code'] = 'invalid_email';
 					$output['msg'] = ___('Sorry, your email address is invalid, please check it and try again.');
 					die(theme_features::json_format($output));
 				}
@@ -113,7 +107,7 @@ class theme_quick_sign{
 				$user_id = email_exists($email);
 				if(!$user_id){
 					$output['status'] = 'error';
-					$output['id'] = 'email_not_exist';
+					$output['code'] = 'email_not_exist';
 					$output['msg'] = ___('Sorry, the email does not exist.');
 					die(theme_features::json_format($output));
 				}
@@ -169,7 +163,7 @@ class theme_quick_sign{
 					$output['msg'] = ___('Success, we sent an email that includes how to retrieve your password, please check it out in 3 hours.');
 				}else{
 					$output['status'] = 'error';
-					$output['id'] = 'server_error';
+					$output['code'] = 'server_error';
 					$output['detial'] = $wp_mail['msg'];
 					$output['msg'] = ___('Error, server can not send email, please contact the administrator.');
 				}
@@ -181,7 +175,7 @@ class theme_quick_sign{
 				$post_user = isset($_POST['user']) ? $_POST['user'] : null;
 				if(!$post_user){
 					$output['status'] = 'error';
-					$output['id'] = 'invalid_param';
+					$output['code'] = 'invalid_param';
 					$output['msg'] = ___('Invalid param.');
 					die(theme_features::json_format($output));
 				}
@@ -189,7 +183,7 @@ class theme_quick_sign{
 				$post_email = isset($post_user['email']) ?  $post_user['email'] : null;
 				if(!is_email($post_user['email'])){
 					$output['status'] = 'error';
-					$output['id'] = 'invalid_email';
+					$output['code'] = 'invalid_email';
 					$output['msg'] = ___('Invalid email.');
 					die(theme_features::json_format($output));
 				}
@@ -198,7 +192,7 @@ class theme_quick_sign{
 				$post_pwd_again = isset($post_user['pwd-again']) ?  $post_user['pwd-again'] : null;
 				if(empty($post_pwd_new) || empty($post_pwd_again) || $post_pwd_new !== $post_pwd_again){
 					$output['status'] = 'error';
-					$output['id'] = 'invalid_twice_pwd';
+					$output['code'] = 'invalid_twice_pwd';
 					$output['msg'] = ___('Invalid twice password.');
 					die(theme_features::json_format($output));
 				}
@@ -206,7 +200,7 @@ class theme_quick_sign{
 				$post_token = isset($post_user['token']) ?  $post_user['token'] : null;
 				if(empty($post_token)){
 					$output['status'] = 'error';
-					$output['id'] = 'empty_token';
+					$output['code'] = 'empty_token';
 					$output['msg'] = ___('Empty token.');
 					die(theme_features::json_format($output));
 				}
@@ -214,7 +208,7 @@ class theme_quick_sign{
 				$token_decode = authcode($post_token,'decode',AUTH_KEY);
 				if(!$token_decode){
 					$output['status'] = 'error';
-					$output['id'] = 'expired_token';
+					$output['code'] = 'expired_token';
 					$output['msg'] = ___('This token is expired.');
 					die(theme_features::json_format($output));
 				}
@@ -222,7 +216,7 @@ class theme_quick_sign{
 				$token_arr = @unserialize($token_decode);
 				if(!$token_arr || !is_array($token_arr)){
 					$output['status'] = 'error';
-					$output['id'] = 'invalid_token';
+					$output['code'] = 'invalid_token';
 					$output['msg'] = ___('This token is expired.');
 					die(theme_features::json_format($output));
 				}
@@ -231,7 +225,7 @@ class theme_quick_sign{
 				/** check token email is match post email */
 				if($token_user_email != $post_email){
 					$output['status'] = 'error';
-					$output['id'] = 'token_email_not_match';
+					$output['code'] = 'token_email_not_match';
 					$output['msg'] = ___('The token email and you account email do not match.');
 					die(theme_features::json_format($output));
 				}
@@ -240,13 +234,13 @@ class theme_quick_sign{
 				$user_id = (int)email_exists($post_email);
 				if(!$user_id){
 					$output['status'] = 'error';
-					$output['id'] = 'email_not_exist';
+					$output['code'] = 'email_not_exist';
 					$output['msg'] = ___('Sorry, your account email is not exist.');
 				}
 				/** check user already apply to recover password */
 				if(!get_user_meta($user_id,'_tmp_recover_pwd',true)){
 					$output['status'] = 'error';
-					$output['id'] = 'not_apply_recover';
+					$output['code'] = 'not_apply_recover';
 					$output['msg'] = ___('Sorry, the user do not apply recover yet.');
 				}
 				/** all ok, just set new password */
@@ -261,7 +255,7 @@ class theme_quick_sign{
 				break;
 			default:
 				$output['status'] = 'error';
-				$output['id'] = 'invalid_type';
+				$output['code'] = 'invalid_type';
 				$output['msg'] = ___('Invalid type.');
 		}
 		
@@ -290,11 +284,11 @@ class theme_quick_sign{
 		// var_dump($pwd);exit;
 		if(!$pwd){
 			$output['status'] = 'error';
-			$output['id'] = 'invalid_pwd';
+			$output['code'] = 'invalid_pwd';
 			$output['msg'] = ___('Sorry, password is invalid, please try again.');
 		}else if(!is_email($email)){
 			$output['status'] = 'error';
-			$output['id'] = 'invalid_email';
+			$output['code'] = 'invalid_email';
 			$output['msg'] = ___('Sorry, email is invalid, please try again.');
 		}else{
 			$creds = array();
@@ -304,7 +298,7 @@ class theme_quick_sign{
 			$user = wp_signon( $creds );
 			if(is_wp_error($user)){
 				$output['status'] = 'error';
-				$output['id'] = 'email_pwd_not_match';
+				$output['code'] = 'email_pwd_not_match';
 				$output['msg'] = ___('Sorry, your email and password do not match, please try again.');
 			}else{
 				$output['status'] = 'success';
@@ -328,21 +322,21 @@ class theme_quick_sign{
 		if(!$pwd){
 			$output['status'] = 'error';
 			$output['msg'] = ___('Sorry, password is invalid, please try again.');
-			$output['id'] = 'invalid_pwd';
+			$output['code'] = 'invalid_pwd';
 		}else if(!is_email($email)){
 			$output['status'] = 'error';
 			$output['msg'] = ___('Sorry, email is invalid, please try again.');
-			$output['id'] = 'invalid_email';
+			$output['code'] = 'invalid_email';
 		}else if(!trim($nickname) || !validate_username($nickname)){
 			$output['status'] = 'error';
-			$output['id'] = 'invalid_nickname';
+			$output['code'] = 'invalid_nickname';
 			$output['msg'] = ___('Sorry, nickname is invalid, please try again.');
 		/** 
 		 * check email exists
 		 */
 		}else if(email_exists($email)){
 			$output['status'] = 'error';
-			$output['id'] = 'email_exists';
+			$output['code'] = 'email_exists';
 			$output['msg'] = ___('Sorry, email already exists, please change another one and try again.');
 		}else{
 			/** 
@@ -359,7 +353,7 @@ class theme_quick_sign{
 			$user_id = wp_insert_user($user_data);
 			if(is_wp_error($user_id)){
 				$output['status'] = 'error';
-				$output['id'] = $user_id->get_error_code();
+				$output['code'] = $user_id->get_error_code();
 				$output['msg'] = $user_id->get_error_message();
 				
 			}else{

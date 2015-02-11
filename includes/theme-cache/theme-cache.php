@@ -311,16 +311,7 @@ class theme_cache{
 		}
 		return $cache;
 	}
-	/**
-	 * output dynamic sidebar from cache
-	 *
-	 * @param string The widget sidebar name/id
-	 * @param int Cache expire time
-	 * @return string
-	 * @version 2.0.1
-	 * @author KM@INN STUDIO
-	 */
-	public static function dynamic_sidebar($id,$expire = 3600){
+	private static function get_page_prefix(){
 		if(is_singular()){
 			global $post;
 			$cache_id_prefix = 'post-' . $post->ID;
@@ -334,12 +325,33 @@ class theme_cache{
 			$cache_id_prefix = 'search';
 		}else if(is_404()){
 			$cache_id_prefix = 'error404';
+		}else if(is_author()){
+			global $author;
+			$cache_id_prefix = 'author-' . $author;
+		}else if(is_front_page()){
+			$cache_id_prefix = 'frontpage';
+		}else if(is_post_type_archive()){
+			$cache_id_prefix = 'post-type-' . get_query_var('post_type');
+		}else if(is_archive()){
+			$cache_id_prefix = 'archive';
 		}else{
 			$cache_id_prefix = 'unknow';
 		}
+		return $cache_id_prefix;
+	}
+	/**
+	 * output dynamic sidebar from cache
+	 *
+	 * @param string The widget sidebar name/id
+	 * @param int Cache expire time
+	 * @return string
+	 * @version 2.0.2
+	 * @author KM@INN STUDIO
+	 */
+	public static function dynamic_sidebar($id,$expire = 3600){
 		
 		$cache_group_id = 'widget-sidebars';
-		$cache_id = $cache_id_prefix . $id;
+		$cache_id = self::get_page_prefix() . $id;
 		$caches = (array)self::get(self::$cache_skey);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
 		if(empty($cache)){
@@ -359,7 +371,7 @@ class theme_cache{
 	 * @param string The widget sidebar name/id
 	 * @param int Cache expire time
 	 * @return string
-	 * @version 2.0.1
+	 * @version 2.0.2
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_nav_menu($args,$expire = 3600){
@@ -370,24 +382,8 @@ class theme_cache{
 		);
 		$r = wp_parse_args($args,$defaults);
 		$cache_group_id = 'nav-menus';
-		
-		if(is_singular()){
-			global $post;
-			$cache_id_prefix = 'post-' . $post->ID;
-		}else if(is_home()){
-			$cache_id_prefix = 'home';
-		}else if(is_category()){
-			$cache_id_prefix = 'cat-' . theme_features::get_current_cat_id();
-		}else if(is_tag()){
-			$cache_id_prefix = 'cat-' . theme_features::get_current_tag_id();
-		}else if(is_search()){
-			$cache_id_prefix = 'search';
-		}else if(is_404()){
-			$cache_id_prefix = 'error404';
-		}else{
-			$cache_id_prefix = 'unknow';
-		}
-		$cache_id = $cache_id_prefix . $args['theme_location'];
+
+		$cache_id = self::get_page_prefix() . $args['theme_location'];
 		$caches = (array)self::get(self::$cache_skey);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
 		if(empty($cache)){

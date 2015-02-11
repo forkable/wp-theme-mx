@@ -31,6 +31,7 @@ class theme_custom_sign{
 	}
 	public static function action_show_admin_bar(){
 		if(!current_user_can('manage_options')) return false;
+		return true;
 	}
 	public static function action_not_allow_login_backend(){
 		/** 

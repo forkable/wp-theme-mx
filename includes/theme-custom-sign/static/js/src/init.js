@@ -1,16 +1,16 @@
 define(function(require, exports, module){
 	var $ = require('modules/jquery'),
+		jQuery = $,
 		tools = require('modules/tools'),
 		js_request 	= require('theme-cache-request');
 	require('modules/jquery.validate');
 	require('modules/jquery.validate.lang.{locale}');
 	
-	// alert();
 	exports.config = {
-		fm_login_id : '#sign-login',
-		fm_reg_id : '#sign-register',
-		fm_recover_id : '#sign-recover',
-		fm_reset_id : '#sign-reset',
+		fm_login_id : '#fm-sign-login',
+		fm_reg_id : '#fm-sign-register',
+		fm_recover_id : '#fm-sign-recover',
+		fm_reset_id : '#fm-sign-reset',
 		process_url : '',
 		lang : {
 			M00001 : 'Loading, please wait...',

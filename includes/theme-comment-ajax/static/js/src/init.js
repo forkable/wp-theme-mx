@@ -1,7 +1,7 @@
 /**
  * theme-comment-ajax
  *
- * @version 2.0.0
+ * @version 2.0.1
  * @author KM@INN STUDIO
  */
 define(function(require, exports, module){
@@ -13,6 +13,7 @@ define(function(require, exports, module){
 		js_request 	= require('theme-cache-request'),
 		tools 		= require('modules/tools');
 					require('modules/jquery.validate');
+					require('modules/jquery.validate.lang.{locale}');
 	
 
 	

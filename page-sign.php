@@ -62,12 +62,14 @@ $error = get_query_var('error');
 										<?php echo sprintf(___('I am agree the %s'),'<a href="###" target="_blank">' . ___('TOS') . '</a>');?>
 									</label>
 								</div>
-								<div class="form-group">
-									<button type="submit" class="btn btn-success" tabindex="1">
+								<div class="form-group form-group-submit">
+									<button type="submit" class="btn btn-success submit" tabindex="1">
 										<?php echo ___('Register &amp; Log-in');?>
 									</button>
+									<input type="hidden" name="type" value="register">
 								</div>
-								<input type="hidden" name="type" value="register">
+								
+								<div class="form-group submit-tip"></div>
 							</form>
 							<div class="col-sm-12 col-md-6">
 								
@@ -84,13 +86,15 @@ $error = get_query_var('error');
 										<input type="email" name="user[email]" id="sign-email" class="form-control" required tabindex="1" autofocus placeholder="<?php echo ___('Your account email');?>">
 									</div>
 								</div>
-								<div class="form-group">
-									<button type="submit" class="btn btn-success" tabindex="1">
+								<div class="form-group form-group-submit">
+									<button type="submit" class="btn btn-success submit" tabindex="1">
 										<i class="fa fa-send"></i> 
 										<?php echo ___('Send an email to confirm');?>
 									</button>
+									<input type="hidden" name="type" value="recover">
 								</div>
-								<input type="hidden" name="type" value="recover">
+								
+								<div class="form-group submit-tip"></div>
 							</form>
 							<div class="col-sm-12 col-md-6">
 								
@@ -119,12 +123,13 @@ $error = get_query_var('error');
 										<?php echo ___('Remember me');?>
 									</label>
 								</div>
-								<div class="form-group">
-									<button type="submit" class="btn btn-primary" tabindex="1">
+								<div class="form-group form-group-submit">
+									<button type="submit" class="btn btn-primary submit" tabindex="1">
 										<?php echo ___('Login');?>
 									</button>
+									<input type="hidden" name="type" value="login">
 								</div>
-								<input type="hidden" name="type" value="login">
+								<div class="form-group submit-tip"></div>
 							</form>
 							<div class="col-sm-12 col-md-6">
 								
