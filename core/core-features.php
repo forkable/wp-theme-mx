@@ -1499,19 +1499,20 @@ class theme_features{
 	 *
 	 * @param int user_id id
 	 * @return 
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_user_comments_count($user_id){
 		global $wpdb;
 		$user_id = (int)$user_id;
+		$email = get_the_author_meta('user_email',$user_id);
 		$count = $wpdb->get_var($wpdb->prepare( 
 			'
-			SELECT COUNT(*) AS total 
+			SELECT COUNT(comment_ID)
 			FROM ' . $wpdb->comments . '
 			WHERE comment_approved = 1 
-			AND user_id = %d
-			',$user_id
+			AND comment_author_email = %s
+			',$email
 		));
 		return (int)$count;
 	}

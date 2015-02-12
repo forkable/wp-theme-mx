@@ -1029,12 +1029,10 @@ label.error{
  */
 	#widget-author-card .media{
 		display: block;
-		padding: 10px;
-		margin: -10px;
-		margin-bottom: 0;
+		margin-bottom: 10px;
 	}
 		#widget-author-card .media:hover{
-			background: #eee;
+			background: rgb(248,248,248);
 		}
 	#widget-author-card .avatar{
 		width: 100px;
@@ -1047,12 +1045,55 @@ label.error{
 	.author-card-description{
 		color:#666;
 	}
+	#widget-author-card .tx{
+		display: block;
+	}
+	.author-card-meta-links a{
+		font-size: 12px;
+	}
 
+/**
+ * .author-profile
+ */
+.author-profile{
+	border: 1px solid #eee;
+	border-radius: 4px;
+	padding: 20px;
+	margin: 0 20px 20px;
+	margin-bottom: 20px;
+}
+	.author-profile legend{
+		width: auto;
+		margin-bottom: 0;
+		border-bottom: 0;
+		margin-left: 20px;
+		padding: 0 20px;
+	}
+	.author-profile .table{
+		margin-bottom: 0;
+	}
+		.author-profile .table th{
+			color:#323232;
+			font-weight: normal;
+			border: none;
+			width: 30%;
+		}
+		.author-profile .table td{
+			border: none;
+		}
+		.author-profile .table tr{
+			border: none;
+			border-bottom: 1px solid #F5F5F5;
+			
+		}
 
-
-
-
-
+/**
+ * .neck
+ */
+.crumb-title{
+	margin-bottom: 20px;
+	padding-left: 20px;
+}
 
 
 @media(min-width: 992px){

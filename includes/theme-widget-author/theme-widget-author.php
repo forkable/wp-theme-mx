@@ -97,7 +97,7 @@ class theme_widget_author extends WP_Widget{
 						<span class="tx"><?php echo  esc_html(theme_custom_author_profile::get_tabs('following')['text']);?></span>
 						<span class="count"><?php echo (int)esc_html(theme_custom_author_profile::get_tabs('following')['count']);?></span>
 					</a>
-				</ul>
+				</div>
 			<?php } ?>
 			<div class="author-card-features btn-group btn-group-justified" role="group">
 				<?php
