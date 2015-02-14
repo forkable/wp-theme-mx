@@ -1099,3 +1099,9 @@ label.error{
 @media(min-width: 992px){
 	.mx-navbar-form.collapse{display: block !important;}
 }
+@media(max-width: 767px){
+	.mx-search-btn,
+	.mx-user-btn{
+		float: right;
+	}
+}

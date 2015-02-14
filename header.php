@@ -16,7 +16,7 @@
 	<?php wp_head();?>
 </head>
 <body <?php body_class(); ?>>
-<div class="top-bar-container nav-bar navbar-default">
+<div class="top-bar-container nav-bar navbar-default hidden-xs">
 	<div class="top-bar container">
 		<div class="top-bar-menu-container nav navbar-nav navbar-left">
 			<?php
@@ -43,15 +43,26 @@
 				?>
 				<div class="btn-group btn-group-xs">
 					<!-- ctb -->
-					<?php if(method_exists('theme_custom_ctb','get_url')){ ?>
+					<?php if(class_exists('theme_custom_ctb')){ ?>
 						<a href="<?php echo esc_url(theme_custom_ctb::get_url());?>" class="btn btn-primary meta tool-contribution">
 							<i class="fa fa-pencil-square-o"></i>
 							<?php echo ___('Contribution');?>
 						</a>
 					<?php } ?>
+
+					
+					<!-- notification -->
+					<?php if(class_exists('theme_notification')){ ?>
+						<a href="<?php echo esc_url(theme_notification::get_url());?>" class="meta tool-notification btn btn-default">
+							<i class="fa fa-bell"></i> 
+							<?php echo ___('Notification');?>
+						</a>
+					<?php } ?>
+
+					
 					<!-- favor -->
-					<?php if(method_exists('theme_custom_favor','get_url')){ ?>
-						<a href="<?php echo esc_url(theme_custom_favor::get_url());?>" class="meta tool-favor btn btn-xs">
+					<?php if(class_exists('theme_custom_favor')){ ?>
+						<a href="<?php echo esc_url(theme_custom_favor::get_url());?>" class="meta tool-favor btn btn-default">
 							<i class="fa fa-heart"></i>
 							<?php echo ___('My favor');?>
 						</a>
@@ -59,7 +70,7 @@
 					
 					<!-- pm -->
 					<?php if(class_exists('theme_pm')){ ?>
-						<a href="<?php echo esc_url(theme_pm::get_url());?>" class="meta tool-favor btn btn-xs">
+						<a href="<?php echo esc_url(theme_pm::get_url());?>" class="meta tool-favor btn btn-default">
 							<i class="fa fa-envelope"></i>
 							<?php echo ___('My favor');?>
 							<?php if(theme_pm::get_unread_count() != 0){ ?>
@@ -71,6 +82,11 @@
 					<a href="###" class="btn btn-default meta user-avatar">
 						<?php echo get_avatar(get_current_user_id());?>
 						<span class="tx"><?php echo wp_get_current_user()->display_name;?></span>
+					</a>
+
+					<!-- logout -->
+					<a href="<?php echo wp_logout_url(get_current_url());?>" class="meta tool-logout btn btn-default">
+						<i class="fa fa-power-off"></i>
 					</a>
 				</div>
 			<?php
@@ -136,7 +152,7 @@ if(get_header_image()){ ?>
 
 
 <div class="menu-header-container">
-	<div class="navbar navbar-default">
+	<div class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".menu-header">
@@ -148,13 +164,95 @@ if(get_header_image()){ ?>
 	            <a href="<?php echo home_url();?>" class="navbar-brand">
 					<?php echo get_bloginfo('name');?>
 				</a>
-				<div class="visible-xs">
-					<a class="mx-navbar-toggle" href="javascript:void(0);" data-toggle="collapse" data-target=".navbar-collapse-form">
-						<i class="fa fa-search"></i>
-					</a>
-				</div>
-					
-				
+				<ul class="nav navbar-nav navbar-right visible-xs">
+					<li>
+						<a class="mx-search-btn dropdown-toggle" href="javascript:void(0);" data-toggle="collapse" data-target=".navbar-collapse-form">
+							<i class="fa fa-search"></i>
+						</a>
+					</li>
+					<li class="dropdown">
+						<a href="javascript:void(0);" class="mx-user-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+							<i class="fa fa-user"></i> 
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<?php if(is_user_logged_in()){ ?>
+								<!-- ctb -->
+								<?php if(class_exists('theme_custom_ctb')){ ?>
+									<li><a href="<?php echo esc_url(theme_custom_ctb::get_url());?>" class="meta tool-contribution">
+										<i class="fa fa-pencil-square-o"></i>
+										<?php echo ___('Contribution');?>
+									</a></li>
+								<?php } ?>
+
+								
+								<!-- notification -->
+								<?php if(class_exists('theme_notification')){ ?>
+									<li><a href="<?php echo esc_url(theme_notification::get_url());?>" class="meta tool-notification">
+										<i class="fa fa-bell"></i> 
+										<?php echo ___('Notification');?>
+									</a></li>
+								<?php } ?>
+
+								
+								<!-- favor -->
+								<?php if(class_exists('theme_custom_favor')){ ?>
+									<li><a href="<?php echo esc_url(theme_custom_favor::get_url());?>" class="meta tool-favor">
+										<i class="fa fa-heart"></i>
+										<?php echo ___('My favor');?>
+									</a></li>
+								<?php } ?>
+								
+								<!-- pm -->
+								<?php if(class_exists('theme_pm')){ ?>
+									<li><a href="<?php echo esc_url(theme_pm::get_url());?>" class="meta tool-favor">
+										<i class="fa fa-envelope"></i>
+										<?php echo ___('My favor');?>
+										<?php if(theme_pm::get_unread_count() != 0){ ?>
+											<span class="badge"><?php echo theme_pm::get_unread_count();?></span>
+										<?php } ?>
+									</a></li>
+								<?php } ?>
+								
+								<li><a href="###" class="meta user-avatar">
+									<?php echo get_avatar(get_current_user_id());?>
+									<span class="tx"><?php echo wp_get_current_user()->display_name;?></span>
+								</a></li>
+								
+								 <li class="divider"></li>
+								 
+								<!-- logout -->
+								<li><a href="<?php echo wp_logout_url(get_current_url());?>" class="meta tool-logout">
+									<i class="fa fa-power-off"></i>
+								</a></li>
+							<?php }else{ ?>
+							
+								<li><a class="sign-in sign-in-meta" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
+									<i class="fa fa-user"></i>
+									<?php echo ___('Login');?>
+								</a></li>
+								<?php
+								/**
+								 * open sign
+								 */
+								if(method_exists('theme_open_sign','get_login_url')){
+									if(theme_open_sign::get_login_url('qq')){
+										?>
+										<li><a href="<?php echo esc_url(theme_open_sign::get_login_url('qq'));?>" class="open-sign sign-in-meta qq" title="<?php echo ___('Login from QQ');?>">
+											<i class="fa fa-qq"></i>
+										</a></li>
+									<?php
+									}
+									if(theme_open_sign::get_login_url('sina')){
+										?>
+										<li><a href="<?php echo esc_url(theme_open_sign::get_login_url('sina'));?>" class="open-sign sign-in-meta sina" title="<?php echo ___('Login from Weibo');?>">
+											<i class="fa fa-weibo"></i>
+										</a></li>
+									<?php } ?>
+								<?php } ?>
+							<?php } ?>
+						</ul>
+					</li>
+				</ul>
 			</div><!-- /.navbar-header -->
 			<?php
 			/** 

@@ -1,15 +1,15 @@
 <?php
 /** 
- * sign
+ * @version 1.0.0
  */
 theme_notification::init();
 class theme_notification{
 	public static $iden = 'theme_notification';
 	public static $page_slug = 'notifications';
 	public static $user_meta_key = array(
-		'notification' => 'notification',
-		'count' => 'notifications_count',
-		'unread' => 'notification_unread_count',
+		'key' => 'theme_noti',
+		'count' => 'theme_noti_count',
+		'unread_count' => 'theme_noti_unread_count',
 	);
 	public static $pages = array();
 	public static function init(){
@@ -21,7 +21,7 @@ class theme_notification{
 		add_action('template_redirect',		get_class() . '::template_redirect');
 		add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
 		//add_action('wp_ajax_nopriv_theme_quick_sign', 'theme_quick_sign::process');
-		add_filter('wp_title',				get_class() . '::wp_title',10,2);
+		//add_filter('wp_title',				get_class() . '::wp_title',10,2);
 	}
 
 	public static function filter_query_vars($vars){
@@ -33,25 +33,60 @@ class theme_notification{
 	}
 	public static function template_redirect(){
 		if(is_page(self::$page_slug) && !is_user_logged_in()){
-			$redirect = get_permalink(get_page_by_path(self::$page_slug);
+			$redirect = get_permalink(get_page_by_path(self::$page_slug));
 			wp_redirect(theme_custom_sign::get_tabs('login',$redirect));
 			die();
 		}
 	}
+	public static function get_count($args){
+		$defaults = array(
+			'user_id' => null,
+			'type' => 'all',
+		);
+		$args = wp_parse_args($args,$defaults);
+		if(empty($args['user_id'])) return false;
+
+		switch($args['type']){
+			case 'unread':
+				$metas = array_filter((array)get_user_meta($args['user_id'],self::$user_meta_key['unread_count'],true));
+				return empty($metas) ? 0 : count($metas);
+			default:
+				$metas = array_filter((array)get_user_meta($args['user_id'],self::$user_meta_key['key']));
+				return empty($metas) ? 0 : count($metas);
+		}
+	}
 	public static function get_notifications($args){
 		$defaults = array(
-			'author_id' => null,
+			'user_id' => null,
 			'type' => 'all',/** all / unread / read */
 			'posts_per_page' => null,
 			'page' => 1,
 			'orderby' => 'desc',
 		);
-		$r = wp_parse_args($args,$defaults);
-		$metas = (array)get_user_meta($author_id,self::$user_meta_key['notification']);
+		$args = wp_parse_args($args,$defaults);
+		if(empty($args['user_id'])) return false;
+		
+		$metas = (array)get_user_meta($args['user_id'],self::$user_meta_key['key']);
 		if(empty($metas)){
 			return null;
 		}else{
-			
+			asort($metas);
+		}
+		
+		switch($args['type']){
+			case 'unread':
+				$unread = (array)get_user_meta($args['user_id'],self::$user_meta_key['unread_count'],true);
+				if(empty($unread)){
+					return $metas;
+				}else{
+					$metas = array_map(function($meta){
+						if(!in_array($meta['id'],$unread)) return $meta;
+						$meta['unread'] = true;
+						return $meta;
+					},$metas);
+				}
+			default:
+				return $metas;
 		}
 	}
 	public static function page_create(){
