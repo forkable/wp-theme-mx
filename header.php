@@ -78,8 +78,16 @@
 							<?php } ?>
 						</a>
 					<?php } ?>
-					
-					<a href="###" class="btn btn-default meta user-avatar">
+
+					<!-- my settings -->
+					<?php
+					if(class_exists('theme_custom_user_settings')){
+						$setting_url = theme_custom_user_settings::get_page_url();
+					}else{
+						$setting_url = admin_url('profile.php');
+					}
+					?>
+					<a href="<?php echo esc_url($setting_url);?>" class="btn btn-default meta user-avatar">
 						<?php echo get_avatar(get_current_user_id());?>
 						<span class="tx"><?php echo wp_get_current_user()->display_name;?></span>
 					</a>

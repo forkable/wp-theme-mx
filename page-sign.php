@@ -5,7 +5,7 @@
 $tabs = theme_custom_sign::get_tabs();
 $tab_active = get_query_var('tab');
 $tab_active = isset($tabs[$tab_active]) ? $tab_active : 'login';
-$return_url = get_query_var('return');
+$redirect = get_query_var('redirect');
 $error = get_query_var('error');
 
 ?>

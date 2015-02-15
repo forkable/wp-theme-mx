@@ -114,9 +114,7 @@ class theme_notification{
 			if(!$page){
 				$r = wp_parse_args($v,$defaults);
 				$page_id = wp_insert_post($r);
-				// $page = get_post($page_id);
 			}
-			// self::$pages[$k] = $page;
 		}
 	}
 
