@@ -10,7 +10,7 @@
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 	<?php echo theme_features::get_theme_css('modules/fa-fonts','normal');?>
 	<?php echo theme_features::get_theme_css('modules/bootstrap','normal');?>
-	<?php echo theme_features::get_theme_css('modules/bootstrap-theme','normal');?>
+	<!--<?php echo theme_features::get_theme_css('modules/bootstrap-theme','normal');?>-->
 	<?php echo theme_features::get_theme_css('frontend/style','normal',true);?>
 	<link rel="shortcut icon" href="<?php //echo theme_features::get_theme_images_url('frontend/favicon.ico',true);?>" type="image/x-icon" />
 	<?php wp_head();?>

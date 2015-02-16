@@ -16,7 +16,7 @@ class theme_functions{
 	public static $iden = 'mx';
 	public static $theme_edition = 1;
 	public static $theme_date = '2015-02-01 00:00';
-	public static $thumbnail_size = array('thumbnail',300,300);
+	public static $thumbnail_size = array('thumbnail',320,200);
 	public static $comment_avatar_size = 60;
 	public static $cache_expire = 3600;
 	/** 
@@ -376,27 +376,8 @@ class theme_functions{
 		<li class="<?php echo esc_attr(implode(' ',$classes));?>">
 			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
 				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-original="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
-				<div class="extra row">
-					<h3 class="post-list-title col-xs-12"><?php echo esc_html($post_title);?></h3>
-					<div class="metas">
-						<div class="author meta col-xs-12">
-							<i class="fa fa-user"></i>
-							<?php the_author();?>
-						</div>
-						
-						<?php if(function_exists('the_views')){ ?>
-							<div class="view meta col-xs-6">
-								<i class="fa fa-play-circle"></i>
-								<?php the_views();?>
-							</div>
-						<?php } ?>
-
-						<div class="comments meta col-xs-6">
-							<i class="fa fa-comment"></i>
-							<?php echo (int)$post->comment_count;?>
-						</div>
-					</div><!-- /.metas -->
-				</div>
+				
+				<h3 class="post-list-title"><?php the_title();?></h3>
 					
 			</a>
 		</li>
@@ -1744,13 +1725,17 @@ class theme_functions{
 			?>
 		</h3>
 		<div class="mx-panel-heading-extra">
-			<div class="keywords btn-group hidden-xs">
-				<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){ ?>
-					<a class="" href="<?php echo esc_url($kw['url']);?>">
-						<?php echo $kw['name'];?>
-					</a>
-				<?php } ?>
-			</div>
+			
+			<?php if(!is_null_array($v['keywords'])){ ?>
+				<div class="keywords hidden-xs">
+					<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){ ?>
+						<a class="" href="<?php echo esc_url($kw['url']);?>">
+							<?php echo $kw['name'];?>
+						</a>
+					<?php } ?>
+				</div>
+			<?php } ?>
+			
 			<div class="nplink btn-group btn-group-xs">
 				<a 
 					title="<?php echo ___('Preview page');?>"
@@ -1770,26 +1755,28 @@ class theme_functions{
 			
 		</div>
 	</div>
-	<div class="row mx-card-body post-mixed-list-container">
-		<?php
-		$wp_query = self::get_posts_query(array(
-			'orderby' => 'lastest',
-			'category__in' => $v['cats'],
-			'posts_per_page' => 12
-		));
-		if(have_posts()){
-			while(have_posts()){
-				the_post();
-				self::archive_content(array(
-					'classes' => array('col-lg-6 col-md-6 col-xs-12 col-sm-12')
-				));
+	<div class="panel-body">
+		<ul class="row mx-card-body post-img-lists">
+			<?php
+			$wp_query = self::get_posts_query(array(
+				'orderby' => 'lastest',
+				'category__in' => $v['cats'],
+				'posts_per_page' => 12
+			));
+			if(have_posts()){
+				while(have_posts()){
+					the_post();
+					self::archive_img_content(array(
+						'classes' => array('col-xs-12 col-sm-3')
+					));
+				}
+			}else{
+				
 			}
-		}else{
-			
-		}
-		wp_reset_postdata();
-		wp_reset_query();
-		?>
+			wp_reset_postdata();
+			wp_reset_query();
+			?>
+		</ul>
 	</div>
 </div>
 	<?php

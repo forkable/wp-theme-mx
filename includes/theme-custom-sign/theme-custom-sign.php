@@ -86,7 +86,7 @@ class theme_custom_sign{
 			),
 			'recover' => array(
 				'text' => ___('Recover password'),
-				'icon' => 'key',
+				'icon' => 'question-circle',
 				'url' => add_query_arg(array(
 					'tab' => 'recover'
 				),$baseurl),

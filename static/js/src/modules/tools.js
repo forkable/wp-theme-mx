@@ -20,25 +20,34 @@ define(function(require, exports, module){
 		this.before = function(){};
 		this.always = function(){};
 		
-		var that = this;
-		this.cache = {};
+		var that = this,
+			cache = {};
 		this.init = function(){
 			that.$fm.validate({
 				rules : that.rules,
 				submitHandler : function(fm){
 					that.$fm = $(fm);
-					that.ajax.init();
+					if(!cache.$tip){
+						cache.$tip = that.$fm.find('.submit-tip').hide();
+					}
+					ajax.init();
 				}
 			});
 		};
 		
-		this.ajax = {
+		var ajax = {
 			init : function(){
 				that.before();/** callback before */
-				that.cache.$tip = that.$fm.find('.submit-tip');
-				that.tip('loading',that.loading_tx);
-				that.$fm.find('.form-group-submit').hide();
-				that.$fm.find('.submit').attr('disabled',true);
+				
+				if(!cache.$submit){
+					cache.$submit = that.$fm.find('.submit');
+					cache.submit_ori_tx = cache.$submit.text();
+					cache.submit_loading_tx = cache.$submit.data('loading-text');
+				}
+				cache.$submit.text(cache.submit_loading_tx).attr('disabled',true);
+				
+				tip('loading',cache.submit_loading_tx);
+				
 				$.ajax({
 					url : that.process_url,
 					type : 'post',
@@ -46,7 +55,7 @@ define(function(require, exports, module){
 					dataType : 'json'
 				}).done(function(data){
 					if(data && data.status === 'success'){
-						that.tip(data.status,data.msg);
+						tip(data.status,data.msg);
 						if(data.redirect){
 							setTimeout(function(){
 								location.href = data.redirect;
@@ -57,43 +66,46 @@ define(function(require, exports, module){
 							},1000);
 						}
 					}else if(data && data.status === 'error'){
-						that.tip(data.status,data.msg);
-						that.$fm.find('.form-group-submit').show();
-						that.$fm.find('.submit').removeAttr('disabled');
+						tip(data.status,data.msg);
+						cache.$submit.text(cache.submit_ori_tx).removeAttr('disabled');
 						/**
 						 * email_pwd_not_match
 						 */
-						if(data.code && data.code.indexOf('pwd') !== false){
+						if(data.code && data.code.indexOf('pwd') > 0){
 							that.$fm.find('input:password').eq(0).focus().select();
-						}else if(data.code && data.code.indexOf('email') !== false){
-							that.$fm.find('input:email').eq(0).focus().select();
-						}else if(data.code && data.code.indexOf('server') === false){
+						}else if(data.code && data.code.indexOf('email')  > 0){
+							that.$fm.find('input[type=email]').eq(0).focus().select();
+						}else if(data.code && data.code.indexOf('server') < 0){
 							that.$fm.find(':required').eq(0).focus().select();
 						}
 					}else{
-						that.tip(data.status,that.error_tx);
-						that.$fm.find('.form-group-submit').show();
-						that.$fm.find('.submit').removeAttr('disabled');
+						tip(data.status,that.error_tx);
+						cache.$submit.text(cache.submit_ori_tx).removeAttr('disabled');
 					}
 					/** callback done */
 					that.done(data);
 				}).fail(function(){
 					that.tip('error',that.error_tx);
-					that.$fm.find('.form-group-submit').show();
-					that.$fm.find('.submit').removeAttr('disabled');
+					cache.$submit.text(cache.submit_ori_tx).removeAttr('disabled');
 				}).always(function(){
 					/** callback always */
 					that.always();
 				});
 			}
 		};
-		this.tip = function(t,s){
+		function tip(t,s){
 			if(t === 'hide'){
-				that.cache.$tip.hide();
+				if(!cache.$tip.is(':hidden')){
+					cache.$tip.slideUp();
+				}
 			}else{
-				that.cache.$tip.html(exports.status_tip(t,s)).show();
+				cache.$tip.html(exports.status_tip(t,s));
+				if(cache.$tip.is(':hidden')){
+					cache.$tip.slideDown();
+				}
 			}
 		};
+		
 		return this;
 	}
 

@@ -11,13 +11,23 @@ class theme_custom_point{
 	);
 	public static function init(){
 		add_action('page_settings',get_class() . '::display_backend');
-		add_action('wp_insert_comment',get_class() . '::actin
-		',10,2);
+		
+		add_action('wp_insert_comment',get_class() . '::action_add_history_comment_publish',10,2);
+		
+		add_action('wp_insert_comment',get_class() . '::action_add_history_post_reply',10,2);
+		
+		add_action('publish_post',get_class() . '::action_add_history_post_publish',10,2);
+		
+		add_action('user_register',get_class() . '::action_add_history_signup');
+
+
+		
 		add_filter('theme_options_default',get_class() . '::options_default');
 		add_filter('theme_options_save',get_class() . '::options_save');
 	}
 	public static function display_backend(){
 		$opt = theme_options::get_options(self::$iden);
+		$points = $opt['points'];
 		$point_name = isset($opt['point-name']) ? $opt['point-name'] : ___('Cat-paw');
 		?>
 		<fieldset>
@@ -37,7 +47,7 @@ class theme_custom_point{
 								<label for="<?php echo self::$iden;?>-<?php echo $k;?>"><?php echo $v[text];?></label>
 							</th>
 							<td>
-								<input type="number" name="<?php echo self::$iden;?>[points][<?php echo $k;?>]" class="short-text" id="<?php echo self::$iden;?>-<?php echo $k;?>" value="<?php echo isset($opt[$k]) ? $opt[$k] : 0;?>">
+								<input type="number" name="<?php echo self::$iden;?>[points][<?php echo $k;?>]" class="short-text" id="<?php echo self::$iden;?>-<?php echo $k;?>" value="<?php echo isset($points[$k]) ? $points[$k] : 0;?>">
 							</td>
 						</tr>
 					<?php } ?>
@@ -80,15 +90,15 @@ class theme_custom_point{
 	public static function options_default($opts){
 		$opts[self::$iden] = array(
 			'point-name' 			=> ___('Cat-paw'), /** 名称 */
-			'points' = array(
-				'signup'			=> 10, /** 初始 */
+			'points' => array(
+				'signup'			=> 20, /** 初始 */
 				'signin-daily'		=> 2, /** 日登 */
 				'comment-publish'	=> 1, /** 发表新评论 */
 				'comment-delete'  	=> -3, /** 删除评论 */
-				'post-publish' 		=> 5, /** 发表新文章 */
-				'post-reply' 		=> 2, /** 文章被回复 */
-				'post-per-hundred-view' => 50, /** 文章每百查看 */
-				'aff-signup'		=> 15, /** 推广注册 */			
+				'post-publish' 		=> 3, /** 发表新文章 */
+				'post-reply' 		=> 1, /** 文章被回复 */
+				'post-per-hundred-view' => 5, /** 文章每百查看 */
+				'aff-signup'		=> 5, /** 推广注册 */			
 			)
 		);
 		return $opts;
@@ -126,75 +136,86 @@ class theme_custom_point{
 	 * @version 1.0.0
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function action_add_history_signup(){
+	public static function action_add_history_signup($user_id){
 		$meta = array(
 			'type'=> 'signup'
 		);
-		add_user_meta(get_current_user_id(),self::$user_meta_key['history'],$meta);
+		add_user_meta($user_id,self::$user_meta_key['history'],$meta);
 		/**
 		 * update point
 		 */
-		update_user_meta(get_current_user_id(),self::$user_meta_key['point'],(int)theme_options::get_options(self::$iden)['points']['signup']);
+		update_user_meta($user_id,self::$user_meta_key['point'],(int)theme_options::get_options(self::$iden)['points']['signup']);
 	}
 	/**
 	 * HOOK - Add comment publish history to user meta
 	 *
 	 * @param int User id
-	 * @param int Post id
+	 * @param object Comment
 	 * @version 1.0.0
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function action_add_history_comment_publish($args){
-		$defaults = array(
-			'user_id' => get_current_user_id(),
-			'comment_id' => null,
-		);
-		$args = wp_parse_args($args,$defaults);
-		if(!(int)$args['post_id']) return false;
+	public static function action_add_history_comment_publish($comment_id,$comment){
+		if(!is_user_logged_in()) return false;
+		$comment_author_id = $comment->user_id;
+		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+		if($comment_author_id == $post_author_id) return false;
 		$meta = array(
 			'type' => 'comment-publish',
-			'comment_id' => $args['comment_id'],
-		)
-		add_user_meta($user_id,self::$user_meta_key['history'],$meta);
+			'comment_id' => $comment_id,
+		);
+		add_user_meta($comment_author_id,self::$user_meta_key['history'],$meta);
+		/**
+		 * update point
+		 */
+		$old_point = self::get_point($comment_author_id);
+		update_user_meta($comment_author_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['comment-publish']);
 	}
 	
 	/**
 	 * HOOK - Add post publish history to user meta
 	 *
-	 * @param int User id
-	 * @param int Comment id
+	 * @param int Post id
+	 * @param object Post
 	 * @version 1.0.0
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function action_add_history_post_publish($args){
-		$defaults = array(
-			'user_id' => get_current_user_id(),
-			'post_id' => null,
-		);
-		$args = wp_parse_args($args,$defaults);
-		if(!(int)$args['post_id']) return false;
+	public static function action_add_history_post_publish($post_id,$post){
+		$post_author_id = $post->post_author;
 		$meta = array(
 			'type' => 'post-publish',
-			'post_id' => $args['post_id'],
-		)
-		add_user_meta(get_current_user_id(),self::$user_meta_key['history'],$meta);
+			'post_id' => $post_id,
+		);
+		add_user_meta($post_author_id,self::$user_meta_key['history'],$meta);
+		/**
+		 * update point
+		 */
+		$old_point = self::get_point($post_author_id);
+		update_user_meta($post_author_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['post-publish']);
 	}
 	
 	/**
 	 * HOOK - Add post reply history to post author meta
 	 *
 	 * @param int Comment id
+	 * @param object Comment
 	 * @version 1.0.0
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function action_add_history_post_reply($args){
-		$comment = get_comment($args['comment_id']);
+	public static function action_add_history_post_reply($comment_id,$comment){
 		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+		/** do not add history for myself post */
+		if($post_author_id == $comment->user_id) return false;
+		
 		$meta = array(
 			'type' => 'post-reply',
-			'comment_id' => $args['comment_id'],
-		)
+			'comment_id' => $comment_id,
+		);
 		add_user_meta($post_author_id,self::$user_meta_key['history'],$meta);
+		/**
+		 * update point
+		 */
+		$old_point = self::get_point($post_author_id);
+		update_user_meta($post_author_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['post-reply']);
 	}
 }
 ?>
