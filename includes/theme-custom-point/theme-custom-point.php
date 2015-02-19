@@ -8,6 +8,7 @@ class theme_custom_point{
 	public static $user_meta_key = array(
 		'history' => 'theme_point_history',
 		'point' => 'theme_point_count',
+		'last-signin' => 'theme_last_signin',
 	);
 	public static function init(){
 		add_action('page_settings',get_class() . '::display_backend');
@@ -20,7 +21,9 @@ class theme_custom_point{
 		
 		add_action('user_register',get_class() . '::action_add_history_signup');
 
+		add_action('wp_login',get_class() . '::action_add_history_signin_daily',10,2);
 
+		
 		
 		add_filter('theme_options_default',get_class() . '::options_default');
 		add_filter('theme_options_save',get_class() . '::options_save');
@@ -51,6 +54,12 @@ class theme_custom_point{
 							</td>
 						</tr>
 					<?php } ?>
+					<tr>
+						<th><label for="<?php echo self::$iden;?>-point-des"><?php echo ___('Description on point history page');?></label></th>
+						<td>
+							<textarea name="<?php echo self::$iden;?>[point-point-des]" id="<?php echo self::$iden;?>-des" rows="3" class="widefat code"><?php echo isset($opt['point-des']) ? $opt['point-des'] : null;?></textarea>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</fieldset>
@@ -99,7 +108,8 @@ class theme_custom_point{
 				'post-reply' 		=> 1, /** 文章被回复 */
 				'post-per-hundred-view' => 5, /** 文章每百查看 */
 				'aff-signup'		=> 5, /** 推广注册 */			
-			)
+			),
+			'point-des' => ___('Point can exchange many things.'),
 		);
 		return $opts;
 	}
@@ -107,6 +117,16 @@ class theme_custom_point{
 		if(!isset($_POST[self::$iden])) return $opts;
 		$opts[self::$iden] = $_POST[self::$iden];
 		return $opts;
+	}
+	public static function get_point_name(){
+		return theme_options::get_options(self::$iden)['point-name'];
+	}
+	public static function get_point_des(){
+		return theme_options::get_options(self::$iden)['point-des'];
+	}
+	public static function get_point_value($type){
+		$opt = theme_options::get_options(self::$iden)['points'];
+		return isset($opt[$type]) ? $opt[$type] : false;
 	}
 	/**
 	 * Get user point
@@ -116,7 +136,8 @@ class theme_custom_point{
 	 * @return int
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function get_point($user_id){
+	public static function get_point($user_id = null){
+		if(!$user_id) $user_id = get_current_user_id();
 		return (int)get_user_meta($user_id,self::$user_meta_key['point'],true);
 	}
 	/**
@@ -127,7 +148,8 @@ class theme_custom_point{
 	 * @return array
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function get_history($user_id){
+	public static function get_history($user_id = null){
+		if(!$user_id) $user_id = get_current_user_id();
 		return get_user_meta($user_id,self::$user_meta_key['history']);
 	}
 	/**
@@ -147,6 +169,46 @@ class theme_custom_point{
 		update_user_meta($user_id,self::$user_meta_key['point'],(int)theme_options::get_options(self::$iden)['points']['signup']);
 	}
 	/**
+	 * HOOK - Signin daily for user meta
+	 *
+	 * @param int User id
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function action_add_history_signin_daily($user_name,$user){
+		$user_id = $user->ID;
+		/**
+		 * get the last sign-in time
+		 */
+		$last_login_timestamp = get_user_meta($user_id,self::$user_meta_key['last-signin'],true);
+		$current_timestamp = current_time('timestamp');
+		if(empty($last_login_timestamp)){
+			add_user_meta($user_id,self::$user_meta_key['last-signin'],$current_timestamp);
+		}else{
+			update_user_meta($user_id,self::$user_meta_key['last-signin'],$current_timestamp);
+		}
+		/**
+		 * Check last logged is yesterday or not.
+		 */
+		$today_Ymd = date('Ymd',$current_timestamp);
+		$last_login_Ymd = date('Ymd',$last_login_timestamp);
+		/** IS logged today, return */
+		if($today_Ymd == $last_login_Ymd) return;
+		/**
+		 * add history
+		 */
+		$meta = array(
+			'type' => 'signin-daily',
+			'timestamp' => $current_timestamp
+		);
+		add_user_meta($user_id,self::$user_meta_key['history'],$meta);
+		/**
+		 * update point
+		 */
+		$old_point = self::get_point($user_id);
+		update_user_meta($user_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['signin-daily']);
+	}
+	/**
 	 * HOOK - Add comment publish history to user meta
 	 *
 	 * @param int User id
@@ -161,7 +223,7 @@ class theme_custom_point{
 		if($comment_author_id == $post_author_id) return false;
 		$meta = array(
 			'type' => 'comment-publish',
-			'comment_id' => $comment_id,
+			'comment-id' => $comment_id,
 		);
 		add_user_meta($comment_author_id,self::$user_meta_key['history'],$meta);
 		/**
@@ -183,7 +245,7 @@ class theme_custom_point{
 		$post_author_id = $post->post_author;
 		$meta = array(
 			'type' => 'post-publish',
-			'post_id' => $post_id,
+			'post-id' => $post_id,
 		);
 		add_user_meta($post_author_id,self::$user_meta_key['history'],$meta);
 		/**
@@ -208,7 +270,7 @@ class theme_custom_point{
 		
 		$meta = array(
 			'type' => 'post-reply',
-			'comment_id' => $comment_id,
+			'comment-id' => $comment_id,
 		);
 		add_user_meta($post_author_id,self::$user_meta_key['history'],$meta);
 		/**

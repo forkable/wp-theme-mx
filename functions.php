@@ -547,12 +547,8 @@ class theme_functions{
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading"><?php the_title();?></h4>
-					<div class="extra row">
-						<div class="metas">
-							<div class="author meta col-xs-12">
-								<i class="fa fa-user"></i>
-								<?php the_author();?>
-							</div>
+					<div class="extra">
+						<div class="metas row">
 							
 							<?php if(function_exists('the_views')){ ?>
 								<div class="view meta col-xs-6">

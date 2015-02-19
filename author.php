@@ -14,23 +14,19 @@ $tabs = theme_custom_author_profile::get_tabs();
 		<div id="main" class="col-md-9 col-sm-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<ul class=" nav nav-pills">
+					<div class="btn-group btn-group-justified" role="group">
 						<?php 
 						foreach($tabs as $k => $v){
-							$class_active = $tab_active === $k ? ' active ' : null;
+							$class_active = $tab_active === $k ? ' btn-primary ' : null;
 							?>
-							<li role="presentation" class="<?php echo $class_active;?>">
-								<a href="<?php echo esc_url($v['url']);?>">
-									<i class="fa fa-<?php echo esc_attr($v['icon']);?>"></i> 
-									<span class="tx <?php echo $class_active ? null : 'hidden-xs';?>">
-										<?php echo esc_html($v['text']);?>
-									</span>
-								</a>
-							</li>
-							<?php
-						}
-						?>
-					</ul>
+							<a href="<?php echo esc_url($v['url']);?>" class="btn btn-default <?php echo $class_active;?>" role="button">
+								<i class="fa fa-<?php echo esc_attr($v['icon']);?>"></i> 
+								<span class="tx <?php echo $class_active ? null : 'hidden-xs';?>">
+									<?php echo esc_html($v['text']);?>
+								</span>
+							</a>
+						<?php } ?>					
+					</div>
 				</div>
 				<?php
 				switch($tab_active){

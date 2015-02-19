@@ -85,7 +85,7 @@ define(function(require, exports, module){
 					});
 					m.done = function(data){
 						if(data && data.status === 'success'){
-							location.href = location.href;
+							location.reload();
 						}
 					};
 					m.loading_tx = exports.config.lang.M00001;
@@ -100,14 +100,9 @@ define(function(require, exports, module){
 						m.process_url = exports.config.process_url + '&' + $.param({
 							'theme-nonce' : js_request['theme-nonce']
 						});
-						m.rules = {
-							'user[pwd-again]' : {
-								equalTo : '#sign-pwd'
-							}
-						};
 						m.done = function(data){
 							if(data && data.status === 'success'){
-								location.href = location.href;
+								location.reload();
 							}
 						};
 						m.loading_tx = exports.config.lang.M00001;

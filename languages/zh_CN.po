@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-16 17:00+0800\n"
-"PO-Revision-Date: 2015-02-16 17:00+0800\n"
+"POT-Creation-Date: 2015-02-18 21:18+0800\n"
+"PO-Revision-Date: 2015-02-18 21:19+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -17,50 +17,50 @@ msgstr ""
 "X-Generator: Poedit 1.7.3\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: author.php:69 includes/_theme-quick-comment/theme-quick-comment.php:171
+#: author.php:65 includes/_theme-quick-comment/theme-quick-comment.php:171
 msgid "No comment yet."
 msgstr "暂无评论"
 
-#: author.php:104
+#: author.php:100
 msgid "Basic profile"
 msgstr "基本资料"
 
-#: author.php:109
+#: author.php:105
 msgid "Unique identifier"
 msgstr "唯一的标识（不能被更改）"
 
-#: author.php:109
+#: author.php:105
 msgid "UID"
 msgstr "UID"
 
-#: author.php:117 comments.php:83 comments.php:91
+#: author.php:113 comments.php:83 comments.php:91
 #: includes/_theme-quick-comment/theme-quick-comment.php:348
 #: includes/theme-quick-sign/theme-quick-sign.php:396
 msgid "Nickname"
 msgstr "昵称"
 
-#: author.php:121
+#: author.php:117
 msgid "Registered"
 msgstr "注册时间"
 
-#: author.php:125
+#: author.php:121
 msgid "Website / Blog"
 msgstr "网站 / 博客"
 
-#: author.php:138
+#: author.php:134
 msgid "Description"
 msgstr "描述"
 
-#: author.php:148
+#: author.php:144
 msgid "Statistics"
 msgstr "统计"
 
-#: author.php:152
+#: author.php:148
 #: includes/theme-custom-author-profile/theme-custom-author-profile.php:85
 msgid "Works"
 msgstr "作品"
 
-#: author.php:161
+#: author.php:157
 #: includes/theme-custom-author-profile/theme-custom-author-profile.php:91
 msgid "Comments"
 msgstr "评论"
@@ -87,7 +87,7 @@ msgstr "评论已关闭"
 msgid "(required)"
 msgstr "（需要）"
 
-#: comments.php:77 functions.php:1098
+#: comments.php:77 functions.php:1075
 msgid "Cancel reply"
 msgstr "取消回复"
 
@@ -100,7 +100,7 @@ msgstr "留下评论"
 msgid "Leave a Reply to %s"
 msgstr "回复给 %s"
 
-#: comments.php:99 comments.php:108 functions.php:1107
+#: comments.php:99 comments.php:108 functions.php:1084
 #: includes/_theme-quick-comment/theme-quick-comment.php:349
 #: includes/theme-quick-sign/theme-quick-sign.php:397
 msgid "Email"
@@ -126,11 +126,11 @@ msgstr "抱歉，无效的来路。"
 msgid "Sorry, security code is invalid."
 msgstr "抱歉，无效的安全码。"
 
-#: core/core-features.php:1319 core/core-features.php:1385 functions.php:1322
+#: core/core-features.php:1319 core/core-features.php:1385 functions.php:1299
 msgid "&lsaquo; Previous"
 msgstr "&lsaquo;  上一页"
 
-#: core/core-features.php:1354 core/core-features.php:1386 functions.php:1346
+#: core/core-features.php:1354 core/core-features.php:1386 functions.php:1323
 msgid "Next &rsaquo;"
 msgstr "下一页 &rsaquo;"
 
@@ -412,268 +412,280 @@ msgstr "最赞"
 msgid "Random"
 msgstr "随机"
 
-#: functions.php:421 includes/theme-post-thumb/theme-post-thumb.php:53
+#: functions.php:402 includes/theme-post-thumb/theme-post-thumb.php:53
 #: includes/theme-post-thumb/theme-post-thumb.php:55
 #: includes/theme-widget-rank/theme-widget-rank.php:204
 msgid "Thumb up"
 msgstr "顶/赞"
 
-#: functions.php:428
+#: functions.php:409
 msgid "Comment count"
 msgstr "评论统计"
 
-#: functions.php:436 functions.php:690
+#: functions.php:417 functions.php:667
 #: includes/theme-post-views/theme-post-views.php:183
 msgid "Views"
 msgstr "查看数"
 
-#: functions.php:514
+#: functions.php:495
 msgid "Sticky post"
 msgstr "顶置文章"
 
-#: functions.php:672
+#: functions.php:649
 msgid "Category"
 msgstr "分类"
 
-#: functions.php:684
+#: functions.php:661
 #, php-format
 msgid "Views all post by %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:699
+#: functions.php:676
 msgid "Edit post"
 msgstr "编辑文章"
 
-#: functions.php:703 functions.php:705
+#: functions.php:680 functions.php:682
 msgid "Post link"
 msgstr "文章链接"
 
-#: functions.php:730 functions.php:829 functions.php:843
+#: functions.php:707 functions.php:806 functions.php:820
 #, php-format
 msgid "Views all posts by %s tag"
 msgstr "查看 %s 标签下的所有文章"
 
-#: functions.php:752
+#: functions.php:729
 msgid "Good! I like it."
 msgstr "赞！我喜欢"
 
-#: functions.php:755
+#: functions.php:732
 msgid "Good"
 msgstr "赞"
 
-#: functions.php:757
+#: functions.php:734
 msgid "Bad idea!"
 msgstr "坏主意！"
 
-#: functions.php:760
+#: functions.php:737
 msgid "Bad"
 msgstr "渣"
 
-#: functions.php:803
+#: functions.php:780
 msgid "comment"
 msgstr "评论"
 
-#: functions.php:803
+#: functions.php:780
 msgid "comments"
 msgstr "评论"
 
-#: functions.php:820
+#: functions.php:797
 msgid ", "
 msgstr "、"
 
-#: functions.php:915 functions.php:925
+#: functions.php:892 functions.php:902
 msgid "No more post found"
 msgstr "暂无更多文章"
 
-#: functions.php:917
+#: functions.php:894
 #, php-format
 msgid "Previous post: %s"
 msgstr "上一篇：%s"
 
-#: functions.php:918 functions.php:1069 functions.php:1218
+#: functions.php:895 functions.php:1046 functions.php:1195
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: functions.php:927
+#: functions.php:904
 #, php-format
 msgid "Next post: %s"
 msgstr "下一篇：%s"
 
-#: functions.php:929 functions.php:1070 functions.php:1219
+#: functions.php:906 functions.php:1047 functions.php:1196
 msgid "&raquo;"
 msgstr "&raquo;"
 
-#: functions.php:962
+#: functions.php:939
 msgid "Back to Homepage"
 msgstr "返回到首页"
 
-#: functions.php:1030
+#: functions.php:1007
 #, php-format
 msgid "View all posts in %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:1037
+#: functions.php:1014
 msgid "Not found"
 msgstr "暂无资料"
 
-#: functions.php:1097
+#: functions.php:1074
 msgid "Leave a comment"
 msgstr "留下评论"
 
-#: functions.php:1106
+#: functions.php:1083
 msgid "Name"
 msgstr "姓名"
 
-#: functions.php:1123
+#: functions.php:1100
 msgid "Write a omment"
 msgstr "留下评论"
 
-#: functions.php:1135
+#: functions.php:1112
 msgid "No data"
 msgstr "暂无资料"
 
-#: functions.php:1141 functions.php:1142
+#: functions.php:1118 functions.php:1119
 msgid "Pic-face"
 msgstr "图片表情"
 
-#: functions.php:1147 functions.php:1148
+#: functions.php:1124 functions.php:1125
 msgid "Emoticons"
 msgstr "颜文表情"
 
-#: functions.php:1155
+#: functions.php:1132
 #: includes/_theme-quick-comment/theme-quick-comment.php:347
 msgid "Post comment"
 msgstr "发表评论"
 
-#: functions.php:1235
+#: functions.php:1212
 msgid ""
 "Sorry, I was not able to find what you need, what about look at other "
 "content :)"
 msgstr "抱歉，我没能找到您需要的内容，不放看看其他东西 ：）"
 
-#: functions.php:1245 includes/theme-widget-adbox/theme-widget-adbox.php:54
+#: functions.php:1222 includes/theme-widget-adbox/theme-widget-adbox.php:54
 msgid "All"
 msgstr "全部"
 
-#: functions.php:1246
+#: functions.php:1223
 msgid "Daily"
 msgstr "每日"
 
-#: functions.php:1247
+#: functions.php:1224
 msgid "Weekly"
 msgstr "每周"
 
-#: functions.php:1248
+#: functions.php:1225
 msgid "Monthly"
 msgstr "每月"
 
-#: functions.php:1365 functions.php:1374
+#: functions.php:1342 functions.php:1351
 msgid "&larr; Preview page"
 msgstr "&larr; 上一页"
 
-#: functions.php:1366 functions.php:1393
+#: functions.php:1343 functions.php:1370
 msgid "Next page &rarr;"
 msgstr "下一页 &rarr;"
 
-#: functions.php:1378 functions.php:1409
+#: functions.php:1355 functions.php:1386
 msgid "Next post &rarr;"
 msgstr "下一页 &rarr;"
 
-#: functions.php:1378 functions.php:1409
+#: functions.php:1355 functions.php:1386
 #, php-format
 msgid "%s &rarr;"
 msgstr "%s &rarr;"
 
-#: functions.php:1389 functions.php:1404
+#: functions.php:1366 functions.php:1381
 msgid "&larr; Preview post"
 msgstr "&larr; 上一页"
 
-#: functions.php:1389 functions.php:1404
+#: functions.php:1366 functions.php:1381
 #, php-format
 msgid "&larr; %s"
 msgstr "&larr; %s"
 
-#: functions.php:1460
+#: functions.php:1437
 msgid "Your comment is awaiting moderation."
 msgstr "您的评论正在审核中。"
 
-#: functions.php:1483
+#: functions.php:1460
 #: includes/_theme-quick-comment/theme-quick-comment.php:351
 msgid "Reply"
 msgstr "回复"
 
-#: functions.php:1484
+#: functions.php:1461
 msgid "Log in to leave a comment"
 msgstr "登录以评论"
 
-#: functions.php:1513
+#: functions.php:1490
 msgid "Same tag"
 msgstr "相同标签"
 
-#: functions.php:1517
+#: functions.php:1494
 msgid "Same category"
 msgstr "相同分类"
 
-#: functions.php:1521
+#: functions.php:1498
 msgid "Same author"
 msgstr "相同作者"
 
-#: functions.php:1552 functions.php:1578 functions.php:1601
+#: functions.php:1529 functions.php:1555 functions.php:1578
 msgid "No data."
 msgstr "暂无资料"
 
-#: functions.php:1647
+#: functions.php:1624
 msgid "No data yet"
 msgstr "此类别暂无资料"
 
-#: functions.php:1671 functions.php:1763
+#: functions.php:1648 functions.php:1744
 msgid "Next page"
 msgstr "下一页"
 
-#: functions.php:1674
+#: functions.php:1651
 msgid "Previous page"
 msgstr "上一页"
 
-#: functions.php:1741
+#: functions.php:1718
 msgid "&raquo; more"
 msgstr "&raquo; 更多"
 
-#: functions.php:1756
+#: functions.php:1737
 msgid "Preview page"
 msgstr "上一页"
 
-#: header.php:49 header.php:191
+#: header.php:48 header.php:212
 msgid "Contribution"
 msgstr "投稿"
 
-#: header.php:58 header.php:200
+#: header.php:55 header.php:221
 msgid "Notification"
 msgstr "提醒"
 
-#: header.php:67 header.php:75 header.php:209 header.php:217
+#: header.php:73 header.php:81 header.php:230 header.php:238
 msgid "My favor"
 msgstr "我的收藏"
 
-#: header.php:109 header.php:239
+#: header.php:90
+msgid "My points"
+msgstr ""
+
+#: header.php:104
+msgid "My settings"
+msgstr "我的设置"
+
+#: header.php:116
+msgid "My profile"
+msgstr ""
+
+#: header.php:135 header.php:260
 #: includes/theme-custom-sign/theme-custom-sign.php:74
-#: includes/theme-quick-sign/theme-quick-sign.php:394 page-sign.php:114
+#: includes/theme-quick-sign/theme-quick-sign.php:394 page-sign.php:179
 msgid "Login"
 msgstr "登录"
 
-#: header.php:118 header.php:248
+#: header.php:144 header.php:269 page-sign.php:87 page-sign.php:209
 msgid "Login from QQ"
 msgstr "使用 QQ 登录"
 
-#: header.php:125 header.php:255
+#: header.php:151 header.php:276 page-sign.php:93 page-sign.php:215
 msgid "Login from Weibo"
 msgstr "使用渣浪微博登录"
 
-#: header.php:136 includes/theme-custom-sign/theme-custom-sign.php:81
+#: header.php:162 includes/theme-custom-sign/theme-custom-sign.php:81
 #: includes/theme-quick-sign/theme-quick-sign.php:395
 msgid "Register"
 msgstr "注册"
 
-#: header.php:283
+#: header.php:304
 msgid "Keywords"
 msgstr "搜索关键词"
 
@@ -859,7 +871,7 @@ msgstr "主题缓存已被清空或重建。"
 #: includes/theme-cache/theme-cache.php:132
 #: includes/theme-cache/theme-cache.php:134
 #: includes/theme-cache/theme-cache.php:136
-#: includes/theme-setting-import/theme-setting-import.php:158
+#: includes/theme-setting-import/theme-setting-import.php:158 page-sign.php:56
 msgid "Processing, please wait..."
 msgstr "处理中，请稍候…"
 
@@ -1221,7 +1233,7 @@ msgid "Delete this item"
 msgstr "删除此条目"
 
 #: includes/theme-custom-point/theme-custom-point.php:31
-#: includes/theme-custom-point/theme-custom-point.php:92
+#: includes/theme-custom-point/theme-custom-point.php:98
 msgid "Cat-paw"
 msgstr "喵爪"
 
@@ -1237,37 +1249,45 @@ msgstr "关于用户积分设置。"
 msgid "Point name"
 msgstr "积分名称"
 
-#: includes/theme-custom-point/theme-custom-point.php:62
+#: includes/theme-custom-point/theme-custom-point.php:55
+msgid "Description on point history page"
+msgstr ""
+
+#: includes/theme-custom-point/theme-custom-point.php:68
 msgid "When sign-up"
 msgstr "当注册时"
 
-#: includes/theme-custom-point/theme-custom-point.php:65
+#: includes/theme-custom-point/theme-custom-point.php:71
 msgid "When sign-in daily"
 msgstr "当每天登录时"
 
-#: includes/theme-custom-point/theme-custom-point.php:68
+#: includes/theme-custom-point/theme-custom-point.php:74
 msgid "When publish comment"
 msgstr "当发表评论时"
 
-#: includes/theme-custom-point/theme-custom-point.php:71
+#: includes/theme-custom-point/theme-custom-point.php:77
 msgid "When delete comment"
 msgstr "当删除评论时"
 
-#: includes/theme-custom-point/theme-custom-point.php:74
+#: includes/theme-custom-point/theme-custom-point.php:80
 msgid "When publish post"
 msgstr "当发表文章时"
 
-#: includes/theme-custom-point/theme-custom-point.php:77
+#: includes/theme-custom-point/theme-custom-point.php:83
 msgid "When reply post"
 msgstr "当文章被回复时"
 
-#: includes/theme-custom-point/theme-custom-point.php:80
+#: includes/theme-custom-point/theme-custom-point.php:86
 msgid "When post per hundred view "
 msgstr "当文章增加 100 查看数时"
 
-#: includes/theme-custom-point/theme-custom-point.php:83
+#: includes/theme-custom-point/theme-custom-point.php:89
 msgid "When aff sign-up"
 msgstr "当推广注册时"
+
+#: includes/theme-custom-point/theme-custom-point.php:109
+msgid "Point can exchange many things."
+msgstr ""
 
 #: includes/theme-custom-sign/theme-custom-sign.php:88
 msgid "Recover password"
@@ -1931,7 +1951,7 @@ msgstr "重复密码"
 msgid "Login / Register"
 msgstr "登录/注册"
 
-#: includes/theme-quick-sign/theme-quick-sign.php:401 page-sign.php:109
+#: includes/theme-quick-sign/theme-quick-sign.php:401 page-sign.php:173
 msgid "Remember me"
 msgstr "下次自动登录"
 
@@ -2539,36 +2559,61 @@ msgstr "%s 发布了一片文章 %s。"
 msgid "You have not any notification yet"
 msgstr "您暂无任何提醒。"
 
-#: page-settings.php:12
-msgid "My settings"
-msgstr "我的设置"
+#: page-settings.php:53
+msgid "Your have not any history yet."
+msgstr ""
 
-#: page-sign.php:25
+#: page-settings.php:83
+#, php-format
+msgid "I registered %s."
+msgstr "我在 %s 注册了。"
+
+#: page-sign.php:26 page-sign.php:105
+msgid "Account register"
+msgstr "用户注册"
+
+#: page-sign.php:33
 msgid "Your nickname, at least 2 length"
 msgstr "昵称，至少 2 个字符"
 
-#: page-sign.php:31 page-sign.php:97
-msgid "Your email address"
-msgstr "邮箱"
+#: page-sign.php:33
+msgid "Please type nickname, at least 2 length"
+msgstr "请输入昵称，2个字符以上"
 
-#: page-sign.php:37
+#: page-sign.php:39 page-sign.php:113 page-sign.php:161
+msgid "Please type email"
+msgstr "请输入 Email"
+
+#: page-sign.php:45
 msgid "Your password, at least 3 length"
 msgstr "密码，至少 3 个字符"
 
-#: page-sign.php:43
+#: page-sign.php:45 page-sign.php:167
+msgid "Please type password, at least 3 length"
+msgstr "请输入密码，3个字符以上"
+
+#: page-sign.php:51
 #, php-format
 msgid "I am agree the %s"
 msgstr "我已同意本站的 %s"
 
-#: page-sign.php:43
+#: page-sign.php:51
 msgid "TOS"
 msgstr "服务协议"
 
-#: page-sign.php:48
+#: page-sign.php:57
 msgid "Register &amp; Log-in"
 msgstr "注册 &amp; 登录"
 
-#: page-sign.php:63
+#: page-sign.php:68 page-sign.php:132
+msgid "I have account"
+msgstr "我已有账号"
+
+#: page-sign.php:74 page-sign.php:196
+msgid "Forgot password?"
+msgstr "忘记密码 了？"
+
+#: page-sign.php:109
 msgid ""
 "If you forgot your account password, you can recover your password by your "
 "account email. Please entry your account email, we will send a confirm email "
@@ -2577,45 +2622,58 @@ msgstr ""
 "如果您忘记了账号密码，您可以通过账号邮箱来重置密码。请输入您的账号邮箱，我们"
 "将会发送一封确认邮件，并根据提示重置您的密码。"
 
-#: page-sign.php:67
-msgid "Your account email"
-msgstr "账号邮箱"
-
-#: page-sign.php:73
+#: page-sign.php:120
 msgid "Send an email to confirm"
 msgstr "发送邮件以确认"
 
-#: page-sign.php:89
+#: page-sign.php:138 page-sign.php:190
+msgid "Register new account"
+msgstr "注册新用户"
+
+#: page-sign.php:153
 msgid "Account login"
 msgstr "用户登录"
 
-#: page-sign.php:93
+#: page-sign.php:157
 msgid "Welcome to log-in "
 msgstr "欢迎登录"
 
-#: page-sign.php:103
-msgid "Your password"
-msgstr "密码"
+#: page-sign.php:167
+msgid "Please type password"
+msgstr "请输入密码"
 
-#: sidebar-post.php:8 sidebar.php:38
+#: page-sign.php:178
+msgid "Logging in, please wait..."
+msgstr "登录中，请稍候……"
+
+#: sidebar-post.php:8 sidebar.php:33
 msgid "Please set some widgets in singluar post."
 msgstr "请在【外观 - 小组件】中为单文章设置一些小组件"
 
-#: sidebar.php:12
+#: sidebar.php:11
 msgid "Please set some widgets in homepage."
 msgstr "请在【外观 - 小组件】中为首页设置一些小组件"
 
-#: sidebar.php:25
+#: sidebar.php:22
 msgid "Please set some widgets in archive."
 msgstr "请在【外观 - 小组件】中为归档页面设置一些小组件"
 
-#: sidebar.php:51
+#: sidebar.php:44
 msgid "Please set some widgets in singluar page."
 msgstr "请在【外观 - 小组件】中为单页面设置一些小组件"
 
-#: sidebar.php:64
+#: sidebar.php:55
 msgid "Please set some widgets in 404 page."
 msgstr "请在【外观 - 小组件】中为404页面设置一些小组件"
+
+#~ msgid "Your email address"
+#~ msgstr "邮箱"
+
+#~ msgid "Your account email"
+#~ msgstr "账号邮箱"
+
+#~ msgid "Your password"
+#~ msgstr "密码"
 
 #~ msgid "Sorry, twice password does not match, please try again"
 #~ msgstr "抱歉，两次密码不相同，请修正后重试。"

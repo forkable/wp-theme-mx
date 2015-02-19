@@ -28,8 +28,8 @@ class theme_open_sign{
 	private static $open_url = 'http://opensign.inn-studio.com/api/';
 	private static $open_keys = array(
 		'sina' => array(
-			'akey' => '3461043641',
-			'skey' => 'efd4767a4d2a664b1bfbb65b10febb5e',
+			'akey' => '4103217221',
+			'skey' => '4b4055df319fcdbdf3b9a69fc336b639',
 		),
 		'qq' => array(
 			'akey' => '101143877',

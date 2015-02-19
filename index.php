@@ -2,7 +2,7 @@
 <div class="container">
 	<div class="panel panel-default">
 		<div class="mx-card-body row neck">
-			<div class="col-md-6">
+			<div class="col-md-6 hidden-xs">
 				<div class="slidebox-container">
 					<?php if(class_exists('theme_custom_slidebox')){ ?>
 						<?php theme_custom_slidebox::display_frontend();?>

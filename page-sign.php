@@ -12,9 +12,12 @@ $error = get_query_var('error');
 <?php get_header();?>
 <div class="container grid-container">
 	<div class="row">
-		<div id="main" class="main col-sm-6 col-sm-offset-3">
+		<div id="main" class="main col-sm-6 col-lg-4 col-lg-offset-4 col-sm-offset-3 ">
 		<?php
 		switch($tab_active){
+			/**
+			 * register
+			 */
 			case 'register':
 			?>
 <div class="panel panel-default mx-sign-panel">
@@ -27,19 +30,19 @@ $error = get_query_var('error');
 			<div class="form-group">
 				<div class="input-group">
 					<label for="sign-nickname" class="input-group-addon"><i class="fa fa-user"></i></label>
-					<input name="user[nickname]" type="text" class="form-control" id="sign-nickname" minlength="2" placeholder="<?php echo ___('Your nickname, at least 2 length');?>" required tabindex="1" autofocus >
+					<input name="user[nickname]" type="text" class="form-control" id="sign-nickname" minlength="2" placeholder="<?php echo ___('Your nickname, at least 2 length');?>" title="<?php echo ___('Please type nickname, at least 2 length');?>" required tabindex="1" autofocus >
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="input-group">
 					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope"></i></label>
-					<input name="user[email]" type="email" class="form-control" id="sign-email" placeholder="<?php echo ___('Your email address');?>" required tabindex="1">
+					<input name="user[email]" type="email" class="form-control" id="sign-email" placeholder="<?php echo ___('Please type email');?>" title="<?php echo ___('Please type email');?>" required tabindex="1">
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="input-group">
 					<label for="sign-pwd" class="input-group-addon"><i class="fa fa-key"></i></label>
-					<input name="user[pwd]" type="password" class="form-control" id="sign-pwd" placeholder="<?php echo ___('Your password, at least 3 length');?>" minlength="3" required tabindex="1">
+					<input name="user[pwd]" type="password" class="form-control" id="sign-pwd" placeholder="<?php echo ___('Your password, at least 3 length');?>" title="<?php echo ___('Please type password, at least 3 length');?>" minlength="3" required tabindex="1">
 				</div>
 			</div>
 			<div class="checkbox">
@@ -50,7 +53,7 @@ $error = get_query_var('error');
 			</div>
 			<div class="form-group submit-tip"></div>
 			<div class="form-group form-group-submit">
-				<button type="submit" class="btn btn-success btn-block btn-lg submit" tabindex="1">
+				<button type="submit" class="btn btn-success btn-block btn-lg submit" data-loading-text="<?php echo ___('Processing, please wait...');?>" tabindex="1">
 					<?php echo ___('Register &amp; Log-in');?>
 				</button>
 				<input type="hidden" name="type" value="register">
@@ -107,7 +110,7 @@ if(class_exists('theme_open_sign')){ ?>
 			<div class="form-group">
 				<div class="input-group">
 					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope"></i></label>
-					<input type="email" name="user[email]" id="sign-email" class="form-control" required tabindex="1" autofocus placeholder="<?php echo ___('Your account email');?>">
+					<input type="email" name="user[email]" id="sign-email" class="form-control" title="<?php echo ___('Please type email');?>" required tabindex="1" autofocus placeholder="<?php echo ___('Please type email');?>">
 				</div>
 			</div>
 			<div class="form-group submit-tip"></div>
@@ -139,6 +142,9 @@ if(class_exists('theme_open_sign')){ ?>
 </div>
 				<?php
 				break;
+			/**
+			 * login
+			 */
 			default:
 				?>
 <div class="panel panel-default mx-sign-panel">
@@ -152,13 +158,13 @@ if(class_exists('theme_open_sign')){ ?>
 			<div class="form-group">
 				<div class="input-group">
 					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope"></i></label>
-					<input name="user[email]" type="email" class="form-control" id="sign-email" placeholder="<?php echo ___('Your email address');?>" required tabindex="1" autofocus>
+					<input name="user[email]" type="email" class="form-control" id="sign-email" placeholder="<?php echo ___('Please type email');?>" title="<?php echo ___('Please type email');?>" required tabindex="1" autofocus>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="input-group">
 					<label for="sign-pwd" class="input-group-addon"><i class="fa fa-key"></i></label>
-					<input name="user[pwd]" type="password" class="form-control" id="sign-pwd" placeholder="<?php echo ___('Your password');?>" minlength="3" required tabindex="1">
+					<input name="user[pwd]" type="password" class="form-control" id="sign-pwd" placeholder="<?php echo ___('Please type password');?>" title="<?php echo ___('Please type password, at least 3 length');?>" minlength="3" required tabindex="1">
 				</div>
 			</div>
 			<div class="checkbox">
@@ -185,8 +191,8 @@ if(class_exists('theme_open_sign')){ ?>
 		</a>
 	</div>
 	<div class="col-sm-6">
-		<a class="btn" href="<?php echo esc_url(theme_custom_sign::get_tabs('recover')['url']);?>">
-			<i class="fa fa-<?php echo theme_custom_sign::get_tabs('recover')['icon'];?>#main"></i>
+		<a class="btn" href="<?php echo esc_url(theme_custom_sign::get_tabs('recover')['url']);?>#main">
+			<i class="fa fa-<?php echo theme_custom_sign::get_tabs('recover')['icon'];?>"></i>
 			<?php echo ___('Forgot password?');?>
 		</a>
 	</div>
