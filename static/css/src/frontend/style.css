@@ -740,6 +740,11 @@ label.error{
 		}
 	.top-bar-tools .meta{
 	}
+	.top-bar-tools .tool-point img{
+		height: 15px;
+		width: auto;
+		margin-top: -2px;
+	}
 	/**
 	 * .sign-in
 	 */
@@ -932,6 +937,12 @@ label.error{
 	.crumb .current-title{
 	}
 /**
+ * .hentry
+ */
+.hentry .panel-heading{
+	margin-bottom: 20px;
+}
+/**
  * .singluar-post
  */
 	.singluar-post .entry-title{
@@ -966,7 +977,7 @@ label.error{
 	}
 	.singluar-post .post-tags{
 		padding: 0 15px;
-		margin-bottom: 10px;
+		margin: 20px 0;
 	}
 		.singluar-post .post-tags a{
 			padding-left: 1em;
@@ -1038,7 +1049,7 @@ label.error{
  */
 	#widget-author-card .media{
 		display: block;
-		margin-bottom: 10px;
+		margin-bottom: 20px;
 	}
 		#widget-author-card .media:hover{
 			background: rgb(248,248,248);
@@ -1057,9 +1068,12 @@ label.error{
 	#widget-author-card .tx{
 		display: block;
 	}
-	.author-card-meta-links a{
-		font-size: 12px;
+	.author-card-meta-links{
+		margin-bottom: 20px;
 	}
+		.author-card-meta-links a{
+			font-size: 12px;
+		}
 
 /**
  * .author-profile
@@ -1128,6 +1142,10 @@ label.error{
 /**
  * .my-settings-history
  */
+.total-point{
+	font-size: 45px;
+	color:#428BCA;
+}
 .history-group .point-name,
 .history-group .history-time{
 	color: #b2b2b2;

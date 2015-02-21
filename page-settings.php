@@ -43,7 +43,15 @@ $tab_active = isset($tabs[$tab_active]) ? $tab_active : 'history';
 						default:
 ?>
 				<div class="panel-body my-settings-history">
-<div class="description"><?php echo theme_custom_point::get_point_des();?></div>
+<div class="media">
+	<div class="media-left">
+		<img class="media-object" src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="">
+	</div>
+	<div class="media-body">
+		<h4 class="media-heading"><strong class="total-point"><?php echo theme_custom_point::get_point();?> </strong></h4>
+		<!-- <p><?php echo theme_custom_point::get_point_des();?></p> -->
+	</div>
+</div>
 <?php
 $histories = theme_custom_point::get_history();
 if(is_null_array($histories)){
@@ -82,7 +90,7 @@ if(is_null_array($histories)){
 				case 'signup':
 					?>
 					<span class="history-text">
-						<?php echo sprintf(___('I registered %s.'),get_bloginfo('name'));?>
+						<?php echo sprintf(___('I registered %s.'),'<a href="' . home_url() . '">' . get_bloginfo('name') . '</a>');?>
 					</span>
 					<span class="history-time">
 						<?php echo esc_html(friendly_date(strtotime(get_the_author_meta('user_registered',get_current_user_id()))));?>
@@ -95,7 +103,7 @@ if(is_null_array($histories)){
 				case 'post-publish':
 					?>
 					<span class="history-text">
-						<?php echo sprintf(___('I pulished a post %s.'),'<a href="' . esc_url(get_permalink($v['post-id'])) . '">' . esc_html(get_the_title($v['post-id'])) . '</a>');?>
+						<?php echo sprintf(___('I published a post %s.'),'<a href="' . esc_url(get_permalink($v['post-id'])) . '">' . esc_html(get_the_title($v['post-id'])) . '</a>');?>
 					</span>
 					<span class="history-time">
 						<?php echo esc_html(friendly_date(get_the_date('timestamp',$v['post-id'])));?>

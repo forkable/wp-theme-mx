@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	<link href="//cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
 	<?php echo theme_features::get_theme_css('frontend/style','normal',true);?>
-	<!-- <link rel="shortcut icon" href="<?php echo theme_features::get_theme_images_url('frontend/favicon.ico',true);?>" type="image/x-icon" /> -->
+	<link rel="shortcut icon" href="http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif" type="image/x-icon" />
 	<?php wp_head();?>
 </head>
 <body <?php body_class(); ?>>
@@ -87,8 +87,9 @@
 
 					<!-- my point -->
 					<?php if(class_exists('theme_custom_point')){ ?>
-						<a href="<?php echo esc_url(theme_custom_user_settings::get_page_url());?>" class="meta tool-favor btn btn-default" title="<?php echo ___('My points');?>">
-							<i class="fa fa-github-alt"></i>
+						<a href="<?php echo esc_url(theme_custom_user_settings::get_page_url());?>" class="meta tool-point btn btn-default" title="<?php echo ___('My points');?>">
+							<!-- <i class="fa fa-github-alt"></i> -->
+							<img src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="" width="15" height="15">
 							<?php echo theme_custom_point::get_point();?>
 						</a>
 					<?php } ?>

@@ -70,7 +70,7 @@ class theme_notification{
 		if(empty($metas)){
 			return null;
 		}else{
-			asort($metas);
+			arsort($metas);
 		}
 		
 		switch($args['type']){

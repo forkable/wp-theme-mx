@@ -42,11 +42,8 @@ class theme_widget_author extends WP_Widget{
 		/**
 		 * avatar
 		 */
-		if(class_exists('theme_custom_avatar')){
-			$avatar = theme_custom_avatar::get_url();
-		}else{
-			$avatar = get_img_source(get_avatar(get_the_author_meta('user_email',$author_id),100));
-		}
+
+		$avatar = get_img_source(get_avatar($author_id,'100'));
 		/**
 		 * author profile page url
 		 */

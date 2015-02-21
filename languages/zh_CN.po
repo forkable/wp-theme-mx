@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-18 21:18+0800\n"
-"PO-Revision-Date: 2015-02-18 21:19+0800\n"
+"POT-Creation-Date: 2015-02-20 15:24+0800\n"
+"PO-Revision-Date: 2015-02-20 15:37+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -656,7 +656,7 @@ msgstr "我的收藏"
 
 #: header.php:90
 msgid "My points"
-msgstr ""
+msgstr "我的积分"
 
 #: header.php:104
 msgid "My settings"
@@ -664,7 +664,7 @@ msgstr "我的设置"
 
 #: header.php:116
 msgid "My profile"
-msgstr ""
+msgstr "我的资料"
 
 #: header.php:135 header.php:260
 #: includes/theme-custom-sign/theme-custom-sign.php:74
@@ -793,7 +793,7 @@ msgstr "发表评论成功，感谢您的参与！"
 
 #: includes/_theme-quick-comment/theme-quick-comment.php:344
 #: includes/theme-comment-ajax/theme-comment-ajax.php:374
-#: includes/theme-widget-author/theme-widget-author.php:126
+#: includes/theme-widget-author/theme-widget-author.php:123
 msgid "Message"
 msgstr "提示"
 
@@ -1232,62 +1232,67 @@ msgstr "一行一个关键词"
 msgid "Delete this item"
 msgstr "删除此条目"
 
-#: includes/theme-custom-point/theme-custom-point.php:31
-#: includes/theme-custom-point/theme-custom-point.php:98
+#: includes/theme-custom-point/theme-custom-point.php:33
+#: includes/theme-custom-point/theme-custom-point.php:100
 msgid "Cat-paw"
 msgstr "喵爪"
 
-#: includes/theme-custom-point/theme-custom-point.php:34
+#: includes/theme-custom-point/theme-custom-point.php:36
 msgid "User point settings"
 msgstr "用户积分设置"
 
-#: includes/theme-custom-point/theme-custom-point.php:35
+#: includes/theme-custom-point/theme-custom-point.php:37
 msgid "About user point settings."
 msgstr "关于用户积分设置。"
 
-#: includes/theme-custom-point/theme-custom-point.php:39
+#: includes/theme-custom-point/theme-custom-point.php:41
 msgid "Point name"
 msgstr "积分名称"
 
-#: includes/theme-custom-point/theme-custom-point.php:55
+#: includes/theme-custom-point/theme-custom-point.php:57
 msgid "Description on point history page"
-msgstr ""
+msgstr "关于历史积分记录的描述"
 
-#: includes/theme-custom-point/theme-custom-point.php:68
+#: includes/theme-custom-point/theme-custom-point.php:70
 msgid "When sign-up"
 msgstr "当注册时"
 
-#: includes/theme-custom-point/theme-custom-point.php:71
+#: includes/theme-custom-point/theme-custom-point.php:73
 msgid "When sign-in daily"
 msgstr "当每天登录时"
 
-#: includes/theme-custom-point/theme-custom-point.php:74
+#: includes/theme-custom-point/theme-custom-point.php:76
 msgid "When publish comment"
 msgstr "当发表评论时"
 
-#: includes/theme-custom-point/theme-custom-point.php:77
+#: includes/theme-custom-point/theme-custom-point.php:79
 msgid "When delete comment"
 msgstr "当删除评论时"
 
-#: includes/theme-custom-point/theme-custom-point.php:80
+#: includes/theme-custom-point/theme-custom-point.php:82
 msgid "When publish post"
 msgstr "当发表文章时"
 
-#: includes/theme-custom-point/theme-custom-point.php:83
+#: includes/theme-custom-point/theme-custom-point.php:85
 msgid "When reply post"
 msgstr "当文章被回复时"
 
-#: includes/theme-custom-point/theme-custom-point.php:86
+#: includes/theme-custom-point/theme-custom-point.php:88
 msgid "When post per hundred view "
 msgstr "当文章增加 100 查看数时"
 
-#: includes/theme-custom-point/theme-custom-point.php:89
+#: includes/theme-custom-point/theme-custom-point.php:91
 msgid "When aff sign-up"
 msgstr "当推广注册时"
 
-#: includes/theme-custom-point/theme-custom-point.php:109
+#: includes/theme-custom-point/theme-custom-point.php:111
 msgid "Point can exchange many things."
-msgstr ""
+msgstr "积分能换许多东西哦。"
+
+#: includes/theme-custom-point/theme-custom-point.php:166
+#, php-format
+msgid "Sign-in daily points: +%s"
+msgstr "当每天登录奖励：+%s"
 
 #: includes/theme-custom-sign/theme-custom-sign.php:88
 msgid "Recover password"
@@ -2031,11 +2036,11 @@ msgstr "例如：10"
 msgid "Maybe you will like them"
 msgstr "或许您会喜欢"
 
-#: includes/theme-seo/theme-seo.php:42
+#: includes/theme-seo/theme-seo.php:47
 msgid "SEO settings"
 msgstr "SEO 设置"
 
-#: includes/theme-seo/theme-seo.php:43
+#: includes/theme-seo/theme-seo.php:48
 #, php-format
 msgid ""
 "Fill in the appropriate keywords, can improve search engine friendliness. "
@@ -2043,19 +2048,19 @@ msgid ""
 msgstr ""
 "适当填写关键词，能提高对搜索引擎的友好度。不同关键词请用英文逗号（%s）分隔。"
 
-#: includes/theme-seo/theme-seo.php:47
+#: includes/theme-seo/theme-seo.php:52
 msgid "Site description"
 msgstr "站点描述"
 
-#: includes/theme-seo/theme-seo.php:50
+#: includes/theme-seo/theme-seo.php:55
 msgid "Recommend to control that less than 100 words."
 msgstr "建议控制在 100 个字内。"
 
-#: includes/theme-seo/theme-seo.php:54
+#: includes/theme-seo/theme-seo.php:59
 msgid "Site keywords"
 msgstr "站点关键词"
 
-#: includes/theme-seo/theme-seo.php:57
+#: includes/theme-seo/theme-seo.php:62
 #, php-format
 msgid "For example: graphic design%s 3D design ..."
 msgstr "例如：平面设计%s三维设计 ……"
@@ -2343,32 +2348,32 @@ msgstr "作者名片 <small>（定制版）</small>"
 msgid "Show the author information."
 msgstr "显示作者信息。"
 
-#: includes/theme-widget-author/theme-widget-author.php:61
+#: includes/theme-widget-author/theme-widget-author.php:58
 msgid "Views the author information detail"
 msgstr "查看作者资料"
 
-#: includes/theme-widget-author/theme-widget-author.php:63
+#: includes/theme-widget-author/theme-widget-author.php:60
 msgid "Author avatar"
 msgstr "作者头像"
 
-#: includes/theme-widget-author/theme-widget-author.php:70
+#: includes/theme-widget-author/theme-widget-author.php:67
 msgid "The author is lazy, nothing writes here."
 msgstr "作者很懒，啥都没写。"
 
-#: includes/theme-widget-author/theme-widget-author.php:79
+#: includes/theme-widget-author/theme-widget-author.php:76
 msgid "Author meta link group"
 msgstr "作者相关链接"
 
-#: includes/theme-widget-author/theme-widget-author.php:111
+#: includes/theme-widget-author/theme-widget-author.php:108
 msgid "Followed"
 msgstr "已关注"
 
-#: includes/theme-widget-author/theme-widget-author.php:115
+#: includes/theme-widget-author/theme-widget-author.php:112
 msgid "Follow"
 msgstr "关注"
 
-#: includes/theme-widget-author/theme-widget-author.php:137
-#: includes/theme-widget-author/theme-widget-author.php:144
+#: includes/theme-widget-author/theme-widget-author.php:134
+#: includes/theme-widget-author/theme-widget-author.php:141
 #: includes/theme-widget-comments/theme-widget-comments.php:82
 #: includes/theme-widget-comments/theme-widget-comments.php:89
 #: includes/theme-widget-rank/theme-widget-rank.php:117
@@ -2561,12 +2566,26 @@ msgstr "您暂无任何提醒。"
 
 #: page-settings.php:53
 msgid "Your have not any history yet."
-msgstr ""
+msgstr "您暂无任何历史记录哦。"
 
-#: page-settings.php:83
+#: page-settings.php:85
 #, php-format
 msgid "I registered %s."
 msgstr "我在 %s 注册了。"
+
+#: page-settings.php:98
+#, php-format
+msgid "I pulished a post %s."
+msgstr ""
+
+#: page-settings.php:121
+#, php-format
+msgid "Your post %s has a new comment by %s."
+msgstr ""
+
+#: page-settings.php:139
+msgid "Log-in daily reward."
+msgstr "每天登录奖励。"
 
 #: page-sign.php:26 page-sign.php:105
 msgid "Account register"

@@ -35,7 +35,7 @@ class theme_custom_user_settings{
 	public static function template_redirect(){
 		if(is_page(self::$page_slug) && !is_user_logged_in()){
 			$redirect = self::get_page_url();
-			wp_redirect(theme_custom_sign::get_tabs('login',$redirect));
+			wp_redirect(theme_custom_sign::get_tabs('login',$redirect)['url']);
 			die();
 		}
 	}
