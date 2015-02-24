@@ -710,12 +710,12 @@ class theme_features{
 	 * Check theme nonce code
 	 *
 	 * @return 
-	 * @version 1.1.0
+	 * @version 1.1.1
 	 * @author KM@INN STUDIO
 	 */
 	public static function check_nonce($key = 'theme-nonce'){
 		$nonce = isset($_REQUEST[$key]) ? $_REQUEST[$key] : null;
-		if(!wp_verify_nonce($nonce,AUTH_KEY)){
+		if(!wp_verify_nonce($nonce,'theme-nonce')){
 			$output = array(
 				'status' => 'error',
 				'id' => 'invalid_security_code',
@@ -1642,7 +1642,6 @@ class theme_features{
 		add_theme_support('automatic-feed-links');
 		remove_action('wp_head', 'wp_generator');
 		add_filter('body_class',get_class() . '::theme_body_classes');
-		//add_action('wp_enqueue_scripts', get_class() . '::deregister_script');
 		add_action('wp_before_admin_bar_render',get_class() . '::remove_wp_support');
 	}
 	public static function remove_wp_support(){
@@ -1654,23 +1653,6 @@ class theme_features{
 		$wp_admin_bar->remove_node('support-forums');
 		$wp_admin_bar->remove_node('feedback');
 		$wp_admin_bar->remove_node('view-site');
-	}
-	/**
-	 * deregister_script
-	 *
-	 * @return null
-	 * @version 1.0.0
-	 * @author KM@INN STUDIO
-	 */
-	public static function deregister_script(){
-		/**
-		 * deregister jq script
-		 */
-		wp_deregister_script( 'jquery' );
-		/**
-		 * deregister l10n script
-		 */
-		wp_deregister_script('l10n');
 	}
 	/**
 	 * auto_minify

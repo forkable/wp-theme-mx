@@ -1,6 +1,6 @@
 <?php
 /** 
- * 1.1.2
+ * @version 1.1.3
  */
 theme_cache_request::init();
 class theme_cache_request {
@@ -19,7 +19,7 @@ class theme_cache_request {
 		!check_referer() && die(___('Referer error'));
 
 		$output = apply_filters('cache-request',$output);
-		$output['theme-nonce'] = wp_create_nonce(AUTH_KEY);
+		$output['theme-nonce'] = wp_create_nonce('theme-nonce');
 		header('Content-type: text/javascript');
 		echo html_compress('
 			define(' . theme_features::json_format($output) . ');

@@ -42,8 +42,8 @@
 				?>
 				<div class="btn-group btn-group-xs">
 					<!-- ctb -->
-					<?php if(class_exists('theme_custom_ctb')){ ?>
-						<a href="<?php echo esc_url(theme_custom_ctb::get_url());?>" class="btn btn-primary meta tool-contribution">
+					<?php if(class_exists('theme_custom_contribution')){ ?>
+						<a href="<?php echo esc_url(theme_custom_contribution::get_url());?>" class="btn btn-primary meta tool-contribution">
 							<i class="fa fa-pencil-square-o"></i>
 							<?php echo ___('Contribution');?>
 						</a>

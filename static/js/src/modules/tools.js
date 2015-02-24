@@ -79,7 +79,7 @@ define(function(require, exports, module){
 							that.$fm.find(':required').eq(0).focus().select();
 						}
 					}else{
-						tip(data.status,that.error_tx);
+						tip('error',that.error_tx);
 						cache.$submit.text(cache.submit_ori_tx).removeAttr('disabled');
 					}
 					/** callback done */

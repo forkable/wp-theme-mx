@@ -150,7 +150,6 @@ $author_html = '<a href="' . $author_link . '">' . esc_html(get_the_author_meta(
 <?php
 $post = $post_bk;					
 								default:
-								
 							}
 							?>
 							</li><!-- /.list-group-item -->

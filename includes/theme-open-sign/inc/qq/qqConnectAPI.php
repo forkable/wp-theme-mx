@@ -396,7 +396,6 @@ class QC extends Oauth{
         }else if($method == "GET"){
             $response = $this->urlUtils->get($baseUrl, $keysArr);
         }
-
         return $response;
 
     }

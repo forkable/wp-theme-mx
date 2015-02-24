@@ -56,7 +56,7 @@ $tabs = theme_custom_author_profile::get_tabs();
 						break;
 					case 'comments':
 						$comments = get_comments(array(
-							'author_email' => get_the_author_meta('author_email',$author_id),
+							'user_id' => $author_id,
 							'number' => 50
 						));
 					?>
@@ -64,14 +64,6 @@ $tabs = theme_custom_author_profile::get_tabs();
 							<?php if(empty($comments)){
 								echo status_tip('info',___('No comment yet.'));
 							}else{
-								//global $wp_query;
-								//$wp_query = new WP_Query(array(
-								//	'post__in' => array_map(function($comment){
-								//			return $comment->comment_post_ID;
-								//		},$comments),
-								//));
-								//wp_reset_query();
-								//wp_reset_postdata();
 								?>
 								<ul class="list-group">
 									<?php foreach($comments as $comment){ ?>
@@ -91,6 +83,7 @@ $tabs = theme_custom_author_profile::get_tabs();
 					case 'following':
 						
 						break;
+					case 'profile':
 					default:
 						?>
 						<div class="panel-body">

@@ -1053,7 +1053,6 @@ class theme_functions{
 			return $output;
 		}
 	}
-	//public static function bs_
 	public static function get_theme_respond($args = null){
 		global $post,$current_user;
 		$defaults = array(
