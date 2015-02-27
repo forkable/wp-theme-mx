@@ -5,7 +5,9 @@
 				<div class="col-xs-12">
 					<div class="panel">
 						<div class="panel-body">
-							<?php echo status_tip('info', ___('Please set some widgets in footer.'));?>
+							<div class="page-tip">
+								<?php echo status_tip('info', ___('Please set some widgets in footer.'));?>
+							</div>
 						</div>
 					</div>
 				</div>

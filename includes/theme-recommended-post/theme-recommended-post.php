@@ -2,7 +2,7 @@
 /**
  * theme recommended post
  *
- * @version 2.0.2
+ * @version 2.0.3
  * @author KM@INN STUDIO
  */
 theme_recommended_post::init();
@@ -50,7 +50,7 @@ class theme_recommended_post{
 		if ( current_user_can( 'delete_posts' ) ){
 			$recomm_posts = (array)theme_options::get_options(self::$iden);
 			$k = array_search($post_id,$recomm_posts);
-			if(!$recomm_set && $k !== false){
+			if(!empty($recomm_posts) && $k !== false){
 				unset($recomm_posts[$k]);
 				sort($recomm_posts);
 				theme_options::set_options(self::$iden,$recomm_posts);

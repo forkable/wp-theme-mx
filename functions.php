@@ -522,7 +522,7 @@ class theme_functions{
 	public static function widget_rank_tx_content($args){
 		self::archive_tx_content($args);
 	}
-	public static function widget_rank_img_content(){
+	public static function widget_rank_img_content($args = null){
 		global $post;
 		
 		$defaults = array(

@@ -29,6 +29,7 @@ class theme_custom_point{
 	}
 	public static function display_backend(){
 		$opt = theme_options::get_options(self::$iden);
+		var_dump($opt);
 		$points = $opt['points'];
 		$point_name = isset($opt['point-name']) ? $opt['point-name'] : ___('Cat-paw');
 		?>
@@ -40,13 +41,13 @@ class theme_custom_point{
 					<tr>
 						<th><label for="<?php echo self::$iden;?>-point-name"><?php echo ___('Point name');?></label></th>
 						<td>
-							<input type="text" class="widefat" id="<?php echo self::$iden;?>-point-name" value="<?php echo esc_attr($point_name);?>">
+							<input type="text" name="<?php echo self::$iden;?>[point-name]" class="widefat" id="<?php echo self::$iden;?>-point-name" value="<?php echo esc_attr($point_name);?>">
 						</td>
 					</tr>
 					<?php foreach(self::get_point_types() as $k => $v){ ?>
 						<tr>
 							<th>
-								<label for="<?php echo self::$iden;?>-<?php echo $k;?>"><?php echo $v[text];?></label>
+								<label for="<?php echo self::$iden;?>-<?php echo $k;?>"><?php echo $v['text'];?></label>
 							</th>
 							<td>
 								<input type="number" name="<?php echo self::$iden;?>[points][<?php echo $k;?>]" class="short-text" id="<?php echo self::$iden;?>-<?php echo $k;?>" value="<?php echo isset($points[$k]) ? $points[$k] : 0;?>">
@@ -101,9 +102,8 @@ class theme_custom_point{
 		
 		return isset($types[$key]) ? $types[$key] : null;
 	}
-	public static function options_default($opts){
+	public static function options_default($opts = null){
 		$opts[self::$iden] = array(
-			'point-name' 			=> ___('Cat-paw'), /** 名称 */
 			'points' => array(
 				'signup'			=> 20, /** 初始 */
 				'signin-daily'		=> 2, /** 日登 */
@@ -114,7 +114,8 @@ class theme_custom_point{
 				'post-per-hundred-view' => 5, /** 文章每百查看 */
 				'aff-signup'		=> 5, /** 推广注册 */			
 			),
-			'point-des' => ___('Point can exchange many things.'),
+			'point-name' 			=> ___('Cat-paw'), /** 名称 */
+			'point-des2' => ___('Point can exchange many things.'),
 			'point-img-url' => 'http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif',
 		);
 		return $opts;
@@ -125,7 +126,8 @@ class theme_custom_point{
 		return $opts;
 	}
 	public static function get_point_name(){
-		return theme_options::get_options(self::$iden)['point-name'];
+		$opt = theme_options::get_options(self::$iden);
+		return isset($opt['point-name']) ? $point_name : ___('Cat-paw');
 	}
 	public static function get_point_des(){
 		return theme_options::get_options(self::$iden)['point-des'];
@@ -205,7 +207,8 @@ class theme_custom_point{
 		 * get the last sign-in time
 		 */
 		/** from cache */
-		$caches = (array)wp_cache_get(self::$user_meta_key['last-sign']);
+		$caches = (array)wp_cache_get(self::$user_meta_key['last-signin']);
+
 		/** found in cache */
 		if(isset($caches[$user_id])){
 			$last_signin_timestamp = $caches[$user_id];
@@ -227,6 +230,11 @@ class theme_custom_point{
 		$last_signin_Ymd = date('Ymd',$last_signin_timestamp);
 		/** IS logged today, return */
 		if($today_Ymd == $last_signin_Ymd) return false;
+		
+		/** set cache */
+		$caches[$user_id] = $current_timestamp;
+		wp_cache_set(self::$user_meta_key['last-signin'],$caches,null,172800);/** 3600*24*2 = 2days */
+		
 		/**
 		 * add history
 		 */

@@ -8,7 +8,9 @@
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<?php echo status_tip('info', ___('Please set some widgets in homepage.'));?>
+				<div class="page-tip">
+					<?php echo status_tip('info', ___('Please set some widgets in homepage.'));?>
+				</div>
 			</div>
 		</div>
 		<?php
@@ -19,7 +21,9 @@
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<?php echo status_tip('info', ___('Please set some widgets in archive.'));?>
+				<div class="page-tip">
+					<?php echo status_tip('info', ___('Please set some widgets in archive.'));?>
+				</div>
 			</div>
 		</div>
 		<?php
@@ -30,7 +34,9 @@
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<?php echo status_tip('info', ___('Please set some widgets in singluar post.'));?>
+				<div class="page-tip">
+					<?php echo status_tip('info', ___('Please set some widgets in singluar post.'));?>
+				</div>
 			</div>
 		</div>
 		<?php
@@ -41,7 +47,9 @@
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<?php echo status_tip('info', ___('Please set some widgets in singluar page.'));?>
+				<div class="page-tip">
+					<?php echo status_tip('info', ___('Please set some widgets in singluar page.'));?>
+				</div>
 			</div>
 		</div>
 		<?php
@@ -52,7 +60,9 @@
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<?php echo status_tip('info', ___('Please set some widgets in 404 page.'));?>
+				<div class="page-tip">
+					<?php echo status_tip('info', ___('Please set some widgets in 404 page.'));?>
+				</div>
 			</div>
 		</div>
 		<?php

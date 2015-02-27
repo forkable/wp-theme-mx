@@ -30,7 +30,7 @@ class theme_options{
 	 * 
 	 * @usedby theme_options::get_options()
 	 * @return array
-	 * @version 1.2.1
+	 * @version 1.2.2
 	 * @since 3.1.0
 	 * @author KM@INN STUDIO
 	 * 
@@ -38,9 +38,8 @@ class theme_options{
 	public static function get_options($key = null){
 		/** Get first options */
 		$options = get_option(self::$iden);
-		$options_default = null;
 		/** Default options hook */
-		$options_default = apply_filters('theme_options_default',$options_default);
+		$options_default = apply_filters('theme_options_default',null);
 		$options = wp_parse_args($options,$options_default);
 		if($key){
 			return  isset($options[$key]) ? $options[$key] : null;
@@ -51,7 +50,6 @@ class theme_options{
 	public static function backend_header(){
 		if(!self::is_options_page()) return false;
 		$options = self::get_options();/* get the options */
-		$preload = null;
 		$backend_seajs_alias = apply_filters('backend_seajs_alias',array());
 		echo theme_features::get_theme_css('backend/fonts','normal');
 		echo theme_features::get_theme_css('backend/style','normal');

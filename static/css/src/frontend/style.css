@@ -60,7 +60,7 @@ label{
 	margin-bottom: 0;
 }
 .panel-body{
-	padding: 20px;
+	padding: 20px 20px 0 20px;
 }
 
 /**
@@ -629,11 +629,14 @@ label.error{
 		margin-left:0;
 	}
 .page-tip{
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
 /** 
  * .tip-status
  */
+.fa{
+	line-height: normal;
+}
 .tip-status{
 	position:relative;
 	padding:.3rem .5rem;

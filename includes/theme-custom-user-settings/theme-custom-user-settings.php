@@ -51,6 +51,7 @@ class theme_custom_user_settings{
 			'history' => array(
 				'text' => ___('History'),
 				'icon' => 'history',
+				'url' => add_query_arg('tab','history',$baseurl),
 			),
 			'settings' => array(
 				'text' => ___('Settings'),

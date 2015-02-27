@@ -85,7 +85,7 @@ define(function(require, exports, module){
 					/** callback done */
 					that.done(data);
 				}).fail(function(){
-					that.tip('error',that.error_tx);
+					tip('error',that.error_tx);
 					cache.$submit.text(cache.submit_ori_tx).removeAttr('disabled');
 				}).always(function(){
 					/** callback always */

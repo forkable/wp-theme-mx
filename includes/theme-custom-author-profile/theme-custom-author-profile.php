@@ -62,7 +62,7 @@ class theme_custom_author_profile{
 				}
 				return $caches['comments'];
 			case 'followers_count':
-				return (int)get_user_meta($user_id,self::$user_meta_key['follower_count'],true);
+				return (int)get_user_meta($user_id,self::$user_meta_key['followers_count'],true);
 			case 'following_count':
 				return (int)get_user_meta($user_id,self::$user_meta_key['following_count'],true);
 		}

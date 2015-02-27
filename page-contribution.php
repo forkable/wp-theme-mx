@@ -90,7 +90,6 @@ if(class_exists('theme_custom_contribution')){
 								<?php echo ___('Post content');?>
 							</label>
 							<div class="col-sm-10">
-								
 								<textarea 
 								class="form-control" 
 									id="ctb-content" 
@@ -116,8 +115,16 @@ if(class_exists('theme_custom_contribution')){
 										<input type="file" id="ctb-file" multiple >
 									</a>
 								</div>
-								<div id="ctb-file-tip"></div>
-								<div id="ctb-files"></div>
+								<!-- upload progress -->
+								<div id="ctb-file-progress">
+									<div id="ctb-file-progress-tx"></div>
+									<div id="ctb-file-progress-bar"></div>
+								</div>
+								<!-- file completion -->
+								<div id="ctb-file-completion"></div>
+								<!-- files -->
+								<div id="ctb-files" class="row"></div>
+								
 							</div>
 						</div>
 						<!-- storage -->
@@ -135,7 +142,7 @@ if(class_exists('theme_custom_contribution')){
 			<label class="input-group-addon" id="ctb-<?php echo $k;?>-url-addon" for="ctb-<?php echo $k;?>-url"><i class="fa fa-link"></i></label>
 			<input 
 				type="url" 
-				name="ctb[<?php echo $k;?>][url]" 
+				name="ctb[storage][<?php echo $k;?>][url]" 
 				id="ctb-<?php echo $k;?>-url" 
 				class="form-control" 
 				placeholder="<?php echo sprintf(___('%s url'),$v['text']);?>"
@@ -149,7 +156,7 @@ if(class_exists('theme_custom_contribution')){
 			<label class="input-group-addon" id="ctb-<?php echo $k;?>-pwd-addon" for="ctb-<?php echo $k;?>-pwd"><i class="fa fa-key"></i></label>
 			<input 
 				type="text" 
-				name="ctb[<?php echo $k;?>][pwd]" 
+				name="ctb[storage][<?php echo $k;?>][pwd]" 
 				id="ctb-<?php echo $k;?>-pwd" 
 				class="form-control" 
 				placeholder="<?php echo sprintf(___('%s password'),$v['text']);?>"
@@ -217,7 +224,7 @@ if(class_exists('theme_custom_contribution')){
 										type="checkbox" 
 										id="ctb-tags-<?php echo $tag->term_id;?>" 
 										name="ctb[tags][]" 
-										value="<?php echo $tag->term_id;?>"
+										value="<?php echo esc_attr($tag->name);?>"
 										hidden
 									>
 								<?php } ?>

@@ -5,7 +5,9 @@
 	<div class="col-xs-12">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<?php echo status_tip('info', ___('Please set some widgets in singluar post.'));?>
+				<div class="page-tip">
+					<?php echo status_tip('info', ___('Please set some widgets in singluar post.'));?>
+				</div>
 			</div>
 		</div>
 	</div>
