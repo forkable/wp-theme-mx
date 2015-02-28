@@ -312,9 +312,11 @@ define(function(require, exports, module){
 			});
 			m.done = function(data){
 				if(data && data.status === 'success'){
-					setTimeout(function(){
-						location.href = location.href;
-					},2000);
+					$fm.find('input:text').val('');
+					$fm.find('textarea').text('');
+					//setTimeout(function(){
+					//	location.href = location.href;
+					//},2000);
 				}
 			};
 			m.loading_tx = config.lang.M00001;

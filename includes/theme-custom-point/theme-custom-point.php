@@ -159,7 +159,7 @@ class theme_custom_point{
 	public static function get_history($user_id = null){
 		if(!$user_id) $user_id = get_current_user_id();
 		$metas = get_user_meta($user_id,self::$user_meta_key['history']);
-		arsort($metas);
+		krsort($metas);
 		return $metas;
 	}
 	public static function filter_cache_request($output){

@@ -6,6 +6,7 @@
 <?php get_header();?>
 <div class="container grid-container">
 	<h3 class="crumb-title">
+		<i class="fa fa-bell"></i>
 		<?php echo ___('My notifications');?>
 		<?php
 		$unread = theme_notification::get_count(array(
@@ -156,7 +157,9 @@ $post = $post_bk;
 							<?php
 						}
 					}else{
-						echo status_tip('info',___('You have not any notification yet'));
+						?>
+						<div class="page-tip"><?php echo status_tip('info',___('You have not any notification yet'));?></div>
+						<?php
 					}
 					?>
 				</div><!-- /.panel-body -->

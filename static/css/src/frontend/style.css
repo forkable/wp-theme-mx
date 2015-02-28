@@ -635,7 +635,8 @@ label.error{
  * .tip-status
  */
 .fa{
-	line-height: normal;
+	vertical-align: top;
+	line-height: inherit;
 }
 .tip-status{
 	position:relative;
@@ -688,7 +689,7 @@ label.error{
 	.tip-status-question{background:#FBEC88;color:#363636}
 	
 	.tip-status-spinner,
-	.tip-status-loading{background:#f5f5f5}
+	.tip-status-loading{background:#FBEC88}
 	/** 
 	 * size 
 	 */
@@ -796,7 +797,7 @@ label.error{
 	width: 100%;
 	height: 1px;
 	content:'';
-	bottom: -1px;
+	bottom: -2px;
 }
 .menu-header .navbar-nav > li > a{
 }

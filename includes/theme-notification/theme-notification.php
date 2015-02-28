@@ -34,7 +34,7 @@ class theme_notification{
 	public static function template_redirect(){
 		if(is_page(self::$page_slug) && !is_user_logged_in()){
 			$redirect = get_permalink(get_page_by_path(self::$page_slug));
-			wp_redirect(theme_custom_sign::get_tabs('login',$redirect));
+			wp_redirect(theme_custom_sign::get_tabs('login',$redirect)['url']);
 			die();
 		}
 	}
@@ -70,7 +70,7 @@ class theme_notification{
 		if(empty($metas)){
 			return null;
 		}else{
-			arsort($metas);
+			krsort($metas);
 		}
 		
 		switch($args['type']){

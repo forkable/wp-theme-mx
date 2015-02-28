@@ -66,8 +66,8 @@ define(function(require, exports, module){
 							},1000);
 						}
 					}else if(data && data.status === 'error'){
+						cache.$submit.removeAttr('disabled');
 						tip(data.status,data.msg);
-						cache.$submit.text(cache.submit_ori_tx).removeAttr('disabled');
 						/**
 						 * email_pwd_not_match
 						 */
@@ -79,9 +79,10 @@ define(function(require, exports, module){
 							that.$fm.find(':required').eq(0).focus().select();
 						}
 					}else{
+						cache.$submit.removeAttr('disabled');
 						tip('error',that.error_tx);
-						cache.$submit.text(cache.submit_ori_tx).removeAttr('disabled');
 					}
+					cache.$submit.text(cache.submit_ori_tx);
 					/** callback done */
 					that.done(data);
 				}).fail(function(){

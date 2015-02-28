@@ -54,6 +54,7 @@ $error = get_query_var('error');
 			<div class="form-group submit-tip"></div>
 			<div class="form-group form-group-submit">
 				<button type="submit" class="btn btn-success btn-block btn-lg submit" data-loading-text="<?php echo ___('Processing, please wait...');?>" tabindex="1">
+					<i class="fa fa-check"></i>
 					<?php echo ___('Register &amp; Log-in');?>
 				</button>
 				<input type="hidden" name="type" value="register">
@@ -97,16 +98,19 @@ if(class_exists('theme_open_sign')){ ?>
 <?php } ?>
 				<?php
 				break;
+			/**
+			 * recover
+			 */
 			case 'recover':
 				?>
 <div class="panel panel-default mx-sign-panel">
 	<div class="panel-heading">
 		<!-- <img src="https://ww2.sinaimg.cn/large/686ee05djw1epbag1lpulj202o02o3y9.jpg" alt="Avatar" class="img-circle"> -->
-		<h3><?php echo ___('Account register');?></h3>
+		<h3><?php echo ___('Recover password');?></h3>
 	</div>
 	<div class="panel-body">
 		<form action="javascript:void(0);" id="fm-sign-recover">
-			<div class="form-group"><?php echo status_tip('info',___('If you forgot your account password, you can recover your password by your account email. Please entry your account email, we will send a confirm email to it and reset your password.'));?></div>
+			<div class="form-group"><?php echo ___('If you forgot your account password, you can recover your password by your account email. Please entry your account email, we will send a confirm email to it and reset your password.');?></div>
 			<div class="form-group">
 				<div class="input-group">
 					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope"></i></label>
@@ -145,6 +149,7 @@ if(class_exists('theme_open_sign')){ ?>
 			/**
 			 * login
 			 */
+			case 'login':
 			default:
 				?>
 <div class="panel panel-default mx-sign-panel">
@@ -175,7 +180,8 @@ if(class_exists('theme_open_sign')){ ?>
 			</div>
 			<div class="form-group submit-tip"></div>
 			<div class="form-group form-group-submit">
-				<button type="submit" class="btn btn-lg btn-primary btn-block submit" data-loading-text="<?php echo ___('Logging in, please wait...');?>" tabindex="1">
+				<button type="submit" class="btn btn-lg btn-success btn-block submit" data-loading-text="<?php echo ___('Logging in, please wait...');?>" tabindex="1">
+					<i class="fa fa-check"></i>
 					<?php echo ___('Login');?>
 				</button>
 				<input type="hidden" name="type" value="login">

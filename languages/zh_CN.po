@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-27 22:57+0800\n"
-"PO-Revision-Date: 2015-02-27 23:04+0800\n"
+"POT-Creation-Date: 2015-02-28 19:27+0800\n"
+"PO-Revision-Date: 2015-02-28 19:28+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -25,17 +25,17 @@ msgstr "暂无评论"
 msgid "Basic profile"
 msgstr "基本资料"
 
-#: author.php:98
+#: author.php:98 page-settings.php:62
 msgid "Unique identifier"
 msgstr "唯一的标识（不能被更改）"
 
-#: author.php:98
+#: author.php:98 page-settings.php:63
 msgid "UID"
 msgstr "UID"
 
 #: author.php:106 comments.php:83 comments.php:91
 #: includes/_theme-quick-comment/theme-quick-comment.php:348
-#: includes/theme-quick-sign/theme-quick-sign.php:396
+#: includes/theme-quick-sign/theme-quick-sign.php:396 page-settings.php:74
 msgid "Nickname"
 msgstr "昵称"
 
@@ -43,11 +43,11 @@ msgstr "昵称"
 msgid "Registered"
 msgstr "注册时间"
 
-#: author.php:114
+#: author.php:114 page-settings.php:84
 msgid "Website / Blog"
 msgstr "网站 / 博客"
 
-#: author.php:127
+#: author.php:127 page-settings.php:94
 msgid "Description"
 msgstr "描述"
 
@@ -669,15 +669,15 @@ msgstr "我的资料"
 
 #: header.php:136 header.php:261
 #: includes/theme-custom-sign/theme-custom-sign.php:74
-#: includes/theme-quick-sign/theme-quick-sign.php:394 page-sign.php:179
+#: includes/theme-quick-sign/theme-quick-sign.php:394 page-sign.php:185
 msgid "Login"
 msgstr "登录"
 
-#: header.php:145 header.php:270 page-sign.php:87 page-sign.php:209
+#: header.php:145 header.php:270 page-sign.php:88 page-sign.php:215
 msgid "Login from QQ"
 msgstr "使用 QQ 登录"
 
-#: header.php:152 header.php:277 page-sign.php:93 page-sign.php:215
+#: header.php:152 header.php:277 page-sign.php:94 page-sign.php:221
 msgid "Login from Weibo"
 msgstr "使用渣浪微博登录"
 
@@ -1278,7 +1278,7 @@ msgstr "积分能换许多东西哦。"
 msgid "Sign-in daily points: +%s"
 msgstr "当每天登录奖励：+%s"
 
-#: includes/theme-custom-sign/theme-custom-sign.php:88
+#: includes/theme-custom-sign/theme-custom-sign.php:88 page-sign.php:109
 msgid "Recover password"
 msgstr "找回密码"
 
@@ -1988,7 +1988,7 @@ msgstr "重复密码"
 msgid "Login / Register"
 msgstr "登录/注册"
 
-#: includes/theme-quick-sign/theme-quick-sign.php:401 page-sign.php:173
+#: includes/theme-quick-sign/theme-quick-sign.php:401 page-sign.php:178
 msgid "Remember me"
 msgstr "下次自动登录"
 
@@ -2604,58 +2604,94 @@ msgstr "网盘链接"
 msgid "Tags"
 msgstr "Tag 标签"
 
-#: page-notifications.php:9
+#: page-notifications.php:10
 msgid "My notifications"
 msgstr "我的提醒"
 
-#: page-notifications.php:52
+#: page-notifications.php:53
 #, php-format
 msgid "Your post %s has a comment by %s."
 msgstr "您的文章 %s 有一条来自 %s 的评论。"
 
-#: page-notifications.php:81
+#: page-notifications.php:82
 #, php-format
 msgid "Your comment %s has a reply by %s."
 msgstr "%s 回复了您的评论 %s。"
 
-#: page-notifications.php:110
+#: page-notifications.php:111
 #, php-format
 msgid "%s is following you."
 msgstr "%s 正在关注您。"
 
-#: page-notifications.php:141
+#: page-notifications.php:142
 #, php-format
 msgid "%s published a post %s."
 msgstr "%s 发布了一片文章 %s。"
 
-#: page-notifications.php:159
+#: page-notifications.php:161
 msgid "You have not any notification yet"
 msgstr "您暂无任何提醒。"
 
-#: page-settings.php:61
+#: page-settings.php:50
+msgid "Views source image"
+msgstr "查看原图"
+
+#: page-settings.php:54
+msgid "My avatar"
+msgstr "我的头像"
+
+#: page-settings.php:55
+msgid "Change avatar"
+msgstr "更改头像"
+
+#: page-settings.php:77
+msgid "Please type nickname (required)"
+msgstr "请输入昵称（必填）"
+
+#: page-settings.php:77
+msgid "Please type nickname"
+msgstr "请输入昵称"
+
+#: page-settings.php:87
+msgid "Your blog url (include http://)"
+msgstr "您的博客网址（包含http://）"
+
+#: page-settings.php:87
+msgid "Please type your blog url"
+msgstr "请输入您的博客网址"
+
+#: page-settings.php:97
+msgid "Introduce yourself to everyone"
+msgstr "向每个人介绍自己"
+
+#: page-settings.php:106
+msgid "Save my settings"
+msgstr "保存我的设置"
+
+#: page-settings.php:140
 msgid "Your have not any history yet."
 msgstr "您暂无任何历史记录哦。"
 
-#: page-settings.php:93
+#: page-settings.php:172
 #, php-format
 msgid "I registered %s."
 msgstr "我在 %s 注册了。"
 
-#: page-settings.php:106
+#: page-settings.php:185
 #, php-format
 msgid "I published a post %s."
 msgstr ""
 
-#: page-settings.php:129
+#: page-settings.php:208
 #, php-format
 msgid "Your post %s has a new comment by %s."
 msgstr "%s 评论了您的文章 %s "
 
-#: page-settings.php:147
+#: page-settings.php:226
 msgid "Log-in daily reward."
 msgstr "每天登录奖励。"
 
-#: page-sign.php:26 page-sign.php:105
+#: page-sign.php:26
 msgid "Account register"
 msgstr "用户注册"
 
@@ -2667,7 +2703,7 @@ msgstr "昵称，至少 2 个字符"
 msgid "Please type nickname, at least 2 length"
 msgstr "请输入昵称，2个字符以上"
 
-#: page-sign.php:39 page-sign.php:113 page-sign.php:161
+#: page-sign.php:39 page-sign.php:117 page-sign.php:166
 msgid "Please type email"
 msgstr "请输入 Email"
 
@@ -2675,7 +2711,7 @@ msgstr "请输入 Email"
 msgid "Your password, at least 3 length"
 msgstr "密码，至少 3 个字符"
 
-#: page-sign.php:45 page-sign.php:167
+#: page-sign.php:45 page-sign.php:172
 msgid "Please type password, at least 3 length"
 msgstr "请输入密码，3个字符以上"
 
@@ -2688,19 +2724,19 @@ msgstr "我已同意本站的 %s"
 msgid "TOS"
 msgstr "服务协议"
 
-#: page-sign.php:57
+#: page-sign.php:58
 msgid "Register &amp; Log-in"
 msgstr "注册 &amp; 登录"
 
-#: page-sign.php:68 page-sign.php:132
+#: page-sign.php:69 page-sign.php:136
 msgid "I have account"
 msgstr "我已有账号"
 
-#: page-sign.php:74 page-sign.php:196
+#: page-sign.php:75 page-sign.php:202
 msgid "Forgot password?"
 msgstr "忘记密码 了？"
 
-#: page-sign.php:109
+#: page-sign.php:113
 msgid ""
 "If you forgot your account password, you can recover your password by your "
 "account email. Please entry your account email, we will send a confirm email "
@@ -2709,27 +2745,27 @@ msgstr ""
 "如果您忘记了账号密码，您可以通过账号邮箱来重置密码。请输入您的账号邮箱，我们"
 "将会发送一封确认邮件，并根据提示重置您的密码。"
 
-#: page-sign.php:120
+#: page-sign.php:124
 msgid "Send an email to confirm"
 msgstr "发送邮件以确认"
 
-#: page-sign.php:138 page-sign.php:190
+#: page-sign.php:142 page-sign.php:196
 msgid "Register new account"
 msgstr "注册新用户"
 
-#: page-sign.php:153
+#: page-sign.php:158
 msgid "Account login"
 msgstr "用户登录"
 
-#: page-sign.php:157
+#: page-sign.php:162
 msgid "Welcome to log-in "
 msgstr "欢迎登录"
 
-#: page-sign.php:167
+#: page-sign.php:172
 msgid "Please type password"
 msgstr "请输入密码"
 
-#: page-sign.php:178
+#: page-sign.php:183
 msgid "Logging in, please wait..."
 msgstr "登录中，请稍候……"
 
@@ -2752,6 +2788,9 @@ msgstr "请在【外观 - 小组件】中为单页面设置一些小组件"
 #: sidebar.php:64
 msgid "Please set some widgets in 404 page."
 msgstr "请在【外观 - 小组件】中为404页面设置一些小组件"
+
+#~ msgid "Redirect to change avatar"
+#~ msgstr "跳转更改头像"
 
 #~ msgid "Contribution settings"
 #~ msgstr "投稿设置"
