@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-28 19:27+0800\n"
-"PO-Revision-Date: 2015-02-28 19:28+0800\n"
+"POT-Creation-Date: 2015-03-02 23:45+0800\n"
+"PO-Revision-Date: 2015-03-02 23:47+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -222,6 +222,7 @@ msgstr "设置已保存。"
 #: includes/theme-custom-follow/theme-custom-follow.php:137
 #: includes/theme-custom-sign/theme-custom-sign.php:171
 #: includes/theme-custom-slidebox/theme-custom-slidebox.php:321
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:236
 #: includes/theme-notification/theme-notification.php:143
 #: includes/theme-post-thumb/theme-post-thumb.php:242
 #: includes/theme-quick-sign/theme-quick-sign.php:393
@@ -1139,6 +1140,7 @@ msgstr "文章发表"
 #: includes/theme-custom-contribution/theme-custom-contribution.php:288
 #: includes/theme-custom-follow/theme-custom-follow.php:138
 #: includes/theme-custom-sign/theme-custom-sign.php:172
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:237
 #: includes/theme-notification/theme-notification.php:144
 msgid "Sorry, server error please try again later."
 msgstr "抱歉，服务器错误请稍后重试。"
@@ -1389,20 +1391,44 @@ msgstr "%s url"
 msgid "%s password"
 msgstr "%s 密码"
 
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:52
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:67
+msgid "Invaild param."
+msgstr "无效的参数。"
+
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:75
+msgid "Invaild nickname."
+msgstr "无效的昵称。"
+
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:96
+msgid "Your settings have been saved."
+msgstr "您的设置已保存。"
+
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:114
+msgid "Password invaild twice."
+msgstr "两次密码无效。"
+
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:127
+msgid "Invaild current password."
+msgstr "当前密码无效。"
+
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:146
+msgid "Your new password has been saved. Re-logging in, please wait..."
+msgstr "您的新密码已保存。正在重新登录，请稍候……"
+
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:160
 msgid "History"
 msgstr "历史积分记录"
 
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:57
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:84
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:165
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:192
 msgid "Settings"
 msgstr "设置"
 
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:62
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:170
 msgid "Avatar"
 msgstr "头像"
 
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:67
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:175
 #: includes/theme-quick-sign/theme-quick-sign.php:398
 msgid "Password"
 msgstr "密码"
@@ -2664,30 +2690,74 @@ msgstr "请输入您的博客网址"
 msgid "Introduce yourself to everyone"
 msgstr "向每个人介绍自己"
 
-#: page-settings.php:106
+#: page-settings.php:105 page-settings.php:154 page-settings.php:202
+msgid "Saving, please wait..."
+msgstr "保存中，请稍候……"
+
+#: page-settings.php:107
 msgid "Save my settings"
 msgstr "保存我的设置"
 
-#: page-settings.php:140
+#: page-settings.php:128
+msgid "Current avatar"
+msgstr "当前头像"
+
+#: page-settings.php:139
+msgid "New avatar"
+msgstr "新头像"
+
+#: page-settings.php:144
+msgid "Upload a new avatar"
+msgstr "上传新头像"
+
+#: page-settings.php:156
+msgid "Save my avatar"
+msgstr "保存我的头像"
+
+#: page-settings.php:174 page-settings.php:177
+msgid "Current password"
+msgstr "当前密码"
+
+#: page-settings.php:177
+msgid "Type your current password"
+msgstr "输入当前的密码"
+
+#: page-settings.php:183 page-settings.php:186
+msgid "New password"
+msgstr "新密码"
+
+#: page-settings.php:186
+msgid "Type new password"
+msgstr "输入新密码"
+
+#: page-settings.php:191 page-settings.php:194
+msgid "Re-type new password"
+msgstr "重新输入新密码"
+
+#: page-settings.php:204
+msgid "Update password"
+msgstr "更新密码"
+
+#: page-settings.php:233
 msgid "Your have not any history yet."
 msgstr "您暂无任何历史记录哦。"
 
-#: page-settings.php:172
+#: page-settings.php:267
 #, php-format
 msgid "I registered %s."
 msgstr "我在 %s 注册了。"
 
-#: page-settings.php:185
+#: page-settings.php:280
 #, php-format
 msgid "I published a post %s."
 msgstr ""
 
-#: page-settings.php:208
+#: page-settings.php:303
 #, php-format
 msgid "Your post %s has a new comment by %s."
 msgstr "%s 评论了您的文章 %s "
 
-#: page-settings.php:226
+#: page-settings.php:321
 msgid "Log-in daily reward."
 msgstr "每天登录奖励。"
 

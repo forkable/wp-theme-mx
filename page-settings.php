@@ -40,7 +40,7 @@ $tab_active = isset($tabs[$tab_active]) ? $tab_active : 'history';
 						case 'settings':
 						?>
 				<div class="panel-body my-settings">
-<form id="fm-my-settings" class="form-horizontal" method="post" action="javascript:;">
+<form id="fm-my-settings" class="user-form form-horizontal" method="post" action="javascript:;">
 	<!-- avatar -->
 	<div class="form-group">
 		<div class="control-label col-sm-2">
@@ -100,8 +100,9 @@ $tab_active = isset($tabs[$tab_active]) ? $tab_active : 'history';
 	<!-- submit -->
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
-			<input type="hidden" name="action" value="save-my-settings">
-			<button type="submit" class="btn btn-success btn-block btn-lg">
+			<div class="submit-tip"></div>
+			<input type="hidden" name="type" value="settings">
+			<button type="submit" class="submit btn btn-success btn-block btn-lg" data-loading-text="<?php echo ___('Saving, please wait...');?>">
 				<i class="fa fa-check"></i>
 				<?php echo ___('Save my settings');?>
 			</button>
@@ -114,7 +115,99 @@ $tab_active = isset($tabs[$tab_active]) ? $tab_active : 'history';
 <?php
 						
 							break;
+						/**
+						 * avatar
+						 */
+						case 'avatar':
+?>
+				<div class="panel-body my-settings-avatar">
+<form id="fm-change-avatar" class="user-form form-horizontal" method="post" action="javascript:;">
+	<!-- current avatar -->
+	<div class="form-group">
+		<div class="control-label col-sm-2">
+			<?php echo ___('Current avatar');?>
+		</div>
+		<div class="col-sm-10">
+			<div class="current-avatar">
+				<?php echo get_avatar(get_current_user_id(),100);?>
+			</div>
+		</div>
+	</div>
+	<!-- new avatar -->
+	<div class="form-group">
+		<div class="control-label col-sm-2">
+			<?php echo ___('New avatar');?>
+		</div>
+		<div class="col-sm-10">
+			<a href="javascript:;" id="new-avatar-btn" class="file-btn-container btn btn-default btn-block">
+				<i class="fa fa-plus"></i>
+				<?php echo ___('Upload a new avatar');?>
+				<input type="file" id="file">
+			</a>
+		</div>
+	</div>
+	<!-- submit -->
+	<div class="form-group submit-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<div class="submit-tip"></div>
+			<input type="hidden" name="type" value="settings">
+			<button type="submit" class="submit btn btn-success btn-block btn-lg" data-loading-text="<?php echo ___('Saving, please wait...');?>">
+				<i class="fa fa-check"></i>
+				<?php echo ___('Save my avatar');?>
+			</button>
+		</div>
+	</div>
+</form>
+				</div>
+				<?php
+							break;
+						/**
+						 * password
+						 */
 						case 'password':
+?>
+				<div class="panel-body my-settings-password">
+<form id="fm-change-password" class="user-form form-horizontal" method="post" action="javascript:;">
+	<!-- current password -->
+	<div class="form-group">
+		<label class="control-label col-sm-2">
+			<label for="user-old-pwd"><?php echo ___('Current password');?></label>
+		</label>
+		<div class="col-sm-10">
+			<input id="user-old-pwd" name="user[old-pwd]" type="password" class="form-control" placeholder="<?php echo ___('Current password');?>" title="<?php echo ___('Type your current password');?>" required >
+		</div>
+	</div>
+	<!-- new password -->
+	<div class="form-group">
+		<label class="control-label col-sm-2">
+			<label for="user-new-pwd-1"><?php echo ___('New password');?></label>
+		</label>
+		<div class="col-sm-10">
+			<input id="user-new-pwd-1" name="user[new-pwd-1]" type="password" class="form-control" placeholder="<?php echo ___('New password');?>" title="<?php echo ___('Type new password');?>" required >
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2">
+			<label for="user-new-pwd-2"><?php echo ___('Re-type new password');?></label>
+		</label>
+		<div class="col-sm-10">
+			<input id="user-new-pwd-2" name="user[new-pwd-2]" type="password" class="form-control" placeholder="<?php echo ___('Re-type new password');?>" title="<?php echo ___('Re-type new password');?>" required >
+		</div>
+	</div>
+	<!-- submit -->
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<div class="submit-tip"></div>
+			<input type="hidden" name="type" value="pwd">
+			<button type="submit" class="submit btn btn-success btn-block btn-lg" data-loading-text="<?php echo ___('Saving, please wait...');?>">
+				<i class="fa fa-check"></i>
+				<?php echo ___('Update password');?>
+			</button>
+		</div>
+	</div>
+</form>
+				</div>
+<?php
 							break;
 						/**
 						 * history

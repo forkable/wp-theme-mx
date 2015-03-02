@@ -1,0 +1,19 @@
+#fm-change-avatar .control-label{
+	height: 100px;
+	line-height: 100px;
+}
+.current-avatar img{
+	width: 100px;
+	height: 100px;
+}
+
+#new-avatar-btn{
+	padding: 40px 50px;
+	border: 5px dashed #ccc;
+	background: rgb(245,245,245);
+	font-size: 1.5em;
+}
+	#new-avatar-btn:hover{
+		background: rgb(240,240,240);
+		border-color: #777;
+	}

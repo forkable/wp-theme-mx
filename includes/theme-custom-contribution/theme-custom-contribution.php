@@ -23,7 +23,7 @@ class theme_custom_contribution{
 		
 		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
 
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+		add_action('wp_enqueue_style', 	get_class() . '::frontend_css');
 
 	}
 	public static function page_create(){

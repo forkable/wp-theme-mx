@@ -1165,7 +1165,29 @@ label.error{
 	.history-group .point-value.times{
 		color: #5cb85c;
 	}
+/**
+ * .my-settings
+ */
+/**
+ * .submit-tip
+ */
+.submit-tip{margin-bottom: 10px;display: none;}
 
+/**
+ * input:file
+ */
+.file-btn-container{
+	position: relative;
+	overflow: hidden;
+}
+	.file-btn-container input[type="file"]{
+		position: absolute;
+		font-size: 99em;
+		right: -10px;
+		top: -10px;
+		opacity: 0;
+		cursor: pointer;
+}
 /**
  * media 
  */
