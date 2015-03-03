@@ -85,15 +85,6 @@
 						</a>
 					<?php } ?>
 
-					<!-- my point -->
-					<?php if(class_exists('theme_custom_point')){ ?>
-						<a href="<?php echo esc_url(theme_custom_user_settings::get_page_url());?>" class="meta tool-point btn btn-default" title="<?php echo ___('My points');?>">
-							<!-- <i class="fa fa-github-alt"></i> -->
-							<img src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="" width="15" height="15">
-							<?php echo theme_custom_point::get_point();?>
-						</a>
-					<?php } ?>
-					
 					<!-- my settings -->
 					<?php
 					if(class_exists('theme_custom_user_settings')){
@@ -105,6 +96,16 @@
 					<a href="<?php echo esc_url($setting_url);?>" class="btn btn-default meta user-settings" title="<?php echo ___('My settings');?>">
 						<i class="fa fa-cog"></i> 
 					</a>
+					
+					<!-- my point -->
+					<?php if(class_exists('theme_custom_point')){ ?>
+						<a href="<?php echo esc_url(theme_custom_user_settings::get_page_url());?>" class="meta tool-point btn btn-default" title="<?php echo ___('My points');?>">
+							<!-- <i class="fa fa-github-alt"></i> -->
+							<img src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="" width="15" height="15">
+							<?php echo theme_custom_point::get_point();?>
+						</a>
+					<?php } ?>
+					
 
 					<!-- my profile -->
 					<?php

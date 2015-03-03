@@ -35,21 +35,25 @@ $tabs = theme_custom_author_profile::get_tabs();
 					 */
 					case 'works':
 						?>
-<div class="panel-body row mx-card-body post-mixed-list-container">
+<div class="panel-body">
 	<?php
 	if(have_posts()){
-		while(have_posts()){
-			the_post();
-			theme_functions::archive_content(array(
-				'classes' => array('col-lg-6 col-md-6 col-sm-12 col-xs-12')
-			));
-		}
 		?>
+		<ul class="row mx-card-body post-img-lists">
+			<?php
+			while(have_posts()){
+				the_post();
+				theme_functions::archive_img_content(array(
+					'classes' => array('col-xs-12 col-sm-3')
+				));
+			}
+			?>
+		</ul>
 		<div class="area-pagination">
 			<?php echo theme_functions::get_post_pagination('posts-pagination posts-pagination-bottom');?>
 		</div>
 	<?php }else{ ?>
-
+		<div class="page-tip"><?php echo status_tip('info',___('No post yet.')); ?></div>
 	<?php } ?>
 </div>
 						<?php
@@ -61,10 +65,9 @@ $tabs = theme_custom_author_profile::get_tabs();
 						));
 					?>
 <div class="panel-body">
-	<?php if(empty($comments)){
-		echo status_tip('info',___('No comment yet.'));
-	}else{
-		?>
+	<?php if(empty($comments)){ ?>
+		<div class="page-tip"><?php echo status_tip('info',___('No comment yet.')); ?></div>
+	<?php }else{ ?>
 		<ul class="list-group">
 			<?php foreach($comments as $comment){ ?>
 				<li class="list-group-item">

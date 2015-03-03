@@ -1756,7 +1756,7 @@ class theme_functions{
 			$wp_query = self::get_posts_query(array(
 				'orderby' => 'lastest',
 				'category__in' => $v['cats'],
-				'posts_per_page' => 12
+				'posts_per_page' => 8
 			));
 			if(have_posts()){
 				while(have_posts()){

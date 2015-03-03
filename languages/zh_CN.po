@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-02 23:45+0800\n"
-"PO-Revision-Date: 2015-03-02 23:47+0800\n"
+"POT-Creation-Date: 2015-03-03 19:15+0800\n"
+"PO-Revision-Date: 2015-03-03 19:16+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -17,50 +17,54 @@ msgstr ""
 "X-Generator: Poedit 1.7.3\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: author.php:65 includes/_theme-quick-comment/theme-quick-comment.php:171
+#: author.php:56
+msgid "No post yet."
+msgstr "暂无文章。"
+
+#: author.php:69 includes/_theme-quick-comment/theme-quick-comment.php:171
 msgid "No comment yet."
 msgstr "暂无评论"
 
-#: author.php:93
+#: author.php:96
 msgid "Basic profile"
 msgstr "基本资料"
 
-#: author.php:98 page-settings.php:62
+#: author.php:101 page-settings.php:62
 msgid "Unique identifier"
 msgstr "唯一的标识（不能被更改）"
 
-#: author.php:98 page-settings.php:63
+#: author.php:101 page-settings.php:63
 msgid "UID"
 msgstr "UID"
 
-#: author.php:106 comments.php:83 comments.php:91
+#: author.php:109 comments.php:83 comments.php:91
 #: includes/_theme-quick-comment/theme-quick-comment.php:348
 #: includes/theme-quick-sign/theme-quick-sign.php:396 page-settings.php:74
 msgid "Nickname"
 msgstr "昵称"
 
-#: author.php:110
+#: author.php:113
 msgid "Registered"
 msgstr "注册时间"
 
-#: author.php:114 page-settings.php:84
+#: author.php:117 page-settings.php:84
 msgid "Website / Blog"
 msgstr "网站 / 博客"
 
-#: author.php:127 page-settings.php:94
+#: author.php:130 page-settings.php:94
 msgid "Description"
 msgstr "描述"
 
-#: author.php:137
+#: author.php:140
 msgid "Statistics"
 msgstr "统计"
 
-#: author.php:141
+#: author.php:144
 #: includes/theme-custom-author-profile/theme-custom-author-profile.php:85
 msgid "Works"
 msgstr "作品"
 
-#: author.php:150
+#: author.php:153
 #: includes/theme-custom-author-profile/theme-custom-author-profile.php:91
 msgid "Comments"
 msgstr "评论"
@@ -222,7 +226,8 @@ msgstr "设置已保存。"
 #: includes/theme-custom-follow/theme-custom-follow.php:137
 #: includes/theme-custom-sign/theme-custom-sign.php:171
 #: includes/theme-custom-slidebox/theme-custom-slidebox.php:321
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:236
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:275
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:286
 #: includes/theme-notification/theme-notification.php:143
 #: includes/theme-post-thumb/theme-post-thumb.php:242
 #: includes/theme-quick-sign/theme-quick-sign.php:393
@@ -643,51 +648,51 @@ msgstr "&raquo; 更多"
 msgid "Preview page"
 msgstr "上一页"
 
-#: header.php:48 header.php:213
+#: header.php:48 header.php:214
 #: includes/theme-custom-contribution/theme-custom-contribution.php:36
 msgid "Contribution"
 msgstr "投稿"
 
-#: header.php:55 header.php:222
+#: header.php:55 header.php:223
 msgid "Notification"
 msgstr "提醒"
 
-#: header.php:73 header.php:81 header.php:231 header.php:239
+#: header.php:73 header.php:81 header.php:232 header.php:240
 msgid "My favor"
 msgstr "我的收藏"
 
-#: header.php:90
-msgid "My points"
-msgstr "我的积分"
-
-#: header.php:105
+#: header.php:96
 msgid "My settings"
 msgstr "我的设置"
 
-#: header.php:117
+#: header.php:102
+msgid "My points"
+msgstr "我的积分"
+
+#: header.php:118
 msgid "My profile"
 msgstr "我的资料"
 
-#: header.php:136 header.php:261
+#: header.php:137 header.php:262
 #: includes/theme-custom-sign/theme-custom-sign.php:74
 #: includes/theme-quick-sign/theme-quick-sign.php:394 page-sign.php:185
 msgid "Login"
 msgstr "登录"
 
-#: header.php:145 header.php:270 page-sign.php:88 page-sign.php:215
+#: header.php:146 header.php:271 page-sign.php:88 page-sign.php:215
 msgid "Login from QQ"
 msgstr "使用 QQ 登录"
 
-#: header.php:152 header.php:277 page-sign.php:94 page-sign.php:221
+#: header.php:153 header.php:278 page-sign.php:94 page-sign.php:221
 msgid "Login from Weibo"
 msgstr "使用渣浪微博登录"
 
-#: header.php:163 includes/theme-custom-sign/theme-custom-sign.php:81
+#: header.php:164 includes/theme-custom-sign/theme-custom-sign.php:81
 #: includes/theme-quick-sign/theme-quick-sign.php:395
 msgid "Register"
 msgstr "注册"
 
-#: header.php:305
+#: header.php:306
 msgid "Keywords"
 msgstr "搜索关键词"
 
@@ -1140,7 +1145,8 @@ msgstr "文章发表"
 #: includes/theme-custom-contribution/theme-custom-contribution.php:288
 #: includes/theme-custom-follow/theme-custom-follow.php:138
 #: includes/theme-custom-sign/theme-custom-sign.php:172
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:237
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:276
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:287
 #: includes/theme-notification/theme-notification.php:144
 msgid "Sorry, server error please try again later."
 msgstr "抱歉，服务器错误请稍后重试。"
@@ -1215,6 +1221,10 @@ msgstr "一行一个关键词"
 #: includes/theme-custom-slidebox/theme-custom-slidebox.php:175
 msgid "Delete this item"
 msgstr "删除此条目"
+
+#: includes/theme-custom-page-tags/theme-custom-page-tags.php:25
+msgid "Tags index"
+msgstr "标签索引"
 
 #: includes/theme-custom-point/theme-custom-point.php:34
 #: includes/theme-custom-point/theme-custom-point.php:117
@@ -1415,20 +1425,36 @@ msgstr "当前密码无效。"
 msgid "Your new password has been saved. Re-logging in, please wait..."
 msgstr "您的新密码已保存。正在重新登录，请稍候……"
 
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:160
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:158
+msgid "Sorry, your file is invaild format, please check it again."
+msgstr "对不起，您的文件是无效的格式，请再检查一下。"
+
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:173
+msgid ""
+"Sorry, system can not write file, please try again later or contact the "
+"administrator."
+msgstr "对不起，系统无法写入文件，请稍后重试或联系管理员。"
+
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:185
+msgid ""
+"Congratulation! Your avatar has been updated. Page is redirecting, please "
+"wait..."
+msgstr "恭喜！你的头像已经成功更新。页面正在刷新，请稍候.……"
+
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:199
 msgid "History"
 msgstr "历史积分记录"
 
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:165
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:192
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:204
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:231
 msgid "Settings"
 msgstr "设置"
 
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:170
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:209
 msgid "Avatar"
 msgstr "头像"
 
-#: includes/theme-custom-user-settings/theme-custom-user-settings.php:175
+#: includes/theme-custom-user-settings/theme-custom-user-settings.php:214
 #: includes/theme-quick-sign/theme-quick-sign.php:398
 msgid "Password"
 msgstr "密码"
@@ -2690,7 +2716,7 @@ msgstr "请输入您的博客网址"
 msgid "Introduce yourself to everyone"
 msgstr "向每个人介绍自己"
 
-#: page-settings.php:105 page-settings.php:154 page-settings.php:202
+#: page-settings.php:105 page-settings.php:155 page-settings.php:211
 msgid "Saving, please wait..."
 msgstr "保存中，请稍候……"
 
@@ -2706,58 +2732,58 @@ msgstr "当前头像"
 msgid "New avatar"
 msgstr "新头像"
 
-#: page-settings.php:144
-msgid "Upload a new avatar"
-msgstr "上传新头像"
-
-#: page-settings.php:156
+#: page-settings.php:157
 msgid "Save my avatar"
 msgstr "保存我的头像"
 
-#: page-settings.php:174 page-settings.php:177
+#: page-settings.php:162
+msgid "Upload a new avatar"
+msgstr "上传新头像"
+
+#: page-settings.php:183 page-settings.php:186
 msgid "Current password"
 msgstr "当前密码"
 
-#: page-settings.php:177
+#: page-settings.php:186
 msgid "Type your current password"
 msgstr "输入当前的密码"
 
-#: page-settings.php:183 page-settings.php:186
+#: page-settings.php:192 page-settings.php:195
 msgid "New password"
 msgstr "新密码"
 
-#: page-settings.php:186
+#: page-settings.php:195
 msgid "Type new password"
 msgstr "输入新密码"
 
-#: page-settings.php:191 page-settings.php:194
+#: page-settings.php:200 page-settings.php:203
 msgid "Re-type new password"
 msgstr "重新输入新密码"
 
-#: page-settings.php:204
+#: page-settings.php:213
 msgid "Update password"
 msgstr "更新密码"
 
-#: page-settings.php:233
+#: page-settings.php:242
 msgid "Your have not any history yet."
 msgstr "您暂无任何历史记录哦。"
 
-#: page-settings.php:267
+#: page-settings.php:276
 #, php-format
 msgid "I registered %s."
 msgstr "我在 %s 注册了。"
 
-#: page-settings.php:280
+#: page-settings.php:289
 #, php-format
 msgid "I published a post %s."
 msgstr ""
 
-#: page-settings.php:303
+#: page-settings.php:312
 #, php-format
 msgid "Your post %s has a new comment by %s."
 msgstr "%s 评论了您的文章 %s "
 
-#: page-settings.php:321
+#: page-settings.php:330
 msgid "Log-in daily reward."
 msgstr "每天登录奖励。"
 

@@ -147,6 +147,45 @@ class theme_custom_user_settings{
 				$output['redirect'] = home_url();
 				die(theme_features::json_format($output));
 				break;
+			/**
+			 * avatar
+			 */
+			case 'avatar':
+				$base64 = isset($_POST['base64']) && is_string($_POST['base64']) ? explode(',',$_POST['base64']) : null;
+				if(isset($base64[0]) && strpos($base64[0],'jpeg') === false){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_format';
+					$output['msg'] = ___('Sorry, your file is invaild format, please check it again.');
+					die(theme_features::json_format($output));
+				}
+
+				$filename = 'avatar-' . get_current_user_id() . '-' . current_time('YmdHis') . '-' . rand(100,999) . '.jpg';
+				
+				$filepath = wp_upload_dir()['path'] . '/' . $filename;
+				
+				$fileurl = wp_upload_dir()['url'] . '/' . $filename;
+				
+				$file_contents = file_put_contents($filepath,base64_decode($base64[1]));
+				
+				if($file_contents === false){
+					$output['status'] = 'error';
+					$output['code'] = 'can_not_write_file';
+					$output['msg'] = ___('Sorry, system can not write file, please try again later or contact the administrator.');
+					die(theme_features::json_format($output));
+				}else{
+					/**
+					 * update user meta for avatar
+					 */
+					$avatar_meta_key = class_exists('theme_custom_avatar') ? theme_custom_avatar::$user_meta_key['avatar'] : 'avatar';
+					
+					update_user_meta(get_current_user_id(),$avatar_meta_key,$fileurl);
+					
+					$output['status'] = 'success';
+					$output['avatar-url'] = $fileurl;
+					$output['msg'] = ___('Congratulation! Your avatar has been updated. Page is redirecting, please wait...');
+					die(theme_features::json_format($output));
+				}
+				break;
 		}
 		die(theme_features::json_format($output));
 	}
@@ -240,6 +279,17 @@ class theme_custom_user_settings{
 				});				
 				<?php
 				break;
+			case 'avatar':
+				?>
+				seajs.use('<?php echo self::$iden,'-',$tab_active;?>',function(m){
+					m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => self::$iden));?>';
+					m.config.lang.M00001 = '<?php echo esc_js(___('Loading, please wait...'));?>';
+					m.config.lang.E00001 = '<?php echo esc_js(___('Sorry, server error please try again later.'));?>';
+					
+					m.init();
+				});				
+				<?php
+				break;
 		}
 	}
 	public static function frontend_css(){
@@ -250,7 +300,14 @@ class theme_custom_user_settings{
 		switch($tab_active){
 			case 'avatar':
 				wp_enqueue_style(
-					self::$iden,theme_features::get_theme_includes_css(__FILE__,$tab_active,false),
+					self::$iden . '-' . $tab_active,
+					theme_features::get_theme_includes_css(__FILE__,$tab_active,false),
+					false,
+					theme_features::get_theme_info('version')
+				);
+				wp_enqueue_style(
+					self::$iden . '-cropper',
+					theme_features::get_theme_includes_css(__FILE__,'cropper',false),
 					false,
 					theme_features::get_theme_info('version')
 				);
