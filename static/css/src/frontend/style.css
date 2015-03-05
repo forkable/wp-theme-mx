@@ -27,7 +27,7 @@
 	margin-left: 10px;
 }
 .navbar-nav{
-	margin: 0 -10px;
+	/*margin: 0 -10px;*/
 }
 .nav-tabs > li > a{
 }
@@ -635,8 +635,8 @@ label.error{
  * .tip-status
  */
 .fa{
-	vertical-align: top;
-	line-height: inherit;
+	vertical-align:/* top;
+	line-height: in*/herit;
 }
 .tip-status{
 	position:relative;

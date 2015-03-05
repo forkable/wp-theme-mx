@@ -47,18 +47,18 @@ class theme_custom_author_profile{
 			$user_id = $post->post_author;
 		}
 		$cache_id = 'user-count-' . $user_id;
-		$caches = (array)theme_cache::get($cache_id);
+		$caches = (array)wp_cache_get($cache_id);
 		switch($key){
 			case 'works':
 				if(!isset($caches['works'])){
 					$caches['works'] = (int)count_user_posts($user_id);
-					theme_cache::set($cache_id,$caches,null,self::$cache_expire);
+					wp_cache_set($cache_id,$caches,null,self::$cache_expire);
 				}
 				return $caches['works'];
 			case 'comments':
 				if(!isset($caches['comments'])){
 					$caches['comments'] = (int)theme_features::get_user_comments_count($user_id);
-					theme_cache::set($cache_id,$caches,null,self::$cache_expire);
+					wp_cache_set($cache_id,$caches,null,self::$cache_expire);
 				}
 				return $caches['comments'];
 			case 'followers_count':

@@ -75,6 +75,29 @@ class theme_cache{
 			unset($caches['queries']);
 			self::set(self::$cache_skey,$caches);
 		});
+		/**
+		 * when post delete
+		 */
+		add_action('delete_post', function($post_id){
+			$post = get_post($post_id);
+			$caches = (array)wp_cache_get('pages_by_path');
+			if(isset($caches[$post->post_name])){
+				unset($caches[$post->post_name]);
+				wp_cache_set('pages_by_path',$caches,null,2505600);
+			}
+		});
+		/**
+		 * when post save
+		 */
+		add_action('save_post', function($post_id){
+			$post = get_post($post_id);
+			$caches = (array)wp_cache_get('pages_by_path');
+			if(!isset($caches[$post->post_name])){
+				$caches[$post->post_name] = $post_id;
+				wp_cache_set('pages_by_path',$caches,null,2505600);
+			}
+		});
+		
 	}
 	private static function get_process_url($type){
 		return add_query_arg(array(
@@ -200,6 +223,31 @@ class theme_cache{
 		}
 		self::$cache->clean();
 	}
+	/**
+	 * add cache for get_page_by_path()
+	 * 
+	 * @version 1.0.0
+	 */
+	public static function get_page_by_path($page_path, $output = OBJECT, $post_type = 'page'){
+		$cache_id = 'pages_by_path';
+		$caches = (array)wp_cache_get($cache_id);
+		/** get post id from cache */
+		if(isset($caches[$page_path])){
+			$post_id = $caches[$page_path];
+			return get_post($post_id,$output);
+		/** get post id from db */
+		}else{
+			$post = call_user_func_array('get_page_by_path',func_get_args());
+			if(!empty($post)){
+				$post_id = $post->ID;
+				$caches[$page_path] = $post_id;
+				wp_cache_set($cache_id,$caches,null,2505600);
+				return $post;
+			}
+			return null;
+		}
+	}
+
 	private static function build_key($key,$group = ''){
 		return self::$cache_skey . $group . '-' . $key;
 	}

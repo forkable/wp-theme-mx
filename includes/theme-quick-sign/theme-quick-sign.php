@@ -124,7 +124,7 @@ class theme_quick_sign{
 				$callback_url = add_query_arg(array(
 					'step' => 'reset-pwd',
 					'token' => $encode,
-				),get_permalink(get_page_by_path(theme_custom_sign::$page_slug)));
+				),get_permalink(theme_cache::get_page_by_path(theme_custom_sign::$page_slug)));
 				// $callback_url = theme_features::get_process_url(array(
 					// 'action' => self::$ajax_lost_password,
 					// 'token' => $encode,

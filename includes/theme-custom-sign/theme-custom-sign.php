@@ -26,7 +26,7 @@ class theme_custom_sign{
 	
 	public static function filter_login_headerurl($login_header_url){
 		// if(current_user_can('moderate_comments')) return $login_header_url;
-		wp_safe_redirect(get_permalink(get_page_by_path(self::$page_slug)));
+		wp_safe_redirect(get_permalink(theme_cache::get_page_by_path(self::$page_slug)));
 		die();
 	}
 	public static function action_show_admin_bar(){
@@ -62,7 +62,7 @@ class theme_custom_sign{
 		return self::get_tabs('login',get_current_url())['url'];
 	}
 	public static function get_tabs($key = null,$redirect = null){
-		$baseurl = get_permalink(get_page_by_path(self::$page_slug));
+		$baseurl = get_permalink(theme_cache::get_page_by_path(self::$page_slug));
 		$redirect = $redirect ? $redirect : get_query_var('redirect');
 		if($redirect){
 			$baseurl = add_query_arg(array(
@@ -126,7 +126,7 @@ class theme_custom_sign{
 			'comment_status'	=> 'closed',
 		);
 		foreach($page_slugs as $k => $v){
-			$page = get_page_by_path($k);
+			$page = theme_cache::get_page_by_path($k);
 			if(!$page){
 				$r = wp_parse_args($v,$defaults);
 				$page_id = wp_insert_post($r);

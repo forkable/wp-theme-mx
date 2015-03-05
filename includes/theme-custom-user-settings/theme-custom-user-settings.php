@@ -6,15 +6,13 @@
 theme_custom_user_settings::init();
 class theme_custom_user_settings{
 	public static $iden = 'theme_custom_user_settings';
-	public static $page_slug = 'settings';
+	public static $page_slug = 'account';
 	public static $cache_expire = 2505600; /** 29 days */
 
 	public static function init(){
-		add_action('init', 					get_class() . '::page_create');
-		add_action('template_redirect',		get_class() . '::template_redirect');
 		add_filter('query_vars',			get_class() . '::filter_query_vars');
+		
 		add_filter('wp_title',				get_class() . '::wp_title',10,2);
-
 
 		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
 		
@@ -23,30 +21,34 @@ class theme_custom_user_settings{
 		add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
 		
 		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
+
+		foreach(self::get_tabs() as $k => $v){
+			$nav_fn = 'filter_nav_' . $k; 
+			add_filter('account_navs',get_class() . "::$nav_fn",$v['filter_priority']);
+		}
 		
 	}
+
 	public static function wp_title($title, $sep){
 		if(!is_page(self::$page_slug)) return $title;
 		$tab_active = get_query_var('tab');
 		$tabs = self::get_tabs();
 		if(!empty($tab_active) && isset($tabs[$tab_active])){
 			$title = $tabs[$tab_active]['text'];
-		}else{
-			$title = $tabs['history']['text'];
 		}
 		return $title . $sep . get_bloginfo('name');
 	}
 	public static function filter_query_vars($vars){
-		if(!in_array('tab',$vars)) $vars[] = 'tab';
 		if(!in_array('page',$vars)) $vars[] = 'page';
 		return $vars;
 	}
-	public static function template_redirect(){
-		if(is_page(self::$page_slug) && !is_user_logged_in()){
-			$redirect = self::get_page_url();
-			wp_redirect(theme_custom_sign::get_tabs('login',$redirect)['url']);
-			die();
-		}
+	public static function is_page(){
+		if(
+			is_page(self::$page_slug) 				&& 
+			self::get_tabs(get_query_var('tab'))
+		)
+			return true;
+		return false;
 	}
 	public static function process(){
 		$output = [];
@@ -189,31 +191,35 @@ class theme_custom_user_settings{
 		}
 		die(theme_features::json_format($output));
 	}
-	public static function get_page_url(){
-		return get_permalink(get_page_by_path(self::$page_slug));
+	public static function get_url(){
+		return get_permalink(theme_cache::get_page_by_path(self::$page_slug));
 	}
 	public static function get_tabs($key = null){
-		$baseurl = self::get_page_url();
+		$baseurl = self::get_url();
 		$tabs = array(
 			'history' => array(
 				'text' => ___('History'),
 				'icon' => 'history',
 				'url' => add_query_arg('tab','history',$baseurl),
+				'filter_priority' => 50,
 			),
 			'settings' => array(
 				'text' => ___('Settings'),
 				'icon' => 'cog',
 				'url' => add_query_arg('tab','settings',$baseurl),
+				'filter_priority' => 60,
 			),
 			'avatar' => array(
 				'text' => ___('Avatar'),
 				'icon' => 'image',
 				'url' => add_query_arg('tab','avatar',$baseurl),
+				'filter_priority' => 70,
 			),
 			'password' => array(
 				'text' => ___('Password'),
 				'icon' => 'lock',
 				'url' => add_query_arg('tab','password',$baseurl),
+				'filter_priority' => 80,
 			),
 		);
 		if($key){
@@ -221,36 +227,37 @@ class theme_custom_user_settings{
 		}
 		return $tabs;
 	}
-	public static function page_create(){
-		if(!current_user_can('manage_options')) return false;
-		
-		$page_slugs = array(
-			self::$page_slug => array(
-				'post_content' 	=> '[' . self::$page_slug . ']',
-				'post_name'		=> self::$page_slug,
-				'post_title'	=> ___('Settings'),
-				'page_template'	=> 'page-' . self::$page_slug . '.php',
-			)
-		);
-		
-		$defaults = array(
-			'post_content' 		=> '[post_content]',
-			'post_name' 		=> null,
-			'post_title' 		=> null,
-			'post_status' 		=> 'publish',
-			'post_type'			=> 'page',
-			'comment_status'	=> 'closed',
-		);
-		foreach($page_slugs as $k => $v){
-			$page = get_page_by_path($k);
-			if(!$page){
-				$r = wp_parse_args($v,$defaults);
-				$page_id = wp_insert_post($r);
-			}
-		}
+	public static function filter_nav_history($navs){
+		$navs['history'] = '<a href="' . esc_url(self::get_tabs('history')['url']) . '">
+			<i class="fa fa-' . self::get_tabs('history')['icon'] . '"></i> 
+			' . esc_html(self::get_tabs('history')['text']) . '
+		</a>';
+		return $navs;
 	}
+	public static function filter_nav_settings($navs){
+		$navs['settings'] = '<a href="' . esc_url(self::get_tabs('settings')['url']) . '">
+			<i class="fa fa-' . self::get_tabs('settings')['icon'] . '"></i> 
+			' . esc_html(self::get_tabs('settings')['text']) . '
+		</a>';
+		return $navs;
+	}
+	public static function filter_nav_avatar($navs){
+		$navs['avatar'] = '<a href="' . esc_url(self::get_tabs('avatar')['url']) . '">
+			<i class="fa fa-' . self::get_tabs('avatar')['icon'] . '"></i> 
+			' . esc_html(self::get_tabs('avatar')['text']) . '
+		</a>';
+		return $navs;
+	}
+	public static function filter_nav_password($navs){
+		$navs['password'] = '<a href="' . esc_url(self::get_tabs('password')['url']) . '">
+			<i class="fa fa-' . self::get_tabs('password')['icon'] . '"></i> 
+			' . esc_html(self::get_tabs('password')['text']) . '
+		</a>';
+		return $navs;
+	}
+
 	public static function frontend_seajs_alias($alias){
-		if(!is_user_logged_in() || !is_page(self::$page_slug)) return $alias;
+		if(!self::is_page()) return $alias;
 		foreach(self::get_tabs() as $k => $v){
 			$alias[self::$iden . '-' . $k] = theme_features::get_theme_includes_js(__FILE__,$k);
 			if($k === 'avatar'){
@@ -260,11 +267,10 @@ class theme_custom_user_settings{
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(!is_user_logged_in() || !is_page(self::$page_slug)) return false;
+		if(!self::is_page()) return false;
 		
 		$tabs = self::get_tabs();
 		$tab_active = get_query_var('tab');
-		$tab_active = isset($tabs[$tab_active]) ? $tab_active : 'history';
 
 		switch($tab_active){
 			case 'password':
@@ -296,7 +302,6 @@ class theme_custom_user_settings{
 		if(!is_user_logged_in() || !is_page(self::$page_slug)) return false;
 		$tabs = self::get_tabs();
 		$tab_active = get_query_var('tab');
-		$tab_active = isset($tabs[$tab_active]) ? $tab_active : 'history';
 		switch($tab_active){
 			case 'avatar':
 				wp_enqueue_style(

@@ -88,7 +88,7 @@
 					<!-- my settings -->
 					<?php
 					if(class_exists('theme_custom_user_settings')){
-						$setting_url = theme_custom_user_settings::get_page_url();
+						$setting_url = theme_custom_user_settings::get_url();
 					}else{
 						$setting_url = admin_url('profile.php');
 					}
@@ -99,7 +99,7 @@
 					
 					<!-- my point -->
 					<?php if(class_exists('theme_custom_point')){ ?>
-						<a href="<?php echo esc_url(theme_custom_user_settings::get_page_url());?>" class="meta tool-point btn btn-default" title="<?php echo ___('My points');?>">
+						<a href="<?php echo esc_url(theme_custom_user_settings::get_url());?>" class="meta tool-point btn btn-default" title="<?php echo ___('My points');?>">
 							<!-- <i class="fa fa-github-alt"></i> -->
 							<img src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="" width="15" height="15">
 							<?php echo theme_custom_point::get_point();?>

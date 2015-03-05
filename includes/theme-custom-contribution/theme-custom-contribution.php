@@ -5,7 +5,7 @@
 theme_custom_contribution::init();
 class theme_custom_contribution{
 	public static $iden = 'theme-custom-contribution';
-	public static $page_slug = 'contribution';
+	public static $page_slug = 'account';
 	public static $file_exts = array('png','jpg','gif');
 	public static $pages = array();
 	public static $post_meta_key = array(
@@ -17,7 +17,7 @@ class theme_custom_contribution{
 
 		
 		/** action */
-		add_action('init', 					get_class() . '::page_create');
+		//add_action('init', 					get_class() . '::page_create');
 
 		add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
 		
@@ -25,6 +25,25 @@ class theme_custom_contribution{
 
 		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
 
+		
+		foreach(self::get_tabs() as $k => $v){
+			$nav_fn = 'filter_nav_' . $k; 
+			add_filter('account_navs',get_class() . "::$nav_fn",$v['filter_priority']);
+		}
+
+	}
+	public static function wp_title($title, $sep){
+		if(!is_page(self::$page_slug)) return $title;
+		$tab_active = get_query_var('tab');
+		$tabs = self::get_tabs();
+		if(!empty($tab_active) && isset($tabs[$tab_active])){
+			$title = $tabs[$tab_active]['text'];
+		}
+		return $title . $sep . get_bloginfo('name');
+	}
+	public static function filter_query_vars($vars){
+		if(!in_array('tab',$vars)) $vars[] = 'tab';
+		return $vars;
 	}
 	public static function page_create(){
 		if(!current_user_can('manage_options')) return false;
@@ -47,12 +66,19 @@ class theme_custom_contribution{
 			'comment_status'	=> 'closed',
 		);
 		foreach($page_slugs as $k => $v){
-			$page = get_page_by_path($k);
+			$page = theme_cache::get_page_by_path($k);
 			if(!$page){
 				$r = wp_parse_args($v,$defaults);
 				$page_id = wp_insert_post($r);
 			}
 		}
+	}
+	public static function filter_nav_contribution($navs){
+		$navs['contribution'] = '<a href="' . esc_url(self::get_tabs('contribution')['url']) . '">
+			<i class="fa fa-' . self::get_tabs('contribution')['icon'] . '"></i> 
+			' . esc_html(self::get_tabs('contribution')['text']) . '
+		</a>';
+		return $navs;
 	}
 	public static function display_backend(){
 		
@@ -66,8 +92,31 @@ class theme_custom_contribution{
 		}
 	}
 	public static function get_url(){
-		$page = get_page_by_path(self::$page_slug);
+		$page = theme_cache::get_page_by_path(self::$page_slug);
 		return empty($page) ? null : get_permalink($page->ID);
+	}
+	public static function get_tabs($key = null){
+		$baseurl = self::get_url();
+		$tabs = array(
+			'contribution' => array(
+				'text' => ___('Contribution'),
+				'icon' => 'pencil-square-o',
+				'url' => add_query_arg('tab','contribution',$baseurl),
+				'filter_priority' => 20,
+			),
+		);
+		if($key){
+			return isset($tabs[$key]) ? $tabs[$key] : false;
+		}
+		return $tabs;
+	}
+	public static function is_page(){
+		if(
+			is_page(self::$page_slug) 				&& 
+			self::get_tabs(get_query_var('tab'))
+		)
+			return true;
+		return false;
 	}
 	public static function process(){
 		$output = array();
@@ -274,13 +323,13 @@ class theme_custom_contribution{
 		die(theme_features::json_format($output));
 	}
 	public static function frontend_seajs_alias($alias){
-		if(!is_user_logged_in() || !is_page(self::$page_slug)) return $alias;
+		if(!self::is_page()) return $alias;
 
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__FILE__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(!is_user_logged_in() || !is_page(self::$page_slug)) return false;
+		if(!self::is_page()) return;
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
 			m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => self::$iden));?>';
@@ -292,7 +341,7 @@ class theme_custom_contribution{
 		<?php
 	}
 	public static function frontend_css(){
-		if(!is_user_logged_in() || !is_page(self::$page_slug)) return;
+		if(!self::is_page()) return;
 		wp_enqueue_style(self::$iden,theme_features::get_theme_includes_css(__FILE__,'style',false),false,theme_features::get_theme_info('version'));
 	}
 

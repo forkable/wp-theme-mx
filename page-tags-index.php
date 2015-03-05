@@ -5,6 +5,9 @@
 ?>
 <?php get_header();?>
 <div class="container grid-container">
+	<div class="content-reset">
+		<?php the_content();?>
+	</div>
 	<div class="tags-index">
 		<?php if(!class_exists('theme_page_tags')){ ?>
 			<div class="page-tip"><?php echo status_tip('error',___('Missing initialization files.'));?></div>

@@ -1132,46 +1132,7 @@ class theme_features{
 		}
 		return $output;
 	}
-	/**
-	 * get_post_by_slug
-	 * 
-	 * 
-	 * @param string $slug The post slug name
-	 * @return object The post object
-	 * @version 1.0.0
-	 * @author KM@INN STUDIO
-	 * 
-	 */
-	public static function get_post_by_slug($slug = null){
-		if(!$slug) return;
-		$args = array(
-			'name' => $slug,
-			'post_type' => 'post',
-			'post_status' => 'publish',
-			'numberposts' => 1
-		);
-		$posts = get_posts($args);
-		if($posts){
-			return $posts;
-		}else{
-			return null;
-		}
-	}
-	/**
-	 * get_post_id_by_slug
-	 * 
-	 * 
-	 * @param string $slug The post slug name
-	 * @return int The post ID
-	 * @version 1.0.0
-	 * @author KM@INN STUDIO
-	 * 
-	 */
-	public static function get_post_id_by_slug($slug = null){
-		$post = self::get_post_by_slug($slug);
-		$post_id = $post[0]->ID;
-		return $post_id;
-	}
+
 	/* 获取includes资料 */
 	private static function get_include_data($file,$default_headers = null){
 		$feature_data = self::get_file_data($file,$default_headers);
@@ -1503,17 +1464,22 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_user_comments_count($user_id){
-		global $wpdb;
 		$user_id = (int)$user_id;
-		$email = get_the_author_meta('user_email',$user_id);
+		$cache_id = 'user_comments_count-' . $user_id;
+		$cache = (int)wp_cache_get($cache_id);
+		if($cache !== false)
+			return (int)$cache;
+			
+		global $wpdb;
 		$count = $wpdb->get_var($wpdb->prepare( 
 			'
-			SELECT COUNT(comment_ID)
+			SELECT COUNT(*)
 			FROM ' . $wpdb->comments . '
 			WHERE comment_approved = 1 
-			AND comment_author_email = %s
-			',$email
+			AND user_id = %d
+			',$user_id
 		));
+		wp_cache_set($cache_id,(int)$count,null,3600);
 		return (int)$count;
 	}
 
