@@ -26,7 +26,7 @@ class theme_custom_user_settings{
 			$nav_fn = 'filter_nav_' . $k; 
 			add_filter('account_navs',get_class() . "::$nav_fn",$v['filter_priority']);
 		}
-		
+
 	}
 
 	public static function wp_title($title, $sep){
@@ -50,6 +50,7 @@ class theme_custom_user_settings{
 			return true;
 		return false;
 	}
+
 	public static function process(){
 		$output = [];
 
@@ -79,13 +80,15 @@ class theme_custom_user_settings{
 				}
 
 				$url = isset($user['url']) ? $user['url'] : null;
-				$des = isset($user['description']) ? $user['ddescriptiones'] : null;
+				$des = isset($user['description']) ? $user['description'] : null;
 				
 				$user_id = wp_update_user(array(
 					'ID' => get_current_user_id(),
 					'user_url' => $url,
 					'nickname' => $nickname,
 					'description' => $des,
+					'display_name' => $nickname,
+					'user_nicename' => 10000+get_current_user_id(),
 				));
 
 				if(is_wp_error($user_id)){

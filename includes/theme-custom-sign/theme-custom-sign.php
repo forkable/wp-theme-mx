@@ -56,7 +56,7 @@ class theme_custom_sign{
 		return $vars;
 	}
 	public static function filter_wp_registration_url(){
-		return self::get_tabs('register')['url'];
+		return self::get_tabs('register',get_current_url())['url'];
 	}
 	public static function filter_wp_login_url($redirect,$force_reauth){
 		return self::get_tabs('login',get_current_url())['url'];

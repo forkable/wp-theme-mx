@@ -1,8 +1,24 @@
-.account-dashboard .panel-body{
-	padding-bottom: 20px;
+
+
+
+/**
+ * dashboard
+ */
+.dashboard-recent-comments-4-my-posts .media-heading{
+	font-weight: normal;
+	font-size: 12px;
 }
+	.dashboard-recent-comments-4-my-posts .excerpt-tx{
+		background: rgb(245,245,245);
+		border: 1px solid rgba(0,0,0,.05);
+		border-radius: 4px;
+		padding: 2px 5px;
+		margin: 0;
+		display: inline-block;
+	}
+
 #account-navbar a i.fa{
-	width: 1.2em;
+	width: 1em;
 	text-align: center;
 }
 @media (min-width: 768px) {
@@ -41,3 +57,4 @@
 	}
 
 }
+

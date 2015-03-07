@@ -45,34 +45,6 @@ class theme_custom_contribution{
 		if(!in_array('tab',$vars)) $vars[] = 'tab';
 		return $vars;
 	}
-	public static function page_create(){
-		if(!current_user_can('manage_options')) return false;
-		
-		$page_slugs = array(
-			self::$page_slug => array(
-				'post_content' 	=> '[' . self::$page_slug . ']',
-				'post_name'		=> self::$page_slug,
-				'post_title'	=> ___('Contribution'),
-				'page_template'	=> 'page-' . self::$page_slug . '.php',
-			)
-		);
-		
-		$defaults = array(
-			'post_content' 		=> '[post_content]',
-			'post_name' 		=> null,
-			'post_title' 		=> null,
-			'post_status' 		=> 'publish',
-			'post_type'			=> 'page',
-			'comment_status'	=> 'closed',
-		);
-		foreach($page_slugs as $k => $v){
-			$page = theme_cache::get_page_by_path($k);
-			if(!$page){
-				$r = wp_parse_args($v,$defaults);
-				$page_id = wp_insert_post($r);
-			}
-		}
-	}
 	public static function filter_nav_contribution($navs){
 		$navs['contribution'] = '<a href="' . esc_url(self::get_tabs('contribution')['url']) . '">
 			<i class="fa fa-' . self::get_tabs('contribution')['icon'] . '"></i> 

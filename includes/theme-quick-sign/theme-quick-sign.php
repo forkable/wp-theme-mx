@@ -3,7 +3,7 @@
 /**
  * Theme quick sign
  *
- * @version 1.0.1
+ * @version 1.0.2
  * @author KM@INN STUDIO
  */
 theme_quick_sign::init();
@@ -12,11 +12,10 @@ class theme_quick_sign{
 	public static function init(){
 		/** filter */
 		add_filter('cache-request',					get_class() . '::cache_request');
-		add_filter('frontend_seajs_alias',			get_class() . '::frontend_seajs_alias');
+		//add_filter('frontend_seajs_alias',			get_class() . '::frontend_seajs_alias');
+		
 		/** action */
-		// add_action('profile_update',				get_class() . '::action_user_register');
-		// add_action('user_register',					get_class() . '::action_user_register');
-		add_action('frontend_seajs_use',			get_class() . '::frontend_seajs_use');
+		//add_action('frontend_seajs_use',			get_class() . '::frontend_seajs_use');
 		add_action('wp_ajax_' . get_class(),		get_class() . '::process');
 		add_action('wp_ajax_nopriv_' . get_class(),	get_class() . '::process');
 	}
@@ -262,15 +261,6 @@ class theme_quick_sign{
 		die(theme_features::json_format($output));
 	}
 	/** 
-	 * hook to pre_user_nicename
-	 */
-	public static function action_user_register($user_id){
-		wp_update_user(array(
-			'ID' => $user_id,
-			'user_nicename' => $user_id
-		));
-	}
-	/** 
 	 * user_login
 	 */
 	public static function user_login($args){
@@ -343,7 +333,7 @@ class theme_quick_sign{
 			 * create user and get user id
 			 */
 			$user_data = array(
-				'user_login' => sanitize_user($nickname),
+				'user_login' => $nickname,
 				'user_pass' => $pwd,
 				'nickname' => $nickname,
 				'display_name' => $nickname,
@@ -357,10 +347,10 @@ class theme_quick_sign{
 				$output['msg'] = $user_id->get_error_message();
 				
 			}else{
-				/** rename nicenian */
+				/** rename nicename */
 				wp_update_user(array(
 					'ID' => $user_id,
-					'user_nicename' => $user_id
+					'user_nicename' => 1000 + $user_id
 				));
 				/** 
 				 * go to login

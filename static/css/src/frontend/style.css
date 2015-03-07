@@ -166,8 +166,7 @@ img{
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
-	width: 60px;
-	height: 60px;
+
 }
 
 
@@ -635,8 +634,8 @@ label.error{
  * .tip-status
  */
 .fa{
-	vertical-align:/* top;
-	line-height: in*/herit;
+	/*vertical-align:top;
+	line-height: inherit;*/
 }
 .tip-status{
 	position:relative;

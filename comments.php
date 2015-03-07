@@ -148,8 +148,8 @@ comment_form(array(
 	',
 	'comment_notes_before' => null,
 	'comment_notes_after' => '<div class="comment-form-group-submit form-group">
-		<button class="btn btn-primary" type="submit">
-			<i class="fa fa-send"></i> 
+		<button class="btn btn-success btn-block btn-lg" type="submit">
+			<i class="fa fa-check"></i> 
 			' . ___('Submit') . '
 		</button>
 	</div>',

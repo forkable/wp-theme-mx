@@ -34,7 +34,7 @@ get_currentuserinfo();
 			</abbr>
 		</div>
 		<div class="col-sm-10"><p class="form-control-static"><strong>
-			<a href="<?php echo esc_url(get_author_posts_url(get_current_user_id()));?>"><?php echo get_current_user_id();?></a>
+			<a href="<?php echo esc_url(get_author_posts_url(get_current_user_id()));?>"><?php echo $current_user->user_nicename;?></a>
 			</strong></p></div>
 	</div>
 	<!-- nickname -->
@@ -54,7 +54,7 @@ get_currentuserinfo();
 			<?php echo ___('Website / Blog');?>
 		</label>
 		<div class="col-sm-10">
-			<input name="user[url]" type="url" class="form-control" id="my-settings-email" placeholder="<?php echo ___('Your blog url (include http://)');?>" title="<?php echo ___('Please type your blog url');?>" value="<?php echo esc_url($current_user->user_url);?>" tabindex="1" >
+			<input name="user[url]" type="url" class="form-control" id="my-settings-url" placeholder="<?php echo ___('Your blog url (include http://)');?>" title="<?php echo ___('Please type your blog url');?>" value="<?php echo esc_url($current_user->user_url);?>" tabindex="1" >
 		</div>
 	</div>
 	<!-- description -->

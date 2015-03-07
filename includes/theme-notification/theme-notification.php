@@ -31,6 +31,13 @@ class theme_notification{
 			$nav_fn = 'filter_nav_' . $k; 
 			add_filter('account_navs',get_class() . "::$nav_fn",$v['filter_priority']);
 		}
+
+		/**
+		 * add hook to comment publish and reply
+		 */
+		add_action('wp_insert_comment', get_class() . '::action_add_noti_post_reply',10,2);
+
+		add_action('wp_insert_comment', get_class() . '::action_add_noti_comment_reply',10,2);
 	}
 	public static function wp_title($title, $sep){
 		if(!is_page(self::$page_slug)) return $title;
@@ -107,9 +114,9 @@ class theme_notification{
 	}
 	public static function get_notifications($args){
 		$defaults = array(
-			'user_id' => null,
+			'user_id' => get_current_user_id(),
 			'type' => 'all',/** all / unread / read */
-			'posts_per_page' => null,
+			'posts_per_page' => 20,
 			'page' => 1,
 			'orderby' => 'desc',
 		);
@@ -117,6 +124,7 @@ class theme_notification{
 		if(empty($args['user_id'])) return false;
 		
 		$metas = (array)get_user_meta($args['user_id'],self::$user_meta_key['key']);
+		var_dump($metas);exit;
 		if(empty($metas)){
 			return null;
 		}else{
@@ -139,7 +147,62 @@ class theme_notification{
 				return $metas;
 		}
 	}
+	/**
+	 * When comment, add noti to post author
+	 */
+	public static function action_add_noti_post_reply($comment_id,$comment){
+		//if(!is_user_logged_in()) return false;
 
+		/**
+		 * if the comment author is ME, just return
+		 */
+		if($comment->user_id == get_current_user_id())
+			return;
+			
+		/**
+		 * get the post author, if the post author is ME, just return
+		 */
+		$post_author = get_post($comment->comment_post_ID)->post_author;
+		
+		if($post_author == get_current_user_id())
+			return;
+
+		/**
+		 * add noti to post author
+		 */
+		$meta = array(
+			'type' => 'post-reply',
+			'comment-id' => $comment->comment_ID,
+			'timestamp' => current_time('timestamp'),
+		);
+		add_user_meta($post_author,self::$user_meta_key['key'],$meta);
+		
+	}
+	/**
+	 * comment reply noti
+	 */
+	public static function action_add_noti_comment_reply($comment_id,$comment){
+		//if(!is_user_logged_in()) return false;
+
+		if($comment->comment_parent == 0)
+			return;
+
+		/**
+		 * if parent comment author is not ME, just return
+		 */
+		if(get_comment($comment->comment_parent)->user_id != get_current_user_id())
+			return;
+
+		/**
+		 * parent comment author is ME, add to noti meta
+		 */
+		$meta = array(
+			'type' => 'comment-reply',
+			'comment-id' => $comment->comment_ID,
+			'timestamp' => current_time('timestamp'),
+		);
+		add_user_meta(get_current_user_id(),self::$user_meta_key['key'],$meta);
+	}
 	public static function process(){
 		$output = array();
 		

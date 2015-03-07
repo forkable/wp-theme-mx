@@ -23,13 +23,23 @@ class theme_custom_account{
 		return $vars;
 	}
 	public static function template_redirect(){
-		if(
-			is_page(self::$page_slug) 				&& 
-			!is_user_logged_in()
-		){
+		if(!is_page(self::$page_slug))
+			return;
+			
+		if(is_user_logged_in()){
+			$account_navs = apply_filters('account_navs',array());
+			
+			if(!isset($account_navs[get_query_var('tab')]))
+				wp_redirect(add_query_arg('tab','dashboard',self::get_url()));
+			
+		}else{
 			wp_redirect(theme_custom_sign::get_tabs('login',get_current_url())['url']);
 			die();
 		}
+
+	}
+	public static function get_url(){
+		return get_permalink(get_page_by_path(self::$page_slug));
 	}
 	public static function page_create(){
 		if(!current_user_can('manage_options')) return false;

@@ -2,7 +2,7 @@
 /*
 Feature Name:	Comment AJAX
 Feature URI:	http://www.inn-studio.com
-Version:		2.0.4
+Version:		2.0.5
 Description:	Use AJAX when browse/add/reply comment. (Recommended enable)
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -133,7 +133,7 @@ class theme_comment_ajax{
 			 * If not login, just visitor
 			 */
 			}else{
-				if(get_option('comment_registration')|| 'private' == $status){
+				if((int)get_option('comment_registration') === 1){
 					$output['status'] = 'error';
 					$output['msg'] = ___('Sorry, you must be logged in to post a comment.');
 					die(theme_features::json_format($output));
@@ -175,10 +175,10 @@ class theme_comment_ajax{
 				'comment_parent',
 				'user_id'
 			);
-/**
- * Insert new comment and get the comment ID
- */
-$comment_id = wp_new_comment($commentdata);
+			/**
+			 * Insert new comment and get the comment ID
+			 */
+			$comment_id = wp_new_comment($commentdata);
 			
 			/**
 			 * Get new comment and set cookie

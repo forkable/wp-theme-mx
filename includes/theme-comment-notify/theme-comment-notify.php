@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.1
+ * @version 1.0.2
  */
 theme_comment_notify::init();
 class theme_comment_notify {
@@ -52,7 +52,8 @@ class theme_comment_notify {
 		return $opts;
 	}
 	public static function approved_notify($comment){
-		global $comment;
+		$GLOBALS['comment'] = $comment;
+
 		if(!is_email($comment->comment_author_email)) return false;
 		
 		$to = $comment->comment_author_email;

@@ -19,6 +19,7 @@
 		$notis = theme_notification::get_notifications(array(
 			'user_id' => get_current_user_id(),
 		));
+		
 		if(!empty($notis)){
 			foreach($notis as $k => $v){
 				?>
