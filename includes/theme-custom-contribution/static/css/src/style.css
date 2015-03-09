@@ -73,3 +73,27 @@
 			#ctb-files .img-del:hover{
 				opacity: 1;
 			}
+#fm-ctb .page-tip{
+	display: none;
+}
+/**
+ * .checkbox-select
+ */
+#fm-ctb .checkbox-select{
+	padding-top: .5em;
+}
+	#fm-ctb .checkbox-select label{
+		display: inline-block;
+		font-size: 1em;
+	}
+		#fm-ctb .checkbox-select label.label-success:before{
+			font-family: 'FontAwesome';
+			content: "\f00c";
+			font-weight: normal;
+			line-height: 0;
+		}
+
+#reprint-group{
+	padding-top: 10px;
+	display: none;
+}

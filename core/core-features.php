@@ -1682,7 +1682,7 @@ class theme_features{
 	 * @param string $group_id
 	 * @param string $ids_name
 	 * @return string
-	 * @version 1.1.0
+	 * @version 1.1.1
 	 * @author KM@INN STUDIO
 	 */
 	public static function cat_checkbox_list($group_id,$ids_name){
@@ -1693,7 +1693,7 @@ class theme_features{
 		));
 		$cat_ids = isset($opt[$ids_name]) ? (array)$opt[$ids_name] : array();
 		
-		if(!empty($cats) && !empty($cat_ids)){
+		if(!empty($cats)){
 			foreach($cats as $cat){
 				if(in_array($cat->term_id,$cat_ids)){
 					$checked = ' checked="checked" ';
@@ -1711,7 +1711,13 @@ class theme_features{
 					value="<?php echo $cat->term_id;?>"
 					<?php echo $checked;?>
 				/>
-					<?php echo esc_html($cat->name);?> <small><?php echo esc_html(sprintf(___('(%s)'),urldecode($cat->slug)));?></small>
+					<?php echo esc_html($cat->name);?> 
+					
+					<a href="<?php echo esc_url(get_category_link($cat->term_id));?>">
+						<small>
+							<?php echo esc_html(sprintf(___('(%s)'),urldecode($cat->slug)));?>
+						</small>
+					</a>
 			</label>
 			<?php 
 			}

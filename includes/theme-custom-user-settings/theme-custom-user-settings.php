@@ -30,11 +30,9 @@ class theme_custom_user_settings{
 	}
 
 	public static function wp_title($title, $sep){
-		if(!is_page(self::$page_slug)) return $title;
-		$tab_active = get_query_var('tab');
-		$tabs = self::get_tabs();
-		if(!empty($tab_active) && isset($tabs[$tab_active])){
-			$title = $tabs[$tab_active]['text'];
+		if(!self::is_page()) return $title;
+		if(self::get_tabs(get_query_var('tab'))){
+			$title = self::get_tabs(get_query_var('tab'))['text'];
 		}
 		return $title . $sep . get_bloginfo('name');
 	}
@@ -201,25 +199,25 @@ class theme_custom_user_settings{
 		$baseurl = self::get_url();
 		$tabs = array(
 			'history' => array(
-				'text' => ___('History'),
+				'text' => ___('Reward history'),
 				'icon' => 'history',
 				'url' => add_query_arg('tab','history',$baseurl),
 				'filter_priority' => 50,
 			),
 			'settings' => array(
-				'text' => ___('Settings'),
+				'text' => ___('My settings'),
 				'icon' => 'cog',
 				'url' => add_query_arg('tab','settings',$baseurl),
 				'filter_priority' => 60,
 			),
 			'avatar' => array(
-				'text' => ___('Avatar'),
+				'text' => ___('My avatar'),
 				'icon' => 'image',
 				'url' => add_query_arg('tab','avatar',$baseurl),
 				'filter_priority' => 70,
 			),
 			'password' => array(
-				'text' => ___('Password'),
+				'text' => ___('Change password'),
 				'icon' => 'lock',
 				'url' => add_query_arg('tab','password',$baseurl),
 				'filter_priority' => 80,

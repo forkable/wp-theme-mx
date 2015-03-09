@@ -539,85 +539,71 @@ label.error{
 /** 
  * #comments
  */
-#comments .panel-heading{
-	margin-bottom: 0;
-}
 .comment-list{
-	list-style-type: none;
-	padding-left: 0;
+	padding: 0;
 }
-.comment-list .comment-body{
-	border-bottom:1px dashed #eee;
-	margin-bottom:10px;
-	padding-bottom:10px;
-	
-}
-.comment-list .comment-area-img{
-	float:left;
-	width:40px;
-	height:40px;
-	margin-right:15px;
-}
-	.comment-list .comment-area-img img{
-		border-radius:50%;
-		height: auto;
+	.comment-list .comment-body{
+		margin-bottom: 10px;
 	}
-	.comment-list .comment-area-tx{
-		overflow:hidden;
+
+	.comment-list .avatar{
+		border-radius: 4px;
 	}
-	.comment-list .comment-content{
-		margin-bottom:.5rem;
+	.comment-list .media-heading{
+		font-size: 1em;
+		margin-bottom: 10px;
 	}
-		.comment-list .comment-content p{
-			margin:0 0 5px;
-		}
-	.comment-list .comment-meta,
-	.comment-list .comment-meta a{
-		line-height: 22px;
-		color:#b2b2b2;
+	.comment-list .media-left{
 	}
-	.comment-list .comment-meta a:hover{
-		text-decoration:underline;
-	}
-	.comment-list .comment-author-name a,
-	.comment-list .comment-meta-data a:hover,
-	.comment-list .comment-meta-data a:active{
-		color:#0c94d7;
+	.comment-list .media-body{
+		padding-left: 10px;
 	}
 	.comment-list .comment-meta-data{
+		margin-right: 1em;
 	}
-		.comment-list .comment-meta-data:after{
-			padding:0 5px;
-			content:"-";
+		.comment-list .comment-meta-data a{
+			color:#ccc;
 		}
-		.comment-list .comment-meta-data:last-child:after{
-			display:none;
-		}
-	.comment-list .children{
-		padding-left:55px;
-		list-style-type: none;
-	}
-		.comment-list .children .children{
-			padding-left:0;
-		}
-	.comment-list .comment-author-avatar-sm{
-		display:none;
-	}
-	.comment-list .children .comment-area-img{
-		display:none;
-	}
-	.comment-list .children .comment-author-avatar-sm{
-		display:inline-block;
-		width:20px;
-		height:20px;
-		border-radius:50%;
-		margin-right:5px;
-		margin-top: -2px;
-	}
-	.comment-list .comment-author-name{
+	.comment-list .author{
 		font-weight: bold;
-		color:#428BCA
 	}
+		.comment-list .author a{
+			color:#428BCA;
+		}
+	
+	.comment-list .comment-content{
+		position: relative;
+		display: inline-block;
+		background: rgb(245,245,245);
+		border: 1px solid rgb(220,220,220);
+		padding: 10px 15px 0;
+		border-radius: 10px;
+		box-shadow: 0 1px 1px rgba(0,0,0,.2), 0 0 0 1px rgba(255,255,255,.1) inset;
+		margin-bottom: 10px;
+	}
+		.comment-list .comment-content:before{
+			position:absolute;
+			background: rgb(245,245,245);
+			width:10px;
+			height:10px;
+			left:-5px;
+			top:10px;
+			z-index:0;
+			content:'';
+			-ms-transform: rotate(-45deg);
+			-webkit-transform: rotate(-45deg);
+			-moz-transform: rotate(-45deg);	
+			transform: rotate(-45deg);
+			box-shadow: -1px -1px 1px rgba(0,0,0,.2);
+		}
+
+/**
+ * .comment-list .children
+ */
+.comment-list .children{
+	padding-left: 60px;
+}
+		
 	.comment-list .comment-reply-title{
 		display:block;
 	}
@@ -979,14 +965,24 @@ label.error{
 		border-top: 1px solid rgba(0,0,0,.05);
 	}
 	.singluar-post .post-tags{
-		padding: 0 15px;
+		padding: 0 20px;
 		margin: 20px 0;
 	}
 		.singluar-post .post-tags a{
-			padding-left: 1em;
-			padding-right: 1em;
+			display: inline-block;
+			font-size: 1em;
+			font-weight: normal;
 		}
-
+		.singluar-post .post-tags a i{
+			margin-top: 3px;
+			opacity: .7;
+		}
+	.singluar-post .post-tags a:active{
+		box-shadow: inset 0 10px 10px rgba(0,0,0,.1);
+	}
+	.singluar-post .post-tags a:hover i{
+		opacity: 1;
+	}
 	/** 
 	 * thumb
 	 */
@@ -1038,6 +1034,10 @@ label.error{
 	padding: 0;
 	margin-bottom: -1px;
 	z-index: 1;
+	background: none;
+}
+.related-posts .nav-tabs > li > a{
+	color:#666;
 }
 .related-posts .panel-body{
 	background: #fff;
@@ -1142,31 +1142,7 @@ label.error{
 	.mx-sign-panel .panel-body{
 		padding: 30px 30px 15px;
 	}
-/**
- * .my-settings-history
- */
-.total-point{
-	font-size: 45px;
-	color:#428BCA;
-}
-.history-group .point-name,
-.history-group .history-time{
-	color: #b2b2b2;
-}
-.history-group .point-value{
-	font-size: 20px;
-	font-weight: bold;
-	padding-right:10px;
-}
-	.history-group .point-value.plus{
-		color: #D9534F;
-	}
-	.history-group .point-value.times{
-		color: #5cb85c;
-	}
-/**
- * .my-settings
- */
+
 /**
  * .submit-tip
  */

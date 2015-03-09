@@ -29,6 +29,7 @@ define(function(require, exports, module){
 	exports.init = function(){
 		$(document).ready(function(){
 			exports.bind();
+			toggle_reprint_group();
 		});
 	}
 		
@@ -291,14 +292,15 @@ define(function(require, exports, module){
 	}
 	function checkbox_select($fm){
 		$boxes = $fm.find('.checkbox-select');
+		var selected_class = 'label-success';
 		$boxes.each(function(){
 			var $labels = $(this).find('label');
 			$labels.on('click',function(){
 				var $this = $(this);
-				if($this.hasClass('btn-primary')){
-					$this.removeClass('btn-primary');
+				if($this.hasClass(selected_class)){
+					$this.removeClass(selected_class);
 				}else{
-					$this.addClass('btn-primary');
+					$this.addClass(selected_class);
 				}
 			});
 			
@@ -323,5 +325,24 @@ define(function(require, exports, module){
 			m.error_tx = config.lang.E00001;
 			m.$fm = $fm;
 			m.init();
+	}
+
+	function toggle_reprint_group(){
+		var $reprint_group = $('#reprint-group');
+		var $radios = $('.theme_custom_post_source-source-radio');
+		$radios.each(function(){
+			action($(this));
+		});
+		$radios.on('change',function(){
+			action($(this));
+		});
+		function action($radio){
+			if($radio[0].id === 'theme_custom_post_source-source-reprint' && $radio.prop('checked')){
+				$reprint_group.show();
+				$reprint_group.find('input').eq(0).focus();
+			}else{
+				$reprint_group.hide();
+			}
+		}
 	}
 });

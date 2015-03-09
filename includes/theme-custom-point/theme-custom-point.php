@@ -5,6 +5,9 @@
 theme_custom_point::init();
 class theme_custom_point{
 	public static $iden = 'theme_custom_point';
+
+	public static $page_slug = 'account';
+	
 	public static $user_meta_key = array(
 		'history' => 'theme_point_history',
 		'point' => 'theme_point_count',
@@ -12,6 +15,8 @@ class theme_custom_point{
 	);
 	public static function init(){
 		add_action('page_settings',get_class() . '::display_backend');
+
+		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
 		
 		add_action('comment_post',get_class() . '::action_add_history_wp_new_comment_comment_publish',10,2);
 		
@@ -32,7 +37,7 @@ class theme_custom_point{
 	}
 	public static function display_backend(){
 		$opt = theme_options::get_options(self::$iden);
-		var_dump($opt);
+
 		$points = $opt['points'];
 		$point_name = isset($opt['point-name']) ? $opt['point-name'] : ___('Cat-paw');
 		?>
@@ -74,7 +79,12 @@ class theme_custom_point{
 		</fieldset>
 		<?php
 	}
-
+	public static function is_page(){
+		return 
+			is_page(self::$page_slug) && 
+			get_query_var('tab') === 'history'
+		;
+	}
 	public static function get_point_types($key = null){
 		$types = array(
 			'signup' => array(
@@ -172,13 +182,23 @@ class theme_custom_point{
 		$r = wp_parse_args($args,$defaults);
 		extract($r);
 
+		
 		$metas = get_user_meta($user_id,self::$user_meta_key['history']);
 		krsort($metas);
 		/**
 		 * check the paginavi
 		 */
 		if($posts_per_page > 0){
-			$metas = array_slice($metas,(int)$paged - 1,(int)$posts_per_page);
+				
+			$start = (($paged - 1) * 10) - 1;
+			if($start < 0)
+				$start = 0;
+				
+			$metas = array_slice(
+				$metas,
+				$start,
+				(int)$posts_per_page
+			);
 		}
 		return $metas;
 	}
@@ -210,6 +230,7 @@ class theme_custom_point{
 	?>
 	<span class="point-value <?php echo $cls;?>"><?php echo $tx;?></span>
 <?php
+//var_dump($v);
 switch($v['type']){
 	/*****************************************
 	 * signup
@@ -218,6 +239,24 @@ switch($v['type']){
 		?>
 		<span class="history-text">
 			<?php echo sprintf(___('I registered %s.'),'<a href="' . home_url() . '">' . get_bloginfo('name') . '</a>');?>
+		</span>
+		<?php
+		break;
+	/***************************************
+	 * comment-publish
+	 */
+	case 'comment-publish':
+		global $comment;
+		$comment = get_comment($v['comment-id']);
+		
+		?>
+		<span class="history-text">
+			<?php 
+			echo sprintf(___('You published a comment in %1$s.'),
+
+			'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '">' . esc_html(get_the_title($comment->comment_post_ID)) . '</a>'
+			);
+			?>
 		</span>
 		<?php
 		break;
@@ -383,17 +422,14 @@ switch($v['type']){
 		if($comment->user_id == 0)
 			return;
 		
+		/**
+		 * do NOT add history if the comment is spam or hold
+		 */
 		if($old_status !== 'unapproved' && $old_status !== 'spam')
 			return;
 		
 		if($new_status !== 'approved')
 			return;
-		/**
-		 * do NOT add history if the comment is spam or hold
-		 */
-		if((int)$comment_approved !== 1)
-			return;
-			
 		/**
 		 * add history for comment author
 		 */
@@ -436,6 +472,7 @@ switch($v['type']){
 		 */
 		self::action_add_history_core_post_reply($comment_id);
 	}
+	
 	/**
 	 * Add history when publish comment for comment author
 	 *
@@ -470,7 +507,12 @@ switch($v['type']){
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	public static function action_add_history_core_post_reply($comment_id){
+		
+		$comment = get_comment($comment_id);
+		
+		/** post author id */
 		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+		
 		/** do not add history for myself post */
 		if($post_author_id == $comment->user_id) return false;
 		
@@ -517,6 +559,15 @@ switch($v['type']){
 		$old_point = self::get_point($post_author_id);
 		update_user_meta($post_author_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['post-publish']);
 	}
-	
+	public static function frontend_css(){
+		if(!self::is_page()) 
+			return;
+		wp_enqueue_style(
+			self::$iden,
+			theme_features::get_theme_includes_css(__FILE__,'style',false),
+			false,
+			theme_features::get_theme_info('version')
+		);
+	}
 }
 ?>

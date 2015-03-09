@@ -103,7 +103,7 @@ if(class_exists('theme_custom_contribution')){
 				</div>
 				<div class="col-sm-10">
 					<div id="ctb-file-area">
-						<a href="javascript:;" class="btn btn-info btn-block" id="ctb-file-btn">
+						<a href="javascript:;" class="btn btn-info" id="ctb-file-btn">
 							<i class="fa fa-image"></i>
 							<?php echo ___('Upload image');?>
 							<input type="file" id="ctb-file" multiple >
@@ -133,28 +133,28 @@ if(class_exists('theme_custom_contribution')){
 <div class="row">
 <div class="col-sm-8">
 <div class="input-group">
-<label class="input-group-addon" id="ctb-<?php echo $k;?>-url-addon" for="ctb-<?php echo $k;?>-url"><i class="fa fa-link"></i></label>
+<label class="input-group-addon" id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url-addon" for="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url"><i class="fa fa-link"></i></label>
 <input 
 	type="url" 
-	name="ctb[storage][<?php echo $k;?>][url]" 
-	id="ctb-<?php echo $k;?>-url" 
+	name="<?php echo theme_custom_storage::$iden;?>[storage][<?php echo $k;?>][url]" 
+	id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url" 
 	class="form-control" 
 	placeholder="<?php echo sprintf(___('%s url'),$v['text']);?>"
-	aria-describedby="ctb-<?php echo $k;?>-url-addon"
+	aria-describedby="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url-addon"
 	title="<?php echo sprintf(___('%s url'),$v['text']);?>"
 >
 </div>
 </div>
 <div class="col-sm-4">
 <div class="input-group">
-<label class="input-group-addon" id="ctb-<?php echo $k;?>-pwd-addon" for="ctb-<?php echo $k;?>-pwd"><i class="fa fa-key"></i></label>
+<label class="input-group-addon" id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd-addon" for="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd"><i class="fa fa-key"></i></label>
 <input 
 	type="text" 
-	name="ctb[storage][<?php echo $k;?>][pwd]" 
-	id="ctb-<?php echo $k;?>-pwd" 
+	name="<?php echo theme_custom_storage::$iden;?>[storage][<?php echo $k;?>][pwd]" 
+	id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd" 
 	class="form-control" 
 	placeholder="<?php echo sprintf(___('%s password'),$v['text']);?>"
-	aria-describedby="ctb-<?php echo $k;?>-pwd-addon"
+	aria-describedby="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd-addon"
 	title="<?php echo sprintf(___('%s password'),$v['text']);?>"
 >
 </div>
@@ -171,11 +171,11 @@ if(class_exists('theme_custom_contribution')){
 					<?php echo ___('Categories');?>
 				</div>
 				<div class="col-sm-10">
-					<div class="checkbox-select btn-group">
+					<div class="checkbox-select">
 						<?php
 						foreach($cats as $cat){
 							?>
-							<label class="ctb-cat btn btn-default" for="ctb-cats-<?php echo $cat->term_id;?>">
+							<label class="ctb-cat label label-default" for="ctb-cats-<?php echo $cat->term_id;?>">
 								<?php echo esc_html($cat->name);?>
 							</label>
 							
@@ -201,11 +201,11 @@ if(class_exists('theme_custom_contribution')){
 					<?php echo ___('Tags');?>
 				</div>
 				<div class="col-sm-10">
-					<div class="checkbox-select btn-group btn-group-sm">
+					<div class="checkbox-select">
 						<?php
 						foreach($tags as $tag){
 							?>
-							<label class="ctb-tag btn btn-default" for="ctb-tags-<?php echo $tag->term_id;?>">
+							<label class="ctb-tag label label-default" for="ctb-tags-<?php echo $tag->term_id;?>">
 								<?php echo esc_html($tag->name);?>
 							</label>
 							
@@ -224,12 +224,52 @@ if(class_exists('theme_custom_contribution')){
 					<?php } ?>
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10"><div class="submit-tip"></div></div>
-			</div>
+			<!-- source -->
+			<?php if(class_exists('theme_custom_post_source')){ ?>
+				<div class="form-group">
+					<div class="col-sm-2 control-label">
+						<i class="fa fa-truck"></i>
+						<?php echo ___('Source');?>
+					</div>
+					<div class="col-sm-10">
+						<label class="radio-inline" for="<?php echo theme_custom_post_source::$iden;?>-source-original">
+							<input type="radio" name="<?php echo theme_custom_post_source::$iden;?>[source]" id="<?php echo theme_custom_post_source::$iden;?>-source-original" value="original" class="<?php echo theme_custom_post_source::$iden;?>-source-radio" checked >
+							<?php echo ___('Original');?>
+						</label>
+						<label class="radio-inline" for="<?php echo theme_custom_post_source::$iden;?>-source-reprint">
+							<input type="radio" name="<?php echo theme_custom_post_source::$iden;?>[source]" id="<?php echo theme_custom_post_source::$iden;?>-source-reprint" value="reprint" class="<?php echo theme_custom_post_source::$iden;?>-source-radio" >
+							<?php echo ___('Reprint');?>
+						</label>
+						<div class="row" id="reprint-group">
+							<div class="col-sm-7">
+								<div class="input-group">
+									<label class="input-group-addon" for="<?php echo theme_custom_post_source::$iden;?>-reprint-url">
+										<i class="fa fa-link"></i>
+									</label>
+									<input type="url" class="form-control" name="<?php echo theme_custom_post_source::$iden;?>[reprint][url]" id="<?php echo theme_custom_post_source::$iden;?>-reprint-url" placeholder="<?php echo ___('The source of work URL, includes http://');?>" title="<?php echo ___('The source of work URL, includes http://');?>">
+								</div>
+							</div>
+							<div class="col-sm-5">
+								<div class="input-group">
+									<label class="input-group-addon" for="<?php echo theme_custom_post_source::$iden;?>-reprint-author">
+										<i class="fa fa-user"></i>
+									</label>
+									<input type="url" class="form-control" name="<?php echo theme_custom_post_source::$iden;?>[reprint][author]" id="<?php echo theme_custom_post_source::$iden;?>-reprint-author" placeholder="<?php echo ___('Author');?>" title="<?php echo ___('Author');?>">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<?php } /** end theme_custom_post_source */ ?>
+			<!-- submit -->
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-lg btn-success btn-block submit" data-loading-text="<?php echo ___('Loading, please wait...');?>"><?php echo ___('Submit');?></button>
+					<div class="page-tip"><div class="submit-tip"></div></div>
+					
+					<button type="submit" class="btn btn-lg btn-success btn-block submit" data-loading-text="<?php echo ___('Loading, please wait...');?>">
+						<i class="fa fa-check"></i>
+						<?php echo ___('Submit');?>
+					</button>
 				</div>
 			</div>
 		</form>

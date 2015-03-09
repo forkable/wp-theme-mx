@@ -19,6 +19,11 @@ class theme_functions{
 	public static $thumbnail_size = array('thumbnail',320,200);
 	public static $comment_avatar_size = 60;
 	public static $cache_expire = 3600;
+	public static $colors = array(
+		'61b4ca',	'e1b32a',	'ee916f',	'a89d84',
+		'86b767',	'6170ca',	'c461ca',	'ca6161',
+		'ca8661',	'333333',	'84a89e',	'a584a8'
+	);
 	/** 
 	 * theme_meta_translate(
 	 */
@@ -84,7 +89,10 @@ class theme_functions{
 			'default-attachment'	=> 'fixed',
 			'wp-head-callback'		=> 'theme_features::_fix_custom_background_cb',
 		));
-
+		/**
+		 * filter filter_comment_reply_link
+		 */
+		//add_filter('comment_reply_link',get_class() . '::filter_comment_reply_link');
 	}
 	
 	public static function frontend_js(){
@@ -699,12 +707,13 @@ class theme_functions{
 			 */
 			$tags = get_the_tags();
 			if(!empty($tags)){
+				$colors_count = count(self::$colors);
 				?>
-				<div class="post-tags btn-group btn-group-xs clearfix">
+				<div class="post-tags clearfix">
 					<?php
 					foreach($tags as $tag){
 						?>
-						<a href="<?php echo get_tag_link($tag->term_id);?>" class="tag btn btn-default" title="<?php echo sprintf(___('Views all posts by %s tag'),esc_attr($tag->name));?>">
+						<a class="label" style="background-color:#<?php echo self::$colors[rand(0,$colors_count-1)];?>;" href="<?php echo get_tag_link($tag->term_id);?>" class="tag btn btn-default" title="<?php echo sprintf(___('Views all posts by %s tag'),esc_attr($tag->name));?>">
 							<i class="fa fa-tag"></i> 
 							<?php echo esc_html($tag->name);?>
 						</a>
@@ -1414,59 +1423,63 @@ class theme_functions{
 		// var_dump($args);
 		switch ( $comment->comment_type ){
 			default :
-				$classes = array();
+				$classes = array('media');
 				if(!empty( $args['has_children'])) $classes[] = 'parent';
 				if($comment->comment_approved == '0') $classes[] = 'moderation';
-				$lazy_attr = $args['lazy'] === true ? 'data-original' : 'src';
 
-				$author_avatar = '<img alt="' . get_comment_author() . '" ' . $lazy_attr . '="' . get_img_source(get_avatar($comment,self::$comment_avatar_size)) . '" class="comment-author-avatar avatar" witdh="' . self::$comment_avatar_size . '" height="' . self::$comment_avatar_size . '"/>';
-				$author_avatar_sm = '<img alt="' . get_comment_author() . '" ' . $lazy_attr . '="' . get_img_source(get_avatar($comment,self::$comment_avatar_size)) . '" class="comment-author-avatar-sm avatar" witdh="20" height="20"/>';
 
-				$author_avatar_html = !get_comment_author_url() ? $author_avatar : '<a rel="external nofollow" href="' . get_comment_author_url() . '" class="comment-author-vcard" target="_blank">' . $author_avatar . '</a>';
+				/**
+				 * author url
+				 */
+				$author_url = get_comment_author_url();
+				if(!empty($author_url) && stripos($author_url,home_url()) === false){
+					$author_nofollow = ' rel="external nofollow" ';
+				}else{
+					$author_nofollow = null;
+				}
 				?>
-				<li <?php comment_class($classes);?> id="comment-<?php comment_ID();?>">
-					<article id="comment-body-<?php comment_ID(); ?>" class="comment-body">
-						<header class="comment-area-img">
-							<?php echo $author_avatar_html;?>
-						</header>
-						<div class="comment-area-tx">
-							<div class="comment-content content-reset">
-								<?php comment_text(); ?>
-								<?php if ($comment->comment_approved == '0'){ ?>
-									<div class="comment-awaiting-moderation"><?php echo status_tip('info',___('Your comment is awaiting moderation.')); ?></div>
-								<?php } ?>
-							</div><!-- .comment-content -->
-							<footer class="comment-meta">
-								<span class="comment-meta-data comment-author-name">
-									<?php echo $author_avatar_sm;?>
-									<?php if(!get_comment_author_url()){ ?>
-										<?php echo get_comment_author();?>
-									<?php }else{ ?>
-										<a href="<?php echo get_comment_author_url();?>" target="blank" rel="external nofollow"><?php echo get_comment_author();?></a>
-									<?php } ?>
-								</span>
-								<time class="comment-meta-data comment-time" datetime="<?php echo get_comment_time('c');?>">
-									<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>">
-										<i class="fa fa-clock-o"></i> 
-										<?php echo friendly_date(get_comment_time('U')); ?>
-									</a>
-								</time>
-								<span class="comment-meta-data comment-reply reply">
-									<?php
-									comment_reply_link(array_merge($args,array(
-										'add_below'		=> 'comment-body', 
-										'depth' 		=> $depth,
-										'reply_text' 	=>  '<i class="fa fa-comments-o"></i> ' . ___('Reply'),
-										'login_text' 	=>  '<i class="fa fa-comments-o"></i> ' . ___('Log in to leave a comment'),
-										'max_depth' 	=> $args['max_depth'],
-									)));
-									?>
-								</span><!-- .reply -->
-							</footer><!-- .comment-meta -->
-						</div><!-- .comment-area-tx -->
-					</article><!-- .comment-body -->
+<li <?php comment_class($classes);?> id="comment-<?php comment_ID();?>">
+	<div id="comment-body-<?php comment_ID(); ?>" class="comment-body">
+		<div class="media-left">
+			<?php if($author_url){ ?>
+				<a href="<?php echo esc_url($author_url);?>" class="avatar-link" target="_blank" <?php echo $author_nofollow;?> >
+					<?php echo get_avatar($comment,50);?>
+				</a>
+			<?php }else{
+				echo get_avatar($comment,50);
+			} ?>
+		</div><!-- /.media-left -->
+		<div class="media-body">
+			<h4 class="media-heading">
+				<span class="comment-meta-data author"><?php comment_author_link();?></span>
+				<time class="comment-meta-data time" datetime="<?php echo get_comment_time('c');?>">
+					<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?php echo friendly_date(get_comment_time('U')); ?></a>
+				</time>
+				<span class="comment-meta-data comment-reply reply">
 					<?php
+					comment_reply_link(array_merge($args,array(
+						'add_below'		=> 'comment-body', 
+						'depth' 		=> $depth,
+						'reply_text' 	=>  '<i class="fa fa-comments-o"></i> ' . ___('Reply'),
+						'login_text' 	=>  '<i class="fa fa-comments-o"></i> ' . ___('Log in to leave a comment'),
+						'max_depth' 	=> $args['max_depth'],
+					)));
+					?>
+				</span><!-- .reply -->
+			</h4>
+			<div class="comment-content">
+				<?php comment_text();?>
+				<?php if ($comment->comment_approved == '0'){ ?>
+					<div class="comment-awaiting-moderation"><?php echo status_tip('info',___('Your comment is awaiting moderation.')); ?></div>
+				<?php } ?>
+			</div>
+		</div><!-- /.media-body -->
+	</div><!-- /.comment-body -->
+		<?php
 		}
+	}
+	public static function filter_comment_reply_link($str){
+		return str_replace('comment-reply-','btn btn-primary btn-xs comment-reply-',$str);
 	}
 	public static function the_related_posts_plus($args = null){
 		global $wp_query,$post;

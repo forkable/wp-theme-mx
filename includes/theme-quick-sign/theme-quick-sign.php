@@ -350,7 +350,7 @@ class theme_quick_sign{
 				/** rename nicename */
 				wp_update_user(array(
 					'ID' => $user_id,
-					'user_nicename' => 1000 + $user_id
+					'user_nicename' => 10000 + $user_id
 				));
 				/** 
 				 * go to login

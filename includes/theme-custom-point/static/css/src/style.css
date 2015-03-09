@@ -1,0 +1,26 @@
+
+
+/**
+ * .my-settings-history
+ */
+.total-point{
+	font-size: 45px;
+	color:#428BCA;
+	display: inline-block;
+	margin-bottom: 20px;
+}
+.history-group .point-name,
+.history-group .history-time{
+	color: #b2b2b2;
+}
+.history-group .point-value{
+	font-size: 20px;
+	font-weight: bold;
+	padding-right:10px;
+}
+	.history-group .point-value.plus{
+		color: #D9534F;
+	}
+	.history-group .point-value.times{
+		color: #5cb85c;
+	}

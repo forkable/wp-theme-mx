@@ -11,19 +11,17 @@ class theme_notification{
 		'count' => 'theme_noti_count',
 		'unread_count' => 'theme_noti_unread_count',
 	);
+	private static $timestamp;
+	
 	public static function init(){
 		/** filter */
 		
 		add_filter('query_vars',			get_class() . '::filter_query_vars');
 		
-		//add_filter('frontend_seajs_alias',	get_class() . '::frontend_seajs_alias');
+		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
 
 		
 		/** action */
-
-		//add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
-		
-		//add_action('wp_ajax_nopriv_theme_quick_sign', 'theme_quick_sign::process');
 		
 		add_filter('wp_title',				get_class() . '::wp_title',10,2);
 		
@@ -35,17 +33,41 @@ class theme_notification{
 		/**
 		 * add hook to comment publish and reply
 		 */
-		add_action('wp_insert_comment', get_class() . '::action_add_noti_post_reply',10,2);
+		add_action('comment_post',get_class() . '::action_add_noti_wp_new_comment_comment_publish',10,2);
+		
+		add_action('transition_comment_status',get_class() . '::action_add_noti_transition_comment_status_comment_publish',10,3);
 
-		add_action('wp_insert_comment', get_class() . '::action_add_noti_comment_reply',10,2);
+		/**
+		 * clean unread notis
+		 */
+		add_action('wp_footer'		,get_class() . '::clean_unread_notis');
 	}
 	public static function wp_title($title, $sep){
-		if(!is_page(self::$page_slug)) return $title;
-		$tab_active = get_query_var('tab');
-		$tabs = self::get_tabs();
-		if(!empty($tab_active) && isset($tabs[$tab_active])){
-			$title = $tabs[$tab_active]['text'];
+		/**
+		 * check unread count
+		 */
+		if(is_user_logged_in()){
+			$unread_count = (int)self::get_count(array(
+				'type' => 'unread'
+			));
+		}else{
+			$unread_count = 0;
 		}
+
+		if($unread_count === 0){
+			if(!self::is_page()) return $title;
+			if(self::get_tabs(get_query_var('tab'))){
+				$title = self::get_tabs(get_query_var('tab'))['text'];
+			}			
+		}else{
+			if(!self::is_page()){
+				return " ({$unread_count}) " . $title;
+			}
+			if(self::get_tabs(get_query_var('tab'))){
+				$title = " ({$unread_count}) " . self::get_tabs(get_query_var('tab'))['text'];
+			}	
+		}
+
 		return $title . $sep . get_bloginfo('name');
 	}
 	public static function filter_query_vars($vars){
@@ -56,7 +78,7 @@ class theme_notification{
 		$baseurl = self::get_url();
 		$tabs = array(
 			'notifications' => array(
-				'text' => ___('Notifications'),
+				'text' => ___('My notifications'),
 				'icon' => 'bell',
 				'url' => add_query_arg('tab','notifications',$baseurl),
 				'filter_priority' => 40,
@@ -68,11 +90,32 @@ class theme_notification{
 		return $tabs;
 	}
 	public static function filter_nav_notifications($navs){
+		$unread = self::get_count(array(
+			'type' => 'unread'
+		));
+		if($unread !== 0){
+			$unread_html = "<span class='badge'>{$unread}</span>";
+		}else{
+			$unread_html = null;
+		}
+
 		$navs['notifications'] = '<a href="' . esc_url(self::get_tabs('notifications')['url']) . '">
 			<i class="fa fa-' . self::get_tabs('notifications')['icon'] . '"></i> 
 			' . esc_html(self::get_tabs('notifications')['text']) . '
+			' . $unread_html . '
 		</a>';
 		return $navs;
+	}
+	/**
+	 * Clean
+	 * When user visit the noti page, clean unread notis
+	 */
+	public static function clean_unread_notis(){
+		if(self::is_page()){
+			$old_metas = get_user_meta(get_current_user_id(),self::$user_meta_key['unread_count'],true);
+			if(!empty($old_metas))
+				update_user_meta(get_current_user_id(),self::$user_meta_key['unread_count'],'');
+		}
 	}
 	public static function get_url(){
 		return get_permalink(theme_cache::get_page_by_path(self::$page_slug));
@@ -85,19 +128,10 @@ class theme_notification{
 			return true;
 		return false;
 	}
-	public static function template_redirect(){
-		if(
-			is_page(self::$page_slug) && 
-			!is_user_logged_in() && 
-			self::get_tabs(get_query_var('tab'))
-		){
-			wp_redirect(theme_custom_sign::get_tabs('login',self::get_url())['url']);
-			die();
-		}
-	}
-	public static function get_count($args){
+
+	public static function get_count($args = null){
 		$defaults = array(
-			'user_id' => null,
+			'user_id' => get_current_user_id(),
 			'type' => 'all',
 		);
 		$args = wp_parse_args($args,$defaults);
@@ -106,25 +140,25 @@ class theme_notification{
 		switch($args['type']){
 			case 'unread':
 				$metas = array_filter((array)get_user_meta($args['user_id'],self::$user_meta_key['unread_count'],true));
-				return empty($metas) ? 0 : count($metas);
+				break;
 			default:
 				$metas = array_filter((array)get_user_meta($args['user_id'],self::$user_meta_key['key']));
-				return empty($metas) ? 0 : count($metas);
 		}
+		return empty($metas) ? 0 : count($metas);
 	}
-	public static function get_notifications($args){
+	public static function get_notifications($args = null){
 		$defaults = array(
 			'user_id' => get_current_user_id(),
 			'type' => 'all',/** all / unread / read */
 			'posts_per_page' => 20,
-			'page' => 1,
+			'paged' => 1,
 			'orderby' => 'desc',
 		);
 		$args = wp_parse_args($args,$defaults);
 		if(empty($args['user_id'])) return false;
 		
 		$metas = (array)get_user_meta($args['user_id'],self::$user_meta_key['key']);
-		var_dump($metas);exit;
+
 		if(empty($metas)){
 			return null;
 		}else{
@@ -133,75 +167,200 @@ class theme_notification{
 		
 		switch($args['type']){
 			case 'unread':
-				$unread = (array)get_user_meta($args['user_id'],self::$user_meta_key['unread_count'],true);
-				if(empty($unread)){
-					return $metas;
-				}else{
-					$metas = array_map(function($meta){
-						if(!in_array($meta['id'],$unread)) return $meta;
-						$meta['unread'] = true;
-						return $meta;
-					},$metas);
+				$unreads = (array)get_user_meta($args['user_id'],self::$user_meta_key['unread_count'],true);
+				if(!empty($unreads)){
+					$unread_count = count($unreads);
+					$metas = array_slice($metas,0,$unread_count);
 				}
 			default:
-				return $metas;
+				//return $metas;
+		}
+		/**
+		 * check the paginavi
+		 */
+		if($args['posts_per_page'] > 0){
+				
+			$start = (($args['paged'] - 1) * 10) - 1;
+			if($start < 0)
+				$start = 0;
+				
+			$metas = array_slice(
+				$metas,
+				$start,
+				$args['posts_per_page']
+			);
+		}
+		return $metas;
+	}
+	/**
+	 * Get timestamp
+	 *
+	 * @param bool $rand True/get event id
+	 * @return string
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	private static function get_timestamp($rand = false){
+		if($rand)
+			return current_time('timestamp') . '' . rand(100,999);
+		
+		if(self::$timestamp){
+			return self::$timestamp;
+		}else{
+			self::$timestamp = current_time('timestamp');
+			return self::$timestamp;
 		}
 	}
 	/**
-	 * When comment, add noti to post author
+	 * HOOK - When a comment becomes spam/disapprove to approve status, noti to post author
+	 *
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function action_add_noti_post_reply($comment_id,$comment){
-		//if(!is_user_logged_in()) return false;
-
+	public static function action_add_noti_transition_comment_status_comment_publish($new_status, $old_status, $comment){
 		/**
-		 * if the comment author is ME, just return
+		 * do NOT add noti if the comment is spam or hold
 		 */
-		if($comment->user_id == get_current_user_id())
+		if($old_status !== 'unapproved' && $old_status !== 'spam')
+			return;
+		
+		if($new_status !== 'approved')
 			return;
 			
 		/**
-		 * get the post author, if the post author is ME, just return
+		 * 评论是子评论
 		 */
-		$post_author = get_post($comment->comment_post_ID)->post_author;
-		
-		if($post_author == get_current_user_id())
-			return;
-
+		if($comment->comment_parent != 0){
+			/** post author */
+			$post_author_id = get_post($comment->comment_post_ID)->post_author;
+			/**
+			 * 评论是回复评论，父评论是文章作者时，仅给父评论作者添加评论回复事件，不添加文章评论事件
+			 */
+			if(get_comment($comment->comment_parent)->user_id == $post_author_id){
+				self::action_add_noti_core_comment_reply($comment->comment_ID);
+				return;
+			}
+			
+		}
 		/**
-		 * add noti to post author
+		 * noti for post author
+		 */
+		self::action_add_noti_core_post_reply($comment->comment_ID);
+		/**
+		 * noti for comment parent author
+		 */
+		self::action_add_noti_core_comment_reply($comment->comment_ID);
+	}
+	/**
+	 * HOOK - When a comment publish noti to post author
+	 *
+	 * @param int $comment_id Comment ID
+	 * @param string $comment_approved 0|1|spam
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function action_add_noti_wp_new_comment_comment_publish($comment_id,$comment_approved){
+		/**
+		 * do NOT add noti if the comment is spam or disapprove
+		 */
+		if((int)$comment_approved !== 1)
+			return;
+		
+		$comment = get_comment($comment_id);
+		
+		/** post author */
+		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+			
+		/**
+		 * 评论是子评论
+		 */
+		if($comment->comment_parent != 0){
+			/**
+			 * 评论是回复评论，父评论是文章作者时，仅给父评论作者添加评论回复事件，不添加文章评论事件
+			 */
+			if(get_comment($comment->comment_parent)->user_id == $post_author_id){
+				self::action_add_noti_core_comment_reply($comment_id);
+				return;
+			}
+			
+		}
+		/**
+		 * noti for post author
+		 */
+		self::action_add_noti_core_post_reply($comment_id);
+		
+		/**
+		 * noti for comment parent author
+		 */
+		self::action_add_noti_core_comment_reply($comment_id);
+	}
+	
+	public static function action_add_noti_core_post_reply($comment_id){
+		$comment = get_comment($comment_id);
+
+		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+		/**
+		 * add noti for post author
 		 */
 		$meta = array(
-			'type' => 'post-reply',
-			'comment-id' => $comment->comment_ID,
-			'timestamp' => current_time('timestamp'),
+			'id' 			=> self::get_timestamp(true),
+			'type' 			=> 'post-reply',
+			'comment-id' 	=> $comment->comment_ID,
+			'timestamp' 	=> self::get_timestamp(),
 		);
-		add_user_meta($post_author,self::$user_meta_key['key'],$meta);
-		
+		add_user_meta($post_author_id,self::$user_meta_key['key'],$meta);
+		/**
+		 * update unread count for post author
+		 */
+		$unread_count = (array)get_user_meta($post_author_id,self::$user_meta_key['unread_count'],true);
+		$unread_count[self::get_timestamp(true)] = $meta;
+		update_user_meta($post_author_id,self::$user_meta_key['unread_count'],$unread_count);
 	}
+	
 	/**
 	 * comment reply noti
 	 */
-	public static function action_add_noti_comment_reply($comment_id,$comment){
-		//if(!is_user_logged_in()) return false;
-
+	public static function action_add_noti_core_comment_reply($comment_id){
+		$comment = get_comment($comment_id);
+		
 		if($comment->comment_parent == 0)
 			return;
-
+			
+		/** get post author */
+		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+		
 		/**
-		 * if parent comment author is not ME, just return
+		 * if post author is comment author, just return
 		 */
-		if(get_comment($comment->comment_parent)->user_id != get_current_user_id())
+		if($post_author_id == $comment->user_id)
 			return;
 
 		/**
-		 * parent comment author is ME, add to noti meta
+		 * get comment parent author
+		 */
+		$comment_parent_author_id = get_comment($comment->comment_parent)->user_id;
+		
+		/** if comment parent author is visitor, just return */
+		if($comment_parent_author_id == 0)
+			return;
+			
+		/**
+		 * add noti for comment parent author
 		 */
 		$meta = array(
+			'id' => self::get_timestamp(true),
 			'type' => 'comment-reply',
 			'comment-id' => $comment->comment_ID,
-			'timestamp' => current_time('timestamp'),
+			'timestamp' => self::get_timestamp(),
 		);
-		add_user_meta(get_current_user_id(),self::$user_meta_key['key'],$meta);
+		add_user_meta($comment_parent_author_id,self::$user_meta_key['key'],$meta);
+		
+		/**
+		 * update unread count for comment parent author
+		 */
+		$unread_count = (array)get_user_meta($comment_parent_author_id,self::$user_meta_key['unread_count'],true);
+		$unread_count[self::get_timestamp(true)] = $meta;
+		update_user_meta($comment_parent_author_id,self::$user_meta_key['unread_count'],$unread_count);
 	}
 	public static function process(){
 		$output = array();
@@ -214,23 +373,14 @@ class theme_notification{
 
 		die(theme_features::json_format($output));
 	}
-	public static function frontend_seajs_alias($alias){
-		if(!self::is_page()) return $alias;
-
-		$alias[self::$iden] = theme_features::get_theme_includes_js(__FILE__);
-		return $alias;
+	public static function frontend_css(){
+		if(!self::is_page()) 
+			return;
+		wp_enqueue_style(
+			self::$iden,
+			theme_features::get_theme_includes_css(__FILE__,'style',false),
+			false,
+			theme_features::get_theme_info('version')
+		);
 	}
-	public static function frontend_seajs_use(){
-		if(!self::is_page()) return false;
-		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => theme_quick_sign::$iden));?>';
-			m.config.lang.M00001 = '<?php echo esc_js(___('Loading, please wait...'));?>';
-			m.config.lang.E00001 = '<?php echo esc_js(___('Sorry, server error please try again later.'));?>';
-			
-			m.init();
-		});
-		<?php
-	}
-
 }

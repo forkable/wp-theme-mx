@@ -16,7 +16,7 @@ class theme_seo_plus{
 		add_action('wp_head',get_class() . '::get_site_keywords',1);
 		add_action('wp_head',get_class() . '::get_site_description',1);
 		add_filter('theme_options_save',get_class() . '::options_save');
-		//add_filter('wp_title',get_class() . '::wp_title',10,2);
+		add_filter('wp_title',get_class() . '::wp_title',10,2);
 	}
 	public static function wp_title($title, $sep){
 		$sep = ' - ';

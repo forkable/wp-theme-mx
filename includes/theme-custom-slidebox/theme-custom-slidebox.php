@@ -298,11 +298,13 @@ class theme_custom_slidebox{
 		echo $cache;
 	}
 	public static function backend_css(){
+		if(!is_home()) return;
 		?>
 		<link href="<?php echo theme_features::get_theme_includes_css(__FILE__);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function frontend_seajs_use(){
+		if(!is_home()) return;
 		?>
 		seajs.use('<?php echo theme_features::get_theme_includes_js(__FILE__);?>',function(m){
 			m.config.width = <?php echo self::$image_size[0];?>;

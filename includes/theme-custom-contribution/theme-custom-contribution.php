@@ -12,13 +12,8 @@ class theme_custom_contribution{
 		'bdyun' => '_theme_ctb_bdyun'
 	);
 	public static function init(){
-		/** filter */
 		add_filter('frontend_seajs_alias',	get_class() . '::frontend_seajs_alias');
-
-		
-		/** action */
-		//add_action('init', 					get_class() . '::page_create');
-
+	
 		add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
 		
 		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
@@ -31,13 +26,14 @@ class theme_custom_contribution{
 			add_filter('account_navs',get_class() . "::$nav_fn",$v['filter_priority']);
 		}
 
+		add_filter('wp_title',				get_class() . '::wp_title',10,2);
+
+		add_action('page_settings',			get_class() . '::display_backend');
 	}
 	public static function wp_title($title, $sep){
-		if(!is_page(self::$page_slug)) return $title;
-		$tab_active = get_query_var('tab');
-		$tabs = self::get_tabs();
-		if(!empty($tab_active) && isset($tabs[$tab_active])){
-			$title = $tabs[$tab_active]['text'];
+		if(!self::is_page()) return $title;
+		if(self::get_tabs(get_query_var('tab'))){
+			$title = self::get_tabs(get_query_var('tab'))['text'];
 		}
 		return $title . $sep . get_bloginfo('name');
 	}
@@ -53,7 +49,30 @@ class theme_custom_contribution{
 		return $navs;
 	}
 	public static function display_backend(){
-		
+		$opt = (array)theme_options::get_options(self::$iden);
+		?>
+		<fieldset>
+			<legend><?php echo ___('Contribution settings');?></legend>
+			<table class="form-table">
+				<tr>
+					<th><?php echo ___('Shows categories');?></th>
+					<td>
+						<?php theme_features::cat_checkbox_list(self::$iden,'cats');?>
+					</td>
+				</tr>				<tr>
+					<th><label for="<?php echo self::$iden;?>-tags-number"><?php echo ___('Shows tags number');?></label></th>
+					<td>
+						<input class="short-text" type="number" name="<?php echo self::$iden;?>[tags-number]" id="<?php echo self::$iden;?>-tags-number" value="<?php echo isset($opt['tags-number']) ?  $opt['tags-number'] : 6;?>">
+					</td>
+				</tr>
+
+			</table>
+		</fieldset>
+		<?php
+	}
+	public static function options_default($opts){
+		$opts[self::$iden]['tags-number'] = 6;
+		return $opts;
 	}
 	public static function get_options($key = null){
 		$opt = theme_options::get_options(self::$iden);
@@ -71,7 +90,7 @@ class theme_custom_contribution{
 		$baseurl = self::get_url();
 		$tabs = array(
 			'contribution' => array(
-				'text' => ___('Contribution'),
+				'text' => ___('Post contribution'),
 				'icon' => 'pencil-square-o',
 				'url' => add_query_arg('tab','contribution',$baseurl),
 				'filter_priority' => 20,
@@ -269,12 +288,7 @@ class theme_custom_contribution{
 							'<a href="' . esc_url(get_permalink($post_id)) . '" title="' . esc_attr(get_the_title($post_id)) . '">' . ___('View it now') . '</a>',
 							'<a href="javascript:location.href=location.href;">' . ___('countinue to write a new post') . '</a>'
 						);
-						/**
-						 * update post meta
-						 */
-						if(class_exists('theme_custom_storage') && isset($ctb['storage']) && !is_null_array($ctb['storage'])){
-							add_post_meta($post_id,theme_custom_storage::$post_meta_key['key'],$ctb['storage']);
-						}
+
 						/**
 						 * add point
 						 */

@@ -76,8 +76,8 @@ class theme_dashboards extends theme_custom_dashboard{
 			if($comment_author_url){
 				?>
 				<a 
-					href="<?php esc_url($comment_author_url);?>"
-					target="<?php (int)$comment->user_id === 0 ? 'target' : null;?>"
+					href="<?php echo esc_url($comment_author_url);?>"
+					<?php echo (int)$comment->user_id === 0 ? 'target="target"' : null;?>
 				>
 					<?php echo get_avatar(get_comment_author_email(),50);?>
 				</a>
@@ -124,7 +124,7 @@ class theme_dashboards extends theme_custom_dashboard{
 				<?php echo ___('My statistics');?>
 			</div>
 			<div class="panel-body">
-				<a class="media" href="<?php echo theme_custom_user_settings::get_tabs('history')['url'];?>" title="<?php echo ___('Views my histories');?>">
+				<a class="media" href="<?php echo esc_url(theme_custom_user_settings::get_tabs('history')['url']);?>" title="<?php echo ___('Views my histories');?>">
 					<div class="media-left">
 						<img class="media-object" src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="">
 					</div>

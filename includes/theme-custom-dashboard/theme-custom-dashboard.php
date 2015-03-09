@@ -24,7 +24,7 @@ class theme_custom_dashboard{
 
 	}
 	public static function wp_title($title, $sep){
-		if(!is_page(self::$page_slug)) return $title;
+		if(!self::is_page()) return $title;
 		$tab_active = get_query_var('tab');
 		$tabs = self::get_tabs();
 		if(!empty($tab_active) && isset($tabs[$tab_active])){
@@ -41,12 +41,10 @@ class theme_custom_dashboard{
 	}
 
 	public static function is_page(){
-		return (
-					is_page(self::$page_slug) && 
-					get_query_var('tab') === 'dashboard'
-				) || 
-					!get_query_var('tab')
-				;
+		if(is_page(self::$page_slug))
+			return get_query_var('tab') === 'dashboard' || !get_query_var('tab');
+			
+		return false;
 	}
 	public static function get_url(){
 		$page = theme_cache::get_page_by_path(self::$page_slug);

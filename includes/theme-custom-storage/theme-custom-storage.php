@@ -10,7 +10,7 @@ class theme_custom_storage{
 	);
 	public static function init(){
 		add_action('add_meta_boxes', get_class() . '::meta_box_add');
-		add_action('save_post', get_class() . '::meta_box_save');
+		add_action('save_post_post', get_class() . '::meta_box_save');
 	}
 	public static function get_types($key = null){
 		$types = array(
@@ -37,7 +37,7 @@ class theme_custom_storage{
 		}
 	}
 	public static function meta_box_add(){
-		$screens = array( 'post', 'page' );
+		$screens = array( 'post' );
 		foreach ( $screens as $screen ) {
 			add_meta_box(
 				self::$iden,
@@ -51,18 +51,18 @@ class theme_custom_storage{
 	public static function meta_box_save($post_id){
 		if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
 		if(!isset($_POST[self::$iden])) return;
-		if(!isset($_POST[self::$iden . '-nonce']) || !wp_verify_nonce($_POST[self::$iden . '-nonce'])) return;
+		//if(!isset($_POST[self::$iden . '-nonce']) || !wp_verify_nonce($_POST[self::$iden . '-nonce'])) return;
 		
 		$new_meta = $_POST[self::$iden];
 		if(is_null_array($new_meta)){
-			delete_post_meta($post_id,self::$post_meta_key);
+			delete_post_meta($post_id,self::$post_meta_key['key']);
 		}else{
-			update_post_meta($post_id,self::$post_meta_key,$new_meta);
+			update_post_meta($post_id,self::$post_meta_key['key'],$new_meta);
 		}
 	}
 	public static function meta_box_display($post){
 		$meta = self::get_post_meta($post->ID);
-		wp_nonce_field(self::$iden,self::$iden . '-nonce');
+		//wp_nonce_field(self::$iden,self::$iden . '-nonce');
 		foreach(self::get_types() as $k => $v){
 			?>
 			<div class="<?php echo self::$iden;?>-<?php echo $k;?>">
