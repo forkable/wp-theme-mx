@@ -674,7 +674,7 @@ class theme_functions{
 					<?php if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
 						<span class="post-meta post-views" title="<?php echo esc_attr(___('Views'));?>">
 							<i class="fa fa-play-circle"></i>
-							<?php echo esc_html(theme_post_views::display());?>
+							<span id="post-views">-</span>
 						</span>
 					<?php } ?>
 					<!-- edit link -->

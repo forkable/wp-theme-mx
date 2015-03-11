@@ -667,19 +667,23 @@ class theme_features{
 	 *
 	 * @param object
 	 * @return string
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 * @author KM@INN STUDIO
 	 */
 	public static function json_format($output,$die = false){
-		if(empty($output)) return;
+		if(empty($output)) 
+			return;
 			/** Reduce the size but will inccrease the CPU load */
-			$output = json_encode(array_multiwalk($output,'html_compress'));
+			//$output = json_encode(array_multiwalk($output,'html_compress'));
+			$output = json_encode($output);
 			/**
 			 * If the remote call, return the jsonp format
 			 */
 			if(isset($_GET['callback']) && !empty($_GET['callback'])){
 				$jsonp = $_GET['callback'];
 				$output = $jsonp. '(' .$output. ')';
+			}else{
+				header('Content-Type: application/javascript');
 			}
 		if($die){
 			die($output);

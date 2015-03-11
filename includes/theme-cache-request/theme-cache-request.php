@@ -20,10 +20,10 @@ class theme_cache_request {
 
 		$output = apply_filters('cache-request',$output);
 		$output['theme-nonce'] = wp_create_nonce('theme-nonce');
-		header('Content-type: text/javascript');
-		echo html_compress('
+
+		echo '
 			define(' . theme_features::json_format($output) . ');
-		');
+		';
 		die();
 	}
 	public static function frontend_alias($alias){

@@ -360,12 +360,12 @@ class WP_Object_Cache {
 			var_dump($this->memcache_debug);
 	}
 
-	function &get_mc($group) {
+	function &get_mc($group = 'default') {
 		$group = WP_CACHE_KEY_SALT . $group;
 
 		if ( isset($this->mc[$group]) )
 			return $this->mc[$group];
-		return $this->mc[WP_CACHE_KEY_SALT . '::default'];
+		//return $this->mc[WP_CACHE_KEY_SALT . '::default'];
 	}
 
 	function failure_callback($host, $port) {
@@ -394,7 +394,8 @@ class WP_Object_Cache {
 				define( 'WP_CACHE_KEY_SALT', md5(AUTH_KEY) );
 			}
 
-			$buckets = array(WP_CACHE_KEY_SALT . '::default' => $buckets);
+			//$buckets = array(WP_CACHE_KEY_SALT . '::default' => $buckets);
+			$buckets = array(WP_CACHE_KEY_SALT => $buckets);
 		}
 
 		foreach ( $buckets as $bucket => $servers) {

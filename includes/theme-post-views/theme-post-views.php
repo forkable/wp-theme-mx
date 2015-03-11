@@ -2,7 +2,7 @@
 /*
 Feature Name:	Post Views
 Feature URI:	http://www.inn-studio.com
-Version:		1.2.1
+Version:		2.0.0
 Description:	Count the post views.
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -10,35 +10,90 @@ Author URI:		http://www.inn-studio.com
 theme_post_views::init();
 class theme_post_views{
 	private static $iden = 'theme_post_views';
-	private static $log_key = 'views';
-	private static $cookie_key = 'vids';
-	private static $cookie_expire = 3600;/** 1 hour */
-	private static $cache_expire = 2505600;/** memcache max 29 days */
-	private static $storage_times = 10;
+	private static $post_meta_key = 'views';
+	private static $cache_key = array(
+		'views' => 'theme_post_views',
+		'times' => 'theme_post_views_times'
+	);
+	private static $expire = 3600;/** 29 days */
 
 	public static function init(){
-		add_filter('cache-request',get_class() . '::cache_request');
-		add_filter('js-cache-request',get_class() . '::js_cache_request',1);
+
+		add_action('base_settings',		get_class() . '::display_backend');
+
+		add_filter('theme_options_default',get_class() . '::options_default');
+
+		add_filter('theme_options_save',get_class() . '::options_save');
+
 		
+		if(self::is_enabled() === false)
+			return;
+
+		add_filter('frontend_seajs_alias',	get_class() . '::frontend_seajs_alias');
+		add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
+
+		
+		add_filter('cache-request',get_class() . '::process_cache_request');
+		add_filter('js-cache-request',get_class() . '::js_cache_request');
+
+
+		/** admin post/page css */
 		add_action('admin_head', get_class() . '::admin_css');
 		add_action('manage_posts_custom_column',get_class() . '::admin_show',10,2);
 		add_filter('manage_posts_columns', get_class() . '::admin_add_column');
 	}
-	public static function save_post($post_id){
-		/**
-		 * check the revision
-		 */
-		if ($parent_id = wp_is_post_revision($post_id)) {
-			$post_id = $parent_id;
-		}
-		/**
-		 * update the meta
-		 */
-		add_post_meta($post_id,self::$log_key,1,true);
+	public static function options_default($opts = []){
+		$opts[self::$iden] = array(
+			'enabled' => 1,
+			'storage-times' => 10,
+		);
+		return $opts;
 	}
-
+	public static function display_backend(){
+		$opt = (array)theme_options::get_options(self::$iden);
+		?>
+		<fieldset>
+			<legend><?php echo ___('Post views settings');?></legend>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th><label for="<?php echo self::$iden;?>-enabled"><?php echo ___('Enable');?></label></th>
+						<td>
+							<label for="<?php echo self::$iden;?>-enabled">
+								<input type="checkbox" name="<?php echo self::$iden;?>[enabled]" id="<?php echo self::$iden;?>-enabled" value="1"> 
+								<?php echo ___('Enabled');?>
+							</label>
+						</td>
+					</tr>
+					<?php if(wp_using_ext_object_cache()){ ?>
+						<tr>
+							<th><label for="<?php echo self::$iden;?>-storage-times"><?php echo ___('Max cache storage times');?></label></th>
+							<td>
+								<input class="short-text" type="number" name="<?php echo self::$iden;?>[storage-times]" id="<?php echo self::$iden;?>-storage-times" value="<?php echo self::get_storage_times();?>" min="1">
+								<span class="description"><?php echo ___('Using cache to improve performance. When the views more than max storage times, views will be save to database.');?></span>
+							</td>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
+		</fieldset>
+		<?php
+	}
+	
+	public static function update_views($post_id){
+		if(wp_using_ext_object_cache()){
+			return self::update_views_using_cache($post_id);
+		}else{
+			return self::update_views_using_db($post_id);
+		}
+	}
+	private static function update_views_using_db($post_id){
+		$meta = (int)get_post_meta($post_id,self::$post_meta_key,true) + 1;
+		update_post_meta($post_id,self::$post_meta_key,$meta);
+		return $meta;
+	}
 	/**
-	 * update_views
+	 * update_views_using_cache
 	 * 
 	 * 
 	 * @return 
@@ -46,68 +101,76 @@ class theme_post_views{
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function update_views($post_id = null){
-		global $post;
-		$post_id = $post_id ? (int)$post_id : $post->ID;
-		$cache = (array)theme_cache::get(self::$iden);
-		$old_meta_view = (int)get_post_meta($post_id,self::$log_key,true);
-
-		$tmp_view = isset($cache[$post_id]) ? (int)$cache[$post_id] : 0;
-		++$tmp_view;
-		/** 
-		 * max storage time, save to database
+	private static function update_views_using_cache($post_id,$force = false){
+		//$meta = wp_cache_get($post_id,self::$cache_key['views']);
+		//if($meta == -1)
+		//if()
+		$meta = (int)get_post_meta($post_id,self::$post_meta_key,true);
+		/**
+		 * force to update db
 		 */
-		if(self::is_max_storage_time($post_id)){
-			$new_meta_view = $old_meta_view + $tmp_view;
-			update_post_meta($post_id,self::$log_key,(int)$new_meta_view);
-			/** 
-			 * reset tmp_view
+		if($force){
+			$meta++;
+			wp_cache_set($post_id,0,self::$iden,self::$expire);
+			update_post_meta($post_id,self::$post_meta_key,$meta);
+		/**
+		 * update cache
+		 */
+		}else{
+			$cache_views = (int)wp_cache_get($post_id,self::$iden);
+			/**
+			 * if views more than storage times, update db and reset cache
 			 */
-			$cache[$post_id] = 0;
-		}else{
-			$cache[$post_id] = $tmp_view;
+			if($cache_views >= self::get_storage_times()){
+				$meta = $meta + $cache_views + 1;
+				update_post_meta($post_id,self::$post_meta_key,$meta);
+				wp_cache_set($post_id,0,self::$iden,self::$expire);
+			/**
+			 * update cache
+			 */
+			}else{
+				$meta = wp_cache_incr($post_id,1,self::$iden);
+			}
 		}
-
-		theme_cache::set(self::$iden,$cache,null,self::$cache_expire);
-		return self::get_view_from_cache($post_id);
+		return $meta;
 	}
-	public static function is_viewed($post_id = null){
-		global $post;
-		$post_id = $post_id ? (int)$post_id : $post->ID;
-		$cookie_view_ids = isset($_COOKIE[self::$cookie_key]) ? @unserialize($_COOKIE[self::$cookie_key]) : array();
-		$is_viewed = false;
-
-		if(in_array($post_id,$cookie_view_ids)){
-			$is_viewed = true;
+	private static function get_storage_times(){
+		$opt = theme_options::get_options(self::$iden);
+		if(isset($opt['storage-times']) && (int)$opt['storage-times'] !== 0){
+			return (int)$opt['storage-times'];
 		}else{
-			$cookie_view_ids[] = $post_id;
+			return 10;
 		}
-		/** 
-		 * set cookie
-		 */
-		if(!$is_viewed){
-			$expire = time()+ self::$cookie_expire;
-			setcookie(self::$cookie_key,serialize($cookie_view_ids),$expire);
-		}
-		return $is_viewed;
 	}
 	/**
-	 * display
-	 * show the views
+	 * get the views
 	 * 
 	 * @params int $post_id
 	 * @return int the views
-	 * @version 1.0.1
+	 * @version 2.0.0
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function display($post_id = null){
-		global $post;
-		$post_id = $post_id ? (int)$post_id : $post->ID;
-		return self::get_view_from_cache($post_id);
+	public static function get_views($post_id = null){
+		if(!$post_id){
+			global $post;
+			$post_id = $post->ID;
+		}
+		
+		$meta = (int)get_post_meta($post_id,self::$post_meta_key,true) + 1;
+		
+		if(wp_using_ext_object_cache())
+			return $meta + (int)wp_cache_get($post_id,self::$iden);
+		
+		return $meta;
 	}
 	public static function is_enabled(){
-		return true;
+		$opt = theme_options::get_options(self::$iden);
+		
+		if(isset($opt['enabled']) && $opt['enabled'] == 1)
+			return true;
+			
+		return false;
 	}
 	public static function options_save($options){
 		if(isset($_POST[self::$iden])){
@@ -116,90 +179,71 @@ class theme_post_views{
 		return $options;
 	}
 
-	private static function is_max_storage_time($post_id){
-		$cache = (array)theme_cache::get(self::$iden);
-		$tmp_view = isset($cache[$post_id]) ? (int)$cache[$post_id] : 0;
-		/** 
-		 * add a new view number
-		 */
-		++$tmp_view;
-		/** 
-		 * Exceed the maximum, update meta
-		 */
-		if($tmp_view >= self::$storage_times){
-			return true;
-		}else{
-			return false;
-		}
-
-	}
-	public static function get_view_from_cache($post_id){
-		$cache = (array)theme_cache::get(self::$iden);
-		$tmp_view = isset($cache[$post_id]) ? (int)$cache[$post_id] : 0;
-		$old_meta_view = (int)get_post_meta($post_id,self::$log_key,true);
-		$view = $old_meta_view + $tmp_view;
-		return (int)$view;
-	}
-	/**
-	 * process
-	 * 
-	 * 
-	 * @return array
-	 * @version 1.0.3
-	 * @author KM@INN STUDIO
-	 * 
-	 */
-	public static function cache_request($output){
-		if(isset($_GET[self::$iden]) && (int)$_GET[self::$iden] != 0){
-			$post_id = (int)$_GET[self::$iden];
-			/** 
-			 * check is viewed
-			 */
-			if(!self::is_viewed($post_id)){
-				self::update_views($post_id);
-			}
-			$output[self::$iden] = self::get_view_from_cache($post_id);
-		}
-		return $output;
-	}
-	public static function js_cache_request($data){
-		if(!is_singular()) return $data;
-		global $post;
-		$data[self::$iden] = $post->ID;
-		return $data;
-	}
-	/**
-	 * admin_add_column
-	 * 
-	 * 
-	 * @params 
-	 * @return 
-	 * @version 1.0.0
-	 * @author KM@INN STUDIO
-	 * 
-	 */
 	public static function admin_add_column($columns){
-		
-		$columns[self::$log_key] = ___('Views');
+		$columns[self::$post_meta_key] = ___('Views');
 		return $columns;
 	}
-	public static function admin_show($column_name,$id){
+	public static function admin_show($column_name,$post_id){
 		if ($column_name != 'views') return;	
-		$views = get_post_meta($id,self::$log_key,true);
-		echo (int)$views;
+		echo self::get_views($post_id);
 	}
 	public static function admin_css(){
 		?><style>.fixed .column-views{width:3em}</style><?php
 	}
-}
-if(!function_exists('get_the_views')){
-	function get_the_views($post_id = null){
-		return theme_post_views::display($post_id);
+
+	public static function process_cache_request($output = []){
+		$post_id = isset($_GET[self::$iden]) ? (int)$_GET[self::$iden] : null;
+		
+		if(!$post_id)
+			return $output;
+
+		$views = (int)self::get_views($post_id);
+		/**
+		 * not exists post id
+		 */
+		if($views == 0)
+			return $output;
+			
+		if(!self::is_viewed($post_id))
+			self::update_views($post_id);
+			
+		$output['views'] = $views;
+		return $output;
 	}
-}
-if(!function_exists('the_views')){
-	function the_views($post_id = null){
-		echo get_the_views($post_id);
+	public static function is_viewed($post_id){
+		if(!isset($_SESSION))
+			session_start();
+
+		$cache_id = session_id() . $post_id;
+		if(!wp_cache_get($cache_id,self::$iden)){
+			wp_cache_set($cache_id,1,self::$iden,self::$expire);
+			return false;
+		}else{
+			return true;
+		}
+	}
+	public static function js_cache_request($alias = []){
+		if(!is_singular())
+			return $alias;
+		$alias[self::$iden] = get_the_ID();
+		return $alias;
+	}
+	public static function frontend_seajs_alias($alias){
+		if(!is_singular())
+			return $alias;
+
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__FILE__);
+		return $alias;
+	}
+	public static function frontend_seajs_use(){
+		if(!is_singular())
+			return;
+		?>
+		seajs.use('<?php echo self::$iden;?>',function(m){
+			m.post_id = <?php the_ID();?>;
+			m.init();
+		});
+		<?php
 	}
 }
 ?>

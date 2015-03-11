@@ -1,4 +1,10 @@
 <?php get_header();?>
+<?php
+//wp_cache_set('b',1);
+wp_cache_incr('b',1);
+var_dump(wp_cache_get('b'));
+//var_dump(wp_cache_get(get_the_ID(),'theme_post_views'));
+?>
 <div class="container grid-container">
 	<div class="row">
 		<div id="main" class="main col-md-8 col-sm-12">
