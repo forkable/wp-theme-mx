@@ -299,6 +299,10 @@ class theme_notification{
 		$comment = get_comment($comment_id);
 
 		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+
+		if($post_author_id == $comment->user_id)
+			return;
+			
 		/**
 		 * add noti for post author
 		 */

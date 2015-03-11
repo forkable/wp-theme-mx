@@ -36,7 +36,7 @@
 			?>
 		</div>
 		<div class="top-bar-tools navbar-right">
-			<?php get_template_part('header','topbar-tools');?>
+			<?php get_template_part('tpl','header-topbar-tools');?>
 		</div>
 	</div><!-- /.top-bar -->
 

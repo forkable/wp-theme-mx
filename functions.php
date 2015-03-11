@@ -1044,7 +1044,7 @@ class theme_functions{
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function get_post_pagination( $class = 'posts-pagination' ) {
+	public static function get_post_pagination( $class = 'posts-pagination') {
 		global $wp_query,$paged;
 		if ( $wp_query->max_num_pages > 1 ){
 			$big = 9999999;
@@ -1062,94 +1062,88 @@ class theme_functions{
 			return $output;
 		}
 	}
-	public static function get_theme_respond($args = null){
-		global $post,$current_user;
-		$defaults = array(
-			'post_id' => $post->ID ? $post->ID : null,
-			'parent_id' => 0,
-		);
-		$r = wp_parse_args($args,$defaults);
-		extract($r);
-		$current_commenter = wp_get_current_commenter();
-		// $comment_author = isset($current_commenter['comment_author']) && !empty($$current_commenter['comment_author']) ? $current_commenter['comment_author'] : 
-		get_currentuserinfo();
+	public static function pagination( $args = array() ) {
+	    
+	    $defaults = array(
+	        'range'				=> 4,
+	        'custom_query'		=> FALSE,
+	        'previous_string' 	=> '<i class="fa fa-chevron-left"></i>',
+	        'next_string'     	=> '<i class="fa fa-chevron-right"></i>',
+	        'last_string'		=> '<i class="fa fa-step-forward"></i>',
+	        'first_string'		=> '<i class="fa fa-step-backward"></i>',
+	        'before_output'   	=> '<div class="post-nav"><ul class="pager">',
+	        'after_output'    	=> '</ul></div>'
+	    );
+	    
+	    $args = wp_parse_args( 
+	        $args, 
+	        apply_filters( 'wp_bootstrap_pagination_defaults', $defaults )
+	    );
+	    
+	    $args['range'] = (int) $args['range'] - 1;
+	    if ( !$args['custom_query'] )
+	        $args['custom_query'] = @$GLOBALS['wp_query'];
+	    $count = (int) $args['custom_query']->max_num_pages;
+	    $page  = intval( get_query_var( 'paged' ) );
+	    $ceil  = ceil( $args['range'] / 2 );
+	    
+	    if ( $count <= 1 )
+	        return FALSE;
+	    
+	    if ( !$page )
+	        $page = 1;
+	    
+	    if ( $count > $args['range'] ) {
+	        if ( $page <= $args['range'] ) {
+	            $min = 1;
+	            $max = $args['range'] + 1;
+	        } elseif ( $page >= ($count - $ceil) ) {
+	            $min = $count - $args['range'];
+	            $max = $count;
+	        } elseif ( $page >= $args['range'] && $page < ($count - $ceil) ) {
+	            $min = $page - $ceil;
+	            $max = $page + $ceil;
+	        }
+	    } else {
+	        $min = 1;
+	        $max = $count;
+	    }
+		$echo = '';
 		
-		ob_start();
-		
-		?>
-		<div id="respond" class="comment-respond">
-			<h3 id="reply-title" class="comment-reply-title">
-				<span class="icon-bubble"></span><span class="after-icon"><?php echo esc_html(___('Leave a comment'));?></span>
-				<small><a rel="nofollow" id="cancel-comment-reply-link" href="javascript:void(0);" style="display:none;"><span class="icon-cancel-circle"></span><span class="after-icon"><?php echo esc_html(___('Cancel reply'));?></span></a></small>
-			</h3>
-			<form action="javascript:void(0);" method="post" id="commentform" class="comment-form">
-				<div class="area-user">
-					<?php
-					if(!is_user_logged_in()){
-						if(empty($current_commenter['comment_author'])){
-							?>
-							<p><input type="text" name="author" id="comment-author" class="form-control mod" placeholder="<?php echo esc_attr(___('Name'));?>"/></p>
-							<p><input type="email" name="email" id="comment-email" class="form-control mod" placeholder="<?php echo esc_attr(___('Email'));?>"/></p>
-							
-							<?php
-						}else{
-							?>
-							<a href="<?php echo !empty($current_commenter['comment_author_url']) ? $current_commenter['comment_author_url'] : 'javascript:void(0);';?>" class="area-avatar" <?php echo !empty($current_commenter['comment_author_url']) ? 'target="_blank"' : null;?>">
-								<img src="<?php echo esc_url(!empty($current_commenter['comment_author_email']) ? get_gravatar($current_commenter['comment_author_email']) : theme_features::get_theme_images_url('frontend/author-vcard.jpg'));?>" title="<?php echo esc_attr($current_commenter['comment_author']);?>" alt="<?php echo esc_attr($current_commenter['comment_author']);?>"/>
-							</a>
-						<?php } ?>
-					<?php }else{ ?>
-						<a href="<?php echo !empty($current_user->user_url) ? $current_user->user_url : 'javascript:void(0);';?>" class="area-avatar" <?php echo !empty($current_user->user_url) ? 'target="_blank"' : null;?>">
-							<img src="<?php echo esc_url(!empty($current_user->user_email) ? get_gravatar($current_user->user_email) : theme_features::get_theme_images_url('frontend/author-vcard.jpg'));?>" title="<?php echo esc_attr($current_user->display_name);?>" alt="<?php echo esc_attr($current_user->display_name);?>"/>
-						</a>
-					<?php } ?>
-				</div>
-				<div class="area-comment mod">
-					<textarea id="comment" name="comment" cols="45" rows="8" required placeholder="<?php echo esc_html(___('Write a omment'));?>" class="form-control"></textarea>
-					
-					<!-- #comment face system -->
-					<?php
-					$options = theme_options::get_options();
-					$emoticons = theme_comment_face::get_emoticons();
-					$a_content = null;
-					if($emoticons){
-						foreach($emoticons as $text){
-							$a_content .= '<a href="javascript:void(0);" data-id="' . esc_attr($text) . '">' . esc_html($text) . '</a>';
-						}
-					}else{
-						$a_content = '<a href="javascript:void(0);" data-id="' . esc_html(___('No data')) . '">' . esc_html(___('No data')) . '</a>';
-					}
-					?>
-					<div id="comment-face" class="hide-no-js">
-						<ul class="comment-face-btns grid-parent grid-40 tablet-grid-40 mobile-grid-30">
-							<li class="btn grid-parent grid-50 tablet-grid-50 mobile-grid-50" data-faces="">
-								<a title="<?php echo esc_attr(___('Pic-face'));?>" href="javascript:void(0);" class="comment-face-btn">
-									<span class="icon-happy"></span><span class="after-icon hidden-xs"><?php echo esc_html(___('Pic-face'));?></span>
-								</a>
-								<div class="comment-face-box type-image"></div>
-							</li>
-							<li class="btn grid-parent grid-50 tablet-grid-50 mobile-grid-50">
-								<a title="<?php echo esc_attr(___('Emoticons'));?>" href="javascript:void(0);" class="comment-face-btn">
-									<span class="icon-happy2"></span><span class="after-icon hidden-xs"><?php echo esc_html(___('Emoticons'));?></span>
-								</a>
-								<div class="comment-face-box type-text"><?php echo $a_content;?></div>
-							</li>
-						</ul>
-						<!-- submit -->
-						<div class="grid-parent grid-60 tablet-grid-60 mobile-grid-70">
-							<input class="btn btn-primary" type="submit" id="comment-submit" value="<?php echo esc_html(___('Post comment'));?>">
-							<input type="hidden" name="comment_post_ID" value="<?php echo esc_html((int)$post_id);?>" id="comment_post_ID">
-							<input type="hidden" name="comment_parent" id="comment_parent" value="<?php echo esc_html((int)$parent_id);?>">
-						</div>
-					</div>
-					<!-- #comment face system -->
-				</div>
-			</form>
-		</div>
-		<?php		
-		$content = ob_get_contents();
-		ob_end_clean();
-		return $content;
+	    $previous = intval($page) - 1;
+	    $previous_url = get_pagenum_link($previous);
+	    
+	    $firstpage_url =  get_pagenum_link(1);
+	    if ( 1 != $page )
+	        $echo .= '<li class="previous"><a href="' . esc_url($firstpage_url) . '" title="' . ___('First page') . '">' . $args['first_string'] . '</a></li>';
+
+	    if ( 1 != $page )
+	        $echo .= '<li><a href="' . esc_url($previous_url) . '" title="' . ___( 'Previous page') . '">' . $args['previous_string'] . '</a></li>';
+	    /**
+	     * middle
+	     */
+	    if ( !empty($min) && !empty($max) ) {
+	        for( $i = $min; $i <= $max; $i++ ) {
+	            if ($page == $i) {
+	                $echo .= '<li class="active disabled"><span>' . (int)$i . '</span></li>';
+	            } else {
+	                $echo .= sprintf( '<li><a href="%s">%d</a></li>', esc_url( get_pagenum_link($i) ), $i );
+	            }
+	        }
+	    }
+	    
+	    $next = intval($page) + 1;
+	    $next_url = get_pagenum_link($next);
+	    if ($count != $page)
+	        $echo .= '<li><a href="' . esc_url($next_url) . '" title="' . __( 'Next page') . '">' . $args['next_string'] . '</a></li>';
+	    
+	    $lastpage_url =  get_pagenum_link($count);
+	    if ( $page < $count ) {
+	        $echo .= '<li class="next"><a href="' . esc_url($lastpage_url) . '" title="' . ___('Last page') . '">' . $args['last_string'] . '</a></li>';
+	    }
+
+	    if ( isset($echo) )
+	        echo $args['before_output'] . $echo . $args['after_output'];
 	}
 	/**
 	 * get the comment pagenavi
@@ -1440,18 +1434,37 @@ class theme_functions{
 				?>
 <li <?php comment_class($classes);?> id="comment-<?php comment_ID();?>">
 	<div id="comment-body-<?php comment_ID(); ?>" class="comment-body">
-		<div class="media-left">
-			<?php if($author_url){ ?>
-				<a href="<?php echo esc_url($author_url);?>" class="avatar-link" target="_blank" <?php echo $author_nofollow;?> >
-					<?php echo get_avatar($comment,50);?>
-				</a>
-			<?php }else{
-				echo get_avatar($comment,50);
-			} ?>
-		</div><!-- /.media-left -->
+	
+		<?php if($comment->comment_parent == 0){ ?>
+			<div class="media-left">
+				<?php if($author_url){ ?>
+					<a href="<?php echo esc_url($author_url);?>" class="avatar-link" target="_blank" <?php echo $author_nofollow;?> >
+						<?php echo get_avatar($comment,50);?>
+					</a>
+				<?php }else{
+					echo get_avatar($comment,50);
+				} ?>
+			</div><!-- /.media-left -->
+		<?php } ?>
+		
 		<div class="media-body">
+
+			<div class="comment-content">
+				<?php comment_text();?>
+				<?php if ($comment->comment_approved == '0'){ ?>
+					<div class="comment-awaiting-moderation"><?php echo status_tip('info',___('Your comment is awaiting moderation.')); ?></div>
+				<?php } ?>
+			</div>
+
 			<h4 class="media-heading">
-				<span class="comment-meta-data author"><?php comment_author_link();?></span>
+				<span class="comment-meta-data author">
+					<?php
+					if($comment->comment_parent != 0){
+						echo get_avatar($comment,15);
+					}
+					?> 
+					<?php comment_author_link();?>
+				</span>
 				<time class="comment-meta-data time" datetime="<?php echo get_comment_time('c');?>">
 					<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?php echo friendly_date(get_comment_time('U')); ?></a>
 				</time>
@@ -1460,19 +1473,14 @@ class theme_functions{
 					comment_reply_link(array_merge($args,array(
 						'add_below'		=> 'comment-body', 
 						'depth' 		=> $depth,
-						'reply_text' 	=>  '<i class="fa fa-comments-o"></i> ' . ___('Reply'),
-						'login_text' 	=>  '<i class="fa fa-comments-o"></i> ' . ___('Log in to leave a comment'),
+						'reply_text' 	=> ___('Reply'),
+						'login_text' 	=>  ___('Log-in to reply'),
 						'max_depth' 	=> $args['max_depth'],
 					)));
 					?>
 				</span><!-- .reply -->
 			</h4>
-			<div class="comment-content">
-				<?php comment_text();?>
-				<?php if ($comment->comment_approved == '0'){ ?>
-					<div class="comment-awaiting-moderation"><?php echo status_tip('info',___('Your comment is awaiting moderation.')); ?></div>
-				<?php } ?>
-			</div>
+			
 		</div><!-- /.media-body -->
 	</div><!-- /.comment-body -->
 		<?php
@@ -1789,6 +1797,165 @@ class theme_functions{
 </div>
 	<?php
 		} /** end foreach */
+	}
+	public static function theme_respond(){
+		global $post;
+		?>
+<div id="respond" class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 id="reply-title" class="panel-title comment-reply-title">
+			<span class="leave-reply">
+				<i class="fa fa-pencil-square-o"></i> 
+				<?php echo ___('Leave a comment');?>
+			</span>
+			<small id="cancel-comment-reply-link" class="none btn btn-xs">
+				<?php echo ___('Cancel reply');?> 
+				<i class="fa fa-times"></i>
+			</small>
+		</h3>		
+	</div>
+	<div class="panel-body">
+
+		<?php if(get_option( 'comment_registration' ) && !is_user_logged_in() ){ ?>
+		
+			<p class="must-login alert alert-info">
+				<?php 
+				echo sprintf(
+					___('You must be %s to post a comment.'),
+					'<a href="' . wp_login_url(get_permalink($post->ID)) . '#respond' . '"><strong>' . ___('log-in') . '</strong></a>'
+				);
+			?>
+			</p>
+			
+		<?php }else{ ?>
+			
+		<form 
+			id="commentform" 
+			action="<?php echo site_url( '/wp-comments-post.php' ); ?>" method="post" 
+			class="comment-form media"
+		>
+		
+
+		
+			<input type="hidden" name="comment_post_ID" id="comment_post_ID" value="<?php echo get_the_ID();?>">
+
+			<input type="hidden" name="comment_parent" id="comment_parent" value="<?php echo isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;?>">
+			
+			<div class="media-left media-top hidden-xs">
+				<?php 
+				if(is_user_logged_in()){ 
+					echo get_avatar(get_current_user_id(),80);
+				}else{
+					$commenter = wp_get_current_commenter();
+					echo get_avatar($commenter['comment_author_email'],80);
+				}
+				?>
+			</div>
+			<div class="media-body">
+				<?php
+				/**
+				 * for user logged
+				 */
+				if(is_user_logged_in()){
+					?>
+					<div class="form-group">
+						<div class="input-group">
+							<textarea 
+								name="comment" 
+								id="comment-form-comment" 
+								class="form-control" 
+								rows="2" 
+								placeholder="<?php echo ___('Hi, have something to say?');?>"
+								title="<?php echo ___('Nothing to say?');?>"
+								required 
+							></textarea>
+							<span class="input-group-btn">
+								<button type="submit" class="submit btn btn-success" >
+									<i class="fa fa-check"></i>
+									<span class="hidden-xs"><?php echo ___('Post comment');?></span>
+								</button>
+							</span>
+						</div>
+					</div>
+					<?php
+				/**
+				 * for visitor
+				 */
+				}else{
+					$req = get_option( 'require_name_email' );
+					?>
+					<!-- authorname -->
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="input-group">
+									<label for="comment-form-author" class="input-group-addon">
+										<i class="fa fa-user"></i>
+									</label>
+									<input type="text" 
+										class="form-control" 
+										name="author" 
+										id="comment-form-author" 
+										value="<?php echo esc_attr($commenter['comment_author']);?>" 
+										placeholder="<?php echo ___('Nickname');?><?php echo $req ? ' * ' : null;?>"
+										<?php echo $req ? ' required ' : null;?>
+										title="<?php echo ___('Whats your nickname?');?>"
+									>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+					<!-- authoremail -->
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="input-group">
+									<label for="comment-form-email" class="input-group-addon">
+										<i class="fa fa-at"></i>
+									</label>
+									<input type="email" 
+										class="form-control" 
+										name="email" 
+										id="comment-form-email" 
+										value="<?php echo esc_attr($commenter['comment_author_email']);?>" 
+										placeholder="<?php echo ___('Email');?><?php echo $req ? ' * ' : null;?>"
+										<?php echo $req ? ' required ' : null;?>
+										title="<?php echo ___('Whats your Email?');?>"
+									>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- comment content -->
+					<div class="form-group">
+						<div class="input-group">
+							<textarea 
+								name="comment" 
+								id="comment-form-comment" 
+								class="form-control" 
+								rows="2" 
+								placeholder="<?php echo ___('Hi, have something to say?');?>"
+								title="<?php echo ___('Nothing to say?');?>"
+								required 
+							></textarea>
+							<span class="input-group-btn">
+								<button type="submit" class="submit btn btn-success" >
+									<i class="fa fa-check"></i>
+									<span class="hidden-xs"><?php echo ___('Post comment');?></span>
+								</button>
+							</span>
+						</div>
+					</div>
+					<?php
+				}
+				?>
+			</div>
+		</form>
+		<?php } /** end need log-in to comment */ ?>
+	</div>
+</div>
+		<?php
 	}
 }
 

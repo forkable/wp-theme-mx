@@ -14,18 +14,40 @@ if(is_user_logged_in()){
 		<?php } ?>
 
 		
+		<!-- my profile -->
+		<?php
+		//if(class_exists('theme_custom_dashboard')){
+		//	$profile_url = theme_custom_dashboard::get_tabs('dashboard')['url'];
+		//}else{
+		//	$profile_url = get_author_posts_url(get_current_user_id());
+		//}
+		?>
+		<a href="<?php echo esc_url(get_author_posts_url(get_current_user_id()));?>" class="btn btn-default meta user-avatar" title="<?php echo ___('My profile');?>">
+			<?php echo get_avatar(get_current_user_id());?>
+			<span class="tx"><?php echo wp_get_current_user()->display_name;?></span>
+		</a>
+
+		
 		<!-- notification -->
-		<?php if(class_exists('theme_notification')){ ?>
-			<a href="<?php echo esc_url(theme_notification::get_url());?>" class="meta tool-notification btn btn-default" title="<?php echo ___('Notification');?>">
+		<?php 
+		if(class_exists('theme_notification')){
+			$unread = theme_notification::get_count(array(
+				'type' => 'unread'
+			));
+			?>
+			<a href="<?php echo esc_url(theme_notification::get_tabs('notifications')['url']);?>" class="meta tool-notification btn btn-<?php echo $unread ? 'success' : 'default';?>" title="<?php echo ___('Notification');?>">
 				<i class="fa fa-bell"></i> 
-				<?php
-				$unread = theme_notification::get_count(array(
-					'type' => 'unread'
-				));
-				if($unread > 0){
-					echo $unread;
-				}
-				?>
+				<?php echo $unread > 0 ? $unread : null;?>
+			</a>
+		<?php } ?>
+
+		
+		<!-- my point -->
+		<?php if(class_exists('theme_custom_point')){ ?>
+			<a href="<?php echo esc_url(theme_custom_user_settings::get_tabs('history')['url']);?>" class="meta tool-point btn btn-default" title="<?php echo ___('My points');?>">
+				<!-- <i class="fa fa-github-alt"></i> -->
+				<img src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="" width="15" height="15">
+				<?php echo theme_custom_point::get_point();?>
 			</a>
 		<?php } ?>
 
@@ -52,7 +74,7 @@ if(is_user_logged_in()){
 		<!-- my settings -->
 		<?php
 		if(class_exists('theme_custom_user_settings')){
-			$setting_url = theme_custom_user_settings::get_url();
+			$setting_url = theme_custom_user_settings::get_tabs('settings')['url'];
 		}else{
 			$setting_url = admin_url('profile.php');
 		}
@@ -60,33 +82,11 @@ if(is_user_logged_in()){
 		<a href="<?php echo esc_url($setting_url);?>" class="btn btn-default meta user-settings" title="<?php echo ___('My settings');?>">
 			<i class="fa fa-cog"></i> 
 		</a>
-		
-		<!-- my point -->
-		<?php if(class_exists('theme_custom_point')){ ?>
-			<a href="<?php echo esc_url(theme_custom_user_settings::get_url());?>" class="meta tool-point btn btn-default" title="<?php echo ___('My points');?>">
-				<!-- <i class="fa fa-github-alt"></i> -->
-				<img src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="" width="15" height="15">
-				<?php echo theme_custom_point::get_point();?>
-			</a>
-		<?php } ?>
-		
 
-		<!-- my profile -->
-		<?php
-		if(class_exists('theme_custom_author_profile')){
-			$profile_url = theme_custom_author_profile::get_tabs('profile',get_current_user_id())['url'];
-		}else{
-			$profile_url = get_author_posts_url(get_current_user_id());
-		}
-		?>
-		<a href="<?php echo esc_url($profile_url);?>" class="btn btn-default meta user-avatar" title="<?php echo ___('My profile');?>">
-			<?php echo get_avatar(get_current_user_id());?>
-			<span class="tx"><?php echo wp_get_current_user()->display_name;?></span>
-		</a>
-
+		
 		<!-- logout -->
 		<a href="<?php echo wp_logout_url(get_current_url());?>" class="meta tool-logout btn btn-default">
-			<i class="fa fa-power-off"></i>
+			<i class="fa fa-power-off"></i> 
 		</a>
 	</div>
 <?php
