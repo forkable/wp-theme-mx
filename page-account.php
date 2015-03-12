@@ -41,7 +41,7 @@ $active_tab = get_query_var('tab') ? get_query_var('tab') : 'dashboard';
 		</div>
 		<div class="col-sm-9 col-lg-10">
 			<div id="account-content">
-				<?php get_template_part('tpl',"page-account-{$active_tab}");?>
+				<?php include __DIR__ . "/tpl-page-account-{$active_tab}.php";?>
 			</div>
 		</div>
 	</div><!-- /.row -->

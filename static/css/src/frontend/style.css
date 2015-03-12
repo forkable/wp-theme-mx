@@ -616,10 +616,8 @@ label.error{
  * .comment-list .children
  */
 .comment-list .children{
-	margin-left: 90px;
-	margin-right: 20px;
+	margin: 0 20px 20px;
 	padding: 0;
-	margin-bottom: 20px;
 }
 	.comment-list .children .children{
 		margin: 0;
@@ -629,7 +627,7 @@ label.error{
 	}
 	.comment-list .children .comment-body{
 		background: rgb(248,248,248);
-		border-bottom: 1px solid rgba(0,0,0,.05);		
+		border-top: 1px solid rgba(0,0,0,.05);		
 	}
 	.comment-list .comment-reply-title{
 		display:block;

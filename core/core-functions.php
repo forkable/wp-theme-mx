@@ -575,7 +575,7 @@ function delete_files($file_path = null){
  function download_files($url = null,$dir = null,$name = null,$time_limit = 300){
 	if(!$url) return false;
 	set_time_limit($time_limit);
-	$dir = $dir ? $dir : dirname(__FILE__);
+	$dir = $dir ? $dir : __DIR__;
 	
 	if(!$name){
 		$default_name = explode('/',$url);

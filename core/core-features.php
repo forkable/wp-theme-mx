@@ -1136,59 +1136,7 @@ class theme_features{
 		}
 		return $output;
 	}
-
-	/* 获取includes资料 */
-	private static function get_include_data($file,$default_headers = null){
-		$feature_data = self::get_file_data($file,$default_headers);
-		return $feature_data;
-	}
-	/* 获取includes目录资料 */
-	public static function get_includes_data($path = null,$default_headers = null,$ext_name = '.php'){
-		$path = $path ? $path : get_stylesheet_directory() .'/includes';
-		$features_data = self::get_files_data($path,$default_headers,$ext_name);
-		return $features_data;
-	}
-	/* 获取文件资料信息 */
-	private static function get_file_data($file_path,$default_headers = null){
-		if(!file_exists($file_path)) return false;
-		$file_data = file_get_contents($file_path,null,null,null,2048);
-		
-		$all_headers = array(
-			'Name' => 'Feature Name',
-			'FeatureURI' => 'Feature URI',
-			'Version' => 'Version',
-			'Description' => 'Description',
-			'Author' => 'Author',
-			'AuthorURI' => 'Author URI',
-		);
-		foreach ( $all_headers as $field => $regex ) {
-			preg_match( '/^[ \t\/*#@]*' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $file_data, ${$field});
-			if ( !empty( ${$field} ) ){
-				${$field} = _cleanup_header_comment( ${$field}[1] );
-			}else{
-				${$field} = '';
-			}
-		}
-		$file_data = compact(array_keys($all_headers));
-		return $file_data;
-		
-	}
-	/* 获取目录文件资料信息 */
-	public static function get_files_data($dir_path = null,$default_headers = null,$ext_name = '.php'){
 	
-		$dir_path = $dir_path ? $dir_path : get_stylesheet_directory();
-		
-		$dirs_path_sub = glob($dir_path . '/*');
-		foreach($dirs_path_sub as $dir_path_sub){
-			$path_info = pathinfo($dir_path_sub);
-			$file_path = $dir_path_sub . '/' . $path_info['filename'] . '.php';
-			$file_id = $path_info['filename'];
-			$file_datas[$file_id] = self::get_file_data($file_path,$default_headers);
-			$file_datas[$file_id]['path_name'] = $file_id . '/' . $path_info['basename'] . $ext_name;
-			$file_datas[$file_id]['file_id'] = $file_id;
-		}
-		return $file_datas;
-	}
 	/**
 	 * Get theme local dir
 	 * 
@@ -1558,16 +1506,27 @@ class theme_features{
 	 * 
 	 */
 	private static function load_includes(){
-		$dirs_path = glob(self::get_theme_includes_path('*'));
-		foreach($dirs_path as $dir_path){
+		foreach(glob(self::get_theme_includes_path('*')) as $dir_path){
 			$path_info = pathinfo($dir_path);
-			$file_path = $dir_path . '/' . $path_info['filename'] . '.php';
-			/**
-			 * include
-			 */
-			if(file_exists($file_path)) include $file_path;
+
+			$file_path = $path_info['dirname'] . '/' . $path_info['filename'] . '/' . $path_info['filename'] . '.php';
 			
+			if(file_exists($file_path))
+				include $file_path;
+				
+
 		}
+		
+		/**
+		 * HOOK fires init include features
+		 * 
+		 * @param array Callback function name
+		 * @return array
+		 */
+		foreach(apply_filters('theme_includes',[]) as $v){
+			call_user_func($v);
+		}
+		
 	}
 	/**
 	 * Hook for after_setup_theme
@@ -1746,8 +1705,7 @@ class theme_features{
 		<select name="<?php echo $group_id,'[',$page_slug,']';?>" id="<?php echo $group_id,'-',$page_slug;?>">
 			<option value="0"><?php echo esc_attr(___('Select page'));?></option>
 			<?php
-			$pages = get_pages();
-			foreach($pages as $page){
+			foreach(get_pages() as $page){
 				if($page_id == $page->ID){
 					$selected = ' selected ';
 				}else{

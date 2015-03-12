@@ -1,16 +1,17 @@
 <?php
 /** Theme options */
-get_template_part('core/core-options');
+include __DIR__ . '/core/core-options.php';
 
 /** Theme features */
-get_template_part('core/core-features');
+include __DIR__ . '/core/core-features.php';
 
 /** Theme functions */
-get_template_part('core/core-functions');
+include __DIR__ . '/core/core-functions.php';
 
 /** 
  * theme_functions
  */
+
 add_action('after_setup_theme','theme_functions::init');
 class theme_functions{
 	public static $iden = 'mx';

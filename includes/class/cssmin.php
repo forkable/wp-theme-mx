@@ -2218,7 +2218,7 @@ class CssMin
 	public static function initialise()
 		{
 		// Create the class index for autoloading or including
-		$paths = array(dirname(__FILE__));
+		$paths = array(__DIR__);
 		while (list($i, $path) = each($paths))
 			{
 			$subDirectorys = glob($path . "*", GLOB_MARK | GLOB_ONLYDIR | GLOB_NOSORT);
