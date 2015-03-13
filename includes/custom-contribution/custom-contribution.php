@@ -18,6 +18,10 @@ class theme_custom_contribution{
 		add_filter('frontend_seajs_alias',	get_class() . '::frontend_seajs_alias');
 	
 		add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
+
+		add_filter('theme_options_save', 	get_class() . '::options_save');
+		add_filter('theme_options_default', 	get_class() . '::options_default');
+		
 		
 		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
 
@@ -62,7 +66,8 @@ class theme_custom_contribution{
 					<td>
 						<?php theme_features::cat_checkbox_list(self::$iden,'cats');?>
 					</td>
-				</tr>				<tr>
+				</tr>
+				<tr>
 					<th><label for="<?php echo self::$iden;?>-tags-number"><?php echo ___('Shows tags number');?></label></th>
 					<td>
 						<input class="short-text" type="number" name="<?php echo self::$iden;?>[tags-number]" id="<?php echo self::$iden;?>-tags-number" value="<?php echo isset($opt['tags-number']) ?  $opt['tags-number'] : 6;?>">
@@ -72,6 +77,13 @@ class theme_custom_contribution{
 			</table>
 		</fieldset>
 		<?php
+	}
+	public static function options_save($opts){
+		if(!isset($_POST[self::$iden]))
+			return $opts;
+
+		$opts[self::$iden] = $_POST[self::$iden];
+		return $opts;
 	}
 	public static function options_default($opts){
 		$opts[self::$iden]['tags-number'] = 6;
@@ -314,7 +326,7 @@ class theme_custom_contribution{
 	public static function frontend_seajs_alias($alias){
 		if(!self::is_page()) return $alias;
 
-		$alias[self::$iden] = theme_features::get_theme_includes_js(__FILE__);
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
@@ -331,7 +343,7 @@ class theme_custom_contribution{
 	}
 	public static function frontend_css(){
 		if(!self::is_page()) return;
-		wp_enqueue_style(self::$iden,theme_features::get_theme_includes_css(__FILE__,'style',false),false,theme_features::get_theme_info('version'));
+		wp_enqueue_style(self::$iden,theme_features::get_theme_includes_css(__DIR__,'style',false),false,theme_features::get_theme_info('version'));
 	}
 
 }

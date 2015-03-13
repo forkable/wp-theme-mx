@@ -19,7 +19,7 @@ class theme_custom_header{
 		$img_names = array('bridge.jpg','classical.jpg','polygon.jpg','natural.jpg','dusk.jpg','mountain.jpg');
 		$args = array(
 			'default-text-color'     => 'fff',
-			'default-image'          => theme_features::get_theme_includes_image(__FILE__) . $img_names[0],
+			'default-image'          => theme_features::get_theme_includes_image(__DIR__) . $img_names[0],
 
 			'height'                 => 150,
 			'width'                  => 1600,
@@ -33,8 +33,8 @@ class theme_custom_header{
 		foreach($img_names as $img_name){
 			$basename = explode('.',$img_name);
 			$default_headers[$img_name] = array(
-				'url' => theme_features::get_theme_includes_image(__FILE__) . $img_name,
-				'thumbnail_url' => theme_features::get_theme_includes_image(__FILE__) . $basename[0] . '-thumbnail.' . $basename[1],
+				'url' => theme_features::get_theme_includes_image(__DIR__) . $img_name,
+				'thumbnail_url' => theme_features::get_theme_includes_image(__DIR__) . $basename[0] . '-thumbnail.' . $basename[1],
 			);
 		}
 		add_theme_support( 'custom-header', $args );

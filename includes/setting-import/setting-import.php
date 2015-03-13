@@ -143,7 +143,7 @@ class theme_import_settings{
 	 */
 	public static function style(){
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__FILE__);?>" rel="stylesheet"  media="all"/>
+		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	/**
@@ -159,7 +159,7 @@ class theme_import_settings{
 		
 		?>
 		
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__FILE__);?>',function(m){
+		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
 			m.config.lang.M00001 = '<?php echo ___('Processing, please wait...');?>';
 			m.config.lang.M00002 = '<?php echo ___('Error: Your browser does not support HTML5. ');?>';
 			m.config.lang.E00001 = '<?php echo ___('Error: failed to complete the operation. ');?>';

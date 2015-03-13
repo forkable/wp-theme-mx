@@ -117,7 +117,7 @@ class theme_help{
 	public static function js(){
 		
 		?>
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__FILE__);?>',function(m){
+		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
 			/** alipay */
 			m.alipay.config.lang.M00001 = '<?php echo esc_js(sprintf(___('Donate to INN STUDIO (%s)'),theme_features::get_theme_info('name')));?>';
 			m.alipay.config.lang.M00002 = '<?php echo esc_js(___('Message for INN STUDIO:'));?>';

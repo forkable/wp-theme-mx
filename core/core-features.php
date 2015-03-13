@@ -42,7 +42,6 @@ class theme_features{
 	 * @copyright Copyright (c) 2011-2013 INN STUDIO. (http://www.inn-studio.com)
 	 **/
 	public static function theme_header(){
-		$frontend_seajs_alias = apply_filters('frontend_seajs_alias',array());
 		?><script id="seajsnode" src="<?php echo theme_features::get_theme_js('seajs/sea');?>"></script>
 		<script>
 		<?php
@@ -68,7 +67,7 @@ class theme_features{
 		 * seajs hook
 		 */
 		$config['paths'] = apply_filters('frontend_seajs_paths',$config['paths']);
-		$config['alias'] = apply_filters('frontend_seajs_alias',array());
+		$config['alias'] = apply_filters('frontend_seajs_alias',[]);
 		$config['vars'] = apply_filters('frontend_seajs_vars',$config['vars']);
 		$config['map'] = apply_filters('frontend_seajs_map',$config['map']);
 		?>
@@ -431,14 +430,14 @@ class theme_features{
 	/**
 	 * get_theme_includes_js
 	 * 
-	 * @param string $FILE
+	 * @param string $DIR
 	 * @param string $filename
 	 * @param bool $mtime
 	 * @return string
 	 * @version 1.0.3
 	 * @author KM@INN STUDIO
 	 */
-	public static function get_theme_includes_js($FILE = null,$filename = 'init',$mtime = true){
+	public static function get_theme_includes_js($DIR = null,$filename = 'init',$mtime = true){
 		$path_info = pathinfo($filename);
 		if(!isset($path_info['extension']) || empty($path_info['extension']) || $path_info['extension'] !== 'js'){
 			$file_basename = $filename . '.js';
@@ -447,7 +446,7 @@ class theme_features{
 		}
 		$args = array(
 			'type' => 'includes',
-			'basedir' => $FILE,
+			'basedir' => $DIR,
 			'file_basename' => $file_basename,
 			'mtime' => $mtime
 		);
@@ -456,14 +455,14 @@ class theme_features{
 	/**
 	 * get_theme_includes_css
 	 * 
-	 * @param string $FILE
+	 * @param string $DIR
 	 * @param string $filename
 	 * @param bool $mtime
 	 * @return string
 	 * @version 1.0.1
 	 * @author KM@INN STUDIO
 	 */
-	public static function get_theme_includes_css($FILE = null,$filename = 'style',$mtime = true){
+	public static function get_theme_includes_css($DIR = null,$filename = 'style',$mtime = true){
 		$path_info = pathinfo($filename);
 		if(!isset($path_info['extension']) || empty($path_info['extension']) || $path_info['extension'] !== 'css'){
 			$file_basename = $filename . '.css';
@@ -472,7 +471,7 @@ class theme_features{
 		}
 		$args = array(
 			'type' => 'includes',
-			'basedir' => $FILE,
+			'basedir' => $DIR,
 			'file_basename' => $file_basename,
 			'mtime' => $mtime
 		);
@@ -481,16 +480,16 @@ class theme_features{
 	/**
 	 * get_theme_includes_image
 	 * 
-	 * @param string $FILE
+	 * @param string $DIR
 	 * @param string $filename
 	 * @return string
 	 * @version 1.0.1
 	 * @author KM@INN STUDIO
 	 */
-	public static function get_theme_includes_image($FILE = null,$filename = null){
+	public static function get_theme_includes_image($DIR = null,$filename = null){
 		$r = array(
 			'type' => 'includes',
-			'basedir' => basename(dirname($FILE)) . self::$basedir_images_min,
+			'basedir' => basename($DIR) . self::$basedir_images_min,
 			'file_basename' => $filename,
 		);
 		extract($r,EXTR_SKIP);
@@ -525,14 +524,15 @@ class theme_features{
 		extract($r,EXTR_SKIP);
 		
 		
-		/** 
+		/**
 		 * check $basedir
 		 */
 		if(!$basedir) return self::get_theme_url();
 		$basedir_pi = pathinfo($basedir);
-		if($basedir_pi['dirname'] !== '.') $basedir = basename(dirname($basedir));
+		$basedir = basename($basedir);
 		
-		if(!$file_basename) return self::get_theme_url() . '/' . $type . '/' . $basedir;
+		if(!$file_basename) 
+			return self::get_theme_url() . '/' . $type . '/' . $basedir;
 		
 		/**
 		 * self::get_theme_includes_path / self::get_theme_features_path
@@ -589,18 +589,18 @@ class theme_features{
 	/**
 	 * get_theme_includes_url
 	 * 
-	 * @param string $FILE
+	 * @param string $DIR
 	 * @param string $file_basename
 	 * @param bool $mtime
 	 * @return string
 	 * @version 1.0.1
 	 * @author KM@INN STUDIO
 	 */
-	public static function get_theme_includes_url($FILE = null,$file_basename = null,$mtime = false){
+	public static function get_theme_includes_url($DIR = null,$file_basename = null,$mtime = false){
 	
 		$args = array(
 			'type' => 'includes',
-			'basedir' => basename(dirname($FILE)),
+			'basedir' => basename($DIR),
 			'file_basename' => $file_basename,
 			'mtime' => $mtime,
 		);
@@ -1645,7 +1645,7 @@ class theme_features{
 	 * @param string $group_id
 	 * @param string $ids_name
 	 * @return string
-	 * @version 1.1.1
+	 * @version 1.1.2
 	 * @author KM@INN STUDIO
 	 */
 	public static function cat_checkbox_list($group_id,$ids_name){
@@ -1676,7 +1676,7 @@ class theme_features{
 				/>
 					<?php echo esc_html($cat->name);?> 
 					
-					<a href="<?php echo esc_url(get_category_link($cat->term_id));?>">
+					<a href="<?php echo esc_url(get_category_link($cat->term_id));?>" target="_blank">
 						<small>
 							<?php echo esc_html(sprintf(___('(%s)'),urldecode($cat->slug)));?>
 						</small>

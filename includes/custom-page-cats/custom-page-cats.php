@@ -16,7 +16,19 @@ class theme_page_cats{
 	
 	public static function init(){
 		add_action('init',get_class() . '::page_create');
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+
+		add_action('page_settings', 		get_class() . '::display_backend');
+
+		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
+		
+		add_filter('theme_options_save', 	get_class() . '::options_save');
+
+		add_action('backend_seajs_alias',get_class() . '::backend_seajs_alias');
+
+		add_action('after_backend_tab_init',get_class() . '::backend_seajs_use'); 
+
+
+		
 	}
 	public static function get_options($key = null){
 		$opt = theme_options::get_options(self::$iden);
@@ -37,6 +49,7 @@ class theme_page_cats{
 		?>
 		<fieldset>
 			<legend><?php echo ___('Categories index settings');?></legend>
+			<p class="description"><?php echo ___('Display posts number or alphabet slug index on categories index page.')?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
@@ -48,14 +61,24 @@ class theme_page_cats{
 					<tr>
 						<th><?php echo ___('Control');?></th>
 						<td>
-							<a href="javascript:;" class="button button-primary" id="<?php echo self::$iden;?>-clean-cache" data-tip="#<?php echo self::$iden;?>-clean-cache-tip"><?php echo ___('Flush cache');?></a>
-							<div id="<?php echo self::$iden;?>-clean-cache-tip"></div>
+							<div id="<?php echo self::$iden;?>-tip-clean-cache"></div>
+							<p>
+							<a href="javascript:;" class="button" id="<?php echo self::$iden;?>-clean-cache" data-tip-target="<?php echo self::$iden;?>-tip-clean-cache"><i class="fa fa-refresh"></i> <?php echo ___('Flush cache');?></a>
+							</p>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</fieldset>
 		<?php
+	}
+	public static function process(){
+		theme_features::check_referer();
+		$output = [];
+		wp_cache_delete(self::$iden);
+		$output['status'] = 'success';
+		$output['msg'] = ___('Cache has been cleaned.');
+		die(theme_features::json_format($output));
 	}
 	public static function page_create(){
 		if(!current_user_can('manage_options')) return false;
@@ -96,14 +119,15 @@ class theme_page_cats{
 		 * get all whitelist posts & tag ids
 		 */
 		$wp_query = new WP_Query(array(
-			'category__in' => $cat,
+			'category__in' => $cats,
 		));
+
 		if(have_posts()){
 			/** load pinyin */
 			while(have_posts()){
 				the_post();
 				/** 提取别名是数字或英文开头的 */
-				$first_letter_pattern = '/^[a-z][0-9]{1}/';
+				$first_letter_pattern = '/^[a-z0-9]{1}/';
 				$first_letter = $post->post_name[0];
 				preg_match($first_letter_pattern,$first_letter,$matches);
 				if(!empty($matches[0])){
@@ -121,83 +145,65 @@ class theme_page_cats{
 		return $new_tags;
 	}
 	public static function display_frontend(){
-		$cache_id = 'display-frontend';
-		$cache = wp_cache_get($cache_id,self::$iden);
+		$cache = wp_cache_get(self::$iden);
 		if(!empty($cache)){
 			echo $cache;
 			return;
 		}
 
 		ob_start();
-		$tags = self::get_tags();
-		if(is_null_array($tags)){
-			?><div class="page-tip"><?php echo status_tip('info',___('No tag yet.'));?></div><?php
+		$slugs = self::get_slugs();
+		if(is_null_array($slugs)){
+			?><div class="page-tip"><?php echo status_tip('info',___('No cagtegory yet.'));?></div><?php
 			return false;
 		}
 		global $wp_query,$post;
 		//var_dump($tags);
-		arsort($tags);
-		foreach($tags as $k => $v){
-			?>
+		arsort($slugs);
+		foreach($slugs as $k => $post_ids){
+		?>
 			<div class="panel-tags-index panel panel-default">
 				<div class="panel-heading">
 					<strong><?php echo $k;?></strong>
-					<small> - <?php echo ___('Pinyin initial');?></small>
+					<small> - <?php echo ___('Initial');?></small>
 				</div>
 				<div class="panel-body">
-					<div class="row">
+					<ul class="row post-img-lists">
 						<?php
-						foreach($v as $tag){
-							?>
-							<div class="col-sm-6">
-								<h3 class="tags-title"><a href="<?php echo esc_url(get_tag_link($tag->term_id));?>">
-									<?php echo esc_html($tag->name);?>
-									<small>(<?php echo $tag->count;?>)</small>
-								</a></h3>
-								<ul class="row">
-									<?php
-									$wp_query = new WP_Query(array(
-										'nopaging' => true,
-										'tag__in' => array($tag->term_id),
-									));
-									while(have_posts()){
-										the_post();
-										?>
-										<li class="col-sm-6">
-											<a href="<?php the_permalink();?>" title="<?php the_title();?>"><?php the_title();?></a>
-											<?php if(has_post_thumbnail()){ ?>
-												<div class="extra-thumbnail">
-<img src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-original="<?php echo esc_url(theme_functions::get_thumbnail_src());?>" alt="<?php the_title();?>" width="<?php echo theme_functions::$thumbnail_size[1];?>" height="<?php echo theme_functions::$thumbnail_size[2];?>"/>
-												</div>
-											<?php } ?>
-										</li>
-										<?php
-									}
-									wp_reset_query();
-									wp_reset_postdata();
-									?>
-								</ul>
-							</div>
-						<?php } ?>
-					</div><!-- /.row -->
+						$wp_query = new WP_Query(array(
+							'nopaging' => true,
+							'post__in' => $post_ids,
+						));
+						while(have_posts()){
+							the_post();
+							theme_functions::archive_img_content(array(
+								'classes' => array('col-xs-6 col-sm-4 col-md-3 col-lg-2'),
+							));
+						}
+						wp_reset_query();
+						wp_reset_postdata();
+						?>
+					</ul>
 				</div><!-- /.panel-body -->
 			</div>
-
 			<?php
 		}
 		$cache = ob_get_contents();
 		ob_end_clean();
-		wp_cache_set($cache_id,$cache,self::$iden,86400);/** 24 hours */
+		wp_cache_set(self::$iden,$cache,null,86400);/** 24 hours */
 		echo $cache;
 	}
-	public static function frontend_css(){
-		if(!is_page(self::$page_slug)) return false;
-		wp_enqueue_style(
-			self::$iden,
-			theme_features::get_theme_includes_css(__FILE__,'style',false),
-			false,
-			theme_features::get_theme_info('version')
-		);
-
+	public static function backend_seajs_alias($alias){
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__,'backend');
+		return $alias;
+	}
+	public static function backend_seajs_use(){
+		?>
+		seajs.use('<?php echo self::$iden;?>',function(m){
+			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
+			m.init();
+		});
+		<?php
 	}
 }

@@ -385,7 +385,7 @@ class theme_notification{
 			return;
 		wp_enqueue_style(
 			self::$iden,
-			theme_features::get_theme_includes_css(__FILE__,'style',false),
+			theme_features::get_theme_includes_css(__DIR__,'style',false),
 			false,
 			theme_features::get_theme_info('version')
 		);

@@ -16,7 +16,7 @@ class theme_custom_slidebox{
 	public static $file_exts = array('png','jpg','gif');
 	public static $image_size = array(368,230,true);
 	public static function init(){
-		add_action('after_backend_tab_init',get_class() . '::js_backend'); 
+		add_action('after_backend_tab_init',get_class() . '::backend_seajs_use'); 
 		add_action('backend_css',get_class() . '::backend_css'); 
 		add_action('page_settings',get_class() . '::display_backend');
 		add_action('frontend_seajs_use',get_class() . '::frontend_seajs_use');
@@ -301,26 +301,25 @@ class theme_custom_slidebox{
 		echo $cache;
 	}
 	public static function backend_css(){
-		if(!is_home()) return;
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__FILE__);?>" rel="stylesheet"  media="all"/>
+		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend');?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function frontend_seajs_use(){
 		if(!is_home()) return;
 		?>
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__FILE__);?>',function(m){
+		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
 			m.config.width = <?php echo self::$image_size[0];?>;
 			m.config.height = <?php echo self::$image_size[1];?>;
 			m.init();
 		});
 		<?php
 	}
-	public static function js_backend(){
+	public static function backend_seajs_use(){
 		
 		?>
 		
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__FILE__,'backend.js');?>',function(m){
+		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__,'backend.js');?>',function(m){
 			m.config.tpl = <?php echo json_encode(html_compress(self::get_box_tpl('%placeholder%')));?>;
 			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
 			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';

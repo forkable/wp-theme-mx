@@ -101,7 +101,7 @@ class theme_comment_face{
 			theme_cache::set(self::$iden,$faces_cache);
 		}
 		?>
-		seajs.use(['<?php echo esc_js(theme_features::get_theme_includes_js(__FILE__));?>'],function(m){
+		seajs.use(['<?php echo esc_js(theme_features::get_theme_includes_js(__DIR__));?>'],function(m){
 			m.config.faces_url = '<?php echo esc_js(theme_features::get_theme_images_url('modules/theme-comment-face/'));?>';
 			m.config.faces = <?php echo json_encode($faces_cache);?>;
 			m.init();

@@ -2,7 +2,7 @@
 /*
 Feature Name:	Post Copyright
 Feature URI:	http://www.inn-studio.com
-Version:		1.1.0
+Version:		2.0.0
 Description:	Your post notes on copyright information, although this is not very rigorous.
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -14,19 +14,18 @@ add_filter('theme_includes',function($fns){
 class theme_post_copyright{
 	private static $iden = 'theme_post_copyright';
 	public static function init(){
-		add_action('page_settings',get_class() . '::admin');
+		add_action('page_settings',get_class() . '::display_backend');
 		add_filter('theme_options_default',get_class() . '::options_default');
-		add_filter('theme_options_save',get_class() . '::save');
+		add_filter('theme_options_save',get_class() . '::options_save');
 	
 	}
-	public static function admin(){
-		
-		$options = theme_options::get_options();
-		$code = isset($options[self::$iden]['code']) ? stripslashes($options[self::$iden]['code']) : null;
-		$is_checked = isset($options[self::$iden]['on']) ? ' checked ' : null;
+	public static function display_backend(){
+		$opt = theme_options::get_options(self::$iden);
+		$code = isset($opt['code']) ? stripslashes($opt['code']) : null;
+		$is_checked = isset($opt['enabled']) && $opt['enabled'] == 1 ? ' checked ' : null;
 		?>
 		<fieldset>
-			<legend><?php echo ___('Post Copyright Settings');?></legend>
+			<legend><?php echo ___('Post copyright settings');?></legend>
 			<p class="description">
 				<?php echo ___('Posts copyright settings maybe protect your word. Here are some keywords that can be used:');?></p>
 			<p class="description">
@@ -38,20 +37,20 @@ class theme_post_copyright{
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="<?php echo self::$iden;?>_on"><?php echo ___('Enable or not?');?></label></th>
-						<td><input type="checkbox" name="<?php echo self::$iden;?>[on]" id="<?php echo self::$iden;?>_on" value="1" <?php echo $is_checked;?> /><label for="<?php echo self::$iden;?>_on"><?php echo ___('Enable');?></label></td>
+						<th scope="row"><label for="<?php echo self::$iden;?>-enabled"><?php echo ___('Enable or not?');?></label></th>
+						<td><input type="checkbox" name="<?php echo self::$iden;?>[enabled]" id="<?php echo self::$iden;?>-enabled" value="1" <?php echo $is_checked;?> /><label for="<?php echo self::$iden;?>-enabled"><?php echo ___('Enable');?></label></td>
 					</tr>
 					<tr>
-						<th scope="row"><?php echo ___('HTML code:');?></th>
+						<th scope="row"><label for="<?php echo self::$iden;?>-code"><?php echo ___('HTML code:');?></label></th>
 						<td>
-							<textarea id="<?php echo self::$iden;?>_code" name="<?php echo self::$iden;?>[code]" class="widefat code" rows="10"><?php echo $code;?></textarea>
+							<textarea id="<?php echo self::$iden;?>-code" name="<?php echo self::$iden;?>[code]" class="widefat code" rows="10"><?php echo $code;?></textarea>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php echo esc_html(___('Restore'));?></th>
+						<th scope="row"><?php echo ___('Restore');?></th>
 						<td>
-							<label for="<?php echo self::$iden;?>_restore">
-								<input type="checkbox" id="<?php echo self::$iden;?>_restore" name="<?php echo self::$iden;?>[restore]" value="1"/>
+							<label for="<?php echo self::$iden;?>-restore">
+								<input type="checkbox" id="<?php echo self::$iden;?>-restore" name="<?php echo self::$iden;?>[restore]" value="1"/>
 								<?php echo ___('Restore the post copyright settings');?>
 							</label>
 						</td>
@@ -63,7 +62,7 @@ class theme_post_copyright{
 	}
 	public static function is_enabled(){
 		$opt = theme_options::get_options(self::$iden);
-		return isset($opt['on']) ? true : false;
+		return isset($opt['enabled']) && $opt['enabled'];
 	}
 	/**
 	 * options_default
@@ -74,38 +73,38 @@ class theme_post_copyright{
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function options_default($options){
+	public static function options_default($opts){
 		
-		$options[self::$iden]['code'] = '
+		$opts['code'] = '
 <ul>
 	<li>
-		' . esc_html(___('Permanent URL: ')). '<a href="%post_url%">%post_url%</a>
+		' . ___('Permanent URL: '). '<a href="%post_url%">%post_url%</a>
 	</li>
 	<li>
-		' . esc_html(___('Welcome to reprint: ')). ___('Addition to indicate the original, the article of <a href="%blog_url%">%blog_name%</a> comes from internet. If infringement, please contact me to delete.'). '
+		' . ___('Welcome to reprint: '). ___('Addition to indicate the original, the article of <a href="%blog_url%">%blog_name%</a> comes from internet. If infringement, please contact me to delete.'). '
 	</li>
 </ul>';
-		$options[self::$iden]['on'] = 1;
-		return $options;
+		$opts['enabled'] = 1;
+		return $opts;
 	}
 	/**
 	 * save 
 	 */
-	public static function save($options){
+	public static function options_save($opts){
 		if(isset($_POST[self::$iden]) && !isset($_POST[self::$iden]['restore'])){
-			$options[self::$iden] = isset($_POST[self::$iden]) ? $_POST[self::$iden] : null;
+			$opt = isset($_POST[self::$iden]) ? $_POST[self::$iden] : null;
 		}
-		return $options;
+		return $opts;
 	}
 	/**
 	 * output
 	 */
-	public static function display(){
+	public static function display_frontend(){
 		global $post;
-		$options = theme_options::get_options();
+		$opt = theme_options::get_options(self::$iden);
 		$tpl_keywords = array('%post_title_text%','%post_url%','%blog_name%','%blog_url%');
 		$output_keywords = array(get_the_title(),get_permalink(),get_bloginfo('name'),home_url());
-		$codes = str_ireplace($tpl_keywords,$output_keywords,$options[self::$iden]['code']);
+		$codes = str_ireplace($tpl_keywords,$output_keywords,$opt['code']);
 		echo stripslashes($codes);
 	}
 }

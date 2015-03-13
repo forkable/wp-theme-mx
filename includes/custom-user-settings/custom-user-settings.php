@@ -263,9 +263,9 @@ class theme_custom_user_settings{
 	public static function frontend_seajs_alias($alias){
 		if(!self::is_page()) return $alias;
 		foreach(self::get_tabs() as $k => $v){
-			$alias[self::$iden . '-' . $k] = theme_features::get_theme_includes_js(__FILE__,$k);
+			$alias[self::$iden . '-' . $k] = theme_features::get_theme_includes_js(__DIR__,$k);
 			if($k === 'avatar'){
-				$alias[self::$iden . '-' . $k . '-cropper'] = theme_features::get_theme_includes_js(__FILE__,'cropper');
+				$alias[self::$iden . '-' . $k . '-cropper'] = theme_features::get_theme_includes_js(__DIR__,'cropper');
 			}
 		}
 		return $alias;
@@ -310,13 +310,13 @@ class theme_custom_user_settings{
 			case 'avatar':
 				wp_enqueue_style(
 					self::$iden . '-' . $tab_active,
-					theme_features::get_theme_includes_css(__FILE__,$tab_active,false),
+					theme_features::get_theme_includes_css(__DIR__,$tab_active,false),
 					false,
 					theme_features::get_theme_info('version')
 				);
 				wp_enqueue_style(
 					self::$iden . '-cropper',
-					theme_features::get_theme_includes_css(__FILE__,'cropper',false),
+					theme_features::get_theme_includes_css(__DIR__,'cropper',false),
 					false,
 					theme_features::get_theme_info('version')
 				);

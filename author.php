@@ -14,7 +14,7 @@ if(empty($tab_active) || !isset($tabs[$tab_active]))
 		<?php echo esc_html(get_the_author_meta('display_name',$author));?> - <?php echo $tabs[$tab_active]['text'];?>
 	</h3>
 	<div class="row">
-		<div id="main" class="col-md-9 col-sm-12">
+		<div id="main" class="col-md-8 col-sm-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<div class="btn-group btn-group-justified" role="group">
@@ -34,7 +34,7 @@ if(empty($tab_active) || !isset($tabs[$tab_active]))
 				<?php get_template_part('tpl',"author-{$tab_active}"); ?>
 			</div>
 		</div><!-- /#main -->
-		<?php get_sidebar() ;?>
+		<?php get_sidebar('author') ;?>
 	</div>
 </div>
 <?php get_footer();?>

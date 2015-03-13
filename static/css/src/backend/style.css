@@ -5,6 +5,9 @@
     display: none !important;
   }
 }
+.button-primary a{
+	color:#fff;
+}
 /* 描述 */
 .description{
 	padding-left:1rem;

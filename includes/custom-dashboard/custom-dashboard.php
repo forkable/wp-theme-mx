@@ -23,11 +23,6 @@ class theme_custom_dashboard{
 		}
 
 		include __DIR__ . '/dashboards.php';
-		add_filter('theme_includes',function($fns){
-	$fns[] = 'theme_dashboards::init';
-	return $fns;
-});
-
 	}
 	public static function wp_title($title, $sep){
 		if(!self::is_page()) return $title;
@@ -76,7 +71,7 @@ class theme_custom_dashboard{
 			return;
 		wp_enqueue_style(
 			self::$iden,
-			theme_features::get_theme_includes_css(__FILE__,'style',false),
+			theme_features::get_theme_includes_css(__DIR__,'style',false),
 			false,
 			theme_features::get_theme_info('version')
 		);

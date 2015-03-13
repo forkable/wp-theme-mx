@@ -66,9 +66,9 @@ class RegenerateThumbnails {
 		if ( wp_script_is( 'jquery-ui-widget', 'registered' ) )
 			wp_enqueue_script( 'jquery-ui-progressbar', theme_features::get_theme_includes_js( __FILE__,'jquery-ui/jquery.ui.progressbar.min.js' ), array( 'jquery-ui-core', 'jquery-ui-widget' ), '1.8.6' );
 		else
-			wp_enqueue_script( 'jquery-ui-progressbar', theme_features::get_theme_includes_js(__FILE__,'jquery-ui/jquery.ui.progressbar.min.1.7.2.js'  ), array( 'jquery-ui-core' ), '1.7.2' );
+			wp_enqueue_script( 'jquery-ui-progressbar', theme_features::get_theme_includes_js(__DIR__,'jquery-ui/jquery.ui.progressbar.min.1.7.2.js'  ), array( 'jquery-ui-core' ), '1.7.2' );
 
-		wp_enqueue_style( 'jquery-ui-regenthumbs', theme_features::get_theme_includes_css(__FILE__,'jquery-ui-1.7.2.custom.css' ), array(), '1.7.2' );
+		wp_enqueue_style( 'jquery-ui-regenthumbs', theme_features::get_theme_includes_css(__DIR__,'jquery-ui-1.7.2.custom.css' ), array(), '1.7.2' );
 	}
 
 

@@ -375,7 +375,7 @@ class theme_quick_sign{
 		return 'text/html';
 	}
 	public static function frontend_seajs_alias($alias){
-		$alias[self::$iden] = theme_features::get_theme_includes_js(__FILE__);
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){

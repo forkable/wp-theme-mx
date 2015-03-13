@@ -216,7 +216,7 @@ class theme_custom_homebox{
 	}
 	public static function backend_css(){
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__FILE__,'backend');?>" rel="stylesheet"  media="all"/>
+		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend');?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function after_backend_tab_init(){
@@ -229,7 +229,7 @@ class theme_custom_homebox{
 	
 	}
 	public static function backend_seajs_alias($alias){
-		$alias[self::$iden] = theme_features::get_theme_includes_js(__FILE__,'backend.js');
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__,'backend.js');
 		return $alias;
 	}
 }

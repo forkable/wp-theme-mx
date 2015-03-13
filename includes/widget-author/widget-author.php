@@ -128,7 +128,11 @@ class theme_widget_author extends WP_Widget{
 		<?php
 		echo $args['after_widget'];
 	}
-	function form($instance){
+	function form($instance = []){
+		$defaults = array(
+			'title' => ___('Member information')
+		);
+		$instance = wp_parse_args($instance,$defaults);
 		?>
 		<p>
 			<label for="<?php echo esc_attr(self::get_field_id('title'));?>"><?php echo esc_html(___('Title (optional)'));?></label>

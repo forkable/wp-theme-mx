@@ -50,7 +50,7 @@ class theme_options{
 	public static function backend_header(){
 		if(!self::is_options_page()) return false;
 		$options = self::get_options();/* get the options */
-		$backend_seajs_alias = apply_filters('backend_seajs_alias',array());
+		echo theme_features::get_theme_css('modules/fa-fonts','normal');
 		echo theme_features::get_theme_css('backend/fonts','normal');
 		echo theme_features::get_theme_css('backend/style','normal');
 		/**
@@ -80,7 +80,7 @@ class theme_options{
 		 * seajs hook
 		 */
 		$config['paths'] = apply_filters('backend_seajs_paths',$config['paths']);
-		$config['alias'] = apply_filters('backend_seajs_alias',array());
+		$config['alias'] = apply_filters('backend_seajs_alias',[]);
 		$config['vars'] = apply_filters('backend_seajs_vars',$config['vars']);
 		$config['map'] = apply_filters('backend_seajs_map',$config['map']);
 

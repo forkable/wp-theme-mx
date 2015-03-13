@@ -15,8 +15,17 @@ class theme_page_tags{
 	public static $page_slug = 'tags-index';
 	
 	public static function init(){
-		add_action('init',get_class() . '::page_create');
+		add_action('init',					get_class() . '::page_create');
 		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+		add_action('page_settings', 		get_class() . '::display_backend');
+		
+		add_filter('theme_options_save', 	get_class() . '::options_save');
+
+		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
+
+		add_action('backend_seajs_alias',get_class() . '::backend_seajs_alias');
+
+		add_action('after_backend_tab_init',get_class() . '::backend_seajs_use'); 
 	}
 	public static function get_options($key = null){
 		$opt = theme_options::get_options(self::$iden);
@@ -37,6 +46,7 @@ class theme_page_tags{
 		?>
 		<fieldset>
 			<legend><?php echo ___('Tags index settings');?></legend>
+			<p class="description"><?php echo ___('Display posts chinese pinyin title index on tags index page.')?></p>
 			<table class="form-table">
 				<tbody>
 				<tr>
@@ -49,14 +59,22 @@ class theme_page_tags{
 				<tr>
 					<th><?php echo ___('Control');?></th>
 					<td>
-						<a href="javascript:;" class="button button-primary" id="<?php echo self::$iden;?>-clean-cache" data-tip="#<?php echo self::$iden;?>-clean-cache-tip"><?php echo ___('Flush cache');?></a>
-						<div id="<?php echo self::$iden;?>-clean-cache-tip"></div>
+						<div id="<?php echo self::$iden;?>-tip-clean-cache"></div>
+						<p><a href="javascript:;" class="button" id="<?php echo self::$iden;?>-clean-cache" data-tip-target="<?php echo self::$iden;?>-tip-clean-cache"><i class="fa fa-refresh"></i> <?php echo ___('Flush cache');?></a></p>
 					</td>
 				</tr>
 				</tbody>
 			</table>
 		</fieldset>
 		<?php
+	}
+	public static function process(){
+		theme_features::check_referer();
+		$output = [];
+		wp_cache_delete(self::$iden);
+		$output['status'] = 'success';
+		$output['msg'] = ___('Cache has been cleaned.');
+		die(theme_features::json_format($output));
 	}
 	public static function page_create(){
 		if(!current_user_can('manage_options')) return false;
@@ -229,11 +247,24 @@ class theme_page_tags{
 		wp_cache_set($cache_id,$cache,self::$iden,86400);/** 24 hours */
 		echo $cache;
 	}
+	public static function backend_seajs_alias($alias){
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__,'backend');
+		return $alias;
+	}
+	public static function backend_seajs_use(){
+		?>
+		seajs.use('<?php echo self::$iden;?>',function(m){
+			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
+			m.init();
+		});
+		<?php
+	}
 	public static function frontend_css(){
 		if(!is_page(self::$page_slug)) return false;
 		wp_enqueue_style(
 			self::$iden,
-			theme_features::get_theme_includes_css(__FILE__,'style',false),
+			theme_features::get_theme_includes_css(__DIR__,'style',false),
 			false,
 			theme_features::get_theme_info('version')
 		);

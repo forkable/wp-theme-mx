@@ -2,7 +2,7 @@
 /**
  * @version 1.0.0
  */
-
+theme_dashboards::init();
 class theme_dashboards extends theme_custom_dashboard{
 
 	public static function init(){

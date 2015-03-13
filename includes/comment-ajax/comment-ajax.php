@@ -370,7 +370,7 @@ class theme_comment_ajax{
 		if(!self::is_enabled()) return false;
 		if(is_singular()){
 			?>
-			seajs.use('<?php echo theme_features::get_theme_includes_js(__FILE__);?>',function(m){
+			seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
 				m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => self::$iden));?>';
 				m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
 				m.config.lang.M00002 = '<?php echo ___('Commented successfully, thank you!');?>';

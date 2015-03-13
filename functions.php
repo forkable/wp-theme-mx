@@ -11,7 +11,6 @@ include __DIR__ . '/core/core-functions.php';
 /** 
  * theme_functions
  */
-
 add_action('after_setup_theme','theme_functions::init');
 class theme_functions{
 	public static $iden = 'mx';
@@ -130,6 +129,11 @@ class theme_functions{
 				'name' 			=> ___('Archive page widget area'),
 				'id'			=> 'widget-area-archive',
 				'description' 	=> ___('Appears on archive page in the sidebar.')
+			),
+			array(
+				'name' 			=> ___('Author page widget area'),
+				'id'			=> 'widget-area-author',
+				'description' 	=> ___('Appears on author page in the sidebar.')
 			),
 			array(
 				'name' 			=> ___('Footer widget area'),

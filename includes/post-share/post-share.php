@@ -141,15 +141,15 @@ class theme_post_share{
 	}
 	public static function frontend_css(){
 		?>
-		<link rel="stylesheet" href="<?php echo theme_features::get_theme_includes_css(__FILE__);?>">
+		<link rel="stylesheet" href="<?php echo theme_features::get_theme_includes_css(__DIR__);?>">
 		<?php
 	}
 	public static function frontend_js(){
 		$options = theme_options::get_options();
 		if(!isset($options[self::$iden]) || strstr($options[self::$iden]['code'],'bdshare') === false) return false;
 		?>
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__FILE__);?>',function(m){
-			m.config.bdshare_js = '<?php echo esc_url(theme_features::get_theme_includes_js(__FILE__,'bdshare'));?>';
+		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
+			m.config.bdshare_js = '<?php echo esc_url(theme_features::get_theme_includes_js(__DIR__,'bdshare'));?>';
 			m.init();
 		});
 		<?php
