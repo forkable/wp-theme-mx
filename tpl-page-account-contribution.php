@@ -14,7 +14,7 @@ if(class_exists('theme_custom_contribution')){
 		$cats = get_categories($cats_args);
 	}else{
 		$cats = get_categories(array(
-			'include' => implode($cat_ids),
+			'include' => $cat_ids,
 			'orderby' => 'count',
 			'order' => 'desc',
 			'hide_empty' => 0,
@@ -57,11 +57,6 @@ if(class_exists('theme_custom_contribution')){
 	</div>
 	<div class="panel-body">
 		<form action="javascript:void(0);" id="fm-ctb" class="form-horizontal">
-			<div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-					<?php the_content();?>
-				</div>
-			</div>
 			<div class="form-group">
 				<label for="ctb-title" class="col-sm-2 control-label">
 					<?php echo ___('Post title');?>

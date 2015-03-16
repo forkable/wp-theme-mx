@@ -30,6 +30,9 @@ class theme_custom_post_source{
 			return isset($types[$key]) ? $types[$key] : null;
 		}
 	}
+	public static function is_enabled(){
+		return true;
+	}
 	public static function get_post_meta($post_id = null){
 		if(!$post_id){
 			global $post;
@@ -120,6 +123,66 @@ class theme_custom_post_source{
 				>
 			</p>
 		</div>			
+		<?php
+	}
+	public static function display_frontend(){
+		global $post;
+		$meta = self::get_post_meta($post->ID);
+		if(!isset($meta['source']))
+			return false;
+			
+		?>
+		<ul class="post-source hidden-xs">
+			<?php
+			switch($meta['source']){
+				case 'original':
+					?>
+					<li><?php 
+					echo sprintf(
+						___('This article is %1$s member %2$s\'s original work.'),
+						
+						'<a href="' . esc_url(home_url()) . '">' .get_bloginfo('name') . '</a>',
+						
+						'<a href="' . esc_url(get_author_posts_url($post->post_author)) . '">' . esc_html(get_the_author_meta('display_name',$post->post_author)) . '</a>'
+						
+						);
+						
+					?></li>
+					<li><?php 
+					echo sprintf(
+						___('Welcome to reprint but must indicate the source url %1$s.'),
+						'<a href="' . esc_url(get_permalink()) . '" target="_blank" rel="nofollow">' . esc_url(get_permalink()) . '</a>'
+					);?></li>
+					<?php
+					break;
+				case 'reprint':
+					$reprint_author = isset($meta['reprint']['author']) && !empty($meta['reprint']['author']) ? trim($meta['reprint']['author']) : ___('Unkown');
+					
+					$reprint_url = isset($meta['reprint']['url']) && !empty($meta['reprint']['url']) ? '<a href="' . esc_url($meta['reprint']['url']) . '" target="_blank" rel="nofollow">' . esc_url($meta['reprint']['url']) . '</a>' : ___('Unkown');
+					?>
+					<li><?php 
+					echo sprintf(
+						___('This article is %1$s member %2$s\'s reprint work.'),
+						
+						'<a href="' . esc_url(home_url()) . '">' .get_bloginfo('name') . '</a>',
+						
+						'<a href="' . esc_url(get_author_posts_url($post->post_author)) . '">' . esc_html(get_the_author_meta('display_name',$post->post_author)) . '</a>'
+						
+						);
+						
+					?></li>
+					<li>
+						<?php echo sprintf(
+						___('Source: %s, author: %s.'),
+						$reprint_url,
+						$reprint_author);
+						?>
+					</li>
+					<?php
+					break;
+			}
+			?>
+		</ul>
 		<?php
 	}
 }

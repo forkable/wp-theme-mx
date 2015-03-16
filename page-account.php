@@ -7,7 +7,7 @@ $active_tab = get_query_var('tab') ? get_query_var('tab') : 'dashboard';
 <?php get_header();?>
 <div class="container grid-container">
 	<div class="row">
-		<div id="account-navbar" class="col-sm-3 col-lg-2">
+		<div id="account-navbar" class="col-sm-3 col-lg-2 hidden-xs">
 			<div class="navbar navbar-default" role="navigation">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".account-navbar-collapse">

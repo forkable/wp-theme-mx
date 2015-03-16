@@ -6,7 +6,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="page-tip">
-					<?php echo status_tip('info', ___('Please set some widgets in singluar post.'));?>
+					<?php echo status_tip('info', ___('Please set some widgets in author page.'));?>
 				</div>
 			</div>
 		</div>

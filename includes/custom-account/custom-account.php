@@ -44,6 +44,9 @@ class theme_custom_account{
 	public static function get_url(){
 		return get_permalink(get_page_by_path(self::$page_slug));
 	}
+	public static function is_page(){
+		return is_page(self::$page_slug);
+	}
 	public static function page_create(){
 		if(!current_user_can('manage_options')) return false;
 		

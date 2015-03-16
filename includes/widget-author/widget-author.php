@@ -54,10 +54,11 @@ class theme_widget_author extends WP_Widget{
 		}
 		$description = get_the_author_meta('description',$author_id);
 		?>
+	
 		<div id="widget-author-card" class="widget-container panel-body">
 			<a href="<?php echo esc_url($author_url);?>" class="media" title="<?php echo ___('Views the author information detail');?>">
 				<div class="media-left">
-					<img src="<?php echo esc_url($avatar);?>" alt="<?php echo ___('Author avatar');?>" class="avatar media-object img-circle" width="100" height="100">
+					<img src="<?php echo esc_url($avatar);?>" alt="<?php echo ___('Author avatar');?>" class="avatar media-object" width="100" height="100">
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading author-card-name"><?php echo esc_html(get_the_author_meta('display_name',$author_id));?></h4>
@@ -85,12 +86,12 @@ class theme_widget_author extends WP_Widget{
 						<span class="count"><?php echo (int)esc_html(theme_custom_author_profile::get_tabs('comments')['count']);?></span>
 					</a>
 					<!-- followers count -->
-					<a href="<?php echo esc_url(theme_custom_author_profile::get_tabs('followers')['url']);?>" class="btn btn-default" role="button">
+					<a href="#<?php echo esc_url(theme_custom_author_profile::get_tabs('followers')['url']);?>" class="btn btn-default disabled" role="button">
 						<span class="tx"><?php echo  esc_html(theme_custom_author_profile::get_tabs('followers')['text']);?></span>
 						<span class="count"><?php echo (int)esc_html(theme_custom_author_profile::get_tabs('followers')['count']);?></span>
 					</a>
 					<!-- following count -->
-					<a href="<?php echo esc_url(theme_custom_author_profile::get_tabs('following')['url']);?>" class="btn btn-default" role="button">
+					<a href="#<?php echo esc_url(theme_custom_author_profile::get_tabs('following')['url']);?>" class="btn btn-default disabled" role="button">
 						<span class="tx"><?php echo  esc_html(theme_custom_author_profile::get_tabs('following')['text']);?></span>
 						<span class="count"><?php echo (int)esc_html(theme_custom_author_profile::get_tabs('following')['count']);?></span>
 					</a>

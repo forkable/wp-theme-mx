@@ -489,11 +489,11 @@ function refer_url($url = null,$param = null){
  *   $a = authcode('abc', 'encode', 'key', 3600);
  *   $b = authcode('abc', 'decode', 'key'); // 在一个小时内，$b(abc)，否则 $b 为空
  */
-function authcode($string, $operation = 'decode', $key = null, $expiry = 0) {
+function authcode($string, $operation = 'decode', $key = 'innstudio', $expiry = 0) {
 
     $ckey_length = 4;
 
-    $key = md5($key ? $key : 'innstudio');
+    $key = md5($key);
     $keya = md5(substr($key, 0, 16));
     $keyb = md5(substr($key, 16, 16));
     $keyc = $ckey_length ? ($operation == 'decode' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : null;

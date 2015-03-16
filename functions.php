@@ -553,8 +553,8 @@ class theme_functions{
 
 		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 		?>
-		<li <?php post_class(array('media'));?>>
-			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
+		<li class="list-group-item">
+			<a class="post-list-bg media" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
 				<div class="media-left">
 					<img class="media-object" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-original="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 				</div>
@@ -604,11 +604,7 @@ class theme_functions{
 		 * classes
 		 */
 		$classes[] = 'singluar-post';
-		/** 
-		 * cache author datas
-		 */
-		$author = get_user_by('id',$post->post_author);
-		
+
 		?>
 		<article id="post-<?php the_ID();?>" <?php post_class($classes);?>>
 			<?php if(!empty($post_title)){ ?>
@@ -618,6 +614,7 @@ class theme_functions{
 			<div class="post-content content-reset">
 				<?php the_content();?>
 			</div>
+			
 			<?php// self::the_post_pagination();?>
 		</article>
 		<?php
@@ -629,19 +626,13 @@ class theme_functions{
 		global $post;
 		
 		$defaults = array(
-			'classes'			=> array(''),
-			'show_author' 		=> true,
-			'show_date' 		=> true,
-			'show_views' 		=> true,
-			'show_comms' 		=> true,
-			'show_rating' 		=> true,
+			'classes'			=> array(),
 			'lazyload'			=> true,
 			
 		);
 		$r = wp_parse_args($args,$defaults);
 		extract($r,EXTR_SKIP);
 		
-		$post_title = get_the_title();
 		/** 
 		 * classes
 		 */
@@ -649,8 +640,8 @@ class theme_functions{
 		?>
 		<article id="post-<?php the_ID();?>" <?php post_class($classes);?>>
 			<div class="panel-heading">
-				<?php if(!empty($post_title)){ ?>
-					<h3 class="entry-title panel-title"><?php echo esc_html($post_title);?></h3>
+				<?php if(!empty(get_the_title())){ ?>
+					<h3 class="entry-title panel-title"><?php the_title();?></h3>
 				<?php } ?>
 				<header class="post-header post-metas clearfix">
 					
@@ -659,16 +650,16 @@ class theme_functions{
 					$cats = get_the_category_list('<i class="split"> / </i> ');
 					if(!empty($cats)){
 						?>
-						<span class="post-meta post-category" title="<?php echo esc_attr(___('Category'));?>">
+						<span class="post-meta post-category" title="<?php echo ___('Category');?>">
 							<i class="fa fa-folder-open"></i>
 							<?php echo $cats;?>
 						</span>
 					<?php } ?>
 					
 					<!-- time -->
-					<time class="post-meta post-time" datetime="<?php echo esc_attr(get_the_time('Y-m-d H:i:s'));?>">
+					<time class="post-meta post-time" datetime="<?php echo get_the_time('Y-m-d H:i:s');?>">
 						<i class="fa fa-clock-o"></i>
-						<?php echo esc_html(friendly_date((get_the_time('U'))));?>
+						<?php echo friendly_date((get_the_time('U')));?>
 					</time>
 					<!-- author link -->
 					<a class="post-meta post-author" href="<?php echo get_author_posts_url(get_the_author_meta('ID'));?>" title="<?php echo esc_attr(sprintf(___('Views all post by %s'),get_the_author()));?>">
@@ -677,35 +668,53 @@ class theme_functions{
 					</a>
 					<!-- views -->
 					<?php if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
-						<span class="post-meta post-views" title="<?php echo esc_attr(___('Views'));?>">
+						<span class="post-meta post-views" title="<?php echo ___('Views');?>">
 							<i class="fa fa-play-circle"></i>
 							<span id="post-views">-</span>
 						</span>
 					<?php } ?>
-					<!-- edit link -->
-					<?php if(is_user_logged_in() && current_user_can('edit_post',$post->ID)){ ?>
-						<a href="<?php echo get_edit_post_link();?>" class="post-meta edit-post-link">
-							<i class="fa fa-pencil-square"></i>
-							<?php echo esc_html(___('Edit post'));?>
-						</a>
-					<?php } ?>
+
+
 					<!-- permalink -->
-					<a href="<?php echo get_permalink();?>" class="post-meta permalink" title="<?php echo esc_attr(___('Post link'));?>">
+					<a href="<?php echo get_permalink();?>" class="post-meta permalink" title="<?php echo ___('Post link');?>">
 						<i class="fa fa-link"></i>
-						<?php echo esc_html(___('Post link'));?>
+						<?php echo ___('Post link');?>
 					</a>
 
 				</header>
 			</div>
 
-			<!-- post-content -->
-			<div class="post-content content-reset panel-body clearfix">
-				<?php the_content();?>
-			</div>
-			<?php echo theme_features::get_prev_next_pagination(array(
-				'numbers_class' => array('btn btn-primary')
-			));?>
-			
+			<div class="panel-body">
+
+				
+				<!-- post-content -->
+				<div class="post-content content-reset">
+					<?php the_content();?>
+				</div>
+
+				<!-- theme_custom_post_source -->
+				<?php if(class_exists('theme_custom_post_source') && theme_custom_post_source::is_enabled()){
+					theme_custom_post_source::display_frontend($post->ID);
+				}
+				?>
+
+				
+				<!-- theme_custom_storage -->
+				<?php if(class_exists('theme_custom_storage') && theme_custom_storage::is_enabled()){
+					theme_custom_storage::display_frontend($post->ID);
+				}
+				?>
+
+				<?php
+				/**
+				 * Hook fires after_singular_post_content
+				 */
+				do_action('after_singular_post_content');
+				?>
+				<?php echo theme_features::get_prev_next_pagination(array(
+					'numbers_class' => array('btn btn-primary')
+				));?>
+								
 			<?php
 			/** 
 			 * tags
@@ -729,6 +738,9 @@ class theme_functions{
 				<?php
 			}
 			?>
+			
+			</div>
+		
 			
 			<!-- post-footer -->
 			<footer class="post-footer post-metas panel-footer clearfix">
@@ -1788,7 +1800,7 @@ class theme_functions{
 				while(have_posts()){
 					the_post();
 					self::archive_img_content(array(
-						'classes' => array('col-xs-12 col-sm-3')
+						'classes' => array('col-xs-6 col-sm-3')
 					));
 				}
 			}else{

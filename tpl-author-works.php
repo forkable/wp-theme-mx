@@ -7,7 +7,7 @@
 			while(have_posts()){
 				the_post();
 				theme_functions::archive_img_content(array(
-					'classes' => array('col-xs-12 col-sm-3')
+					'classes' => array('col-xs-6 col-sm-3 col-md-2')
 				));
 			}
 			?>

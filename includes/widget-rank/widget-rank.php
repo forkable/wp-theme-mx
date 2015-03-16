@@ -65,7 +65,9 @@ class widget_rank extends WP_Widget{
 		}
 		if(have_posts()){
 			?>
-			<ul class="tabbody post-lists <?php echo $content_type_class;?> widget-orderby-<?php echo $instance['orderby'];?>">
+			<ul class="list-group <?php echo $content_type_class;?> widget-orderby-<?php echo $instance['orderby'];?>">
+			
+			<!-- <ul class="tabbody post-lists <?php echo $content_type_class;?> widget-orderby-<?php echo $instance['orderby'];?>"> -->
 				<?php
 				while(have_posts()){
 					the_post();

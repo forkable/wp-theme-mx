@@ -37,6 +37,12 @@ class theme_custom_point{
 		add_filter('theme_options_default',get_class() . '::options_default');
 		add_filter('theme_options_save',get_class() . '::options_save');
 
+		/** ajax */
+		add_action('wp_ajax_' . self::$iden,get_class() . '::process');
+
+		add_action('backend_seajs_alias',get_class() . '::backend_seajs_alias');
+		add_action('after_backend_tab_init',get_class() . '::backend_seajs_use');
+
 	}
 	public static function display_backend(){
 		$opt = theme_options::get_options(self::$iden);
@@ -79,8 +85,106 @@ class theme_custom_point{
 					</tr>
 				</tbody>
 			</table>
+
+			<h3><?php echo ___('Add/Reduce point for user - special event');?></h3>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th><?php echo ___('User ID');?></th>
+						<td>
+							<input class="short-text" type="number" id="<?php echo self::$iden;?>-special-user-id" data-target="<?php echo self::$iden;?>-special-tip-user-id" data-ajax-type="user-id">
+							<span class="description" id="<?php echo self::$iden;?>-special-tip-user-name"></span>
+						</td>
+					</tr>
+					<tr>
+						<th><?php echo ___('How many point to add/reduce');?></th>
+						<td>
+							<input class="short-text" type="number" id="<?php echo self::$iden;?>-special-point" data-target="<?php echo self::$iden;?>-special-tip-user-point" data-ajax-type="point">
+							<span class="description" id="<?php echo self::$iden;?>-special-tip-user-point"></span>
+						</td>
+					</tr>
+					<tr>
+						<th><?php echo ___('Event description');?></th>
+						<td>
+							<input class="widefat" type="text" id="<?php echo self::$iden;?>-special-event" data-ajax-type="event">
+						</td>
+					</tr>
+					<tr>
+						<th><?php echo ___('Control');?></th>
+						<td>
+							<div class="page-tip" id="<?php echo self::$iden;?>-special-tip-set"></div>
+							<a href="javascript:;" class="button button-primary" id="<?php echo self::$iden;?>-special-set" data-target="<?php echo self::$iden;?>-special-tip-set"><?php echo ___('Add/Reduce');?></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</fieldset>
 		<?php
+	}
+	public static function process(){
+		$output = [];
+
+		if(!current_user_can('create_users')){
+			$output['status'] = 'error';
+			$output['code'] = 'invaild_permission';
+			$output['msg'] = ___('Your are not enough permission to modify user.');
+			die(theme_features::json_format($output));
+		}
+
+		/**
+		 * set special event
+		 */
+		$special = isset($_GET['special']) ? (array)$_GET['special'] : null;
+		if(!empty($special)){
+			$invalidations = array(
+				'user-id' => array(
+					'msg' => ___('Invaild user ID.'),
+					'code' => 'invaild_user_id'
+				),
+				'point' => array(
+					'msg' => ___('Invaild point.'),
+					'code' => 'invaild_point'
+				),
+				'event' => array(
+					'msg' => ___('Invaild event.'),
+					'code' => 'invaild_event'
+				),
+			);
+			foreach($invalidations as $k => $v){
+				if(!isset($special[$k]) || empty($special[$k])){
+					$output['status'] = 'error';
+					$output['code'] = $v['code'];
+					$output['msg'] = $v['msg'];
+					die(theme_features::json_format($output));
+				}
+			}
+			/**
+			 * check user exist
+			 */
+			$user = get_user_by('id',$special['user-id']);
+			if(!$user){
+				$output['status'] = 'error';
+				$output['code'] = 'user_not_exist';
+				$output['msg'] = ___('Fuck you man, the user is not exist');
+				die(theme_features::json_format($output));
+			}
+			/**
+			 * pass, set the new point for user
+			 */
+			self::action_add_history_special_event($special['user-id'],$special['point'],$special['event']);
+			$output['status'] = 'success';
+			$output['msg'] = sprintf(
+				___('The user %s(%d) point has set to %d.'),
+				$user->display_name,
+				$user->ID,
+				self::get_point($user->ID)
+			);
+			die(theme_features::json_format($output));
+			
+		}/** end special event */
+		
+
+		die(theme_features::json_format($output));
 	}
 	public static function is_page(){
 		return 
@@ -223,18 +327,41 @@ class theme_custom_point{
 		<?php echo esc_html($point_name);?>
 	</span>
 	<?php
-	if($type_point >= 0){
-		$cls = 'plus';
-		$tx = '+' . $type_point;
-	}else{
-		$cls = 'minus';
-		$tx = '-' . $type_point;
+	/**
+	 * special event point
+	 */
+	if($v['type'] !== 'special-event'){
+		if($type_point >= 0){
+			$cls = 'plus';
+			$tx = '+' . $type_point;
+		}else{
+			$cls = 'minus';
+			$tx = '-' . $type_point;
+		}
+		?>
+		<span class="point-value <?php echo $cls;?>"><?php echo $tx;?></span>
+	<?php
 	}
-	?>
-	<span class="point-value <?php echo $cls;?>"><?php echo $tx;?></span>
-<?php
 //var_dump($v);
 switch($v['type']){
+	/*****************************************
+	 * signup
+	 */
+	case 'special-event':
+		if($v['point'] >= 0){
+			$cls = 'plus';
+			$tx = '+' . $v['point'];
+		}else{
+			$cls = 'minus';
+			$tx = '-' . $v['point'];
+		}
+		?>
+		<span class="point-value <?php echo $cls;?>"><?php echo $tx;?></span>
+		<span class="history-text"><strong>
+			<?php echo sprintf(___('One special event happened: %s'),$v['event']);?>
+		</strong></span>
+		<?php
+		break;
 	/*****************************************
 	 * signup
 	 */
@@ -358,6 +485,44 @@ switch($v['type']){
 		update_user_meta($user_id,self::$user_meta_key['point'],(int)theme_options::get_options(self::$iden)['points']['signup']);
 	}
 	/**
+	 * Add special event
+	 *
+	 * @param int $user_id
+	 * @param int $point
+	 * @param string $event Event description
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function action_add_history_special_event($user_id,$point,$event = null){
+		$point = (int)$point;
+		$user_id = (int)$user_id;
+		if($point === 0 || $user_id === 0)
+			return false;
+
+		$current_timestamp = current_time('timestamp');
+		if(empty($event))
+			$event = ___('Special event');
+
+		/**
+		 * add history
+		 */
+		$meta = array(
+			'type' => 'special-event',
+			'point' => $point,
+			'event' => $event,
+			'timestamp' => $current_timestamp
+		);
+		add_user_meta($user_id,self::$user_meta_key['history'],$meta);
+		/**
+		 * update point
+		 */
+		$old_point = self::get_point($user_id);
+		update_user_meta($user_id,self::$user_meta_key['point'],$old_point + $point);
+
+		return true;
+
+	}
+	/**
 	 * HOOK - Signin daily for user meta
 	 *
 	 * @version 1.0.0
@@ -369,35 +534,29 @@ switch($v['type']){
 		/**
 		 * get the last sign-in time
 		 */
-		/** from cache */
-		$caches = (array)wp_cache_get(self::$user_meta_key['last-signin']);
+		$last_signin_timestamp = get_user_meta($user_id,self::$user_meta_key['last-signin'],true);
 
-		/** found in cache */
-		if(isset($caches[$user_id])){
-			$last_signin_timestamp = $caches[$user_id];
-		/** no found, find last signin from user meta */
-		}else{
-			$last_signin_timestamp = get_user_meta($user_id,self::$user_meta_key['last-signin'],true);
-			/** if empty last signin from user meta, set it */
-			if(empty($last_signin_timestamp)){
-				update_user_meta($user_id,self::$user_meta_key['last-signin'],$current_timestamp);
-				$last_signin_timestamp = $current_timestamp;
-			}
-			$caches[$user_id] = $current_timestamp;
-			wp_cache_set(self::$user_meta_key['last-signin'],$caches,null,172800);/** 3600*24*2 = 2days */
-		}
 		/**
-		 * Check last logged is yesterday or not.
+		 * first sign-in
 		 */
+		if(empty($last_signin_timestamp)){
+			update_user_meta($user_id,self::$user_meta_key['last-signin'],$current_timestamp);
+			return;
+		}
+
+		
 		$today_Ymd = date('Ymd',$current_timestamp);
 		$last_signin_Ymd = date('Ymd',$last_signin_timestamp);
+		
 		/** IS logged today, return */
-		if($today_Ymd == $last_signin_Ymd) return false;
-		
-		/** set cache */
-		$caches[$user_id] = $current_timestamp;
-		wp_cache_set(self::$user_meta_key['last-signin'],$caches,null,172800);/** 3600*24*2 = 2days */
-		
+		if($today_Ymd == $last_signin_Ymd) 
+			return false;
+			
+		/**
+		 * update $last_signin_timestamp
+		 */
+		update_user_meta($user_id,self::$user_meta_key['last-signin'],$current_timestamp);
+
 		/**
 		 * add history
 		 */
@@ -571,6 +730,20 @@ switch($v['type']){
 			false,
 			theme_features::get_theme_info('version')
 		);
+	}
+	public static function backend_seajs_alias($alias){
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__,'backend');
+		return $alias;
+	}
+	public static function backend_seajs_use(){
+		?>
+		seajs.use('<?php echo self::$iden;?>',function(m){
+			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?php echo ___('Server error or network is disconnected.');?>';
+			m.init();
+		});
+		<?php
 	}
 }
 ?>

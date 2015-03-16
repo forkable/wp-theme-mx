@@ -7,6 +7,7 @@ define(function(require, exports, module){
 	 */
 	 
 	var $ = require('modules/jquery'), jQuery = $;
+	//require('modules/bootstrap-without-jquery');
 	require('modules/bootstrap');
 	exports.config = {
 		is_home : false

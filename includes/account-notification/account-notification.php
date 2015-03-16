@@ -41,6 +41,10 @@ class theme_notification{
 		add_action('transition_comment_status',get_class() . '::action_add_noti_transition_comment_status_comment_publish',10,3);
 
 		/**
+		 * add noti for special event
+		 */
+		add_action('added_user_meta',	get_class() . '::action_add_noti_special_event',10,4);
+		/**
 		 * clean unread notis
 		 */
 		add_action('wp_footer'		,get_class() . '::clean_unread_notis');
@@ -213,6 +217,38 @@ class theme_notification{
 			self::$timestamp = current_time('timestamp');
 			return self::$timestamp;
 		}
+	}
+	/**
+	 * Add special event
+	 *
+	 * @param int $user_id
+	 * @param int $point
+	 * @param string $event Event description
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function action_add_noti_special_event($mid, $object_id, $meta_key, $_meta_value){
+		
+		if($meta_key !== theme_custom_point::$user_meta_key['history'])
+			return false;
+
+		if(!isset($_meta_value['type']) || $_meta_value['type'] !== 'special-event')
+			return false;
+			
+		/**
+		 * add history
+		 */
+		$_meta_value['id']  = self::get_timestamp(true);
+		add_user_meta($object_id,self::$user_meta_key['key'],$_meta_value);
+		/**
+		 * update unread count
+		 */
+		$unread_count = (array)get_user_meta($object_id,self::$user_meta_key['unread_count'],true);
+		$unread_count[self::get_timestamp(true)] = $_meta_value;
+		update_user_meta($object_id,self::$user_meta_key['unread_count'],$unread_count);
+
+		return true;
+
 	}
 	/**
 	 * HOOK - When a comment becomes spam/disapprove to approve status, noti to post author

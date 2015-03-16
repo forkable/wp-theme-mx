@@ -37,15 +37,35 @@
 				$unread_class = null;
 			}
 			?>
-			<li class="list-group-item <?php echo $unread_class;?>">
+			<li class="list-group-item type-<?php echo $v['type'];?> <?php echo $unread_class;?>">
 			<?php
 			switch($v['type']){
+				
+				/****************************************
+				 * special-event
+				 */
+				case 'special-event':
+?>
+<div class="media">
+	<div class="media-left">
+		<i class="fa fa-bullhorn"></i>
+	</div>
+	<div class="media-body">
+		<h4 class="media-heading"><?php echo ___('Special event');?></h4>
+		<?php echo sprintf(___('A special event happend: %s'),$v['event']);?>
+	</div>
+</div>
+					<?php
+					break;
+				/****************************************
+				 * post-reply
+				 */
 				case 'post-reply':
 $comment = get_comment($v['comment-id']);
 ?>
 <div class="media">
 	<div class="media-left">
-		<a href="<?php comment_author_link();?>">
+		<a href="<?php comment_author_url();?>">
 		<img src="<?php echo esc_url(get_img_source(get_avatar($comment->user_id)));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
@@ -64,13 +84,16 @@ $comment = get_comment($v['comment-id']);
 </div><!-- /.media -->
 					<?php
 					break;
+				/****************************************
+				 * comment-reply
+				 */
 				case 'comment-reply':
 $comment = get_comment($v['comment-id']);
 $parent_comment = get_comment($comment->comment_parent);
 ?>
 <div class="media">
 	<div class="media-left">
-		<a href="<?php echo get_comment_author_link();?>">
+		<a href="<?php echo comment_author_url();?>">
 		<img src="<?php echo esc_url(get_img_source(get_avatar($comment->user_id)));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
@@ -94,12 +117,15 @@ $parent_comment = get_comment($comment->comment_parent);
 </div><!-- /.media -->
 					<?php
 					break;
+				/****************************************
+				 * follow
+				 */
 				case 'follow':
 $follower_id = $v['follower-id'];
 ?>
 <div class="media">
 	<div class="media-left">
-		<a href="<?php comment_author_link();?>">
+		<a href="<?php comment_author_url();?>">
 			<img src="<?php echo esc_url(get_img_source(get_avatar($follower_id)));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
@@ -118,7 +144,7 @@ $follower_id = $v['follower-id'];
 
 				
 					break;
-				/**
+				/****************************************
 				 * post-publish
 				 */
 				case 'post-publish':
@@ -127,7 +153,7 @@ $post = get_post($v['post-id']);
 ?>
 <div class="media">
 	<div class="media-left">
-		<a href="<?php comment_author_link();?>">
+		<a href="<?php comment_author_url();?>">
 			<img src="<?php echo esc_url(get_img_source(get_avatar($post->post_author)));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
