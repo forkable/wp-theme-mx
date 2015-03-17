@@ -12,6 +12,7 @@ add_action('admin_menu','theme_options::add_page');
 add_action('admin_bar_menu','theme_options::add_bar',61);
 class theme_options{
 	public static $iden = 'theme_options';
+	public static $opts;
 	/**
 	 * init
 	 * 
@@ -36,15 +37,15 @@ class theme_options{
 	 * 
 	 */
 	public static function get_options($key = null){
-		/** Get first options */
-		$options = get_option(self::$iden);
-		/** Default options hook */
-		$options_default = apply_filters('theme_options_default',null);
-		$options = wp_parse_args($options,$options_default);
+		if(!self::$opts){
+			/** Default options hook */
+			$options_default = apply_filters('theme_options_default',[]);
+			self::$opts = wp_parse_args(get_option(self::$iden),$options_default);
+		}
 		if($key){
-			return  isset($options[$key]) ? $options[$key] : null;
+			return isset(self::$opts[$key]) ? self::$opts[$key] : null;
 		}else{
-			return $options;
+			return self::$opts;
 		}
 	}
 	public static function backend_header(){
@@ -189,9 +190,11 @@ class theme_options{
 			if(isset($_POST['reset_options'])){
 				/** Delete theme options */
 				delete_option(self::$iden);
+				self::$opt = null;
 			}else{
 				/** Update theme options */
 				update_option(self::$iden,$options);
+				self::$opt = $options;
 			}
 		}
 	}
@@ -209,6 +212,7 @@ class theme_options{
 		if(!$key || !$data) return $options;
 		$options[$key] = $data;
 		update_option(self::$iden,$options);
+		self::$opt = $options;
 		return $options;
 	}
 	/**
@@ -224,6 +228,7 @@ class theme_options{
 		$options = self::get_options();
 		unset($options[$key]);
 		update_option(self::$iden,$options);
+		self::$opt = null;
 	}
 	/**
 	 * is_options_page

@@ -98,8 +98,12 @@ class theme_custom_contribution{
 		}
 	}
 	public static function get_url(){
+		static $url;
+		if($url)
+			return $url;
 		$page = theme_cache::get_page_by_path(self::$page_slug);
-		return empty($page) ? null : get_permalink($page->ID);
+		$url = get_permalink($page->ID);
+		return $url;
 	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();

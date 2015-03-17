@@ -20,6 +20,7 @@ class theme_post_views{
 	);
 	private static $expire = 3600;/** 29 days */
 
+	public static $opt;
 	public static function init(){
 
 		add_action('base_settings',		get_class() . '::display_backend');
@@ -28,6 +29,7 @@ class theme_post_views{
 
 		add_filter('theme_options_save',get_class() . '::options_save');
 
+		self::$opt = (array)theme_options::get_options(self::$iden);
 		
 		if(self::is_enabled() === false)
 			return;
@@ -53,8 +55,7 @@ class theme_post_views{
 		return $opts;
 	}
 	public static function display_backend(){
-		$opt = (array)theme_options::get_options(self::$iden);
-		$checked = isset($opt['enabled']) && $opt['enabled'] == 1 ? ' checked ' : null;
+		$checked = self::is_enabled() ? ' checked ' : null;
 		?>
 		<fieldset>
 			<legend><?php echo ___('Post views settings');?></legend>
@@ -142,9 +143,8 @@ class theme_post_views{
 		return $meta;
 	}
 	private static function get_storage_times(){
-		$opt = theme_options::get_options(self::$iden);
-		if(isset($opt['storage-times']) && (int)$opt['storage-times'] !== 0){
-			return (int)$opt['storage-times'];
+		if(isset(self::$opt['storage-times']) && (int)self::$opt['storage-times'] !== 0){
+			return (int)self::$opt['storage-times'];
 		}else{
 			return 10;
 		}
@@ -172,9 +172,8 @@ class theme_post_views{
 		return $meta;
 	}
 	public static function is_enabled(){
-		$opt = theme_options::get_options(self::$iden);
 		
-		if(isset($opt['enabled']) && $opt['enabled'] == 1)
+		if(isset(self::$opt['enabled']) && self::$opt['enabled'] == 1)
 			return true;
 			
 		return false;

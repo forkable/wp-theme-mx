@@ -8,24 +8,25 @@ add_filter('theme_includes',function($fns){
 });
 class theme_comment_notify {
 	public static $iden = 'theme-comment-notify';
+	public static $opt;
 
 	public static function init(){
 		
 		add_action('page_settings',get_class() . '::display_backend');
 		add_filter('theme_options_default',get_class() . '::options_default');
 		add_filter('theme_options_save',get_class() . '::options_save');
+
+		self::$opt = theme_options::get_options(self::$iden);
 		
 		if(!self::is_enabled()) return;
 		add_action('comment_post',get_class() . '::reply_notify');
 		add_action('comment_unapproved_to_approved', get_class() . '::approved_notify');
 	}
 	public static function is_enabled(){
-		$opt = theme_options::get_options(self::$iden);
-		return isset($opt['on']) && $opt['on'] == 1 ? true : false;
+		return isset(self::$opt['on']) && self::$opt['on'] == 1 ? true : false;
 	}
 	public static function display_backend(){
-		$opt = theme_options::get_options(self::$iden);
-		$is_checked = isset($opt['on']) && $opt['on'] == 1 ? ' checked ' : null;
+		$is_checked = self::is_enabled() ? ' checked ' : null;
 		?>
 		<fieldset>
 			<legend><?php echo ___('Comment reply notifier');?></legend>

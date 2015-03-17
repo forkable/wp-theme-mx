@@ -2,7 +2,7 @@
 /*
 Feature Name:	Developer mode
 Feature URI:	http://www.inn-studio.com
-Version:		1.2.0
+Version:		2.0.0
 Description:	启用开发者模式，助于维护人员进行调试，运营网站请禁用此模式
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -13,13 +13,20 @@ add_filter('theme_includes',function($fns){
 });
 class theme_dev_mode{
 	public static $iden = 'theme_dev_mode';
+	public static $is_enabled;
+	public static $opt;
 	private static $data = array();
-	
 	public static function init(){
+
+		self::$opt = (array)theme_options::get_options(self::$iden);
+		self::$is_enabled = isset(self::$opt['on']) ? true : false;
+		
 		add_filter('theme_options_save',get_class() . '::options_save');
 		add_action('after_setup_theme',get_class() . '::mark_start_data',0);
 		add_action('wp_footer',get_class() . '::hook_footer',9999);
 		add_action('dev_settings',get_class() . '::display_backend');
+
+		
 	}
 
 	public static function mark_start_data(){
@@ -31,12 +38,10 @@ class theme_dev_mode{
 		);
 	}
 	public static function is_enabled(){
-		$opt = (array)theme_options::get_options(self::$iden);
-		return isset($opt['on']);
+		return self::$is_enabled;
 	}
 	public static function display_backend(){
 		
-		$opt = (array)theme_options::get_options(self::$iden);
 		$checked = self::is_enabled() ? ' checked ' : null;
 		
 		?>
@@ -75,8 +80,7 @@ class theme_dev_mode{
 	 * 
 	 */
 	public static function options_save($options){
-		$old_opt = (array)theme_options::get_options(self::$iden);
-		if(isset($old_opt['on']) && !isset($_POST[self::$iden]['on'])){
+		if(isset(self::$opt['on']) && !isset($_POST[self::$iden]['on'])){
 		
 			@ini_set('max_input_nesting_level','9999');
 			@ini_set('max_execution_time','300'); 
@@ -94,27 +98,7 @@ class theme_dev_mode{
 		return $options;
 	}
 
-
-	/**
-	 * compress
-	 *
-	 * @return 
-	 * @version 1.0.0
-	 * @author KM@INN STUDIO
-	 */
-	public static function compress(){
-		$options = theme_options::get_options();
-		/** 
-		 * if dev_mode is off
-		 */
-		if(!self::is_enabled() && !is_admin()){
-			ob_start('html_compress');
-		}
-	}
 	public static function hook_footer(){
-		$options = theme_options::get_options();
-		// if(!self::is_enabled()) return false;
-		
 		?>
 		<script>
 		try{

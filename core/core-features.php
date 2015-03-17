@@ -47,17 +47,17 @@ class theme_features{
 		<?php
 		$theme_version = self::get_theme_info('version');
 		$config = array();
-		$config['base'] = esc_js(self::get_theme_js());
+		$config['base'] = self::get_theme_js();
 		$config['paths'] = array(
-			'theme_js' => esc_js(self::get_theme_js()),
-			'theme_css' => esc_js(self::get_theme_css()),
+			'theme_js' => self::get_theme_js(),
+			'theme_css' => self::get_theme_css(),
 		);
 		$config['vars'] = array(
 			'locale' => str_replace('-','_',get_bloginfo('language')),
-			'theme_js' => esc_js(self::get_theme_js()),
-			'theme_css' => esc_js(self::get_theme_css()),
-			'theme_images' => esc_js(self::get_theme_images_url()),
-			'process_url' => esc_js(self::get_process_url()),
+			'theme_js' => self::get_theme_js(),
+			'theme_css' => self::get_theme_css(),
+			'theme_images' => self::get_theme_images_url(),
+			'process_url' => esc_url(self::get_process_url()),
 		);
 		$config['map'] = array(
 			array('.css','.css?v=' . $theme_version),
@@ -162,12 +162,14 @@ class theme_features{
 	 * @param string 
 	 * @param string 
 	 * @return string
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 * @see http://codex.wordpress.org/Function_Reference/wp_get_theme
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_info($key = null,$stylesheet = null, $theme_root = null){
-		$theme = wp_get_theme($stylesheet = null, $theme_root = null);
+		static $theme;
+		if(!$theme)
+			$theme = wp_get_theme($stylesheet = null, $theme_root = null);
 		if(!$key) return $theme;
 		
 		$key = ucfirst($key);
@@ -211,7 +213,15 @@ class theme_features{
 	 * 
 	 */
 	public static function get_theme_file_url($file_basename = null,$mtime = false){
+		static $caches;
+		
+		$cache_id = crc32($file_basename.$mtime);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+		
 		if(!$file_basename) return get_template_directory_uri();
+
+		
 		/**
 		 * fix basename string
 		 */
@@ -228,6 +238,7 @@ class theme_features{
 			$file_mtime = self::get_theme_info('version');
 			$file_url = $file_url . '?v=' . $file_mtime;
 		}
+		$caches[$cache_id] = $file_url;
 		return $file_url;
 	}
 	/**
@@ -285,6 +296,15 @@ class theme_features{
 	 * @return string <script> tag string or js url only
 	 */
 	public static function get_theme_js($file_basename = null,$url_only = true,$mtime = true){
+		static $caches;
+		/**
+		 * cache
+		 */
+		$cache_id = crc32($file_basename.$url_only.$mtime);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+			
+		
 		$basedir = self::$basedir_js_min;
 		/**
 		 * if dev mode is ON
@@ -292,7 +312,7 @@ class theme_features{
 		if(class_exists('theme_dev_mode') && theme_dev_mode::is_enabled()){
 			$basedir = self::$basedir_js_src;
 		}
-
+		
 		/**
 		 * file_basename
 		 */
@@ -312,6 +332,8 @@ class theme_features{
 		$file_url = self::get_theme_file_url($basedir . $file_basename,$mtime);
 		$output = $url_only ? $file_url : '<script src="' . esc_url($file_url) . '"></script>';
 
+		$caches[$cache_id] = $output;
+		
 		return $output;
 	}
 	/**
@@ -325,14 +347,24 @@ class theme_features{
 	 * @return string url only /<link...> by $args
 	 */
 	public static function get_theme_css($file_basename = null,$args = null,$mtime = true){
+		static $caches;
+		
+		/**
+		 * cache
+		 */
+		$cache_id = crc32($file_basename.serialize($args).$mtime);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+
+			
 		$basedir = self::$basedir_css_min;
 		/**
 		 * if dev mode is ON
 		 */
 		if(class_exists('theme_dev_mode') && theme_dev_mode::is_enabled()){
 			$basedir = self::$basedir_css_src;
-			$glob_path = self::get_theme_path(self::$basedir_css_src . '*.css');
 		}
+			
 		/**
 		 * file_basename
 		 */
@@ -365,6 +397,7 @@ class theme_features{
 			}
 			$output = '<link id="' . esc_attr($path_info['filename']) . '" href="' . esc_url($file_url) .'" rel="stylesheet" ' .$ext. '/>';
 		}
+		$caches[$cache_id] = $output;
 		return $output;
 	}
 	/**
@@ -438,6 +471,12 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_includes_js($DIR = null,$filename = 'init',$mtime = true){
+		static $caches;
+		
+		$cache_id = crc32($DIR.$filename.$mtime);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+		
 		$path_info = pathinfo($filename);
 		if(!isset($path_info['extension']) || empty($path_info['extension']) || $path_info['extension'] !== 'js'){
 			$file_basename = $filename . '.js';
@@ -450,7 +489,10 @@ class theme_features{
 			'file_basename' => $file_basename,
 			'mtime' => $mtime
 		);
-		return self::get_theme_extension_url($args);
+		$url = self::get_theme_extension_url($args);
+		
+		$caches[$cache_id] = $url;
+		return $url;
 	}
 	/**
 	 * get_theme_includes_css
@@ -463,6 +505,12 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_includes_css($DIR = null,$filename = 'style',$mtime = true){
+		static $caches;
+		
+		$cache_id = crc32($DIR.$filename.$mtime);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+		
 		$path_info = pathinfo($filename);
 		if(!isset($path_info['extension']) || empty($path_info['extension']) || $path_info['extension'] !== 'css'){
 			$file_basename = $filename . '.css';
@@ -475,7 +523,10 @@ class theme_features{
 			'file_basename' => $file_basename,
 			'mtime' => $mtime
 		);
-		return self::get_theme_extension_url($args);
+		$url = self::get_theme_extension_url($args);
+		
+		$caches[$cache_id] = $url;
+		return $url;
 	}
 	/**
 	 * get_theme_includes_image
@@ -487,13 +538,22 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_includes_image($DIR = null,$filename = null){
+		static $caches;
+		
+		$cache_id = crc32($DIR.$filename);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+			
 		$r = array(
 			'type' => 'includes',
 			'basedir' => basename($DIR) . self::$basedir_images_min,
 			'file_basename' => $filename,
 		);
 		extract($r,EXTR_SKIP);
-		return get_template_directory_uri() . '/' . $type . '/' . $basedir . $file_basename;
+		$url = get_template_directory_uri() . '/' . $type . '/' . $basedir . $file_basename;
+
+		$caches[$cache_id] = $url;
+		return $url;
 	}
 	/**
 	 * get_theme_extension_url_core
@@ -616,8 +676,16 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_images_url($file_basename = null,$mtime = false){
+		static $caches;
+		
+		$cache_id = crc32($file_basename.$mtime);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+			
 		if(!$file_basename) return get_template_directory_uri() . self::$basedir_images_min;
 		$file_url = self::get_theme_file_url(self::$basedir_images_min . $file_basename,$mtime);
+
+		$caches[$cache_id] = $file_url;
 		return $file_url;
 	}
 	/* 输出后台页面地址 */
@@ -762,8 +830,16 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_url($file_basename = null,$mtime = false){
+		
+		static $caches;
+		$cache_id = crc32($file_basename.$mtime);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+			
 		if(!$file_basename) return get_template_directory_uri();
 		$file_url = self::get_theme_file_url($file_basename,$mtime);
+
+		$caches[$cache_id] = $file_url;
 		return $file_url;
 	}
 	/**
@@ -775,8 +851,15 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_path($file_basename = null){
+		static $caches;
+		$cache_id = crc32($file_basename);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+		
 		if(!$file_basename) return get_stylesheet_directory() . '/';
 		$file_path = $file_basename[0] === '/' ? get_stylesheet_directory() . $file_basename : get_stylesheet_directory() . '/' . $file_basename;
+
+		$caches[$cache_id] = $file_path;
 		return $file_path;
 	}
 	/**
@@ -788,8 +871,15 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_includes_path($file_basename = null){
+		static $caches;
+		$cache_id = crc32($file_basename);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+		
 		if(!$file_basename) return get_stylesheet_directory() . self::$basedir_includes;
 		$file_path = $file_basename[0] === '/' ? get_stylesheet_directory() . self::$basedir_includes . $file_basename : get_stylesheet_directory() . self::$basedir_includes . $file_basename;
+		
+		$caches[$cache_id] = $file_path;
 		return $file_path;
 	}
 	/**

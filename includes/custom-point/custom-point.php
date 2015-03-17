@@ -266,8 +266,15 @@ class theme_custom_point{
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	public static function get_point($user_id = null){
+		static $caches;
+		if(isset($caches[$user_id]))
+			return $caches[$user_id];
+			
 		if(!$user_id) $user_id = get_current_user_id();
-		return (int)get_user_meta($user_id,self::$user_meta_key['point'],true);
+		$point = (int)get_user_meta($user_id,self::$user_meta_key['point'],true);
+
+		$caches[$user_id] = $point;
+		return $point;
 	}
 	/**
 	 * Get user history

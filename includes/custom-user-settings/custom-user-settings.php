@@ -196,7 +196,13 @@ class theme_custom_user_settings{
 		die(theme_features::json_format($output));
 	}
 	public static function get_url(){
-		return get_permalink(theme_cache::get_page_by_path(self::$page_slug));
+		static $url;
+		if($url)
+			return $url;
+			
+		$page = theme_cache::get_page_by_path(self::$page_slug);
+		$url = get_permalink($page->ID);
+		return $url;
 	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();

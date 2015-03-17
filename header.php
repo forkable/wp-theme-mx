@@ -38,7 +38,7 @@
 				?>
 			<!-- </div> -->
 			<div class="top-bar-tools">
-				<?php get_template_part('tpl','header-topbar-tools');?>
+				<?php include __DIR__ . '/tpl-header-topbar-tools.php';?>
 			</div>
 		</div><!-- /.container -->
 	</div><!-- /.top-bar -->	
