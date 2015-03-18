@@ -21,7 +21,11 @@ $history_list = theme_custom_point::get_history_list(array(
 	'posts_per_page' => 20,
 ));
 if(empty($history_list)){
-	echo status_tip('info',___('Your have not any history yet.'));
+	?>
+	<div class="panel-body">
+		<div class="page-tip"><?php echo status_tip('info',___('Your have not any history yet.')); ?></div>
+	</div><!-- /.panel-body -->
+	<?php
 }else{
 	echo $history_list;
 }

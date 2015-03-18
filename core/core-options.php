@@ -50,7 +50,7 @@ class theme_options{
 	}
 	public static function backend_header(){
 		if(!self::is_options_page()) return false;
-		$options = self::get_options();/* get the options */
+
 		echo theme_features::get_theme_css('modules/fa-fonts','normal');
 		echo theme_features::get_theme_css('backend/fonts','normal');
 		echo theme_features::get_theme_css('backend/style','normal');
@@ -190,11 +190,11 @@ class theme_options{
 			if(isset($_POST['reset_options'])){
 				/** Delete theme options */
 				delete_option(self::$iden);
-				self::$opt = null;
+				self::$opts = null;
 			}else{
 				/** Update theme options */
 				update_option(self::$iden,$options);
-				self::$opt = $options;
+				self::$opts = $options;
 			}
 		}
 	}
@@ -212,7 +212,7 @@ class theme_options{
 		if(!$key || !$data) return $options;
 		$options[$key] = $data;
 		update_option(self::$iden,$options);
-		self::$opt = $options;
+		self::$opts = $options;
 		return $options;
 	}
 	/**
@@ -228,7 +228,7 @@ class theme_options{
 		$options = self::get_options();
 		unset($options[$key]);
 		update_option(self::$iden,$options);
-		self::$opt = null;
+		self::$opts = null;
 	}
 	/**
 	 * is_options_page

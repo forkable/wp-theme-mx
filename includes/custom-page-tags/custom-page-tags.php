@@ -52,7 +52,7 @@ class theme_page_tags{
 				<tr>
 					<th><?php echo ___('Whitelist - users ');?></th>
 					<td>
-						<textarea name="<?php echo self::$iden;?>[whitelist][users-ids]" id="<?php echo self::$iden;?>-whitelist-user-ids" rows="3" class="widefat code"><?php echo isset($opt['Whitelist']['user-ids']) ? esc_textarea($opt['Whitelist']['user-ids']) : null;?></textarea>
+						<textarea name="<?php echo self::$iden;?>[whitelist][user-ids]" id="<?php echo self::$iden;?>-whitelist-user-ids" rows="3" class="widefat code"><?php echo isset($opt['Whitelist']['user-ids']) ? esc_textarea($opt['Whitelist']['user-ids']) : null;?></textarea>
 						<p class="description"><?php echo ___('User ID, multiple users separated by ,(commas). E.g. 1,2,3,4');?></p>
 					</td>
 				</tr>
@@ -224,7 +224,7 @@ class theme_page_tags{
 											<a href="<?php the_permalink();?>" title="<?php the_title();?>"><?php the_title();?></a>
 											<?php if(has_post_thumbnail()){ ?>
 												<div class="extra-thumbnail">
-<img src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-original="<?php echo esc_url(theme_functions::get_thumbnail_src());?>" alt="<?php the_title();?>" width="<?php echo theme_functions::$thumbnail_size[1];?>" height="<?php echo theme_functions::$thumbnail_size[2];?>"/>
+<img src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-src="<?php echo esc_url(theme_functions::get_thumbnail_src());?>" alt="<?php the_title();?>" width="<?php echo theme_functions::$thumbnail_size[1];?>" height="<?php echo theme_functions::$thumbnail_size[2];?>"/>
 												</div>
 											<?php } ?>
 										</li>

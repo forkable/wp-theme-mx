@@ -108,8 +108,6 @@ class theme_cache{
 	 * Admin Display
 	 */
 	public static function backend_display(){
-		$options = theme_options::get_options();
-
 		?>
 		<fieldset id="<?php echo self::$iden;?>">
 			<legend><?php echo ___('Theme cache');?></legend>
@@ -270,13 +268,16 @@ class theme_cache{
 	 * @param mixed $data Cache contents
 	 * @param string $group Cache group
 	 * @return int $expire Cache expire time (s)
-	 * @version 2.0.3
+	 * @version 2.0.4
 	 * @author KM@INN STUDIO
 	 */
-	public static function set($key,$data,$group = 'default',$expire = 3600){
-		if(theme_dev_mode::is_enabled()) return false;
-		
+	public static function set($key,$data,$group = null,$expire = 3600){
+		if(theme_dev_mode::is_enabled())
+			return false;
+			
 		if(wp_using_ext_object_cache()){
+			if(!$group)
+				$group = 'default';
 			return wp_cache_set($key,$data,$group,$expire);
 		}
 		return false;
@@ -291,13 +292,15 @@ class theme_cache{
 	 * @version 2.0.2
 	 * @author KM@INN STUDIO
 	 */
-	public static function get($key,$group = 'default',$force = false){
+	public static function get($key,$group = null,$force = false){
 		/**
 		 * if dev mode enabled, do NOT get data from cache
 		 */
 		if(theme_dev_mode::is_enabled()) return false;
 		
 		if(wp_using_ext_object_cache()){
+			if(!$group)
+				$group = 'default';
 			return wp_cache_get($key,$group,$force);
 		}
 		return false;
@@ -400,7 +403,7 @@ class theme_cache{
 		return empty($cache) ? false : true;
 	}
 	/**
-	 * Get nav menu from cache
+	 * wp nav menu from cache
 	 *
 	 * @param string The widget sidebar name/id
 	 * @param int Cache expire time
@@ -408,27 +411,22 @@ class theme_cache{
 	 * @version 2.0.2
 	 * @author KM@INN STUDIO
 	 */
-	public static function get_nav_menu($args,$expire = 3600){
-		$defaults = array(
-			'theme_location' => null,
-			'menu_class' => null,
-			'container' => 'nav',
-		);
-		$r = wp_parse_args($args,$defaults);
+	public static function wp_nav_menu($args,$expire = 3600){
 		$cache_group_id = 'nav-menus';
 
 		$cache_id = self::get_page_prefix() . $args['theme_location'];
 		$caches = (array)self::get(self::$cache_skey);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
+
 		if(empty($cache)){
 			ob_start();
-			wp_nav_menu($r);
+			wp_nav_menu($args);
 			$cache = html_compress(ob_get_contents());
 			ob_end_clean();
 			$caches[$cache_group_id][$cache_id] = $cache;
 			self::set(self::$cache_skey,$caches,null,$expire);
 		}
-		return $cache;
+		echo $cache;
 	}
 }
 ?>

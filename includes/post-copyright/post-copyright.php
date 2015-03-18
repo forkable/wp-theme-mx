@@ -62,7 +62,7 @@ class theme_post_copyright{
 	}
 	public static function is_enabled(){
 		$opt = theme_options::get_options(self::$iden);
-		return isset($opt['enabled']) && $opt['enabled'];
+		return isset($opt['enabled']) && $opt['enabled'] == 1;
 	}
 	/**
 	 * options_default
@@ -75,7 +75,7 @@ class theme_post_copyright{
 	 */
 	public static function options_default($opts){
 		
-		$opts['code'] = '
+		$opts[self::$iden]['code'] = '
 <ul>
 	<li>
 		' . ___('Permanent URL: '). '<a href="%post_url%">%post_url%</a>
@@ -84,7 +84,7 @@ class theme_post_copyright{
 		' . ___('Welcome to reprint: '). ___('Addition to indicate the original, the article of <a href="%blog_url%">%blog_name%</a> comes from internet. If infringement, please contact me to delete.'). '
 	</li>
 </ul>';
-		$opts['enabled'] = 1;
+		$opts[self::$iden]['enabled'] = 1;
 		return $opts;
 	}
 	/**
@@ -104,7 +104,7 @@ class theme_post_copyright{
 		$opt = theme_options::get_options(self::$iden);
 		$tpl_keywords = array('%post_title_text%','%post_url%','%blog_name%','%blog_url%');
 		$output_keywords = array(get_the_title(),get_permalink(),get_bloginfo('name'),home_url());
-		$codes = str_ireplace($tpl_keywords,$output_keywords,$opt['code']);
+		$codes = str_replace($tpl_keywords,$output_keywords,$opt['code']);
 		echo stripslashes($codes);
 	}
 }

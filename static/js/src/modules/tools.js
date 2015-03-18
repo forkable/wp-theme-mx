@@ -1,5 +1,16 @@
 define(function(require, exports, module){
+	'use strict';
+	
 	var $ = require('modules/jquery'),jQuery = $;
+
+
+	exports.ready = function(fn){
+		if (document.readyState != 'loading'){
+			fn();
+		} else {
+			document.addEventListener('DOMContentLoaded', fn);
+		}
+	};
 	
 	exports.$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? $('html') : $('body');
 	/**

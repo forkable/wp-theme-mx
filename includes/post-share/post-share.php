@@ -2,7 +2,7 @@
 /*
 Feature Name:	Post Share
 Feature URI:	http://www.inn-studio.com
-Version:		1.3.0
+Version:		2.0.0
 Description:	
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -18,9 +18,15 @@ class theme_post_share{
 		add_filter('theme_options_default',get_class() . '::options_default');
 		add_filter('theme_options_save',get_class() . '::options_save');
 		add_action('page_settings',get_class() . '::backend_display');
+
+		
 		if(!self::is_enabled()) return false;
-		add_action('wp_head',get_class() . '::frontend_css');
-		add_action('frontend_seajs_use',get_class() . '::frontend_js');
+
+		add_filter('frontend_seajs_alias',	get_class() . '::frontend_seajs_alias');
+				
+		add_action('frontend_seajs_use',get_class() . '::frontend_seajs_use');
+
+		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
 	}
 	public static function display($args = array()){
 		global $post;
@@ -49,7 +55,7 @@ class theme_post_share{
 			'%author%'
 			
 		);
-		$post_share_code = stripslashes(str_ireplace($tpl_keywords,$output_keywords,$options[self::$iden]['code']));
+		$post_share_code = stripslashes(str_ireplace($tpl_keywords,$output_keywords,$opt['code']));
 
 		echo $post_share_code;
 	}
@@ -57,7 +63,8 @@ class theme_post_share{
 	public static function backend_display(){
 
 		
-		$options = theme_options::get_options();
+		$opt = theme_options::get_options(self::$iden);
+		
 		$is_checked = self::is_enabled() ? ' checked ' : null;
 		?>
 		<fieldset>
@@ -82,7 +89,7 @@ class theme_post_share{
 					</tr>
 					<tr>
 						<th scope="row"><?php echo ___('HTML codes');?></th>
-						<td><textarea id="<?php echo self::$iden;?>_code" name="<?php echo self::$iden;?>[code]" class="widefat" cols="30" rows="10"><?php echo stripslashes($options[self::$iden]['code']);?></textarea>
+						<td><textarea id="<?php echo self::$iden;?>_code" name="<?php echo self::$iden;?>[code]" class="widefat" cols="30" rows="10"><?php echo stripslashes($opt['code']);?></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -101,8 +108,8 @@ class theme_post_share{
 	
 	}
 	
-	public static function options_default($options){
-		
+	public static function options_default($opts){
+		var_dump($opts);exit;
 		ob_start();
 		?>
 <div class="bdshare_t bds_tools get-codes-bdshare" data-bdshare="{
@@ -119,15 +126,17 @@ class theme_post_share{
 <?php
 		$content = ob_get_contents();
 		ob_end_clean();
-		$options[self::$iden]['on'] = 1;
-		$options[self::$iden]['code'] = $content;
 
+		$opts[self::$iden] = array(
+			'on' => 1,
+			'code' => $content,
+		);
 
-		return $options;
+		return $opts;
 	}
 	public static function is_enabled(){
-		$options = theme_options::get_options();
-		if(isset($options[self::$iden]['on'])){
+		$opt = theme_options::get_options(self::$iden);
+		if(isset($opt['on'])){
 			return true;
 		}else{
 			return false;
@@ -135,20 +144,27 @@ class theme_post_share{
 	}
 	public static function options_save($options){
 		if(isset($_POST[self::$iden]) && !isset($_POST[self::$iden]['restore'])){
-			$options[self::$iden] = $_POST[self::$iden];
+			$opt = $_POST[self::$iden];
 		}
 		return $options;
 	}
 	public static function frontend_css(){
-		?>
-		<link rel="stylesheet" href="<?php echo theme_features::get_theme_includes_css(__DIR__);?>">
-		<?php
+		wp_enqueue_style(
+			self::$iden,
+			theme_features::get_theme_includes_css(__DIR__,'style',false),
+			false,
+			theme_features::get_theme_info('version')
+		);
 	}
-	public static function frontend_js(){
-		$options = theme_options::get_options();
-		if(!isset($options[self::$iden]) || strstr($options[self::$iden]['code'],'bdshare') === false) return false;
+	public static function frontend_seajs_alias($alias){
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+		return $alias;
+	} 
+	public static function frontend_seajs_use(){
+		$options = theme_options::get_options(self::$iden);
+		if(!isset($opt) || strstr($opt['code'],'bdshare') === false) return false;
 		?>
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
+		seajs.use('<?php echo self::$iden;?>',function(m){
 			m.config.bdshare_js = '<?php echo esc_url(theme_features::get_theme_includes_js(__DIR__,'bdshare'));?>';
 			m.init();
 		});

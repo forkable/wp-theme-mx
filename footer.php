@@ -1,7 +1,7 @@
 <footer id="footer" class="">
 	<div class="container">
 		<?php if(!wp_is_mobile()){ ?>
-			<div class="widget-area row">
+			<div class="widget-area row hiddex-xs">
 				<?php if(!theme_cache::dynamic_sidebar('widget-area-footer')){ ?>
 					<div class="col-xs-12">
 						<div class="panel">

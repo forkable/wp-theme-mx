@@ -169,6 +169,8 @@ class theme_custom_user_settings{
 				
 				$filepath = wp_upload_dir()['path'] . '/' . $filename;
 				
+				$file_suburl = wp_upload_dir()['subdir'] . '/' . $filename;
+				
 				$fileurl = wp_upload_dir()['url'] . '/' . $filename;
 				
 				$file_contents = file_put_contents($filepath,base64_decode($base64[1]));
@@ -184,7 +186,7 @@ class theme_custom_user_settings{
 					 */
 					$avatar_meta_key = class_exists('theme_custom_avatar') ? theme_custom_avatar::$user_meta_key['avatar'] : 'avatar';
 					
-					update_user_meta(get_current_user_id(),$avatar_meta_key,$fileurl);
+					update_user_meta(get_current_user_id(),$avatar_meta_key,$file_suburl);
 					
 					$output['status'] = 'success';
 					$output['avatar-url'] = $fileurl;

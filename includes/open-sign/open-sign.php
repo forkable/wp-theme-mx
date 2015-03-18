@@ -11,13 +11,13 @@ class theme_open_sign{
 	public static $open_types = array('sina','qq');
 
 	public static $user_meta_key = array(
-		'id' => 'isos_open_id',
-		'type' => 'isos_open_type',
-		'avatar' => 'isos_open_avatar',
-		'token' => 'isos_open_token',
-		'expire' => 'isos_open_expire',
-		'access' => 'isos_open_access',
-		'refresh_token' => 'isos_open_refresh_token',
+		'id' => 'open_id',
+		'type' => 'open_type',
+		'avatar' => 'open_avatar',
+		'token' => 'open_token',
+		'expire' => 'open_expire',
+		'access' => 'open_access',
+		'refresh_token' => 'open_refresh_token',
 	);
 	
 	private static $open_url = 'http://opensign.inn-studio.com/api/';
@@ -138,13 +138,12 @@ class theme_open_sign{
 			$sina = new theme_open_sign\inc\sina\SaeTClientV2(self::get_sina_config('akey'), self::get_sina_config('skey') , $access_token );
 			/** get uid */
 			$open_id = $sina->get_uid()['uid'];				
-			$user = self::get_user_by_openid($open_id);
+			$user = get_user_by('login',$open_id);
 			/** register insert user */
 			if(empty($user)){
 				$sina_userdata = $sina->show_user_by_id($open_id);
-				$user_login = sanitize_user($sina_userdata['screen_name']);
 				$user_id = wp_insert_user(array(
-					'user_login' => $user_login,
+					'user_login' => $open_id,
 					'user_pass' => $current_timestamp,
 					'nickname' => $sina_userdata['screen_name'],
 					'display_name' => $sina_userdata['screen_name'],
@@ -210,19 +209,19 @@ class theme_open_sign{
 
 
 			/** load user from database */
-			$user = self::get_user_by_openid($open_id);
+			$user = get_user_by('login',$open_id);
 			/**
 			 * if not exist user, create it
 			 */
 			if(empty($user)){
 				/** load qqzone info */
 				$open_info = $qc->get_user_info();
-				$user_login = sanitize_user($open_info['nickname']);
+				
 				/** avatar */
 				$user_avatar = !empty($open_info['figureurl_qq_2']) ? $open_info['figureurl_qq_2'] : $open_info['figureurl_qq_1'];
 				
 				$user_id = wp_insert_user(array(
-					'user_login' => $user_login,
+					'user_login' => $open_id,
 					'user_pass' => $current_timestamp,
 					'nickname' => $open_info['nickname'],
 					'display_name' => $open_info['nickname'],
@@ -308,13 +307,5 @@ class theme_open_sign{
 		}
 
 		die(theme_features::json_format($output));
-	}
-	public static function get_user_by_openid($openid){
-		$users = get_users(array(
-			'meta_key' => self::$user_meta_key['id'],
-			'meta_value' => $openid,
-			'number' => 1,
-		));
-		return empty($users) ? null : $users[0];
 	}
 }

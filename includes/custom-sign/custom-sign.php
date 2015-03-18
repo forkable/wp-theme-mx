@@ -65,7 +65,10 @@ class theme_custom_sign{
 		return self::get_tabs('login',get_current_url())['url'];
 	}
 	public static function get_tabs($key = null,$redirect = null){
-		$baseurl = get_permalink(theme_cache::get_page_by_path(self::$page_slug));
+		static $baseurl;
+		if(!$baseurl)
+			$baseurl = get_permalink(theme_cache::get_page_by_path(self::$page_slug));
+		
 		$redirect = $redirect ? $redirect : get_query_var('redirect');
 		if($redirect){
 			$baseurl = add_query_arg(array(

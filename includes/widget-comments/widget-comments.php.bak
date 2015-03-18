@@ -45,7 +45,7 @@ class widget_comments extends WP_Widget{
 				<?php foreach($comments as $comment){ ?>
 					<li>
 						<a href="<?php echo esc_url(get_permalink($comment->comment_post_ID));?>#comment-<?php echo $comment->comment_ID;?>" title="<?php echo esc_attr(get_the_title($comment->comment_post_ID));?>">
-							<img class="avatar" data-src="<?php echo esc_url(get_img_source(get_avatar(get_comment_author_email())));?>" src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="<?php echo esc_attr(get_comment_author());?>" width="<?php echo self::$avatar_size;?>" height="<?php echo self::$avatar_size;?>"/>
+							<img class="avatar" data-original="<?php echo esc_url(get_img_source(get_avatar(get_comment_author_email())));?>" src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="<?php echo esc_attr(get_comment_author());?>" width="<?php echo self::$avatar_size;?>" height="<?php echo self::$avatar_size;?>"/>
 							<div class="tx">
 								<h3>
 									<span class="author"><?php echo esc_html(get_comment_author());?></span>

@@ -100,20 +100,7 @@ class theme_functions{
 		seajs.use('frontend',function(m){
 			m.init();
 		});
-		
 		<?php
-		/** 
-		 * post toc
-		 */
-		if(is_singular()){
-			?>
-			seajs.use('modules/jquery.posttoc',function(m){
-				m.config.lang.M00001 = '<?php echo  ___('Post Toc');?>';
-				m.config.lang.M00002 = '<?php echo  ___('[Top]');?>';
-				m.init();
-			});
-			<?php
-		}
 	}
 	/** 
 	 * widget_init
@@ -130,11 +117,7 @@ class theme_functions{
 				'id'			=> 'widget-area-archive',
 				'description' 	=> ___('Appears on archive page in the sidebar.')
 			),
-			array(
-				'name' 			=> ___('Author page widget area'),
-				'id'			=> 'widget-area-author',
-				'description' 	=> ___('Appears on author page in the sidebar.')
-			),
+
 			array(
 				'name' 			=> ___('Footer widget area'),
 				'id'			=> 'widget-area-footer',
@@ -388,7 +371,7 @@ class theme_functions{
 		?>
 		<li class="<?php echo esc_attr(implode(' ',$classes));?>">
 			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
-				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-original="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 				
 				<h3 class="post-list-title"><?php the_title();?></h3>
 					
@@ -508,7 +491,7 @@ class theme_functions{
 				<div class="sticky-post" title="<?php echo esc_attr(___('Sticky post'));?>"></div>
 			<?php } ?>
 			<a class="post-list-bg" href="<?php echo get_permalink();?>">
-				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-original="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 				<div class="caption area-tx">
 					<h3 class="post-list-title" title="<?php echo esc_attr($post_title);?>"><?php echo esc_html($post_title);?></h3>
 					<p class="excerpt"><?php echo esc_html($excerpt);?></p>
@@ -556,7 +539,7 @@ class theme_functions{
 		<li class="list-group-item">
 			<a class="post-list-bg media" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
 				<div class="media-left">
-					<img class="media-object" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-original="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+					<img class="media-object" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading"><?php the_title();?></h4>

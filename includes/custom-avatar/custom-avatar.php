@@ -18,10 +18,31 @@ class theme_custom_avatar{
 		add_filter('get_avatar', get_class() . '::get_gravatar',99,2);
 	}
 	public static function get_gravatar($avatar,$id_or_email){
+		static $caches;
+		$cache_id = crc32($avatar.$id_or_email);
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+		
 		if(!is_integer($id_or_email)) return $avatar;
 		$meta = get_user_meta($id_or_email,self::$user_meta_key['avatar'],true);
-		if(empty($meta)) return $avatar;
-		return preg_replace('/src=\'?"?(\S+)?"?\'?/i','src="' . $meta . '"',$avatar);
+		
+		if(empty($meta)) 
+			return $avatar;
+
+		/**
+		 * if is /12/2015/xx.jpg format, add upload baseurl
+		 */
+		if(strpos($meta,'http') === false){
+			static $baseurl;
+			if(!$baseurl){
+				$baseurl = wp_upload_dir()['baseurl'];
+			}
+			$meta = $baseurl . $meta;
+		}
+		$avatar = preg_replace('/src=\'?"?(\S+)?"?\'?/i','data-src="' . $meta . '" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"',$avatar);
+
+		$caches[$cache_id] = $avatar;
+		return $avatar;
 	}
 }
 ?>

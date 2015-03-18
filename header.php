@@ -26,7 +26,7 @@
 				/** 
 				 * menu top-bar
 				 */
-	            wp_nav_menu( array(
+	           theme_cache::wp_nav_menu( array(
 	                'theme_location'    => 'menu-top-bar',
 	                'container'         => 'nav',
 	                'container_class'   => 'nav navbar-nav navbar-left',
@@ -93,7 +93,7 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 		/** 
 		 * menu menu-header
 		 */
-		wp_nav_menu(array(
+		theme_cache::wp_nav_menu(array(
 	        'theme_location'    => 'menu-header',
 	        'container'         => 'nav',
 	        'container_class'   => 'menu-header navbar-left navbar-collapse collapse',
