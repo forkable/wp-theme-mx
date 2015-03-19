@@ -645,7 +645,7 @@ class theme_functions{
 						<?php echo friendly_date((get_the_time('U')));?>
 					</time>
 					<!-- author link -->
-					<a class="post-meta post-author" href="<?php echo get_author_posts_url(get_the_author_meta('ID'));?>" title="<?php echo esc_attr(sprintf(___('Views all post by %s'),get_the_author()));?>">
+					<a class="post-meta post-author" href="<?php echo theme_cache::get_author_posts_url(get_the_author_meta('ID'));?>" title="<?php echo esc_attr(sprintf(___('Views all post by %s'),get_the_author()));?>">
 						<i class="fa fa-user"></i>
 						<?php the_author();?>
 					</a>
@@ -990,7 +990,7 @@ class theme_functions{
 		}else if(is_author()){
 			global $author;
 			$user = get_user_by('id',$author);
-			$links['author'] = '<a href="'.get_author_posts_url($author).'">'.esc_html($user->display_name).'</a>';
+			$links['author'] = '<a href="'.theme_cache::get_author_posts_url($author).'">'.esc_html($user->display_name).'</a>';
 			//$links['curr_text'] = esc_html(___('Author posts'));
     	/* archive */
     	}else if(is_archive()){
@@ -1682,9 +1682,16 @@ class theme_functions{
 	 */
 	public static function the_recommended(){
 		$recomms = (array)theme_options::get_options(theme_recommended_post::$iden);
-		if(empty($recomms)) return false;
-		$cache_id = md5(serialize($recomms));
+		
+		if(empty($recomms)){
+			?>
+			<div class="page-tip"><?php echo status_tip('info',___('Please set some recommended posts to display.'));?></div>
+			<?php
+			return false;
+		}
+		$cache_id = crc32(serialize($recomms));
 		$cache = theme_cache::get($cache_id);
+		
 		if(!empty($cache)){
 			echo $cache;
 			return $cache;
@@ -1720,9 +1727,22 @@ class theme_functions{
 		return $cache;
 	}
 	public static function the_homebox($args = null){
-		if(!class_exists('theme_custom_homebox')) return false;
+		if(!class_exists('theme_custom_homebox')) 
+			return false;
+			
 		$opt = (array)theme_options::get_options(theme_custom_homebox::$iden);
-		if(empty($opt)) return false;
+
+		if(is_null_array($opt)){
+			?>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="page-tip"><?php echo status_tip('info',___('Please add some homebox.'));?></div>
+				</div>
+			</div>
+			<?php
+			return false;
+		}
+			return false;
 		global $wp_query,$post;
 		foreach($opt as $k => $v){
 			?>

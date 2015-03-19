@@ -28,9 +28,18 @@ class theme_post_share{
 
 		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
 	}
+	public static function get_options($key = null){
+		static $caches;
+		if(!$caches)
+			$caches = theme_options::get_options(self::$iden);
+		if($key){
+			return isset($caches[$key]);
+		}
+		return $caches;
+	}
 	public static function display($args = array()){
 		global $post;
-		$options = theme_options::get_options();
+		$opt = self::get_options();
 		$img_url = theme_features::get_thumbnail_src();
 		$defaults = array(
 			'post_title_text' => esc_attr(get_the_title()),
@@ -63,7 +72,7 @@ class theme_post_share{
 	public static function backend_display(){
 
 		
-		$opt = theme_options::get_options(self::$iden);
+		$opt = self::get_options();
 		
 		$is_checked = self::is_enabled() ? ' checked ' : null;
 		?>
@@ -109,7 +118,6 @@ class theme_post_share{
 	}
 	
 	public static function options_default($opts){
-		var_dump($opts);exit;
 		ob_start();
 		?>
 <div class="bdshare_t bds_tools get-codes-bdshare" data-bdshare="{
@@ -135,7 +143,7 @@ class theme_post_share{
 		return $opts;
 	}
 	public static function is_enabled(){
-		$opt = theme_options::get_options(self::$iden);
+		$opt = self::get_options();
 		if(isset($opt['on'])){
 			return true;
 		}else{
@@ -149,6 +157,10 @@ class theme_post_share{
 		return $options;
 	}
 	public static function frontend_css(){
+		$opt = self::get_options();
+		if(!self::is_enabled() || strstr($opt['code'],'bdshare') === false)
+			return false;
+			
 		wp_enqueue_style(
 			self::$iden,
 			theme_features::get_theme_includes_css(__DIR__,'style',false),
@@ -157,12 +169,16 @@ class theme_post_share{
 		);
 	}
 	public static function frontend_seajs_alias($alias){
+		$opt = self::get_options();
+		if(!self::is_enabled() || strstr($opt['code'],'bdshare') === false)
+			return $alias;
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	} 
 	public static function frontend_seajs_use(){
-		$options = theme_options::get_options(self::$iden);
-		if(!isset($opt) || strstr($opt['code'],'bdshare') === false) return false;
+		$opt = self::get_options();
+		if(!self::is_enabled() || strstr($opt['code'],'bdshare') === false)
+			return false;
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
 			m.config.bdshare_js = '<?php echo esc_url(theme_features::get_theme_includes_js(__DIR__,'bdshare'));?>';

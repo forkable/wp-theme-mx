@@ -204,7 +204,7 @@ class theme_quick_comment{
 			'comment_author' => array(
 				'name' => get_comment_author(),
 				'gravatar' => get_img_source( get_avatar($comment->comment_author_email,40,false,esc_attr($comment->comment_author))),
-				'url' => $comment->user_id ? get_author_posts_url($comment->user_id) : get_comment_author_url(),
+				'url' => $comment->user_id ? theme_cache::get_author_posts_url($comment->user_id) : get_comment_author_url(),
 				'user_id' => (int)$comment->user_id,
 			),
 			'comment_date' => get_comment_time('U'),

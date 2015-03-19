@@ -86,6 +86,7 @@ class theme_custom_contribution{
 		return $opts;
 	}
 	public static function options_default($opts){
+		//var_dump($opts);exit;
 		$opts[self::$iden]['tags-number'] = 6;
 		return $opts;
 	}

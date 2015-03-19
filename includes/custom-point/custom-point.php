@@ -187,10 +187,12 @@ class theme_custom_point{
 		die(theme_features::json_format($output));
 	}
 	public static function is_page(){
-		return 
-			is_page(self::$page_slug) && 
-			get_query_var('tab') === 'history'
-		;
+		static $caches;
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
+
+		$caches[self::$iden] = is_page(self::$page_slug) && 			get_query_var('tab') === 'history';
+		return $caches[self::$iden];
 	}
 	public static function get_point_types($key = null){
 		$types = array(
@@ -242,20 +244,36 @@ class theme_custom_point{
 		return $opts;
 	}
 	public static function options_save($opts){
-		if(!isset($_POST[self::$iden])) return $opts;
+		if(!isset($_POST[self::$iden]))
+			return $opts;
+			
 		$opts[self::$iden] = $_POST[self::$iden];
 		return $opts;
 	}
 	public static function get_point_name(){
-		$opt = theme_options::get_options(self::$iden);
-		return isset($opt['point-name']) ? $opt['point-name'] : ___('Cat-paw');
+		return self::get_options('point-name') ? self::get_options('point-name') : ___('Cat-paw');
 	}
 	public static function get_point_des(){
-		return theme_options::get_options(self::$iden)['point-des'];
+		return self::get_options('point-des');
+	}
+	public static function get_options($key = null){
+		static $caches;
+		if(!$caches)
+			$caches = theme_options::get_options(self::$iden);
+		if($key){
+			return isset($caches[$key]);
+		}
+		return $caches;
 	}
 	public static function get_point_value($type){
-		$opt = theme_options::get_options(self::$iden)['points'];
-		return isset($opt[$type]) ? $opt[$type] : false;
+		static $caches;
+		if(isset($caches[$type]))
+			return $caches[$type];
+
+		
+		$opt = self::get_options('points');
+		$caches[$type] = isset($opt[$type]) ? $opt[$type] : false;
+		return $caches[$type];
 	}
 	/**
 	 * Get user point

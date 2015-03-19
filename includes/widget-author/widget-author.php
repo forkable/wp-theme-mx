@@ -50,7 +50,7 @@ class theme_widget_author extends WP_Widget{
 		if(class_exists('theme_custom_author_profile')){
 			$author_url = theme_custom_author_profile::get_tabs('profile')['url'];
 		}else{
-			$author_url = get_author_posts_url($author_id);
+			$author_url = theme_cache::get_author_posts_url($author_id);
 		}
 		$description = get_the_author_meta('description',$author_id);
 		?>

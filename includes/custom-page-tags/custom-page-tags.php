@@ -52,7 +52,7 @@ class theme_page_tags{
 				<tr>
 					<th><?php echo ___('Whitelist - users ');?></th>
 					<td>
-						<textarea name="<?php echo self::$iden;?>[whitelist][user-ids]" id="<?php echo self::$iden;?>-whitelist-user-ids" rows="3" class="widefat code"><?php echo isset($opt['Whitelist']['user-ids']) ? esc_textarea($opt['Whitelist']['user-ids']) : null;?></textarea>
+						<textarea name="<?php echo self::$iden;?>[whitelist][user-ids]" id="<?php echo self::$iden;?>-whitelist-user-ids" rows="3" class="widefat code"><?php echo isset($opt['whitelist']['user-ids']) ? esc_textarea($opt['whitelist']['user-ids']) : null;?></textarea>
 						<p class="description"><?php echo ___('User ID, multiple users separated by ,(commas). E.g. 1,2,3,4');?></p>
 					</td>
 				</tr>
@@ -115,7 +115,7 @@ class theme_page_tags{
 		 * get all whitelist posts & tag ids
 		 */
 		$wp_query = new WP_Query(array(
-			'author__in' => isset($whitelist['user-ids']) ? explode(',',$whitelist['user']) : array(),
+			'author__in' => isset($whitelist['user-ids']) ? explode(',',$whitelist['user-ids']) : array(),
 			'category__not_in' => array(1),
 		));
 		if(have_posts()){
@@ -202,42 +202,36 @@ class theme_page_tags{
 					<small> - <?php echo ___('Pinyin initial');?></small>
 				</div>
 				<div class="panel-body">
-					<div class="row">
-						<?php
-						foreach($v as $tag){
-							?>
-							<div class="col-sm-6">
-								<h3 class="tags-title"><a href="<?php echo esc_url(get_tag_link($tag->term_id));?>">
-									<?php echo esc_html($tag->name);?>
-									<small>(<?php echo $tag->count;?>)</small>
-								</a></h3>
-								<ul class="row">
-									<?php
-									$wp_query = new WP_Query(array(
-										'nopaging' => true,
-										'tag__in' => array($tag->term_id),
-									));
-									while(have_posts()){
-										the_post();
-										?>
-										<li class="col-sm-6">
-											<a href="<?php the_permalink();?>" title="<?php the_title();?>"><?php the_title();?></a>
-											<?php if(has_post_thumbnail()){ ?>
-												<div class="extra-thumbnail">
+					<?php foreach($v as $tag){ ?>
+						<h3 class="tags-title"><a href="<?php echo esc_url(get_tag_link($tag->term_id));?>">
+							<?php echo esc_html($tag->name);?>
+							<small>(<?php echo $tag->count;?>)</small>
+						</a></h3>
+						<ul class="row">
+							<?php
+							$wp_query = new WP_Query(array(
+								'nopaging' => true,
+								'tag__in' => array($tag->term_id),
+							));
+							while(have_posts()){
+								the_post();
+								?>
+								<li class="col-sm-6">
+									<a href="<?php the_permalink();?>" title="<?php the_title();?>"><?php the_title();?></a>
+									<?php if(has_post_thumbnail()){ ?>
+										<div class="extra-thumbnail">
 <img src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-src="<?php echo esc_url(theme_functions::get_thumbnail_src());?>" alt="<?php the_title();?>" width="<?php echo theme_functions::$thumbnail_size[1];?>" height="<?php echo theme_functions::$thumbnail_size[2];?>"/>
-												</div>
-											<?php } ?>
-										</li>
-										<?php
-									}
-									wp_reset_query();
-									wp_reset_postdata();
-									?>
-								</ul>
-							</div>
-						<?php } ?>
-					</div><!-- /.row -->
-				</div><!-- /.panel-body -->
+										</div>
+									<?php } ?>
+								</li>
+								<?php
+							}
+							wp_reset_query();
+							wp_reset_postdata();
+							?>
+						</ul>
+					<?php } ?>
+				</div> <!-- /.panel-bbody -->
 			</div>
 
 			<?php

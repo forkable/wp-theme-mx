@@ -30,7 +30,7 @@ class theme_quick_sign{
 			$datas['user'] = array(
 				'logged'  		=> true,
 				'display_name' 	=> $current_user->display_name,
-				'posts_url' 	=> get_author_posts_url($current_user->ID),
+				'posts_url' 	=> theme_cache::get_author_posts_url($current_user->ID),
 				'logout_url' 	=> wp_logout_url(home_url()),
 				'avatar_url'		=> get_avatar($current_user->user_email),
 			);

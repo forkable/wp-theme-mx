@@ -19,10 +19,10 @@ if(is_user_logged_in()){
 		//if(class_exists('theme_custom_dashboard')){
 		//	$profile_url = theme_custom_dashboard::get_tabs('dashboard')['url'];
 		//}else{
-		//	$profile_url = get_author_posts_url(get_current_user_id());
+		//	$profile_url = theme_cache::get_author_posts_url(get_current_user_id());
 		//}
 		?>
-		<a href="<?php echo esc_url(get_author_posts_url(get_current_user_id()));?>" class="btn btn-default meta user-avatar" title="<?php echo ___('My profile');?>">
+		<a href="<?php echo esc_url(theme_cache::get_author_posts_url(get_current_user_id()));?>" class="btn btn-default meta user-avatar" title="<?php echo ___('My profile');?>">
 			<?php echo get_avatar(get_current_user_id());?>
 			<span class="tx"><?php echo wp_get_current_user()->display_name;?></span>
 		</a>

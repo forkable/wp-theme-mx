@@ -77,7 +77,7 @@ class theme_custom_author_profile{
 			global $post;
 			$author_id = $post->post_author;
 		}
-		$baseurl = get_author_posts_url($author_id);
+		$baseurl = theme_cache::get_author_posts_url($author_id);
 		$tabs = array(
 			'profile' => array(
 				'text' => ___('Profile'),

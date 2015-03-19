@@ -12,7 +12,7 @@ global $author;
 				<tr>
 					<th><abbr title="<?php echo ___('Unique identifier');?>"><?php echo ___('UID');?></abbr></th>
 					<td>
-						<a href="<?php echo esc_url(get_author_posts_url($author));?>" title="<?php echo esc_url(get_author_posts_url($author));?>">
+						<a href="<?php echo esc_url(theme_cache::get_author_posts_url($author));?>" title="<?php echo esc_url(theme_cache::get_author_posts_url($author));?>">
 							<?php echo $author;?>
 						</a>
 					</td>

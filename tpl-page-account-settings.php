@@ -34,7 +34,7 @@ get_currentuserinfo();
 			</abbr>
 		</div>
 		<div class="col-sm-10"><p class="form-control-static"><strong>
-			<a href="<?php echo esc_url(get_author_posts_url(get_current_user_id()));?>"><?php echo $current_user->user_nicename;?></a>
+			<a href="<?php echo esc_url(theme_cache::get_author_posts_url(get_current_user_id()));?>"><?php echo $current_user->user_nicename;?></a>
 			</strong></p></div>
 	</div>
 	<!-- nickname -->

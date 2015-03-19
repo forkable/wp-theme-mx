@@ -136,7 +136,7 @@ class theme_dashboards extends theme_custom_dashboard{
 					<!-- posts count -->
 					<div class="col-xs-6">
 						<?php
-						echo sprintf(___('My posts: %s'),'<a href="' . get_author_posts_url(get_current_user_id()) . '">' . theme_custom_author_profile::get_count('works',get_current_user_id()) . '</a>');
+						echo sprintf(___('My posts: %s'),'<a href="' . theme_cache::get_author_posts_url(get_current_user_id()) . '">' . theme_custom_author_profile::get_count('works',get_current_user_id()) . '</a>');
 						?>
 					</div>
 					<!-- comments count -->

@@ -200,6 +200,22 @@ class theme_features{
 		$theme = self::get_theme_info();
 		set_transient(theme_functions::$iden . 'theme_info',$theme);
 	}
+	public static function get_stylesheet_directory(){
+		static $url;
+		if($url)
+			return $url;
+
+		$url = get_stylesheet_directory();
+		return $url;
+	}
+	public static function get_template_directory_uri(){
+		static $uri;
+		if($uri)
+			return $uri;
+
+		$uri = get_template_directory_uri();
+		return $uri;
+	}
 	/**
 	 * get_theme_file_url
 	 * return your file for load under the theme.
@@ -219,7 +235,10 @@ class theme_features{
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
-		if(!$file_basename) return get_template_directory_uri();
+		if(!$file_basename){
+			$caches[$cache_id] = self::get_template_directory_uri();
+			return $caches[$cache_id];
+		} 
 
 		
 		/**
@@ -229,8 +248,8 @@ class theme_features{
 		/**
 		 * get file url and path full
 		 */
-		$file_url = get_template_directory_uri() . $file_basename;
-		$file_path = get_stylesheet_directory() . $file_basename;
+		$file_url = self::get_template_directory_uri() . $file_basename;
+		$file_path = self::get_stylesheet_directory() . $file_basename;
 		/**
 		 * get file mtime
 		 */
@@ -316,7 +335,7 @@ class theme_features{
 		/**
 		 * file_basename
 		 */
-		if(!$file_basename) return get_template_directory_uri() . $basedir;
+		if(!$file_basename) return self::get_template_directory_uri() . $basedir;
 		/**
 		 * extension
 		 */
@@ -368,7 +387,7 @@ class theme_features{
 		/**
 		 * file_basename
 		 */
-		if(!$file_basename) return get_template_directory_uri() . $basedir;
+		if(!$file_basename) return self::get_template_directory_uri() . $basedir;
 		/**
 		 * extension
 		 */
@@ -550,7 +569,7 @@ class theme_features{
 			'file_basename' => $filename,
 		);
 		extract($r,EXTR_SKIP);
-		$url = get_template_directory_uri() . '/' . $type . '/' . $basedir . $file_basename;
+		$url = self::get_template_directory_uri() . '/' . $type . '/' . $basedir . $file_basename;
 
 		$caches[$cache_id] = $url;
 		return $url;
@@ -682,7 +701,7 @@ class theme_features{
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
-		if(!$file_basename) return get_template_directory_uri() . self::$basedir_images_min;
+		if(!$file_basename) return self::get_template_directory_uri() . self::$basedir_images_min;
 		$file_url = self::get_theme_file_url(self::$basedir_images_min . $file_basename,$mtime);
 
 		$caches[$cache_id] = $file_url;
@@ -836,7 +855,10 @@ class theme_features{
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
-		if(!$file_basename) return get_template_directory_uri();
+		if(!$file_basename){
+			$caches[$cache_id] = self::get_template_directory_uri();
+			return $caches[$cache_id];
+		}
 		$file_url = self::get_theme_file_url($file_basename,$mtime);
 
 		$caches[$cache_id] = $file_url;
@@ -857,7 +879,7 @@ class theme_features{
 			return $caches[$cache_id];
 		
 		if(!$file_basename) return get_stylesheet_directory() . '/';
-		$file_path = $file_basename[0] === '/' ? get_stylesheet_directory() . $file_basename : get_stylesheet_directory() . '/' . $file_basename;
+		$file_path = $file_basename[0] === '/' ? self::get_stylesheet_directory() . $file_basename : self::get_stylesheet_directory() . '/' . $file_basename;
 
 		$caches[$cache_id] = $file_path;
 		return $file_path;
@@ -876,8 +898,8 @@ class theme_features{
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
-		if(!$file_basename) return get_stylesheet_directory() . self::$basedir_includes;
-		$file_path = $file_basename[0] === '/' ? get_stylesheet_directory() . self::$basedir_includes . $file_basename : get_stylesheet_directory() . self::$basedir_includes . $file_basename;
+		if(!$file_basename) return self::get_stylesheet_directory() . self::$basedir_includes;
+		$file_path = $file_basename[0] === '/' ? self::get_stylesheet_directory() . self::$basedir_includes . $file_basename : self::get_stylesheet_directory() . self::$basedir_includes . $file_basename;
 		
 		$caches[$cache_id] = $file_path;
 		return $file_path;
@@ -1240,7 +1262,7 @@ class theme_features{
 	public static function get_wp_themes_local_dir($file_name = null){
 		$basedir_name = '/themes/';
 		$file_name = $file_name ? '/' .$file_name : '/';
-		$output = get_stylesheet_directory().$basedir_name.$file_name;
+		$output = self::get_stylesheet_directory().$basedir_name.$file_name;
 		return $output;
 	}
 	/**
@@ -1630,7 +1652,7 @@ class theme_features{
 		/**
 		 * Load language_pack
 		 */
-		load_theme_textdomain(theme_functions::$iden,get_stylesheet_directory().'/languages' );
+		load_theme_textdomain(theme_functions::$iden,self::get_stylesheet_directory().'/languages' );
 		/**
 		 * Custom login logo url
 		 */
@@ -1691,12 +1713,12 @@ class theme_features{
 			ini_set('max_input_nesting_level','10000');
 			ini_set('max_execution_time','300'); 
 			
-			remove_dir(get_stylesheet_directory() . self::$basedir_js_min);
-			remove_dir(get_stylesheet_directory() . self::$basedir_css_min);
+			remove_dir(self::get_stylesheet_directory() . self::$basedir_js_min);
+			remove_dir(self::get_stylesheet_directory() . self::$basedir_css_min);
 
-			self::minify_force(get_stylesheet_directory() . self::$basedir_js_src);
-			self::minify_force(get_stylesheet_directory() . self::$basedir_css_src);
-			self::minify_force(get_stylesheet_directory() . self::$basedir_includes);
+			self::minify_force(self::get_stylesheet_directory() . self::$basedir_js_src);
+			self::minify_force(self::get_stylesheet_directory() . self::$basedir_css_src);
+			self::minify_force(self::get_stylesheet_directory() . self::$basedir_includes);
 		}
 		
 	}

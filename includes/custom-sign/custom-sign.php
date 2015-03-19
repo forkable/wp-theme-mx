@@ -47,7 +47,7 @@ class theme_custom_sign{
 			if(!current_user_can('moderate_comments')){
 				global $current_user;
 				get_currentuserinfo();
-				wp_safe_redirect(get_author_posts_url($current_user->ID));
+				wp_safe_redirect(theme_cache::get_author_posts_url($current_user->ID));
 				die();
 			}
 		}

@@ -219,12 +219,12 @@ class theme_custom_slidebox{
 	public static function display_frontend(){
 		$boxes = (array)theme_options::get_options(self::$iden);
 	
-		$cache_id = md5(serialize($boxes));
-		//$cache = theme_cache::get($cache_id);
-		//if($cache){
-		//	echo $cache;
-		//	return;
-		//}
+		$cache_id = crc32(serialize($boxes));
+		$cache = wp_cache_get($cache_id);
+		if($cache){
+			echo $cache;
+			return $cache;
+		}
 		
 		if(is_null_array($boxes) || count($boxes) < 2) return false;
 		krsort($boxes);
@@ -297,8 +297,9 @@ class theme_custom_slidebox{
 		<?php
 		$cache = html_compress(ob_get_contents());
 		ob_end_clean();
-		theme_cache::set($cache_id,$cache);
+		wp_cache_set($cache_id,$cache);
 		echo $cache;
+		return $cache;
 	}
 	public static function backend_css(){
 		?>

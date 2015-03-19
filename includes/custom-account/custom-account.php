@@ -42,10 +42,20 @@ class theme_custom_account{
 
 	}
 	public static function get_url(){
-		return get_permalink(get_page_by_path(self::$page_slug));
+		static $url;
+		if($url)
+			return $url;
+		
+		$url = get_permalink(get_page_by_path(self::$page_slug));
+		return $url;
 	}
 	public static function is_page(){
-		return is_page(self::$page_slug);
+		static $pages;
+		if(isset($pages[self::$page_slug]))
+			return $pages[self::$page_slug];
+
+		$pages[self::$page_slug] = is_page(self::$page_slug);
+		return $pages[self::$page_slug];
 	}
 	public static function page_create(){
 		if(!current_user_can('manage_options')) return false;
@@ -76,7 +86,8 @@ class theme_custom_account{
 		}
 	}
 	public static function frontend_css(){
-		if(!is_page(self::$page_slug)) return false;
+		if(!is_page(self::$page_slug)) 
+			return false;
 		wp_enqueue_style(
 			self::$iden,
 			theme_features::get_theme_includes_css(__DIR__,'style',false),
