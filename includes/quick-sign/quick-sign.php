@@ -351,10 +351,10 @@ class theme_quick_sign{
 				
 			}else{
 				/** rename nicename */
-				wp_update_user(array(
-					'ID' => $user_id,
-					'user_nicename' => 10000 + $user_id
-				));
+				//wp_update_user(array(
+				//	'ID' => $user_id,
+				//	'user_nicename' => 100000 + $user_id
+				//));
 				/** 
 				 * go to login
 				 */

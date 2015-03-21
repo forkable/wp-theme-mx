@@ -20,28 +20,27 @@ $error = get_query_var('error');
 			 */
 			case 'register':
 			?>
-<div class="panel panel-default mx-sign-panel">
+<div class="panel panel-default mx-sign-panel mx-sign-panel-<?php echo $tab_active;?>">
 	<div class="panel-heading">
-		<!-- <img src="https://ww2.sinaimg.cn/large/686ee05djw1epbag1lpulj202o02o3y9.jpg" alt="Avatar" class="img-circle"> -->
 		<h3><?php echo ___('Account register');?></h3>
 	</div>
 	<div class="panel-body">
 		<form action="javascript:void(0);" id="fm-sign-register" >
 			<div class="form-group">
 				<div class="input-group">
-					<label for="sign-nickname" class="input-group-addon"><i class="fa fa-user"></i></label>
+					<label for="sign-nickname" class="input-group-addon"><i class="fa fa-user fa-fw"></i></label>
 					<input name="user[nickname]" type="text" class="form-control" id="sign-nickname" minlength="2" placeholder="<?php echo ___('Your nickname, at least 2 length');?>" title="<?php echo ___('Please type nickname, at least 2 length');?>" required tabindex="1" autofocus >
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="input-group">
-					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope"></i></label>
+					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></label>
 					<input name="user[email]" type="email" class="form-control" id="sign-email" placeholder="<?php echo ___('Please type email');?>" title="<?php echo ___('Please type email');?>" required tabindex="1">
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="input-group">
-					<label for="sign-pwd" class="input-group-addon"><i class="fa fa-key"></i></label>
+					<label for="sign-pwd" class="input-group-addon"><i class="fa fa-key fa-fw"></i></label>
 					<input name="user[pwd]" type="password" class="form-control" id="sign-pwd" placeholder="<?php echo ___('Your password, at least 3 length');?>" title="<?php echo ___('Please type password, at least 3 length');?>" minlength="3" required tabindex="1">
 				</div>
 			</div>
@@ -65,13 +64,13 @@ $error = get_query_var('error');
 <div class="form-group row">
 	<div class="col-sm-6">
 		<a class="btn" href="<?php echo esc_url(theme_custom_sign::get_tabs('login')['url']);?>#main">
-			<i class="fa fa-<?php echo theme_custom_sign::get_tabs('login')['icon'];?>"></i>
+			<i class="fa fa-<?php echo theme_custom_sign::get_tabs('login')['icon'];?> fa-fw"></i>
 			<?php echo ___('I have account');?>
 		</a>
 	</div>
 	<div class="col-sm-6">
 		<a class="btn" href="<?php echo esc_url(theme_custom_sign::get_tabs('recover')['url']);?>#main">
-			<i class="fa fa-<?php echo theme_custom_sign::get_tabs('recover')['icon'];?>"></i>
+			<i class="fa fa-<?php echo theme_custom_sign::get_tabs('recover')['icon'];?> fa-fw"></i>
 			<?php echo ___('Forgot password?');?>
 		</a>
 	</div>
@@ -103,9 +102,8 @@ if(class_exists('theme_open_sign')){ ?>
 			 */
 			case 'recover':
 				?>
-<div class="panel panel-default mx-sign-panel">
+<div class="panel panel-default mx-sign-panel mx-sign-panel-<?php echo $tab_active;?>">
 	<div class="panel-heading">
-		<!-- <img src="https://ww2.sinaimg.cn/large/686ee05djw1epbag1lpulj202o02o3y9.jpg" alt="Avatar" class="img-circle"> -->
 		<h3><?php echo ___('Recover password');?></h3>
 	</div>
 	<div class="panel-body">
@@ -113,7 +111,7 @@ if(class_exists('theme_open_sign')){ ?>
 			<div class="form-group"><?php echo ___('If you forgot your account password, you can recover your password by your account email. Please entry your account email, we will send a confirm email to it and reset your password.');?></div>
 			<div class="form-group">
 				<div class="input-group">
-					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope"></i></label>
+					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></label>
 					<input type="email" name="user[email]" id="sign-email" class="form-control" title="<?php echo ___('Please type email');?>" required tabindex="1" autofocus placeholder="<?php echo ___('Please type email');?>">
 				</div>
 			</div>
@@ -132,13 +130,13 @@ if(class_exists('theme_open_sign')){ ?>
 	<div class="btn-group btn-group-justified">
 		<div class="btn-group" role="group">
 			<a class="btn btn-info btn-block" href="<?php echo esc_url(theme_custom_sign::get_tabs('login')['url']);?>#main">
-				<i class="fa fa-<?php echo theme_custom_sign::get_tabs('login')['icon'];?>"></i>
+				<i class="fa fa-<?php echo theme_custom_sign::get_tabs('login')['icon'];?> fa-fw"></i>
 				<?php echo ___('I have account');?>
 			</a>
 		</div>
 		<div class="btn-group" role="group">
 			<a class="btn btn-info btn-block" href="<?php echo esc_url(theme_custom_sign::get_tabs('register')['url']);?>#main">
-				<i class="fa fa-<?php echo theme_custom_sign::get_tabs('register')['icon'];?>"></i>
+				<i class="fa fa-<?php echo theme_custom_sign::get_tabs('register')['icon'];?> fa-fw"></i>
 				<?php echo ___('Register new account');?>
 			</a>
 		</div>
@@ -152,23 +150,21 @@ if(class_exists('theme_open_sign')){ ?>
 			case 'login':
 			default:
 				?>
-<div class="panel panel-default mx-sign-panel">
+<div class="panel panel-default mx-sign-panel mx-sign-panel-<?php echo $tab_active;?>">
 	<div class="panel-heading">
-		<!-- <img src="https://ww2.sinaimg.cn/large/686ee05djw1epbag1lpulj202o02o3y9.jpg" alt="Avatar" class="img-circle"> -->
 		<h3><?php echo ___('Account login');?></h3>
 	</div>
 	<div class="panel-body">
 		<form action="javascript:void(0);" id="fm-sign-login">
-			<!--<div class="form-group"><?php echo status_tip('info',___('Welcome to log-in '));?></div>-->
 			<div class="form-group">
 				<div class="input-group">
-					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope"></i></label>
+					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></label>
 					<input name="user[email]" type="email" class="form-control" id="sign-email" placeholder="<?php echo ___('Please type email');?>" title="<?php echo ___('Please type email');?>" required tabindex="1" autofocus>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="input-group">
-					<label for="sign-pwd" class="input-group-addon"><i class="fa fa-key"></i></label>
+					<label for="sign-pwd" class="input-group-addon"><i class="fa fa-key fa-fw"></i></label>
 					<input name="user[pwd]" type="password" class="form-control" id="sign-pwd" placeholder="<?php echo ___('Please type password');?>" title="<?php echo ___('Please type password, at least 3 length');?>" minlength="3" required tabindex="1">
 				</div>
 			</div>
@@ -192,13 +188,13 @@ if(class_exists('theme_open_sign')){ ?>
 <div class="form-group row">
 	<div class="col-sm-6">
 		<a class="btn" href="<?php echo esc_url(theme_custom_sign::get_tabs('register')['url']);?>#main">
-			<i class="fa fa-<?php echo theme_custom_sign::get_tabs('register')['icon'];?>"></i>
+			<i class="fa fa-<?php echo theme_custom_sign::get_tabs('register')['icon'];?> fa-fw"></i>
 			<?php echo ___('Register new account');?>
 		</a>
 	</div>
 	<div class="col-sm-6">
 		<a class="btn" href="<?php echo esc_url(theme_custom_sign::get_tabs('recover')['url']);?>#main">
-			<i class="fa fa-<?php echo theme_custom_sign::get_tabs('recover')['icon'];?>"></i>
+			<i class="fa fa-<?php echo theme_custom_sign::get_tabs('recover')['icon'];?> fa-fw"></i>
 			<?php echo ___('Forgot password?');?>
 		</a>
 	</div>
@@ -211,13 +207,13 @@ if(class_exists('theme_open_sign')){ ?>
 	<div class="open-login btn-group btn-group-justified" role="group">
 		<div class="btn-group" role="group">
 			<a href="<?php echo esc_url(theme_open_sign::get_login_url('qq'));?>" class="btn btn-info">
-				<i class="fa fa-qq"></i> 
+				<i class="fa fa-qq fa-fw"></i> 
 				<?php echo ___('Login from QQ');?>
 			</a>
 		</div>
 		<div class="btn-group" role="group">
 			<a href="<?php echo esc_url(theme_open_sign::get_login_url('sina'));?>" class="btn btn-danger">
-				<i class="fa fa-weibo"></i> 
+				<i class="fa fa-weibo fa-fw"></i> 
 				<?php echo ___('Login from Weibo');?>
 			</a>
 		</div>

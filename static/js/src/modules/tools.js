@@ -314,7 +314,7 @@ define(function(require, exports, module){
 					break;
 				case 'loading':
 				case 'spinner':
-					icon = 'circle-o-notch';
+					icon = 'spinner fa-pulse';
 					break;
 				default:
 					icon = type;

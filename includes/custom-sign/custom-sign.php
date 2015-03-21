@@ -45,9 +45,7 @@ class theme_custom_sign{
 			 * if not administrator and not ajax,redirect to 
 			 */
 			if(!current_user_can('moderate_comments')){
-				global $current_user;
-				get_currentuserinfo();
-				wp_safe_redirect(theme_cache::get_author_posts_url($current_user->ID));
+				wp_safe_redirect(theme_cache::get_author_posts_url(get_current_user_id()));
 				die();
 			}
 		}
@@ -57,6 +55,15 @@ class theme_custom_sign{
 		if(!in_array('redirect',$vars)) $vars[] = 'redirect';
 		if(!in_array('step',$vars)) $vars[] = 'step';
 		return $vars;
+	}
+	public static function get_options($key = null){
+		static $caches;
+		if(!$caches)
+			$caches = theme_options::get_options(self::$iden);
+		if($key){
+			return isset($caches[$key]) ? $caches[$key] : null;
+		}
+		return $caches;
 	}
 	public static function filter_wp_registration_url(){
 		return self::get_tabs('register',get_current_url())['url'];
@@ -104,8 +111,16 @@ class theme_custom_sign{
 			return $tabs;
 		}
 	}
+	public static function is_page(){
+		static $caches;
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
+			
+		$caches[self::$iden] = is_page(self::$page_slug);
+		return $caches[self::$iden];
+	}
 	public static function template_redirect(){
-		if(is_page(self::$page_slug) && is_user_logged_in()){
+		if(self::is_page() && is_user_logged_in()){
 			$redirect = get_query_var('redirect');
 			$redirect ? wp_redirect($redirect) : wp_redirect(home_url());
 			die();
@@ -142,7 +157,9 @@ class theme_custom_sign{
 		}
 	}
 	public static function wp_title($title, $sep){
-		if(is_user_logged_in() || !is_page(self::$page_slug)) return $title;
+		if(is_user_logged_in() || !self::is_page()) 
+			return $title;
+			
 		$tab_active = get_query_var('tab');
 		$tabs = self::get_tabs();
 		if(!empty($tab_active) && isset($tabs[$tab_active])){
@@ -164,13 +181,15 @@ class theme_custom_sign{
 		die(theme_features::json_format($output));
 	}
 	public static function frontend_seajs_alias($alias){
-		if(is_user_logged_in() || !is_page(self::$page_slug)) return $alias;
+		if(is_user_logged_in() || !self::is_page())
+			return $alias;
 
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(is_user_logged_in() || !is_page(self::$page_slug)) return false;
+		if(is_user_logged_in() || !self::is_page()) 
+			return false;
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
 			m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => theme_quick_sign::$iden));?>';

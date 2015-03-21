@@ -45,7 +45,7 @@ class theme_custom_point{
 
 	}
 	public static function display_backend(){
-		$opt = theme_options::get_options(self::$iden);
+		$opt = self::get_options();
 
 		$points = $opt['points'];
 		$point_name = isset($opt['point-name']) ? $opt['point-name'] : ___('Cat-paw');
@@ -261,7 +261,7 @@ class theme_custom_point{
 		if(!$caches)
 			$caches = theme_options::get_options(self::$iden);
 		if($key){
-			return isset($caches[$key]);
+			return isset($caches[$key]) ? $caches[$key] : null;
 		}
 		return $caches;
 	}
@@ -305,7 +305,7 @@ class theme_custom_point{
 	 * @return array
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function get_history($args = null){
+	public static function get_history($args = []){
 		$defaults = array(
 			'user_id' => get_current_user_id(),
 			'paged' => 1,
@@ -344,7 +344,7 @@ class theme_custom_point{
 		?>
 		<ul class="list-group history-group">
 			<?php
-			foreach($metas as $k => $v){ 
+			foreach($metas as $k => $v){
 				$type_point = self::get_point_value($v['type']);
 			?>
 <li class="list-group-item">

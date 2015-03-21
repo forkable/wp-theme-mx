@@ -202,7 +202,6 @@ class WP_Object_Cache {
 				return $ret;
 			}
 		}
-		exit;
 		return $ret;
 	}
 

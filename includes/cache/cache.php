@@ -20,7 +20,7 @@ class theme_cache{
 	public static $cache_skey;
 	
 	public static function init(){
-		self::$cache_skey = md5(AUTH_KEY . theme_functions::$iden);
+		self::$cache_skey = crc32(AUTH_KEY . theme_functions::$iden);
 		
 		add_action('base_settings',get_class() . '::backend_display');
 		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
@@ -57,7 +57,7 @@ class theme_cache{
 		/**
 		 * When update option for widget
 		 */
-		add_action('update_option_sidebars_widgets',function($old_value, $value){
+		add_action('update_option_sidebars_widgets',function(){
 			$caches = (array)self::get(self::$cache_skey);
 			if(!isset($caches['widget-sidebars'])) return;
 			unset($caches['widget-sidebars']);
@@ -99,7 +99,6 @@ class theme_cache{
 	private static function get_process_url($type){
 		return add_query_arg(array(
 			'action' => self::$iden,
-			'return' => add_query_arg(self::$iden,1,get_current_url()),
 			'type' => $type
 		),theme_features::get_process_url());
 
@@ -178,39 +177,33 @@ class theme_cache{
 	 * process
 	 */
 	public static function process(){
-		$output = null;
 		$type = isset($_GET['type']) ? $_GET['type'] : null;
-		if(isset($_GET['return'])){
-			switch($type){
-				case 'flush':
-					self::cleanup();
-				break;
-				case 're-enable-cache':
-					self::cleanup();
-					self::disable_cache();
-					self::enable_cache();
-				break;
-				case 'disable-cache':
-					self::cleanup();
-					self::disable_cache();
-				break;
-				case 'enable-cache':
-					self::enable_cache();
-				break;
-				default:
-					$caches = (array)self::get(self::$cache_skey);
-					if(isset($caches[$type])){
-						unset($caches[$type]);
-						self::set(self::$cache_skey,$caches);
-					}
-			}
-			if(isset($_GET['return'])){
-				wp_redirect($_GET['return']);
-			}else{
-				wp_redirect(admin_url('themes.php?page=core-options'));
-			}
-			die();
+		switch($type){
+			case 'flush':
+				self::cleanup();
+			break;
+			case 're-enable-cache':
+				self::cleanup();
+				self::disable_cache();
+				self::enable_cache();
+			break;
+			case 'disable-cache':
+				self::cleanup();
+				self::disable_cache();
+			break;
+			case 'enable-cache':
+				self::enable_cache();
+			break;
+			default:
+				$caches = (array)self::get(self::$cache_skey);
+				if(isset($caches[$type])){
+					unset($caches[$type]);
+					self::set(self::$cache_skey,$caches);
+				}
 		}
+		wp_redirect(admin_url('themes.php?page=core-options&' . self::$iden . '=1'));
+
+		die();
 	}
 	public static function cleanup(){
 		if(wp_using_ext_object_cache()){

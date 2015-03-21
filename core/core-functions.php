@@ -141,7 +141,7 @@ function chmodr($path = null, $filemode = 0777) {
  * 
  * @param string $target
  * @return bool
- * @version 1.0.1
+ * @version 1.0.2
  * @author KM@INN STUDIO
  * 
  */
@@ -152,7 +152,7 @@ function mk_dir($target = null){
 
 	if(@mkdir($target)){
 		$stat = stat(dirname($target)); 
-		chmod($target, 0755); 
+		@chmod($target, 0755); 
 		return true; 
 	}else if(is_dir(dirname($target))){
 		return false; 
@@ -346,7 +346,7 @@ function status_tip(){
 			break;
 		case 'loading':
 		case 'spinner':
-			$icon = 'circle-o-notch';
+			$icon = 'spinner fa-pulse';
 			break;
 		default:
 			$icon = $type;

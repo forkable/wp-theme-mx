@@ -26,7 +26,15 @@ if(is_user_logged_in()){
 			<?php echo get_avatar(get_current_user_id());?>
 			<span class="tx"><?php echo wp_get_current_user()->display_name;?></span>
 		</a>
-
+		
+		<!-- my point -->
+		<?php if(class_exists('theme_custom_point')){ ?>
+			<a href="<?php echo esc_url(theme_custom_user_settings::get_tabs('history')['url']);?>" class="meta tool-point btn btn-default" title="<?php echo ___('My points');?>">
+				<!-- <i class="fa fa-github-alt"></i> -->
+				<img src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="" width="15" height="15">
+				<?php echo theme_custom_point::get_point();?>
+			</a>
+		<?php } ?>
 		
 		<!-- notification -->
 		<?php 
@@ -38,16 +46,6 @@ if(is_user_logged_in()){
 			<a href="<?php echo esc_url(theme_notification::get_tabs('notifications')['url']);?>" class="meta tool-notification btn btn-<?php echo $unread ? 'success' : 'default';?>" title="<?php echo ___('Notification');?>">
 				<i class="fa fa-bell"></i> 
 				<?php echo $unread > 0 ? $unread : null;?>
-			</a>
-		<?php } ?>
-
-		
-		<!-- my point -->
-		<?php if(class_exists('theme_custom_point')){ ?>
-			<a href="<?php echo esc_url(theme_custom_user_settings::get_tabs('history')['url']);?>" class="meta tool-point btn btn-default" title="<?php echo ___('My points');?>">
-				<!-- <i class="fa fa-github-alt"></i> -->
-				<img src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="" width="15" height="15">
-				<?php echo theme_custom_point::get_point();?>
 			</a>
 		<?php } ?>
 

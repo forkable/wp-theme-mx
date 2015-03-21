@@ -89,7 +89,7 @@ class theme_custom_user_settings{
 					'nickname' => $nickname,
 					'description' => $des,
 					'display_name' => $nickname,
-					'user_nicename' => 10000+get_current_user_id(),
+					//'user_nicename' => 100000+get_current_user_id(),
 				));
 
 				if(is_wp_error($user_id)){
@@ -165,13 +165,17 @@ class theme_custom_user_settings{
 					die(theme_features::json_format($output));
 				}
 
-				$filename = 'avatar-' . get_current_user_id() . '-' . current_time('YmdHis') . '-' . rand(100,999) . '.jpg';
+				$wp_uplaod_dir = wp_upload_dir();
 				
-				$filepath = wp_upload_dir()['path'] . '/' . $filename;
+				$filename = get_current_user_id() . '.jpg';
+
+				$filesub_url = '/avatar/' . $filename;
 				
-				$file_suburl = wp_upload_dir()['subdir'] . '/' . $filename;
+				mk_dir($wp_uplaod_dir['basedir'] . '/avatar');
 				
-				$fileurl = wp_upload_dir()['url'] . '/' . $filename;
+				$filepath = $wp_uplaod_dir['basedir'] . $filesub_url;
+								
+				$fileurl = $wp_uplaod_dir['baseurl'] . $filesub_url;
 				
 				$file_contents = file_put_contents($filepath,base64_decode($base64[1]));
 				
@@ -186,7 +190,7 @@ class theme_custom_user_settings{
 					 */
 					$avatar_meta_key = class_exists('theme_custom_avatar') ? theme_custom_avatar::$user_meta_key['avatar'] : 'avatar';
 					
-					update_user_meta(get_current_user_id(),$avatar_meta_key,$file_suburl);
+					update_user_meta(get_current_user_id(),$avatar_meta_key,$filesub_url);
 					
 					$output['status'] = 'success';
 					$output['avatar-url'] = $fileurl;

@@ -154,7 +154,7 @@ $post = get_post($v['post-id']);
 <div class="media">
 	<div class="media-left">
 		<a href="<?php comment_author_url();?>">
-			<img src="<?php echo esc_url(get_img_source(get_avatar($post->post_author)));?>" class="avatar media-object" alt="avatar" width="60" height="60">
+			<?php echo get_avatar($post->post_author,60);?>
 		</a>
 	</div>
 	<div class="media-body">

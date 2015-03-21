@@ -33,7 +33,7 @@ class theme_post_share{
 		if(!$caches)
 			$caches = theme_options::get_options(self::$iden);
 		if($key){
-			return isset($caches[$key]);
+			return isset($caches[$key]) ? $caches[$key] : null;
 		}
 		return $caches;
 	}
@@ -144,11 +144,7 @@ class theme_post_share{
 	}
 	public static function is_enabled(){
 		$opt = self::get_options();
-		if(isset($opt['on'])){
-			return true;
-		}else{
-			return false;
-		}
+		return isset($opt['on']) && $opt['on'] == 1;
 	}
 	public static function options_save($options){
 		if(isset($_POST[self::$iden]) && !isset($_POST[self::$iden]['restore'])){
@@ -158,7 +154,7 @@ class theme_post_share{
 	}
 	public static function frontend_css(){
 		$opt = self::get_options();
-		if(!self::is_enabled() || strstr($opt['code'],'bdshare') === false)
+		if(!self::is_enabled())
 			return false;
 			
 		wp_enqueue_style(
@@ -170,14 +166,14 @@ class theme_post_share{
 	}
 	public static function frontend_seajs_alias($alias){
 		$opt = self::get_options();
-		if(!self::is_enabled() || strstr($opt['code'],'bdshare') === false)
+		if(!self::is_enabled())
 			return $alias;
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	} 
 	public static function frontend_seajs_use(){
 		$opt = self::get_options();
-		if(!self::is_enabled() || strstr($opt['code'],'bdshare') === false)
+		if(!self::is_enabled())
 			return false;
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){

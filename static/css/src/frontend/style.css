@@ -680,9 +680,9 @@ label.error{
 /** 
  * .tip-status
  */
-.fa{
-	/*vertical-align:top;
-	line-height: inherit;*/
+.tip-status .fa{
+	vertical-align:top;
+	line-height: inherit;
 }
 .tip-status{
 	position:relative;
@@ -690,26 +690,6 @@ label.error{
 	border-radius:2px;
 	border: 1px solid rgba(0,0,0,.1);
 }
-	@-webkit-keyframes spinner{
-		from {-webkit-transform:rotate(0deg);}
-		to {-webkit-transform:rotate(360deg);}
-	}
-	@keyframes spinner{
-		0%{transform: rotate(0deg);}
-		100%{transform: rotate(360deg);}
-	}
-	.tip-status .fa-circle-o-notch{
-		display: inline-block;
-		-webkit-animation-name: spinner;
-		-webkit-animation-duration: 1s;
-		-webkit-animation-iteration-count: infinite;
-		-webkit-animation-timing-function: linear;
-		-webkit-transform-origin:50% 50%;
-		animation: spinner 1000ms infinite linear;
-		transform-origin:50% 50%;
-    }
-
-
 	/** 
 	 * .ui-dialog-content
 	 */
