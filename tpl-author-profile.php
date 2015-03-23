@@ -13,7 +13,7 @@ global $author;
 					<th><abbr title="<?php echo ___('Unique identifier');?>"><?php echo ___('UID');?></abbr></th>
 					<td>
 						<a href="<?php echo esc_url(theme_cache::get_author_posts_url($author));?>" title="<?php echo esc_url(theme_cache::get_author_posts_url($author));?>">
-							<?php echo $author;?>
+							<?php echo get_the_author_meta('user_nicename',$author);?>
 						</a>
 					</td>
 				</tr>
@@ -23,7 +23,7 @@ global $author;
 				</tr>
 				<tr>
 					<th><?php echo ___('Registered');?></th>
-					<td><?php echo esc_html(get_the_author_meta('user_registered',$author));?></td>
+					<td><?php echo get_the_author_meta('user_registered',$author);?></td>
 				</tr>
 				<tr>
 					<th><?php echo ___('Website / Blog');?></th>

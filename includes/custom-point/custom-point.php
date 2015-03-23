@@ -17,6 +17,9 @@ class theme_custom_point{
 		'last-signin' => 'theme_last_signin',
 	);
 	public static function init(){
+
+		include __DIR__ . '/widget.php';
+		
 		add_action('page_settings',get_class() . '::display_backend');
 
 		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');

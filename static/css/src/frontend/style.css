@@ -379,32 +379,9 @@ img{
 /**
  * .widget_rank
  */
-.widget_rank .post-mixed-lists{
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
-}
-.widget_rank .list-group-item{
-	padding: 0;
-	margin: 0;
-	border-bottom: none;
-}
-	.widget_rank .list-group-item > a{
-		padding: 20px;
-	}
-.widget_rank .panel-heading{
-	margin-bottom: 0;
-}
-.widget_rank .media{
-	position: relative;
-	margin: 0;
-	padding: 0;
-}
-.widget_rank .media a{
-	display: block;
-	padding: 20px;
-	color:#428BCA;
-}
+
+
+
 	.widget_rank .list-group-item:before{
 		position: absolute;
 		bottom: -10px;
@@ -428,13 +405,7 @@ img{
 	.widget_rank .list-group-item:nth-child(2n){
 		background: rgb(248,248,248);
 	}
-	.widget_rank .list-group-item:hover{
-		color:#D9534F;
-		background: rgb(236, 236, 236);
-	}
-	.widget_rank .list-group-item:active{
-		box-shadow: 0 0 20px rgba(0, 0, 0, .1) inset;
-	}
+
 		.widget_rank .list-group-item:hover:before{
 			color:rgba(66,139,202,.3);
 		}
@@ -998,7 +969,6 @@ label.error{
 		border-top: 1px solid rgba(0,0,0,.05);
 	}
 	.singluar-post .post-tags{
-		padding: 0 20px;
 		margin: 20px 0;
 	}
 		.singluar-post .post-tags a{
@@ -1234,7 +1204,53 @@ label.error{
 	display: none;
 }
 
+/**
+ * .widget-area .list-group
+ */
+.widget-area .list-group{
+	padding: 0;
+	margin-top: -10px;
+}
 
+	.widget-area .list-group .list-group-item{
+		padding: 0;
+		margin: 0;
+		font-size: 12px;
+		border-bottom: none;
+	}
+	.widget-area .list-group .list-group-item:nth-child(2n){
+		background: #f8f8f8;
+	}
+	.widget-area .list-group .list-group-item:hover{
+		background: #ececec;
+	}
+		.widget-area .list-group .list-group-item:hover .number{
+			color:rgba(66,139,202, .3);
+		}
+	.widget-area .list-group .media{
+		padding: 20px;
+	}
+		.widget-area .list-group .media:hover{
+		}
+	.widget-area .list-group .media-body{
+		position: relative;
+		z-index: 1;
+	}
+	.widget-area .list-group .description{
+		color:#999;
+	}
+	.widget-area .list-group .number{
+		position: absolute;
+		top: 0;
+		right: 10px;
+		font-size: 3em;
+		color: #F2F2F2;
+		font-style: italic;
+		font-weight: bold;
+		content: "1";
+		text-shadow: 0px 1px 0px #FFF;
+		z-index: 0;
+	}
 
 /**
  * .pager

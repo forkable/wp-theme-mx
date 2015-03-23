@@ -710,7 +710,7 @@ class theme_functions{
 					<?php
 					foreach($tags as $tag){
 						?>
-						<a class="label" style="background-color:#<?php echo self::$colors[rand(0,$colors_count-1)];?>;" href="<?php echo get_tag_link($tag->term_id);?>" class="tag btn btn-default" title="<?php echo sprintf(___('Views all posts by %s tag'),esc_attr($tag->name));?>">
+						<a class="label label-primary" href="<?php echo get_tag_link($tag->term_id);?>" class="tag btn btn-default" title="<?php echo sprintf(___('Views all posts by %s tag'),esc_attr($tag->name));?>">
 							<i class="fa fa-tag"></i> 
 							<?php echo esc_html($tag->name);?>
 						</a>
