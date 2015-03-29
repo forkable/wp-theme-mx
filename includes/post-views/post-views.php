@@ -23,29 +23,29 @@ class theme_post_views{
 	public static $opt;
 	public static function init(){
 
-		add_action('base_settings',		get_class() . '::display_backend');
+		add_action('base_settings',		__CLASS__ . '::display_backend');
 
-		add_filter('theme_options_default',get_class() . '::options_default');
+		add_filter('theme_options_default',__CLASS__ . '::options_default');
 
-		add_filter('theme_options_save',get_class() . '::options_save');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
 
 		self::$opt = (array)theme_options::get_options(self::$iden);
 		
 		if(self::is_enabled() === false)
 			return;
 
-		add_filter('frontend_seajs_alias',	get_class() . '::frontend_seajs_alias');
-		add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
+		add_filter('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
+		add_action('frontend_seajs_use',	__CLASS__ . '::frontend_seajs_use');
 
 		
-		add_filter('cache-request',get_class() . '::process_cache_request');
-		add_filter('js-cache-request',get_class() . '::js_cache_request');
+		add_filter('cache-request',__CLASS__ . '::process_cache_request');
+		add_filter('js-cache-request',__CLASS__ . '::js_cache_request');
 
 
 		/** admin post/page css */
-		add_action('admin_head', get_class() . '::admin_css');
-		add_action('manage_posts_custom_column',get_class() . '::admin_show',10,2);
-		add_filter('manage_posts_columns', get_class() . '::admin_add_column');
+		add_action('admin_head', __CLASS__ . '::admin_css');
+		add_action('manage_posts_custom_column',__CLASS__ . '::admin_show',10,2);
+		add_filter('manage_posts_columns', __CLASS__ . '::admin_add_column');
 	}
 	public static function options_default($opts = []){
 		$opts[self::$iden] = array(

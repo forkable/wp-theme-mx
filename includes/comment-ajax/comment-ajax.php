@@ -15,18 +15,18 @@ class theme_comment_ajax{
 	private static $iden = 'theme_comment_ajax';
 	public static function init(){
 		
-		add_filter('theme_options_default',			get_class() . '::backend_options_default');
-		// add_filter('theme_options_save',			get_class() . '::backend_options_save');
+		add_filter('theme_options_default',			__CLASS__ . '::backend_options_default');
+		// add_filter('theme_options_save',			__CLASS__ . '::backend_options_save');
 
-		// add_action('page_settings',					get_class() . '::backend_options_display');
+		// add_action('page_settings',					__CLASS__ . '::backend_options_display');
 		
-		add_action('wp_footer',						get_class() . '::thread_comments_js');
+		add_action('wp_footer',						__CLASS__ . '::thread_comments_js');
 		if(!self::is_enabled()) return;
-		add_action('frontend_seajs_use',			get_class() . '::frontend_seajs_use');
-		add_action('pre_comment_on_post',			get_class() . '::block_frontend_comment',1);
-		add_action('pre_comment_on_post',			get_class() . '::pre_comment_on_post');
-		add_action('wp_ajax_' . get_class(),		get_class() . '::process');
-		add_action('wp_ajax_nopriv_' . get_class(),	get_class() . '::process');
+		add_action('frontend_seajs_use',			__CLASS__ . '::frontend_seajs_use');
+		add_action('pre_comment_on_post',			__CLASS__ . '::block_frontend_comment',1);
+		add_action('pre_comment_on_post',			__CLASS__ . '::pre_comment_on_post');
+		add_action('wp_ajax_' . __CLASS__,		__CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . __CLASS__,	__CLASS__ . '::process');
 		
 		
 	}
@@ -85,7 +85,7 @@ class theme_comment_ajax{
 	public static function process(){
 		!check_referer() && wp_die(___('Referer error'));
 	
-		$output = array();
+		$output = [];
 		
 		/**
 		 * Check the ajax comment post

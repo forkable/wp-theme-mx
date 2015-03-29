@@ -152,8 +152,8 @@ class timthumb {
 	protected $myHost = "";
 	protected $isURL = false;
 	protected $cachefile = '';
-	protected $errors = array();
-	protected $toDeletes = array();
+	protected $errors = [];
+	protected $toDeletes = [];
 	protected $cacheDirectory = '';
 	protected $startTime = 0;
 	protected $lastBenchTime = 0;

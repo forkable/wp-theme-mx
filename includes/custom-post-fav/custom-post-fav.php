@@ -9,8 +9,8 @@ add_filter('custom_post_fav',function($fns){
 class custom_post_fav{
 	public static $iden = 'custom_post_fav';
 	public static $post_meta_key = [
-		'users' 		=> 'fav_users',
-		'conut' 		=> 'fav_count',
+		'users' 		=> '_fav_users',
+		'conut' 		=> '_fav_count',
 	];
 	public static $user_meta_key = [
 		'posts' 		=> 'fav_posts',
@@ -18,96 +18,159 @@ class custom_post_fav{
 		'be_count' 		=> 'fav_be_count',
 	];
 	public static function init(){
-		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
+		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
+
+		add_action('before_delete_post',__CLASS__ . '::sync_delete_post');
 	}
-	public static function get_fav_posts(array $args = []){
+	public static function sync_delete_post($post_id){
+		$post = get_post($post_id);
+		if(!$post)
+			return;
+		$post_fav_users = (array)self::get_post_fav_users($post_id);
+		if(!empty($post_fav_users)){
+			foreach($post_fav_users as $user_id){
+				/**
+				 * delete user meta
+				 */
+				self::decr_user_be_fav_count($user_id);
+			}
+		}
+		
+	}
+	/**
+	 * 随机在总量中获取被收藏最多的文章排行（最受欢迎的文章）
+	 *
+	 * @param array $args
+	 * @return array
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function get_most_fav_posts(array $args = []){
 		$defaults = [
-			'user_id' => get_current_user_id(),
+			'total_number' => 20,
 			'posts_per_page' => 10,
 			'paged' => 1,
 			'orderby' => 'desc',
-			'order' => 'ID',
+			'expire' => 3600*24,
 		];
 		$args = wp_parse_args($args,$defaults);
-		$cache_id = crc32(__FUNCTION__ . serialize($args));
-		$caches = wp_cache_get($args['user_id'],self::$iden);
+		$cache_id = crc32(serialize($args));
+		$caches = wp_cache_get('most_fav_posts',self::$iden);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 
-		/**
-		 * get user fav post ids
-		 */
-		$post_ids = (array)get_user_meta($args['user_id'],self::$user_meta_key['posts'],true);
-		if(empty($post_ids))
-			return false;
 		/**
 		 * get posts from database
 		 */
-		global $wp_query,$post;
-		$wp_query = new WP_Query([
+		$query = new WP_Query([
 			'posts_per_page' => (int)$args['posts_per_page'],
 			'paged' => (int)$args['paged'],
-			'post__in' => $post_ids,
-			'orderby' => $args['orderby'],
-			'order' => $args['order'],
+			'meta_key' => self::$post_meta_key('count'),
+			'orderby' => 'meta_value_num',
+			'order' => 'DESC',
 		]);
-		$caches[$cache_id] = $wp_query;
-		wp_cache_set($args['user_id'],$caches,self::$iden,2505600);
-		wp_reset_query();
-		wp_reset_postdata();
+		if($args['orderby'] === 'rand' && !empty($query)){
+			$rand_post_ids = [];
+			while($query->have_posts()){
+				$query->the_posts();
+				$rand_post_ids[] = $post->ID;
+			}
+			wp_reset_postdata();
+			/**
+			 * rand query
+			 */
+			$query = new WP_Query([
+				'posts_per_page' => (int)$args['posts_per_page'],
+				'paged' => (int)$args['paged'],
+				'post__in' => $rand_post_ids,
+				'orderby' => 'rand',
+			]);
+			
+		}
 		
+		$caches[$cache_id] = $query;
+		wp_cache_set('most_fav_posts',$caches,self::$iden,$args['expire']);
 		return $caches[$cache_id];
 	}
-	public static function get_fav_users(array $args = []){
+	/**
+	 * 随机在总量中获取被收藏最多的用户排行
+	 *
+	 * @param array $args
+	 * @return array
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function get_most_fav_users(array $args = []){
 		$defaults = [
-			'post_id' => null,
-			'number' => 10,
+			'total_number' => 20,
+			'display_number' => 10,
 			'paged' => 1,
 			'orderby' => 'ID',
+			'expire' => 3600*24,
 		];
 		$args = wp_parse_args($args,$defaults);
-		$cache_id = crc32(__FUNCTION__ . serialize($args));
-		$caches = wp_cache_get($args['post_id'],self::$iden);
+		$cache_id = crc32(serialize($args));
+		$caches = wp_cache_get('most_fav_users',self::$iden);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 
-		/**
-		 * get user id 
-		 */
-		$user_ids = (array)get_post_meta($args['post_id'],self::$post_meta_key['users'],true);
-		if(empty($user_ids))
-			return false;
-
 		$users = get_users([
 			'include' => $user_ids,
-			'number' => $args['number'],
-			'orderby' => $args['orderby'],
+			'meta_key' => self::$user_meta_key['be_count'],
+			'number' => $args['total_number'],
+			'orderby' => 'meta_value',
+			'order' => 'DESC',
 		]);
 		
-		if($args['orderby'] === 'rand')
+		if($args['orderby'] === 'rand' && $args['total_number'] > $args['display_number']){
 			shuffle($users);
+			$users = array_slice($users,0,(int)$args['display_number']);
+		}
 		
 		$caches[$cache_id] = $users;
-		wp_cache_set($args['post_ids'],$caches,self::$iden,2505600);
+		wp_cache_set('most_fav_users',$caches,self::$iden,$args['expire']);
 
 		return $caches[$cache_id];
 	}
+	/**
+	 * 获取文章被收藏的统计数量
+	 *
+	 * @param int $post_id
+	 * @return int
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
 	public static function get_post_fav_count($post_id){
 		static $caches;
 		if(isset($caches[$post_id]))
 			return $caches[$post_id];
 
-		$caches[$post_id] = (int)get_psot_meta($post_id,self::$post_meta_key['users'],true);
+		$caches[$post_id] = count(get_psot_meta($post_id,self::$post_meta_key['users'],true));
 		return $caches[$post_id];
 	}
+	/**
+	 * 获取用户收藏的统计数量
+	 *
+	 * @param int $user_id
+	 * @return int
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
 	public static function get_user_fav_count($user_id){
 		static $caches;
 		if(isset($caches[$user_id]))
 			return $caches[$user_id];
-
-		$caches[$user_id] = (int)get_psot_meta($user_id,self::$user_meta_key['count'],true);
+		$caches[$user_id] = count(get_user_meta($user_id,self::$user_meta_key['posts'],true));
 		return $caches[$user_id];
 	}
+	/**
+	 * 获取用户被收藏的统计数量
+	 *
+	 * @param int $user_id
+	 * @return int
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
 	public static function get_user_be_fav_count($user_id){
 		static $caches;
 		if(isset($caches[$user_id]))
@@ -115,6 +178,45 @@ class custom_post_fav{
 
 		$caches[$user_id] = (int)get_psot_meta($user_id,self::$user_meta_key['be_count'],true);
 		return $caches[$user_id];
+	}
+	public static function get_post_fav_users($user_id){
+		static $caches;
+		if(isset($caches[$user_id]))
+			return $caches[$user_id];
+		$caches[$user_id] = (array)get_psot_meta($user_id,self::$post_meta_key['users'],true);
+		return $caches[$user_id];
+	}
+	/**
+	 * 获取用户收藏的文章
+	 *
+	 * @param int $user_id
+	 * @param array $query_args
+	 * @return array
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function get_user_fav_posts($user_id,array $query_args = []){
+		static $caches;
+		$defaults = [
+			'posts_per_page' => 10,
+			'paged' => 1,
+		];
+		$query_args = wp_parse_args($query_args,$defaults);		$cache_id = crc32($user_id . serialize($query_args));
+		
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+			
+		$post_ids = (array)get_psot_meta($user_id,self::$user_meta_key['posts'],true);
+		
+		if(empty($post_ids)){
+			$caches[$cache_id] = false;
+			return false;
+		}
+		
+		$query_args['post__in'] = $post_ids;
+
+		$caches[$cache_id] = new WP_Query($query_args);
+		return $caches[$cache_id];
 	}
 	public static function process(){
 		$output = [];

@@ -8,7 +8,7 @@ class theme_login_with_email {
 	private static $iden = 'theme-login-with-email';
 
 	public static function init(){
-		add_filter('authenticate',get_class() . '::authenticate', 20, 3);
+		add_filter('authenticate',__CLASS__ . '::authenticate', 20, 3);
 	}
 	public static function authenticate($user, $username, $password){
 		if(is_email($username)){

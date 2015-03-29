@@ -24,12 +24,12 @@ class theme_open_sign{
 	
 	public static function init(){
 	
-		add_action('wp_ajax_nopriv_isos_cb',					get_class() . '::process_cb');
+		add_action('wp_ajax_nopriv_isos_cb',					__CLASS__ . '::process_cb');
 		
-		add_action('wp_ajax_nopriv_' . self::$iden ,get_class() . '::process');
+		add_action('wp_ajax_nopriv_' . self::$iden ,__CLASS__ . '::process');
 
-		add_action('page_settings',get_class() . '::display_backend');
-		add_filter('theme_options_save',get_class() . '::options_save');
+		add_action('page_settings',__CLASS__ . '::display_backend');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
 	}
 	public static function options_default($opts){
 		
@@ -264,7 +264,7 @@ class theme_open_sign{
 		return $open_id . '@opensign.inn-studio.com';
 	}
 	public static function process(){
-		$output = array();
+		$output = [];
 		/**
 		 * nonce
 		 */

@@ -15,12 +15,12 @@ class theme_recommended_post{
 	public static $css_id = 'theme-recommended-post';
 	
 	public static function init(){
-		add_action('add_meta_boxes',get_class() . '::add_meta_boxes');
-		add_action('page_settings',get_class() . '::display_backend');
-		add_filter('theme_options_save',get_class() . '::options_save');
+		add_action('add_meta_boxes',__CLASS__ . '::add_meta_boxes');
+		add_action('page_settings',__CLASS__ . '::display_backend');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
 		
-		add_action('save_post',get_class() . '::save_post');
-		add_action('delete_post',get_class() . '::delete_post');
+		add_action('save_post',__CLASS__ . '::save_post');
+		add_action('delete_post',__CLASS__ . '::delete_post');
 	}
 	public static function add_meta_boxes(){
 		$screens = array('post');
@@ -29,7 +29,7 @@ class theme_recommended_post{
 			add_meta_box(
 				self::$iden,
 				___( 'Recommended post' ),
-				get_class() . '::box_display',
+				__CLASS__ . '::box_display',
 				$screen,
 				'side'
 			);

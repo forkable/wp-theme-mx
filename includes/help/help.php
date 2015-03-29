@@ -14,8 +14,8 @@ add_filter('theme_includes',function($fns){
 class theme_help{
 	public static $iden = 'theme_help';
 	public static function init(){
-		add_action('help_settings',get_class() . '::admin');
-		add_action('after_backend_tab_init',get_class() . '::js'); 
+		add_action('help_settings',__CLASS__ . '::admin');
+		add_action('after_backend_tab_init',__CLASS__ . '::js'); 
 	}
 	
 	public static function admin(){

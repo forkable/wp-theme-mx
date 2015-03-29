@@ -12,15 +12,15 @@ class theme_comment_notify {
 
 	public static function init(){
 		
-		add_action('page_settings',get_class() . '::display_backend');
-		add_filter('theme_options_default',get_class() . '::options_default');
-		add_filter('theme_options_save',get_class() . '::options_save');
+		add_action('page_settings',__CLASS__ . '::display_backend');
+		add_filter('theme_options_default',__CLASS__ . '::options_default');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
 
 		self::$opt = theme_options::get_options(self::$iden);
 		
 		if(!self::is_enabled()) return;
-		add_action('comment_post',get_class() . '::reply_notify');
-		add_action('comment_unapproved_to_approved', get_class() . '::approved_notify');
+		add_action('comment_post',__CLASS__ . '::reply_notify');
+		add_action('comment_unapproved_to_approved', __CLASS__ . '::approved_notify');
 	}
 	public static function is_enabled(){
 		return isset(self::$opt['on']) && self::$opt['on'] == 1 ? true : false;
@@ -77,11 +77,11 @@ class theme_comment_notify {
 		$mail_content = ob_get_contents();
 		ob_get_clean();
 		
-		add_filter('wp_mail_content_type',get_class() . '::set_html_content_type');
+		add_filter('wp_mail_content_type',__CLASS__ . '::set_html_content_type');
 		
 		wp_mail($to,$mail_title,$mail_content);
 		
-		remove_filter('wp_mail_content_type',get_class() . '::set_html_content_type');
+		remove_filter('wp_mail_content_type',__CLASS__ . '::set_html_content_type');
 
 	}
 	public static function reply_notify($comment_id){
@@ -118,11 +118,11 @@ class theme_comment_notify {
 		$mail_content = ob_get_contents();
 		ob_end_clean();
 		
-		add_filter('wp_mail_content_type',get_class() . '::set_html_content_type');
+		add_filter('wp_mail_content_type',__CLASS__ . '::set_html_content_type');
 		
 		wp_mail($parent_comment->comment_author_email,$mail_title,$mail_content);
 		
-		remove_filter('wp_mail_content_type',get_class() . '::set_html_content_type');
+		remove_filter('wp_mail_content_type',__CLASS__ . '::set_html_content_type');
 
 	}
 	public static function set_html_content_type(){

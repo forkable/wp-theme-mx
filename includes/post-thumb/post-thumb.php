@@ -14,13 +14,13 @@ add_filter('theme_includes',function($fns){
 class theme_post_thumb{
 	private static $iden = 'theme_post_thumb';
 	public static function init(){
-		add_filter('theme_options_save',get_class() . '::save');
-		add_filter('theme_options_default',get_class() . '::options_default');	
-		add_action('page_settings',get_class() . '::admin');
+		add_filter('theme_options_save',__CLASS__ . '::save');
+		add_filter('theme_options_default',__CLASS__ . '::options_default');	
+		add_action('page_settings',__CLASS__ . '::admin');
 		if(!self::is_enabled()) return false;
-		add_action('frontend_seajs_use',get_class() . '::js');
-		add_action('wp_ajax_' . self::$iden,get_class() . '::process');
-		add_action('wp_ajax_nopriv_' . self::$iden,get_class() . '::process');
+		add_action('frontend_seajs_use',__CLASS__ . '::js');
+		add_action('wp_ajax_' . self::$iden,__CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . self::$iden,__CLASS__ . '::process');
 	}
 
 	/**
@@ -118,7 +118,7 @@ class theme_post_thumb{
 					$output['msg'] = $thumb_content;
 				}
 				/* 写入曲奇 */
-				$post_thumb = isset($_COOKIE[self::$iden]) ? (array)@json_decode(base64_decode($_COOKIE[self::$iden])) : array();
+				$post_thumb = isset($_COOKIE[self::$iden]) ? (array)@json_decode(base64_decode($_COOKIE[self::$iden])) : [];
 				$post_thumb['ids'][] = $post_id;
 				setcookie(self::$iden,base64_encode(json_encode($post_thumb)),time()+60*60*24*30*12,'/');
 			}else{
@@ -159,7 +159,7 @@ class theme_post_thumb{
 	/**
 	 * post_thumb::get_thumb_content()
 	 * 
-	 * @param array() $args
+	 * @param [] $args
 	 * @param int $args['id'] the post id
 	 * @param string $args['action'] the thumb action, up or down
 	 * @param string $args['action_title'] the thumb action title tip
@@ -218,7 +218,7 @@ class theme_post_thumb{
 	}
 	private static function is_voted($post_id = null){
 		global $post;
-		$post_thumb = isset($_COOKIE[self::$iden]) ? (array)@json_decode(base64_decode($_COOKIE[self::$iden])) : array();
+		$post_thumb = isset($_COOKIE[self::$iden]) ? (array)@json_decode(base64_decode($_COOKIE[self::$iden])) : [];
 		if(!isset($post_thumb['ids'])) return false;
 		$post_id = $post_id ? $post_id : $post->ID;
 		/* 判断存在曲奇，已投票 */

@@ -7,12 +7,12 @@ class theme_quick_comment{
 	public static $iden = 'theme_quick_comment';
 	public static $style_id = 'theme-quic-comment';
 	public static function init(){
-		add_action('frontend_seajs_use',			get_class() . '::frontend_seajs_use');
-		add_filter('frontend_seajs_alias',			get_class() . '::frontend_seajs_alias');
-		add_action('wp_ajax_' . get_class(),		get_class() . '::process');
-		add_action('wp_ajax_nopriv_' . get_class(),	get_class() . '::process');
-		add_action('pre_comment_on_post',			get_class() . '::block_frontend_comment',1);
-		add_action('pre_comment_on_post',			get_class() . '::pre_comment_on_post');
+		add_action('frontend_seajs_use',			__CLASS__ . '::frontend_seajs_use');
+		add_filter('frontend_seajs_alias',			__CLASS__ . '::frontend_seajs_alias');
+		add_action('wp_ajax_' . __CLASS__,		__CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . __CLASS__,	__CLASS__ . '::process');
+		add_action('pre_comment_on_post',			__CLASS__ . '::block_frontend_comment',1);
+		add_action('pre_comment_on_post',			__CLASS__ . '::pre_comment_on_post');
 	}
 	/** 
 	 * process 
@@ -21,7 +21,7 @@ class theme_quick_comment{
 	public static function process(){
 		!check_referer() && wp_die(___('Referer error'));
 		theme_features::check_nonce();
-		$output = array();
+		$output = [];
 		
 		
 		$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : null;

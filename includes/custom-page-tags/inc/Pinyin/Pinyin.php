@@ -37,7 +37,7 @@ class Pinyin
      *
      * @var array
      */
-    protected static $appends = array();
+    protected static $appends = [];
 
     /**
      * settings
@@ -113,7 +113,7 @@ class Pinyin
      *
      * @return void
      */
-    public static function settings(array $settings = array())
+    public static function settings(array $settings = [])
     {
         static::$settings = array_merge(static::$settings, $settings);
     }
@@ -126,7 +126,7 @@ class Pinyin
      *
      * @return string
      */
-    public static function pinyin($string, array $settings = array())
+    public static function pinyin($string, array $settings = [])
     {
         $parsed = self::parse($string, $settings);
 
@@ -141,7 +141,7 @@ class Pinyin
      *
      * @return string
      */
-    public static function letter($string, array $settings = array())
+    public static function letter($string, array $settings = [])
     {
         $parsed = self::parse($string, $settings);
 
@@ -158,7 +158,7 @@ class Pinyin
      *
      * @return array
      */
-    public static function parse($string, array $settings = array())
+    public static function parse($string, array $settings = [])
     {
         $instance = static::getInstance();
 
@@ -196,7 +196,7 @@ class Pinyin
      *
      * @return void
      */
-    public static function appends($appends = array())
+    public static function appends($appends = [])
     {
         static::$appends = array_merge(static::$appends, static::formatAdditionalWords($appends));
     }
@@ -213,7 +213,7 @@ class Pinyin
     {
         $letterCase = $settings['uppercase'] ? 'strtoupper' : 'strtolower';
 
-        $letters = array();
+        $letters = [];
 
         foreach (explode(' ', $pinyin) as $word) {
             if (empty($word)) {
@@ -315,7 +315,7 @@ class Pinyin
         $handle = fopen($dictionaryFile, 'r');
         $regex = "#(?<trad>.*?) (?<simply>.*?) \[(?<pinyin>.*?)\]#i";
 
-        $content = array();
+        $content = [];
 
         while ($line = fgets($handle)) {
             if (0 === stripos($line, '#')) {

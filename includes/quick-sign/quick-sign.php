@@ -14,13 +14,13 @@ class theme_quick_sign{
 	public static $iden = 'theme_quick_sign';
 	public static function init(){
 		/** filter */
-		add_filter('cache-request',					get_class() . '::cache_request');
-		//add_filter('frontend_seajs_alias',			get_class() . '::frontend_seajs_alias');
+		add_filter('cache-request',					__CLASS__ . '::cache_request');
+		//add_filter('frontend_seajs_alias',			__CLASS__ . '::frontend_seajs_alias');
 		
 		/** action */
-		//add_action('frontend_seajs_use',			get_class() . '::frontend_seajs_use');
-		add_action('wp_ajax_' . get_class(),		get_class() . '::process');
-		add_action('wp_ajax_nopriv_' . get_class(),	get_class() . '::process');
+		//add_action('frontend_seajs_use',			__CLASS__ . '::frontend_seajs_use');
+		add_action('wp_ajax_' . __CLASS__,		__CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . __CLASS__,	__CLASS__ . '::process');
 	}
 	public static function cache_request($datas){
 		if(is_user_logged_in()){
@@ -47,7 +47,7 @@ class theme_quick_sign{
 		theme_features::check_referer();
 		
 		
-		$output = array();
+		$output = [];
 		
 		$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : null;
 		$user = isset($_POST['user']) ? $_POST['user'] : false;
@@ -148,13 +148,13 @@ class theme_quick_sign{
 					// $title,
 					// $content
 				// );
-				add_filter( 'wp_mail_content_type',get_class() . '::set_html_content_type');
+				add_filter( 'wp_mail_content_type',__CLASS__ . '::set_html_content_type');
 				$wp_mail = wp_mail(
 					$user->user_email,
 					$title,
 					$content
 				);
-				remove_filter( 'wp_mail_content_type',get_class() . '::set_html_content_type');
+				remove_filter( 'wp_mail_content_type',__CLASS__ . '::set_html_content_type');
 				/** 
 				 * check wp_mail is success or not
 				 */
@@ -284,7 +284,7 @@ class theme_quick_sign{
 			$output['code'] = 'invalid_email';
 			$output['msg'] = ___('Sorry, email is invalid, please try again.');
 		}else{
-			$creds = array();
+			$creds = [];
 			$creds['user_login'] = $email;
 			$creds['user_password'] = $pwd;
 			$creds['remember'] = $remember;

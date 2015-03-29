@@ -13,15 +13,17 @@ class theme_custom_storage{
 		'key' => '_theme_custom_storage'
 	);
 	public static function init(){
-		add_action('init',					get_class() . '::page_create');
-		add_action('add_meta_boxes', 		get_class() . '::meta_box_add');
-		add_action('save_post_post', 		get_class() . '::meta_box_save');
+		add_action('init',					__CLASS__ . '::page_create');
+		add_action('add_meta_boxes', 		__CLASS__ . '::meta_box_add');
+		add_action('save_post_post', 		__CLASS__ . '::meta_box_save');
+
+		add_action('template_redirect',		__CLASS__ . '::template_redirect');
 		
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 		
-		add_shortcode('post-stroage-download',get_class() . '::add_shortcode');
+		add_shortcode('post-stroage-download',__CLASS__ . '::add_shortcode');
 		
-		add_filter('wp_title',				get_class() . '::wp_title',10,2);	
+		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);	
 	}
 	public static function wp_title($title, $sep){
 		if(!self::is_page()) return $title;
@@ -32,7 +34,11 @@ class theme_custom_storage{
 		}
 	}
 	public static function is_page(){
-		return is_page(self::$page_slug);
+		static $caches;
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
+		$caches[self::$iden] = is_page(self::$page_slug);
+		return $caches[self::$iden];
 	}
 	public static function get_types($key = null){
 		$types = array(
@@ -44,6 +50,14 @@ class theme_custom_storage{
 			return $types;
 		}else{
 			return isset($types[$key]) ? $types[$key] : null;
+		}
+	}
+	public static function template_redirect(){
+		if(!self::is_page())
+			return;
+		if(!self::get_decode_post()){
+			wp_redirect(home_url());
+			die();
 		}
 	}
 	public static function get_post_meta($post_id = null){
@@ -64,7 +78,7 @@ class theme_custom_storage{
 			add_meta_box(
 				self::$iden,
 				___('File storage'),
-				get_class() . '::meta_box_display',
+				__CLASS__ . '::meta_box_display',
 				$screen,
 				'side'
 			);
@@ -153,13 +167,23 @@ class theme_custom_storage{
 	public static function get_url(){
 		return get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 	}
-	public static function get_download_page_url($post_id){
+	public static function get_download_page_url($post_id = null){
+		if($post_id === null){
+			global $post;
+			$post_id = $post->ID;
+		}
+		
+		static $caches;
+		if(isset($caches[$post_id]))
+			return $caches[$post_id];
+			
 		$code_obj = array(
 			'post-id' => (int)$post_id
 		);
-		return add_query_arg(array(
+		$caches[$post_id] = add_query_arg(array(
 			'code' => authcode(serialize($code_obj),'encode')	
 			),self::get_url());
+		return $caches[$post_id];
 	}
 	public static function get_decode_post(){
 		$code = isset($_GET['code']) ? $_GET['code'] : null;
@@ -185,25 +209,17 @@ class theme_custom_storage{
 			foreach(self::get_types() as $k => $v){
 				?>
 				<fieldset class="post-download-module">
-					<legend><label for="<?php echo self::$iden;?>-<?php echo $k;?>-pwd" class="label label-info"><?php echo $v['text'];?></label></legend>
+					<legend><span class="label label-default"><?php echo $v['text'];?></span></legend>
 					<div class="fieldset-content form-horizontal">
 						<?php if(isset($meta[$k]['pwd']) && !empty($meta[$k]['pwd'])){ ?>
 						<div class="form-group">
-							<label for="<?php echo self::$iden;?>-<?php echo $k;?>-pwd" class="col-xs-4 col-sm-2 control-label"><?php echo sprintf(___('%s password'),$v['text']);?></label>
-							<div class="col-xs-8 col-sm-10">
-								<input 
-									type="text" 
-									id="<?php echo self::$iden;?>-<?php echo $k;?>-pwd" 
-									class="pwd form-control" 
-									readonly 
-									value="<?php echo isset($meta[$k]['pwd']) ? esc_attr($meta[$k]['pwd']) : null;?>" 
-									title="<?php echo sprintf(___('%s password'),$v['text']);?>"
-									onclick="this.select();"
-								>
+							<div class="col-sm-3">
+								<strong class="btn btn-info btn-block btn-lg" id="<?php echo self::$iden;?>-<?php echo $k;?>-pwd" title="<?php echo sprintf(___('%s password'),$v['text']);?>" onclick="var range = document.createRange(),sel = window.getSelection();range.selectNodeContents(this);sel.removeAllRanges();sel.addRange(range);">
+									<?php echo isset($meta[$k]['pwd']) ? esc_html($meta[$k]['pwd']) : '-';?>
+								</strong>
 							</div>
-						</div>
-						<div class="form-group">
-							<div class="col-xs-12">
+
+							<div class="col-sm-9">
 								<div class="btn-group btn-group-lg btn-block">
 									<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-9 col-sm-10"><i class="fa fa-cloud-download"></i> <?php echo ___('Download now');?></a>
 									<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-3 col-sm-2" target="_blank"><i class="fa fa-external-link"></i></a>
@@ -213,7 +229,7 @@ class theme_custom_storage{
 						<?php }else{ ?>
 							<div class="btn-group btn-group-lg btn-block">
 								<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-9 col-sm-11"><i class="fa fa-cloud-download"></i> <?php echo ___('Download now');?></a>
-								<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-3 col-sm-1" target="_blank"><i class="fa fa-external-link"></i></a>
+								<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-3 col-sm-1" target="_blank" title="<?php echo ___('Open in new window');?>"><i class="fa fa-external-link"></i></a>
 							</div>
 						<?php } ?>
 					</div> <!-- /.fieldset -->

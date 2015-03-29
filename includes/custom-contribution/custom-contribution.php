@@ -10,32 +10,32 @@ class theme_custom_contribution{
 	public static $iden = 'theme-custom-contribution';
 	public static $page_slug = 'account';
 	public static $file_exts = array('png','jpg','gif');
-	public static $pages = array();
+	public static $pages = [];
 	public static $post_meta_key = array(
 		'bdyun' => '_theme_ctb_bdyun'
 	);
 	public static function init(){
-		add_filter('frontend_seajs_alias',	get_class() . '::frontend_seajs_alias');
+		add_filter('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
 	
-		add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
+		add_action('frontend_seajs_use',	__CLASS__ . '::frontend_seajs_use');
 
-		add_filter('theme_options_save', 	get_class() . '::options_save');
-		add_filter('theme_options_default', 	get_class() . '::options_default');
+		add_filter('theme_options_save', 	__CLASS__ . '::options_save');
+		add_filter('theme_options_default', 	__CLASS__ . '::options_default');
 		
 		
-		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
+		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 
 		
 		foreach(self::get_tabs() as $k => $v){
 			$nav_fn = 'filter_nav_' . $k; 
-			add_filter('account_navs',get_class() . "::$nav_fn",$v['filter_priority']);
+			add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
 		}
 
-		add_filter('wp_title',				get_class() . '::wp_title',10,2);
+		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
 
-		add_action('page_settings',			get_class() . '::display_backend');
+		add_action('page_settings',			__CLASS__ . '::display_backend');
 	}
 	public static function wp_title($title, $sep){
 		if(!self::is_page()) return $title;
@@ -130,7 +130,7 @@ class theme_custom_contribution{
 		return false;
 	}
 	public static function process(){
-		$output = array();
+		$output = [];
 		
 		theme_features::check_referer();
 		theme_features::check_nonce();
@@ -199,7 +199,7 @@ class theme_custom_contribution{
 				/**
 				 * attach
 				 */
-				$attach_ids = isset($ctb['attach-ids']) && is_array($ctb['attach-ids']) ? array_map('intval',$ctb['attach-ids']) : array();
+				$attach_ids = isset($ctb['attach-ids']) && is_array($ctb['attach-ids']) ? array_map('intval',$ctb['attach-ids']) : [];
 				$attach_htmls = '';
 				if(!is_null_array($attach_ids)){
 					/**
@@ -236,7 +236,7 @@ class theme_custom_contribution{
 				/**
 				 * cats
 				 */
-				$cats = isset($ctb['cats']) && is_array($ctb['cats']) ? $ctb['cats'] : array();
+				$cats = isset($ctb['cats']) && is_array($ctb['cats']) ? $ctb['cats'] : [];
 				if(!empty($cats)){
 					$cats = array_map('intval',$cats);
 					
@@ -244,7 +244,7 @@ class theme_custom_contribution{
 				/**
 				 * tags
 				 */
-				$tags = isset($ctb['tags']) && is_array($ctb['tags']) ? $ctb['tags'] : array();
+				$tags = isset($ctb['tags']) && is_array($ctb['tags']) ? $ctb['tags'] : [];
 				if(!empty($tags)){
 					$tags = array_map(function($tag){
 						if(!is_string($tag)) return null;

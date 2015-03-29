@@ -75,7 +75,7 @@ class ThemeUpdateChecker {
 	 * @param array $queryArgs Additional query arguments to append to the request. Optional.
 	 * @return ThemeUpdate 
 	 */
-	public function requestUpdate($queryArgs = array()){
+	public function requestUpdate($queryArgs = []){
 		//Query args to append to the URL. Themes can add their own by using a filter callback (see addQueryArgFilter()).
 		$queryArgs['installed_version'] = $this->getInstalledVersion(); 
 		$queryArgs = apply_filters(self::$filterPrefix.'query_args-'.$this->theme, $queryArgs);

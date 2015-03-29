@@ -15,17 +15,17 @@ class theme_page_cats{
 	public static $page_slug = 'cats-index';
 	
 	public static function init(){
-		add_action('init',get_class() . '::page_create');
+		add_action('init',__CLASS__ . '::page_create');
 
-		add_action('page_settings', 		get_class() . '::display_backend');
+		add_action('page_settings', 		__CLASS__ . '::display_backend');
 
-		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
+		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 		
-		add_filter('theme_options_save', 	get_class() . '::options_save');
+		add_filter('theme_options_save', 	__CLASS__ . '::options_save');
 
-		add_action('backend_seajs_alias',get_class() . '::backend_seajs_alias');
+		add_action('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 
-		add_action('after_backend_tab_init',get_class() . '::backend_seajs_use'); 
+		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use'); 
 
 
 		

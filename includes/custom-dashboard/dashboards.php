@@ -8,11 +8,11 @@ class theme_dashboards extends theme_custom_dashboard{
 	public static function init(){
 		
 		
-		add_action('account_dashboard_left',get_class() . '::my_statistics');
-		add_action('account_dashboard_left',get_class() . '::my_point');
+		add_action('account_dashboard_left',__CLASS__ . '::my_statistics');
+		add_action('account_dashboard_left',__CLASS__ . '::my_point');
 		
-		add_action('account_dashboard_right',get_class() . '::recent_comments_4_my_posts');
-		add_action('account_dashboard_right',get_class() . '::recent_posts');
+		add_action('account_dashboard_right',__CLASS__ . '::recent_comments_4_my_posts');
+		add_action('account_dashboard_right',__CLASS__ . '::recent_posts');
 		
 		
 	}

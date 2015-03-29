@@ -74,20 +74,20 @@ class theme_group_order {
 		
 		foreach (self::$taxonomies as $key => $value) {
 			
-			add_filter("manage_edit-{$value}_columns", get_class() . '::add_column_header');
-			add_filter("manage_{$value}_custom_column", get_class() . '::add_column_value' ,10, 3);
+			add_filter("manage_edit-{$value}_columns", __CLASS__ . '::add_column_header');
+			add_filter("manage_{$value}_custom_column", __CLASS__ . '::add_column_value' ,10, 3);
 			
-			add_action("{$value}_add_form_fields", get_class() . '::term_group_add_form_field');
-			add_action("{$value}_edit_form_fields", get_class() . '::term_group_edit_form_field');
+			add_action("{$value}_add_form_fields", __CLASS__ . '::term_group_add_form_field');
+			add_action("{$value}_edit_form_fields", __CLASS__ . '::term_group_edit_form_field');
 			
 		}
 		
-		add_filter("manage_edit-tags_columns", get_class() . '::add_column_header');
+		add_filter("manage_edit-tags_columns", __CLASS__ . '::add_column_header');
 		
-		add_action('create_term', get_class() . '::add_edit_term_group');
+		add_action('create_term', __CLASS__ . '::add_edit_term_group');
 		
-		add_action('edit_term', get_class() . '::add_edit_term_group');
-		add_action('quick_edit_custom_box', get_class() . '::quick_edit_term_group', 10, 3);
+		add_action('edit_term', __CLASS__ . '::add_edit_term_group');
+		add_action('quick_edit_custom_box', __CLASS__ . '::quick_edit_term_group', 10, 3);
 		
 		
 	}

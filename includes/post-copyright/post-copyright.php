@@ -14,9 +14,9 @@ add_filter('theme_includes',function($fns){
 class theme_post_copyright{
 	private static $iden = 'theme_post_copyright';
 	public static function init(){
-		add_action('page_settings',get_class() . '::display_backend');
-		add_filter('theme_options_default',get_class() . '::options_default');
-		add_filter('theme_options_save',get_class() . '::options_save');
+		add_action('page_settings',__CLASS__ . '::display_backend');
+		add_filter('theme_options_default',__CLASS__ . '::options_default');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
 	
 	}
 	public static function display_backend(){

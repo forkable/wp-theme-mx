@@ -15,16 +15,16 @@ class theme_dev_mode{
 	public static $iden = 'theme_dev_mode';
 	public static $is_enabled;
 	public static $opt;
-	private static $data = array();
+	private static $data = [];
 	public static function init(){
 
 		self::$opt = (array)theme_options::get_options(self::$iden);
 		self::$is_enabled = isset(self::$opt['on']) ? true : false;
 		
-		add_filter('theme_options_save',get_class() . '::options_save');
-		add_action('after_setup_theme',get_class() . '::mark_start_data',0);
-		add_action('wp_footer',get_class() . '::hook_footer',9999);
-		add_action('dev_settings',get_class() . '::display_backend');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
+		add_action('after_setup_theme',__CLASS__ . '::mark_start_data',0);
+		add_action('wp_footer',__CLASS__ . '::hook_footer',9999);
+		add_action('dev_settings',__CLASS__ . '::display_backend');
 
 		
 	}

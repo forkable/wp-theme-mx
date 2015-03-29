@@ -61,7 +61,7 @@ class URL{
      */
     public function combineURL($baseURL,$keysArr){
         $combined = $baseURL."?";
-        $valueArr = array();
+        $valueArr = [];
 
         foreach($keysArr as $key => $val){
             $valueArr[] = "$key=$val";
@@ -146,7 +146,7 @@ class Recorder{
         }
 
         if(empty($_SESSION['QC_userData'])){
-            self::$data = array();
+            self::$data = [];
         }else{
             self::$data = $_SESSION['QC_userData'];
         }
@@ -333,7 +333,7 @@ class QC extends Oauth{
         $pre = "#";
         $keysArr = $this->keysArr;
 
-        $optionArgList = array();//一些多项选填参数必选一的情形
+        $optionArgList = [];//一些多项选填参数必选一的情形
         foreach($argsList as $key => $val){
             $tmpKey = $key;
             $tmpVal = $val;
@@ -446,7 +446,7 @@ class QC extends Oauth{
         if(!is_object($obj) && !is_array($obj)) {
             return $obj;
         }
-        $arr = array();
+        $arr = [];
         foreach($obj as $k => $v){
             $arr[$k] = $this->objToArr($v);
         }
@@ -486,7 +486,7 @@ class QC extends Oauth{
     private function simple_json_parser($json){
         $json = str_replace("{","",str_replace("}","", $json));
         $jsonValue = explode(",", $json);
-        $arr = array();
+        $arr = [];
         foreach($jsonValue as $v){
             $jValue = explode(":", $v);
             $arr[str_replace('"',"", $jValue[0])] = (str_replace('"', "", $jValue[1]));
@@ -568,7 +568,7 @@ class Oauth{
             }
         }
 
-        $params = array();
+        $params = [];
         parse_str($response, $params);
 
         $this->recorder->write("access_token", $params["access_token"]);

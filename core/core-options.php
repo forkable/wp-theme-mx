@@ -24,7 +24,7 @@ class theme_options{
 		if(!self::is_options_page())
 			return false;
 			
-		add_action('admin_head',get_class() . '::backend_header');
+		add_action('admin_head',__CLASS__ . '::backend_header');
 		self::save_options();
 		self::redirect();
 	}
@@ -67,7 +67,7 @@ class theme_options{
 		?><script id="seajsnode" src="<?php echo theme_features::get_theme_js('seajs/sea');?>"></script>
 		<script>
 		<?php
-		$config = array();
+		$config = [];
 		$config['base'] = esc_js(theme_features::get_theme_js());
 		$config['paths'] = array(
 			'theme_js' => esc_js(theme_features::get_theme_js()),

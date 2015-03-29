@@ -15,10 +15,10 @@ class maintenance_mode{
 	public static $iden = 'maintenance_mode';
 	
 	public static function init(){
-		add_action('base_settings', get_class() . '::backend_display',90);
-		add_action('wp_head', get_class() . '::redirect',10);
-		add_filter('theme_options_save', get_class() . '::options_save');
-		add_action('wp_ajax_nopriv_maintenance_mode', get_class() . '::process');
+		add_action('base_settings', __CLASS__ . '::backend_display',90);
+		add_action('wp_head', __CLASS__ . '::redirect',10);
+		add_filter('theme_options_save', __CLASS__ . '::options_save');
+		add_action('wp_ajax_nopriv_maintenance_mode', __CLASS__ . '::process');
 	
 	}
 	/**

@@ -15,11 +15,11 @@ class theme_seo_plus{
 	private static $iden = 'theme_seo_plus';
 	private static $keywords_split = ',';
 	public static function init(){
-		add_action('base_settings',get_class() . '::display_backend',5);
-		add_action('wp_head',get_class() . '::get_site_keywords',1);
-		add_action('wp_head',get_class() . '::get_site_description',1);
-		add_filter('theme_options_save',get_class() . '::options_save');
-		add_filter('wp_title',get_class() . '::wp_title',10,2);
+		add_action('base_settings',__CLASS__ . '::display_backend',5);
+		add_action('wp_head',__CLASS__ . '::get_site_keywords',1);
+		add_action('wp_head',__CLASS__ . '::get_site_description',1);
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
+		add_filter('wp_title',__CLASS__ . '::wp_title',10,2);
 	}
 	public static function wp_title($title, $sep){
 		$sep = ' - ';
@@ -78,7 +78,7 @@ class theme_seo_plus{
 		return $options;
 	}
 	public static function get_site_description($echo = true){
-		$descriptions = array();
+		$descriptions = [];
 		/** 
 		 * in home page
 		 */
@@ -135,7 +135,7 @@ class theme_seo_plus{
 	 **/
 	public static function get_site_keywords(){
 		$opt = theme_options::get_options(self::$iden);
-		$all_tags = array();
+		$all_tags = [];
 		$content = null;
 		/** 
 		 * post page

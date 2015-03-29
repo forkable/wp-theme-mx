@@ -13,13 +13,13 @@ class theme_custom_dashboard{
 
 	public static function init(){	
 		
-		add_filter('wp_title',				get_class() . '::wp_title',10,2);
+		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
 		
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 
 		foreach(self::get_tabs() as $k => $v){
 			$nav_fn = 'filter_nav_' . $k; 
-			add_filter('account_navs',get_class() . "::$nav_fn",$v['filter_priority']);
+			add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
 		}
 
 		include __DIR__ . '/dashboards.php';

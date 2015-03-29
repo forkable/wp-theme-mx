@@ -29,8 +29,8 @@ class theme_features{
 	public static $iden = 'theme_features';	
 	
 	public static function init(){
-		add_action('after_setup_theme',	get_class() . '::after_setup_theme');
-		add_action('wp_head',			get_class() . '::theme_header');
+		add_action('after_setup_theme',	__CLASS__ . '::after_setup_theme');
+		add_action('wp_head',			__CLASS__ . '::theme_header');
 	}
 	/**
 	 * theme_header
@@ -46,7 +46,7 @@ class theme_features{
 		<script>
 		<?php
 		$theme_version = self::get_theme_info('version');
-		$config = array();
+		$config = [];
 		$config['base'] = self::get_theme_js();
 		$config['paths'] = array(
 			'theme_js' => self::get_theme_js(),
@@ -1307,7 +1307,7 @@ class theme_features{
 		$defaults = array(
 			'nav_class' => 'pagination-pn',
 			'add_fragment' => 'post-' . $post->ID,
-			'numbers_class' => array(),
+			'numbers_class' => [],
 			'middle_class' => '',
 		);
 		$r = wp_parse_args($args,$defaults);
@@ -1682,8 +1682,8 @@ class theme_features{
 		 */
 		add_theme_support('automatic-feed-links');
 		remove_action('wp_head', 'wp_generator');
-		add_filter('body_class',get_class() . '::theme_body_classes');
-		add_action('wp_before_admin_bar_render',get_class() . '::remove_wp_support');
+		add_filter('body_class',__CLASS__ . '::theme_body_classes');
+		add_action('wp_before_admin_bar_render',__CLASS__ . '::remove_wp_support');
 	}
 	public static function remove_wp_support(){
 		global $wp_admin_bar;
@@ -1766,7 +1766,7 @@ class theme_features{
 			'hide_empty' => false,
 			'exclude' => 1
 		));
-		$cat_ids = isset($opt[$ids_name]) ? (array)$opt[$ids_name] : array();
+		$cat_ids = isset($opt[$ids_name]) ? (array)$opt[$ids_name] : [];
 		
 		if(!empty($cats)){
 			foreach($cats as $cat){

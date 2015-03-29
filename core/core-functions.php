@@ -31,7 +31,7 @@ function get_option_list($value,$text,$current_value){
  * @author KM@INN STUDIO
  */
 function mult_search_array($key,$value,$array){ 
-	$results = array(); 
+	$results = []; 
 	if (is_array($array)){ 
 		if (isset($array[$key]) && $array[$key] == $value) 
 		$results[] = $array; 
@@ -507,7 +507,7 @@ function authcode($string, $operation = 'decode', $key = 'innstudio', $expiry = 
     $result = null;
     $box = range(0, 255);
 
-    $rndkey = array();
+    $rndkey = [];
     for($i = 0; $i <= 255; $i++) {
         $rndkey[$i] = ord($cryptkey[$i % $key_length]);
     }
@@ -767,7 +767,7 @@ function kill_html($str = null){
  * @return String containing either just a URL or a complete image tag
  * @source http://gravatar.com/site/implement/images/php/
  */
-function get_gravatar( $email, $url_only = 1, $s = 80, $d = 'mm', $r = 'g', $atts = array() ) {
+function get_gravatar( $email, $url_only = 1, $s = 80, $d = 'mm', $r = 'g', $atts = [] ) {
 	$server_domains = array(
 		'0',
 		'1',

@@ -25,7 +25,7 @@ $active_tab = get_query_var('tab') ? get_query_var('tab') : 'dashboard';
 				<div class="navbar-collapse account-navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<?php
-						$account_navs = apply_filters('account_navs',array());
+						$account_navs = apply_filters('account_navs',[]);
 						if(!empty($account_navs)){
 							foreach($account_navs as $k => $v){
 								$active_class = $k === $active_tab ? ' active ' : null;

@@ -64,11 +64,11 @@ class theme_functions{
 		/** 
 		 * frontend_js
 		 */
-		add_action('frontend_seajs_use',get_class() . '::frontend_js',1);
+		add_action('frontend_seajs_use',__CLASS__ . '::frontend_js',1);
 		/** 
 		 * other
 		 */
-		add_action('widgets_init',get_class() . '::widget_init');
+		add_action('widgets_init',__CLASS__ . '::widget_init');
 		add_filter('use_default_gallery_style','__return_false');
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form' ) );
 		add_theme_support('post-thumbnails');
@@ -78,7 +78,7 @@ class theme_functions{
 		/** 
 		 * query_vars
 		 */
-		//add_filter('query_vars', get_class() . '::filter_query_vars');
+		//add_filter('query_vars', __CLASS__ . '::filter_query_vars');
 		/** 
 		 * bg
 		 */
@@ -92,7 +92,7 @@ class theme_functions{
 		/**
 		 * filter filter_comment_reply_link
 		 */
-		//add_filter('comment_reply_link',get_class() . '::filter_comment_reply_link');
+		//add_filter('comment_reply_link',__CLASS__ . '::filter_comment_reply_link');
 	}
 	
 	public static function frontend_js(){
@@ -271,7 +271,7 @@ class theme_functions{
 			'order' => 'desc',
 			'posts_per_page' => get_option('posts_per_page'),
 			'paged' => 1,
-			'category__in' => array(),
+			'category__in' => [],
 			'date' => 'all',
 			
 		);
@@ -353,7 +353,7 @@ class theme_functions{
 	 * @version 1.0.0
 	 * @author KM@INN STUDIO
 	 */
-	public static function archive_img_content($args = array()){
+	public static function archive_img_content($args = []){
 		$defaults = array(
 			'classes' => array('grid-50','tablet-grid-50','mobile-grid-50'),
 			'lazyload' => true,
@@ -389,7 +389,7 @@ class theme_functions{
 	 */
 	public static function get_meta_type($type){
 		global $post;
-		$output = array();
+		$output = [];
 		switch($type){
 			case 'thumb-up':
 				$output = array(
@@ -418,10 +418,10 @@ class theme_functions{
 		}
 		return $output;
 	}
-	public static function archive_tx_content($args = array()){
+	public static function archive_tx_content($args = []){
 		global $post;
 		$defaults = array(
-			'classes'			=> array(),
+			'classes'			=> [],
 			'meta_type'			=> 'views',
 		);
 		$r = wp_parse_args($args,$defaults);
@@ -458,7 +458,7 @@ class theme_functions{
 	/** 
 	 * archive_content
 	 */
-	public static function archive_content($args = array()){
+	public static function archive_content($args = []){
 		global $post;
 		
 		$defaults = array(
@@ -564,7 +564,7 @@ class theme_functions{
 		</li>
 		<?php
 	}
-	public static function page_content($args = array()){
+	public static function page_content($args = []){
 		global $post;
 		
 		$defaults = array(
@@ -605,11 +605,11 @@ class theme_functions{
 	/** 
 	 * singular_content
 	 */
-	public static function singular_content($args = array()){
+	public static function singular_content($args = []){
 		global $post;
 		
 		$defaults = array(
-			'classes'			=> array(),
+			'classes'			=> [],
 			'lazyload'			=> true,
 			
 		);
@@ -942,7 +942,7 @@ class theme_functions{
 		extract($r,EXTR_SKIP);
 		
 		
-		$links = array();
+		$links = [];
     	if(is_home()) return null;
 		
 		$links['home'] = '<a href="' . home_url() . '" class="home" title="' .___('Back to Homepage'). '"><i class="fa fa-home"></i></a>';
@@ -1062,7 +1062,7 @@ class theme_functions{
 			return $output;
 		}
 	}
-	public static function pagination( $args = array() ) {
+	public static function pagination( $args = [] ) {
 	    
 	    $defaults = array(
 	        'range'				=> 4,
@@ -1977,6 +1977,80 @@ class theme_functions{
 </div>
 		<?php
 	}
+	/**
+	 * Echo the user list within loop
+	 *
+	 * @param array $args
+	 * @return 
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function the_user_list(array $args = []){
+		$defaults = [
+			'classes' => 'col-xs-4',
+			'user' => null,
+			'extra' => 'point',
+		];
+		$args = wp_parse_args($args,$defaults);
+		
+		$user = $args['user'];
+		
+		if(is_int($user))
+			$user = get_user_by('ID',$user);
+			
+		if(empty($user))
+			return false;
+		
+		?>
+		<div class="user-list <?php echo $args['classes'];?>">
+			<a href="<?php echo theme_cache::get_author_posts_url($user->ID)?>">
+				<?php echo get_avatar($user->ID,50);?>
+				<h4 class="author"><?php echo esc_html($user->display_name);?></h4>
+				<?php if($args['extra']){ ?>
+					<div class="extra">
+						<span class="<?php echo $args['extra'];?>">
+						<?php
+						/**
+						 * extra
+						 */
+						switch($args['extra']){
+							/**
+							 * user point
+							 */
+							case 'point':
+								if(class_exists('theme_custom_point')){
+									echo theme_custom_point::get_point($user->ID);
+								}
+								break;
+							/**
+							 * user fav be_count
+							 */
+							case 'fav':
+								if(class_exists('custom_post_fav')){
+									echo custom_post_fav::get_user_be_fav_count($user->ID);
+								}
+								break;
+							/**
+							 * user posts count
+							 */
+							case 'posts':
+								if(class_exists('theme_custom_author_profile')){
+									echo theme_custom_author_profile::get_count('works',$user->ID);
+								}else{
+									echo count_user_posts($user->ID);
+								}
+								break;
+							
+						}
+						
+						?>
+						</span>
+					</div>
+				<?php }/** end args extra */ ?>
+			</a>
+		</div>
+		<?php
+	}
 }
 
 /**
@@ -1996,7 +2070,7 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 * @param string $output Passed by reference. Used to append additional content.
 * @param int $depth Depth of page. Used for padding.
 */
-public function start_lvl( &$output, $depth = 0, $args = array() ) {
+public function start_lvl( &$output, $depth = 0, $args = [] ) {
 $indent = str_repeat( "\t", $depth );
 $output .= "\n$indent<ul role=\"menu\" class=\" dropdown-menu\">\n";
 }
@@ -2010,7 +2084,7 @@ $output .= "\n$indent<ul role=\"menu\" class=\" dropdown-menu\">\n";
 * @param int $current_page Menu item ID.
 * @param object $args
 */
-public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+public function start_el( &$output, $item, $depth = 0, $args = [], $id = 0 ) {
 $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 /**
 * Dividers, Headers or Disabled
@@ -2030,7 +2104,7 @@ $output .= $indent . '<li role="presentation" class="dropdown-header">' . esc_at
 $output .= $indent . '<li role="presentation" class="disabled"><a href="#">' . esc_attr( $item->title ) . '</a>';
 } else {
 $class_names = $value = '';
-$classes = empty( $item->classes ) ? array() : (array) $item->classes;
+$classes = empty( $item->classes ) ? [] : (array) $item->classes;
 $classes[] = 'menu-item-' . $item->ID;
 $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
 if ( $args->has_children )
@@ -2041,7 +2115,7 @@ $class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 $id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
 $id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
 $output .= $indent . '<li' . $id . $value . $class_names .'>';
-$atts = array();
+$atts = [];
 $atts['title'] = ! empty( $item->title ) ? $item->title	: '';
 $atts['target'] = ! empty( $item->target ) ? $item->target	: '';
 $atts['rel'] = ! empty( $item->xfn ) ? $item->xfn	: '';

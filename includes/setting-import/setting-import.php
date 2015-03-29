@@ -15,11 +15,11 @@ class theme_import_settings{
 	public static $iden = 'theme_import_settings';
 	
 	public static function init(){
-		add_action('wp_ajax_tis_download',		get_class() . '::process');
-		add_action('wp_ajax_tis_upload',		get_class() . '::process');
-		add_action('after_backend_tab_init',	get_class() . '::js'); 
-		add_action('backend_css',				get_class() . '::style'); 
-		add_action('advanced_settings',			get_class() . '::display_backend',99);		
+		add_action('wp_ajax_tis_download',		__CLASS__ . '::process');
+		add_action('wp_ajax_tis_upload',		__CLASS__ . '::process');
+		add_action('after_backend_tab_init',	__CLASS__ . '::js'); 
+		add_action('backend_css',				__CLASS__ . '::style'); 
+		add_action('advanced_settings',			__CLASS__ . '::display_backend',99);		
 	}
 	public static function display_backend(){
 		

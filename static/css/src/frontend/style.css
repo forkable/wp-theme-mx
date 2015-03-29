@@ -1251,7 +1251,48 @@ label.error{
 		text-shadow: 0px 1px 0px #FFF;
 		z-index: 0;
 	}
-
+/**
+ * .widget .user-lists
+ */
+.widget .user-lists{
+	margin-top: -10px;
+}
+.widget .user-list{
+	position: relative;
+	text-align: center;
+	margin-bottom: 20px;
+	
+}
+	.widget .user-list a{
+		display: block;
+	}
+	.widget .user-list .author{
+		font-weight: normal;
+		font-size: 14px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.widget .user-list .extra{
+		/*display: none;*/
+		position: absolute;
+		top: 0;
+		right: 10px;
+		background: rgba(0,0,0,.5);
+		color:#fff;
+		border-radius: 4px;
+		padding: 0 3px;
+		font-weight: bold;
+		font-size: 12px;
+		opacity: .7;
+	}
+	.widget .user-list:hover img{
+		opacity: .8;
+	}
+	.widget .user-list:hover .extra{
+		opacity: 1;
+		
+	}
 /**
  * .pager
  */

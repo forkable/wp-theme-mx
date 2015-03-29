@@ -15,18 +15,18 @@ class theme_post_share{
 	public static $iden = 'theme_post_share';
 
 	public static function init(){
-		add_filter('theme_options_default',get_class() . '::options_default');
-		add_filter('theme_options_save',get_class() . '::options_save');
-		add_action('page_settings',get_class() . '::backend_display');
+		add_filter('theme_options_default',__CLASS__ . '::options_default');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
+		add_action('page_settings',__CLASS__ . '::backend_display');
 
 		
 		if(!self::is_enabled()) return false;
 
-		add_filter('frontend_seajs_alias',	get_class() . '::frontend_seajs_alias');
+		add_filter('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
 				
-		add_action('frontend_seajs_use',get_class() . '::frontend_seajs_use');
+		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
 
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 	}
 	public static function get_options($key = null){
 		static $caches;
@@ -37,7 +37,7 @@ class theme_post_share{
 		}
 		return $caches;
 	}
-	public static function display($args = array()){
+	public static function display($args = []){
 		global $post;
 		$opt = self::get_options();
 		$img_url = theme_features::get_thumbnail_src();

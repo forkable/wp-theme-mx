@@ -15,12 +15,12 @@ add_filter('theme_includes',function($fns){
 });
 class theme_manage_post_id{
 	public static function init(){
-		add_action('manage_posts_custom_column',get_class() . '::column_display',10,2);
-		add_action('manage_pages_custom_column',get_class() . '::column_display',10,2);
-		add_action('admin_head', get_class() . '::admin_css');
+		add_action('manage_posts_custom_column',__CLASS__ . '::column_display',10,2);
+		add_action('manage_pages_custom_column',__CLASS__ . '::column_display',10,2);
+		add_action('admin_head', __CLASS__ . '::admin_css');
 		
-		add_filter('manage_posts_columns',get_class() . '::columns_add');
-		add_filter('manage_pages_columns',get_class() . '::columns_add');
+		add_filter('manage_posts_columns',__CLASS__ . '::columns_add');
+		add_filter('manage_pages_columns',__CLASS__ . '::columns_add');
 	}
 	public static function admin_css(){
 		?><style>.fixed .column-post_id{width:3em}</style><?php

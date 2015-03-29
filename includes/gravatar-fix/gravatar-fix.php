@@ -5,30 +5,91 @@ Plugin URI: http://inn-studio.com/gravatar-fix
 Description: A simple and easy way to fix your gravatar can not be show in China. Replace by eqoe.cn. 
 Author: INN STUDIO
 Author URI: http://inn-studio.com
-Version: 1.0.3
+Version: 1.0.4
 */
 if(!class_exists('theme_gravatar_fix')){
-	add_filter('get_avatar', 'theme_gravatar_fix::get_gravatar');
+	add_filter('theme_includes',function($fns){
+		$fns[] = 'theme_gravatar_fix::init';
+		return $fns;
+	});
 	class theme_gravatar_fix{
+		public static $iden = 'theme_gravatar_fix';
+		public static function init(){
+			add_filter('get_avatar', __CLASS__ . '::get_gravatar');	
+			
+			add_filter('theme_options_save', __CLASS__ . '::options_save');
+			
+			add_action('page_settings', __CLASS__ . '::display_backend');
+			
+			add_filter('theme_options_default', __CLASS__ . '::options_default');
+			
+		}
+		public static function display_backend(){
+			$checked = self::is_enabled() ? ' checked ' : null;
+			?>
+			<fieldset>
+				<legend><?php echo ___('Gravatar fix');?></legend>
+				<p class="description"><?php echo ___('This feature can fix the gravatar image to display in China. Just for Chinese users. If using "Custom default gravatar" please DO NOT enable this feature.');?></p>
+				<table class="form-table">
+					<tbody>
+						<tr>
+							<th><label for="<?php echo self::$iden;?>-enabled"><?php echo ___('Enabled or not?');?></label></th>
+							<td>
+								<label for="<?php echo self::$iden;?>-enabled">
+									<input type="checkbox" id="<?php echo self::$iden;?>-enabled" name="<?php echo self::$iden;?>[enabled]" value="1" <?php echo $checked;?> >
+									<?php echo ___('Enabled');?>
+								</label>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+			<?php
+		}
+		public static function options_save(array $opts = []){
+			if(isset($_POST[self::$iden])){
+				$opts[self::$iden] = $_POST[self::$iden];
+			}else{
+				$opts[self::$iden]['enabled'] = -1;
+			}
+			return $opts;
+		}
+		public static function options_default(array $opts = []){
+			if(get_locale() !== 'zh_CN')
+				$opts[self::$iden]['enabled'] = -1;
+
+			return $opts;
+		}
+		public static function is_enabled(){
+			return self::get_option('enabled') == -1 ? false : true;
+		}
+		public static function get_option($key = null){
+			static $caches = null;
+			if($caches === null)
+				$caches = theme_options::get_options(self::$iden);
+
+			if($key){
+				return isset($caches[$key]) ? $caches[$key] : false;
+			}else{
+				return $caches;
+			}
+		}
 		public static function get_gravatar($avatar){
-			// $avatar = '<img src="http://1.gravatar.com/gravatar/724f95667e2fbe903ee1b4cffcae3b25?s=40&d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&r=G" title="" width="" height="" alt=""/>';
-			// $avatar = '<img src="https://secure.gravatar.com/gravatar/724f95667e2fbe903ee1b4cffcae3b25?s=40&d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&r=G" title="" width="" height="" alt=""/>';
+			
+			if(!self::is_enabled())
+				return $avatar;
+				
 		   	$pattern = '!src=["|\'](.*?)["|\']!';
 			preg_match_all($pattern, $avatar, $matches);
 			if(!isset($matches[1][0])) return $avatar;
 
 			/** if is SSL */
 			if(strpos($matches[1][0],'https://') === 0){
-				$avatar = preg_replace('/(\d)?(secure)?([a-z]{0,2})\.gravatar\.com/i', 'ssl-gravatar.eqoe.cn', $avatar);
+				$avatar = preg_replace('/(\d)?(secure)?([a-z]{0,2})\.gravatar\.com\/avatar/i', 'ssl-gravatar.eqoe.cn/avatar', $avatar);
 			/** Not SSL */
 			}else{
-				$avatar = preg_replace('/(\d)?(secure)?([a-z]{0,2})\.gravatar\.com/i', 'gravatar.eqoe.cn', $avatar);
+				$avatar = preg_replace('/(\d)?(secure)?([a-z]{0,2})\.gravatar\.com\/avatar/i', 'gravatar.eqoe.cn/avatar', $avatar);
 			}
-			$avatar = str_ireplace(
-				array('d=','/gravatar/'),
-				array('nodefault=','/avatar/'),
-				$avatar
-			);
 			return $avatar;
 		}
 	}

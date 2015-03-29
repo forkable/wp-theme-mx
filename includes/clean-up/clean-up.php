@@ -14,10 +14,10 @@ add_filter('theme_includes',function($fns){
 class theme_clean_up{
 	private static $iden = 'theme_clean_up';
 	public static function init(){
-		add_action('advanced_settings',		get_class() . '::display_backend');
-		add_action('wp_ajax_theme_clean_up',get_class() . '::process');
-		add_action('after_backend_tab_init',get_class() . '::backend_seajs_use');
-		add_action('backend_seajs_alias',get_class() . '::backend_seajs_alias');
+		add_action('advanced_settings',		__CLASS__ . '::display_backend');
+		add_action('wp_ajax_theme_clean_up',__CLASS__ . '::process');
+		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use');
+		add_action('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 	}
 	public static function display_backend(){
 				

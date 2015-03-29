@@ -13,21 +13,21 @@ class theme_custom_user_settings{
 	public static $cache_expire = 2505600; /** 29 days */
 
 	public static function init(){
-		add_filter('query_vars',			get_class() . '::filter_query_vars');
+		add_filter('query_vars',			__CLASS__ . '::filter_query_vars');
 		
-		add_filter('wp_title',				get_class() . '::wp_title',10,2);
+		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
 
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 		
-		add_filter('frontend_seajs_alias',	get_class() . '::frontend_seajs_alias');
+		add_filter('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
 
-		add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
+		add_action('frontend_seajs_use',	__CLASS__ . '::frontend_seajs_use');
 		
-		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
+		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 
 		foreach(self::get_tabs() as $k => $v){
 			$nav_fn = 'filter_nav_' . $k; 
-			add_filter('account_navs',get_class() . "::$nav_fn",$v['filter_priority']);
+			add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
 		}
 
 	}

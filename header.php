@@ -120,7 +120,7 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 			<div class="header-nav-account-menu">
 				<ul class="nav navbar-nav">
 					<?php
-					$account_navs = apply_filters('account_navs',array());
+					$account_navs = apply_filters('account_navs',[]);
 					if(!empty($account_navs)){
 						foreach($account_navs as $k => $v){
 							$active_class = $k === $active_tab ? ' active ' : null;

@@ -85,14 +85,14 @@ function wp_cache_add_non_persistent_groups( $groups ) {
 }
 
 class WP_Object_Cache {
-	var $global_groups = array();
+	var $global_groups = [];
 
-	var $no_mc_groups = array();
+	var $no_mc_groups = [];
 
-	var $cache = array();
-	var $mc = array();
-	var $stats = array();
-	var $group_ops = array();
+	var $cache = [];
+	var $mc = [];
+	var $stats = [];
+	var $group_ops = [];
 		
 	var $cache_enabled = true;
 	var $default_expiration = 2505600;
@@ -241,7 +241,7 @@ class WP_Object_Cache {
 		/*
 		format: $get['group-name'] = array( 'key1', 'key2' );
 		*/
-		$return = array();
+		$return = [];
 		foreach ( $groups as $group => $ids ) {
 			$mc =& $this->get_mc($group);
 			foreach ( $ids as $id ) {
@@ -346,7 +346,7 @@ class WP_Object_Cache {
 			} 
 			echo "<h4>$group commands</h4>";
 			echo "<pre>\n";
-			$lines = array();
+			$lines = [];
 			foreach ( $ops as $op ) {
 				$lines[] = $this->colorize_debug_line($op); 
 			}

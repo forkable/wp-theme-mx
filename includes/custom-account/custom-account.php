@@ -12,13 +12,13 @@ class theme_custom_account{
 	public static $page_slug = 'account';
 
 	public static function init(){
-		add_action('init', 					get_class() . '::page_create');
+		add_action('init', 					__CLASS__ . '::page_create');
 		
-		add_filter('query_vars',			get_class() . '::filter_query_vars');
+		add_filter('query_vars',			__CLASS__ . '::filter_query_vars');
 		
-		add_action('template_redirect',		get_class() . '::template_redirect');
+		add_action('template_redirect',		__CLASS__ . '::template_redirect');
 		
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 
 	}
 	public static function filter_query_vars($vars){
@@ -30,7 +30,7 @@ class theme_custom_account{
 			return;
 			
 		if(is_user_logged_in()){
-			$account_navs = apply_filters('account_navs',array());
+			$account_navs = apply_filters('account_navs',[]);
 			
 			if(!isset($account_navs[get_query_var('tab')]))
 				wp_redirect(add_query_arg('tab','dashboard',self::get_url()));
@@ -50,12 +50,12 @@ class theme_custom_account{
 		return $url;
 	}
 	public static function is_page(){
-		static $pages;
-		if(isset($pages[self::$page_slug]))
-			return $pages[self::$page_slug];
+		static $caches;
+		if(isset($caches[self::$page_slug]))
+			return $caches[self::$page_slug];
 
-		$pages[self::$page_slug] = is_page(self::$page_slug);
-		return $pages[self::$page_slug];
+		$caches[self::$page_slug] = is_page(self::$page_slug);
+		return $caches[self::$page_slug];
 	}
 	public static function page_create(){
 		if(!current_user_can('manage_options')) return false;

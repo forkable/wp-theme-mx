@@ -18,7 +18,7 @@ class checkImage {
         $this->str['int']           = "0123456789";
     }
  
-    public function init($config=array()){
+    public function init($config=[]){
         if (!empty($config) && is_array($config)){
             foreach($config as $key=>$value){
                 $this->config[$key] =   $value;

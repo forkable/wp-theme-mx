@@ -5,16 +5,13 @@
 if(!class_exists('theme_custom_storage'))
 	die(___('Lacking the class theme_custom_storage'));
 
-
 $target_post = theme_custom_storage::get_decode_post();
-if(!$target_post)
-	wp_redirect(home_url());
 ?>
 <?php get_header();?>
 <div class="container grid-container">
 	<div class="panel panel-default singular-download">
 		<div class="panel-heading">
-			<h3 class="panel-title"><?php echo sprintf(___('%s storage download'),get_the_title($target_post->ID));?></h3>
+			<h3 class="panel-title"><?php echo sprintf(___('You are ready to download "%s"'),get_the_title($target_post->ID));?></h3>
 		</div>
 		<div class="panel-body">
 			<div class="post-content content-reset">

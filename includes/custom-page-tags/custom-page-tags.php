@@ -15,17 +15,17 @@ class theme_page_tags{
 	public static $page_slug = 'tags-index';
 	
 	public static function init(){
-		add_action('init',					get_class() . '::page_create');
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
-		add_action('page_settings', 		get_class() . '::display_backend');
+		add_action('init',					__CLASS__ . '::page_create');
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
+		add_action('page_settings', 		__CLASS__ . '::display_backend');
 		
-		add_filter('theme_options_save', 	get_class() . '::options_save');
+		add_filter('theme_options_save', 	__CLASS__ . '::options_save');
 
-		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
+		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 
-		add_action('backend_seajs_alias',get_class() . '::backend_seajs_alias');
+		add_action('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 
-		add_action('after_backend_tab_init',get_class() . '::backend_seajs_use'); 
+		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use'); 
 	}
 	public static function get_options($key = null){
 		$opt = theme_options::get_options(self::$iden);
@@ -115,7 +115,7 @@ class theme_page_tags{
 		 * get all whitelist posts & tag ids
 		 */
 		$wp_query = new WP_Query(array(
-			'author__in' => isset($whitelist['user-ids']) ? explode(',',$whitelist['user-ids']) : array(),
+			'author__in' => isset($whitelist['user-ids']) ? explode(',',$whitelist['user-ids']) : [],
 			'category__not_in' => array(1),
 		));
 		if(have_posts()){

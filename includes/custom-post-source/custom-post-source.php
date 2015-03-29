@@ -12,8 +12,8 @@ class theme_custom_post_source{
 		'key' => '_theme_custom_post_source'
 	);
 	public static function init(){
-		add_action('add_meta_boxes', get_class() . '::meta_box_add');
-		add_action('save_post_post', get_class() . '::meta_box_save');
+		add_action('add_meta_boxes', __CLASS__ . '::meta_box_add');
+		add_action('save_post_post', __CLASS__ . '::meta_box_save');
 	}
 	public static function get_types($key = null){
 		$types = array(
@@ -51,7 +51,7 @@ class theme_custom_post_source{
 			add_meta_box(
 				self::$iden,
 				___('Post source'),
-				get_class() . '::meta_box_display',
+				__CLASS__ . '::meta_box_display',
 				$screen,
 				'side'
 			);

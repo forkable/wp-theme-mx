@@ -68,7 +68,7 @@ class RegenerateThumbnails {
 		else
 			wp_enqueue_script( 'jquery-ui-progressbar', theme_features::get_theme_includes_js(__DIR__,'jquery-ui/jquery.ui.progressbar.min.1.7.2.js'  ), array( 'jquery-ui-core' ), '1.7.2' );
 
-		wp_enqueue_style( 'jquery-ui-regenthumbs', theme_features::get_theme_includes_css(__DIR__,'jquery-ui-1.7.2.custom.css' ), array(), '1.7.2' );
+		wp_enqueue_style( 'jquery-ui-regenthumbs', theme_features::get_theme_includes_css(__DIR__,'jquery-ui-1.7.2.custom.css' ), [], '1.7.2' );
 	}
 
 
@@ -170,7 +170,7 @@ class RegenerateThumbnails {
 				}
 
 				// Generate the list of IDs
-				$ids = array();
+				$ids = [];
 				foreach ( $images as $image )
 					$ids[] = $image->ID;
 				$ids = implode( ',', $ids );

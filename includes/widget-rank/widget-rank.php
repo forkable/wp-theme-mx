@@ -23,7 +23,7 @@ class widget_rank extends WP_Widget{
 			'posts_per_page' => 6,
 			'date' => 'all',
 			'orderby' => 'views',
-			'category__in' => array(),
+			'category__in' => [],
 			'content_type' => 'tx',
 		);
 		$instance = wp_parse_args($instance,$instance_defaults);
@@ -109,7 +109,7 @@ class widget_rank extends WP_Widget{
 			array(
 				'title'=>___('Posts ranking'),
 				'posts_per_page' => 6,
-				'category__in' => array(),
+				'category__in' => [],
 				'content_type' => 'tx',
 				'orderby' => 'latest',
 			)
@@ -235,7 +235,7 @@ class widget_rank extends WP_Widget{
 	 * @version 1.0.0
 	 * @author KM@INN STUDIO
 	 */
-	private static function get_cat_checkbox_list($name,$id,$selected_cat_ids = array()){
+	private static function get_cat_checkbox_list($name,$id,$selected_cat_ids = []){
 		$cats = get_categories(array(
 			'hide_empty' => false,
 			'orderby' => 'term_group',

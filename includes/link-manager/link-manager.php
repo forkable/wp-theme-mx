@@ -11,8 +11,8 @@ class theme_link_manager{
 	public static $opt;
 	
 	public static function init(){
-		add_action('base_settings',get_class() . '::backend_display');
-		add_filter('theme_options_save',get_class() . '::options_save');
+		add_action('base_settings',__CLASS__ . '::backend_display');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
 
 
 		self::$opt = theme_options::get_options(self::$iden);

@@ -9,22 +9,22 @@ add_filter('theme_includes',function($fns){
 class theme_custom_sign{
 	public static $iden = 'theme_custom_sign';
 	public static $page_slug = 'sign';
-	public static $pages = array();
+	public static $pages = [];
 	public static function init(){
 		/** filter */
-		add_filter('login_headerurl',		get_class() . '::filter_login_headerurl',1);
-		add_filter('query_vars',			get_class() . '::filter_query_vars');
-		add_filter('frontend_seajs_alias',	get_class() . '::frontend_seajs_alias');
+		add_filter('login_headerurl',		__CLASS__ . '::filter_login_headerurl',1);
+		add_filter('query_vars',			__CLASS__ . '::filter_query_vars');
+		add_filter('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
 		/** action */
-		add_action('admin_init',			get_class() . '::action_not_allow_login_backend',1);
-		add_action('init', 					get_class() . '::page_create');
-		add_action('template_redirect',		get_class() . '::template_redirect');
-		add_action('frontend_seajs_use',	get_class() . '::frontend_seajs_use');
+		add_action('admin_init',			__CLASS__ . '::action_not_allow_login_backend',1);
+		add_action('init', 					__CLASS__ . '::page_create');
+		add_action('template_redirect',		__CLASS__ . '::template_redirect');
+		add_action('frontend_seajs_use',	__CLASS__ . '::frontend_seajs_use');
 		//add_action('wp_ajax_nopriv_theme_quick_sign', 'theme_quick_sign::process');
-		add_filter('show_admin_bar', 		get_class() . '::action_show_admin_bar');
-		add_filter('login_url', 			get_class() . '::filter_wp_login_url',10,2);
-		add_filter('register_url', 			get_class() . '::filter_wp_registration_url');
-		add_filter('wp_title',				get_class() . '::wp_title',10,2);
+		add_filter('show_admin_bar', 		__CLASS__ . '::action_show_admin_bar');
+		add_filter('login_url', 			__CLASS__ . '::filter_wp_login_url',10,2);
+		add_filter('register_url', 			__CLASS__ . '::filter_wp_registration_url');
+		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
 	}
 	
 	public static function filter_login_headerurl($login_header_url){
@@ -170,7 +170,7 @@ class theme_custom_sign{
 		return $title . $sep . get_bloginfo('name');
 	}
 	public static function process(){
-		$output = array();
+		$output = [];
 		
 		theme_features::check_referer();
 		theme_features::check_nonce();

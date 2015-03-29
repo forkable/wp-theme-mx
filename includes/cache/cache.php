@@ -22,8 +22,8 @@ class theme_cache{
 	public static function init(){
 		self::$cache_skey = crc32(AUTH_KEY . theme_functions::$iden);
 		
-		add_action('base_settings',get_class() . '::backend_display');
-		add_action('wp_ajax_' . self::$iden, get_class() . '::process');
+		add_action('base_settings',__CLASS__ . '::backend_display');
+		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 		/**
 		 * When delete menu
 		 */

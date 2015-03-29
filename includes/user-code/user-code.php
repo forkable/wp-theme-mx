@@ -9,10 +9,10 @@ add_filter('theme_includes',function($fns){
 class theme_user_code{
 	public static $iden = 'theme_user_code';
 	public static function init(){
-		add_action('wp_head',get_class() . '::display_frontend_header',99);
-		add_action('wp_footer',get_class() . '::display_frontend_footer',99);
-		add_filter('theme_options_save', 	get_class() . '::options_save');
-		add_action('base_settings', 		get_class() . '::display_backend');
+		add_action('wp_head',__CLASS__ . '::display_frontend_header',99);
+		add_action('wp_footer',__CLASS__ . '::display_frontend_footer',99);
+		add_filter('theme_options_save', 	__CLASS__ . '::options_save');
+		add_action('base_settings', 		__CLASS__ . '::display_backend');
 	}
 	public static function display_frontend_header(){
 		echo stripslashes(self::get_options('header'));

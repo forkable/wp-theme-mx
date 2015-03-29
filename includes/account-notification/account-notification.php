@@ -19,35 +19,35 @@ class theme_notification{
 	public static function init(){
 		/** filter */
 		
-		add_filter('query_vars',			get_class() . '::filter_query_vars');
+		add_filter('query_vars',			__CLASS__ . '::filter_query_vars');
 		
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 
 		
 		/** action */
 		
-		add_filter('wp_title',				get_class() . '::wp_title',10,2);
+		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
 		
 		foreach(self::get_tabs() as $k => $v){
 			$nav_fn = 'filter_nav_' . $k; 
-			add_filter('account_navs',get_class() . "::$nav_fn",$v['filter_priority']);
+			add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
 		}
 
 		/**
 		 * add hook to comment publish and reply
 		 */
-		add_action('comment_post',get_class() . '::action_add_noti_wp_new_comment_comment_publish',10,2);
+		add_action('comment_post',__CLASS__ . '::action_add_noti_wp_new_comment_comment_publish',10,2);
 		
-		add_action('transition_comment_status',get_class() . '::action_add_noti_transition_comment_status_comment_publish',10,3);
+		add_action('transition_comment_status',__CLASS__ . '::action_add_noti_transition_comment_status_comment_publish',10,3);
 
 		/**
 		 * add noti for special event
 		 */
-		add_action('added_user_meta',	get_class() . '::action_add_noti_special_event',10,4);
+		add_action('added_user_meta',	__CLASS__ . '::action_add_noti_special_event',10,4);
 		/**
 		 * clean unread notis
 		 */
-		add_action('wp_footer'		,get_class() . '::clean_unread_notis');
+		add_action('wp_footer'		,__CLASS__ . '::clean_unread_notis');
 	}
 	public static function wp_title($title, $sep){
 		/**
@@ -406,7 +406,7 @@ class theme_notification{
 		update_user_meta($comment_parent_author_id,self::$user_meta_key['unread_count'],$unread_count);
 	}
 	public static function process(){
-		$output = array();
+		$output = [];
 		
 		theme_features::check_referer();
 		theme_features::check_nonce();

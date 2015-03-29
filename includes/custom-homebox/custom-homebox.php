@@ -19,11 +19,11 @@ class theme_custom_homebox{
 		'ca8661',	'333333',	'84a89e',	'a584a8'
 	);
 	public static function init(){
-		add_filter('theme_options_save',get_class() . '::options_save');
-		add_filter('after_backend_tab_init',get_class() . '::after_backend_tab_init');
-		add_filter('backend_seajs_alias',get_class() . '::backend_seajs_alias');
-		add_action('backend_css',get_class() . '::backend_css'); 
-		add_action('page_settings',get_class() . '::backend_display');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
+		add_filter('after_backend_tab_init',__CLASS__ . '::after_backend_tab_init');
+		add_filter('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
+		add_action('backend_css',__CLASS__ . '::backend_css'); 
+		add_action('page_settings',__CLASS__ . '::backend_display');
 
 	}
 
@@ -32,7 +32,7 @@ class theme_custom_homebox{
 		/** 
 		 * split per line
 		 */
-		$output_kws = array();
+		$output_kws = [];
 		$keyword_arr = explode(PHP_EOL,$keywords);
 		foreach($keyword_arr as $k => $v){
 			$kw_arr = explode('=',$v);
@@ -97,7 +97,7 @@ class theme_custom_homebox{
 	}
 	private static function cat_checkbox_tpl($placeholder){
 		$opt = (array)theme_options::get_options(self::$iden);
-		$exists_cats = isset($opt[$placeholder]['cats']) ? (array)$opt[$placeholder]['cats'] : array();
+		$exists_cats = isset($opt[$placeholder]['cats']) ? (array)$opt[$placeholder]['cats'] : [];
 		$cats = get_categories(array(
 			'orderby' => 'id',
 			'hide_empty' => false,

@@ -30,8 +30,8 @@ class widget_hot_tags extends WP_Widget{
 		$unit = 'pt';
 		$number = $instance['number'];
 		$exclude_ids = isset($instance['ids']) ? $instance['ids'] : null;
-		$tag_links = array();
-		$sticky_links = array();
+		$tag_links = [];
+		$sticky_links = [];
 		if(!empty($exclude_ids)){
 			foreach($exclude_ids as $k => $v){
 				$sticky_name = isset($sticky_names[$k]) ? $sticky_names[$k] : null;
@@ -46,8 +46,8 @@ class widget_hot_tags extends WP_Widget{
 			'exclude' => $exclude_ids
 		));
 		if(!empty($tags)){
-			$counts = array();
-			$real_counts = array(); // For the alt tag
+			$counts = [];
+			$real_counts = []; // For the alt tag
 			foreach ( (array) $tags as $key => $tag ) {
 				$real_counts[ $key ] = $tag->count;
 				$counts[ $key ] = $tag->count;
@@ -96,7 +96,7 @@ class widget_hot_tags extends WP_Widget{
 			array(
 				'title' => '',
 				'number' => 20,
-				'sticky' => array(),
+				'sticky' => [],
 			)
 		);
 		echo $before_widget;
@@ -120,7 +120,7 @@ class widget_hot_tags extends WP_Widget{
 			array(
 				'title'=>___('Hot tags'),
 				'number' => 20,
-				'sticky' => array(),
+				'sticky' => [],
 			)
 		);
 		$sticky_tx = implode(PHP_EOL,(array)$instance['sticky']);
@@ -175,7 +175,7 @@ class widget_hot_tags extends WP_Widget{
 		if(empty($text)) return null;
 		$tag_names = explode(PHP_EOL,$text);
 		sort($tag_names);
-		$holder = array();
+		$holder = [];
 		foreach($tag_names as $tag_name){
 			$holder[] = '%s';
 		}

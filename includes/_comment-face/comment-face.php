@@ -13,11 +13,11 @@ class theme_comment_face{
 	public static $key_style = 'theme-comment-face';
 
 	public static function init(){
-		add_filter('theme_options_save',get_class() . '::options_save');
-		add_filter('theme_options_default',get_class() . '::options_default');
-		add_action('frontend_seajs_use',get_class() . '::frontend_seajs_use');
-		add_action('page_settings',get_class() . '::options_display');
-		add_filter('get_comment_text',get_class() . '::filter_comment_output');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
+		add_filter('theme_options_default',__CLASS__ . '::options_default');
+		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
+		add_action('page_settings',__CLASS__ . '::options_display');
+		add_filter('get_comment_text',__CLASS__ . '::filter_comment_output');
 		
 	}
 	public static function options_default($options){
@@ -71,7 +71,7 @@ class theme_comment_face{
 	public static function get_emoticons(){
 		$options = theme_options::get_options();
 		$emoticons = isset($options[self::$iden]['emoticons'])
-			? array_map('stripslashes',$options[self::$iden]['emoticons']) : array();
+			? array_map('stripslashes',$options[self::$iden]['emoticons']) : [];
 		return $emoticons;
 	}
 	public static function filter_comment_output($comment_text){
@@ -94,7 +94,7 @@ class theme_comment_face{
 		if(empty($faces_cache)){
 			$face_dirs = theme_features::get_theme_path(theme_features::$basedir_images_min . 'modules/theme-comment-face/');
 			$files = glob($face_dirs . '*');
-			$faces_cache = array();
+			$faces_cache = [];
 			foreach($files as $file){
 				$faces_cache[] = basename($file);
 			}

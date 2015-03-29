@@ -155,7 +155,7 @@ class SaeTOAuthV2 {
 	 * @return array
 	 */
 	function getAuthorizeURL( $url, $response_type = 'code', $state = NULL, $display = NULL ) {
-		$params = array();
+		$params = [];
 		$params['client_id'] = $this->client_id;
 		$params['redirect_uri'] = $url;
 		$params['response_type'] = $response_type;
@@ -177,7 +177,7 @@ class SaeTOAuthV2 {
 	 * @return array
 	 */
 	function getAccessToken( $type = 'code', $keys ) {
-		$params = array();
+		$params = [];
 		$params['client_id'] = $this->client_id;
 		$params['client_secret'] = $this->client_secret;
 		if ( $type === 'token' ) {
@@ -259,7 +259,7 @@ class SaeTOAuthV2 {
 	 */
 	function getTokenFromArray( $arr ) {
 		if (isset($arr['access_token']) && $arr['access_token']) {
-			$token = array();
+			$token = [];
 			$this->access_token = $token['access_token'] = $arr['access_token'];
 			if (isset($arr['refresh_token']) && $arr['refresh_token']) {
 				$this->refresh_token = $token['refresh_token'] = $arr['refresh_token'];
@@ -276,7 +276,7 @@ class SaeTOAuthV2 {
 	 *
 	 * @return mixed
 	 */
-	function get($url, $parameters = array()) {
+	function get($url, $parameters = []) {
 		$response = $this->oAuthRequest($url, 'GET', $parameters);
 		if ($this->format === 'json' && $this->decode_json) {
 			return json_decode($response, true);
@@ -289,7 +289,7 @@ class SaeTOAuthV2 {
 	 *
 	 * @return mixed
 	 */
-	function post($url, $parameters = array(), $multi = false) {
+	function post($url, $parameters = [], $multi = false) {
 		$response = $this->oAuthRequest($url, 'POST', $parameters, $multi );
 		if ($this->format === 'json' && $this->decode_json) {
 			return json_decode($response, true);
@@ -302,7 +302,7 @@ class SaeTOAuthV2 {
 	 *
 	 * @return mixed
 	 */
-	function delete($url, $parameters = array()) {
+	function delete($url, $parameters = []) {
 		$response = $this->oAuthRequest($url, 'DELETE', $parameters);
 		if ($this->format === 'json' && $this->decode_json) {
 			return json_decode($response, true);
@@ -327,7 +327,7 @@ class SaeTOAuthV2 {
 			$url = $url . '?' . http_build_query($parameters);
 			return $this->http($url, 'GET');
 		default:
-			$headers = array();
+			$headers = [];
 			if (!$multi && (is_array($parameters) || is_object($parameters)) ) {
 				$body = http_build_query($parameters);
 			} else {
@@ -344,8 +344,8 @@ class SaeTOAuthV2 {
 	 * @return string API results
 	 * @ignore
 	 */
-	function http($url, $method, $postfields = NULL, $headers = array()) {
-		$this->http_info = array();
+	function http($url, $method, $postfields = NULL, $headers = []) {
+		$this->http_info = [];
 		$ci = curl_init();
 		/* Curl settings */
 		curl_setopt($ci, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
@@ -446,7 +446,7 @@ class SaeTOAuthV2 {
 
 		uksort($params, 'strcmp');
 
-		$pairs = array();
+		$pairs = [];
 
 		self::$boundary = $boundary = uniqid('------------------');
 		$MPboundary = '--'.$boundary;
@@ -550,7 +550,7 @@ class SaeTClientV2
 	 */
 	function public_timeline( $page = 1, $count = 50, $base_app = 0 )
 	{
-		$params = array();
+		$params = [];
 		$params['count'] = intval($count);
 		$params['page'] = intval($page);
 		$params['base_app'] = intval($base_app);
@@ -574,7 +574,7 @@ class SaeTClientV2
 	 */
 	function home_timeline( $page = 1, $count = 50, $since_id = 0, $max_id = 0, $base_app = 0, $feature = 0 )
 	{
-		$params = array();
+		$params = [];
 		if ($since_id) {
 			$this->id_format($since_id);
 			$params['since_id'] = $since_id;
@@ -630,7 +630,7 @@ class SaeTClientV2
 	 */
 	function user_timeline_by_id( $uid = NULL , $page = 1 , $count = 50 , $since_id = 0, $max_id = 0, $feature = 0, $trim_user = 0, $base_app = 0)
 	{
-		$params = array();
+		$params = [];
 		$params['uid']=$uid;
 		if ($since_id) {
 			$this->id_format($since_id);
@@ -669,7 +669,7 @@ class SaeTClientV2
 	 */
 	function user_timeline_by_name( $screen_name = NULL , $page = 1 , $count = 50 , $since_id = 0, $max_id = 0, $feature = 0, $trim_user = 0, $base_app = 0 )
 	{
-		$params = array();
+		$params = [];
 		$params['screen_name'] = $screen_name;
 		if ($since_id) {
 			$this->id_format($since_id);
@@ -704,7 +704,7 @@ class SaeTClientV2
 	 */
 	function timeline_batch_by_name( $screen_name, $page = 1, $count = 50, $feature = 0, $base_app = 0)
 	{
-		$params = array();
+		$params = [];
 		if (is_array($screen_name) && !empty($screen_name)) {
 			$params['screen_name'] = join(',', $screen_name);
 		} else {
@@ -731,7 +731,7 @@ class SaeTClientV2
 	 */
 	function timeline_batch_by_id( $uids, $page = 1, $count = 50, $feature = 0, $base_app = 0)
 	{
-		$params = array();
+		$params = [];
 		if (is_array($uids) && !empty($uids)) {
 			foreach($uids as $k => $v) {
 				$this->id_format($uids[$k]);
@@ -766,7 +766,7 @@ class SaeTClientV2
 	{
 		$this->id_format($sid);
 
-		$params = array();
+		$params = [];
 		$params['id'] = $sid;
 		if ($since_id) {
 			$this->id_format($since_id);
@@ -795,7 +795,7 @@ class SaeTClientV2
 	 */
 	function repost_by_me( $page = 1, $count = 50, $since_id = 0, $max_id = 0 )
 	{
-		$params = array();
+		$params = [];
 		if ($since_id) {
 			$this->id_format($since_id);
 			$params['since_id'] = $since_id;
@@ -826,7 +826,7 @@ class SaeTClientV2
 	 */
 	function mentions( $page = 1, $count = 50, $since_id = 0, $max_id = 0, $filter_by_author = 0, $filter_by_source = 0, $filter_by_type = 0 )
 	{
-		$params = array();
+		$params = [];
 		if ($since_id) {
 			$this->id_format($since_id);
 			$params['since_id'] = $since_id;
@@ -856,7 +856,7 @@ class SaeTClientV2
 	function show_status( $id )
 	{
 		$this->id_format($id);
-		$params = array();
+		$params = [];
 		$params['id'] = $id;
 		return $this->oauth->get('statuses/show', $params);
 	}
@@ -871,7 +871,7 @@ class SaeTClientV2
 	 */
     function show_batch( $ids )
 	{
-		$params=array();
+		$params=[];
 		if (is_array($ids) && !empty($ids)) {
 			foreach($ids as $k => $v) {
 				$this->id_format($ids[$k]);
@@ -895,7 +895,7 @@ class SaeTClientV2
 	 */
 	function querymid( $id, $type = 1, $is_batch = 0 )
 	{
-		$params = array();
+		$params = [];
 		$params['id'] = $id;
 		$params['type'] = intval($type);
 		$params['is_batch'] = intval($is_batch);
@@ -916,7 +916,7 @@ class SaeTClientV2
 	 */
 	function queryid( $mid, $type = 1, $is_batch = 0, $inbox = 0, $isBase62 = 0)
 	{
-		$params = array();
+		$params = [];
 		$params['mid'] = $mid;
 		$params['type'] = intval($type);
 		$params['is_batch'] = intval($is_batch);
@@ -936,7 +936,7 @@ class SaeTClientV2
 	 */
 	function repost_daily( $count = 20, $base_app = 0)
 	{
-		$params = array();
+		$params = [];
 		$params['count'] = intval($count);
 		$params['base_app'] = intval($base_app);
 		return $this->oauth->get('statuses/hot/repost_daily',  $params);
@@ -953,7 +953,7 @@ class SaeTClientV2
 	 */
 	function repost_weekly( $count = 20,  $base_app = 0)
 	{
-		$params = array();
+		$params = [];
 		$params['count'] = intval($count);
 		$params['base_app'] = intval($base_app);
 		return $this->oauth->get( 'statuses/hot/repost_weekly',  $params);
@@ -970,7 +970,7 @@ class SaeTClientV2
 	 */
 	function comments_daily( $count = 20,  $base_app = 0)
 	{
-		$params =  array();
+		$params =  [];
 		$params['count'] = intval($count);
 		$params['base_app'] = intval($base_app);
 		return $this->oauth->get( 'statuses/hot/comments_daily',  $params);
@@ -987,7 +987,7 @@ class SaeTClientV2
 	 */
 	function comments_weekly( $count = 20, $base_app = 0)
 	{
-		$params =  array();
+		$params =  [];
 		$params['count'] = intval($count);
 		$params['base_app'] = intval($base_app);
 		return $this->oauth->get( 'statuses/hot/comments_weekly', $params);
@@ -1010,7 +1010,7 @@ class SaeTClientV2
 	{
 		$this->id_format($sid);
 
-		$params = array();
+		$params = [];
 		$params['id'] = $sid;
 		$params['is_comment'] = $is_comment;
 		if( $text ) $params['status'] = $text;
@@ -1046,7 +1046,7 @@ class SaeTClientV2
 	function destroy( $id )
 	{
 		$this->id_format($id);
-		$params = array();
+		$params = [];
 		$params['id'] = $id;
 		return $this->oauth->post( 'statuses/destroy',  $params );
 	}
@@ -1069,7 +1069,7 @@ class SaeTClientV2
 	 */
 	function update( $status, $lat = NULL, $long = NULL, $annotations = NULL )
 	{
-		$params = array();
+		$params = [];
 		$params['status'] = $status;
 		if ($lat) {
 			$params['lat'] = floatval($lat);
@@ -1102,7 +1102,7 @@ class SaeTClientV2
 	 */
 	function upload( $status, $pic_path, $lat = NULL, $long = NULL )
 	{
-		$params = array();
+		$params = [];
 		$params['status'] = $status;
 		$params['pic'] = '@'.$pic_path;
 		if ($lat) {
@@ -1134,7 +1134,7 @@ class SaeTClientV2
 	 */
 	function upload_url_text( $status,  $url , $visible=0, $list_id=NULL, $pic_id=NULL, $lat = NULL, $long=NULL, $annotations=NULL)
 	{
-		$params = array();
+		$params = [];
 		$params['status'] = $status;
 		$params['url'] = $url;
 		$params['visible'] = $visible;
@@ -1170,7 +1170,7 @@ class SaeTClientV2
 	 */
 	function emotions( $type = "face", $language = "cnname" )
 	{
-		$params = array();
+		$params = [];
 		$params['type'] = $type;
 		$params['language'] = $language;
 		return $this->oauth->get( 'emotions', $params );
@@ -1192,7 +1192,7 @@ class SaeTClientV2
 	 */
 	function get_comments_by_sid( $sid, $page = 1, $count = 50, $since_id = 0, $max_id = 0, $filter_by_author = 0 )
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($sid);
 		$params['id'] = $sid;
 		if ($since_id) {
@@ -1224,7 +1224,7 @@ class SaeTClientV2
 	 */
 	function comments_by_me( $page = 1 , $count = 50, $since_id = 0, $max_id = 0,  $filter_by_source = 0 )
 	{
-		$params = array();
+		$params = [];
 		if ($since_id) {
 			$this->id_format($since_id);
 			$params['since_id'] = $since_id;
@@ -1254,7 +1254,7 @@ class SaeTClientV2
 	 */ 
 	function comments_to_me( $page = 1 , $count = 50, $since_id = 0, $max_id = 0, $filter_by_author = 0, $filter_by_source = 0)
 	{
-		$params = array();
+		$params = [];
 		if ($since_id) {
 			$this->id_format($since_id);
 			$params['since_id'] = $since_id;
@@ -1285,7 +1285,7 @@ class SaeTClientV2
 	 */
 	function comments_timeline( $page = 1, $count = 50, $since_id = 0, $max_id = 0 )
 	{
-		$params = array();
+		$params = [];
 		if ($since_id) {
 			$this->id_format($since_id);
 			$params['since_id'] = $since_id;
@@ -1314,7 +1314,7 @@ class SaeTClientV2
 	 */ 
 	function comments_mentions( $page = 1, $count = 50, $since_id = 0, $max_id = 0, $filter_by_author = 0, $filter_by_source = 0)
 	{
-		$params = array();
+		$params = [];
 		$params['since_id'] = $since_id;
 		$params['max_id'] = $max_id;
 		$params['count'] = $count;
@@ -1335,7 +1335,7 @@ class SaeTClientV2
 	 */
 	function comments_show_batch( $cids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array( $cids) && !empty( $cids)) {
 			foreach($cids as $k => $v) {
 				$this->id_format($cids[$k]);
@@ -1360,7 +1360,7 @@ class SaeTClientV2
 	 */
 	function send_comment( $id , $comment , $comment_ori = 0)
 	{
-		$params = array();
+		$params = [];
 		$params['comment'] = $comment;
 		$this->id_format($id);
 		$params['id'] = $id;
@@ -1380,7 +1380,7 @@ class SaeTClientV2
 	 */
 	function comment_destroy( $cid )
 	{
-		$params = array();
+		$params = [];
 		$params['cid'] = $cid;
 		return $this->oauth->post( 'comments/destroy', $params);
 	}
@@ -1398,7 +1398,7 @@ class SaeTClientV2
 	 */
 	function comment_destroy_batch( $ids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array($ids) && !empty($ids)) {
 			foreach($ids as $k => $v) {
 				$this->id_format($ids[$k]);
@@ -1429,7 +1429,7 @@ class SaeTClientV2
 	{
 		$this->id_format( $sid );
 		$this->id_format( $cid );
-		$params = array();
+		$params = [];
 		$params['id'] = $sid;
 		$params['comment'] = $text;
 		$params['cid'] = $cid;
@@ -1452,7 +1452,7 @@ class SaeTClientV2
 	 */
 	function show_user_by_id( $uid )
 	{
-		$params=array();
+		$params=[];
 		if ( $uid !== NULL ) {
 			$this->id_format($uid);
 			$params['uid'] = $uid;
@@ -1473,7 +1473,7 @@ class SaeTClientV2
 	 */
 	function show_user_by_name( $screen_name )
 	{
-		$params = array();
+		$params = [];
 		$params['screen_name'] = $screen_name;
 
 		return $this->oauth->get( 'users/show', $params );
@@ -1490,7 +1490,7 @@ class SaeTClientV2
 	 */
 	function domain_show( $domain )
 	{
-		$params = array();
+		$params = [];
 		$params['domain'] = $domain;
 		return $this->oauth->get( 'users/domain_show', $params );
 	}
@@ -1505,7 +1505,7 @@ class SaeTClientV2
 	 */
 	function users_show_batch_by_id( $uids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array( $uids ) && !empty( $uids )) {
 			foreach( $uids as $k => $v ) {
 				$this->id_format( $uids[$k] );
@@ -1527,7 +1527,7 @@ class SaeTClientV2
 	 */
 	function users_show_batch_by_name( $screen_name )
 	{
-		$params = array();
+		$params = [];
 		if (is_array( $screen_name ) && !empty( $screen_name )) {
 			$params['screen_name'] = join(',', $screen_name);
 		} else {
@@ -1551,7 +1551,7 @@ class SaeTClientV2
 	 */
 	function friends_by_id( $uid, $cursor = 0, $count = 50 )
 	{
-		$params = array();
+		$params = [];
 		$params['cursor'] = $cursor;
 		$params['count'] = $count;
 		$params['uid'] = $uid;
@@ -1574,7 +1574,7 @@ class SaeTClientV2
 	 */
 	function friends_by_name( $screen_name, $cursor = 0, $count = 50 )
 	{
-		$params = array();
+		$params = [];
 		$params['cursor'] = $cursor;
 		$params['count'] = $count;
 		$params['screen_name'] = $screen_name;
@@ -1595,7 +1595,7 @@ class SaeTClientV2
 	 */
 	function friends_in_common( $uid, $suid = NULL, $page = 1, $count = 50 )
 	{
-		$params = array();
+		$params = [];
 		$params['uid'] = $uid;
 		$params['suid'] = $suid;
 		$params['count'] = $count;
@@ -1616,7 +1616,7 @@ class SaeTClientV2
 	 **/
 	function bilateral( $uid, $page = 1, $count = 50, $sort = 0 )
 	{
-		$params = array();
+		$params = [];
 		$params['uid'] = $uid;
 		$params['count'] = $count;
 		$params['page'] = $page;
@@ -1637,7 +1637,7 @@ class SaeTClientV2
 	 **/
 	function bilateral_ids( $uid, $page = 1, $count = 50, $sort = 0)
 	{
-		$params = array();
+		$params = [];
 		$params['uid'] = $uid;
 		$params['count'] = $count;
 		$params['page'] = $page;
@@ -1659,7 +1659,7 @@ class SaeTClientV2
 	 */
 	function friends_ids_by_id( $uid, $cursor = 0, $count = 500 )
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($uid);
 		$params['uid'] = $uid;
 		$params['cursor'] = $cursor;
@@ -1681,7 +1681,7 @@ class SaeTClientV2
 	 */
 	function friends_ids_by_name( $screen_name, $cursor = 0, $count = 500 )
 	{
-		$params = array();
+		$params = [];
 		$params['cursor'] = $cursor;
 		$params['count'] = $count;
 		$params['screen_name'] = $screen_name;
@@ -1699,7 +1699,7 @@ class SaeTClientV2
 	 **/
 	function friends_remark_batch( $uids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array( $uids ) && !empty( $uids )) {
 			foreach( $uids as $k => $v) {
 				$this->id_format( $uids[$k] );
@@ -1723,7 +1723,7 @@ class SaeTClientV2
 	 **/
 	function followers_by_id( $uid , $cursor = 0 , $count = 50)
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($uid);
 		$params['uid'] = $uid;
 		$params['count'] = $count;
@@ -1743,7 +1743,7 @@ class SaeTClientV2
 	 **/
 	function followers_by_name( $screen_name, $cursor = 0 , $count = 50 )
 	{
-		$params = array();
+		$params = [];
 		$params['screen_name'] = $screen_name;
 		$params['count'] = $count;
 		$params['cursor'] = $cursor;
@@ -1762,7 +1762,7 @@ class SaeTClientV2
 	 **/
 	function followers_ids_by_id( $uid, $cursor = 0 , $count = 50 )
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($uid);
 		$params['uid'] = $uid;
 		$params['count'] = $count;
@@ -1782,7 +1782,7 @@ class SaeTClientV2
 	 **/
 	function followers_ids_by_name( $screen_name, $cursor = 0 , $count = 50 )
 	{
-		$params = array();
+		$params = [];
 		$params['screen_name'] = $screen_name;
 		$params['count'] = $count;
 		$params['cursor'] = $cursor;
@@ -1800,7 +1800,7 @@ class SaeTClientV2
 	 **/
 	function followers_active( $uid,  $count = 20)
 	{
-		$param = array();
+		$param = [];
 		$this->id_format($uid);
 		$param['uid'] = $uid;
 		$param['count'] = $count;
@@ -1820,7 +1820,7 @@ class SaeTClientV2
 	 **/
 	function friends_chain_followers( $uid, $page = 1, $count = 50 )
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($uid);
 		$params['uid'] = $uid;
 		$params['count'] = $count;
@@ -1841,7 +1841,7 @@ class SaeTClientV2
 	 */
 	function is_followed_by_id( $target_id, $source_id = NULL )
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($target_id);
 		$params['target_id'] = $target_id;
 
@@ -1866,7 +1866,7 @@ class SaeTClientV2
 	 */
 	function is_followed_by_name( $target_name, $source_name = NULL )
 	{
-		$params = array();
+		$params = [];
 		$params['target_screen_name'] = $target_name;
 
 		if ( $source_name != NULL ) {
@@ -1888,7 +1888,7 @@ class SaeTClientV2
 	 */
 	function follow_by_id( $uid )
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($uid);
 		$params['uid'] = $uid;
 		return $this->oauth->post( 'friendships/create', $params );
@@ -1906,7 +1906,7 @@ class SaeTClientV2
 	 */
 	function follow_by_name( $screen_name )
 	{
-		$params = array();
+		$params = [];
 		$params['screen_name'] = $screen_name;
 		return $this->oauth->post( 'friendships/create', $params);
 	}
@@ -1922,7 +1922,7 @@ class SaeTClientV2
 	 */
 	function follow_create_batch( $uids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array($uids) && !empty($uids)) {
 			foreach($uids as $k => $v) {
 				$this->id_format($uids[$k]);
@@ -1946,7 +1946,7 @@ class SaeTClientV2
 	 */
 	function unfollow_by_id( $uid )
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($uid);
 		$params['uid'] = $uid;
 		return $this->oauth->post( 'friendships/destroy', $params);
@@ -1964,7 +1964,7 @@ class SaeTClientV2
 	 */
 	function unfollow_by_name( $screen_name )
 	{
-		$params = array();
+		$params = [];
 		$params['screen_name'] = $screen_name;
 		return $this->oauth->post( 'friendships/destroy', $params);
 	}
@@ -1982,7 +1982,7 @@ class SaeTClientV2
 	 */
 	function update_remark( $uid, $remark )
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($uid);
 		$params['uid'] = $uid;
 		$params['remark'] = $remark;
@@ -2004,7 +2004,7 @@ class SaeTClientV2
 	 */
 	function list_dm( $page = 1, $count = 50, $since_id = 0, $max_id = 0 )
 	{
-		$params = array();
+		$params = [];
 		if ($since_id) {
 			$this->id_format($since_id);
 			$params['since_id'] = $since_id;
@@ -2032,7 +2032,7 @@ class SaeTClientV2
 	 */
 	function list_dm_sent( $page = 1, $count = 50, $since_id = 0, $max_id = 0 )
 	{
-		$params = array();
+		$params = [];
 		if ($since_id) {
 			$this->id_format($since_id);
 			$params['since_id'] = $since_id;
@@ -2057,7 +2057,7 @@ class SaeTClientV2
 	 */
 	function dm_user_list( $count = 20, $cursor = 0)
 	{
-		$params = array();
+		$params = [];
 		$params['count'] = $count;
 		$params['cursor'] = $cursor;
 		return $this->oauth->get( 'direct_messages/user_list', $params );
@@ -2077,7 +2077,7 @@ class SaeTClientV2
 	 */
 	function dm_conversation( $uid, $page = 1, $count = 50, $since_id = 0, $max_id = 0)
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($uid);
 		$params['uid'] = $uid;
 		if ($since_id) {
@@ -2103,7 +2103,7 @@ class SaeTClientV2
 	 */
 	function dm_show_batch( $dmids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array($dmids) && !empty($dmids)) {
 			foreach($dmids as $k => $v) {
 				$this->id_format($dmids[$k]);
@@ -2129,7 +2129,7 @@ class SaeTClientV2
 	 */
 	function send_dm_by_id( $uid, $text, $id = NULL )
 	{
-		$params = array();
+		$params = [];
 		$this->id_format( $uid );
 		$params['text'] = $text;
 		$params['uid'] = $uid;
@@ -2154,7 +2154,7 @@ class SaeTClientV2
 	 */
 	function send_dm_by_name( $screen_name, $text, $id = NULL )
 	{
-		$params = array();
+		$params = [];
 		$params['text'] = $text;
 		$params['screen_name'] = $screen_name;
 		if ($id) {
@@ -2177,7 +2177,7 @@ class SaeTClientV2
 	function delete_dm( $did )
 	{
 		$this->id_format($did);
-		$params = array();
+		$params = [];
 		$params['id'] = $did;
 		return $this->oauth->post('direct_messages/destroy', $params);
 	}
@@ -2194,7 +2194,7 @@ class SaeTClientV2
 	 */
 	function delete_dms( $dids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array($dids) && !empty($dids)) {
 			foreach($dids as $k => $v) {
 				$this->id_format($dids[$k]);
@@ -2219,7 +2219,7 @@ class SaeTClientV2
 	 */
 	function account_profile_basic( $uid = NULL  )
 	{
-		$params = array();
+		$params = [];
 		if ($uid) {
 			$this->id_format($uid);
 			$params['uid'] = $uid;
@@ -2237,7 +2237,7 @@ class SaeTClientV2
 	 */
 	function account_education( $uid = NULL )
 	{
-		$params = array();
+		$params = [];
 		if ($uid) {
 			$this->id_format($uid);
 			$params['uid'] = $uid;
@@ -2255,7 +2255,7 @@ class SaeTClientV2
 	 */
 	function account_education_batch( $uids  )
 	{
-		$params = array();
+		$params = [];
 		if (is_array($uids) && !empty($uids)) {
 			foreach($uids as $k => $v) {
 				$this->id_format($uids[$k]);
@@ -2279,7 +2279,7 @@ class SaeTClientV2
 	 */
 	function account_career( $uid = NULL )
 	{
-		$params = array();
+		$params = [];
 		if ($uid) {
 			$this->id_format($uid);
 			$params['uid'] = $uid;
@@ -2297,7 +2297,7 @@ class SaeTClientV2
 	 */
 	function account_career_batch( $uids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array($uids) && !empty($uids)) {
 			foreach($uids as $k => $v) {
 				$this->id_format($uids[$k]);
@@ -2446,7 +2446,7 @@ class SaeTClientV2
 	function edu_destroy( $id )
 	{
 		$this->id_format( $id );
-		$params = array();
+		$params = [];
 		$params['id'] = $id;
 		return $this->oauth->post( 'account/profile/edu_destroy', $params);
 	}
@@ -2487,7 +2487,7 @@ class SaeTClientV2
 	function car_destroy( $id )
 	{
 		$this->id_format($id);
-		$params = array();
+		$params = [];
 		$params['id'] = $id;
 		return $this->oauth->post( 'account/profile/car_destroy', $params);
 	}
@@ -2502,7 +2502,7 @@ class SaeTClientV2
 	 */
 	function update_profile_image( $image_path )
 	{
-		$params = array();
+		$params = [];
 		$params['image'] = "@{$image_path}";
 
 		return $this->oauth->post('account/avatar/upload', $params);
@@ -2543,7 +2543,7 @@ class SaeTClientV2
 	 */
 	function get_favorites( $page = 1, $count = 50 )
 	{
-		$params = array();
+		$params = [];
 		$params['page'] = intval($page);
 		$params['count'] = intval($count);
 
@@ -2563,7 +2563,7 @@ class SaeTClientV2
 	 */
 	function favorites_show( $id )
 	{
-		$params = array();
+		$params = [];
 		$this->id_format($id);
 		$params['id'] = $id;
 		return $this->oauth->get( 'favorites/show', $params );
@@ -2583,7 +2583,7 @@ class SaeTClientV2
 	 */
 	function favorites_by_tags( $tid, $page = 1, $count = 50)
 	{
-		$params = array();
+		$params = [];
 		$params['tid'] = $tid;
 		$params['count'] = $count;
 		$params['page'] = $page;
@@ -2603,7 +2603,7 @@ class SaeTClientV2
 	 */
 	function favorites_tags( $page = 1, $count = 50)
 	{
-		$params = array();
+		$params = [];
 		$params['count'] = $count;
 		$params['page'] = $page;
 		return $this->oauth->get( 'favorites/tags', $params );
@@ -2622,7 +2622,7 @@ class SaeTClientV2
 	function add_to_favorites( $sid )
 	{
 		$this->id_format($sid);
-		$params = array();
+		$params = [];
 		$params['id'] = $sid;
 
 		return $this->oauth->post( 'favorites/create', $params );
@@ -2640,7 +2640,7 @@ class SaeTClientV2
 	function remove_from_favorites( $id )
 	{
 		$this->id_format($id);
-		$params = array();
+		$params = [];
 		$params['id'] = $id;
 		return $this->oauth->post( 'favorites/destroy', $params);
 	}
@@ -2658,7 +2658,7 @@ class SaeTClientV2
 	 */
 	function remove_from_favorites_batch( $fids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array($fids) && !empty($fids)) {
 			foreach ($fids as $k => $v) {
 				$this->id_format($fids[$k]);
@@ -2684,7 +2684,7 @@ class SaeTClientV2
 	 */
 	function favorites_tags_update( $id,  $tags )
 	{
-		$params = array();
+		$params = [];
 		$params['id'] = $id;
 		if (is_array($tags) && !empty($tags)) {
 			foreach ($tags as $k => $v) {
@@ -2708,7 +2708,7 @@ class SaeTClientV2
 	 */
 	function favorites_update_batch( $tid, $tag )
 	{
-		$params = array();
+		$params = [];
 		$params['tid'] = $tid;
 		$params['tag'] = $tag;
 		return $this->oauth->post( 'favorites/tags/update_batch', $params);
@@ -2725,7 +2725,7 @@ class SaeTClientV2
 	 */
 	function favorites_tags_destroy_batch( $tid )
 	{
-		$params = array();
+		$params = [];
 		$params['tid'] = $tid;
 		return $this->oauth->post( 'favorites/tags/destroy_batch', $params);
 	}
@@ -2742,7 +2742,7 @@ class SaeTClientV2
 	 */
 	function get_trends( $uid = NULL, $page = 1, $count = 10 )
 	{
-		$params = array();
+		$params = [];
 		if ($uid) {
 			$params['uid'] = $uid;
 		} else {
@@ -2767,7 +2767,7 @@ class SaeTClientV2
 	 */
 	function trends_is_follow( $trend_name )
 	{
-		$params = array();
+		$params = [];
 		$params['trend_name'] = $trend_name;
 		return $this->oauth->get( 'trends/is_follow', $params );
 	}
@@ -2782,7 +2782,7 @@ class SaeTClientV2
 	 */
 	function hourly_trends( $base_app = 0 )
 	{
-		$params = array();
+		$params = [];
 		$params['base_app'] = $base_app;
 
 		return $this->oauth->get( 'trends/hourly', $params );
@@ -2798,7 +2798,7 @@ class SaeTClientV2
 	 */
 	function daily_trends( $base_app = 0 )
 	{
-		$params = array();
+		$params = [];
 		$params['base_app'] = $base_app;
 
 		return $this->oauth->get( 'trends/daily', $params );
@@ -2815,7 +2815,7 @@ class SaeTClientV2
 	 */
 	function weekly_trends( $base_app = 0 )
 	{
-		$params = array();
+		$params = [];
 		$params['base_app'] = $base_app;
 
 		return $this->oauth->get( 'trends/weekly', $params );
@@ -2832,7 +2832,7 @@ class SaeTClientV2
 	 */
 	function follow_trends( $trend_name )
 	{
-		$params = array();
+		$params = [];
 		$params['trend_name'] = $trend_name;
 		return $this->oauth->post( 'trends/follow', $params );
 	}
@@ -2850,7 +2850,7 @@ class SaeTClientV2
 	{
 		$this->id_format($tid);
 
-		$params = array();
+		$params = [];
 		$params['trend_id'] = $tid;
 
 		return $this->oauth->post( 'trends/destroy', $params );
@@ -2868,7 +2868,7 @@ class SaeTClientV2
 	 */
 	function get_tags( $uid = NULL, $page = 1, $count = 20 )
 	{
-		$params = array();
+		$params = [];
 		if ( $uid ) {
 			$params['uid'] = $uid;
 		} else {
@@ -2891,7 +2891,7 @@ class SaeTClientV2
 	 */
 	function get_tags_batch( $uids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array( $uids ) && !empty( $uids )) {
 			foreach ($uids as $k => $v) {
 				$this->id_format( $uids[$k] );
@@ -2914,7 +2914,7 @@ class SaeTClientV2
 	 */
 	function get_suggest_tags( $count = 10)
 	{
-		$params = array();
+		$params = [];
 		$params['count'] = intval($count);
 		return $this->oauth->get( 'tags/suggestions', $params );
 	}
@@ -2930,7 +2930,7 @@ class SaeTClientV2
 	 */
 	function add_tags( $tags )
 	{
-		$params = array();
+		$params = [];
 		if (is_array($tags) && !empty($tags)) {
 			$params['tags'] = join(',', $tags);
 		} else {
@@ -2950,7 +2950,7 @@ class SaeTClientV2
 	 */
 	function delete_tag( $tag_id )
 	{
-		$params = array();
+		$params = [];
 		$params['tag_id'] = $tag_id;
 		return $this->oauth->post( 'tags/destroy', $params );
 	}
@@ -2966,7 +2966,7 @@ class SaeTClientV2
 	 */
 	function delete_tags( $ids )
 	{
-		$params = array();
+		$params = [];
 		if (is_array($ids) && !empty($ids)) {
 			$params['ids'] = join(',', $ids);
 		} else {
@@ -2986,7 +2986,7 @@ class SaeTClientV2
 	 */
 	function verify_nickname( $nickname )
 	{
-		$params = array();
+		$params = [];
 		$params['nickname'] = $nickname;
 		return $this->oauth->get( 'register/verify_nickname', $params );
 	}
@@ -3004,7 +3004,7 @@ class SaeTClientV2
 	 */
 	function search_users( $q,  $count = 10 )
 	{
-		$params = array();
+		$params = [];
 		$params['q'] = $q;
 		$params['count'] = $count;
 		return $this->oauth->get( 'search/suggestions/users',  $params );
@@ -3022,7 +3022,7 @@ class SaeTClientV2
 	 */
 	function search_statuses( $q,  $count = 10)
 	{
-		$params = array();
+		$params = [];
 		$params['q'] = $q;
 		$params['count'] = $count;
 		return $this->oauth->get( 'search/suggestions/statuses', $params );
@@ -3041,7 +3041,7 @@ class SaeTClientV2
 	 */
 	function search_schools( $q,  $count = 10,  $type = 1)
 	{
-		$params = array();
+		$params = [];
 		$params['q'] = $q;
 		$params['count'] = $count;
 		$params['type'] = $type;
@@ -3059,7 +3059,7 @@ class SaeTClientV2
 	 */
 	function search_companies( $q, $count = 10)
 	{
-		$params = array();
+		$params = [];
 		$params['q'] = $q;
 		$params['count'] = $count;
 		return $this->oauth->get( 'search/suggestions/companies', $params );
@@ -3079,7 +3079,7 @@ class SaeTClientV2
 	 */
 	function search_at_users( $q, $count = 10, $type=0, $range = 2)
 	{
-		$params = array();
+		$params = [];
 		$params['q'] = $q;
 		$params['count'] = $count;
 		$params['type'] = $type;
@@ -3174,7 +3174,7 @@ class SaeTClientV2
 	 */
 	function hot_users( $category = "default" )
 	{
-		$params = array();
+		$params = [];
 		$params['category'] = $category;
 
 		return $this->oauth->get( 'suggestions/users/hot', $params );
@@ -3193,7 +3193,7 @@ class SaeTClientV2
 	 */
 	function suggestions_may_interested( $page = 1, $count = 10 )
 	{   
-		$params = array();
+		$params = [];
 		$params['page'] = $page;
 		$params['count'] = $count;
 		return $this->oauth->get( 'suggestions/users/may_interested', $params);
@@ -3211,7 +3211,7 @@ class SaeTClientV2
 	 */
 	function suggestions_users_by_status( $content, $num = 10 )
 	{
-		$params = array();
+		$params = [];
 		$params['content'] = $content;
 		$params['num'] = $num;
 		return $this->oauth->get( 'suggestions/users/by_status', $params);
@@ -3228,7 +3228,7 @@ class SaeTClientV2
 	 */
 	function hot_favorites( $page = 1, $count = 20 )
 	{
-		$params = array();
+		$params = [];
 		$params['count'] = $count;
 		$params['page'] = $page;
 		return $this->oauth->get( 'suggestions/favorites/hot', $params);
@@ -3244,7 +3244,7 @@ class SaeTClientV2
 	 */
 	function put_users_not_interested( $uid )
 	{
-		$params = array();
+		$params = [];
 		$params['uid'] = $uid;
 		return $this->oauth->post( 'suggestions/users/not_interested', $params);
 	}
@@ -3256,7 +3256,7 @@ class SaeTClientV2
 	/**
 	 * @ignore
 	 */
-	protected function request_with_pager( $url, $page = false, $count = false, $params = array() )
+	protected function request_with_pager( $url, $page = false, $count = false, $params = [] )
 	{
 		if( $page ) $params['page'] = $page;
 		if( $count ) $params['count'] = $count;
@@ -3267,7 +3267,7 @@ class SaeTClientV2
 	/**
 	 * @ignore
 	 */
-	protected function request_with_uid( $url, $uid_or_name, $page = false, $count = false, $cursor = false, $post = false, $params = array())
+	protected function request_with_uid( $url, $uid_or_name, $page = false, $count = false, $cursor = false, $post = false, $params = [])
 	{
 		if( $page ) $params['page'] = $page;
 		if( $count ) $params['count'] = $count;

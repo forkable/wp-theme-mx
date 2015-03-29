@@ -15,7 +15,7 @@ class theme_custom_avatar{
 		'avatar' => 'avatar',
 	);
 	public static function init(){
-		add_filter('get_avatar', get_class() . '::get_gravatar',99,2);
+		add_filter('get_avatar', __CLASS__ . '::get_gravatar',99,2);
 	}
 	public static function get_gravatar($avatar,$id_or_email){
 		static $caches;

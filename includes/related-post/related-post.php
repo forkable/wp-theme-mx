@@ -15,12 +15,12 @@ class theme_related_post{
 	public static $iden = 'theme_related_post';
 
 	public static function init(){
-		// add_action('save_post',get_class() . '::flush_cache');
-		// add_action('deleted_post',get_class() . '::flush_cache');
-		// add_action('switch_theme',get_class() . '::flush_cache');
-		add_action('page_settings',get_class() . '::admin');
-		add_filter('theme_options_default',get_class() . '::options_default');
-		add_filter('theme_options_save',get_class() . '::save');
+		// add_action('save_post',__CLASS__ . '::flush_cache');
+		// add_action('deleted_post',__CLASS__ . '::flush_cache');
+		// add_action('switch_theme',__CLASS__ . '::flush_cache');
+		add_action('page_settings',__CLASS__ . '::admin');
+		add_filter('theme_options_default',__CLASS__ . '::options_default');
+		add_filter('theme_options_save',__CLASS__ . '::save');
 
 	}
 	public static function admin(){

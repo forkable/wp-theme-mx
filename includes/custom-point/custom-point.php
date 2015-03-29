@@ -20,31 +20,34 @@ class theme_custom_point{
 
 		include __DIR__ . '/widget.php';
 		
-		add_action('page_settings',get_class() . '::display_backend');
+		add_action('page_settings',__CLASS__ . '::display_backend');
 
-		add_action('wp_enqueue_scripts', 	get_class() . '::frontend_css');
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 		
-		add_action('comment_post',get_class() . '::action_add_history_wp_new_comment_comment_publish',10,2);
+		add_action('comment_post',__CLASS__ . '::action_add_history_wp_new_comment_comment_publish',10,2);
 		
-		add_action('transition_comment_status',get_class() . '::action_add_history_transition_comment_status_comment_publish',10,3);
+		add_action('transition_comment_status',__CLASS__ . '::action_add_history_transition_comment_status_comment_publish',10,3);
 
 		
-		add_action('publish_post',get_class() . '::add_action_publish_post_history_post_publish',10,2);
+		add_action('publish_post',__CLASS__ . '::add_action_publish_post_history_post_publish',10,2);
 		
 		
-		add_action('user_register',get_class() . '::action_add_history_signup');
+		add_action('user_register',__CLASS__ . '::action_add_history_signup');
 
+		/** post-delete */
+		add_action('before_delete_post',__CLASS__ . '::action_add_history_post_delete');
+		
 		/** sign-in daily */
-		add_filter('cache-request',get_class() . '::filter_cache_request');
+		add_filter('cache-request',__CLASS__ . '::filter_cache_request');
 		
-		add_filter('theme_options_default',get_class() . '::options_default');
-		add_filter('theme_options_save',get_class() . '::options_save');
+		add_filter('theme_options_default',__CLASS__ . '::options_default');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
 
 		/** ajax */
-		add_action('wp_ajax_' . self::$iden,get_class() . '::process');
+		add_action('wp_ajax_' . self::$iden,__CLASS__ . '::process');
 
-		add_action('backend_seajs_alias',get_class() . '::backend_seajs_alias');
-		add_action('after_backend_tab_init',get_class() . '::backend_seajs_use');
+		add_action('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
+		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use');
 
 	}
 	public static function display_backend(){
@@ -190,39 +193,40 @@ class theme_custom_point{
 		die(theme_features::json_format($output));
 	}
 	public static function is_page(){
-		static $caches;
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-
-		$caches[self::$iden] = is_page(self::$page_slug) && 			get_query_var('tab') === 'history';
-		return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache = is_page(self::$page_slug) && get_query_var('tab') === 'history';
+		return $cache;
 	}
 	public static function get_point_types($key = null){
-		$types = array(
-			'signup' => array(
+		$types = [
+			'signup' => [
 				'text' => ___('When sign-up')
-			),
-			'signin-daily' => array(
+			],
+			'signin-daily' => [
 				'text' => ___('When sign-in daily')
-			),
-			'comment-publish' => array(
+			],
+			'comment-publish' => [
 				'text' => ___('When publish comment')
-			),
-			'comment-delete' => array(
+			],
+			'comment-delete' => [
 				'text' => ___('When delete comment')
-			),
-			'post-publish' => array(
+			],
+			'post-publish' => [
 				'text' => ___('When publish post')
-			),
-			'post-reply' => array(
+			],
+			'post-reply' => [
 				'text' => ___('When reply post')
-			),
-			'post-per-hundred-view'	=> array(
+			],
+			'post-delete' => [
+				'text' => ___('When delete post')
+			],
+			'post-per-hundred-view'	=> [
 				'text' => ___('When post per hundred view ')
-			),
-			'aff-signup' => array(
+			],
+			'aff-signup' => [
 				'text' => ___('When aff sign-up')
-			),
+			],
 		);
 		if(empty($key)) return $types;
 		
@@ -237,6 +241,7 @@ class theme_custom_point{
 				'comment-delete'  	=> -3, /** 删除评论 */
 				'post-publish' 		=> 3, /** 发表新文章 */
 				'post-reply' 		=> 1, /** 文章被回复 */
+				'post-delete'		=> -5,/** 文章被删除 */
 				'post-per-hundred-view' => 5, /** 文章每百查看 */
 				'aff-signup'		=> 5, /** 推广注册 */			
 			),
@@ -261,8 +266,9 @@ class theme_custom_point{
 	}
 	public static function get_options($key = null){
 		static $caches;
-		if(!$caches)
-			$caches = theme_options::get_options(self::$iden);
+		if(!is_array($caches))			
+			$caches = (array)theme_options::get_options(self::$iden);
+			
 		if($key){
 			return isset($caches[$key]) ? $caches[$key] : null;
 		}
@@ -291,7 +297,9 @@ class theme_custom_point{
 		if(isset($caches[$user_id]))
 			return $caches[$user_id];
 			
-		if(!$user_id) $user_id = get_current_user_id();
+		if(!$user_id) 
+			$user_id = get_current_user_id();
+			
 		$point = (int)get_user_meta($user_id,self::$user_meta_key['point'],true);
 
 		$caches[$user_id] = $point;
@@ -422,11 +430,22 @@ switch($v['type']){
 	 * post-publish
 	 */
 	case 'post-publish':
+		global $post;
+		$post_bak = $post;
+		$post = get_post($v['psot-id']);
 		?>
 		<span class="history-text">
-			<?php echo sprintf(___('I published a post %s.'),'<a href="' . esc_url(get_permalink($v['post-id'])) . '">' . esc_html(get_the_title($v['post-id'])) . '</a>');?>
+			<?php
+			if(!$post){
+				echo ___('The post has been deleted.');
+			}else{
+				echo sprintf(___('I published a post %s.'),'<a href="' . esc_url(get_permalink($v['post-id'])) . '">' . esc_html(get_the_title($v['post-id'])) . '</a>');
+			}
+			?>
 		</span>
 		<?php
+		$post = $post_bak;
+		unset($post_bak);
 		break;
 	/***************************************
 	 * post-reply
@@ -463,7 +482,7 @@ switch($v['type']){
 		<span class="history-time">
 			<?php
 			if(isset($v['timestamp'])){
-				echo esc_html(friendly_date($v['timestamp']));
+				echo friendly_date($v['timestamp']);
 			}
 			?>
 		</span>
@@ -496,6 +515,29 @@ switch($v['type']){
 		return $output;
 	}
 	/**
+	 * HOOK - Add post-delete history to user meta
+	 *
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function action_add_history_post_delete($post_id){
+		$post = get_post($post_id);
+		if(!$post)
+			return;
+		$meta = array(
+			'type'=> 'post-delete',
+			'post-title' => get_the_title($post->ID),
+			'timestamp' => current_time('timestamp'),
+		);
+		add_user_meta($post->post_author,self::$user_meta_key['history'],$meta);
+
+		/**
+		 * point
+		 */
+		$old_point = self::get_point($post->post_author);
+		update_user_meta($post->post_author,self::$user_meta_key['point',$old_point - self::get_point_value('post-delete')]);
+	}
+	/**
 	 * HOOK - Add sign-up history to user meta
 	 *
 	 * @version 1.0.0
@@ -510,7 +552,7 @@ switch($v['type']){
 		/**
 		 * update point
 		 */
-		update_user_meta($user_id,self::$user_meta_key['point'],(int)theme_options::get_options(self::$iden)['points']['signup']);
+		update_user_meta($user_id,self::$user_meta_key['point'],(int)self::get_options('points')['signup'];
 	}
 	/**
 	 * Add special event

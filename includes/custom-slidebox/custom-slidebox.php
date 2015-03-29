@@ -16,12 +16,12 @@ class theme_custom_slidebox{
 	public static $file_exts = array('png','jpg','gif');
 	public static $image_size = array(368,230,true);
 	public static function init(){
-		add_action('after_backend_tab_init',get_class() . '::backend_seajs_use'); 
-		add_action('backend_css',get_class() . '::backend_css'); 
-		add_action('page_settings',get_class() . '::display_backend');
-		add_action('frontend_seajs_use',get_class() . '::frontend_seajs_use');
-		add_action('wp_ajax_' . self::$iden,get_class() . '::process');
-		add_filter('theme_options_save',get_class() . '::options_save');
+		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use'); 
+		add_action('backend_css',__CLASS__ . '::backend_css'); 
+		add_action('page_settings',__CLASS__ . '::display_backend');
+		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
+		add_action('wp_ajax_' . self::$iden,__CLASS__ . '::process');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
 	}
 	public static function options_save($options){
 		if(isset($_POST['slidebox'])){
@@ -29,7 +29,7 @@ class theme_custom_slidebox{
 		}
 		return $options;
 	}
-	private static function get_cat_checkbox_list($name,$id,$selected_cat_ids = array()){
+	private static function get_cat_checkbox_list($name,$id,$selected_cat_ids = []){
 		$cats = get_categories(array(
 			'hide_empty' => false,
 			'orderby' => 'term_group',
@@ -67,7 +67,7 @@ class theme_custom_slidebox{
 		return $content;
 	}
 	public static function process(){
-		$output = array();
+		$output = [];
 		
 		/** 
 		 * if not image
@@ -144,7 +144,7 @@ class theme_custom_slidebox{
 			<td>
 				
 				<?php
-				$selected_cat_ids = isset($boxes[$placeholder]['catids']) ? (array)$boxes[$placeholder]['catids'] : array();
+				$selected_cat_ids = isset($boxes[$placeholder]['catids']) ? (array)$boxes[$placeholder]['catids'] : [];
 				echo self::get_cat_checkbox_list("slidebox[$placeholder][catids]","slidebox-catids-$placeholder",$selected_cat_ids);
 				?>
 			</td>
