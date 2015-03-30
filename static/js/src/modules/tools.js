@@ -3,7 +3,30 @@ define(function(require, exports, module){
 	
 	var $ = require('modules/jquery'),jQuery = $;
 
+	exports.ajax_loading_tip = function(s){
+		var $tip = document.getElementById('ajax-loading');
+		
+		if(!$tip){
+			$tip = document.createElement('div');
+			$tip.id = 'ajax-loading';
+			document.body.appendChild($tip);
+			
+			$tip.addEventListener('click',function(){
+				this.style.display = 'none';
+			});
+		}
 
+		if(s !== 'hide')
+			$tip.innerHTML = exports.status_tip('loading',s);
+		
+		$tip.style.display = s === 'hide' ? 'none' : 'block';
+	}
+	exports.param = function(obj){
+		return Object.keys(obj).map(function(key){ 
+			return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]); 
+		}).join('&');
+	}
+	
 	exports.ready = function(fn){
 		if (document.readyState != 'loading'){
 			fn();

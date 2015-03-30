@@ -130,65 +130,102 @@ class theme_custom_point{
 	public static function process(){
 		$output = [];
 
-		if(!current_user_can('create_users')){
-			$output['status'] = 'error';
-			$output['code'] = 'invaild_permission';
-			$output['msg'] = ___('Your are not enough permission to modify user.');
-			die(theme_features::json_format($output));
-		}
+		
+		$type = isset($_GET['type']) ? $_GET['type'] : null;
 
-		/**
-		 * set special event
-		 */
-		$special = isset($_GET['special']) ? (array)$_GET['special'] : null;
-		if(!empty($special)){
-			$invalidations = array(
-				'user-id' => array(
-					'msg' => ___('Invaild user ID.'),
-					'code' => 'invaild_user_id'
-				),
-				'point' => array(
-					'msg' => ___('Invaild point.'),
-					'code' => 'invaild_point'
-				),
-				'event' => array(
-					'msg' => ___('Invaild event.'),
-					'code' => 'invaild_event'
-				),
-			);
-			foreach($invalidations as $k => $v){
-				if(!isset($special[$k]) || empty($special[$k])){
+		switch($type){
+			/**
+			 * special
+			 */
+			case 'special':
+				if(!current_user_can('create_users')){
 					$output['status'] = 'error';
-					$output['code'] = $v['code'];
-					$output['msg'] = $v['msg'];
+					$output['code'] = 'invaild_permission';
+					$output['msg'] = ___('Your are not enough permission to modify user.');
 					die(theme_features::json_format($output));
 				}
-			}
-			/**
-			 * check user exist
-			 */
-			$user = get_user_by('id',$special['user-id']);
-			if(!$user){
-				$output['status'] = 'error';
-				$output['code'] = 'user_not_exist';
-				$output['msg'] = ___('Fuck you man, the user is not exist');
+				$special = isset($_GET['special']) && is_array($_GET['special']) ? $_GET['special'] : null;
+				if(empty($special)){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_param';
+					$output['msg'] = ___('Invaild param.');
+					die(theme_features::json_format($output));
+				}
+				$invalidations = array(
+					'user-id' => array(
+						'msg' => ___('Invaild user ID.'),
+						'code' => 'invaild_user_id'
+					),
+					'point' => array(
+						'msg' => ___('Invaild point.'),
+						'code' => 'invaild_point'
+					),
+					'event' => array(
+						'msg' => ___('Invaild event.'),
+						'code' => 'invaild_event'
+					),
+				);
+				foreach($invalidations as $k => $v){
+					if(!isset($special[$k]) || empty($special[$k])){
+						$output['status'] = 'error';
+						$output['code'] = $v['code'];
+						$output['msg'] = $v['msg'];
+						die(theme_features::json_format($output));
+					}
+				}
+				/**
+				 * check user exist
+				 */
+				$user = get_user_by('id',$special['user-id']);
+				if(!$user){
+					$output['status'] = 'error';
+					$output['code'] = 'user_not_exist';
+					$output['msg'] = ___('Fuck you man, the user is not exist');
+					die(theme_features::json_format($output));
+				}
+				/**
+				 * pass, set the new point for user
+				 */
+				self::action_add_history_special_event($special['user-id'],$special['point'],$special['event']);
+				$output['status'] = 'success';
+				$output['msg'] = sprintf(
+					___('The user %s(%d) point has set to %d.'),
+					$user->display_name,
+					$user->ID,
+					self::get_point($user->ID)
+				);
 				die(theme_features::json_format($output));
-			}
+				break;
 			/**
-			 * pass, set the new point for user
+			 * post-coin
 			 */
-			self::action_add_history_special_event($special['user-id'],$special['point'],$special['event']);
-			$output['status'] = 'success';
-			$output['msg'] = sprintf(
-				___('The user %s(%d) point has set to %d.'),
-				$user->display_name,
-				$user->ID,
-				self::get_point($user->ID)
-			);
-			die(theme_features::json_format($output));
-			
-		}/** end special event */
+			case 'post-coin':
+				$post_id = isset($_GET['post-id']) && is_int($_GET['post-id']) ? $_GET['post-id'] : null;
+				if(!$post_id){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_post_id';
+					$output['msg'] = ___('Invaild post ID');
+					die(theme_features::json_format($output));
+				}
+				
+				$post = get_post($post_id);
+				if(!$post){
+					$output['status'] = 'error';
+					$output['code'] = 'post_not_exist';
+					$output['msg'] = ___('The post does not exist');
+					die(theme_features::json_format($output));
+				}
+				
+				$giver_id = get_current_user_id();
+				
+				break;
+				
+		}
 		
+
+		/**
+		 * 
+		 */
 
 		die(theme_features::json_format($output));
 	}
@@ -227,7 +264,7 @@ class theme_custom_point{
 			'aff-signup' => [
 				'text' => ___('When aff sign-up')
 			],
-		);
+		];
 		if(empty($key)) return $types;
 		
 		return isset($types[$key]) ? $types[$key] : null;
@@ -514,6 +551,41 @@ switch($v['type']){
 		}
 		return $output;
 	}
+	public static function action_add_history_post_coin($post_id,$giver_id){
+		$post = get_post($post_id);
+		if(!$post)
+			return;
+		/**
+		 * add history for post author
+		 */
+		$meta = [
+			'type'=> 'receive-post-coin',
+			'timestamp' => current_time('timestamp'),
+			'post-id' => (int)$post_id,
+			'giver-user-id' => (int)$giver_id,
+		];
+		add_user_meta($post->post_author,self::$user_meta_key['history'],$meta);
+		/**
+		 * update point for post author
+		 */
+		$old_point = self::get_point($post->post_author);
+		update_user_meta($post->post_author,self::$user_meta_key['point'],$old_point + self::get_point_value('post-coin'));
+
+		/**
+		 * add history for giver
+		 */
+		$meta = [
+			'type'=> 'give-post-coin',
+			'timestamp' => current_time('timestamp'),
+			'post-id' => (int)$post_id,
+		];
+		add_user_meta($post->post_author,self::$user_meta_key['history'],$meta);
+		/**
+		 * update point for giver
+		 */
+		$old_point = self::get_point($giver_id);
+		update_user_meta($giver_id,self::$user_meta_key['point'],$old_point - self::get_point_value('post-coin'));
+	}
 	/**
 	 * HOOK - Add post-delete history to user meta
 	 *
@@ -535,7 +607,7 @@ switch($v['type']){
 		 * point
 		 */
 		$old_point = self::get_point($post->post_author);
-		update_user_meta($post->post_author,self::$user_meta_key['point',$old_point - self::get_point_value('post-delete')]);
+		update_user_meta($post->post_author,self::$user_meta_key['point'],$old_point - self::get_point_value('post-delete'));
 	}
 	/**
 	 * HOOK - Add sign-up history to user meta
@@ -552,7 +624,7 @@ switch($v['type']){
 		/**
 		 * update point
 		 */
-		update_user_meta($user_id,self::$user_meta_key['point'],(int)self::get_options('points')['signup'];
+		update_user_meta($user_id,self::$user_meta_key['point'],(int)self::get_options('points')['signup']);
 	}
 	/**
 	 * Add special event

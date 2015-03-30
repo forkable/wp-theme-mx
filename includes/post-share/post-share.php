@@ -120,15 +120,16 @@ class theme_post_share{
 	public static function options_default($opts){
 		ob_start();
 		?>
-<div class="bdshare_t bds_tools get-codes-bdshare" data-bdshare="{
-	'text':'%post_title_text% by %author% <?php echo ___('-- from %blog_name%');?>',
-	'url':'%post_url%',
-	'pic':'%img_url%'
+<div class="bdshare_t bdsharebuttonbox" data-tag="bd_share" data-bdshare="{
+	'bdText':'%post_title_text% by %author% <?php echo ___('-- from %blog_name%');?>',
+	'bdUrl':'%post_url%',
+	'bdPic':'%img_url%'
 }">
-	<span class="description"><?php echo esc_html(___('Share to: '));?></span>
-	<a class="bds_tsina" data-cmd="tsina" title="<?php echo esc_attr(sprintf(___('Share to %s'),___('Sina Weibo')));?>" href="javascript:void(0);"></a>
-	<a class="bds_qzone" data-cmd="qzone" href="javascript:void(0);" title="<?php echo esc_attr(sprintf(___('Share to %s'),___('QQ zone')));?>"></a>
-	<a class="bds_baidu" data-cmd="baidu" title="<?php echo esc_attr(sprintf(___('Share to %s'),___('Baidu')));?>" href="javascript:void(0);"></a>
+	<span class="description"><?php echo ___('Share to: ');?></span>
+	<a class="bds_tsina" data-cmd="tsina" title="<?php echo sprintf(___('Share to %s'),___('Sina Weibo'));?>" href="javascript:void(0);"></a>
+	<a class="bds_qzone" data-cmd="qzone" href="javascript:void(0);" title="<?php echo sprintf(___('Share to %s'),___('QQ zone'));?>"></a>
+	<a class="bds_tieba" data-cmd="tieba" title="<?php echo sprintf(___('Share to %s'),___('Tieba'));?>" href="javascript:void(0);"></a>
+	<a class="bds_weixin" data-cmd="weixin" title="<?php echo sprintf(___('Share to %s'),___('Wechat'));?>" href="javascript:void(0);"></a>
 	<a class="bds_more" data-cmd="more" href="javascript:void(0);"></a>
 </div>				
 <?php
@@ -177,7 +178,6 @@ class theme_post_share{
 			return false;
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.bdshare_js = '<?php echo esc_url(theme_features::get_theme_includes_js(__DIR__,'bdshare'));?>';
 			m.init();
 		});
 		<?php
