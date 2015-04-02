@@ -3,23 +3,58 @@ define(function(require, exports, module){
 	
 	var $ = require('modules/jquery'),jQuery = $;
 
-	exports.ajax_loading_tip = function(s){
-		var $tip = document.getElementById('ajax-loading');
+	/**
+	 * ajax_loading_tip
+	 *
+	 * @param string t Message type. success/error/info/loading...
+	 * @param string s Message
+	 * @param int Timeout to hide(second)
+	 * @version 1.0.0
+	 * @author KM@INN STUDIO
+	 */
+	exports.ajax_loading_tip = function(t,s,timeout){
+		var $t_container = document.getElementById('ajax-loading-container'),
+			 $t = document.getElementById('ajax-loading'),
+			 si;
 		
-		if(!$tip){
-			$tip = document.createElement('div');
-			$tip.id = 'ajax-loading';
-			document.body.appendChild($tip);
+		if(!$t_container){
+			var $close = document.createElement('i');
+			$close.setAttribute('class','btn-close fa fa-times');
 			
-			$tip.addEventListener('click',function(){
-				this.style.display = 'none';
+			$t_container = document.createElement('div');
+			$t_container.id = 'ajax-loading-container';
+
+			$t = document.createElement('div');
+			$t.id = 'ajax-loading';
+			
+			$t_container.appendChild($t)
+			$t_container.appendChild($close);
+			document.body.appendChild($t_container);
+			
+			$close.addEventListener('click',function(){
+				$t_container.style.display = 'none';
+				clearInterval(si);
 			});
 		}
 
-		if(s !== 'hide')
-			$tip.innerHTML = exports.status_tip('loading',s);
-		
-		$tip.style.display = s === 'hide' ? 'none' : 'block';
+		if(timeout > 0){
+			$close.innerHTML = '<span class="number">' + timeout + '</span>';
+			var si = setInterval(function(){
+				timeout--;
+				$close.innerHTML = '<span class="number">' + timeout + '</span>';
+				if(timeout <= 0){
+					$t_container.style.display = 'none';
+					clearInterval(si);
+					return;
+				}
+			},1000);
+		}
+		if(s !== 'hide'){
+			$t.innerHTML = exports.status_tip(t,s);
+			$t_container.style.display = 'block';
+		}else{
+			$t_container.style.display = 'none';
+		}
 	}
 	exports.param = function(obj){
 		return Object.keys(obj).map(function(key){ 

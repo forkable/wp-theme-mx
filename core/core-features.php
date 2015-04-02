@@ -57,7 +57,7 @@ class theme_features{
 			'theme_js' => self::get_theme_js(),
 			'theme_css' => self::get_theme_css(),
 			'theme_images' => self::get_theme_images_url(),
-			'process_url' => esc_url(self::get_process_url()),
+			'process_url' => self::get_process_url(),
 		);
 		$config['map'] = array(
 			array('.css','.css?v=' . $theme_version),
@@ -121,9 +121,9 @@ class theme_features{
 				 */
 				$self_basedir_src = 'basedir_' . $ext . '_src';
 				$self_basedir_min = 'basedir_' . $ext . '_min';
-				$found = stristr($file,self::$$self_basedir_src);
+				$found = strstr($file,self::$$self_basedir_src);
 				if($found !== false){
-					$file_min = str_ireplace(self::$$self_basedir_src,self::$$self_basedir_min,$file);
+					$file_min = str_replace(self::$$self_basedir_src,self::$$self_basedir_min,$file);
 					self::minify($file,$file_min);
 				}
 			}
@@ -718,7 +718,7 @@ class theme_features{
 	 * 
 	 * @param mixed 
 	 * @return string The process file url
-	 * @version 1.1.0
+	 * @version 1.1.1
 	 * @author KM@INN STUDIO
 	 * 
 	 */
@@ -746,7 +746,7 @@ class theme_features{
 		 * add action
 		 */
 		$query = '?' . http_build_query($param);
-		$admin_ajax_url = admin_url('admin-ajax.php') . $query;
+		$admin_ajax_url = $admin_ajax_url . $query;
 		return $admin_ajax_url;
 	}
 	/**

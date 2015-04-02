@@ -605,7 +605,7 @@ class theme_functions{
 	/** 
 	 * singular_content
 	 */
-	public static function singular_content($args = []){
+	public static function singular_content(array $args = []){
 		global $post;
 		
 		$defaults = array(
@@ -727,47 +727,25 @@ class theme_functions{
 			
 			<!-- post-footer -->
 			<footer class="post-footer post-metas panel-footer clearfix">
-				
-				<?php
-				/** 
-				 * thumb-up
-				 */
-				if(class_exists('theme_post_thumb') && theme_post_thumb::is_enabled()){
-					?>
-					<div class="post-thumb post-meta">
-						<a data-post-thumb="<?php echo $post->ID;?>,up" href="javascript:void(0);" class="theme-thumb theme-thumb-up" title="<?php echo ___('Good! I like it.');?>">
-							<i class="fa fa-thumbs-up"></i> 
-							<span class="count"><?php echo theme_post_thumb::get_thumb_up_count();?></span>
-							 <span class="tx hidden-xs"><?php echo ___('Good');?></span>
-						</a>
-						<!-- <a data-post-thumb="<?php echo $post->ID;?>,down" href="javascript:void(0);" class="theme-thumb theme-thumb-down" title="<?php echo ___('Bad idea!');?>">
-							<i class="fa fa-thumbs-down"></i> 
-							<span class="count"><?php echo theme_post_thumb::get_thumb_down_count();?></span>
-							<span class="tx hidden-xs"><?php echo ___('Bad');?></span>
-						</a> -->
-					</div>
-				
-				<?php } /** end thumb-up */ ?>
-
 				<?php
 				/**
-				 * bookmark
+				 * post coin
 				 */
-				if(class_exists('theme_bookmark')){
-					$is_marked = theme_bookmark::is_marked($post->ID,get_current_user_id());
+				if(class_exists('theme_post_coin') && class_exists('theme_custom_point')){
 					?>
-					<div class="post-meta post-bookmark">
-						<a 
-							href="javascript:void(0);" 
-							class="btn btn-primary <?php echo $is_marked ? 'marked' : null;?>" 
-							data-post-id="<?php echo $post->ID;?>"
-							
-						>
-							<i class="fa fa-heart"></i>
-							<?php echo (int)theme_bookmark::get_count($post->ID);?>
+					<div class="post-coin post-meta">
+						<a class="post-coin-btn" href="javascript:;" data-post-id="<?php echo $post->ID;?>">
+							<?php if(empty(theme_custom_point::get_point_img_url())){ ?>
+								<i class="fa fa-diamond"></i> 
+							<?php }else{ ?>
+								<img src="<?php echo esc_url(theme_custom_point::get_point_img_url());?>" alt="icon">
+							<?php } ?>
+							<span class="number"><?php echo theme_post_coin::get_post_coin($post->ID);?></span>
 						</a>
 					</div>
-				<?php } ?>
+					<?php
+				}
+				?>
 
 				<?php
 				/** 

@@ -73,7 +73,7 @@ class theme_custom_point{
 								<label for="<?php echo self::$iden;?>-<?php echo $k;?>"><?php echo $v['text'];?></label>
 							</th>
 							<td>
-								<input type="number" name="<?php echo self::$iden;?>[points][<?php echo $k;?>]" class="short-text" id="<?php echo self::$iden;?>-<?php echo $k;?>" value="<?php echo isset($points[$k]) ? $points[$k] : 0;?>">
+								<input type="<?php echo is_int($points[$k]) ? 'number' : 'text';?>" name="<?php echo self::$iden;?>[points][<?php echo $k;?>]" class="short-text" id="<?php echo self::$iden;?>-<?php echo $k;?>" value="<?php echo isset($points[$k]) ? $points[$k] : 0;?>">
 							</td>
 						</tr>
 					<?php } ?>
@@ -126,6 +126,14 @@ class theme_custom_point{
 			</table>
 		</fieldset>
 		<?php
+	}
+	public static function get_point_img_url(){
+		static $caches;
+		if(isset($caches['url']))
+			return $caches['url'];
+
+		$caches['url'] = self::get_options('point-img-url');
+		return $caches['url'];
 	}
 	public static function process(){
 		$output = [];
@@ -196,36 +204,8 @@ class theme_custom_point{
 				);
 				die(theme_features::json_format($output));
 				break;
-			/**
-			 * post-coin
-			 */
-			case 'post-coin':
-				$post_id = isset($_GET['post-id']) && is_int($_GET['post-id']) ? $_GET['post-id'] : null;
-				if(!$post_id){
-					$output['status'] = 'error';
-					$output['code'] = 'invaild_post_id';
-					$output['msg'] = ___('Invaild post ID');
-					die(theme_features::json_format($output));
-				}
-				
-				$post = get_post($post_id);
-				if(!$post){
-					$output['status'] = 'error';
-					$output['code'] = 'post_not_exist';
-					$output['msg'] = ___('The post does not exist');
-					die(theme_features::json_format($output));
-				}
-				
-				$giver_id = get_current_user_id();
-				
-				break;
-				
-		}
-		
 
-		/**
-		 * 
-		 */
+		}
 
 		die(theme_features::json_format($output));
 	}
@@ -236,40 +216,46 @@ class theme_custom_point{
 		return $cache;
 	}
 	public static function get_point_types($key = null){
-		$types = [
-			'signup' => [
-				'text' => ___('When sign-up')
-			],
-			'signin-daily' => [
-				'text' => ___('When sign-in daily')
-			],
-			'comment-publish' => [
-				'text' => ___('When publish comment')
-			],
-			'comment-delete' => [
-				'text' => ___('When delete comment')
-			],
-			'post-publish' => [
-				'text' => ___('When publish post')
-			],
-			'post-reply' => [
-				'text' => ___('When reply post')
-			],
-			'post-delete' => [
-				'text' => ___('When delete post')
-			],
-			'post-per-hundred-view'	=> [
-				'text' => ___('When post per hundred view ')
-			],
-			'aff-signup' => [
-				'text' => ___('When aff sign-up')
-			],
-		];
-		if(empty($key)) return $types;
+		static $caches = null;
+		if($caches === null){
+			
+			$caches = [
+				'signup' => [
+					'text' => ___('When sign-up')
+				],
+				'signin-daily' => [
+					'text' => ___('When sign-in daily')
+				],
+				'comment-publish' => [
+					'text' => ___('When publish comment')
+				],
+				'comment-delete' => [
+					'text' => ___('When delete comment')
+				],
+				'post-publish' => [
+					'text' => ___('When publish post')
+				],
+				'post-reply' => [
+					'text' => ___('When reply post')
+				],
+				'post-delete' => [
+					'text' => ___('When delete post')
+				],
+				'post-per-hundred-view'	=> [
+					'text' => ___('When post per hundred view ')
+				],
+				'aff-signup' => [
+					'text' => ___('When aff sign-up')
+				],
+			];
+			$caches = apply_filters('custom-point-types',$caches);
+		}
+		if(empty($key)) 
+			return $caches;
 		
-		return isset($types[$key]) ? $types[$key] : null;
+		return isset($caches[$key]) ? $caches[$key] : null;
 	}
-	public static function options_default($opts = null){
+	public static function options_default(array $opts = []){
 		$opts[self::$iden] = array(
 			'points' => array(
 				'signup'			=> 20, /** 初始 */
@@ -280,19 +266,20 @@ class theme_custom_point{
 				'post-reply' 		=> 1, /** 文章被回复 */
 				'post-delete'		=> -5,/** 文章被删除 */
 				'post-per-hundred-view' => 5, /** 文章每百查看 */
-				'aff-signup'		=> 5, /** 推广注册 */			
+				'aff-signup'		=> 5, /** 推广注册 */
 			),
 			'point-name' 			=> ___('Cat-paw'), /** 名称 */
 			'point-des2' => ___('Point can exchange many things.'),
 			'point-img-url' => 'http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif',
 		);
+		$opts[self::$iden] = apply_filters('custom-point-options-default',$opts[self::$iden]);
+		
 		return $opts;
 	}
-	public static function options_save($opts){
-		if(!isset($_POST[self::$iden]))
-			return $opts;
-			
-		$opts[self::$iden] = $_POST[self::$iden];
+	public static function options_save(array $opts = []){
+		if(isset($_POST[self::$iden]))
+			$opts[self::$iden] = $_POST[self::$iden];
+		
 		return $opts;
 	}
 	public static function get_point_name(){

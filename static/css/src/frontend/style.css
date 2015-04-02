@@ -86,6 +86,7 @@ label{
 	box-sizing: border-box;*/
 }
 body{
+	position: relative;
 	font-family: STheiti,Verdana,'Microsoft Yahei',arial,sans-serif;
 	/*font-size: 14px;*/
 	background: #E3E3E3;
@@ -1147,6 +1148,47 @@ label.error{
 }
 	.crumb-title .avatar{
 		margin-right: 20px;
+	}
+
+/**
+ * #ajax-loading
+ */
+#ajax-loading-container{
+	position: fixed;
+	left: 0;
+	top: 0;
+	background: rgba(255,255,255,.95);
+	z-index: 100000;
+	width: 100%;
+	box-shadow: 0 0 20px rgba(0,0,0,.5);
+	text-align: center;
+	padding: 10px;
+	font-size: 20px;
+	line-height: 30px;
+}
+	#ajax-loading-container .btn-close{
+		position: absolute;
+		top: 10px;
+		right: 0;
+		margin-right: 20px;
+		cursor: pointer;
+		font-size: 30px;
+	}
+		#ajax-loading-container .btn-close:hover{
+			color:#D9534F;
+		}
+		#ajax-loading-container .btn-close .number{
+			font-size: 15px;
+			padding-left: 5px;
+		}
+	#ajax-loading-container .tip-status{
+		display: inline;
+		margin: 0 auto;
+		background: none;
+		border: none;
+	}
+	#ajax-loading{
+		margin: 0 40px;
 	}
 /**
  * .mx-sign-panel

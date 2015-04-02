@@ -2,7 +2,7 @@
 /**
  * @version 1.0.0
  */
-add_filter('custom_post_fav',function($fns){
+add_filter('theme_includes',function($fns){
 	$fns[] = 'custom_post_fav::init';
 	return $fns;
 });
@@ -21,6 +21,10 @@ class custom_post_fav{
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 
 		add_action('before_delete_post',__CLASS__ . '::sync_delete_post');
+
+		add_filter('frontend_seajs_alias',__CLASS__ . '::frontend_seajs_alias');
+		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
+
 	}
 	public static function sync_delete_post($post_id){
 		$post = get_post($post_id);
@@ -436,5 +440,27 @@ class custom_post_fav{
 		 */
 		return count($old_post_users);
 	}
-
+	public static function frontend_seajs_alias(array $alias =[]){
+		if(!is_singular('post'))
+			return $alias;
+			
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+		return $alias;
+	}
+	public static function frontend_seajs_use(){
+		//if(!is_singular('post'))
+		//	return;
+		//global $post;
+		?>
+		seajs.use(['<?php echo self::$iden;?>'],function(m){
+			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?php echo ___('Server error.');?>';
+			m.process_url = '<?php echo theme_features::get_process_url([
+				'action' => self::$iden,
+				'type' => 'add'
+			]);?>';
+			m.init();
+		});
+		<?php
+	}
 }

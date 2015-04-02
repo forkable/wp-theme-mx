@@ -7,11 +7,12 @@ define(function(require, exports, module){
 		process_url : '',
 		post_id : '',
 		lang : {
-			M00001 : 'Loading, please wait',
-			E00001 : 
+			M00001 : 'Loading, please wait...',
+			E00001 : 'Server error.'
 		}
 	}
 	exports.init = function(){
+		tools.ajax_loading_tip('success','test text.',25);
 		tools.ready(exports.bind);
 	}
 
@@ -25,14 +26,14 @@ define(function(require, exports, module){
 	}
 
 	function ajax(){
-		tools.ajax_loading_tip(config.lang.M00001);
+		tools.ajax_loading_tip('loading',config.lang.M00001);
 		
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET',config.process_url + '&post-id=' + caches.$btn.getAttribute('data-post-id'));
 		xhr.onload = function(){
 			if(xhr.status >= 200 && xhr.status < 400){
 				var data;
-				try{data = JSON.parse(string.trim(request.responseText);}catch(e){}
+				try{data = JSON.parse(string.trim(request.responseText));}catch(e){}
 
 				if(data && data.status){
 					done(data);
@@ -43,7 +44,7 @@ define(function(require, exports, module){
 			}
 		};
 		xhr.onerror = function(){
-			tools.ajax_loading_tip(config.lang.E00001);
+			tools.ajax_loading_tip('error',config.lang.E00001);
 		}
 		xhr.send();
 
@@ -52,13 +53,14 @@ define(function(require, exports, module){
 		}
 		function done(data){
 			if(data.status === 'success'){
-				
+				//tools.ajax_loading_tip(success)
 			}else{
 				
 			}
+			tools.ajax_loading_tip(data.status,data.msg);
 		}
 		function fail(text){
-			tools.ajax_loading_tip(text);
+			tools.ajax_loading_tip('error',text);
 		}
 		
 	}
