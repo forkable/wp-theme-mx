@@ -8,14 +8,15 @@ define(function(require, exports, module){
 				common: {
 					"bdSnsKey": {},
 					"bdText": "",
+					"bdMiniList":false,
 					"bdMini": "2",
 					"bdPic": "",
 					"bdStyle": "0",
-					"bdSize": "16"
+					"bdSize": 16
 				},
 				share: [],
 				image: {},
-				selectShare: {}
+				selectShare: false
 			},
 			$bdboxes = document.querySelectorAll('.bdsharebuttonbox'),
 			$js = document.createElement('script');

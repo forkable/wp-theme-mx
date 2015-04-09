@@ -7,7 +7,7 @@
  */
 add_filter('get_comment_author_url',function($url, $comment_ID, $comment){
 	static $caches;
-	$cache_id = crc32(serialize(func_get_args()));
+	$cache_id = md5(serialize(func_get_args()));
 	if(isset($caches[$cache_id]))
 		return $caches[$cache_id];
 
@@ -27,7 +27,7 @@ add_filter('get_comment_author_url',function($url, $comment_ID, $comment){
 add_filter('get_comment_author_email',function($comment_author_email, $comment_ID, $comment){
 	
 	static $caches;
-	$cache_id = crc32(serialize(func_get_args()));
+	$cache_id = md5(serialize(func_get_args()));
 	if(isset($caches[$cache_id]))
 		return $caches[$cache_id];
 
@@ -46,7 +46,7 @@ add_filter('get_comment_author_email',function($comment_author_email, $comment_I
  */
 add_filter('comment_email',function($comment_author_email, $comment){
 	static $caches;
-	$cache_id = crc32(serialize(func_get_args()));
+	$cache_id = md5(serialize(func_get_args()));
 	if(isset($caches[$cache_id]))
 		return $caches[$cache_id];
 		

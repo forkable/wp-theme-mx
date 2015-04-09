@@ -1,5 +1,4 @@
 .bdshare_t{
-
 }
 	.bdshare_t .description{
 		float:left;
@@ -8,12 +7,12 @@
 	}
 html .bdsharebuttonbox .bds_more,
 html .bdsharebuttonbox a{
-	display:inline;
+	display:inline-block;
 	float:none !important;
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
-	margin: 0 3px 0 0;
+	margin: 2px 3px 0 0;
 
 }
 

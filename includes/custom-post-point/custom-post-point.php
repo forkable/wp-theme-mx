@@ -60,7 +60,7 @@ class custom_post_point{
 			'expire' => 3600*24,
 		];
 		$args = wp_parse_args($args,$defaults);
-		$cache_id = crc32(serialize($args));
+		$cache_id = md5(serialize($args));
 		$caches = wp_cache_get('most_point_posts',self::$iden);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
@@ -113,7 +113,7 @@ class custom_post_point{
 		if(isset($caches[$post_id]))
 			return $caches[$post_id];
 
-		$users = (array)self::get_psot_meta($post_id,self::$post_meta_key['users']);
+		$users = (array)self::get_post_meta($post_id,self::$post_meta_key['users']);
 
 		$caches[$post_id] = 0;
 		foreach($users as $v){
@@ -127,7 +127,7 @@ class custom_post_point{
 		if(isset($caches[$post_id]))
 			return $caches[$post_id];
 
-		$users = (array)self::get_psot_meta($post_id,self::$post_meta_key['users']);
+		$users = (array)self::get_post_meta($post_id,self::$post_meta_key['users']);
 
 		$caches[$post_id] = 0;
 		foreach($users as $v){
@@ -138,7 +138,7 @@ class custom_post_point{
 	}
 	private static function get_post_meta($post_id,$meta_key){
 		static $caches = [];
-		$cache_id = crc32($post_id . $meta_key);
+		$cache_id = md5($post_id . $meta_key);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 
@@ -175,12 +175,12 @@ class custom_post_point{
 			'posts_per_page' => 10,
 			'paged' => 1,
 		];
-		$query_args = wp_parse_args($query_args,$defaults);		$cache_id = crc32($user_id . serialize($query_args));
+		$query_args = wp_parse_args($query_args,$defaults);		$cache_id = md5($user_id . serialize($query_args));
 		
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
-		$post_ids = (array)get_psot_meta($user_id,self::$user_meta_key['posts'],true);
+		$post_ids = (array)get_post_meta($user_id,self::$user_meta_key['posts'],true);
 		
 		if(empty($post_ids)){
 			$caches[$cache_id] = false;
@@ -194,7 +194,8 @@ class custom_post_point{
 	}
 	public static function filter_custom_point_types(array $types = []){
 		$types['post-swap'] = [
-			'text' => ___('When post point swap')
+			'text' => ___('When post point swap'),
+			'des' => ___('Use commas to separate multiple point, first as the default.'),
 		];
 		return $types;
 	}
@@ -204,12 +205,18 @@ class custom_post_point{
 	}
 	public static function get_point_values(){
 		static $cache = null;
-		$values = explode(',',custom_point::get_point_value('post-swap'));
 
-		return array_map(function($v){
-			if(is_int($v))
-				return $v;
+		if($cache !== null)
+			return $cache;
+			
+		$values = explode(',',theme_custom_point::get_point_value('post-swap'));
+		
+		$cache = array_map(function($v){
+			if(is_string($v))
+				return (int)$v;
 		},$values);
+		
+		return $cache;
 	}
 	public static function process(){
 		$output = [];
@@ -219,7 +226,7 @@ class custom_post_point{
 
 		$type = isset($_GET['type']) ? $_GET['type'] : null;
 
-		$post_id = isset($_GET['post-id']) && is_int($_GET['post-id']) ? $_GET['post-id'] : null;
+		$post_id = isset($_POST['post-id']) && is_string($_POST['post-id']) ? (int)$_POST['post-id'] : null;
 		if(empty($post_id)){
 			$output['status'] = 'error';
 			$output['code'] = 'invaild_post_id';
@@ -245,7 +252,7 @@ class custom_post_point{
 				/**
 				 * points
 				 */
-				$points = isset($_GET['points']) && is_int($_GET['points']) ? $_GET['points'] : null;
+				$points = isset($_POST['points']) && is_string($_POST['points']) ? (int)$_POST['points'] : null;
 				if(!in_array($points,self::get_point_values())){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_point_value';
@@ -259,7 +266,7 @@ class custom_post_point{
 				if(!$post_givers){
 					$output['status'] = 'error';
 					$output['code'] = 'error_incr_post_givers';
-					$output['msg'] = ___('System can not increase post givers');
+					$output['msg'] = ___('Sorry, system can not increase post givers, maybe you are post author.');
 					die(theme_features::json_format($output));
 				}else{
 					/**
@@ -269,11 +276,11 @@ class custom_post_point{
 					if(!$points_count){
 						$output['status'] = 'error';
 						$output['code'] = 'error_incr_points_count';
-						$output['msg'] = ___('System can not increase post points count.');
+						$output['msg'] = ___('Sorry, system can not increase post points count.');
 						die(theme_features::json_format($output));
 					}
 					/**
-					 * incr giver psots
+					 * incr giver posts
 					 */
 					$giver_posts = self::incr_giver_posts($post_id,$giver_id,$points);
 					if(!$giver_posts){
@@ -461,7 +468,7 @@ class custom_post_point{
 			return false;
 			
 
-		$givers = (array)get_post_meta($psot_id,self::$post_meta_key['users'],true);
+		$givers = (array)get_post_meta($post_id,self::$post_meta_key['users'],true);
 		
 		/**
 		 * if is new point user, do not remove
@@ -507,13 +514,97 @@ class custom_post_point{
 		?>
 		seajs.use(['<?php echo self::$iden;?>'],function(m){
 			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?php echo ___('Server error.');?>';
-			m.process_url = '<?php echo theme_features::get_process_url([
+			m.config.lang.E00001 = '<?php echo ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
+			m.config.process_url = '<?php echo theme_features::get_process_url([
 				'action' => self::$iden,
 				'type' => 'incr'
 			]);?>';
 			m.init();
 		});
+		<?php
+	}
+	public static function post_btn($post_id){
+		$point_img = theme_custom_point::get_point_img_url();
+		$point_values = (array)self::get_point_values();
+
+		$current_user_id = get_current_user_id();
+	
+		if(!$current_user_id){
+			?>
+			<a href="<?php echo wp_login_url(get_current_url());?>" class="btn btn-info">
+				<?php if(empty($point_img)){ ?>
+					<i class="fa fa-diamond"></i> 
+				<?php }else{ ?>
+					<img src="<?php echo esc_url($point_img);?>" alt="icon">
+				<?php } ?>
+				<strong class="number"><?php echo self::get_post_points_count($post_id);?></strong>
+				<i> / </i>
+				<?php echo ___('Login to give');?>
+			</a>
+			<?php
+			return;
+		}
+		$voted = isset(self::get_post_givers($post_id)[$current_user_id]);
+
+		
+		
+		?>
+		<div class="<?php echo $voted ? 'disabled' : 'hide';?> btn btn-info btn-lg">
+			<?php if(empty($point_img)){ ?>
+				<i class="fa fa-diamond"></i> 
+			<?php }else{ ?>
+				<img src="<?php echo esc_url($point_img);?>" alt="icon">
+			<?php } ?>
+			<strong class="number"><?php echo self::get_post_points_count($post_id);?></strong>
+			<i> / </i>
+			<?php echo sprintf(___('I gave %d %s'),'<span id="post-point-gave-number">-</span>',theme_custom_point::get_point_name());?>
+		</div>
+
+		<?php
+		if($voted)
+			return;
+		
+		$count_point_values = count($point_values);
+		$default_point_value = $point_values[0];
+		if($count_point_values > 1){
+			sort($point_values);
+		}
+
+		?>
+		<div id="post-btn-group-<?php echo $post_id;?>" class="btn-group btn-group-lg">
+			<a href="javascript:;" class="post-point-btn btn btn-info" data-post-id="<?php echo $post_id;?>" data-points="<?php echo $default_point_value;?>">
+				<?php if(empty($point_img)){ ?>
+					<i class="fa fa-diamond"></i> 
+				<?php }else{ ?>
+					<img src="<?php echo esc_url($point_img);?>" alt="icon">
+				<?php } ?>
+				
+				<strong class="number" id="post-point-number-<?php echo $post_id;?>"><?php echo self::get_post_points_count($post_id);?></strong>
+
+				<i> / </i>
+				
+				<?php echo esc_html(sprintf(___('Give %d %s'),$default_point_value,theme_custom_point::get_point_name()));?>
+				
+			</a>
+			
+			<?php if($count_point_values > 1){ ?>
+				<span class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+					<span class="caret"></span>
+					<span class="sr-only"><?php ___('Toggle Dropdown');?></span>
+				</span>
+				<ul class="dropdown-menu" role="menu">
+					<?php foreach($point_values as $v){ ?>
+						<li><a href="javascript:;" class="post-point-btn" data-post-id="<?php echo $post_id;?>" data-points="<?php echo $v;?>">
+							<?php 
+							echo sprintf(___('Give %d %s'),
+								$v,
+								theme_custom_point::get_point_name()
+							);?>
+						</a></li>
+					<?php } ?>
+				</ul>
+			<?php } ?>
+		</div>
 		<?php
 	}
 }

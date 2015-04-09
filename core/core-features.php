@@ -46,7 +46,7 @@ class theme_features{
 		<script>
 		<?php
 		$theme_version = self::get_theme_info('version');
-		$config = [];
+		$config = array();
 		$config['base'] = self::get_theme_js();
 		$config['paths'] = array(
 			'theme_js' => self::get_theme_js(),
@@ -57,7 +57,7 @@ class theme_features{
 			'theme_js' => self::get_theme_js(),
 			'theme_css' => self::get_theme_css(),
 			'theme_images' => self::get_theme_images_url(),
-			'process_url' => self::get_process_url(),
+			'process_url' => esc_url(self::get_process_url()),
 		);
 		$config['map'] = array(
 			array('.css','.css?v=' . $theme_version),
@@ -121,9 +121,9 @@ class theme_features{
 				 */
 				$self_basedir_src = 'basedir_' . $ext . '_src';
 				$self_basedir_min = 'basedir_' . $ext . '_min';
-				$found = strstr($file,self::$$self_basedir_src);
+				$found = stristr($file,self::$$self_basedir_src);
 				if($found !== false){
-					$file_min = str_replace(self::$$self_basedir_src,self::$$self_basedir_min,$file);
+					$file_min = str_ireplace(self::$$self_basedir_src,self::$$self_basedir_min,$file);
 					self::minify($file,$file_min);
 				}
 			}
@@ -231,7 +231,7 @@ class theme_features{
 	public static function get_theme_file_url($file_basename = null,$mtime = false){
 		static $caches;
 		
-		$cache_id = crc32($file_basename.$mtime);
+		$cache_id = md5($file_basename.$mtime);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
@@ -319,7 +319,7 @@ class theme_features{
 		/**
 		 * cache
 		 */
-		$cache_id = crc32($file_basename.$url_only.$mtime);
+		$cache_id = md5($file_basename.$url_only.$mtime);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
@@ -371,7 +371,7 @@ class theme_features{
 		/**
 		 * cache
 		 */
-		$cache_id = crc32($file_basename.serialize($args).$mtime);
+		$cache_id = md5($file_basename.serialize($args).$mtime);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 
@@ -492,7 +492,7 @@ class theme_features{
 	public static function get_theme_includes_js($DIR = null,$filename = 'init',$mtime = true){
 		static $caches;
 		
-		$cache_id = crc32($DIR.$filename.$mtime);
+		$cache_id = md5($DIR.$filename.$mtime);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
@@ -526,7 +526,7 @@ class theme_features{
 	public static function get_theme_includes_css($DIR = null,$filename = 'style',$mtime = true){
 		static $caches;
 		
-		$cache_id = crc32($DIR.$filename.$mtime);
+		$cache_id = md5($DIR.$filename.$mtime);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
@@ -559,7 +559,7 @@ class theme_features{
 	public static function get_theme_includes_image($DIR = null,$filename = null){
 		static $caches;
 		
-		$cache_id = crc32($DIR.$filename);
+		$cache_id = md5($DIR.$filename);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
@@ -697,7 +697,7 @@ class theme_features{
 	public static function get_theme_images_url($file_basename = null,$mtime = false){
 		static $caches;
 		
-		$cache_id = crc32($file_basename.$mtime);
+		$cache_id = md5($file_basename.$mtime);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
@@ -718,7 +718,7 @@ class theme_features{
 	 * 
 	 * @param mixed 
 	 * @return string The process file url
-	 * @version 1.1.1
+	 * @version 1.1.0
 	 * @author KM@INN STUDIO
 	 * 
 	 */
@@ -746,7 +746,7 @@ class theme_features{
 		 * add action
 		 */
 		$query = '?' . http_build_query($param);
-		$admin_ajax_url = $admin_ajax_url . $query;
+		$admin_ajax_url = admin_url('admin-ajax.php') . $query;
 		return $admin_ajax_url;
 	}
 	/**
@@ -851,7 +851,7 @@ class theme_features{
 	public static function get_theme_url($file_basename = null,$mtime = false){
 		
 		static $caches;
-		$cache_id = crc32($file_basename.$mtime);
+		$cache_id = md5($file_basename.$mtime);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
@@ -874,7 +874,7 @@ class theme_features{
 	 */
 	public static function get_theme_path($file_basename = null){
 		static $caches;
-		$cache_id = crc32($file_basename);
+		$cache_id = md5($file_basename);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
@@ -894,7 +894,7 @@ class theme_features{
 	 */
 	public static function get_theme_includes_path($file_basename = null){
 		static $caches;
-		$cache_id = crc32($file_basename);
+		$cache_id = md5($file_basename);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
@@ -1107,11 +1107,15 @@ class theme_features{
 	 * 
 	 * 
 	 * @return int The current category id
-	 * @version 1.0.1
+	 * @version 1.1.0
 	 * @author KM@INN STUDIO
 	 * 
 	 */
 	public static function get_current_cat_id(){
+		static $cache = null;
+		if($cache !== null)
+			return $cache;
+			
 		global $cat,$post;
 		if($cat){
 			$cat_obj = get_category($cat);
@@ -1120,7 +1124,8 @@ class theme_features{
 			$cat_obj = get_the_category($post->ID);
 			$cat_id = isset($cat_obj[0]) ? $cat_obj[0]->cat_ID : 0;
 		}
-		return $cat_id;
+		$cache = $cat_id;
+		return $cache;
 	}
 	/**
 	 * get the root of category id
@@ -1307,7 +1312,7 @@ class theme_features{
 		$defaults = array(
 			'nav_class' => 'pagination-pn',
 			'add_fragment' => 'post-' . $post->ID,
-			'numbers_class' => [],
+			'numbers_class' => array(),
 			'middle_class' => '',
 		);
 		$r = wp_parse_args($args,$defaults);
@@ -1766,7 +1771,7 @@ class theme_features{
 			'hide_empty' => false,
 			'exclude' => 1
 		));
-		$cat_ids = isset($opt[$ids_name]) ? (array)$opt[$ids_name] : [];
+		$cat_ids = isset($opt[$ids_name]) ? (array)$opt[$ids_name] : array();
 		
 		if(!empty($cats)){
 			foreach($cats as $cat){

@@ -73,7 +73,15 @@ class theme_custom_point{
 								<label for="<?php echo self::$iden;?>-<?php echo $k;?>"><?php echo $v['text'];?></label>
 							</th>
 							<td>
-								<input type="<?php echo is_int($points[$k]) ? 'number' : 'text';?>" name="<?php echo self::$iden;?>[points][<?php echo $k;?>]" class="short-text" id="<?php echo self::$iden;?>-<?php echo $k;?>" value="<?php echo isset($points[$k]) ? $points[$k] : 0;?>">
+								<input 
+									type="<?php echo isset($points[$k]) && is_int($points[$k]) ? 'number' : 'text';?>" 
+									name="<?php echo self::$iden;?>[points][<?php echo $k;?>]" class="short-text" 
+									id="<?php echo self::$iden;?>-<?php echo $k;?>" 
+									value="<?php echo isset($points[$k]) ? $points[$k] : 0;?>"
+								>
+								<?php if(isset(self::get_point_types($k)['des'])){ ?>
+									<span class="description"><?php echo self::get_point_types($k)['des'];?></span>
+								<?php } ?>
 							</td>
 						</tr>
 					<?php } ?>

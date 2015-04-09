@@ -219,7 +219,7 @@ class theme_custom_slidebox{
 	public static function display_frontend(){
 		$boxes = (array)theme_options::get_options(self::$iden);
 	
-		$cache_id = crc32(serialize($boxes));
+		$cache_id = md5(serialize($boxes));
 		$cache = wp_cache_get($cache_id);
 		if($cache){
 			echo $cache;

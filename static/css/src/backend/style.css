@@ -29,26 +29,6 @@
 	margin-bottom:10px;
 	border: 1px solid rgba(0,0,0,.1);
 }
-	@-webkit-keyframes spinner{
-		from {-webkit-transform:rotate(0deg);}
-		to {-webkit-transform:rotate(360deg);}
-	}
-	@keyframes spinner{
-		0%{transform: rotate(0deg);}
-		100%{transform: rotate(360deg);}
-	}
-	.tip-status .icon-spinner{
-		display: inline-block;
-		-webkit-animation-name: spinner;
-		-webkit-animation-duration: 1s;
-		-webkit-animation-iteration-count: infinite;
-		-webkit-animation-timing-function: linear;
-		-webkit-transform-origin:50% 47%;
-		animation: spinner 1000ms infinite linear;
-		transform-origin:50% 46%;
-    }
-
-
 	/** 
 	 * .ui-dialog-content
 	 */
@@ -151,13 +131,13 @@ h3{
 			display:inline-block;
 			background:rgb(245,245,245);
 			border:1px solid #DDD;
-			margin:0 .5rem 0 0;
 			padding:.5rem 1rem;
 			box-shadow:0 1px 0 0 white inset;
+			margin-left: 5px;
 			cursor:pointer;
 			color:#B4B4B4;
 			text-shadow:0 1px 0 white;
-			border-radius:6px 6px 0 0;
+			border-radius: 5px 5px 0 0;
 		}
 		#backend-tab .tabtitle .tabbtn:hover{
 			background:rgb(245,245,245);
@@ -177,7 +157,6 @@ h3{
 			background:-o-linear-gradient(rgb(245,245,245), rgb(250,251,253));
 			background:-webkit-gradient(linear,from(rgb(245,245,245)),to(rgb(250,251,253)));
 			border-bottom:1px solid rgb(250,251,253);
-			font-weight:bold;
 			color:#21759B;
 			cursor:default;
 			position:relative;
@@ -197,7 +176,7 @@ h3{
 		position:relative;
 		background:rgb(250,251,253);
 		margin-left:0;
-		padding:10px 20px 0 120px;
+		padding:10px 20px 0 20px;
 		border:1px solid #DDD;
 		overflow:hidden;
 		box-shadow:0 0px 3px rgba(0,0,0,0.1);
@@ -208,7 +187,10 @@ h3{
 			margin-left:0;
 			background:rgb(250,251,253);
 		}
+
+
 .tabnav-container{
+	display: none;
 	background:rgb(250,251,253);
 	background:linear-gradient(left,rgb(245,245,245),rgb(250,251,253));
 	background:-moz-linear-gradient(left,rgb(245,245,245),rgb(250,251,253));
@@ -223,6 +205,7 @@ h3{
 	
 }
 .tab-title{
+	display: none;
 	float: left;
 	padding:.5rem 1rem;
 	font-weight: bold;
@@ -268,7 +251,7 @@ textarea.text-code{
 }
 
 /* reset_options */
-.label-options-reset{
+.label-options-restore{
 	color:#BC0B0B;
 	cursor:help;
 	float:right;
@@ -282,4 +265,25 @@ html #wpadminbar{
 
 html .regular-text:hover{
 	border-color:#A0A0A0 #B9B9B9 #B9B9B9;
+}
+
+#backend-tab .tabbtn .tx{
+	padding-left: 5px;
+	display: none;
+}
+
+
+@media(min-width: 768px){
+	#backend-tab .tabbtn .tx{
+		display: inline;
+	}
+	.tabnav-container{
+		display: block;
+	}
+	#backend-tab .tabbody{
+		padding-left: 120px;
+	}
+	.tab-title{
+		display: block;
+	}
 }

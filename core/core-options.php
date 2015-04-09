@@ -3,7 +3,7 @@
  * Theme Options
  * the theme options and show admin control planel
  * 
- * @version 4.2.2
+ * @version 5.0.0
  * @author KM@INN STUDIO
  * 
  */
@@ -12,7 +12,7 @@ add_action('admin_menu','theme_options::add_page');
 add_action('admin_bar_menu','theme_options::add_bar',61);
 class theme_options{
 	public static $iden = 'theme_options';
-	public static $opts;
+	public static $opts = [];
 	/**
 	 * init
 	 * 
@@ -25,7 +25,7 @@ class theme_options{
 			return false;
 			
 		add_action('admin_head',__CLASS__ . '::backend_header');
-		self::save_options();
+		self::options_save();
 		self::redirect();
 	}
 	/**
@@ -41,7 +41,7 @@ class theme_options{
 	public static function get_options($key = null){
 
 		/** Default options hook */
-		self::$opts = wp_parse_args(get_option(self::$iden),apply_filters('theme_options_default',[]));
+		self::$opts = wp_parse_args(get_theme_mods(),apply_filters('theme_options_default',[]));
 
 		if($key){
 			return isset(self::$opts[$key]) ? self::$opts[$key] : null;
@@ -58,7 +58,6 @@ class theme_options{
 			return false;
 
 		echo theme_features::get_theme_css('modules/fa-fonts','normal');
-		echo theme_features::get_theme_css('backend/fonts','normal');
 		echo theme_features::get_theme_css('backend/style','normal');
 		/**
 		 * add admin_css hook 
@@ -67,7 +66,7 @@ class theme_options{
 		?><script id="seajsnode" src="<?php echo theme_features::get_theme_js('seajs/sea');?>"></script>
 		<script>
 		<?php
-		$config = [];
+		$config = array();
 		$config['base'] = esc_js(theme_features::get_theme_js());
 		$config['paths'] = array(
 			'theme_js' => esc_js(theme_features::get_theme_js()),
@@ -125,43 +124,55 @@ class theme_options{
 					<?php echo status_tip('success',___('Settings have been saved.'));?>
 				</div>
 			<?php } ?>
-			<form id="backend-options-frm" method="post">
-				<?php
-				/**
-				 * loading
-				 */
-				echo '<div class="backend-tab-loading">' . status_tip('loading',___('Loading, please wait...')) . '</div>';
-				?>
+			<form id="backend-options-frm" method="post" action="">
+				
+				<div class="backend-tab-loading"><?php echo status_tip('loading',___('Loading, please wait...'));?></div>
+				
 				<dl id="backend-tab" class="backend-tab">
 					<?php do_action('before_base_settings');?>
-					<dt title="<?php echo ___('Theme common settings.');?>"><span class="icon-setting"></span><span class="after-icon hide-on-mobile"><?php echo ___('Basic Settings');?></span></dt>
+					<dt title="<?php echo ___('Theme common settings.');?>">
+						<i class="fa fa-cog"></i>
+						<span class="tx"><?php echo ___('Basic Settings');?></span>
+					</dt>
 					<dd>
 						<!-- the action of base_settings -->
 						<?php do_action('base_settings');?>
 					</dd><!-- BASE SETTINGS -->
 					
 					<?php do_action('before_page_settings');?>
-					<dt title="<?php echo ___('Theme appearance/template settings.');?>"><span class="icon-insert-template"></span><span class="after-icon hide-on-mobile"><?php echo ___('Page Settings');?></span></dt>
+					<dt title="<?php echo ___('Theme appearance/template settings.');?>">
+						<i class="fa fa-paint-brush"></i>
+						<span class="tx"><?php echo ___('Page Settings');?></span>
+					</dt>
 					<dd>
 						<!-- the action of page_settings -->
 						<?php do_action('page_settings');?>
 					</dd><!-- PAGE SETTINGS -->
 					
 					<?php do_action('before_advanced_settings');?>
-					<dt title="<?php echo ___('Theme special settings, you need to know what are you doing.');?>"><span class="icon-settings"></span><span class="after-icon hide-on-mobile"><?php echo ___('Advanced Settings');?></span></dt>
+					<dt title="<?php echo ___('Theme special settings, you need to know what are you doing.');?>">
+						<i class="fa fa-cogs"></i>
+						<span class="tx"><?php echo ___('Advanced Settings');?></span>
+					</dt>
 					<dd>
 						<!-- the action of advanced_settings -->
 						<?php do_action('advanced_settings');?>
 					</dd><!-- ADVANCED SETTINGS -->
 										
 					<?php do_action('before_dev_settings');?>
-					<dt><span class="icon-console"></span><span class="after-icon hide-on-mobile"><?php echo ___('Developer Mode');?></span></dt>
+					<dt>
+						<i class="fa fa-code"></i>
+						<span class="tx"><?php echo ___('Developer Mode');?></span>
+					</dt>
 					<dd>
 						<?php do_action('dev_settings');?>
 					</dd><!-- DEVELOPER SETTINGS -->
 					
 					<?php do_action('before_help_settings');?>
-					<dt><span class="icon-help"></span><span class="after-icon hide-on-mobile"><?php echo ___('About & Help');?></span></dt>
+					<dt>
+						<i class="fa fa-question-circle"></i>
+						<span class="tx"><?php echo ___('About &amp; Help');?></span>
+					</dt>
 					<dd>
 						<?php do_action('help_settings');?>
 					</dd><!-- ABOUT and HELP -->
@@ -169,9 +180,12 @@ class theme_options{
 				</dl>
 		
 				<p>
-					<input type="hidden" value="save_options" name="action" />
+					<input type="hidden" value="options-save" name="action" />
 					<input type="submit" value="<?php echo ___('Save all settings');?>" class="button button-primary button-large"/>
-					<label for="options-reset" class="label-options-reset" title="<?php echo ___('Something error with theme? Try to restore:)');?>"><input id="options-reset" name="reset_options" type="checkbox" value="1"/> <?php echo ___('Restore default theme options');?></label>
+					<label for="options-restore" class="label-options-restore" title="<?php echo ___('Something error with theme? Try to restore. Be careful, theme options will be cleared up!');?>">
+						<input id="options-restore" name="options-restore" type="checkbox" value="1"/>
+						<?php echo ___('Restore to theme default options');?>
+					</label>
 				</p>
 			</form>
 		</div>
@@ -180,27 +194,26 @@ class theme_options{
 	/**
 	 * Save Options
 	 * 
-	 * 
-	 * @return n/a
-	 * @version 1.0.0
+	 * @version 2.0.0
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function save_options(){
+	private static function options_save(){
 		if(!current_user_can('manage_options'))
 			return false;
 		/** Check the action and save options */
-		if(isset($_POST['action']) && $_POST['action'] === 'save_options'){
+		if(isset($_POST['action']) && $_POST['action'] === 'options-save'){
+			$opts_old = get_theme_mods();
+			$opts_new = apply_filters(self::$iden . '_save',[]);
+
 			/** Reset the options? */
-			if(isset($_POST['reset_options'])){
+			if(isset($_POST['options-restore'])){
 				/** Delete theme options */
-				delete_option(self::$iden);
-				self::$opts = null;
+				$opts_new = array_diff($opts_old,$opts_new);
 			}else{
-				/** Update theme options */
-				update_option(self::$iden,apply_filters(self::$iden . '_save',[]));
-				self::$opts = $options;
+				$opts_new = array_replace($opts_old,$opts_new);
 			}
+			update_option('theme_mods_' . theme_functions::$iden,$opts_new);
 		}
 	}
 	/**
@@ -212,13 +225,11 @@ class theme_options{
 	 * @version 1.0.2
 	 * @author KM@INN STUDIO
 	 */
-	public static function set_options($key = null,$data = null){
-		$options = self::get_options();
-		if(!$key || !$data) return $options;
-		$options[$key] = $data;
-		update_option(self::$iden,$options);
-		self::$opts = $options;
-		return $options;
+	public static function set_options($key,$data){
+		self::$opts = self::get_options();		
+		self::$opts[$key] = $data;
+		update_option('theme_mods_' . theme_functions::$iden,self::$opts);
+		return self::$opts;
 	}
 	/**
 	 * delete_options
@@ -228,13 +239,14 @@ class theme_options{
 	 * @version 1.0.2
 	 * @author KM@INN STUDIO
 	 */
-	public static function delete_options($key = null){
-		if(!$key) return false;
-		$options = self::get_options();
-		unset($options[$key]);
-		update_option(self::$iden,$options);
-		self::$opts = $options;
-		return $options;
+	public static function delete_options($key){
+		self::$opts = self::get_options();
+		if(!isset(self::$opts[$key]))
+			return false;
+		
+		unset(self::$opts[$key]);
+		update_option('theme_mods_' . theme_functions::$iden,self::$opts);
+		return self::$opts;
 	}
 	/**
 	 * is_options_page
@@ -262,7 +274,7 @@ class theme_options{
 	private static function redirect(){
 		if(!current_user_can('manage_options'))
 			return false;
-		if(self::is_options_page() && isset($_POST['action']) && $_POST['action'] === 'save_options'){
+		if(self::is_options_page() && isset($_POST['action']) && $_POST['action'] === 'options-save'){
 			if(isset($_GET['updated'])){
 				wp_redirect(get_current_url());
 			}else{
@@ -283,7 +295,7 @@ class theme_options{
 		if(!current_user_can('manage_options'))
 			return false;
 		/* Add to theme setting menu */
-		add_theme_page(___('Theme settings'),___('Theme settings'), 'edit_themes', 'core-options','theme_options::display');
+		add_theme_page(___('Theme settings'),___('Theme settings'), 'edit_themes', 'core-options',__CLASS__ . '::display');
 	}
 	/**
 	 * Add admin bar

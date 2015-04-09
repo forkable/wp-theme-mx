@@ -197,23 +197,21 @@ class theme_post_views{
 		?><style>.fixed .column-views{width:3em}</style><?php
 	}
 
-	public static function process_cache_request($output = []){
-		$post_id = isset($_GET[self::$iden]) ? (int)$_GET[self::$iden] : null;
+	public static function process_cache_request(array $output = []){
+		$id = isset($_GET[self::$iden]) && is_string($_GET[self::$iden]) ? (int)$_GET[self::$iden] : null;
 		
-		if(!$post_id)
+		if(empty($id))
 			return $output;
 
-		$views = (int)self::get_views($post_id);
-		/**
-		 * not exists post id
-		 */
-		if($views == 0)
-			return $output;
-			
-		if(!self::is_viewed($post_id))
-			self::update_views($post_id);
-			
-		$output['views'] = $views;
+		if(!self::is_viewed($id)){
+			$views = self::update_views($id);
+		}else{
+			$views = self::get_views($id);
+		}
+		
+		$output['views'] = [
+			$id => $views
+		];
 		return $output;
 	}
 	public static function is_viewed($post_id){
@@ -228,13 +226,13 @@ class theme_post_views{
 			return true;
 		}
 	}
-	public static function js_cache_request($alias = []){
+	public static function js_cache_request(array $alias = []){
 		if(!is_singular())
 			return $alias;
 		$alias[self::$iden] = get_the_ID();
 		return $alias;
 	}
-	public static function frontend_seajs_alias($alias){
+	public static function frontend_seajs_alias(array $alias = []){
 		if(!is_singular())
 			return $alias;
 
@@ -246,7 +244,6 @@ class theme_post_views{
 			return;
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.post_id = <?php the_ID();?>;
 			m.init();
 		});
 		<?php

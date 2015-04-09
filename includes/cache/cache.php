@@ -20,7 +20,7 @@ class theme_cache{
 	public static $cache_skey;
 	
 	public static function init(){
-		self::$cache_skey = crc32(AUTH_KEY . theme_functions::$iden);
+		self::$cache_skey = md5(AUTH_KEY . theme_functions::$iden);
 		
 		add_action('base_settings',__CLASS__ . '::backend_display');
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
@@ -212,7 +212,7 @@ class theme_cache{
 	}
 
 	public static function get_author_posts_url($user_id,$author_nicename = ''){
-		$cache_id = crc32($user_id.$author_nicename);
+		$cache_id = md5($user_id.$author_nicename);
 		$group_id = 'author_posts_urls';
 		$caches = wp_cache_get($group_id);
 		if(isset($caches[$cache_id]))

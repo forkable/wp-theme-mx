@@ -653,7 +653,7 @@ class theme_functions{
 					<?php if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
 						<span class="post-meta post-views" title="<?php echo ___('Views');?>">
 							<i class="fa fa-play-circle"></i>
-							<span id="post-views">-</span>
+							<span class="number" id="post-views-number-<?php echo $post->ID;?>">-</span>
 						</span>
 					<?php } ?>
 
@@ -661,7 +661,7 @@ class theme_functions{
 					<!-- permalink -->
 					<a href="<?php echo get_permalink();?>" class="post-meta permalink" title="<?php echo ___('Post link');?>">
 						<i class="fa fa-link"></i>
-						<?php echo ___('Post link');?>
+						<span class="hidden-xs"><?php echo ___('Post link');?></span>
 					</a>
 
 				</header>
@@ -681,13 +681,6 @@ class theme_functions{
 				}
 				?>
 
-				
-				<!-- theme_custom_storage -->
-				<?php if(class_exists('theme_custom_storage') && theme_custom_storage::is_enabled()){
-					theme_custom_storage::display_frontend($post->ID);
-				}
-				?>
-
 				<?php
 				/**
 				 * Hook fires after_singular_post_content
@@ -698,54 +691,59 @@ class theme_functions{
 					'numbers_class' => array('btn btn-primary')
 				));?>
 								
-			<?php
-			/** 
-			 * tags
-			 */
-			$tags = get_the_tags();
-			if(!empty($tags)){
-				$colors_count = count(self::$colors);
-				?>
-				<div class="post-tags clearfix">
-					<?php
-					foreach($tags as $tag){
-						?>
-						<a class="label label-primary" href="<?php echo get_tag_link($tag->term_id);?>" class="tag btn btn-default" title="<?php echo sprintf(___('Views all posts by %s tag'),esc_attr($tag->name));?>">
-							<i class="fa fa-tag"></i> 
-							<?php echo esc_html($tag->name);?>
-						</a>
-						<?php
-					}
-					?>
-				</div>
-				<?php
-			}
-			?>
-			
-			</div>
-		
-			
-			<!-- post-footer -->
-			<footer class="post-footer post-metas panel-footer clearfix">
 				<?php
 				/**
-				 * post coin
+				 * post point
 				 */
-				if(class_exists('theme_post_coin') && class_exists('theme_custom_point')){
+				if(class_exists('custom_post_point') && class_exists('theme_custom_point')){
 					?>
-					<div class="post-coin post-meta">
-						<a class="post-coin-btn" href="javascript:;" data-post-id="<?php echo $post->ID;?>">
-							<?php if(empty(theme_custom_point::get_point_img_url())){ ?>
-								<i class="fa fa-diamond"></i> 
-							<?php }else{ ?>
-								<img src="<?php echo esc_url(theme_custom_point::get_point_img_url());?>" alt="icon">
-							<?php } ?>
-							<span class="number"><?php echo theme_post_coin::get_post_coin($post->ID);?></span>
-						</a>
+					<div class="post-point">
+						<?php custom_post_point::post_btn($post->ID);?>
+						
 					</div>
 					<?php
 				}
 				?>
+
+				<!-- theme_custom_storage -->
+				<?php if(class_exists('theme_custom_storage') && theme_custom_storage::is_enabled()){
+					theme_custom_storage::display_frontend($post->ID);
+				}
+				?>
+			
+			</div>
+			
+			
+			<!-- post-footer -->
+			<footer class="post-footer post-metas panel-footer clearfix">
+				
+				<?php
+				/** 
+				 * tags
+				 */
+				$tags = get_the_tags();
+				if(!empty($tags)){
+					?>
+					<div class="post-tags post-meta">
+						<?php
+						the_tags('<i class="fa fa-tag"></i> ');
+						?>
+					</div>
+					<?php
+				}
+				?>
+					
+				<?php
+				/** 
+				 * comment
+				 */
+				$comment_count = (int)get_comments_number();
+				$comment_tx = $comment_count <= 1 ? ___('comment') : ___('comments');
+				?>
+				<a href="#comments" class="post-meta quick-comment comment-count" data-post-id="<?php echo $post->ID;?>">
+					<i class="fa fa-comment"></i>
+					<span class="comment-count-number"><?php echo esc_html($comment_count);?></span> <span class="hidden-xs"><?php echo esc_html($comment_tx);?></span>
+				</a>
 
 				<?php
 				/** 
@@ -759,17 +757,6 @@ class theme_functions{
 					<?php
 				} /** end post-share */
 				?>
-				<?php
-				/** 
-				 * comment
-				 */
-				$comment_count = (int)get_comments_number();
-				$comment_tx = $comment_count <= 1 ? ___('comment') : ___('comments');
-				?>
-				<a href="javascript:void(0);" class="post-meta quick-comment comment-count" data-post-id="<?php echo $post->ID;?>">
-					<i class="fa fa-comment"></i>
-					<span class="comment-count-number"><?php echo esc_html($comment_count);?></span> <span class="hidden-xs"><?php echo esc_html($comment_tx);?></span>
-				</a>
 				
 			</footer>
 		</article>
@@ -1667,7 +1654,7 @@ class theme_functions{
 			<?php
 			return false;
 		}
-		$cache_id = crc32(serialize($recomms));
+		$cache_id = md5(serialize($recomms));
 		$cache = theme_cache::get($cache_id);
 		
 		if(!empty($cache)){

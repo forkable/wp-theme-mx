@@ -51,6 +51,7 @@ define(function(require, exports, module){
 		}
 		if(s !== 'hide'){
 			$t.innerHTML = exports.status_tip(t,s);
+			$t_container.setAttribute('class',t);
 			$t_container.style.display = 'block';
 		}else{
 			$t_container.style.display = 'none';
