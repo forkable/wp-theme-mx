@@ -1,8 +1,4 @@
-/*!
- * Bootstrap without jQuery v0.6.1 for Bootstrap 3
- * By Daniel Davis under MIT License
- * https://github.com/tagawa/bootstrap-without-jquery
- */
+
 (function(){'use strict';function transitionEndEventName(){var i,el=document.createElement('div'),transitions={'transition':'transitionend','OTransition':'otransitionend','MozTransition':'transitionend','WebkitTransition':'webkitTransitionEnd'};for(i in transitions){if(transitions.hasOwnProperty(i)&&el.style[i]!==undefined){return transitions[i];}}
 return false;}
 var transitionend=transitionEndEventName();function getTargets(event){var targets={};event=event||window.event;targets.evTarget=event.currentTarget||event.srcElement;var dataTarget=targets.evTarget.getAttribute('data-target');targets.dataTarget=(dataTarget)?document.querySelector(dataTarget):false;return targets;}

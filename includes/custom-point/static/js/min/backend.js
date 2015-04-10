@@ -1,3 +1,4 @@
+
 define(function(require,exports,module){'use strict';var tools=require('modules/tools');exports.config={lang:{M00001:'Loading, please wait...',E00001:'Server error or network is disconnected.'},process_url:''}
 var config=exports.config,cache={};exports.init=function(){ready(exports.bind);}
 exports.bind=function(){cache.$user_id=document.getElementById('theme_custom_point-special-user-id');cache.$user_point=document.getElementById('theme_custom_point-special-point');cache.$user_event=document.getElementById('theme_custom_point-special-event');cache.$user_set=document.getElementById('theme_custom_point-special-set');cache.$user_set.addEventListener('click',action_user_set);}

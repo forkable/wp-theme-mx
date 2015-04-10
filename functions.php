@@ -1,4 +1,5 @@
 <?php
+
 /** Theme options */
 include __DIR__ . '/core/core-options.php';
 
@@ -371,7 +372,7 @@ class theme_functions{
 		?>
 		<li class="<?php echo esc_attr(implode(' ',$classes));?>">
 			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
-				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 				
 				<h3 class="post-list-title"><?php the_title();?></h3>
 					
@@ -491,7 +492,7 @@ class theme_functions{
 				<div class="sticky-post" title="<?php echo esc_attr(___('Sticky post'));?>"></div>
 			<?php } ?>
 			<a class="post-list-bg" href="<?php echo get_permalink();?>">
-				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 				<div class="caption area-tx">
 					<h3 class="post-list-title" title="<?php echo esc_attr($post_title);?>"><?php echo esc_html($post_title);?></h3>
 					<p class="excerpt"><?php echo esc_html($excerpt);?></p>
@@ -539,7 +540,7 @@ class theme_functions{
 		<li class="list-group-item">
 			<a class="post-list-bg media" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
 				<div class="media-left">
-					<img class="media-object" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+					<img class="media-object" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading"><?php the_title();?></h4>
@@ -811,17 +812,23 @@ class theme_functions{
 	 * @version 1.0.1
 	 * @author KM@INN STUDIO
 	 */
-	public static function get_thumbnail_src($post_id = null,$size = null){
+	public static function get_thumbnail_src($post_id = null,$size = 'thumbnail',$placeholder = 'frontend/thumbnail.jpg'){
 		global $post;
+		if(!$size)
+			$size = self::$thumbnail_size[0];
 
-		$size = $size ? $size : self::$thumbnail_size[0];
-		$post_id = $post_id ? $post_id : $post->ID;
-		$src = null;
-		if(empty($src)){
-			$src = get_img_source(get_the_post_thumbnail($post_id,$size));
+		if(!$post_id)
+			$post_id = $post->ID;
+
+		$src = '';
+		
+		if(has_post_thumbnail()){
+			$src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id),$size)[0];
 		}
+		//$src = get_img_source(get_the_post_thumbnail($post_id,$size));
+		
 		if(!$src){
-			$src = theme_features::get_theme_images_url('frontend/thumb-preview.jpg');
+			$src = theme_features::get_theme_images_url($placeholder);
 		}
 		return $src;
 	}
@@ -1695,7 +1702,7 @@ class theme_functions{
 		if(!class_exists('theme_custom_homebox')) 
 			return false;
 			
-		$opt = (array)theme_options::get_options(theme_custom_homebox::$iden);
+		$opt = (array)theme_custom_homebox::get_options();
 
 		if(is_null_array($opt)){
 			?>
@@ -1707,7 +1714,7 @@ class theme_functions{
 			<?php
 			return false;
 		}
-			return false;
+
 		global $wp_query,$post;
 		foreach($opt as $k => $v){
 			?>

@@ -273,7 +273,7 @@ html .regular-text:hover{
 }
 
 
-@media(min-width: 768px){
+@media (min-width: 768px){
 	#backend-tab .tabbtn .tx{
 		display: inline;
 	}

@@ -1,3 +1,4 @@
+
 define(function(require,exports,module){'use strict';var $=require('modules/jquery'),jQuery=$;exports.ajax_loading_tip=function(t,s,timeout){var $t_container=document.getElementById('ajax-loading-container'),$t=document.getElementById('ajax-loading'),si;if(!$t_container){var $close=document.createElement('i');$close.setAttribute('class','btn-close fa fa-times');$t_container=document.createElement('div');$t_container.id='ajax-loading-container';$t=document.createElement('div');$t.id='ajax-loading';$t_container.appendChild($t)
 $t_container.appendChild($close);document.body.appendChild($t_container);$close.addEventListener('click',function(){$t_container.style.display='none';clearInterval(si);});}
 if(timeout>0){$close.innerHTML='<span class="number">'+timeout+'</span>';var si=setInterval(function(){timeout--;$close.innerHTML='<span class="number">'+timeout+'</span>';if(timeout<=0){$t_container.style.display='none';clearInterval(si);return;}},1000);}

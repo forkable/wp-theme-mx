@@ -17,10 +17,10 @@ class theme_cache{
 	public static $iden = 'theme-cache';
 	
 	public static $cache;
-	public static $cache_skey;
+	public static $cache_key;
 	
 	public static function init(){
-		self::$cache_skey = md5(AUTH_KEY . theme_functions::$iden);
+		self::$cache_key = md5(AUTH_KEY . theme_functions::$iden);
 		
 		add_action('base_settings',__CLASS__ . '::backend_display');
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
@@ -28,29 +28,29 @@ class theme_cache{
 		 * When delete menu
 		 */
 		add_filter('pre_set_theme_mod_nav_menu_locations',function($return){
-			$caches = (array)self::get(self::$cache_skey);
+			$caches = (array)self::get(self::$cache_key);
 			if(!isset($caches['nav-menus'])) return $return;
 			unset($caches['nav-menus']);
-			self::set(self::$cache_skey,$caches);
+			self::set(self::$cache_key,$caches);
 			return $return;
 		});
 		/**
 		 * When delete menu
 		 */
 		add_action('wp_delete_nav_menu',function(){
-			$caches = (array)self::get(self::$cache_skey);
+			$caches = (array)self::get(self::$cache_key);
 			if(!isset($caches['nav-menus'])) return;
 			unset($caches['nav-menus']);
-			self::set(self::$cache_skey,$caches);
+			self::set(self::$cache_key,$caches);
 		});
 		/**
 		 * When update widget
 		 */
 		add_filter('widget_update_callback',function($instance){
-			$caches = (array)self::get(self::$cache_skey);
+			$caches = (array)self::get(self::$cache_key);
 			if(!isset($caches['widget-sidebars'])) return $instance;
 			unset($caches['widget-sidebars']);
-			self::set(self::$cache_skey,$caches);
+			self::set(self::$cache_key,$caches);
 			return $instance;
 		});
 		
@@ -58,19 +58,19 @@ class theme_cache{
 		 * When update option for widget
 		 */
 		add_action('update_option_sidebars_widgets',function(){
-			$caches = (array)self::get(self::$cache_skey);
+			$caches = (array)self::get(self::$cache_key);
 			if(!isset($caches['widget-sidebars'])) return;
 			unset($caches['widget-sidebars']);
-			self::set(self::$cache_skey,$caches);
+			self::set(self::$cache_key,$caches);
 		});
 		/**
 		 * When delete post
 		 */
 		add_action('delete_post',function(){
-			$caches = (array)self::get(self::$cache_skey);
+			$caches = (array)self::get(self::$cache_key);
 			if(!isset($caches['queries'])) return;
 			unset($caches['queries']);
-			self::set(self::$cache_skey,$caches);
+			self::set(self::$cache_key,$caches);
 		});
 		/**
 		 * when post delete
@@ -195,10 +195,10 @@ class theme_cache{
 				self::enable_cache();
 			break;
 			default:
-				$caches = (array)self::get(self::$cache_skey);
+				$caches = (array)self::get(self::$cache_key);
 				if(isset($caches[$type])){
 					unset($caches[$type]);
-					self::set(self::$cache_skey,$caches);
+					self::set(self::$cache_key,$caches);
 				}
 		}
 		wp_redirect(admin_url('themes.php?page=core-options&' . self::$iden . '=1'));
@@ -248,7 +248,7 @@ class theme_cache{
 	}
 
 	private static function build_key($key,$group = ''){
-		return self::$cache_skey . $group . '-' . $key;
+		return self::$cache_key . $group . '-' . $key;
 	}
 	/**
 	 * Delete cache
@@ -322,12 +322,12 @@ class theme_cache{
 	public static function get_comments($args,$expire = 3600){
 		$cache_group_id = 'comments';
 		$id = md5(serialize($args));
-		$caches = (array)self::get(self::$cache_skey);
+		$caches = (array)self::get(self::$cache_key);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
 		if(empty($cache)){
 			$cache = get_comments($args);
 			$caches[$cache_group_id][$cache_id] = $cache;
-			self::set(self::$cache_skey,$caches,null,$expire);
+			self::set(self::$cache_key,$caches,null,$expire);
 		}
 		return $cache;
 	}
@@ -343,12 +343,12 @@ class theme_cache{
 	public static function get_queries($args,$expire = 3600){
 		$cache_group_id = 'queries';
 		$cache_id = md5(serialize($args));
-		$caches = (array)self::get(self::$cache_skey);
+		$caches = (array)self::get(self::$cache_key);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
 		if(empty($cache)){
 			$cache = new WP_Query($args);
 			$caches[$cache_group_id][$cache_id] = $cache;
-			self::set(self::$cache_skey,$caches,null,$expire);
+			self::set(self::$cache_key,$caches,null,$expire);
 			wp_reset_query();
 		}
 		return $cache;
@@ -394,7 +394,7 @@ class theme_cache{
 		
 		$cache_group_id = 'widget-sidebars';
 		$cache_id = self::get_page_prefix() . $id;
-		$caches = (array)self::get(self::$cache_skey);
+		$caches = (array)self::get(self::$cache_key);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
 		if(empty($cache)){
 			ob_start();
@@ -402,7 +402,7 @@ class theme_cache{
 			$cache = html_compress(ob_get_contents());
 			ob_end_clean();
 			$caches[$cache_group_id][$cache_id] = $cache;
-			self::set(self::$cache_skey,$caches,null,$expire);
+			self::set(self::$cache_key,$caches,null,$expire);
 		}
 		echo $cache;
 		return empty($cache) ? false : true;
@@ -420,7 +420,7 @@ class theme_cache{
 		$cache_group_id = 'nav-menus';
 
 		$cache_id = self::get_page_prefix() . $args['theme_location'];
-		$caches = (array)self::get(self::$cache_skey);
+		$caches = (array)self::get(self::$cache_key);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
 
 		if(empty($cache)){
@@ -429,9 +429,10 @@ class theme_cache{
 			$cache = html_compress(ob_get_contents());
 			ob_end_clean();
 			$caches[$cache_group_id][$cache_id] = $cache;
-			self::set(self::$cache_skey,$caches,null,$expire);
+			self::set(self::$cache_key,$caches,null,$expire);
 		}
 		echo $cache;
 	}
+	
 }
 ?>

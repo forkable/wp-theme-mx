@@ -33,15 +33,15 @@ class theme_options{
 	 * 
 	 * @usedby theme_options::get_options()
 	 * @return array
-	 * @version 1.2.2
+	 * @version 2.0.0
 	 * @since 3.1.0
 	 * @author KM@INN STUDIO
 	 * 
 	 */
 	public static function get_options($key = null){
-
+		
 		/** Default options hook */
-		self::$opts = wp_parse_args(get_theme_mods(),apply_filters('theme_options_default',[]));
+		self::$opts = wp_parse_args((array)get_theme_mod(self::$iden),apply_filters('theme_options_default',[]));
 
 		if($key){
 			return isset(self::$opts[$key]) ? self::$opts[$key] : null;
@@ -203,17 +203,16 @@ class theme_options{
 			return false;
 		/** Check the action and save options */
 		if(isset($_POST['action']) && $_POST['action'] === 'options-save'){
-			$opts_old = get_theme_mods();
+			$opts_old = (array)get_theme_mod(self::$iden);
 			$opts_new = apply_filters(self::$iden . '_save',[]);
-
+			
 			/** Reset the options? */
 			if(isset($_POST['options-restore'])){
 				/** Delete theme options */
-				$opts_new = array_diff($opts_old,$opts_new);
+				set_theme_mod(self::$iden,[]);
 			}else{
-				$opts_new = array_replace($opts_old,$opts_new);
+				set_theme_mod(self::$iden,$opts_new);
 			}
-			update_option('theme_mods_' . theme_functions::$iden,$opts_new);
 		}
 	}
 	/**
@@ -228,7 +227,7 @@ class theme_options{
 	public static function set_options($key,$data){
 		self::$opts = self::get_options();		
 		self::$opts[$key] = $data;
-		update_option('theme_mods_' . theme_functions::$iden,self::$opts);
+		set_theme_mod(self::$iden,self::$opts);
 		return self::$opts;
 	}
 	/**
@@ -245,7 +244,7 @@ class theme_options{
 			return false;
 		
 		unset(self::$opts[$key]);
-		update_option('theme_mods_' . theme_functions::$iden,self::$opts);
+		set_theme_mod(self::$iden,self::$opts);
 		return self::$opts;
 	}
 	/**

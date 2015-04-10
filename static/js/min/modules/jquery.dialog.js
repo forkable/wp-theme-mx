@@ -1,13 +1,4 @@
-/*! artDialog v6.0.2 | https://github.com/aui/artDialog */
-/*!
- * popupjs
- * Date: 2014-01-15
- * https://github.com/aui/popupjs
- * (c) 2009-2014 TangBin, http://www.planeArt.cn
- *
- * This is licensed under the GNU LGPL, version 2.1 or later.
- * For details, see: http://www.gnu.org/licenses/lgpl-2.1.html
- */
+
 define("popup",function(require){var $=require('modules/jquery'),jQuery=$;var _count=0;var _isIE6=!('minWidth'in $('html')[0].style);var _isFixed=!_isIE6;function Popup(){this.destroyed=false;this.__popup=$('<div />').attr({tabindex:'-1'}).css({display:'none',position:'absolute',outline:0}).html(this.innerHTML).appendTo('body');this.__backdrop=$('<div />');this.node=this.__popup[0];this.backdrop=this.__backdrop[0];_count++;}
 $.extend(Popup.prototype,{node:null,backdrop:null,fixed:false,destroyed:true,open:false,returnValue:'',autofocus:true,align:'bottom left',backdropBackground:'#000',backdropOpacity:0.7,innerHTML:'',className:'ui-popup',show:function(anchor){if(this.destroyed){return this;}
 var that=this;var popup=this.__popup;this.__activeElement=this.__getActive();this.open=true;this.follow=anchor||this.follow;if(!this.__ready){popup.addClass(this.className);if(this.modal){this.__lock();}
@@ -58,17 +49,7 @@ backdrop.css(backdropCss).animate({opacity:this.backdropOpacity},150).insertAfte
 +'</td>'
 +'</tr>'
 +'</table>'
-+'</div>'});
-/*!
- * artDialog
- * Date: 2014-06-29
- * https://github.com/aui/artDialog
- * (c) 2009-2014 TangBin, http://www.planeArt.cn
- *
- * This is licensed under the GNU LGPL, version 2.1 or later.
- * For details, see: http://www.gnu.org/licenses/lgpl-2.1.html
- */
-define(function(require){var $=require('modules/jquery'),jQuery=$;var Popup=require("popup");var defaults=require("dialog-config");var css=defaults.cssUri;if(css){var fn=require[require.toUrl?'toUrl':'resolve'];if(fn){css=fn(css);css='<link rel="stylesheet" href="'+css+'" />';if($('base')[0]){$('base').before(css);}else{$('head').append(css);}}}
++'</div>'});define(function(require){var $=require('modules/jquery'),jQuery=$;var Popup=require("popup");var defaults=require("dialog-config");var css=defaults.cssUri;if(css){var fn=require[require.toUrl?'toUrl':'resolve'];if(fn){css=fn(css);css='<link rel="stylesheet" href="'+css+'" />';if($('base')[0]){$('base').before(css);}else{$('head').append(css);}}}
 var _count=0;var _expando=new Date()-0;var _isIE6=!('minWidth'in $('html')[0].style);var _isMobile='createTouch'in document&&!('onmousemove'in document)||/(iPhone|iPad|iPod)/i.test(navigator.userAgent);var _isFixed=!_isIE6&&!_isMobile;var artDialog=function(options,ok,cancel){var originalOptions=options=options||{};if(typeof options==='string'||options.nodeType===1){options={content:options,fixed:!_isMobile};}
 options=$.extend(true,{},artDialog.defaults,options);options._=originalOptions;var id=options.id=options.id||_expando+_count;var api=artDialog.get(id);if(api){return api.focus();}
 if(!_isFixed){options.fixed=false;}
@@ -93,33 +74,13 @@ html+='<button'
 +'>'
 +val.value
 +'</button>';});}
-this._$('footer')[number?'show':'hide']();this._$('button').html(html);return this;},statusbar:function(html){this._$('statusbar').html(html)[html?'show':'hide']();return this;},_$:function(i){return this._popup.find('[i='+i+']');},_trigger:function(id){var fn=this.callbacks[id];return typeof fn!=='function'||fn.call(this)!==false?this.close().remove():this;}});artDialog.oncreate=$.noop;artDialog.getCurrent=function(){return Popup.current;};artDialog.get=function(id){return id===undefined?artDialog.list:artDialog.list[id];};artDialog.list={};artDialog.defaults=defaults;return artDialog;});
-/*!
- * drag.js
- * Date: 2013-12-06
- * https://github.com/aui/artDialog
- * (c) 2009-2014 TangBin, http://www.planeArt.cn
- *
- * This is licensed under the GNU LGPL, version 2.1 or later.
- * For details, see: http://www.gnu.org/licenses/lgpl-2.1.html
- */
-define("drag",function(require){var $=require('modules/jquery'),jQuery=$;var $window=$(window);var $document=$(document);var isTouch='createTouch'in document;var html=document.documentElement;var isIE6=!('minWidth'in html.style);var isLosecapture=!isIE6&&'onlosecapture'in html;var isSetCapture='setCapture'in html;var types={start:isTouch?'touchstart':'mousedown',over:isTouch?'touchmove':'mousemove',end:isTouch?'touchend':'mouseup'};var getEvent=isTouch?function(event){if(!event.touches){event=event.originalEvent.touches.item(0);}
+this._$('footer')[number?'show':'hide']();this._$('button').html(html);return this;},statusbar:function(html){this._$('statusbar').html(html)[html?'show':'hide']();return this;},_$:function(i){return this._popup.find('[i='+i+']');},_trigger:function(id){var fn=this.callbacks[id];return typeof fn!=='function'||fn.call(this)!==false?this.close().remove():this;}});artDialog.oncreate=$.noop;artDialog.getCurrent=function(){return Popup.current;};artDialog.get=function(id){return id===undefined?artDialog.list:artDialog.list[id];};artDialog.list={};artDialog.defaults=defaults;return artDialog;});define("drag",function(require){var $=require('modules/jquery'),jQuery=$;var $window=$(window);var $document=$(document);var isTouch='createTouch'in document;var html=document.documentElement;var isIE6=!('minWidth'in html.style);var isLosecapture=!isIE6&&'onlosecapture'in html;var isSetCapture='setCapture'in html;var types={start:isTouch?'touchstart':'mousedown',over:isTouch?'touchmove':'mousemove',end:isTouch?'touchend':'mouseup'};var getEvent=isTouch?function(event){if(!event.touches){event=event.originalEvent.touches.item(0);}
 return event;}:function(event){return event;};var DragEvent=function(){this.start=$.proxy(this.start,this);this.over=$.proxy(this.over,this);this.end=$.proxy(this.end,this);this.onstart=this.onover=this.onend=$.noop;};DragEvent.types=types;DragEvent.prototype={start:function(event){event=this.startFix(event);$document.on(types.over,this.over).on(types.end,this.end);this.onstart(event);return false;},over:function(event){event=this.overFix(event);this.onover(event);return false;},end:function(event){event=this.endFix(event);$document.off(types.over,this.over).off(types.end,this.end);this.onend(event);return false;},startFix:function(event){event=getEvent(event);this.target=$(event.target);this.selectstart=function(){return false;};$document.on('selectstart',this.selectstart).on('dblclick',this.end);if(isLosecapture){this.target.on('losecapture',this.end);}else{$window.on('blur',this.end);}
 if(isSetCapture){this.target[0].setCapture();}
 return event;},overFix:function(event){event=getEvent(event);return event;},endFix:function(event){event=getEvent(event);$document.off('selectstart',this.selectstart).off('dblclick',this.end);if(isLosecapture){this.target.off('losecapture',this.end);}else{$window.off('blur',this.end);}
 if(isSetCapture){this.target[0].releaseCapture();}
 return event;}};DragEvent.create=function(elem,event){var $elem=$(elem);var dragEvent=new DragEvent();var startType=DragEvent.types.start;var noop=function(){};var className=elem.className.replace(/^\s|\s.*/g,'')+'-drag-start';var minX;var minY;var maxX;var maxY;var api={onstart:noop,onover:noop,onend:noop,off:function(){$elem.off(startType,dragEvent.start);}};dragEvent.onstart=function(event){var isFixed=$elem.css('position')==='fixed';var dl=$document.scrollLeft();var dt=$document.scrollTop();var w=$elem.width();var h=$elem.height();minX=0;minY=0;maxX=isFixed?$window.width()-w+minX:$document.width()-w;maxY=isFixed?$window.height()-h+minY:$document.height()-h;var offset=$elem.offset();var left=this.startLeft=isFixed?offset.left-dl:offset.left;var top=this.startTop=isFixed?offset.top-dt:offset.top;this.clientX=event.clientX;this.clientY=event.clientY;$elem.addClass(className);api.onstart.call(elem,event,left,top);};dragEvent.onover=function(event){var left=event.clientX-this.clientX+this.startLeft;var top=event.clientY-this.clientY+this.startTop;var style=$elem[0].style;left=Math.max(minX,Math.min(maxX,left));top=Math.max(minY,Math.min(maxY,top));style.left=left+'px';style.top=top+'px';api.onover.call(elem,event,left,top);};dragEvent.onend=function(event){var position=$elem.position();var left=position.left;var top=position.top;$elem.removeClass(className);api.onend.call(elem,event,left,top);};dragEvent.off=function(){$elem.off(startType,dragEvent.start);};if(event){dragEvent.start(event);}else{$elem.on(startType,dragEvent.start);}
-return api;};return DragEvent;});
-/*!
- * artDialog-plus
- * Date: 2013-12-25
- * https://github.com/aui/artDialog
- * (c) 2009-2014 TangBin, http://www.planeArt.cn
- *
- * This is licensed under the GNU LGPL, version 2.1 or later.
- * For details, see: http://www.gnu.org/licenses/lgpl-2.1.html
- */
-define("dialog-plus",function(require){var $=require('modules/jquery'),jQuery=$;var dialog=require("dialog");var drag=require("drag");dialog.oncreate=function(api){var options=api.options;var originalOptions=options._;var url=options.url;var oniframeload=options.oniframeload;var $iframe;if(url){this.padding=options.padding=0;$iframe=$('<iframe />');$iframe.attr({src:url,name:api.id,width:'100%',height:'100%',allowtransparency:'yes',frameborder:'no',scrolling:'no'}).on('load',function(){var test;try{test=$iframe[0].contentWindow.frameElement;}catch(e){}
+return api;};return DragEvent;});define("dialog-plus",function(require){var $=require('modules/jquery'),jQuery=$;var dialog=require("dialog");var drag=require("drag");dialog.oncreate=function(api){var options=api.options;var originalOptions=options._;var url=options.url;var oniframeload=options.oniframeload;var $iframe;if(url){this.padding=options.padding=0;$iframe=$('<iframe />');$iframe.attr({src:url,name:api.id,width:'100%',height:'100%',allowtransparency:'yes',frameborder:'no',scrolling:'no'}).on('load',function(){var test;try{test=$iframe[0].contentWindow.frameElement;}catch(e){}
 if(test){if(!options.width){api.width($iframe.contents().width());}
 if(!options.height){api.height($iframe.contents().height());}}
 if(oniframeload){oniframeload.call(api);}});api.addEventListener('beforeremove',function(){$iframe.attr('src','about:blank').remove();},false);api.content($iframe[0]);api.iframeNode=$iframe[0];}

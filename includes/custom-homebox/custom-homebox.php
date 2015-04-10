@@ -41,8 +41,19 @@ class theme_custom_homebox{
 		}
 		return $output_kws;
 	}
+	public static function get_options($key = null){
+		static $caches = [];
+		if(empty($caches))
+			$caches = (array)theme_options::get_options(self::$iden);
+
+		if($key){
+			return isset($caches[$key]) ? $caches[$key] : false;
+		}
+		return $caches;
+	}
 	public static function frontend_display($args = null){
-		$boxes = (array)theme_options::get_options(self::$iden);
+		$boxes = self::get_options();
+		var_dump($boxes);
 		if(empty($boxes)) return false;
 		global $wp_query,$post;
 		$defaults = array(
@@ -96,7 +107,7 @@ class theme_custom_homebox{
 		}
 	}
 	private static function cat_checkbox_tpl($placeholder){
-		$opt = (array)theme_options::get_options(self::$iden);
+		$opt = self::get_options(self::$iden);
 		$exists_cats = isset($opt[$placeholder]['cats']) ? (array)$opt[$placeholder]['cats'] : [];
 		$cats = get_categories(array(
 			'orderby' => 'id',
@@ -121,7 +132,7 @@ class theme_custom_homebox{
 		}
 	}
 	public static function backend_display(){
-		$opt = (array)theme_options::get_options(self::$iden);
+		$opt = self::get_options(self::$iden);
 		?>
 		<fieldset>
 			<legend><?php echo ___('Theme home box settings');?></legend>
@@ -149,7 +160,7 @@ class theme_custom_homebox{
 	
 	}
 	private static function get_home_box_tpl($placeholder){
-		$boxes = (array)theme_options::get_options(self::$iden);
+		$boxes = self::get_options(self::$iden);
 		$title = isset($boxes[$placeholder]['title']) ? $boxes[$placeholder]['title'] : null;
 		$link = isset($boxes[$placeholder]['link']) ? $boxes[$placeholder]['link'] : null;
 		$selected = isset($boxes[$placeholder]['cat']) ? (int)$boxes[$placeholder]['cat'] : null;

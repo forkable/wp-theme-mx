@@ -1,3 +1,4 @@
+
 define(function(require,exports,module){'use strict';var tools=require('modules/tools');exports.config={process_url:'',lang:{M00001:'Loading, please wait'}}
 var config=exports.config,cache={};exports.init=function(){ready(exports.bind);}
 exports.bind=function(){cache.$btn=document.getElementById('theme_page_tags-clean-cache');cache.$parent=cache.$btn.parentNode;cache.$tip=document.getElementById(cache.$btn.getAttribute('data-tip-target'));if(!cache.$btn)

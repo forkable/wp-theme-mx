@@ -1,3 +1,4 @@
+
 define(function(require,exports,module){module.exports=(function(ns){var filters={};var max_priority=10;var default_priority=10;var each=function(a,cb){a=a.concat([]);for(var i=0,j=a.length;i<j;i++){if(cb&&cb(i,a[i])===false)break;}};var array_include=function(a,v){for(var i=0,j=a.length;i<j;i++)
 if(a[i]===v)return true;return false;};var to_array=function(a){var rt=[];for(var i=0,j=a.length;i<j;i++){rt.push(a[i]);}
 return rt;};function _set(func,tag,priority,key,value){func['__filter_'+tag+'_'+priority+'_'+key]=value;}

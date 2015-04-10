@@ -1,3 +1,4 @@
+
 define(function(require,exports,module){'use strict';var $=require('modules/jquery'),jQuery=$,tools=require('modules/tools');exports.init=function(){$(document).ready(function(){bind();});}
 exports.config={prefix_item_id:'#theme_custom_homebox-item-',items_id:'.theme_custom_homebox-item',add_id:'#theme_custom_homebox-add',control_container_id:'#theme_custom_homebox-control',tpl:''}
 function bind(){add();del($(exports.config.items_id));}

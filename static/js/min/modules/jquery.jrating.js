@@ -1,3 +1,4 @@
+
 define(function(require,exports,module){var $=require('modules/jquery'),jQuery=$;require('theme_css/modules/jrating.css');(function($){$.fn.jRating=function(op){var defaults={bigStarsPath:'jrating/stars.png',smallStarsPath:'jrating/small.png',phpPath:'jRating.php',type:'big',step:false,isDisabled:false,showRateInfo:true,canRateAgain:false,sendRequest:true,length:5,decimalLength:0,rateMax:20,rateInfosX:-45,rateInfosY:5,nbRates:1,onSuccess:null,onError:null,onClick:null};if(this.length>0)
 return this.each(function(){var opts=$.extend(defaults,op),newWidth=0,starWidth=0,starHeight=0,bgPath='',hasRated=false,globalWidth=0,nbOfRates=opts.nbRates;if($(this).hasClass('jDisabled')||opts.isDisabled)
 var jDisabled=true;else

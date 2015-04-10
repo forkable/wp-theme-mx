@@ -15,7 +15,7 @@ class theme_cache_request {
 		add_filter('frontend_seajs_alias',			__CLASS__ . '::frontend_alias');
 	}
 	public static function process(){
-		$output = null;
+		$output = [];
 		/** 
 		 * check referer
 		 */

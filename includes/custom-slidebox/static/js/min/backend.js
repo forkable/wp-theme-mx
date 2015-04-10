@@ -1,3 +1,4 @@
+
 define(function(require,exports,module){'use strict';var $=require('modules/jquery'),jQuery=$,uploader=require('modules/uploader'),tools=require('modules/tools');exports.init=function(){jQuery(document).ready(function(){exports.bind();});}
 exports.config={items_id:'.slidebox-item',items_prefix_id:'#slidebox-item-',add_btn_id:'#slidebox-add',control_box_id:'#slidebox-control',del_btn_id:'.slidebox-del',file_btn_id:'.slidebox-file',placeholder_pattern:/\%placeholder\%/ig,tpl:'',process_url:'',lang:{M00001:'Loading, please wait...',E00001:'Server error or network is disconnected.'}}
 exports.cache={}

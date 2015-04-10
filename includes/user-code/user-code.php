@@ -67,29 +67,30 @@ class theme_user_code{
 	}
 
 	public static function customize($wp_customize){
+		$opt_prefix = theme_options::$iden . '[' . self::$iden . ']';
 		$wp_customize->add_section(self::$iden,[
 			'title' 		=> ___('User custom code settings'),
 			'description' 	=> ___('You can write some HTML code for your frontend page. Including javascript or css code.'),
 			'priority' 		=> 120,
 		]);
-		$wp_customize->add_setting(self::$iden . '[footer]',[
+		$wp_customize->add_setting($opt_prefix . '[footer]',[
 			'capability'	=> 'edit_theme_options',
 			'type'			=> 'theme_mod',
 		]);
 		$wp_customize->add_control(self::$iden . '-footer',[
 			'label'			=> ___('Footer codes'),
 			'section'		=> self::$iden,
-			'settings'		=> self::$iden . '[footer]',
+			'settings'		=> $opt_prefix . '[footer]',
 			'type'			=> 'textarea',
 		]);
-		$wp_customize->add_setting(self::$iden . '[header]',[
+		$wp_customize->add_setting($opt_prefix . '[header]',[
 			'capability'	=> 'edit_theme_options',
 			'type'			=> 'theme_mod',
 		]);
 		$wp_customize->add_control(self::$iden . '-header',[
 			'label'			=> ___('Header codes'),
 			'section'		=> self::$iden,
-			'settings'		=> self::$iden . '[header]',
+			'settings'		=> $opt_prefix . '[header]',
 			'type'			=> 'textarea',
 		]);
 	}

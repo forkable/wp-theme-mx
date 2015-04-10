@@ -1385,7 +1385,7 @@ label.error{
 /**
  * media 
  */
-@media(max-width: 767px){
+@media (max-width: 767px){
 	.main-nav{
 		margin: 0 -10px 20px;
 	}
@@ -1412,13 +1412,13 @@ label.error{
 	#slidebox .fill{height: 280px;}
 
 }
-@media(min-width: 992px){
+@media (min-width: 992px){
 	#slidebox .fill{height: 280px;}
 }
-@media(min-width: 1200px){
+@media (min-width: 1200px){
 	#slidebox .fill{height: 320px;}
 }
-@media(min-width: 1300px){
+@media (min-width: 1300px){
 	.container{width: 1300px;}
 	#slidebox .fill{height: 342px;}
 }

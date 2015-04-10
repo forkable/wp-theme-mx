@@ -1,3 +1,4 @@
+
 define(function(require,exports,module){'use strict';var tools=require('modules/tools'),js_request=require('theme-cache-request');exports.config={process_url:'',post_id:'',lang:{M00001:'Loading, please wait...',E00001:'Server error.'}}
 exports.init=function(){tools.ready(exports.bind);}
 var config=exports.config,caches={};exports.bind=function(){caches.$btns=document.querySelectorAll('.post-point-btn');if(!caches.$btns)

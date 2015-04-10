@@ -280,21 +280,28 @@ class theme_features{
 			 * JS file
 			 */
 			case 'js':
-				if(!class_exists('JSMin')) include theme_features::get_theme_includes_path('class/jsmin.php');
+				if(!class_exists('theme_includes\JSMin')) 
+					include theme_features::get_theme_includes_path('class/jsmin.php');
+					
 				$source = file_get_contents($file_path);
-				$min = JSMin::minify($source);
+				$min = theme_includes\JSMin::minify($source);
 				mk_dir(dirname($file_path_min));
 				file_put_contents($file_path_min,$min);
+				unset($min);
 				break;
 			/**
 			 * CSS file
 			 */
 			case 'css':
-				if(!class_exists('CssMin')) include theme_features::get_theme_includes_path('class/cssmin.php');
+				if(!class_exists('theme_includes\CSSMin')) 
+					include theme_features::get_theme_includes_path('class/cssmin.php');
+					
 				$source = file_get_contents($file_path);
-				$min = CssMin::minify($source);
+				$cssmin = new theme_includes\CSSMin();
+				$min = $cssmin->run($source);
 				mk_dir(dirname($file_path_min));
 				file_put_contents($file_path_min,$min);
+				unset($min);
 				break;
 			/**
 			 * Other
