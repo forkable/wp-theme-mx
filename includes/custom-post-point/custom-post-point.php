@@ -18,6 +18,7 @@ class custom_post_point{
 	];
 	public static function init(){
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . self::$iden, __CLASS__ . '::process');
 
 		add_action('before_delete_post',__CLASS__ . '::sync_delete_post');
 
@@ -224,7 +225,8 @@ class custom_post_point{
 		theme_features::check_referer();
 		theme_features::check_nonce();
 
-		$type = isset($_GET['type']) ? $_GET['type'] : null;
+		
+		$type = isset($_GET['type']) && is_string($_GET['type']) ? $_GET['type'] : null;
 
 		$post_id = isset($_POST['post-id']) && is_string($_POST['post-id']) ? (int)$_POST['post-id'] : null;
 		if(empty($post_id)){
@@ -241,7 +243,16 @@ class custom_post_point{
 				'code' => 'post_not_exist',
 				'msg' => ___('Post does not exist.'),
 			];
-			
+		/**
+		 * check user logged
+		 */
+		if(!is_user_logged_in()){
+			$output['status'] = 'error';
+			$output['code'] = 'need_login';
+			$output['msg'] = '<a href="' . wp_login_url(get_permalink($post->ID)) . '" title="' . ___('Go to log-in') . '">' . ___('Sorry, please log-in.') . '</a>';
+			die(theme_features::json_format($output));
+		}
+		
 		$giver_id = get_current_user_id();
 
 		switch($type){
@@ -527,43 +538,6 @@ class custom_post_point{
 		$point_img = theme_custom_point::get_point_img_url();
 		$point_values = (array)self::get_point_values();
 
-		$current_user_id = get_current_user_id();
-	
-		if(!$current_user_id){
-			?>
-			<a href="<?php echo wp_login_url(get_current_url());?>" class="btn btn-info">
-				<?php if(empty($point_img)){ ?>
-					<i class="fa fa-diamond"></i> 
-				<?php }else{ ?>
-					<img src="<?php echo esc_url($point_img);?>" alt="icon">
-				<?php } ?>
-				<strong class="number"><?php echo self::get_post_points_count($post_id);?></strong>
-				<i> / </i>
-				<?php echo ___('Login to give');?>
-			</a>
-			<?php
-			return;
-		}
-		$voted = isset(self::get_post_givers($post_id)[$current_user_id]);
-
-		
-		
-		?>
-		<div class="<?php echo $voted ? 'disabled' : 'hide';?> btn btn-info btn-lg">
-			<?php if(empty($point_img)){ ?>
-				<i class="fa fa-diamond"></i> 
-			<?php }else{ ?>
-				<img src="<?php echo esc_url($point_img);?>" alt="icon">
-			<?php } ?>
-			<strong class="number"><?php echo self::get_post_points_count($post_id);?></strong>
-			<i> / </i>
-			<?php echo sprintf(___('I gave %d %s'),'<span id="post-point-gave-number">-</span>',theme_custom_point::get_point_name());?>
-		</div>
-
-		<?php
-		if($voted)
-			return;
-		
 		$count_point_values = count($point_values);
 		$default_point_value = $point_values[0];
 		if($count_point_values > 1){

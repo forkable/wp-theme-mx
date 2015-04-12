@@ -23,23 +23,21 @@ define(function(require, exports, module){
 	 */
 	exports.select_text = {
 		config : {
-			select_text_id : '.text-select'
+			input_id : '.text-select'
 		},
 		init : function(){
-			exports.select_text.bind();
-		},
-		bind : function(){
-			$select_text = $(exports.select_text.config.select_text_id);
-			if($select_text[0]){
-				$select_text.on('click',function(event){
-					$(this).select();
-				});
-			}
+			$inputs = document.querySelectorAll(exports.select_text.config.input_id);
+
+			if(!$inputs[0])
+				return false;
+
+			Array.prototype.forEach.call($inputs, function($input,i){
+				$input.addEventListener('click', function (e) {
+					this.select();
+				},false);
+			});
 		}
 	};
-	exports.list_fieldset = function(){
-		
-	}
 
 	exports.backend_tab = function(args){
 		this.config = {

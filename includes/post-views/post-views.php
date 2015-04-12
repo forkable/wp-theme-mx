@@ -217,10 +217,10 @@ class theme_post_views{
 	public static function is_viewed($post_id){
 		if(!isset($_SESSION))
 			session_start();
-
+		$group_id = self::$iden  . '-viewed';
 		$cache_id = session_id() . $post_id;
-		if(!wp_cache_get($cache_id,self::$iden)){
-			wp_cache_set($cache_id,1,self::$iden,self::$expire);
+		if(!wp_cache_get($cache_id,$group_id)){
+			wp_cache_set($cache_id,1,$group_id,3600);
 			return false;
 		}else{
 			return true;
