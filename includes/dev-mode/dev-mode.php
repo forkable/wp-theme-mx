@@ -13,16 +13,11 @@ add_filter('theme_includes',function($fns){
 });
 class theme_dev_mode{
 	public static $iden = 'theme_dev_mode';
-	public static $is_enabled;
-	public static $opt;
 	private static $data = [];
 	public static function init(){
-
-		self::$opt = (array)theme_options::get_options(self::$iden);
-		self::$is_enabled = isset(self::$opt['on']) ? true : false;
 		
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
-		
+
 		add_action('after_setup_theme',__CLASS__ . '::mark_start_data',1);
 		add_action('wp_footer',__CLASS__ . '::hook_footer',9999);
 		add_action('dev_settings',__CLASS__ . '::display_backend');
@@ -34,7 +29,7 @@ class theme_dev_mode{
 	}
 	public static function get_options($key = null){
 		static $caches = null;
-		if(!$caches === null)
+		if($caches === null)
 			$caches = (array)theme_options::get_options(self::$iden);
 		
 		if($key === null){
@@ -54,7 +49,6 @@ class theme_dev_mode{
 	public static function display_backend(){
 		
 		$checked = self::is_enabled() ? ' checked ' : null;
-		
 		?>
 		<fieldset>
 			<legend><?php echo ___('Related Options');?></legend>
@@ -95,14 +89,14 @@ class theme_dev_mode{
 	public static function options_save(array $options = []){
 		if(isset($_POST[self::$iden])){
 			$options[self::$iden] = $_POST[self::$iden];
-			
-			$old_enable = isset($_POST[self::$iden]['old-enable']) ? $_POST[self::$iden]['old-enable'] : null;
+			//var_dump($options);exit;
+			$old_enable = isset($_POST[self::$iden]['old-enabled']) ? $_POST[self::$iden]['old-enabled'] : null;
 
 			unset($options[self::$iden]['old-enabled']);
 			/**
 			 * Dev mode ON => OFF, do minify
 			 */
-			if($old_enable == 1 && !isset($_POST[self::$iden]['enable'])){
+			if($old_enable == 1 && !isset($_POST[self::$iden]['enabled'])){
 				
 				@ini_set('max_input_nesting_level','9999');
 				@ini_set('max_execution_time','300'); 
@@ -114,12 +108,6 @@ class theme_dev_mode{
 				theme_features::minify_force(theme_features::get_stylesheet_directory() . theme_features::$basedir_css_src);
 				
 				theme_features::minify_force(theme_features::get_stylesheet_directory() . theme_features::$basedir_includes);
-			/**
-			 * OFF => ON
-			 */
-			}else if($old_enable == -1 && isset($_POST[self::$iden]['enable'])){
-				$options[self::$iden]['old-enabled'] = 1;
-				
 			}
 		}
 

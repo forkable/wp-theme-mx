@@ -218,21 +218,27 @@ img{
 	.post-img-list a{
 		display: block;
 		color:#333;
-		margin: -10px;
-		padding: 10px;
 	}
 		.post-img-list a:hover{
 			color: #D9534F;
-			background: #ECECEC;
 		}
-		.post-img-list a:active{
-			background: #ECECEC;
-			box-shadow: 0 0 20px rgba(0,0,0,.1) inset;
-		}
-	.post-img-list img{
+	.post-img-list .placeholder{
+		opacity: .1;
 		width: 100%;
 		height: auto;
 	}
+	.post-img-list .thumbnail-container{
+		position: relative;
+		overflow: hidden;
+	}
+	.post-img-list .post-list-img{
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+		.post-img-list:hover .post-list-img{
+			opacity: .9;
+		}
 	.post-img-list .post-list-title{
 		font-size: 13px;
 		line-height: 20px;
@@ -326,6 +332,7 @@ img{
 			width: 150px;
 			margin: 0 10px 0 0;
 		}
+		
 	.post-mixed-list .post-list-title{
 		font-size: 15px;
 		margin: 0 0 5px;
@@ -353,6 +360,10 @@ img{
 /**
  * .widget-area
  */
+	.widget > .panel-heading + div{
+		padding: 0;
+		margin: 20px;
+	}
 	.widget ul{
 		list-style-type: square;
 		padding-left: 2em;
@@ -1070,24 +1081,6 @@ label.error{
  * .related-posts
  */
 .related-posts{
-	background: none;
-	border: none;
-	box-shadow: none;
-}
-.related-posts .panel-heading{
-	padding: 0;
-	margin-bottom: -1px;
-	z-index: 1;
-	background: none;
-}
-.related-posts .nav-tabs > li > a{
-	color:#666;
-}
-.related-posts .panel-body{
-	background: #fff;
-	border: 1px solid #E7E7E7;
-	box-shadow:0px 1px 1px rgba(0, 0, 0, 0.05);
-	padding-bottom: 0;
 }
 
 
@@ -1332,12 +1325,14 @@ label.error{
 		text-shadow: 0px 1px 0px #FFF;
 		z-index: 0;
 	}
+
+.widget .panel-heading + .panel-body{
+	margin-bottom: 0;
+}
 /**
  * .widget .user-lists
  */
-.widget .user-lists{
-	margin-top: -10px;
-}
+
 .widget .user-list{
 	position: relative;
 	text-align: center;

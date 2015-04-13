@@ -60,8 +60,9 @@ define(function(require, exports, module){
 				legends_ot = [],
 				$legends = $cont.find('legend');
 			$legends.each(function(i){
-				var $this = $(this);
-				nav_links += '<li data-target-index="' + i +'">' + $this.text() + '</li>';
+				var $this = $(this),
+					tx = $this.text();
+				nav_links += '<li title="' + tx + '" data-target-index="' + i +'">' + tx + '</li>';
 				legends_ot.push(parseInt($this.offset().top));
 			});
 			return {

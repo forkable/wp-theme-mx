@@ -356,7 +356,7 @@ class theme_functions{
 	 */
 	public static function archive_img_content($args = []){
 		$defaults = array(
-			'classes' => array('grid-50','tablet-grid-50','mobile-grid-50'),
+			'classes' => [],
 			'lazyload' => true,
 		);
 		$r = wp_parse_args($args,$defaults);
@@ -372,8 +372,10 @@ class theme_functions{
 		?>
 		<li class="<?php echo esc_attr(implode(' ',$classes));?>">
 			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
-				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
-				
+				<div class="thumbnail-container">
+					<img class="placeholder" alt="Placeholder" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>">
+					<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+				</div>
 				<h3 class="post-list-title"><?php the_title();?></h3>
 					
 			</a>
@@ -1128,36 +1130,53 @@ class theme_functions{
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function get_comment_pagination( $args ) {
-		$options = theme_options::get_options();
-		/** Check the comment is open */
-		$page_comments = get_option('page_comments');
-
+	public static function get_comment_pagination( array $args = []) {
+		global $post;
+		/**
+		 * post comment status
+		 */
+		static $page_comments = null,
+			$cpp = null,
+			$thread_comments = null,
+			$max_pages = null;
+			
+		if($page_comments === null)
+			$page_comments = get_option('page_comments');
 		/** if comment is closed, return */
-		if(!$page_comments) return;
+		if(!$page_comments) 
+			return false;
+
+		/**
+		 * comments per page
+		 */
+		if(!$cpp === null)
+			$cpp = get_option('comments_per_page');
+
+		/**
+		 * thread_comments
+		 */
+		if($thread_comments === null)
+			$thread_comments = get_option('thread_comments');
+
+		if($max_pages === null)
+			$max_pages = get_comment_pages_count(null,get_option('comments_per_page'),get_option('thread_comments'));
+			
 		/** 
 		 * defaults args
 		 */
-		$defaults = array(
+		$defaults = [
 			'classes'			=> 'comment-pagination',
 			'cpaged'			=> max(1,get_query_var('cpage')),
-			'cpp' 				=> get_option('comments_per_page'),
-			'thread_comments'	=> get_option('thread_comments') ? true : false,
+			'cpp' 				=> $cpp,
+			'thread_comments'	=> $thread_comments ? true : false,
 			// 'default_comments_page' => get_option('default_comments_page'),
 			'default_comments_page' => 'oldest',
-			'max_pages' 		=> get_comment_pages_count(null,get_option('comments_per_page'),get_option('thread_comments')),
+			'max_pages' 		=> $max_pages,
 			
-		);
+		];
 		$r = wp_parse_args($args,$defaults);
 		extract($r,EXTR_SKIP);
-		/** 
-		 * if enable ajax
-		 */
-		if(isset($options['comment_ajax']) && $options['comment_ajax']['on'] == 1){
-			$add_fragment = '&amp;pid=' . get_the_ID();
-		}else{
-			$add_fragment = false;
-		}
+				
 		/** If has page to show me */
 		if ( $max_pages > 1 ){
 			$big = 999;
@@ -1166,11 +1185,19 @@ class theme_functions{
 				'total'			=> $max_pages,
 				'current'		=> $cpaged,
 				'echo'			=> false, 
-				'prev_text'		=> ___('&laquo;'),
-				'next_text'   	=> ___('&raquo;'),
-				'add_fragment'	=> $add_fragment,
+				'prev_text'		=> '<i class="fa fa-angle-left"></i>',
+				'next_text'   	=> '<i class="fa fa-angle-right"></i>',
 			);
 			$comments_page_links = paginate_links($args);
+			/**
+			 * add data-* attribute
+			 */
+			$comments_page_links = str_replace(
+				' href=',
+				' data-post-id="' . $post->ID . '" data-cpage="' . $cpaged . '" href=',
+				$comments_page_links
+			);
+			
 			$output = '<div class="'. $classes .'">'.$comments_page_links.'</div>';
 			return $output;
 		}
@@ -1463,6 +1490,17 @@ class theme_functions{
 	}
 	public static function the_related_posts_plus($args = null){
 		global $wp_query,$post;
+
+		/**
+		 * cache
+		 */
+		$cache_group_id = 'related_posts';
+		$cache = wp_cache_get($post->ID,$cache_group_id);
+		if($cache){
+			echo $cache;
+			return $cache;
+		}
+		
 		$defaults = array(
 			'posts_per_page' => 6,
 			'orderby' => 'latest',
@@ -1474,114 +1512,58 @@ class theme_functions{
 		$content_args = array(
 			'classes' => array('col-xs-6 col-sm-4 col-md-2')
 		);
+		
+		ob_start();
 		?>
+		
 		<div class="related-posts panel panel-default" role="tabpanel">
-			<ul class="nav nav-tabs panel-heading" role="tablist">
-				<li role="presentation" class="active"><a href="#related-same-tag" aria-controls="related-same-tag" role="tab" data-toggle="tab">
-					<i class="fa fa-tag"></i> 
-					<?php echo ___('Same tag');?>
-				</a></li>
-				<li role="presentation"><a href="#related-same-cat" aria-controls="related-same-cat" role="tab" data-toggle="tab">
-					<i class="fa fa-folder-open"></i> 
-					<?php echo ___('Same category');?>
-				</a></li>
-				<li role="presentation"><a href="#related-same-author" aria-controls="related-same-author" role="tab" data-toggle="tab">
-					<i class="fa fa-user"></i> 
-					<?php echo ___('Same author');?>
-				</a></li>
-			</ul>
-
-			<div class="tab-content panel-body">
-				<div role="tabpanel" class="tab-pane active" id="related-same-tag">
-					<?php
-					$same_tag_args = $args;
-					$same_tag_query = $query_args;
-					if(!get_the_tags()){
-						$same_tag_query['category__in'] = array_map(function($term){
-							return $term->term_id;
-						},get_the_category());
-						$same_tag_args['orderby'] = 'random';
-					}else{
-						$same_tag_query['tag__in'] = array_map(function($term){
-							return $term->term_id;
-						},get_the_tags());
-					}
-					$wp_query = self::get_posts_query($same_tag_args,$same_tag_query);
-					if(have_posts()){
-						?>
-						<ul class="row post-img-lists">
-							<?php
-							while(have_posts()){
-								the_post();
-								self::archive_img_content($content_args);
-							}
-						?>
-						</ul>
-					<?php }else{ ?>
-						<div class="page-tip"><?php echo status_tip('info',___('No data.'));?></div>
-					<?php
-					}
-					wp_reset_postdata();
-					?>
-				</div>
-
-				<div role="tabpanel" class="tab-pane" id="related-same-cat">
-					<?php
-					$same_cat_args = $args;
-					$same_cat_query = $query_args;
-					$same_cat_query['category__in'] = array_map(function($term){
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-heart-o"></i> <?php echo ___('Maybe you will like them');?></h3>
+			</div>
+			<div class="panel-body">
+				<?php
+				$same_tag_args = $args;
+				$same_tag_query = $query_args;
+				/**
+				 * if post not tags, get related post from same category
+				 */
+				if(!get_the_tags()){
+					$same_tag_query['category__in'] = array_map(function($term){
 						return $term->term_id;
 					},get_the_category());
-					$wp_query = self::get_posts_query($same_cat_args,$same_cat_query);
-					if(have_posts()){
-						?>
-						<ul class="row post-img-lists">
-							<?php
-							while(have_posts()){
-								the_post();
-								self::archive_img_content($content_args);
-							}
-						?>
-						</ul>
-					<?php }else{ ?>
-						<div class="page-tip"><?php echo status_tip('info',___('No data.'));?></div>
-					<?php
-					}
-					wp_reset_postdata();
+					$same_tag_args['orderby'] = 'random';
+				}else{
+					$same_tag_query['tag__in'] = array_map(function($term){
+						return $term->term_id;
+					},get_the_tags());
+				}
+				$wp_query = self::get_posts_query($same_tag_args,$same_tag_query);
+				if(have_posts()){
 					?>
-				</div>
-				<div role="tabpanel" class="tab-pane" id="related-same-author">
-					<?php
-					$same_author_args = $args;
-					$same_author_query = $query_args;
-					$same_author_query['author'] = get_the_author_meta('ID');
-					$wp_query = self::get_posts_query($same_author_args,$same_author_query);
-					if(have_posts()){
-						?>
-						<ul class="row post-img-lists">
-							<?php
-							while(have_posts()){
-								the_post();
-								self::archive_img_content($content_args);
-							}
-						?>
-						</ul>
-					<?php }else{ ?>
-						<div class="page-tip"><?php echo status_tip('info',___('No data.'));?></div>
-					<?php
-					}
-					wp_reset_postdata();
-					wp_reset_query();
+					<ul class="row post-img-lists">
+						<?php
+						while(have_posts()){
+							the_post();
+							self::archive_img_content($content_args);
+						}
 					?>
-				</div>
+					</ul>
+				<?php }else{ ?>
+					<div class="page-tip"><?php echo status_tip('info',___('No data.'));?></div>
+				<?php
+				}
+				wp_reset_query();
+				wp_reset_postdata();
+				?>
 			</div>
+
 		</div>
 		<?php
-		/**
-		 * get same tags posts
-		 */
-		
-		
+		$cache = ob_get_contents();
+		ob_end_clean();
+		wp_cache_set($post->ID,$cache,$cache_group_id,3600);
+		echo $cache;
+		return $cache;
 	}
 	/** 
 	 * the_related_posts

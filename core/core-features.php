@@ -646,7 +646,7 @@ class theme_features{
 			$self_basedir_extension_src = 'basedir_' . $extension . '_src';
 			
 			$file_path_src = $dir_path . self::$$self_basedir_extension_src . $file_basename;
-			if(!file_exists($file_path_src)) return false;
+			//if(!file_exists($file_path_src)) return false;
 			/**
 			 * file url src
 			 */

@@ -15,11 +15,9 @@ class theme_cache_request {
 		add_filter('frontend_seajs_alias',			__CLASS__ . '::frontend_alias');
 	}
 	public static function process(){
+		theme_features::check_referer();
+		
 		$output = [];
-		/** 
-		 * check referer
-		 */
-		!check_referer() && die(___('Referer error'));
 
 		$output = apply_filters('cache-request',$output);
 		$output['theme-nonce'] = wp_create_nonce('theme-nonce');

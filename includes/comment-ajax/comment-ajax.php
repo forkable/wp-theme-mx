@@ -7,7 +7,7 @@ Description:	Use AJAX when browse/add/reply comment. (Recommended enable)
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
 */
- add_filter('theme_includes',function($fns){
+add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_comment_ajax::init';
 	return $fns;
 });
@@ -83,7 +83,9 @@ class theme_comment_ajax{
 		if(strstr(get_current_url(),'wp-comments-post.php') !== false) die(___('Blocked comment from frontend.'));
 	}
 	public static function process(){
-		!check_referer() && wp_die(___('Referer error'));
+		
+		theme_features::check_referer();
+		//theme_features::check_nonce();
 	
 		$output = [];
 		

@@ -24,12 +24,12 @@
 							}
 							?>
 						</ul>
-						<div class="area-pagination">
-							<?php echo theme_functions::get_post_pagination('posts-pagination posts-pagination-bottom');?>
-						</div>
 					<?php }else{ ?>
 
 					<?php } ?>
+				</div>
+				<div class="panel-footer area-pagination">
+					<?php theme_functions::pagination('posts-pagination posts-pagination-bottom');?>
 				</div>
 			</div>
 		</div><!-- /#main -->

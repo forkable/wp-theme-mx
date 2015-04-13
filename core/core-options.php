@@ -39,11 +39,8 @@ class theme_options{
 	 * 
 	 */
 	public static function get_options($key = null){
-		
-		if(empty(self::$opts)){
-			/** Default options hook */
-			self::$opts = wp_parse_args((array)get_theme_mod(self::$iden),apply_filters('theme_options_default',[]));
-		}
+		/** Default options hook */
+		self::$opts = wp_parse_args((array)get_theme_mod(self::$iden),apply_filters('theme_options_default',[]));
 		
 		if($key){
 			return isset(self::$opts[$key]) ? self::$opts[$key] : null;
@@ -205,7 +202,6 @@ class theme_options{
 			return false;
 		/** Check the action and save options */
 		if(isset($_POST['action']) && $_POST['action'] === 'options-save'){
-			$opts_old = (array)get_theme_mod(self::$iden);
 			$opts_new = apply_filters(self::$iden . '_save',[]);
 			
 			/** Reset the options? */

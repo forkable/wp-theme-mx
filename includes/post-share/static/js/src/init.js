@@ -18,8 +18,11 @@ define(function(require, exports, module){
 				image: {},
 				selectShare: false
 			},
-			$bdboxes = document.querySelectorAll('.bdsharebuttonbox'),
-			$js = document.createElement('script');
+			$bdboxes = document.querySelectorAll('.bdsharebuttonbox');
+		if(!$bdboxes[0])
+			return false;
+			
+		$js = document.createElement('script');
 			
 		Array.prototype.forEach.call($bdboxes,function($bdbox,i){
 			var tar_id = 'bdshare_tag_' + i,

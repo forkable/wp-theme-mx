@@ -167,12 +167,12 @@ define(function(require, exports, module){
 		function tip(t,s){
 			if(t === 'hide'){
 				if(!cache.$tip.is(':hidden')){
-					cache.$tip.slideUp();
+					cache.$tip.hide();
 				}
 			}else{
 				cache.$tip.html(exports.status_tip(t,s));
 				if(cache.$tip.is(':hidden')){
-					cache.$tip.slideDown();
+					cache.$tip.show();
 				}
 			}
 		};
@@ -224,13 +224,15 @@ define(function(require, exports, module){
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	exports.auto_focus = function($frm,selector){
-		if(typeof($frm) == 'undefined' || !$frm[0]) return false;
-		selector = selector || '[required]';
-		$frm.find(selector).each(function(i){
-			var $this = $(this);
-			if(!$.trim($this.val())){
-				$this.focus();
+	exports.auto_focus = function($frm,attr){
+		if(typeof($frm) == 'undefined' || !$frm[0]) 
+			return false;
+		if(!attr)
+			attr = '[required]';
+	
+		Array.prototype.forEach.call($frm.querySelectorAll(attr),function(el,i){
+			if(el.value.trim() == ''){
+				el.focus();
 				return false;
 			}
 		});
