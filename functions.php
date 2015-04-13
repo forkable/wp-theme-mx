@@ -1130,7 +1130,7 @@ class theme_functions{
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function get_comment_pagination( array $args = []) {
+	public static function get_comment_pagination(array $args = []) {
 		global $post;
 		/**
 		 * post comment status
@@ -1198,8 +1198,7 @@ class theme_functions{
 				$comments_page_links
 			);
 			
-			$output = '<div class="'. $classes .'">'.$comments_page_links.'</div>';
-			return $output;
+			return '<div class="'. $classes .'">'.$comments_page_links.'</div>';
 		}
 	}
 	
@@ -1846,7 +1845,6 @@ class theme_functions{
 							<span class="input-group-btn">
 								<button type="submit" class="submit btn btn-success" >
 									<i class="fa fa-check"></i>
-									<span class="hidden-xs"><?php echo ___('Post comment');?></span>
 								</button>
 							</span>
 						</div>
@@ -1916,7 +1914,6 @@ class theme_functions{
 							<span class="input-group-btn">
 								<button type="submit" class="submit btn btn-success" >
 									<i class="fa fa-check"></i>
-									<span class="hidden-xs"><?php echo ___('Post comment');?></span>
 								</button>
 							</span>
 						</div>

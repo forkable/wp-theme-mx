@@ -555,8 +555,8 @@ label.error{
 	}
 	#commentform .submit{
 		height: 80px;
-		padding-left: 2em;
-		padding-right: 2em;
+		width: 80px;
+		font-size: 40px;
 		/*width: 100px;*/
 	}
 	#commentform label{

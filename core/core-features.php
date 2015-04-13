@@ -6,9 +6,9 @@
  * Help you write a wp site quickly.
  *
  * @package KMTF
- * @version 4.3.5
+ * @version 5.0.0
  * @author KM@INN STUDIO
- * @date 2015-01-22
+ * @date 2015-04-13
  */
 theme_features::init();
 class theme_features{
@@ -57,7 +57,7 @@ class theme_features{
 			'theme_js' => self::get_theme_js(),
 			'theme_css' => self::get_theme_css(),
 			'theme_images' => self::get_theme_images_url(),
-			'process_url' => esc_url(self::get_process_url()),
+			'process_url' => self::get_process_url(),
 		);
 		$config['map'] = array(
 			array('.css','.css?v=' . $theme_version),
@@ -229,7 +229,7 @@ class theme_features{
 	 * 
 	 */
 	public static function get_theme_file_url($file_basename = null,$mtime = false){
-		static $caches;
+		static $caches = [];
 		
 		$cache_id = md5($file_basename.$mtime);
 		if(isset($caches[$cache_id]))
@@ -322,7 +322,7 @@ class theme_features{
 	 * @return string <script> tag string or js url only
 	 */
 	public static function get_theme_js($file_basename = null,$url_only = true,$mtime = true){
-		static $caches;
+		static $caches = [];
 		/**
 		 * cache
 		 */
@@ -373,7 +373,7 @@ class theme_features{
 	 * @return string url only /<link...> by $args
 	 */
 	public static function get_theme_css($file_basename = null,$args = null,$mtime = true){
-		static $caches;
+		static $caches = [];
 		
 		/**
 		 * cache
@@ -497,7 +497,7 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_includes_js($DIR = null,$filename = 'init',$mtime = true){
-		static $caches;
+		static $caches = [];
 		
 		$cache_id = md5($DIR.$filename.$mtime);
 		if(isset($caches[$cache_id]))
@@ -531,7 +531,7 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_includes_css($DIR = null,$filename = 'style',$mtime = true){
-		static $caches;
+		static $caches = [];
 		
 		$cache_id = md5($DIR.$filename.$mtime);
 		if(isset($caches[$cache_id]))
@@ -564,7 +564,7 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_includes_image($DIR = null,$filename = null){
-		static $caches;
+		static $caches = [];
 		
 		$cache_id = md5($DIR.$filename);
 		if(isset($caches[$cache_id]))
@@ -698,11 +698,11 @@ class theme_features{
 	 * @param string $file_basename
 	 * @param bool $mtime
 	 * @return string
-	 * @version 1.0.2
+	 * @version 1.0.3
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_images_url($file_basename = null,$mtime = false){
-		static $caches;
+		static $caches = [];
 		
 		$cache_id = md5($file_basename.$mtime);
 		if(isset($caches[$cache_id]))
@@ -730,7 +730,11 @@ class theme_features{
 	 * 
 	 */
 	public static function get_process_url($param = null){
-		$admin_ajax_url = admin_url('admin-ajax.php');
+		static $admin_ajax_url = null;
+		
+		if(!$admin_ajax_url === null)
+			$admin_ajax_url = admin_url('admin-ajax.php');
+
 		if(!$param) return $admin_ajax_url;
 		/** 
 		 * is_string
@@ -761,44 +765,48 @@ class theme_features{
 	 *
 	 * @param object
 	 * @return string
-	 * @version 1.0.2
+	 * @version 1.0.3
 	 * @author KM@INN STUDIO
 	 */
-	public static function json_format($output,$die = false){
+	public static function json_format(array $output = [],$die = false){
 		if(empty($output)) 
-			return;
-			/** Reduce the size but will inccrease the CPU load */
-			//$output = json_encode(array_multiwalk($output,'html_compress'));
-			$output = json_encode($output);
-			/**
-			 * If the remote call, return the jsonp format
-			 */
-			if(isset($_GET['callback']) && !empty($_GET['callback'])){
-				$jsonp = $_GET['callback'];
-				$output = $jsonp. '(' .$output. ')';
-			}else{
-				header('Content-Type: application/javascript');
-			}
-		if($die){
-			die($output);
+			return false;
+		/** Reduce the size but will inccrease the CPU load */
+		$output = json_encode(array_multiwalk($output,'html_compress'));
+		//$output = json_encode($output);
+		/**
+		 * If the remote call, return the jsonp format
+		 */
+		if(isset($_GET['callback']) && is_string($_GET['callback']) && !empty($_GET['callback'])){
+			$jsonp = $_GET['callback'];
+			$output = $jsonp. '(' .$output. ')';
 		}else{
-			return $output;
+			header('Content-Type: application/javascript');
 		}
+
+		return $die ? die($output) : $output;
+
 	}
 	/**
 	 * check_referer
 	 *
 	 * @param string
 	 * @return bool
-	 * @version 1.0.0
+	 * @version 1.1.0
 	 * @author KM@INN STUDIO
 	 */
 	public static function check_referer($referer = null){
-		$referer = $referer ? : home_url();
-		if(!isset($_SERVER["HTTP_REFERER"]) || stripos($_SERVER["HTTP_REFERER"],$referer) !== 0){
+		static $home_url = null;
+		if($home_url === null)
+			$home_url = home_url();
+			
+		if(!$referer)
+			$referer = $home_url;
+
+		if(!isset($_SERVER['HTTP_REFERER']) || stripos($_SERVER["HTTP_REFERER"],$referer) !== 0){
 			$output = array(
 				'status' => 'error',
-				'id' => 'invalid_referer',
+				'code' => 'invalid_referer',
 				'msg' => ___('Sorry, referer is invalid.')
 			);
 			die(theme_features::json_format($output));
@@ -808,7 +816,7 @@ class theme_features{
 	 * Check theme nonce code
 	 *
 	 * @return 
-	 * @version 1.1.1
+	 * @version 1.2.0
 	 * @author KM@INN STUDIO
 	 */
 	public static function check_nonce($key = 'theme-nonce'){
@@ -816,7 +824,7 @@ class theme_features{
 		if(!wp_verify_nonce($nonce,'theme-nonce')){
 			$output = array(
 				'status' => 'error',
-				'id' => 'invalid_security_code',
+				'code' => 'invalid_security_code',
 				'msg' => ___('Sorry, security code is invalid.')
 			);
 			die(theme_features::json_format($output));
@@ -831,20 +839,26 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_avatar($user,$size = 80,$default = null,$alt = null){
+		$cache_id = md5(serialize(func_get_args()));
+		
+		static $caches = [];
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+			
 		if(is_object($user)){
 			$user_id = $user->ID;
 		}else{
 			$user_id = (int)$user;
 			$user = get_user_by('id',$user);
 		}
-		$avatar = null;
+
 		/** check avatar from user meta */
-		$avatar = get_user_meta($user_id,'avatar',true);
+		$caches[$cache_id] = get_user_meta($user_id,'avatar',true);
 		/** check avatar from  */
-		if(!$avatar){
-			$avatar = get_avatar($user->user_email,$size, $default, $alt);
+		if(!$caches[$cache_id]){
+			$caches[$cache_id] = get_avatar($user->user_email,$size, $default, $alt);
 		}
-		return $avatar;
+		return $caches[$cache_id];
 	}
 	/**
 	 * theme_features::get_theme_url
@@ -927,42 +941,71 @@ class theme_features{
 		return $file_path;
 	}
 	/**
-	 * 获取日志特色图，如无则显示文章第一张图，再无则显示指定代替图片
+	 * Get post thumbnail src, if the post have not thumbnail, then get the first image from post content.
 	 *
-	 * @since 3.0.1
-	 * @version 1.0.6
-	 * @usedny theme_features::get_thumbnail_src
-	 * @param int $post_id 文章ID，默认为$post->ID
-	 * @param string $size 特色图规格
-	 * @return string The img url
+	 * @version 1.1.0
+	 * @param int $post_id The post ID, default is global $post->ID
+	 * @param string $size Thumbnail size
+	 * @return string Placeholder img url
 	 */
 	public static function get_thumbnail_src($post_id = null,$size = 'thumbnail',$replace_img = null){
-		global $post;
-		$output = null;
-		$post_id= $post_id ? (int)$post_id : $post->ID;
-		$src = wp_get_attachment_image_src(get_post_thumbnail_id(),$size);
+		static $caches = [];
+		$cache_id = md5(serialize(func_get_args()));
+		
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+			
+		if(!$post_id){
+			global $post;
+			$post_id = $post->ID;
+		}
+		
+		$src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id),$size);
+		
 		if(!empty($src)){
-			$src = $src[0];
-		/* 不存在特色图 */
-		}else{
-			$src = get_img_source($post->post_content);
-			if(!$src && $replace_img){
-				$src = $replace_img;
-			}
+			$caches[$cache_id] = $src[0];
+			return $caches[$cache_id];
 		}
-		return $src;
+			
+		/**
+		 * have not thumbnail, get first img from post content
+		 */
+		$caches[$cache_id] = get_img_source($post->post_content);
+		if($caches[$cache_id])
+			return $caches[$cache_id];
+
+		if($replace_img)
+			return $replace_img;
+
+		return null;
+		
 	}
-	/* 获取文章概要 */
+	/**
+	 * Get post excerpt and limit string lenght
+	 *
+	 * @param int $len Limit string
+	 * @param string $extra The more string
+	 * @return string
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
 	public static function get_post_excerpt($len = 120,$extra = '...'){
+		static $caches = [];
 		global $post;
-		$output = null;
-		/* 存在摘要 */
-		if(get_the_excerpt()){
-			$output = str_sub(get_the_excerpt(),$len,$extra);
+		
+		if(isset($caches[$post->ID]))
+			return $caches[$post->ID];
+			
+		$excerpt = get_the_excerpt();
+		
+		if($excerpt){
+			$caches[$post->ID] = str_sub($excerpt,$len,$extra);
 		}else{
-			$output = str_sub(get_the_content(),$len,$extra);
+			$caches[$post->ID] = str_sub(get_the_content(),$len,$extra);
 		}
-		return $output;
+		unset($excerpt);
+		
+		return $caches[$post->ID];
 	}
 	/**
 	 * Get the thumbnail source of preovious post
@@ -1018,9 +1061,14 @@ class theme_features{
 	 */
 	public static function get_current_tag_obj(){
 		if(is_tag()){
+			static $cache = null;
+			if($cache !== null)
+				return $cache;
+				
 			$tag_id = self::get_current_tag_id();
 			$tag_obj = get_tag($tag_id);
-			return $tag_obj;
+			$cache = $tag_obj;
+			return $cache;
 		}
 	}
 	/**
@@ -1236,10 +1284,14 @@ class theme_features{
 	 * @version 1.0.0
 	 * @author KM@INN STUDIO
 	 */
-	public static function get_page_url_by_slug($slug = null){
-		if(!$slug) return false;
+	public static function get_page_url_by_slug($slug){
+		static $caches = [];
+		if(isset($caches[$slug]))
+			return $caches[$slug];
+			
 		$id = self::get_page_id_by_slug($slug);
-		return get_permalink($id);
+		$caches[$slug] = get_permalink($id);
+		return $caches[$slug];
 	}
 	/**
 	 * get page id by page slug
@@ -1250,15 +1302,18 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function get_page_id_by_slug($page_slug = null){
-		if(!$page_slug) return false;
-		$page_obj = get_page_by_path($page_slug);
+	public static function get_page_id_by_slug($slug){
+		static $caches = [];
+		if(isset($caches[$slug]))
+			return $caches[$slug];
+			
+		$page_obj = get_page_by_path($slug);
 		if ($page_obj) {
-			$output = $page_obj->ID;
+			$caches[$slug] = $page_obj->ID;
 		}else{
-			$output = false;
+			$caches[$slug] = false;
 		}
-		return $output;
+		return $caches[$slug];
 	}
 	
 	/**
@@ -1272,10 +1327,14 @@ class theme_features{
 	 * 
 	 */
 	public static function get_wp_themes_local_dir($file_name = null){
+		static $caches = [];
+		if(isset($caches[$file_name]))
+			return $caches[$file_name];
+			
 		$basedir_name = '/themes/';
 		$file_name = $file_name ? '/' .$file_name : '/';
-		$output = self::get_stylesheet_directory().$basedir_name.$file_name;
-		return $output;
+		$caches[$file_name] = self::get_stylesheet_directory().$basedir_name.$file_name;
+		return $caches[$file_name];
 	}
 	/**
 	 * get_link_page_url
@@ -1529,7 +1588,7 @@ class theme_features{
 			}
 			--$commentcount;
 		}
-		return (int)$commentcount;
+		return $commentcount;
 	}
 	/**
 	 * get_user_comments_count
@@ -1561,10 +1620,14 @@ class theme_features{
 
 	/* 后台登录logo 链接修改 */
 	public static function custom_login_logo_url($url) {
-		return home_url();
+		static $cache = null;
+		if($cache === null)
+			$cache = home_url();
+			
+		return $cache;
 	}
 	/* 增強bodyclass樣式 */
-	public static function theme_body_classes($classes){
+	public static function theme_body_classes(array $classes = []){
 		if(is_singular()){
 			$classes[] = 'singular';
 		}
@@ -1635,7 +1698,7 @@ class theme_features{
 
 			$file_path = $path_info['dirname'] . '/' . $path_info['filename'] . '/' . $path_info['filename'] . '.php';
 			
-			if(file_exists($file_path))
+			if(is_file($file_path))
 				include $file_path;
 				
 
@@ -1668,7 +1731,7 @@ class theme_features{
 		/**
 		 * Custom login logo url
 		 */
-		add_filter('login_headerurl','theme_features::custom_login_logo_url' );
+		add_filter('login_headerurl',__CLASS__ . '::custom_login_logo_url' );
 		/**
 		 * Add thumbnails function
 		 */
@@ -1745,6 +1808,12 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function cat_option_list($group_id,$cat_id,$child = false){
+		static $caches = [];
+		$cache_id = md5(serialize(func_get_args()));
+
+		if(isset($caches[$cache_id]))
+			echo $caches[$cache_id];
+			
 		$opt = (array)theme_options::get_options($group_id);
 		if($child !== false){
 			$cat_current_id = isset($opt[$cat_id][$child]) && $opt[$cat_id][$child] != 0 ? $opt[$cat_id][$child] : null;
@@ -1760,7 +1829,8 @@ class theme_features{
 			'selected' => $cat_current_id,
 			'echo' => 0,
 		);		
-		echo wp_dropdown_categories($cat_args);
+		$caches[$cache_id] = wp_dropdown_categories($cat_args);
+		echo $caches[$cache_id];
 	}
 	/**
 	 * Display category on checkbox tag
@@ -1773,12 +1843,20 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function cat_checkbox_list($group_id,$ids_name){
+		static $caches = [];
+		$cache_id = md5(serialize(func_get_args()));
+
+		if(isset($caches[$cache_id]))
+			echo $caches[$cache_id];
+			
 		$opt = (array)theme_options::get_options($group_id);
 		$cats = get_categories(array(
 			'hide_empty' => false,
 			'exclude' => 1
 		));
 		$cat_ids = isset($opt[$ids_name]) ? (array)$opt[$ids_name] : array();
+
+		ob_start();
 		
 		if(!empty($cats)){
 			foreach($cats as $cat){
@@ -1811,6 +1889,9 @@ class theme_features{
 		}else{ ?>
 			<p><?php echo esc_html(___('No category, pleass go to add some categories.'));?></p>
 		<?php }
+		$caches[$cache_id] = ob_get_contents();
+		ob_end_clean();
+		echo $caches[$cache_id];
 
 	}
 	/**
@@ -1823,8 +1904,16 @@ class theme_features{
 	 * @author KM@INN STUDIO
 	 */
 	public static function page_option_list($group_id,$page_slug){
+		static $caches = [];
+		$cache_id = md5(serialize(func_get_args()));
+
+		if(isset($caches[$cache_id]))
+			echo $caches[$cache_id];
+			
 		$opt = theme_options::get_options($group_id);
 		$page_id = isset($opt[$page_slug]) ? (int)$opt[$page_slug] : null;
+
+		ob_start();
 		?>
 		<select name="<?php echo $group_id,'[',$page_slug,']';?>" id="<?php echo $group_id,'-',$page_slug;?>">
 			<option value="0"><?php echo esc_attr(___('Select page'));?></option>
@@ -1842,6 +1931,10 @@ class theme_features{
 			?>
 		</select>
 		<?php
+		$caches[$cache_id] = ob_get_contents();
+		ob_end_clean();
+		echo $caches[$cache_id];
+		
 	}
 	/**
 	 * Get post format icons

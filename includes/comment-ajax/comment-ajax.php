@@ -2,7 +2,7 @@
 /*
 Feature Name:	Comment AJAX
 Feature URI:	http://www.inn-studio.com
-Version:		2.0.5
+Version:		2.0.6
 Description:	Use AJAX when browse/add/reply comment. (Recommended enable)
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -12,21 +12,27 @@ add_filter('theme_includes',function($fns){
 	return $fns;
 });
 class theme_comment_ajax{
-	private static $iden = 'theme_comment_ajax';
+	public static $iden = 'theme_comment_ajax';
 	public static function init(){
 		
-		add_filter('theme_options_default',			__CLASS__ . '::backend_options_default');
+		//add_filter('theme_options_default',			__CLASS__ . '::backend_options_default');
 		// add_filter('theme_options_save',			__CLASS__ . '::backend_options_save');
 
 		// add_action('page_settings',					__CLASS__ . '::backend_options_display');
 		
 		add_action('wp_footer',						__CLASS__ . '::thread_comments_js');
-		if(!self::is_enabled()) return;
-		add_action('frontend_seajs_use',			__CLASS__ . '::frontend_seajs_use');
-		add_action('pre_comment_on_post',			__CLASS__ . '::block_frontend_comment',1);
-		add_action('pre_comment_on_post',			__CLASS__ . '::pre_comment_on_post');
-		add_action('wp_ajax_' . __CLASS__,		__CLASS__ . '::process');
-		add_action('wp_ajax_nopriv_' . __CLASS__,	__CLASS__ . '::process');
+		
+		if(!self::is_enabled()) 
+			return;
+		
+		add_action('frontend_seajs_use',	__CLASS__ . '::frontend_seajs_use');
+		add_action('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
+		
+		add_action('pre_comment_on_post',	__CLASS__ . '::block_frontend_comment',1);
+		add_action('pre_comment_on_post',	__CLASS__ . '::pre_comment_on_post');
+		
+		add_action('wp_ajax_' . self::$iden,	__CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . self::$iden,	__CLASS__ . '::process');
 		
 		
 	}
@@ -79,11 +85,12 @@ class theme_comment_ajax{
 
 		<?php
 	}
-	public static function block_frontend_comment($comment_post_ID){		
-		if(strstr(get_current_url(),'wp-comments-post.php') !== false) die(___('Blocked comment from frontend.'));
+	public static function block_frontend_comment($comment_post_ID){
+		if(basename($_SERVER['PHP_SELF']) === 'wp-comments-post.php')
+			die(___('Blocked comment from frontend.'));
 	}
 	public static function process(){
-		
+
 		theme_features::check_referer();
 		//theme_features::check_nonce();
 	
@@ -92,8 +99,10 @@ class theme_comment_ajax{
 		/**
 		 * Check the ajax comment post
 		 */
-		if(isset($_POST['comment_post_ID'])){
-			$comment_post_ID = isset($_POST['comment_post_ID']) ? (int) $_POST['comment_post_ID'] : 0;
+		if(isset($_POST['comment_post_ID']) && is_string($_POST['comment_post_ID'])){
+			
+			$comment_post_ID = (int)$_POST['comment_post_ID'];
+			
 			do_action('pre_comment_on_post', $comment_post_ID);
 
 			global $wp_query,$comment, $comments, $post, $wpdb;
@@ -148,12 +157,14 @@ class theme_comment_ajax{
 			 * Check required 
 			 */
 			if(get_option('require_name_email')&& !$user->exists()){
-				if(6 > strlen($comment_author_email)|| '' == $comment_author){
+				if(empty($comment_author)){
 					$output['status'] = 'error';
-					$output['msg'] = ___('Error: please fill the required fields(name, email).');
+					$output['code'] = 'invaild_name';
+					$output['msg'] = ___('Error: please fill your name.');
 					die(theme_features::json_format($output));
 				}else if(!is_email($comment_author_email)){
 					$output['status'] = 'error';
+					$output['code'] = 'invaild_email';
 					$output['msg'] = ___('Error: please enter a valid email address.');
 					die(theme_features::json_format($output));
 				}
@@ -163,6 +174,7 @@ class theme_comment_ajax{
 			 */
 			if(empty($comment_content)){
 				$output['status'] = 'error';
+				$output['code'] = 'invaild_content';
 				$output['msg'] = ___('Error: please type a comment.');
 				die(theme_features::json_format($output));
 			}
@@ -215,72 +227,67 @@ class theme_comment_ajax{
 			 * Check if no error
 			 */
 			if($output['status'] === 'success'){
-				$content = html_compress(wp_list_comments(array(
+				$content = html_compress(wp_list_comments([
+					'type' => 'comment',
 					'callback'=>'theme_functions::theme_comment',
 					'echo' => false,
-				),array($comment)));
+				],[$comment]));
 				/**
 				 * Check if Reply comment
 				 */
 				if($comment_parent != 0){
-					$output['des']['comment_parent'] = $comment_parent;
-					$output['des']['comment'] = '<ul id="children-'.$comment->comment_ID.'" class="children">'.$content.'</ul>';
+					$output['comment_parent'] = $comment_parent;
+					$output['comment'] = '<ul id="children-'.$comment->comment_ID.'" class="children">'.$content.'</ul>';
 				}else{
-					$output['des']['comment'] = $content;
+					$output['comment'] = $content;
 				}
 				$output['msg'] = ___('Commented successfully, thank you!');
-				$output['des']['post_id'] = $comment_post_ID;
+				$output['post_id'] = $comment_post_ID;
+				die(theme_features::json_format($output));
 			}
-		/** 
-		 * if is pagination
-		 */
-		}else if(isset($_GET['type']) && 
-			$_GET['type'] === 'comm_pagination' &&
-			isset($_GET['url'])){
-			$url = urldecode($_GET['url']);
-			/** 
-			 * check rewrite
-			 */
-			$parse_url = parse_url($url);
-			if(!$parse_url) die();
-			/** 
-			 * if not rewrite, such as: http://localhost/?p=1&cpage=4#comments&pid=1
-			 */
-			if(isset($parse_url['query'])){
-				parse_str($parse_url['query'],$query_arr);
-				$cpage = isset($query_arr['cpage']) ? (int)$query_arr['cpage'] : null;
-				$post_id = isset($query_arr['p']) ? (int)$query_arr['p'] : null;
-			/** 
-			 * is rewrite, such as: http://localhost/archives/1/comment-page-3#comments&pid=1
-			 */
-			}else{
-				/** 
-				 * match $cpage
-				 */
-				$url_path = $parse_url['path'];
-				preg_match('/comment-page-(\d+)/i', $url_path, $matches_cp);
-				$cpage = isset($matches_cp[1]) ? (int)$matches_cp[1] : null;
-				/** 
-				 * match $post_id
-				 */
-				$url_fragment =  $parse_url['fragment'];
-				preg_match('/pid=(\d+)/i', $url_fragment, $matches_fr);
-				$post_id = isset($matches_fr[1]) ? (int)$matches_fr[1] : null;
-			}
+		
+		}
 
-			if(!$cpage || !$post_id){
-				$output['status'] = 'error';
-				$output['msg'] = ___('Param error');
-			}else{
+		/**
+		 * type
+		 */
+		$type = isset($_GET['type']) && is_string($_GET['type']) ? isset($_GET['type']) : null;
+		switch($type){
+			case 'get-comments':
+				/**
+				 * comments page
+				 */
+				$cpage = isset($_GET['cpage']) && is_string($_GET['cpage']) ? (int)$_GET['cpage'] : null;
+				
+				/**
+				 * post id
+				 */
+				$post_id = isset($_GET['post-id']) && is_string($_GET['post-id']) ? (int)$_GET['post-id'] : null;
+				if(!$post_id){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_post_id';
+					$output['msg'] = ___('Post ID is invaild.');
+					die(theme_features::json_format($output));
+				}
+				
 				global $post;
-				$comments = get_comments(array(
+				/**
+				 * check post exists
+				 */
+				$post = get_post($post_id);
+				if(!$post){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_post';
+					$output['msg'] = ___('Post is not exist.');
+					die(theme_features::json_format($output));
+				}
+				
+				$comments = get_comments([
 					'post_id' => $post_id,
 					'order' => 'asc',
 					'status' => 'approve',
-				));
-				$post = get_post($post_id);
-				$content = null;
-
+				]);
+				
 				$comments_str = wp_list_comments(array(
 					'callback'=>'theme_functions::theme_comment',
 					'per_page' => get_option('comments_per_page'),
@@ -292,16 +299,28 @@ class theme_comment_ajax{
 				
 				$output['status'] = 'success';
 				$output['msg'] = ___('Data sent.');
-				$output['des']['pagination'] = theme_functions::get_comment_pagination(array(
-					'classes' => 'comments-pagination comment-pagination-above',
-					'cpaged' => $cpage,
-					'below' => true,
-					'max_pages' => get_comment_pages_count($comments,get_option('comments_per_page'),get_option('thread_comments')),
-				));
-				$output['des']['comments'] = $comments_str;
 
-			}
+				if($cpage > 0){
+					$output['pagination'] = theme_functions::get_comment_pagination([
+						'classes' => 'comments-pagination comment-pagination-above',
+						'cpaged' => $cpage,
+						'below' => true,
+						'max_pages' => get_comment_pages_count($comments,get_option('comments_per_page'),get_option('thread_comments')),
+					]);
+				}else{
+					$output['pagination'] = theme_functions::get_comment_pagination([
+						'classes' => 'comments-pagination comment-pagination-above',
+						'below' => true,
+						'max_pages' => get_comment_pages_count($comments,get_option('comments_per_page'),get_option('thread_comments')),
+					]);
+				}
+				$output['comments'] = $comments_str;
+			
+				break;
+			
+			
 		}
+
 		die(theme_features::json_format($output,true));
 	}
 	/** 
@@ -368,20 +387,27 @@ class theme_comment_ajax{
 			die(theme_features::json_format($output));
 		}
 	}
-	public static function frontend_seajs_use(){
-		if(!self::is_enabled()) return false;
-		if(is_singular()){
-			?>
-			seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
-				m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => self::$iden));?>';
-				m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-				m.config.lang.M00002 = '<?php echo ___('Commented successfully, thank you!');?>';
-				m.config.lang.M00003 = '<?php echo ___('Message');?>';
-				m.config.lang.E00001 = '<?php echo ___('Server error or network is disconnected.');?>';
-				m.init();
-			});
-			<?php
+	public static function frontend_seajs_alias(array $alias = []){
+		if(self::is_enabled() && is_singular()){
+			$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		}
+		return $alias;
+	}
+	public static function frontend_seajs_use(){
+		if(!self::is_enabled() || !is_singular())
+			return false;
+		global $post;
+			?>
+		seajs.use('<?php echo self::$iden;?>',function(m){
+			m.config.process_url = '<?php echo theme_features::get_process_url(['action' => self::$iden]);?>';
+			m.config.post_id = <?php echo $post->ID;?>;
+			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
+			m.config.lang.M00002 = '<?php echo ___('Commented successfully, thank you!');?>';
+			m.config.lang.M00003 = '<?php echo ___('Message');?>';
+			m.config.lang.E00001 = '<?php echo ___('Server error or network is disconnected.');?>';
+			m.init();
+		});
+		<?php
 	}
 	/** 
 	 * backend_cache_request
