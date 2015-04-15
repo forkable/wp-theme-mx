@@ -1468,13 +1468,17 @@ class theme_functions{
 				</time>
 				<span class="comment-meta-data comment-reply reply">
 					<?php
-					comment_reply_link(array_merge($args,array(
-						'add_below'		=> 'comment-body', 
-						'depth' 		=> $depth,
-						'reply_text' 	=> ___('Reply'),
-						'login_text' 	=>  ___('Log-in to reply'),
-						'max_depth' 	=> $args['max_depth'],
-					)));
+					$reply_link = get_comment_reply_link(
+						array_merge($args,[
+							'add_below'		=> 'comment-body', 
+							'depth' 		=> $depth,
+							'reply_text' 	=> ___('Reply'),
+							'max_depth' 	=> $args['max_depth'],
+						]),
+						$comment,
+						$comment->comment_post_ID
+					);
+					echo preg_replace('/(href=)[^\s]+/','$1"javascript:;"',$reply_link);
 					?>
 				</span><!-- .reply -->
 			</h4>

@@ -52,7 +52,7 @@ define(function(require, exports, module){
 						exports.tab.done($btn,$cont,$tab,$this);
 					},
 					custom : function($btn,$cont,index,$tab,$this){
-						tools.auto_focus($cont.eq(index));
+						tools.auto_focus($cont.eq(index)[0]);
 					}
 				});
 			});

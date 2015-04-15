@@ -3,6 +3,22 @@ define(function(require, exports, module){
 	
 	var $ = require('modules/jquery'),jQuery = $;
 
+	exports.parseHTML = function(str) {
+		var tmp = document.implementation.createHTMLDocument();
+		tmp.body.innerHTML = str;
+		return tmp.body.children;
+	};
+
+	exports.scrollTop = function(scrollY) {
+		function loop(){
+			if(document.documentElement.scrollTop > scrollY){
+				setTimeout(function(){
+					window.scrollTo(0,document.documentElement.scrollTop - 10);
+					loop();
+				},15)
+			}
+		}
+	};
 	/**
 	 * ajax_loading_tip
 	 *
@@ -206,12 +222,13 @@ define(function(require, exports, module){
 	 *
 	 * @param object $(selector)
 	 * @return bool
-	 * @version 1.0.1
-	 * @author KM@INN STUDIO
+	 * @link https://msdn.microsoft.com/en-us/library/ie/ms534303%28v=vs.85%29.aspx
 	 */
 	exports.in_screen = function(s){
-		var w = $(window);
-		return !(w.scrollTop() > s.offset().top + s.outerHeight() || w.scrollTop() + w.height() < s.offset().top);
+		var oParent = oObject.offsetParent,
+			iOffsetTop = oObject.offsetTop,
+			iClientHeight = oParent.clientHeight;
+	    return iOffsetTop <= iClientHeight;
 	};
 
 
@@ -225,17 +242,17 @@ define(function(require, exports, module){
 	 * 
 	 */
 	exports.auto_focus = function($frm,attr){
-		if(typeof($frm) == 'undefined' || !$frm[0]) 
+		if(!$frm) 
 			return false;
 		if(!attr)
 			attr = '[required]';
-	
-		Array.prototype.forEach.call($frm.querySelectorAll(attr),function(el,i){
-			if(el.value.trim() == ''){
-				el.focus();
+
+		for(var i = 0, $inputs = $frm.querySelectorAll(attr), len = $inputs.length; i < len; i++){
+			if($inputs[i].value.trim() == ''){
+				$inputs[i].focus();
 				return false;
 			}
-		});
+		}
 	};
 	/**
 	 * frm_is_valid($this) 检测表单值为空

@@ -562,6 +562,16 @@ label.error{
 	#commentform label{
 		font-weight: normal;
 	}
+/**
+ * #comment-pagination-container
+ */
+#comment-pagination-container{
+	text-align: center;
+}
+	#comment-pagination-container a{
+		padding-left: 20px;
+		padding-right: 20px;
+	}
 
 /** 
  * #comments

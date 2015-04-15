@@ -1964,6 +1964,40 @@ class theme_features{
 			return isset($icons[$key]) ? $icons[$key] : null;
 		}
 	}
+	/**
+	 * Get option from cache
+	 *
+	 * @param string $key
+	 * @return mixed 
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function get_option($key){
+		static $caches = [];
+		if(isset($caches[$key]))
+			return $caches[$key];
+
+		$caches[$key] = get_option($key);
+		return $caches[$key];
+	}
+	/**
+	 * Get comment pages count
+	 *
+	 * @param array $comments 
+	 * @return int Max comment pages number
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function get_comment_pages_count($comments){
+		static $count = null;
+		if($count === null)
+			$count = get_comment_pages_count(
+				$comments, 
+				self::get_option('comments_per_page'), 
+				self::get_option('thread_comments')
+			);
+		return $count;
+	}
 }
 
 ?>

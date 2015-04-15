@@ -38,8 +38,8 @@ class theme_post_views{
 		add_action('frontend_seajs_use',	__CLASS__ . '::frontend_seajs_use');
 
 		
-		add_filter('cache-request',__CLASS__ . '::process_cache_request');
-		add_filter('js-cache-request',__CLASS__ . '::js_cache_request');
+		add_filter('cache_request',__CLASS__ . '::process_cache_request');
+		add_filter('js_cache_request',__CLASS__ . '::js_cache_request');
 
 
 		/** admin post/page css */

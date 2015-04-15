@@ -14,7 +14,7 @@ class theme_quick_sign{
 	public static $iden = 'theme_quick_sign';
 	public static function init(){
 		/** filter */
-		add_filter('cache-request',					__CLASS__ . '::cache_request');
+		add_filter('cache_request',					__CLASS__ . '::cache_request');
 		//add_filter('frontend_seajs_alias',			__CLASS__ . '::frontend_seajs_alias');
 		
 		/** action */

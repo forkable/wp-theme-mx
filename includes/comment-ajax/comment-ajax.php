@@ -24,9 +24,12 @@ class theme_comment_ajax{
 		
 		if(!self::is_enabled()) 
 			return;
+
+		add_filter('js_cache_request',		__CLASS__ . '::js_cache_request');
+		add_filter('cache_request',			__CLASS__ . '::cache_request');
 		
 		add_action('frontend_seajs_use',	__CLASS__ . '::frontend_seajs_use');
-		add_action('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
+		add_filter('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
 		
 		add_action('pre_comment_on_post',	__CLASS__ . '::block_frontend_comment',1);
 		add_action('pre_comment_on_post',	__CLASS__ . '::pre_comment_on_post');
@@ -270,48 +273,46 @@ class theme_comment_ajax{
 					die(theme_features::json_format($output));
 				}
 				
-				global $post;
+				global $post,$wp_query;
 				/**
 				 * check post exists
 				 */
-				$post = get_post($post_id);
-				if(!$post){
+				$wp_query = new WP_Query([
+					'p' => $post_id
+				]);
+				if(!have_posts()){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_post';
 					$output['msg'] = ___('Post is not exist.');
 					die(theme_features::json_format($output));
 				}
-				
-				$comments = get_comments([
-					'post_id' => $post_id,
-					'order' => 'asc',
-					'status' => 'approve',
-				]);
-				
-				$comments_str = wp_list_comments(array(
-					'callback'=>'theme_functions::theme_comment',
-					'per_page' => get_option('comments_per_page'),
-					'page' => $cpage,
-					'echo' => false,
-					'reverse_top_level' => get_option('comment_order') === 'asc' ? false : true,
-					'reverse_children' => get_option('comment_order') === 'asc' ? false : true,
-				),$comments);
+				//$comments = self::get_comments([
+				//	'post_id' => $post_id,
+				//]);
+				//	var_dump(have_comments());exit;
+				//while(have_posts()){
+				//	the_post();
+				//var_dump($wp_query);exit;
+					
+					
+				//}
+				$comments_str = self::get_comments_list($post_id,$cpage);
+				//$comments_str = self::get_comments([
+				//	'page' => $cpage,
+					//'reverse_top_level' => get_option('comment_order') === 'asc' ? false : true,
+					//'reverse_children' => get_option('comment_order') === 'asc' ? false : true,
+				//]);
 				
 				$output['status'] = 'success';
 				$output['msg'] = ___('Data sent.');
 
 				if($cpage > 0){
 					$output['pagination'] = theme_functions::get_comment_pagination([
-						'classes' => 'comments-pagination comment-pagination-above',
 						'cpaged' => $cpage,
-						'below' => true,
-						'max_pages' => get_comment_pages_count($comments,get_option('comments_per_page'),get_option('thread_comments')),
 					]);
 				}else{
 					$output['pagination'] = theme_functions::get_comment_pagination([
-						'classes' => 'comments-pagination comment-pagination-above',
-						'below' => true,
-						'max_pages' => get_comment_pages_count($comments,get_option('comments_per_page'),get_option('thread_comments')),
+						'cpaged' => 999,
 					]);
 				}
 				$output['comments'] = $comments_str;
@@ -322,6 +323,42 @@ class theme_comment_ajax{
 		}
 
 		die(theme_features::json_format($output,true));
+	}
+	public static function get_comments_list($post_id,$cpaged = 0){
+		static $caches = [];
+		$cache_id = md5(serialize(func_get_args()));
+		
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+
+		global $wp_query,$post;
+		$wp_query = new WP_Query([
+			'p' => $post_id
+		]);
+		//if(have_posts())
+		$comments = self::get_comments([
+			'post_id' => $post_id,
+		]);
+		if(!$comments){
+			$caches[$cache_id] = false;
+			return false;
+		}
+		$caches[$cache_id] = wp_list_comments(array(
+			'type' => 'comment',
+			'callback'=>'theme_functions::theme_comment',
+			'page' => $cpaged,
+			'echo' => false,
+		),$comments);
+		
+		return $caches[$cache_id];
+	}
+	private static function get_comments(array $args = []){
+		static $caches = [];
+		$cache_id = md5(serialize(func_get_args()));
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+		$caches[$cache_id] = get_comments($args);
+		return $caches[$cache_id];
 	}
 	/** 
 	 * pre_comment_on_post
@@ -399,26 +436,66 @@ class theme_comment_ajax{
 		global $post;
 			?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(['action' => self::$iden]);?>';
+			m.config.process_url = '<?php echo theme_features::get_process_url([
+				'action' => self::$iden,
+				'type' => 'get-comments',
+				'post-id' => $post->ID,
+				'cpage' => 'n',
+			]);?>';
 			m.config.post_id = <?php echo $post->ID;?>;
 			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
 			m.config.lang.M00002 = '<?php echo ___('Commented successfully, thank you!');?>';
-			m.config.lang.M00003 = '<?php echo ___('Message');?>';
-			m.config.lang.E00001 = '<?php echo ___('Server error or network is disconnected.');?>';
+			
+			m.config.lang.M00003 = '<i class="fa fa-arrow-left"></i>';
+			m.config.lang.M00004 = '<i class="fa fa-arrow-right"></i>';
+			m.config.lang.M00005 = '<?php echo ___('{n} page');?>';
+			
+			m.config.lang.E00001 = '<?php echo ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
 			m.init();
 		});
 		<?php
 	}
-	/** 
-	 * backend_cache_request
-	 */
-	public static function backend_cache_request($output){
-		if($_GET[self::$iden] == 1){
-			$nonce = wp_create_nonce(self::$iden . session_id());
-			$output[self::$iden] = array(
-				'nonce' => $nonce
-			);
+	public static function js_cache_request(array $output = []){
+		if(is_singular()){
+			global $post;
+			$output[self::$iden] = [
+				'type' => 'get-comments',
+				'post-id' => $post->ID,
+			];
 		}
+		return $output;
+	}
+
+	public static function cache_request(array $output = []){
+
+		if(isset($_GET[self::$iden]) && is_array($_GET[self::$iden])){
+			$get = $_GET[self::$iden];
+			
+			$post_id = isset($get['post-id']) && is_string($get['post-id']) ? (int)$get['post-id'] : null;
+			
+			$type = isset($get['type']) && is_string($get['type']) ? $get['type'] : null;
+
+			switch($type){
+				case 'get-comments':
+					if(!$post_id){
+						return $output;
+					}
+					$post = get_post($post_id);
+					$pages = theme_features::get_comment_pages_count(self::get_comments([
+						'post_id' => $post->ID,
+					]));
+					$cpage = theme_features::get_option('default_comments_page') == 'newest' ? $pages : 1;
+					
+					$output[self::$iden] = [
+						'comments' => self::get_comments_list($post_id,$cpage),
+						'count' => $post ? $post->comment_count : 0,
+						'pages' => $pages,
+						'cpage' => $cpage,
+					];
+					break;
+			}
+		}
+		return $output;
 	}
 }
 

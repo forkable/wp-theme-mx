@@ -1,31 +1,21 @@
-<?php if(post_password_required()) return; ?>
+<?php
+if(post_password_required()) 
+	return;
+
+global $wp_query;
+
+
+
+?>
+
 <div id="comments" class="comment-wrapper panel panel-default <?php echo have_comments() ? null : 'none';?>">
 	<div class="panel-heading">
 		<h3 class="have-comments-title panel-title">
-			<i class="fa fa-comments"></i> 
-			<?php if(have_comments()){ ?>
-				<?php echo esc_html(sprintf(___('Comments list (%d)'),get_comments_number()));?>
-			<?php }else{ ?>
-				<?php echo ___('Comments list');?>
-			<?php } ?>
+			<span id="comment-number-<?php echo $post->ID;?>" class="badge">-</span> 
+			<?php echo ___('Comments');?>
 		</h3>
 	</div>
-	<?php
-	/** 
-	 * comment pagination
-	 */
-	if(have_comments() && comments_open()){
-		?>
-		<div class="panel-footer">
-			<?php
-			echo theme_functions::get_comment_pagination([
-				'classes' => 'comment-pagination comment-pagination-above',
-			]);
-			?>
-	</div>
-	<?php } ?>
 
-	
 	<div class="panel-body">
 		<?php
 		/** 
@@ -33,17 +23,17 @@
 		 */
 		if(comments_open()){
 			?>			
-			<ul id="comment-list-<?php $post->ID;?>" class="comment-list">
+			<ul id="comment-list-<?php echo $post->ID;?>" class="comment-list">
 				<?php
 				/** 
 				 * have comment
 				 */
-				if(have_comments()){
-					wp_list_comments(array(
-						'type' => 'comment',
-						'callback'=>'theme_functions::theme_comment',
-					));
-				}
+				//if(have_comments()){
+				//	wp_list_comments(array(
+				//		'type' => 'comment',
+				//		'callback'=>'theme_functions::theme_comment',
+				//	));
+				//}
 				?>
 			</ul>
 			<?php
@@ -51,16 +41,11 @@
 		?>
 	</div><!-- /.panel-body -->
 	
-	<?php if(have_comments() && comments_open()){ ?>
+	<?php 
+	if(have_comments() && comments_open() && theme_features::get_comment_pages_count($wp_query->comments) > 1){ 
+		?>
 		<div class="panel-footer">
-			<?php
-			/** 
-			 * comment pagination
-			 */
-			echo theme_functions::get_comment_pagination([
-				'classes' => 'comment-pagination comment-pagination-below',
-			]);
-			?>
+			<div id="comment-pagination-container"></div>
 		</div>
 	<?php } ?>
 </div><!-- /.comment-wrapper -->

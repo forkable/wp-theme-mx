@@ -7,27 +7,20 @@
 define(function(require, exports, module){
 	'use strict';
 
-	var $ 			= require('modules/jquery'),
-		jQuery		= $,
-		js_request 	= require('theme-cache-request'),
+	var js_request 	= require('theme-cache-request'),
 		tools 		= require('modules/tools');
-					require('modules/jquery.validate');
-					require('modules/jquery.validate.lang.{locale}');
-	
 
-	
 	exports.config = {
+		iden : 'theme_comment_ajax',
 		process_url : '',
-		
+		post_id : '',
 		lang : {
 			M00001 : 'Loading, please wait...', 
 			M00002 : 'Commented successfully, thank you!',
-			M00003 : 'Tip',
-			E00001 : 'Server error or network is disconnected.',
-			validate : {
-				required : 'This field is required.',
-				email : 'Please enter a valid email address.'
-			}
+			M00003 : 'Previous',
+			M00004 : 'Next',
+			M00005 : '{n} page',
+			E00001 : 'Sorry, some server error occurred, the operation can not be completed, please try again later.'
 		}
 		
 	
@@ -36,80 +29,366 @@ define(function(require, exports, module){
 		config = exports.config;
 	
 	exports.init = function(){
-		//alert('a');
 		tools.ready(function(){
+			/**
+			 * set comment count
+			 */
+			exports.count.set();
+			
+			cache.$comment_list_container = document.getElementById('comment-list-' + config.post_id);
+			if(!cache.$comment_list_container)
+				return false;
+				
+			
 			window.addComment = addComment;
-			exports.list.get();
+			exports.list.init();
+			/**
+			 * pagination
+			 */
+			var pagi = new exports.pagination();
+
+			pagi.lang.loading = config.lang.M00001;
+			pagi.lang.error = config.lang.E00001;
+			pagi.lang.prev = config.lang.M00003;
+			pagi.lang.next = config.lang.M00004;
+			pagi.lang.midd = config.lang.M00005;
+			
+			pagi.pages = js_request[config.iden].pages;
+			pagi.cpage = js_request[config.iden].cpage;
+			pagi.url_format = config.process_url;
+			pagi.init();
 		});
 	};
+	exports.count = {
+		set : function(n){
+			cache.$count = document.getElementById('comment-number-' + config.post_id);
+			if(!cache.$count)
+				return false;
 
+			cache.$count.innerHTML = n ? n : js_request[config.iden].count;
+		}
+	};
 	exports.list = {
+		init : function(){
+			var _list = this;
+			//console.log(js_request[config.iden].comments);
+			if(!js_request[config.iden].comments)
+				return false;
+			cache.$comment_list_container.innerHTML = js_request[config.iden].comments;
+		},
 		get : function(){
-			var xhr = new XMLHttpRequest(),
+			var _list = this,
+				xhr = new XMLHttpRequest(),
 				param = tools.param({
 					'type' : 'get-comments',
 					'post-id' : config.post_id
 				});
 			xhr.open('GET',config.process_url + '&' + param);
 			xhr.send();
-			//xhr.onload = function(){
+			xhr.onload = function(){
+				if(xhr.status >= 200 && xhr.status < 400){
+					var data;
+					try{data = JSON.parse(xhr.responseText);}catch(e){}
+					if(data && data.status){
+						_list.done(data);
+					}else{
+						_list.fail(xhr.responseText);
+					}
+					_list.always(data);
+				}
+			}
+			
+		},
+		done : function(data){
+			if(data.status === 'success'){
+				cache.$comment_list_container.innerHTML = data.comments;
 				
-			//}
+			}
+		},
+		faild : function(tx){
+			
+		},
+		always : function(data){
+			
 		}
 	};
+
+	exports.pagination = function(){
+		this.id = 'comment-pagination';
+		this.container_id = 'comment-pagination-container';
+		this.cpage = 1;
+		this.pages = 1;
+		this.class_name = 'comment-pagination';
+
+		this.url_format = '';/** http://xxx.com/pages=n */
+		this.lang = {
+			loading : 'Loading, please wait...',
+			error : 'Sorry, some server error occurred, the operation can not be completed, please try again later.',
+			prev : 'Previous',
+			next : 'Next',
+			midd : '{n} page'
+		};
+
+		this.before = function(){};
+		this.done = function(){};
+		this.faild = function(){};
+		this.always = function(){};
+
+		var _cache = {},
+			_that = this,
+			target_page;
+		
+		this.init = function(){
+			_cache.$container = document.getElementById(_that.container_id);
+			if(!_cache.$container)
+				return false;
+
+			_cache.$container.appendChild(create());
+			//console.log(_that.cpage);
+			set_cache(_that.cpage,cache.$comment_list_container.innerHTML);
+		}
+		function set_cache(cpage,comments){
+			//console.log('set ' +cpage);
+			if(!_cache.comments)
+				_cache.comments = [];
+			/**
+			 * for cache imgs
+			 */
+			var $tmp = tools.parseHTML(comments),
+				imgs = [];
+			for(var i = 0, len = $tmp.length; i < len; i++){
+				Array.prototype.forEach.call($tmp[i].querySelectorAll('img'),function(el,i){
+					imgs[i] = new Image();
+					imgs[i].src = el.src;
+				});
+			}
+			
+			_cache.comments[cpage] = comments;
+		}
+		function get_cache(cpage){
+			//console.log('get ' +cpage);
+			return !_cache.comments || !_cache.comments[cpage] ? false : _cache.comments[cpage];
+		}
+		function create(){
+			if(_that.pages <= 1)
+				return false;
+				
+			_cache.$pagi = document.createElement('div');
+			_cache.$pagi.id = _that.id;
+			_cache.$pagi.setAttribute('class','comment-pagination btn-group btn-group-sm');
+
+			_cache.$pagi.appendChild(create_prev());
+			_cache.$pagi.appendChild(create_next());
+
+			return _cache.$pagi;
+		}
+		function create_prev(){
+			var prev_class = _that.cpage <= 1 ? 'disabled' : '',
+				attrs = {
+					'class' : 'prev btn btn-default ' + prev_class,
+					'href' : 'javascript:;'
+				};
+			_cache.$prev = document.createElement('a');
+			for(var k in attrs){
+				_cache.$prev.setAttribute(k,attrs[k]);
+			}
+			_cache.$prev.innerHTML = _that.lang.prev;
+			_cache.$prev.addEventListener('click',prev_click,false);
+			return _cache.$prev;
+		}
+		/**
+		 * Previous btn click
+		 */
+		function prev_click(){
+			if(_that.cpage <= 1)
+				return false;
+			target_page = _that.cpage - 1;
+			ajax();
+		}
+		function done_prev(){
+			if(_that.cpage <= 1){
+				_cache.$prev.classList.add('disabled');
+			}else{
+				_cache.$prev.classList.remove('disabled');
+			}
+		}
+		function create_next(){
+			var next_class = _that.cpage > _that.pages - 1 ? 'disabled' : '',
+				attrs = {
+					'class' : 'next btn btn-default ' + next_class,
+					'href' : 'javascript:;'
+				};
+			_cache.$next = document.createElement('a');
+			for(var k in attrs){
+				_cache.$next.setAttribute(k,attrs[k]);
+			}
+			_cache.$next.innerHTML = _that.lang.next;
+			//console.log(_that.cpage == _that.pages);
+			_cache.$next.addEventListener('click',next_click,false);
+			return _cache.$next;
+		}
+		/**
+		 * Next btn click
+		 */
+		function next_click(){
+			//console.log(_that.cpage == _that.pages);
+			if(_that.cpage == _that.pages)
+				return false;
+				
+			target_page = _that.cpage + 1;
+			ajax();
+		}
+		function done_next(){
+			if(_that.cpage == _that.pages){
+				_cache.$next.classList.add('disabled');
+			}else{
+				_cache.$next.classList.remove('disabled');
+			}
+		}
+		function get_process_url(){
+			return _that.url_format.replace('=n','=' + target_page);
+		}
+		
+		function ajax(){
+			/**
+			 * restore form
+			 */
+			if(document.getElementById('comments').querySelector('#respond'))
+				addComment.cancelMove();
+
+			/** set cpage */
+			set_cpage();
+			/**
+			 * check cache
+			 */
+			if(get_cache(_that.cpage)){
+				/**
+				 * set html
+				 */
+				cache.$comment_list_container.innerHTML = get_cache(_that.cpage);
+				
+				done_prev();
+				done_next();
+				scroll_to_list();
+				return false;
+			}
+			
+			/** loading tip */
+			tools.ajax_loading_tip('loading',_that.lang.loading);
+			
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET',get_process_url());
+			xhr.send();
+			xhr.onload = function(){
+				if(xhr.status >= 200 && xhr.status < 400){
+					var data;
+					try{
+						data = JSON.parse(xhr.responseText);
+					}catch(e){
+						data = xhr.responseText;
+					}
+					if(data && data.status === 'success'){
+						
+						/**
+						 * set html
+						 */
+						cache.$comment_list_container.innerHTML = data.comments;
+						/** set cpage */
+						//set_cpage();
+						/**
+						 * cache
+						 */
+						set_cache(_that.cpage,data.comments);
+						
+						
+						/** close tip */
+						tools.ajax_loading_tip('hide');
+						done_next();
+						done_prev();
+						scroll_to_list();
+					}else if(data && data.status === 'error'){
+						tools.ajax_loading_tip(data.status,data.msg);
+					}else{
+						tools.ajax_loading_tip('error',data);
+					}
+					//console.log(_that.cpage);
+				}
+				_that.always();
+				xhr = null;
+			};
+			xhr.onerror = function(){
+				tools.ajax_loading_tip('error',_that.lang.error);
+			};
+		}
+		function set_cpage(){
+			if(_that.cpage >= target_page){
+				_that.cpage--;
+			}else{
+				_that.cpage++;
+			}
+		}
+		/** scroll to comment list container offset top */
+		function scroll_to_list(){
+			var y = cache.$comment_list_container.getBoundingClientRect().top + document.documentElement.scrollTop;
+			window.scrollTo(0,y - 40);
+		}
+	}
+	
 	/**
 	 * form comment-reply.js
 	 */
 	var addComment = {
-		moveForm : function(commId, parentId, respondId, postId) {
-			var t = this, div, comm = t.I(commId), respond = t.I(respondId), cancel = t.I('cancel-comment-reply-link'), parent = t.I('comment_parent'), post = t.I('comment_post_ID');
+		cache : {},
+		cancelMove : function(){
+			var t = this;
 
-			if ( ! comm || ! respond || ! cancel || ! parent )
+			t.cache.$parent.value = '0';
+			t.cache.$tmp.parentNode.insertBefore(t.cache.$respond, t.cache.$tmp);
+			//t.cache.$tmp.parentNode.removeChild(temp);
+			
+			t.cache.$cancel.style.display = 'none';
+			t.cache.$cancel.onclick = null;
+		},
+		moveForm : function(commId, parentId, respondId, postId) {
+			var t = this;
+
+			t.cache.$comm 		= t.I(commId);
+			t.cache.$respond 	= t.I(respondId);
+			t.cache.$cancel 	= t.I('cancel-comment-reply-link');
+			t.cache.$parent 	= t.I('comment_parent');
+			t.cache.$post 		= t.I('comment_post_ID'),
+			t.cache.$comment 	= t.I('comment');
+
+			if ( ! t.cache.$comm || ! t.cache.$respond || ! t.cache.$cancel || ! t.cache.$parent )
 				return;
 
-			t.respondId = respondId;
 			postId = postId || false;
 
-			if ( ! t.I('wp-temp-form-div') ) {
-				div = document.createElement('div');
-				div.id = 'wp-temp-form-div';
-				div.style.display = 'none';
-				respond.parentNode.insertBefore(div, respond);
+			if ( ! t.cache.$tmp ) {
+				t.cache.$tmp = document.createElement('div');
+				t.cache.$tmp.id = 'wp-temp-form-div';
+				t.cache.$tmp.style.display = 'none';
+				t.cache.$respond.parentNode.insertBefore(t.cache.$tmp, t.cache.$respond);
 			}
 
-			comm.parentNode.insertBefore(respond, comm.nextSibling);
-			if ( post && postId )
-				post.value = postId;
-			parent.value = parentId;
-			cancel.style.display = 'block';
+			t.cache.$comm.parentNode.insertBefore(t.cache.$respond, t.cache.$comm.nextSibling);
+			if ( t.cache.$post && postId )
+				t.cache.$post.value = postId;
+			t.cache.$parent.value = parentId;
+			t.cache.$cancel.style.display = 'block';
 
-			cancel.onclick = function() {
-				var t = addComment, temp = t.I('wp-temp-form-div'), respond = t.I(t.respondId);
-
-				if ( ! temp || ! respond )
-					return;
-
-				t.I('comment_parent').value = '0';
-				temp.parentNode.insertBefore(respond, temp);
-				temp.parentNode.removeChild(temp);
-				this.style.display = 'none';
-				this.onclick = null;
+			t.cache.$cancel.onclick = function() {
+				t.cancelMove();
 				return false;
 			};
 
-			try { t.I('comment').focus(); }
-			catch(e) {}
+			if(t.cache.$comment)
+				t.cache.$comment.focus();
 
 			return false;
 		},
-		cache : [],
 		I : function(e) {
-			//if(cache[e])
-				//return cache[e];
 			return document.getElementById(e);
-			//cache[e] = document.getElementById(e);
-			//console.log(cache[e]);
-			//return cache[e];
 		}
 	};
 	

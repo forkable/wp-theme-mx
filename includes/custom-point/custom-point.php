@@ -38,7 +38,7 @@ class theme_custom_point{
 		add_action('before_delete_post',__CLASS__ . '::action_add_history_post_delete');
 		
 		/** sign-in daily */
-		add_filter('cache-request',__CLASS__ . '::filter_cache_request');
+		add_filter('cache_request',__CLASS__ . '::filter_cache_request');
 		
 		add_filter('theme_options_default',__CLASS__ . '::options_default');
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
