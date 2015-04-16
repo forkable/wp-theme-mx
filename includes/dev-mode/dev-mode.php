@@ -119,7 +119,7 @@ class theme_dev_mode{
 		<script>
 		try{
 			<?php
-			self::$data['end-time'] =  timer_stop(0);
+			self::$data['end-time'] =  sprintf('%01.3f',microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
 			self::$data['end-query'] = get_num_queries();
 			self::$data['end-memory'] = sprintf('%01.3f',memory_get_usage()/1024/1024);
 			
@@ -152,8 +152,17 @@ class theme_dev_mode{
 				console.table(<?php echo json_encode($data);?>);
 			})();
 		}catch(e){}
+		<?php
+		if(self::is_enabled()){
+			global $wpdb;
+			?>
+			console.table(<?php echo json_encode($wpdb->queries);?>);
+			<?php
+		}
+		?>
 		</script>
 		<?php
+
 	}
 }
 ?>

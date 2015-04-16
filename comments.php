@@ -13,6 +13,11 @@ global $wp_query;
 		<h3 class="have-comments-title panel-title">
 			<span id="comment-number-<?php echo $post->ID;?>" class="badge">-</span> 
 			<?php echo ___('Comments');?>
+
+			<a href="javascript:;" id="goto-comment" class="btn btn-success btn-xs">
+				<i class="fa fa-pencil-square-o"></i> 
+				<?php echo ___('Respond');?>
+			</a>
 		</h3>
 	</div>
 
@@ -24,17 +29,9 @@ global $wp_query;
 		if(comments_open()){
 			?>			
 			<ul id="comment-list-<?php echo $post->ID;?>" class="comment-list">
-				<?php
-				/** 
-				 * have comment
-				 */
-				//if(have_comments()){
-				//	wp_list_comments(array(
-				//		'type' => 'comment',
-				//		'callback'=>'theme_functions::theme_comment',
-				//	));
-				//}
-				?>
+				<li class="comment media">
+					<div class="page-tip"><?php echo status_tip('loading',___('Loading, please wait...'));?></div>
+				</li>
 			</ul>
 			<?php
 		}

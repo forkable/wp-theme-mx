@@ -19,7 +19,17 @@ class theme_cache_request {
 		
 		$output = apply_filters('cache_request',[]);
 		$output['theme-nonce'] = wp_create_nonce('theme-nonce');
-
+		/**
+		 * dev mode
+		 */
+		if(class_exists('theme_dev_mode') && theme_dev_mode::is_enabled()){
+			global $wpdb;
+			$output['debug'] = [
+				'queries' => $wpdb->queries,
+				'time' => microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'],
+				'memory' => sprintf('%01.3f',memory_get_usage()/1024/1024),
+			];
+		}
 		die('define(' . theme_features::json_format($output) . ');');
 	}
 	public static function frontend_seajs_alias(array $alias = []){

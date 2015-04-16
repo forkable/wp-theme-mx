@@ -634,14 +634,10 @@ function get_filemtime($file_name = null,$format = 'YmdHis'){
  * @version 1.0.2
  * @author KM@INN STUDIO
  */
-function get_img_source($str = null){
-	$output = null;
-	if($str){
-		$pattern = '!<img.*?src=["|\'](.*?)["|\']!';
-		preg_match_all($pattern, $str, $matches);
-		$output = isset($matches['1'][0]) ? $matches['1'][0] : false;
-	}
-	return $output;
+function get_img_source($str){
+	$pattern = '!<img.*?src=["|\'](.*?)["|\']!';
+	preg_match_all($pattern, $str, $matches);
+	return isset($matches['1'][0]) ? $matches['1'][0] : null;
 }
 /**
  * friendly_date

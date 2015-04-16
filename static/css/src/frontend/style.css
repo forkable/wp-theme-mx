@@ -538,6 +538,7 @@ label.error{
 		margin-right: -5px;
 	}
 	#commentform{
+		margin-top: 0;
 		margin-bottom: 10px;
 	}
 	#commentform .media-left{
@@ -572,6 +573,13 @@ label.error{
 		padding-left: 20px;
 		padding-right: 20px;
 	}
+/**
+ * #goto-comment
+ */
+#goto-comment{
+	float: right;
+	color: #fff;
+}
 
 /** 
  * #comments
@@ -655,7 +663,7 @@ label.error{
 		background: none;
 	}
 	.comment-list .children .comment-body{
-		background: rgb(248,248,248);
+		background: rgba(0,0,0,.03);
 		border-top: 1px solid rgba(0,0,0,.05);		
 	}
 	.comment-list .comment-reply-title{
@@ -666,6 +674,9 @@ label.error{
 	}
 	.comment-list .children #respond{
 		margin:0;
+	}
+	.comment-list .page-tip{
+		margin: 20px;
 	}
 .page-tip{
 	margin-bottom: 20px;
@@ -1210,17 +1221,18 @@ label.error{
 
 	#ajax-loading-container .btn-close{
 		position: absolute;
-		top: 10px;
+		top: 8px;
 		right: 0;
 		margin-right: 20px;
 		cursor: pointer;
 		font-size: 30px;
+		color:rgb(251,238,238)
 	}
 		#ajax-loading-container .btn-close:hover{
-			color:#D9534F;
+			color:#fff;
 		}
 		#ajax-loading-container .btn-close .number{
-			font-size: 15px;
+			font-size: 90%;
 			padding-left: 5px;
 		}
 	#ajax-loading-container .tip-status{

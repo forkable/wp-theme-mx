@@ -1459,8 +1459,9 @@ class theme_functions{
 					<?php
 					if($comment->comment_parent != 0){
 						echo get_avatar($comment,15);
+						echo '&nbsp;';
 					}
-					?> 
+					?>
 					<?php comment_author_link();?>
 				</span>
 				<time class="comment-meta-data time" datetime="<?php echo get_comment_time('c');?>">
@@ -1792,142 +1793,98 @@ class theme_functions{
 		</h3>		
 	</div>
 	<div class="panel-body">
-
-		<?php if(get_option( 'comment_registration' ) && !is_user_logged_in() ){ ?>
+		<div class="page-tip" id="respond-loading-ready">
+			<?php echo status_tip('loading',___('Loading, please wait...'));?>
+		</div>
 		
-			<p class="must-login alert alert-info">
-				<?php 
-				echo sprintf(
-					___('You must be %s to post a comment.'),
-					'<a href="' . wp_login_url(get_permalink($post->ID)) . '#respond' . '"><strong>' . ___('log-in') . '</strong></a>'
-				);
+		<p id="respond-must-login" class="alert alert-info hide-on-logged none">
+			<?php 
+			echo sprintf(
+				___('You must be %s to post a comment.'),
+				'<a href="' . wp_login_url(get_permalink($post->ID)) . '#respond' . '"><strong>' . ___('log-in') . '</strong></a>'
+			);
 			?>
-			</p>
-			
-		<?php }else{ ?>
+		</p>
 			
 		<form 
 			id="commentform" 
-			action="<?php echo site_url( '/wp-comments-post.php' ); ?>" method="post" 
-			class="comment-form media"
+			action="javascript:;" 
+			method="post" 
+			class="comment-form media none"
 		>
-		
-
-		
-			<input type="hidden" name="comment_post_ID" id="comment_post_ID" value="<?php echo get_the_ID();?>">
-
-			<input type="hidden" name="comment_parent" id="comment_parent" value="<?php echo isset($_GET['replytocom']) ? (int) $_GET['replytocom'] : 0;?>">
+			<input type="hidden" name="comment_post_ID" id="comment_post_ID" value="<?php echo $post->ID;?>">
+			<input type="hidden" name="comment_parent" id="comment_parent" value="0">
 			
 			<div class="media-left media-top hidden-xs">
-				<?php 
-				if(is_user_logged_in()){ 
-					echo get_avatar(get_current_user_id(),80);
-				}else{
-					$commenter = wp_get_current_commenter();
-					echo get_avatar($commenter['comment_author_email'],80);
-				}
-				?>
+				<img id="respond-avatar" src="<?php echo theme_features::get_theme_images_url('frontend/avatar.jpg');?>" alt="Avatar" class="media-object avatar" width="80" height="80">
 			</div>
 			<div class="media-body">
-				<?php
-				/**
-				 * for user logged
-				 */
-				if(is_user_logged_in()){
-					?>
-					<div class="form-group">
-						<div class="input-group">
-							<textarea 
-								name="comment" 
-								id="comment-form-comment" 
-								class="form-control" 
-								rows="2" 
-								placeholder="<?php echo ___('Hi, have something to say?');?>"
-								title="<?php echo ___('Nothing to say?');?>"
-								required 
-							></textarea>
-							<span class="input-group-btn">
-								<button type="submit" class="submit btn btn-success" >
-									<i class="fa fa-check"></i>
-								</button>
-							</span>
-						</div>
+				
+				<div class="form-group">
+					<div class="input-group">
+						<textarea 
+							name="comment" 
+							id="comment-form-comment" 
+							class="form-control" 
+							rows="2" 
+							placeholder="<?php echo ___('Hi, have something to say?');?>"
+							title="<?php echo ___('Nothing to say?');?>"
+							required 
+						></textarea>
+						<span class="input-group-btn">
+							<button type="submit" class="submit btn btn-success" >
+								<i class="fa fa-check fa-fw"></i>
+							</button>
+						</span>
 					</div>
-					<?php
+				</div>
+				<?php
 				/**
 				 * for visitor
 				 */
-				}else{
-					$req = get_option( 'require_name_email' );
-					?>
-					<!-- authorname -->
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="input-group">
-									<label for="comment-form-author" class="input-group-addon">
-										<i class="fa fa-user"></i>
-									</label>
-									<input type="text" 
-										class="form-control" 
-										name="author" 
-										id="comment-form-author" 
-										value="<?php echo esc_attr($commenter['comment_author']);?>" 
-										placeholder="<?php echo ___('Nickname');?><?php echo $req ? ' * ' : null;?>"
-										<?php echo $req ? ' required ' : null;?>
-										title="<?php echo ___('Whats your nickname?');?>"
-									>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-					<!-- authoremail -->
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="input-group">
-									<label for="comment-form-email" class="input-group-addon">
-										<i class="fa fa-at"></i>
-									</label>
-									<input type="email" 
-										class="form-control" 
-										name="email" 
-										id="comment-form-email" 
-										value="<?php echo esc_attr($commenter['comment_author_email']);?>" 
-										placeholder="<?php echo ___('Email');?><?php echo $req ? ' * ' : null;?>"
-										<?php echo $req ? ' required ' : null;?>
-										title="<?php echo ___('Whats your Email?');?>"
-									>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- comment content -->
-					<div class="form-group">
-						<div class="input-group">
-							<textarea 
-								name="comment" 
-								id="comment-form-comment" 
-								class="form-control" 
-								rows="2" 
-								placeholder="<?php echo ___('Hi, have something to say?');?>"
-								title="<?php echo ___('Nothing to say?');?>"
-								required 
-							></textarea>
-							<span class="input-group-btn">
-								<button type="submit" class="submit btn btn-success" >
-									<i class="fa fa-check"></i>
-								</button>
-							</span>
-						</div>
-					</div>
-					<?php
-				}
+				$req = theme_features::get_option( 'require_name_email' );
 				?>
-			</div>
+				<!-- author name -->
+				<div id="area-respond-visitor" class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+					
+							<div class="input-group">
+								<label for="comment-form-author" class="input-group-addon">
+									<i class="fa fa-user fa-fw"></i>
+								</label>
+								<input type="text" 
+									class="form-control" 
+									name="author" 
+									id="comment-form-author" 
+									placeholder="<?php echo ___('Nickname');?><?php echo $req ? ' * ' : null;?>"
+									<?php echo $req ? ' required ' : null;?>
+									title="<?php echo ___('Whats your nickname?');?>"
+								>
+							</div>
+						</div>
+					</div>
+					<!-- author email -->
+					<div class="col-sm-6">
+						<div class="form-group">
+							<div class="input-group">
+								<label for="comment-form-email" class="input-group-addon">
+									<i class="fa fa-at fa-fw"></i>
+								</label>
+								<input type="email" 
+									class="form-control" 
+									name="email" 
+									id="comment-form-email" 
+									placeholder="<?php echo ___('Email');?><?php echo $req ? ' * ' : null;?>"
+									<?php echo $req ? ' required ' : null;?>
+									title="<?php echo ___('Whats your Email?');?>"
+								>
+							</div>
+						</div><!-- /.form-group -->
+					</div><!-- /.col-sm-6 -->
+				</div><!-- /.row -->
+			</div><!-- /.media-body -->
 		</form>
-		<?php } /** end need log-in to comment */ ?>
 	</div>
 </div>
 		<?php

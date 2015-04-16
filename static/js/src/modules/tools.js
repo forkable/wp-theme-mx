@@ -29,13 +29,18 @@ define(function(require, exports, module){
 	 * @author KM@INN STUDIO
 	 */
 	exports.ajax_loading_tip = function(t,s,timeout){
-		var $t_container = document.getElementById('ajax-loading-container'),
-			 $t = document.getElementById('ajax-loading'),
-			 si;
+		var I = function(e){
+				return document.getElementById(e);
+			},
+			$t_container = I('ajax-loading-container'),
+			$t = I('ajax-loading'),
+			$close = I('ajax-loading-close'),
+			si;
 		
 		if(!$t_container){
-			var $close = document.createElement('i');
-			$close.setAttribute('class','btn-close fa fa-times');
+			$close = document.createElement('i');
+			$close.setAttribute('class','btn btn-danger btn-xs btn-close fa fa-times');
+			$close.id = 'ajax-loading-close';
 			
 			$t_container = document.createElement('div');
 			$t_container.id = 'ajax-loading-container';
@@ -54,12 +59,13 @@ define(function(require, exports, module){
 		}
 
 		if(timeout > 0){
-			$close.innerHTML = '<span class="number">' + timeout + '</span>';
+			set_close_time(timeout);
 			var si = setInterval(function(){
 				timeout--;
-				$close.innerHTML = '<span class="number">' + timeout + '</span>';
+				set_close_time(timeout);
 				if(timeout <= 0){
 					$t_container.style.display = 'none';
+					set_close_time('');
 					clearInterval(si);
 					return;
 				}
@@ -71,6 +77,9 @@ define(function(require, exports, module){
 			$t_container.style.display = 'block';
 		}else{
 			$t_container.style.display = 'none';
+		}
+		function set_close_time(t){
+			$close.innerHTML = '<span class="number">' + t + '</span>';
 		}
 	}
 	exports.param = function(obj){
@@ -311,19 +320,13 @@ define(function(require, exports, module){
 	 * 
 	 * @params string c the email address
 	 * @return bool true An email address if true
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	exports.is_email = function(c){
-		if(!c) return false;
-		var b=/^([a-zA-Z0-9])*(.)*([a-zA-Z0-9])@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
-		flag=b.test(c);
-		if(flag){
-			return true
-		}else{
-			return false
-		}
+	exports.is_email = function(e){
+		var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+		return re.test(e);
 	};
 	/**
 	 * status_tip

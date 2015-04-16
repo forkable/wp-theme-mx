@@ -346,6 +346,8 @@ class theme_comment_ajax{
 		$caches[$cache_id] = wp_list_comments(array(
 			'type' => 'comment',
 			'callback'=>'theme_functions::theme_comment',
+			'reverse_top_level' => theme_features::get_option('comment_order') === 'asc' ? true : false,
+			'reverse_children' => theme_features::get_option('comment_order') === 'asc' ? true : false,
 			'page' => $cpaged,
 			'echo' => false,
 		),$comments);
@@ -436,11 +438,14 @@ class theme_comment_ajax{
 		global $post;
 			?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url([
+			m.config.pagi_process_url = '<?php echo theme_features::get_process_url([
 				'action' => self::$iden,
 				'type' => 'get-comments',
 				'post-id' => $post->ID,
 				'cpage' => 'n',
+			]);?>';
+			m.config.process_url = '<?php echo theme_features::get_process_url([
+				'action' => self::$iden,
 			]);?>';
 			m.config.post_id = <?php echo $post->ID;?>;
 			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
@@ -485,12 +490,31 @@ class theme_comment_ajax{
 						'post_id' => $post->ID,
 					]));
 					$cpage = theme_features::get_option('default_comments_page') == 'newest' ? $pages : 1;
-					
+
+					$is_logged = is_user_logged_in();
+					if(!$is_logged){
+						$commenter = wp_get_current_commenter();
+						
+						$user_name = $commenter['comment_author'];
+						$user_url = $commenter['comment_author_url'];
+						$avatar_url = get_img_source(get_avatar($commenter['comment_author_email']));
+					}else{
+						global $current_user;
+						get_currentuserinfo();
+						$user_name = $current_user->display_name;
+						$user_url = get_author_posts_url($current_user->ID);
+						$avatar_url =  get_img_source(get_avatar($current_user->ID));
+					}
 					$output[self::$iden] = [
 						'comments' => self::get_comments_list($post_id,$cpage),
 						'count' => $post ? $post->comment_count : 0,
 						'pages' => $pages,
 						'cpage' => $cpage,
+						'logged' => $is_logged,
+						'registration' => theme_features::get_option('comment_registration'),
+						'user-name' => $user_name,
+						'user-url' => $user_url,
+						'avatar-url' => $avatar_url,
 					];
 					break;
 			}

@@ -26,17 +26,19 @@ class theme_custom_storage{
 		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);	
 	}
 	public static function wp_title($title, $sep){
-		if(!self::is_page()) return $title;
+		if(!self::is_page()) 
+			return $title;
 
 		$post = self::get_decode_post();
-		if($post){
+		if($post)
 			return get_the_title($post->ID) . $sep . ___('storage download') . $sep . get_bloginfo('name');
-		}
+		
 	}
 	public static function is_page(){
-		static $caches;
+		static $caches = [];
 		if(isset($caches[self::$iden]))
 			return $caches[self::$iden];
+			
 		$caches[self::$iden] = is_page(self::$page_slug);
 		return $caches[self::$iden];
 	}
@@ -46,7 +48,7 @@ class theme_custom_storage{
 				'text' => ___('Baidu storage'),
 			)
 		);
-		if(empty($key)){
+		if($key === null){
 			return $types;
 		}else{
 			return isset($types[$key]) ? $types[$key] : null;
@@ -56,8 +58,15 @@ class theme_custom_storage{
 		if(!self::is_page())
 			return;
 		if(!self::get_decode_post()){
-			wp_redirect(home_url());
-			die();
+			//wp_redirect(home_url());
+			wp_die(
+				___('Error: invaild code.'),
+				___('Error'),
+				[
+					'response' => 404,
+					'back_link' => true,
+				]
+			);
 		}
 	}
 	public static function get_post_meta($post_id = null){
@@ -65,12 +74,14 @@ class theme_custom_storage{
 			global $post;
 			$post_id = $post->ID;
 		}
-		$meta = get_post_meta($post_id,self::$post_meta_key['key'],true);
-		if(empty($meta)){
-			return null;
-		}else{
-			return (array)$meta;
-		}
+		static $caches = [];
+		if(isset($caches[$post_id]))
+			return $caches[$post_id];
+			
+		$caches[$post_id] = get_post_meta($post_id,self::$post_meta_key['key'],true);
+
+		return $caches[$post_id];
+		
 	}
 	public static function meta_box_add(){
 		$screens = array( 'post' );
@@ -141,7 +152,7 @@ class theme_custom_storage{
 		
 		$page_slugs = array(
 			self::$page_slug => array(
-				'post_content' 	=> '',
+				'post_content' 	=> '[post-' . self::$page_slug . ']',
 				'post_name'		=> self::$page_slug,
 				'post_title'	=> ___('Storage download'),
 				'page_template'	=> 'page-' . self::$page_slug . '.php',
@@ -186,8 +197,13 @@ class theme_custom_storage{
 		return $caches[$post_id];
 	}
 	public static function get_decode_post(){
-		$code = isset($_GET['code']) ? $_GET['code'] : null;
+		$code = isset($_GET['code']) && is_string($_GET['code']) ? $_GET['code'] : null;
+
+		if(!$code)
+			return false;
+			
 		$decode = authcode($code,'decode');
+		
 		if(!$decode)
 			return false;
 			
@@ -210,32 +226,40 @@ class theme_custom_storage{
 				?>
 				<fieldset class="post-download-module">
 					<legend><span class="label label-default"><?php echo $v['text'];?></span></legend>
-					<div class="fieldset-content form-horizontal">
-						<?php if(isset($meta[$k]['pwd']) && !empty($meta[$k]['pwd'])){ ?>
-						<div class="form-group">
-							<div class="col-sm-3">
-								<strong class="btn btn-info btn-block btn-lg" id="<?php echo self::$iden;?>-<?php echo $k;?>-pwd" title="<?php echo sprintf(___('%s password'),$v['text']);?>" onclick="var range = document.createRange(),sel = window.getSelection();range.selectNodeContents(this);sel.removeAllRanges();sel.addRange(range);">
-									<?php echo isset($meta[$k]['pwd']) ? esc_html($meta[$k]['pwd']) : '-';?>
-								</strong>
-							</div>
-
-							<div class="col-sm-9">
-								<div class="btn-group btn-group-lg btn-block">
-									<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-9 col-sm-10"><i class="fa fa-cloud-download"></i> <?php echo ___('Download now');?></a>
-									<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-3 col-sm-2" target="_blank"><i class="fa fa-external-link"></i></a>
+					<div class="fieldset-content">
+						<div class="row">
+							<?php if(isset($meta[$k]['pwd']) && !empty($meta[$k]['pwd'])){ ?>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<strong class="btn btn-info btn-block btn-lg" id="<?php echo self::$iden;?>-<?php echo $k;?>-pwd" title="<?php echo sprintf(___('%s password'),$v['text']);?>" onclick="var range = document.createRange(),sel = window.getSelection();range.selectNodeContents(this);sel.removeAllRanges();sel.addRange(range);">
+											<?php echo isset($meta[$k]['pwd']) ? esc_html($meta[$k]['pwd']) : '-';?>
+										</strong>
+									</div>
 								</div>
-							</div>
-						</div>
-						<?php }else{ ?>
-							<div class="btn-group btn-group-lg btn-block">
-								<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-9 col-sm-11"><i class="fa fa-cloud-download"></i> <?php echo ___('Download now');?></a>
-								<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-3 col-sm-1" target="_blank" title="<?php echo ___('Open in new window');?>"><i class="fa fa-external-link"></i></a>
-							</div>
-						<?php } ?>
-					</div> <!-- /.fieldset -->
+					
+								<div class="col-sm-9">
+									<div class="form-group">
+										<div class="btn-group btn-group-lg btn-block">
+											<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-9 col-sm-10"><i class="fa fa-cloud-download"></i> <?php echo ___('Download now');?></a>
+											<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-3 col-sm-2" target="_blank"><i class="fa fa-external-link"></i></a>
+										</div>
+									</div>
+								</div>
+							<?php }else{ ?>
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="btn-group btn-group-lg btn-block">
+											<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-9 col-sm-11"><i class="fa fa-cloud-download"></i> <?php echo ___('Download now');?></a>
+											<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-3 col-sm-1" target="_blank" title="<?php echo ___('Open in new window');?>"><i class="fa fa-external-link"></i></a>
+										</div>
+									</div><!-- /.form-group -->
+								</div><!-- /.col-sm-12 -->
+							<?php } ?>
+						</div><!-- /.row -->
+					</div><!-- /.fieldset -->
 				</fieldset>
 			<?php } ?>
-		</div>
+		</div><!-- /.post-download -->
 		<?php
 		wp_reset_postdata();
 		$content = ob_get_contents();

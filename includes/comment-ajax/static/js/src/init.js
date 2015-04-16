@@ -13,6 +13,7 @@ define(function(require, exports, module){
 	exports.config = {
 		iden : 'theme_comment_ajax',
 		process_url : '',
+		pagi_process_url : '',
 		post_id : '',
 		lang : {
 			M00001 : 'Loading, please wait...', 
@@ -35,7 +36,7 @@ define(function(require, exports, module){
 			 */
 			exports.count.set();
 			
-			cache.$comment_list_container = document.getElementById('comment-list-' + config.post_id);
+			cache.$comment_list_container = I('comment-list-' + config.post_id);
 			if(!cache.$comment_list_container)
 				return false;
 				
@@ -55,8 +56,14 @@ define(function(require, exports, module){
 			
 			pagi.pages = js_request[config.iden].pages;
 			pagi.cpage = js_request[config.iden].cpage;
-			pagi.url_format = config.process_url;
+			pagi.url_format = config.pagi_process_url;
 			pagi.init();
+
+			/**
+			 * respond
+			 */
+			var rsp = new exports.respond();
+			rsp.init();
 		});
 	};
 	exports.count = {
@@ -83,7 +90,7 @@ define(function(require, exports, module){
 					'type' : 'get-comments',
 					'post-id' : config.post_id
 				});
-			xhr.open('GET',config.process_url + '&' + param);
+			xhr.open('GET',config.pagi_process_url + '&' + param);
 			xhr.send();
 			xhr.onload = function(){
 				if(xhr.status >= 200 && xhr.status < 400){
@@ -202,7 +209,7 @@ define(function(require, exports, module){
 		function prev_click(){
 			if(_that.cpage <= 1)
 				return false;
-			target_page = _that.cpage - 1;
+			target_page = parseInt(_that.cpage) - 1;
 			ajax();
 		}
 		function done_prev(){
@@ -235,7 +242,7 @@ define(function(require, exports, module){
 			if(_that.cpage == _that.pages)
 				return false;
 				
-			target_page = _that.cpage + 1;
+			target_page = parseInt(_that.cpage) + 1;
 			ajax();
 		}
 		function done_next(){
@@ -333,6 +340,176 @@ define(function(require, exports, module){
 			window.scrollTo(0,y - 40);
 		}
 	}
+
+
+	/**
+	 * respond
+	 */
+	exports.respond = function(){
+	
+		var _cache = {},
+			_config = {
+				logged : js_request[config.iden].logged,
+				registration : js_request[config.iden].registration,
+				prefix_comment_body_id : 'comment-body-'
+			},
+			_that = this;
+
+		this.init = function(){
+			goto_click();
+			fm_init();
+		};
+
+
+		function fm_init(){
+			_cache.$respond 		= I('respond');
+			_cache.$fm 				= I('commentform');
+			_cache.$must_logged 	= I('respond-must-login');
+			_cache.$loading_ready 	= I('respond-loading-ready');
+			_cache.$avatar 			= I('respond-avatar');
+			_cache.$area_visitor 	= I('area-respond-visitor');
+			_cache.$comment_parent 	= I('comment_parent');
+			_cache.$comment_ta 		= I('comment-form-comment');
+			_cache.$submit_btn		= _cache.$fm.querySelector('.submit');
+			
+			
+			if(!_cache.$respond || !_cache.$fm)
+				return false;
+
+			/**
+			 * hide loading ready
+			 */
+			if(_cache.$loading_ready)
+				_cache.$loading_ready.parentNode.removeChild(_cache.$loading_ready);
+				
+			/**
+			 * if not logged and need registration, return false
+			 */
+			if(_config.registration && !_config.logged){
+				_cache.$must_logged.style.display = 'block';
+				return false;
+			}
+			
+			/**
+			 * user logged
+			 */
+			if(_config.logged){
+				if(_cache.$avatar)
+					_cache.$avatar.src = js_request[config.iden]['avatar-url'];
+
+				if(_cache.$area_visitor)
+					_cache.$area_visitor.parentNode.removeChild(_cache.$area_visitor);
+			}else{
+				
+			}
+			_cache.$fm.style.display = 'block';
+
+			_cache.$fm.addEventListener('submit',fm_submit,false);
+		}
+		function fm_submit(e){
+			/**
+			 * check comment textarea
+			 */
+			if(_cache.$comment_ta.value.trim() === ''){
+				_cache.$comment_ta.focus();
+				tools.ajax_loading_tip('error',_cache.$comment_ta.getAttribute('title'),3);
+				return false;
+			}
+			/**
+			 * check requred input and format
+			 */
+			if(!_config.logged && _config.registration){
+				var $inputs = _cache.$fm.querySelectorAll('input[required]');
+				for(var i = 0, len = $inputs.length; i < len; i++){
+					/** check email */
+					if($inputs[i].getAttribute('type') === 'email' && !tools.is_email($inputs[i].value)){
+						tools.ajax_loading_tip('error',$inputs[i].getAttribute('title'),3);
+						return false;
+					}
+					/** check null value */
+					if($inputs[i].value.trim() === ''){
+						tools.ajax_loading_tip('error',$inputs[i].getAttribute('title'),3);
+						return false;
+					}
+				}
+			}
+			/**
+			 * set form data
+			 */
+			var ajax_data = {},
+				$controls = _cache.$fm.querySelectorAll('[name]');
+			Array.prototype.forEach.call($controls,function($el,i){
+				ajax_data[$el.getAttribute('name')] = $el.value;
+			});
+			ajax_data['theme-nonce'] = js_request['theme-nonce'];
+			/**
+			 * ajax send
+			 */
+			tools.ajax_loading_tip('loading',config.lang.M00001);
+			_cache.$submit_btn.setAttribute('disabled',true);
+			ajax(ajax_data);
+			return false;
+		}
+		function ajax(ajax_data){
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST',config.process_url);
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+			xhr.send(tools.param(ajax_data));
+			xhr.onload = function(){
+				if(xhr.status >= 200 && xhr.status < 400){
+					var data;
+					try{data = JSON.parse(xhr.responseText);}catch(e){data = xhr.responseText}
+					if(data && data.status === 'success'){
+						var $new_comment = tools.parseHTML(data.comment)[0];
+						/**
+						 * if children respond
+						 */
+						if(_cache.$comment_parent.value != 0){
+							var $parent_comment_body = I(_config.prefix_comment_body_id + _cache.$comment_parent.value);
+							$parent_comment_body.insertAdjacentHTML('afterend','<ul class="children">' + $new_comment.innerHTML + '</ul>');
+							/** restore respond */
+							addComment.cancelMove();
+						}else{
+							cache.$comment_list_container.appendChild($new_comment);
+						}
+						/** clear comment textarea */
+						_cache.$comment_ta.value = '';
+						/** show success tip */
+						tools.ajax_loading_tip(data.status,data.msg,3);
+					}else if(data && data.status === 'error'){
+						tools.ajax_loading_tip(data.status,data.msg);
+					}else{
+						tools.ajax_loading_tip(data.status,config.lang.E00001);
+					}
+				}else{
+					tools.ajax_loading_tip(data.status,config.lang.E00001);
+				}
+				/** enable submit btn */
+				_cache.$submit_btn.removeAttribute('disabled');
+			};
+			xhr.onerror = function(){
+				tools.ajax_loading_tip(data.status,config.lang.E00001);
+				_cache.$submit_btn.removeAttribute('disabled');
+			}
+			
+		}
+		function goto_click(){
+			_cache.$goto =I('goto-comment');
+			_cache.$comment = I('comment-form-comment');
+			if(_cache.$goto && _cache.$comment)
+				_cache.$goto.onclick = function(){
+					_cache.$comment.focus();
+				}
+		}
+		
+	}
+
+
+
+
+
+
+	
 	
 	/**
 	 * form comment-reply.js
@@ -352,12 +529,12 @@ define(function(require, exports, module){
 		moveForm : function(commId, parentId, respondId, postId) {
 			var t = this;
 
-			t.cache.$comm 		= t.I(commId);
-			t.cache.$respond 	= t.I(respondId);
-			t.cache.$cancel 	= t.I('cancel-comment-reply-link');
-			t.cache.$parent 	= t.I('comment_parent');
-			t.cache.$post 		= t.I('comment_post_ID'),
-			t.cache.$comment 	= t.I('comment');
+			t.cache.$comm 		= I(commId);
+			t.cache.$respond 	= I(respondId);
+			t.cache.$cancel 	= I('cancel-comment-reply-link');
+			t.cache.$parent 	= I('comment_parent');
+			t.cache.$post 		= I('comment_post_ID'),
+			t.cache.$comment 	= I('comment-form-comment');
 
 			if ( ! t.cache.$comm || ! t.cache.$respond || ! t.cache.$cancel || ! t.cache.$parent )
 				return;
@@ -386,11 +563,11 @@ define(function(require, exports, module){
 				t.cache.$comment.focus();
 
 			return false;
-		},
-		I : function(e) {
-			return document.getElementById(e);
 		}
 	};
-	
+
+	function I(e){
+		return document.getElementById(e);
+	}
 	
 });
