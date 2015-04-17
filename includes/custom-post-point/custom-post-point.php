@@ -9,13 +9,15 @@ add_filter('theme_includes',function($fns){
 class custom_post_point{
 	public static $iden = 'custom_post_point';
 	public static $post_meta_key = [
-		'users'				=> '_point_givers',
-		'count_users' 		=> '_point_count_givers',
+		'users'				=> '_point_raters',
+		'count_users' 		=> '_point_count_raters',
 		'count_points' 		=> '_point_count_points',
 	];
 	public static $user_meta_key = [
 		'posts' 		=> '_point_posts',
 	];
+	public static $error = [];
+	
 	public static function init(){
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 		add_action('wp_ajax_nopriv_' . self::$iden, __CLASS__ . '::process');
@@ -61,7 +63,7 @@ class custom_post_point{
 			'expire' => 3600*24,
 		];
 		$args = wp_parse_args($args,$defaults);
-		$cache_id = md5(serialize($args));
+		$cache_id = md5(serialize(func_get_args()));
 		$caches = wp_cache_get('most_point_posts',self::$iden);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
@@ -123,7 +125,7 @@ class custom_post_point{
 		
 		return $caches[$post_id];
 	}
-	public static function get_post_givers_count($post_id){
+	public static function get_post_raters_count($post_id){
 		static $caches = [];
 		if(isset($caches[$post_id]))
 			return $caches[$post_id];
@@ -154,7 +156,10 @@ class custom_post_point{
 	 * @version 1.0.0
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function get_post_givers($post_id){
+	public static function get_post_raters($post_id){
+		if(!is_int($post_id))
+			return false;
+			
 		static $caches;
 		if(isset($caches[$post_id]))
 			return $caches[$post_id];
@@ -176,7 +181,7 @@ class custom_post_point{
 			'posts_per_page' => 10,
 			'paged' => 1,
 		];
-		$query_args = wp_parse_args($query_args,$defaults);		$cache_id = md5($user_id . serialize($query_args));
+		$query_args = wp_parse_args($query_args,$defaults);		$cache_id = md5(serialize(func_get_args()));
 		
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
@@ -238,11 +243,11 @@ class custom_post_point{
 		
 		$post = get_post($post_id);
 		if(empty($post))
-			return [
+			die(theme_features::json_format([
 				'status' => 'error',
 				'code' => 'post_not_exist',
 				'msg' => ___('Post does not exist.'),
-			];
+			]));
 		/**
 		 * check user logged
 		 */
@@ -253,7 +258,7 @@ class custom_post_point{
 			die(theme_features::json_format($output));
 		}
 		
-		$giver_id = get_current_user_id();
+		$rater_id = (int)get_current_user_id();
 
 		switch($type){
 			/**
@@ -271,19 +276,17 @@ class custom_post_point{
 					die(theme_features::json_format($output));
 				}
 				/**
-				 * incr post givers
+				 * incr post raters
 				 */
-				$post_givers = self::incr_post_givers($post_id,$giver_id,$points);
-				if(!$post_givers){
-					$output['status'] = 'error';
-					$output['code'] = 'error_incr_post_givers';
-					$output['msg'] = ___('Sorry, system can not increase post givers, maybe you are post author.');
-					die(theme_features::json_format($output));
+				$post_raters = self::incr_post_raters($post_id,$rater_id,$points);
+				
+				if($post_raters !== true){
+					die(theme_features::json_format($post_raters));
 				}else{
 					/**
 					 * incr post points
 					 */
-					$points_count = self::incr_post_points_count($post_id,$giver_id,$points);
+					$points_count = self::incr_post_points_count($post_id,$rater_id,$points);
 					if(!$points_count){
 						$output['status'] = 'error';
 						$output['code'] = 'error_incr_points_count';
@@ -291,13 +294,13 @@ class custom_post_point{
 						die(theme_features::json_format($output));
 					}
 					/**
-					 * incr giver posts
+					 * incr rater posts
 					 */
-					$giver_posts = self::incr_giver_posts($post_id,$giver_id,$points);
-					if(!$giver_posts){
+					$rater_posts = self::incr_rater_posts($post_id,$rater_id,$points);
+					if(!$rater_posts){
 						$output['status'] = 'error';
-						$output['code'] = 'error_incr_giver_posts';
-						$output['msg'] = ___('System can not increase giver posts.');
+						$output['code'] = 'error_incr_rater_posts';
+						$output['msg'] = ___('System can not increase rater posts.');
 						die(theme_features::json_format($output));
 					}
 					/**
@@ -319,6 +322,12 @@ class custom_post_point{
 
 		die(theme_features::json_format($output));
 	}
+	public static function set_error($error){
+		if(is_array($error))
+			self::$error = $error;
+		return $error;
+	}
+	//public static function get_error()
 	/**
 	 * 递增文章积分统计
 	 *
@@ -329,11 +338,19 @@ class custom_post_point{
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	public static function incr_post_points_count($post_id,$points){
-		if(!is_int($post_id) || (int)$post_id)
-			return false;
+		if(!is_int($post_id) || (int)$post_id === 0)
+			return [
+				'status' => 'error',
+				'code' => 'invaild_post_id',
+				'msg' => ___('Invaild post id.'),
+			];
 
-		if(!is_int($points) || (int)$points < 0)
-			return false;
+		if(!is_int($points) || (int)$points === 0)
+			return [
+				'status' => 'error',
+				'code' => 'invaild_point_value',
+				'msg' => ___('Invaild post value.'),
+			];
 			
 		$count = (int)get_post_meta($post_id,self::$post_meta_key['count_points'],true);
 		
@@ -350,7 +367,7 @@ class custom_post_point{
 	 * @version 1.0.0
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function incr_post_givers_count($post_id){
+	public static function incr_post_raters_count($post_id){
 		if(!is_int($post_id) || !(int)$post_id)
 			return false;
 			
@@ -369,7 +386,7 @@ class custom_post_point{
 	 * @version 1.0.0
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function decr_post_givers_count($post_id){
+	public static function decr_post_raters_count($post_id){
 		if(!is_int($post_id) || !(int)$post_id)
 			return false;
 			
@@ -389,80 +406,137 @@ class custom_post_point{
 	 * @param int post id
 	 * @param int user id
 	 * @param int points
-	 * @return 
+	 * @return bool/array True is success, array is error
 	 * @version 1.0.0
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function incr_post_givers($post_id,$giver_id,$points){
+	public static function incr_post_raters($post_id,$rater_id,$points){
 			
-		if(!is_int($post_id) || $post_id <= 0)
-			return false;
+		if(!is_int($post_id) || (int)$post_id === 0)
+			return [
+				'status' => 'error',
+				'code' => 'invaild_post_id',
+				'msg' => ___('Invaild post id.'),
+			];
 			
-		if(!is_int($giver_id) || $giver_id <= 0)
-			return false;
+		if(!is_int($rater_id) || (int)$rater_id === 0)
+			return [
+				'status' => 'error',
+				'code' => 'invaild_rater_id',
+				'msg' => ___('Invaild rater id.'),
+			];
 
-		if(!is_int($points) || $points <= 0)
-			return false;
+		if(!is_int($points) || (int)$points === 0)
+			return [
+				'status' => 'error',
+				'code' => 'invaild_points',
+				'msg' => ___('Invaild points.'),
+			];
 
 		$post = get_post($post_id);
 		if(!$post)
-			return false;
-
-		$giver = get_user_by('ID',$giver_id);
-		if(!$giver)
-			return false;
+			return [
+				'status' => 'error',
+				'code' => 'post_not_exist',
+				'msg' => ___('Post is not exist.'),
+			];
+		/**
+		 * if post author is rater, return
+		 */
+		if($post->post_author == $rater_id)
+			return [
+				'status' => 'error',
+				'code' => 'rate_myself',
+				'msg' => ___('Sorry, you can not rate your post.'),
+			];
+		
+		$rater = get_user_by('id',$rater_id);
+		if(!$rater)
+			return [
+				'status' => 'error',
+				'code' => 'rater_not_exist',
+				'msg' => ___('Rater is not exist.'),
+			];
 
 			
-		$givers = (array)get_post_meta($post_id,self::$post_meta_key['users'],true);
+		$raters = (array)get_post_meta($post_id,self::$post_meta_key['users'],true);
 		/**
 		 * already point, return false
 		 */
-		if(isset($givers[$user_id]))
-			return false;
+		if(isset($raters[$rater_id]))
+			return [
+				'status' => 'error',
+				'code' => 'rated',
+				'msg' => ___('You had rated this post.'),
+			];
 
 	
-		$givers[$user_id] = $points;
-		update_post_meta($post_id,self::$post_meta_key['users'],$givers);
+		$raters[$rater_id] = $points;
+		update_post_meta($post_id,self::$post_meta_key['users'],$raters);
 		
-		return $givers;
+		return true;
 	}
 	/**
 	 * 递增投币用户的文章
 	 *
 	 * @param int $post_id Post id
-	 * @param int $user_id Giver id
+	 * @param int $user_id rater id
 	 * @param int $points $points
 	 * @return 
 	 * @version 1.0.0
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function incr_giver_posts($post_id,$giver_id,$points){
-		if(!is_int($post_id) || $post_id <= 0)
-			return false;
-			
-		if(!is_int($giver_id)|| $giver_id <= 0)
-			return false;
+	public static function incr_rater_posts($post_id,$rater_id,$points){
+		if(!is_int($post_id) || (int)$post_id === 0)
+			return [
+				'status' => 'error',
+				'code' => 'invaild_post_id',
+				'msg' => ___('Invaild post id.'),
+			];
 
-		if(!is_int($points) || $points <= 0)
-			return false;
+		if(!is_int($rater_id) || (int)$rater_id === 0)
+			return [
+				'status' => 'error',
+				'code' => 'invaild_rater_id',
+				'msg' => ___('Invaild rater id.'),
+			];
+			
+		if(!is_int($points) || (int)$points === 0)
+			return [
+				'status' => 'error',
+				'code' => 'invaild_point_value',
+				'msg' => ___('Invaild post value.'),
+			];
 			
 		$post = get_post($post_id);
 		if(!$post)
-			return false;
+			return [
+				'status' => 'error',
+				'code' => 'post_not_exist',
+				'msg' => ___('Post is not exist.'),
+			];
 
-		$giver = get_user_by('ID',$giver_id);
-		if(!$giver)
-			return false;
+		$rater = get_user_by('id',$rater_id);
+		if(!$rater)
+			return [
+				'status' => 'error',
+				'code' => 'rater_not_exist',
+				'msg' => ___('Rater is not exist.'),
+			];
 			
-		$posts = (array)get_user_meta($giver_id,self::$user_meta_key['posts'],true);
+		$posts = (array)get_user_meta($rater_id,self::$user_meta_key['posts'],true);
 		
 		if(isset($posts[$post_id]))
-			return false;
+			return [
+				'status' => 'error',
+				'code' => 'rated',
+				'msg' => ___('You had rated this post.'),
+			];
 
 		$posts[$post_id] = $points;
-		update_user_meta($giver_id,self::$user_meta_key['posts'],$posts);
+		update_user_meta($rater_id,self::$user_meta_key['posts'],$posts);
 
-		return $posts;
+		return true;
 	}
 	/**
 	 * 递减投币该文章的用户
@@ -471,44 +545,44 @@ class custom_post_point{
 	 * @version 1.0.0
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function decr_post_givers($post_id,$giver_id){
-		if(!is_int($post_id) || $post_id <= 0)
+	public static function decr_post_raters($post_id,$rater_id){
+		if(!is_int($post_id) || (int)$post_id === 0)
 			return false;
 			
-		if(!is_int($giver_id) || $giver_id <= 0)
+		if(!is_int($rater_id) || (int)$rater_id === 0)
 			return false;
 			
 
-		$givers = (array)get_post_meta($post_id,self::$post_meta_key['users'],true);
+		$raters = (array)get_post_meta($post_id,self::$post_meta_key['users'],true);
 		
 		/**
 		 * if is new point user, do not remove
 		 */
-		if(!isset($givers[$user_id]))
+		if(!isset($raters[$user_id]))
 			return false;
 
 		/**
 		 * if already exist, just remove
 		 */
-		unset($givers[$user_id]);
-		update_post_meta($post_id,self::$post_meta_key['users'],$givers);
+		unset($raters[$user_id]);
+		update_post_meta($post_id,self::$post_meta_key['users'],$raters);
 		
-		return $givers;
+		return $raters;
 	}
-	public static function decr_giver_posts($post_id,$giver_id){
+	public static function decr_rater_posts($post_id,$rater_id){
 		if(!is_int($post_id) || $post_id <= 0)
 			return false;
 			
-		if(!is_int($giver_id) || $giver_id <= 0)
+		if(!is_int($rater_id) || $rater_id <= 0)
 			return false;
 
-		$posts = (array)get_user_meta($giver_id,self::$user_meta_key['posts'],true);
+		$posts = (array)get_user_meta($rater_id,self::$user_meta_key['posts'],true);
 
 		if(!isset($posts[$post_id]))
 			return false;
 
 		unset($posts[$post_id]);
-		update_user_meta($giver_id,self::$user_meta_key['posts'],$posts);
+		update_user_meta($rater_id,self::$user_meta_key['posts'],$posts);
 
 		return $posts;
 	}
@@ -535,6 +609,9 @@ class custom_post_point{
 		<?php
 	}
 	public static function post_btn($post_id){
+		if(!is_int($post_id))
+			return false;
+			
 		$point_img = theme_custom_point::get_point_img_url();
 		$point_values = (array)self::get_point_values();
 
@@ -557,7 +634,7 @@ class custom_post_point{
 
 				<i> / </i>
 				
-				<?php echo esc_html(sprintf(___('Give %d %s'),$default_point_value,theme_custom_point::get_point_name()));?>
+				<?php echo sprintf(___('Rate %d %s'),$default_point_value,theme_custom_point::get_point_name());?>
 				
 			</a>
 			
@@ -570,7 +647,7 @@ class custom_post_point{
 					<?php foreach($point_values as $v){ ?>
 						<li><a href="javascript:;" class="post-point-btn" data-post-id="<?php echo $post_id;?>" data-points="<?php echo $v;?>">
 							<?php 
-							echo sprintf(___('Give %d %s'),
+							echo sprintf(___('Rate %d %s'),
 								$v,
 								theme_custom_point::get_point_name()
 							);?>

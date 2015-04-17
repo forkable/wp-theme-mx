@@ -613,33 +613,32 @@ function get_client_ip(){
 	return preg_replace( '/[^0-9a-fA-F:., ]/', '',$_SERVER['REMOTE_ADDR'] );
 }
 /**
- * Name:			delete_files
- * Author:			Km.Van
- * Version:			1.0
- * Type:			function 函数
- * Return:			string(bool)
- * Explain:			删除文件
- * Example:			delete_files(file_path)
- * Update:			PM 06:10 2011/9/2
+ * delete file
+ *
+ * @version 1.0.0
+ * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
  */
-function delete_files($file_path = null){
-	if(!$file_path || !file_exists($file_path)) return false;
+function delete_files($file_path){
+	if(!file_exists($file_path)) 
+		return false;
 	return unlink($file_path);
 }
 /**
- * Name:			download_files
- * Author:			Km.Van
- * Version:			1.0
- * Type:			function 函数
- * Return:			string(display)
- * Explain:			下载文件名，保存路径，保存文件名，下载时限
- * Example:			download_files(str)
- * Update:			PM 11:28 2011/8/19
+ * Download file
+ *
+ * @param string $url Remote file url
+ * @param string $dir Saven dir
+ * @param string $name Saven filename
+ * @param int $time_limit
+ * @return bool
+ * @version 1.0.0
+ * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
  */
- function download_files($url = null,$dir = null,$name = null,$time_limit = 300){
-	if(!$url) return false;
+ function download_file($url,$dir = null,$name = null,$time_limit = 300){
 	set_time_limit($time_limit);
-	$dir = $dir ? $dir : __DIR__;
+	
+	if(!$dir)
+		$dir = __DIR__;
 	
 	if(!$name){
 		$default_name = explode('/',$url);
@@ -660,20 +659,18 @@ function delete_files($file_path = null){
 }
 
 /**
- * Name:			get_filemtime
- * Author:			Km.Van
- * Version:			1.2
- * Type:			function 函数
- * Return:			string(display)
- * Explain:			獲取文件修改日期
- * Example:			get_filemtime()
- * Update:			20130208
+ * Get file modify time
+ *
+ * @param string $filepath File path
+ * @param string $format Date format
+ * @return string
+ * @version 1.0.0
+ * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
  */
-function get_filemtime($file_name = null,$format = 'YmdHis'){
-	if(!$file_name || !file_exists($file_name) || !is_file($file_name)) return false;
-	$file_date = filemtime($file_name);
-	$file_date = date($format,$file_date);
-	return $file_date;
+function get_filemtime($filepath,$format = 'YmdHis'){
+	if(!is_file($filepath))
+		return false;
+	return date($format,filemtime($filepath));
 }
 /**
  * get_img_source

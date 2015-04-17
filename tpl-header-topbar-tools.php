@@ -5,14 +5,7 @@
 if(is_user_logged_in()){
 	?>
 	<div class="btn-group btn-group-xs">
-		<!-- ctb -->
-		<?php if(class_exists('theme_custom_contribution')){ ?>
-			<a href="<?php echo esc_url(theme_custom_contribution::get_tabs('contribution')['url']);?>" class="btn btn-default meta tool-contribution">
-				<i class="fa fa-pencil-square-o"></i>
-				<?php echo ___('Contribution');?>
-			</a>
-		<?php } ?>
-
+		
 		
 		<!-- my profile -->
 		<?php
@@ -39,6 +32,13 @@ if(is_user_logged_in()){
 			</a>
 		<?php } ?>
 		
+		<!-- ctb -->
+		<?php if(class_exists('theme_custom_contribution')){ ?>
+			<a href="<?php echo esc_url(theme_custom_contribution::get_tabs('contribution')['url']);?>" class="btn btn-default meta tool-contribution" title="<?php echo ___('Contribution');?>">
+				<i class="fa fa-paint-brush"></i>
+			</a>
+		<?php } ?>
+
 		<!-- notification -->
 		<?php 
 		if(class_exists('theme_notification')){

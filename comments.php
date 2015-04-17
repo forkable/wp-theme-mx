@@ -14,9 +14,10 @@ global $wp_query;
 			<span id="comment-number-<?php echo $post->ID;?>" class="badge">-</span> 
 			<?php echo ___('Comments');?>
 
-			<a href="javascript:;" id="goto-comment" class="btn btn-success btn-xs">
+			<a href="#respond" id="goto-comment" class="btn btn-success btn-xs">
+				<?php echo ___('Respond');?> 
 				<i class="fa fa-pencil-square-o"></i> 
-				<?php echo ___('Respond');?>
+				
 			</a>
 		</h3>
 	</div>

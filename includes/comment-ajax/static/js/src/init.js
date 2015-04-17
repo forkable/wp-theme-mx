@@ -336,8 +336,9 @@ define(function(require, exports, module){
 		}
 		/** scroll to comment list container offset top */
 		function scroll_to_list(){
-			var y = cache.$comment_list_container.getBoundingClientRect().top + document.documentElement.scrollTop;
-			window.scrollTo(0,y - 40);
+			location.hash = 'comments';
+			//var y = cache.$comment_list_container.getBoundingClientRect().top + document.documentElement.scrollTop;
+			//window.scrollTo(0,y - 40);
 		}
 	}
 
@@ -496,10 +497,15 @@ define(function(require, exports, module){
 		function goto_click(){
 			_cache.$goto =I('goto-comment');
 			_cache.$comment = I('comment-form-comment');
-			if(_cache.$goto && _cache.$comment)
-				_cache.$goto.onclick = function(){
+			if(!_cache.$goto || !_cache.$comment)
+				return;
+				
+			_cache.$goto.style.display = 'block';
+			_cache.$goto.onclick = function(){
+				setTimeout(function(){
 					_cache.$comment.focus();
-				}
+				},300);
+			}
 		}
 		
 	}

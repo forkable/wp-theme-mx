@@ -577,6 +577,7 @@ label.error{
  * #goto-comment
  */
 #goto-comment{
+	display: none;
 	float: right;
 	color: #fff;
 }
@@ -1436,6 +1437,6 @@ label.error{
 	#slidebox .fill{height: 320px;}
 }
 @media (min-width: 1300px){
-	.container{width: 1300px;}
-	#slidebox .fill{height: 342px;}
+	/*.container{width: 1300px;}*/
+	/*#slidebox .fill{height: 342px;}*/
 }

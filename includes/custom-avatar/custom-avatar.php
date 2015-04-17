@@ -18,7 +18,8 @@ class theme_custom_avatar{
 		add_filter('get_avatar', __CLASS__ . '::get_gravatar',99,2);
 	}
 	public static function get_gravatar($avatar,$id_or_email){
-		static $caches;
+		static $caches = [];
+			
 		$cache_id = md5(serialize(func_get_args()));
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
@@ -42,7 +43,8 @@ class theme_custom_avatar{
 			}
 			$meta = $baseurl . $meta;
 		}
-		$avatar = preg_replace('/src=\'?"?(\S+)?"?\'?/i','data-src="' . $meta . '" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"',$avatar);
+		//var_dump($meta);
+		$avatar = preg_replace('/\s+src=\'?"?(\S+)?"?\'?/i',' src="' . $meta . '"',$avatar);
 
 		$caches[$cache_id] = $avatar;
 		return $avatar;
