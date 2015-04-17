@@ -2,15 +2,21 @@
 /**
  * @version 1.0.0
  */
-//class theme_img_lazyload{
-//	public static $iden = 'theme_img_lazyload';
-//	public static function init(){
-		
-//	}
-//	public static function the_content($content){
-//		$pattern = '/<img[^>]+/>/i';
-//		preg_match_all($pattern,$content,$matches);
-//		if(isset($matches))
-//		return $content;
-//	}
-//}
+add_filter('theme_includes',function($fns){
+	$fns[] = 'theme_img_lazyload::init';
+	return $fns;
+});
+class theme_img_lazyload{
+	public static $iden = 'theme_img_lazyload';
+	public static function init(){
+		add_filter('the_content', __CLASS__ . '::the_content');
+	}
+	public static function the_content($content){
+		$pattern = '/(<img[^>]+)src=/i';
+		$content = preg_replace(
+			$pattern,
+			'$1src="' . theme_features::get_theme_images_url('frontend/thumbnail.jpg') . '" data-src=',
+			$content);
+		return $content;
+	}
+}

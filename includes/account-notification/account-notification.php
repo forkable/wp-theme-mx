@@ -14,7 +14,6 @@ class theme_notification{
 		'count' => 'theme_noti_count',
 		'unread_count' => 'theme_noti_unread_count',
 	);
-	private static $timestamp;
 	
 	public static function init(){
 		/** filter */
@@ -125,25 +124,38 @@ class theme_notification{
 		}
 	}
 	public static function get_url(){
-		return get_permalink(theme_cache::get_page_by_path(self::$page_slug));
+		static $cache = null;
+		if($cache === null)
+			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug));
+			
+		return $cache;
 	}
 	public static function is_page(){
-		if(
-			is_page(self::$page_slug) && 
-			self::get_tabs(get_query_var('tab'))
-		)
+		static $caches = [];
+		if(isset($caches[self::$iden]))
 			return true;
-		return false;
+
+		$caches[self::$iden] = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'))
+		
+		return $caches[self::$iden];
 	}
 
-	public static function get_count($args = null){
+	public static function get_count(array $args = []){
 		$defaults = array(
 			'user_id' => get_current_user_id(),
 			'type' => 'all',
 		);
 		$args = wp_parse_args($args,$defaults);
 		if(empty($args['user_id'])) return false;
-
+		
+		/**
+		 * cache
+		 */
+		static $caches = [];
+		$cache_id = md5(serialize($args));
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+			
 		switch($args['type']){
 			case 'unread':
 				$metas = array_filter((array)get_user_meta($args['user_id'],self::$user_meta_key['unread_count'],true));
@@ -151,9 +163,10 @@ class theme_notification{
 			default:
 				$metas = array_filter((array)get_user_meta($args['user_id'],self::$user_meta_key['key']));
 		}
-		return empty($metas) ? 0 : count($metas);
+		$caches[$cache_id] = empty($metas) ? 0 : count($metas);
+		return $caches[$cache_id];
 	}
-	public static function get_notifications($args = null){
+	public static function get_notifications(array $args = []){
 		$defaults = array(
 			'user_id' => get_current_user_id(),
 			'type' => 'all',/** all / unread / read */
@@ -164,6 +177,15 @@ class theme_notification{
 		$args = wp_parse_args($args,$defaults);
 		if(empty($args['user_id'])) return false;
 		
+		/**
+		 * cache
+		 */
+		static $caches = [];
+		$cache_id = md5(serialize($args));
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+
+			
 		$metas = (array)get_user_meta($args['user_id'],self::$user_meta_key['key']);
 
 		if(empty($metas)){
@@ -197,7 +219,9 @@ class theme_notification{
 				$args['posts_per_page']
 			);
 		}
-		return $metas;
+		$caches[$cache_id] = $metas;
+		unset($metas);
+		return $caches[$cache_id];
 	}
 	/**
 	 * Get timestamp
@@ -208,14 +232,16 @@ class theme_notification{
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	private static function get_timestamp($rand = false){
+		static $cache = null;
+		
 		if($rand)
 			return current_time('timestamp') . '' . rand(100,999);
 		
-		if(self::$timestamp){
-			return self::$timestamp;
+		if($cache){
+			return $cache;
 		}else{
-			self::$timestamp = current_time('timestamp');
-			return self::$timestamp;
+			$cache = current_time('timestamp');
+			return $cache;
 		}
 	}
 	/**
