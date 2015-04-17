@@ -61,7 +61,8 @@ class theme_notification{
 		}
 
 		if($unread_count === 0){
-			if(!self::is_page()) return $title;
+			if(!self::is_page())
+				return $title;
 			if(self::get_tabs(get_query_var('tab'))){
 				$title = self::get_tabs(get_query_var('tab'))['text'];
 			}			
@@ -107,7 +108,7 @@ class theme_notification{
 
 		$navs['notifications'] = '<a href="' . esc_url(self::get_tabs('notifications')['url']) . '">
 			<i class="fa fa-' . self::get_tabs('notifications')['icon'] . '"></i> 
-			' . esc_html(self::get_tabs('notifications')['text']) . '
+			' . self::get_tabs('notifications')['text'] . '
 			' . $unread_html . '
 		</a>';
 		return $navs;
@@ -133,9 +134,9 @@ class theme_notification{
 	public static function is_page(){
 		static $caches = [];
 		if(isset($caches[self::$iden]))
-			return true;
+			return $caches[self::$iden];
 
-		$caches[self::$iden] = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'))
+		$caches[self::$iden] = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 		
 		return $caches[self::$iden];
 	}
@@ -297,7 +298,7 @@ class theme_notification{
 		 */
 		if($comment->comment_parent != 0){
 			/** post author */
-			$post_author_id = get_post($comment->comment_post_ID)->post_author;
+			$post_author_id = self::get_post($comment->comment_post_ID)->post_author;
 			/**
 			 * 评论是回复评论，父评论是文章作者时，仅给父评论作者添加评论回复事件，不添加文章评论事件
 			 */
@@ -334,7 +335,7 @@ class theme_notification{
 		$comment = get_comment($comment_id);
 		
 		/** post author */
-		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+		$post_author_id = self::get_post($comment->comment_post_ID)->post_author;
 			
 		/**
 		 * 评论是子评论
@@ -361,12 +362,21 @@ class theme_notification{
 	}
 	
 	public static function action_add_noti_core_post_reply($comment_id){
-		$comment = get_comment($comment_id);
+		$comment = self::get_comment($comment_id);
 
-		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+		$post_author_id = self::get_post($comment->comment_post_ID)->post_author;
 
+		/**
+		 * if visitor is comment author, reuturn
+		 */
+		if($comment->user_id == 0)
+			return false;
+			
+		/**
+		 * if post author is current comment author, return
+		 */
 		if($post_author_id == $comment->user_id)
-			return;
+			return false;
 			
 		/**
 		 * add noti for post author
@@ -385,36 +395,61 @@ class theme_notification{
 		$unread_count[self::get_timestamp(true)] = $meta;
 		update_user_meta($post_author_id,self::$user_meta_key['unread_count'],$unread_count);
 	}
-	
+	public static function get_post($post_id){
+		static $caches = [];
+		if(isset($caches[$post_id]))
+			return $caches[$post_id];
+
+		$caches[$post_id] = get_post($post_id);
+		return $caches[$post_id];
+	}
+	public static function get_comment($comment_id){
+		static $caches = [];
+		if(isset($caches[$comment_id]))
+			return $caches[$comment_id];
+
+		$caches[$comment_id] = get_comment($comment_id);
+		return $caches[$comment_id];
+	}
 	/**
 	 * comment reply noti
 	 */
 	public static function action_add_noti_core_comment_reply($comment_id){
-		$comment = get_comment($comment_id);
+		
+		$comment = self::get_comment($comment_id);
 		
 		if($comment->comment_parent == 0)
-			return;
+			return false;
 			
 		/** get post author */
-		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+		$post_author_id = self::get_post($comment->comment_post_ID)->post_author;
 		
 		/**
-		 * if post author is comment author, just return
+		 * if post author is current comment author, return
 		 */
 		if($post_author_id == $comment->user_id)
-			return;
+			return false;
 
 		/**
-		 * get comment parent author
+		 * get parent comment author
 		 */
-		$comment_parent_author_id = get_comment($comment->comment_parent)->user_id;
-		
-		/** if comment parent author is visitor, just return */
-		if($comment_parent_author_id == 0)
-			return;
-			
+		$parent_comment_author_id = self::get_comment($comment->comment_parent)->user_id;
+
 		/**
-		 * add noti for comment parent author
+		 * if parent comment author is visitor, return
+		 */
+		if($parent_comment_author_id == 0)
+			return false;
+
+		/**
+		 * if parent comment author is current comment author, return
+		 */
+		if($parent_comment_author_id == $comment->user_id)
+			return false;
+
+		
+		/**
+		 * add noti for parent comment author
 		 */
 		$meta = array(
 			'id' => self::get_timestamp(true),
@@ -422,14 +457,14 @@ class theme_notification{
 			'comment-id' => $comment->comment_ID,
 			'timestamp' => self::get_timestamp(),
 		);
-		add_user_meta($comment_parent_author_id,self::$user_meta_key['key'],$meta);
+		add_user_meta($parent_comment_author_id,self::$user_meta_key['key'],$meta);
 		
 		/**
 		 * update unread count for comment parent author
 		 */
-		$unread_count = (array)get_user_meta($comment_parent_author_id,self::$user_meta_key['unread_count'],true);
+		$unread_count = (array)get_user_meta($parent_comment_author_id,self::$user_meta_key['unread_count'],true);
 		$unread_count[self::get_timestamp(true)] = $meta;
-		update_user_meta($comment_parent_author_id,self::$user_meta_key['unread_count'],$unread_count);
+		update_user_meta($parent_comment_author_id,self::$user_meta_key['unread_count'],$unread_count);
 	}
 	public static function process(){
 		$output = [];

@@ -15,11 +15,12 @@
 	</div>
 
 	<?php
+	$current_user_id = get_current_user_id();
 	$notis = theme_notification::get_notifications(array(
-		'user_id' => get_current_user_id(),
+		'user_id' => $current_user_id,
 	));
 	$unreads = theme_notification::get_notifications(array(
-		'user_id' => get_current_user_id(),
+		'user_id' => $current_user_id,
 		'type' => 'unread'
 	));
 
@@ -61,7 +62,7 @@
 				 * post-reply
 				 */
 				case 'post-reply':
-$comment = get_comment($v['comment-id']);
+$comment = theme_notification::get_comment($v['comment-id']);
 ?>
 <div class="media">
 	<div class="media-left">
@@ -88,23 +89,20 @@ $comment = get_comment($v['comment-id']);
 				 * comment-reply
 				 */
 				case 'comment-reply':
-$comment = get_comment($v['comment-id']);
-$parent_comment = get_comment($comment->comment_parent);
+$comment = theme_notification::get_comment($v['comment-id']);
+$parent_comment = theme_notification::get_comment($comment->comment_parent);
 ?>
 <div class="media">
 	<div class="media-left">
 		<a href="<?php echo comment_author_url();?>">
-		<img src="<?php echo esc_url(get_img_source(get_avatar($comment->user_id)));?>" class="avatar media-object" alt="avatar" width="60" height="60">
+			<img src="<?php echo theme_features::get_theme_images_url('frontend/avatar.jpg');?>" data-src="<?php echo esc_url(get_img_source(get_avatar($comment->user_id)));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
 	<div class="media-body">
 		<h4 class="media-heading">
 		<?php
 		echo sprintf(
-			___('Your comment %1$s has a reply by %2$s in %3$s.'),
-			'<a class="excerpt" href="' . esc_url(get_comment_link($parent_comment)) . '">
-				' . esc_html(get_comment_excerpt()) . '
-			</a>',
+			___('Your comment has a reply by %1$s in %2$s.'),
 			get_comment_author_link(),
 			'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '">
 				' . esc_html(get_the_title($comment->comment_post_ID)) . '
@@ -148,7 +146,7 @@ $follower_id = $v['follower-id'];
 				 * post-publish
 				 */
 				case 'post-publish':
-$post = get_post($v['post-id']);
+$post = theme_notification::get_post($v['post-id']);
 
 ?>
 <div class="media">

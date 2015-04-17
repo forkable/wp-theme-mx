@@ -2,7 +2,9 @@
 /**
  * Template name: Account
  */
-$active_tab = get_query_var('tab') ? get_query_var('tab') : 'dashboard';
+$active_tab = get_query_var('tab');
+if(!$active_tab)
+	$active_tab = 'dashboard';
 ?>
 <?php get_header();?>
 <div class="container grid-container">

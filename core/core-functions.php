@@ -14,7 +14,7 @@ function get_option_list($value,$text,$current_value){
 	ob_start();
 	$selected = $value == $current_value ? ' selected ' : null;
 	?>
-	<option value="<?php echo esc_attr($value);?>" <?php echo $selected;?>><?php echo esc_html($text);?></option>
+	<option value="<?php echo esc_attr($value);?>" <?php echo $selected;?>><?php echo $text;?></option>
 	<?php
 	$content = ob_get_contents();
 	ob_end_clean();
@@ -46,12 +46,18 @@ function mult_search_array($key,$value,$array){
  *
  * @param string
  * @return bool
- * @version 1.0.0
+ * @version 1.0.1
  * @author KM@INN STUDIO
  */
 function check_referer($referer = null){
-	$referer = $referer ? : home_url();
-	if(!isset($_SERVER["HTTP_REFERER"]) || stripos($_SERVER["HTTP_REFERER"],$referer) !== 0){
+	static $home_url = null;
+	if($home_url === null)
+		$home_url = home_url();
+		
+	if(!$referer)
+		$referer = $home_url;
+		
+	if(!isset($_SERVER['HTTP_REFERER']) || stripos($_SERVER['HTTP_REFERER'],$referer) !== 0){
 		return false;
 	}else{
 		return true;
@@ -63,7 +69,7 @@ function check_referer($referer = null){
  * @param array
  * @param string function name
  * @return array
- * @version 1.0.0
+ * @version 1.0.1
  * @author KM@INN STUDIO
  */
 function array_multiwalk($a,$fn){
@@ -98,11 +104,9 @@ function is_null_array($arr = null){
 			}  
 		}
 		return true;  
-	}elseif(!$arr){  
-		return true;  
-	}else{  
-		return false;  
-	} 
+	}else{
+		return !$arr ? true : false;
+	}
 }
 /**
  * chmodr
@@ -191,101 +195,159 @@ function remove_dir($path = null){
 	}
 }
 /**
- * esc_html___
+ * Retrieve the translation of $text and escapes it for safe use in an attribute.
  *
- * @param string
- * @param string
- * @return string
- * @version 1.0.0
- * @author KM@INN STUDIO
+ * If there is no translation, or the text domain isn't loaded, the original text is returned.
+ *
+ * @since 2.8.0
+ *
+ * @param string $text   Text to translate.
+ * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
+ * @return string Translated text on success, original text on failure.
  */
-function esc_html___($text,$tdomain = null){
-	$tdomain = $tdomain ? $tdomain : theme_features::$iden;
-	return esc_html__($text,$tdomain);
+function esc_attr___( $text, $domain = null ) {
+	if(!$domain)
+		$domain = theme_functions::$iden;
+	return esc_attr( translate( $text, $domain ) );
 }
 /**
- * esc_attr___
+ * Display translated text that has been escaped for safe use in an attribute.
  *
- * @param string
- * @param string
- * @return string
- * @version 1.0.0
- * @author KM@INN STUDIO
+ * @since 2.8.0
+ *
+ * @param string $text   Text to translate.
+ * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
  */
-function esc_attr___($text,$tdomain = null){
-	$tdomain = $tdomain ? $tdomain : theme_features::$iden;
-	return esc_attr__($text,$tdomain);
+function esc_attr__e( $text, $domain = null ) {
+	if(!$domain)
+		$domain = theme_functions::$iden;
+	echo esc_attr( translate( $text, $domain ) );
 }
 /**
- * __n
+ * Display translated text that has been escaped for safe use in HTML output.
  *
- * @param string
- * @param string
- * @param int
- * @param string
- * @return string
- * @version 1.0.0
- * @author KM@INN STUDIO
+ * @since 2.8.0
+ *
+ * @param string $text   Text to translate.
+ * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
  */
-function __n($single,$plural,$number,$tdomain = null){
-	$tdomain = $tdomain ? $tdomain : theme_features::$iden;
-	return _n($single,$plural,$number,$tdomain);
+function esc_html__e( $text, $domain = null ) {
+	if(!$domain)
+		$domain = theme_functions::$iden;
+	echo esc_html( translate( $text, $domain ) );
 }
 /**
- * __ex
+ * Translate string with gettext context, and escapes it for safe use in an attribute.
  *
- * @param string
- * @param string
- * @param string
- * @return n/a
- * @version 1.0.0
- * @author KM@INN STUDIO
+ * @since 2.8.0
+ *
+ * @param string $text    Text to translate.
+ * @param string $context Context information for the translators.
+ * @param string $domain  Optional. Text domain. Unique identifier for retrieving translated strings.
+ * @return string Translated text
  */
-function __ex($text,$content,$tdomain = null){
-	echo __x($text,$content,$tdomain);
+function esc_attr__x( $text, $context, $domain = null ) {
+	if(!$domain)
+		$domain = theme_functions::$iden;
+	return esc_attr( translate_with_gettext_context( $text, $context, $domain ) );
+}
+/**
+ * Translate string with gettext context, and escapes it for safe use in HTML output.
+ *
+ * @since 2.9.0
+ *
+ * @param string $text    Text to translate.
+ * @param string $context Context information for the translators.
+ * @param string $domain  Optional. Text domain. Unique identifier for retrieving translated strings.
+ * @return string Translated text.
+ */
+function esc_html__x( $text, $context, $domain = null ) {
+	if(!$domain)
+		$domain = theme_functions::$iden;
+	return esc_html( translate_with_gettext_context( $text, $context, $domain ) );
+}
+/**
+ * Retrieve the plural or single form based on the supplied amount.
+ *
+ * If the text domain is not set in the $l10n list, then a comparison will be made
+ * and either $plural or $single parameters returned.
+ *
+ * If the text domain does exist, then the parameters $single, $plural, and $number
+ * will first be passed to the text domain's ngettext method. Then it will be passed
+ * to the 'ngettext' filter hook along with the same parameters. The expected
+ * type will be a string.
+ *
+ * @param string $single The text that will be used if $number is 1.
+ * @param string $plural The text that will be used if $number is not 1.
+ * @param int    $number The number to compare against to use either $single or $plural.
+ * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
+ * @return string Either $single or $plural translated text.
+ */
+function __n($single,$plural,$number,$domain = null){
+	if(!$domain)
+		$domain = theme_functions::$iden;
+	return _n($single,$plural,$number,$domain);
 }
 /**
  * __x
  *
- * @param string
- * @param string
- * @param string
- * @return string
- * @version 1.0.0
+ * @param string $text Text to translate.
+ * @param string $context Context information for the translators.
+ * @param string $domain Optional. Text domain. Unique identifier for retrieving translated 
+ * @return string Translated context string without pipe.
+ * @version 1.0.1
  * @author KM@INN STUDIO
  */
-function __x($text,$content,$tdomain = null){
-	$tdomain = $tdomain ? $tdomain : theme_functions::$iden;
-	return _x($text,$content,$tdomain);
+function __ex($text,$context,$domain = null){
+	if(!$domain)
+		$domain = theme_functions::$iden;
+	echo translate_with_gettext_context( $text, $context, $domain );
+}
+/**
+ * __x
+ *
+ * @param string $text Text to translate.
+ * @param string $context Context information for the translators.
+ * @param string $domain Optional. Text domain. Unique identifier for retrieving translated 
+ * @return string Translated context string without pipe.
+ * @version 1.0.1
+ * @author KM@INN STUDIO
+ */
+function __x($text,$context,$domain = null){
+	if(!$domain)
+		$domain = theme_functions::$iden;
+	return translate_with_gettext_context( $text, $context, $domain );
 }
 /**
  * __e()
  * translate function
  * 
  * @param string $text your translate text
- * @param string $tdomain your translate tdomain
+ * @param string $domain your translate tdomain
  * @return string display
- * @version 1.0.2
+ * @version 1.1.0
  * @author KM@INN STUDIO
  * 
  */
-function __e($text = null,$tdomain = null){
-	echo ___($text,$tdomain);
+function __e($text,$domain = null){
+	if(!$domain)
+		$domain = theme_functions::$iden;
+	echo translate( $text, $domain );
 }
 /**
  * ___()
  * translate function
  * 
  * @param string $text your translate text
- * @param string $tdomain your translate domain
- * @version 1.0.4
+ * @param string $domain your translate domain
+ * @version 1.1.0
  * @author KM@INN STUDIO
  * 
  */
-function ___($text = null,$tdomain = null){
-	if(!$text) return false;
-	$tdomain = $tdomain ? $tdomain : theme_functions::$iden;
-	return __($text,$tdomain);
+function ___($text,$domain = null){
+	if(!$domain)
+		$domain = theme_functions::$iden;
+	return translate( $text, $domain );
 }
 /**
  * status_tip
@@ -300,7 +362,9 @@ function ___($text = null,$tdomain = null){
  */
 function status_tip(){
 	$args = func_get_args();
-	if(empty($args)) return false;
+	if(empty($args))
+		return false;
+		
 	$defaults = array('type','size','content','wrapper');
 	$types = array('loading','success','error','question','info','ban','warning');
 	$sizes = array('small','middle','large');
@@ -473,7 +537,7 @@ function refer_url($url = null,$param = null){
 		$header = $param ? 'Location: ' .$url. '?' .$param : 'Location: ' .$url;
 	}
 	header($header);
-	// exit;
+	exit;
 }
 /**
  * encode
@@ -596,21 +660,6 @@ function delete_files($file_path = null){
 }
 
 /**
- * Name:			err
- * Author:			Km.Van
- * Version:			1.0
- * Type:			function 函数
- * Return:			string(display)
- * Explain:			错误提示功能
- * Example:			err(str)
- * Update:			PM 11:28 2011/8/19
- */
-function err($ErrMsg){
-    header('HTTP/1.1 405 Method Not Allowed');
-    echo $ErrMsg;
-    exit;
-}
-/**
  * Name:			get_filemtime
  * Author:			Km.Van
  * Version:			1.2
@@ -631,18 +680,23 @@ function get_filemtime($file_name = null,$format = 'YmdHis'){
  *
  * @param string
  * @return string
- * @version 1.0.2
+ * @version 1.1.0
  * @author KM@INN STUDIO
  */
-function get_img_source($str){
-	$pattern = '!<img.*?src=["|\'](.*?)["|\']!';
+function get_img_source($str,$all = false){
+	$pattern = '/<img[^>]+src\s*=\s*[\"\']\s*([^\"\']+)/i';
 	preg_match_all($pattern, $str, $matches);
-	return isset($matches['1'][0]) ? $matches['1'][0] : null;
+	if($all){
+		return $matches[1];
+	}else{
+		return isset($matches[1][0]) ? $matches[1][0] : null;
+	}
+		
 }
 /**
  * friendly_date
  *
- * @param string time
+ * @param string $time Format timestamp
  * @return string
  * @version 1.0.1
  * @author KM@INN STUDIO
@@ -705,95 +759,17 @@ function friendly_date($time = null){
 	}
 	return $text;
 }
-
-/**
- * Name:			get_server_os_type
- * Author:			Km.Van
- * Version:			1.0
- * Type:			function 函数
- * Return:			string(not display)
- * Explain:			获取主机操作系统类型
- * Example:			get_server_os_type()
- * Update:			AM 10:59 2011/2/16
- */
-function get_server_os_type(){
-	$output = null;
-	if(PATH_SEPARATOR==':'){
-		$output = 'linux';
-	}else{
-		$output = 'windows';
-	}
-	return $output;
-}
-/**
- * kill_html
- *
- * @param string
- * @return string
- * @version 1.0.0
- * @author KM@INN STUDIO
- */
-function kill_html($str = null){
-	$html = array( 
-		/* 过滤多余空白*/
-		"/\s+/",
-		/* 过滤 <script>等 */
-		"/<(\/?)(script|i?frame|style|html|body|title|link|meta|\?|\%)([^>]*?)>/isU",
-		/* 过滤javascript的on事件 */
-		"/(<[^>]*)on[a-zA-Z]+\s*=([^>]*>)/isU"
-	); 
-	$tarr = array( 
-		" ", 
-		"＜\1\2\3＞",//如果要直接清除不安全的标签，这里可以留空 
-		"\1\2", 
-	); 
-	$str = nl2br($str);
-	$str = preg_replace($html,'',$str); 
-	return $str; 
-}
-/**
- * Get either a Gravatar URL or complete image tag for a specified email address.
- *
- * @param string $email The email address
- * @param string $s Size in pixels, defaults to 80px [ 1 - 512 ]
- * @param string $d Default imageset to use [ 404 | mm | identicon | monsterid | wavatar ]
- * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
- * @param boole $img True to return a complete IMG tag False for just the URL
- * @param array $atts Optional, additional key/value attributes to include in the IMG tag
- * @return String containing either just a URL or a complete image tag
- * @source http://gravatar.com/site/implement/images/php/
- */
-function get_gravatar( $email, $url_only = 1, $s = 80, $d = 'mm', $r = 'g', $atts = array() ) {
-	$server_domains = array(
-		'0',
-		'1',
-		'2',
-		'cn',
-		'en'
-	);
-	$rand_i = array_rand($server_domains);
-	$url = 'http://' . $server_domains[$rand_i] . '.gravatar.com/avatar/';
-	$url .= md5( strtolower( trim( $email ) ) );
-	$url .= "?s=$s&d=$d&r=$r";
-	if(!$url_only){
-		$url = '<img src="' . $url . '"';
-		foreach ( $atts as $key => $val )
-			$url .= ' ' . $key . '="' . $val . '"';
-		$url .= ' />';
-	}
-	return $url;
-}
 /**
  * get_current_url
  *
  * @return string
- * @version 1.0.1
+ * @version 1.0.2
  * @author KM@INN STUDIO
  */
 function get_current_url(){
-	$output = $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
-	$output .= $_SERVER['HTTP_HOST'] . $_SERVER["REQUEST_URI"];
-	return $output;
+	$url = $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
+	$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+	return $url;
 }
 
 /**
@@ -820,16 +796,16 @@ function str_sub($str,$len = null,$extra = '...'){
 /**
  * url_sub
  *
- * @param string
- * @param int
- * @param int
- * @param int
+ * @param string $url URL address
+ * @param int $before_len
+ * @param int $after_len
+ * @param int $extra_len
+ * @param int $middle_str
  * @return string
- * @version 1.0.0
+ * @version 1.0.1
  * @author KM@INN STUDIO
  */
-function url_sub($url = null,$before_len = 30,$after_len = 20,$extra_len = 10,$middle_str = ' ... '){
-	if(!$url) return;
+function url_sub($url,$before_len = 30,$after_len = 20,$extra_len = 10,$middle_str = ' ... '){
 	$url_len = mb_strlen($url);
 	/* url 小于指定长度 */
 	if($url_len <= ($before_len + $after_len + $extra_len)){
@@ -840,118 +816,4 @@ function url_sub($url = null,$before_len = 30,$after_len = 20,$extra_len = 10,$m
 		return $url_before.$middle_str.$url_after;
 	}
 }
-/* 检测浏览器 */
-class get_browser{
-	private static function detection(){
-		$u_agent = $_SERVER['HTTP_USER_AGENT'];
-		$bname = 'Unknown';
-		$platform = 'Unknown';
-		$version= "";
-
-		//First get the platform?
-		if (preg_match('/linux/i', $u_agent)) {
-			$platform = 'linux';
-		}
-		elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
-			$platform = 'mac';
-		}
-		elseif (preg_match('/windows|win32/i', $u_agent)) {
-			$platform = 'windows';
-		}
-	   
-		// Next get the name of the useragent yes seperately and for good reason
-		if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
-		{
-			$bname = 'Internet Explorer';
-			$ub = "MSIE";
-		}
-		elseif(preg_match('/Firefox/i',$u_agent))
-		{
-			$bname = 'Mozilla Firefox';
-			$ub = "Firefox";
-		}
-		elseif(preg_match('/Chrome/i',$u_agent))
-		{
-			$bname = 'Google Chrome';
-			$ub = "Chrome";
-		}
-		elseif(preg_match('/Safari/i',$u_agent))
-		{
-			$bname = 'Apple Safari';
-			$ub = "Safari";
-		}
-		elseif(preg_match('/Opera/i',$u_agent))
-		{
-			$bname = 'Opera';
-			$ub = "Opera";
-		}
-		elseif(preg_match('/Netscape/i',$u_agent))
-		{
-			$bname = 'Netscape';
-			$ub = "Netscape";
-		}
-	   
-		// finally get the correct version number
-		$known = array('Version', $ub, 'other');
-		$pattern = '#(?<browser>' . join('|', $known) .
-		')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
-		if (!preg_match_all($pattern, $u_agent, $matches)) {
-			// we have no matching number just continue
-		}
-	   
-		// see how many we have
-		$i = count($matches['browser']);
-		if ($i != 1) {
-			//we will have two since we are not using 'other' argument yet
-			//see if version is before or after the name
-			if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
-				$version= $matches['version'][0];
-			}
-			else {
-				$version= $matches['version'][1];
-			}
-		}
-		else {
-			$version= $matches['version'][0];
-		}
-	   
-		// check if we have a number
-		if ($version==null || $version=="") {$version="?";}
-	   
-		return array(
-			'userAgent' => $u_agent,
-			'long_name'      => strtolower($bname),
-			'name'		=> strtolower($ub),
-			'version'   => strtolower($version),
-			'platform'  => strtolower($platform),
-			'pattern'   => $pattern
-		);
-	}
-	static function get_long_name(){
-		$ua = self::detection();
-		return $ua['long_name'];
-	}
-	static function get_name(){
-		$ua = self::detection();
-		return $ua['name'];
-	}
-	static function get_version(){
-		$ua = self::detection();
-		$version = $ua['version'];
-		$version_len = strlen($version);
-		$version_dot = strpos($version,'.') + 2;
-		$version = substr($version,0,$version_dot);
-		$version = strtr($version,'.','_');
-		return $version;
-	}
-	static function get_platform(){
-		$ua = self::detection();
-		return $ua['platform'];
-	}
-	private static function get_pattern(){
-		$ua = self::detection();
-		return $ua['pattern'];
-	}
-}
-
 ?>
