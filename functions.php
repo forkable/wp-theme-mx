@@ -903,11 +903,11 @@ class theme_functions{
      * 
      * 
      * @return string The html code
-     * @version 2.0.5
+     * @version 2.0.6
      * @author KM@INN STUDIO
      * 
      */
-    public static function get_crumb($args = null){
+    public static function get_crumb(array $args = []){
 		$defaults = array(
 			'header' => null,
 			'footer' => null,
@@ -917,9 +917,15 @@ class theme_functions{
 		
 		
 		$links = [];
-    	if(is_home()) return null;
 		
-		$links['home'] = '<a href="' . home_url() . '" class="home" title="' .___('Back to Homepage'). '"><i class="fa fa-home"></i></a>';
+    	if(is_home())
+    		return null;
+		
+		$links['home'] = '<a href="' . home_url() . '" class="home" title="' . ___('Back to Homepage') . '">
+			<i class="fa fa-home fa-fw"></i>
+			<span class="hide">' . ___('Back to Homepage') . '</span>
+		</a>';
+		
 		$split = '<span class="split"><i class="fa fa-angle-right"></i></span>';
 		
     	/* category */
@@ -930,14 +936,14 @@ class theme_functions{
 				$links_cats = explode('%split%',$links_cat);
 				array_pop($links_cats);
 				$links['category'] = implode($split,$links_cats);
-				//$links['curr_text'] = esc_html(___('Category Browser'));
+				$links['curr_text'] = ___('Category Browser');
 			}
     	/* tag */
     	}else if(is_tag()){
     		$tag_id = theme_features::get_current_tag_id();
 			$tag_obj = get_tag($tag_id);
     		$links['tag'] = '<a href="'. esc_url(get_tag_link($tag_id)).'">' . esc_html(theme_features::get_current_tag_name()).'</a>';
-    		//$links['curr_text'] = esc_html(___('Tags Browser'));
+    		$links['curr_text'] = ___('Tags Browser');
     		/* date */
     	}else if(is_date()){
     		global $wp_query;
@@ -955,27 +961,27 @@ class theme_functions{
     			$date_link = get_year_link($year);
     		}
     		$links['date'] = '<a href="'.$date_link.'">' . esc_html(wp_title('',false)).'</a>';
-    		//$links['curr_text'] = esc_html(___('Date Browser'));
+    		$links['curr_text'] = ___('Date Browser');
     	/* search*/
     	}else if(is_search()){
     		// $nav_link = null;
-    		//$links['curr_text'] = esc_html(sprintf(___('Search Result: %s'),get_search_query()));
+    		$links['curr_text'] = sprintf(___('Search Result: %s'),esc_html(get_search_query()));
 		/* author */
 		}else if(is_author()){
 			global $author;
 			$user = get_user_by('id',$author);
 			$links['author'] = '<a href="'.theme_cache::get_author_posts_url($author).'">'.esc_html($user->display_name).'</a>';
-			//$links['curr_text'] = esc_html(___('Author posts'));
+			$links['curr_text'] = ___('Author posts');
     	/* archive */
     	}else if(is_archive()){
     		$links['archive'] = '<a href="'.get_current_url().'">'.wp_title('',false).'</a>';
-    		//$links['curr_text'] = esc_html(___('Archive Browser'));
+    		$links['curr_text'] = ___('Archive Browser');
     	/* Singular */
     	}else if(is_singular()){
 			global $post;
 			/* The page parent */
 			if($post->post_parent){
-				//$links['singluar'] = '<a href="' .get_page_link($post->post_parent). '">' .esc_html(get_the_title($post->post_parent)). '</a>';
+				$links['singluar'] = '<a href="' .get_page_link($post->post_parent). '">' .esc_html(get_the_title($post->post_parent)). '</a>';
 			}
 			/**
 			 * post / page
@@ -994,19 +1000,16 @@ class theme_functions{
     	/* 404 */
     	}else if(is_404()){
     		// $nav_link = null;
-    		$links['curr_text'] = esc_html(___('Not found'));
+    		$links['curr_text'] = ___('Not found');
     	}
 	
-    $output = '
-		<div class="crumb-container">
-			' .$header. '
-			<nav class="crumb">
-				' . implode($split,apply_filters('crumb_home_link',$links)) . '
-			</nav>
-			' .$footer. '
-		</div>
-		';
-		return $output;
+    return '<div class="crumb-container">
+		' .$header. '
+		<nav class="crumb">
+			' . implode($split,apply_filters('crumb_links',$links)) . '
+		</nav>
+		' .$footer. '
+	</div>';
     }
 	/**
 	 * get_post_pagination
@@ -1039,7 +1042,7 @@ class theme_functions{
 	public static function pagination( $args = [] ) {
 	    
 	    $defaults = array(
-	        'range'				=> 4,
+	        'range'				=> 2,
 	        'custom_query'		=> FALSE,
 	        'previous_string' 	=> '<i class="fa fa-chevron-left"></i>',
 	        'next_string'     	=> '<i class="fa fa-chevron-right"></i>',

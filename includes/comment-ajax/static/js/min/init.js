@@ -25,11 +25,11 @@ function done_next(){if(_that.cpage==_that.pages){_cache.$next.classList.add('di
 function get_process_url(){return _that.url_format.replace('=n','='+target_page);}
 function ajax(){if(document.getElementById('comments').querySelector('#respond'))
 addComment.cancelMove();set_cpage();if(get_cache(_that.cpage)){cache.$comment_list_container.innerHTML=get_cache(_that.cpage);done_prev();done_next();scroll_to_list();return false;}
-tools.ajax_loading_tip('loading',_that.lang.loading);var xhr=new XMLHttpRequest();xhr.open('GET',get_process_url());xhr.send();xhr.onload=function(){if(xhr.status>=200&&xhr.status<400){var data;try{data=JSON.parse(xhr.responseText);}catch(e){data=xhr.responseText;}
+tools.ajax_loading_tip('loading',_that.lang.loading);var xhr=new XMLHttpRequest();xhr.open('GET',get_process_url());xhr.send();xhr.onload=function(){if(xhr.status>=200&&xhr.status<400){var data;try{data=JSON.parse(xhr.responseText)}catch(e){data=xhr.responseText}
 if(data&&data.status==='success'){cache.$comment_list_container.innerHTML=data.comments;set_cache(_that.cpage,data.comments);tools.ajax_loading_tip('hide');done_next();done_prev();scroll_to_list();}else if(data&&data.status==='error'){tools.ajax_loading_tip(data.status,data.msg);}else{tools.ajax_loading_tip('error',data);}}
 _that.always();xhr=null;};xhr.onerror=function(){tools.ajax_loading_tip('error',_that.lang.error);};}
 function set_cpage(){if(_that.cpage>=target_page){_that.cpage--;}else{_that.cpage++;}}
-function scroll_to_list(){var y=cache.$comment_list_container.getBoundingClientRect().top+document.documentElement.scrollTop;window.scrollTo(0,y-40);}}
+function scroll_to_list(){location.hash='comments';}}
 exports.respond=function(){var _cache={},_config={logged:js_request[config.iden].logged,registration:js_request[config.iden].registration,prefix_comment_body_id:'comment-body-'},_that=this;this.init=function(){goto_click();fm_init();};function fm_init(){_cache.$respond=I('respond');_cache.$fm=I('commentform');_cache.$must_logged=I('respond-must-login');_cache.$loading_ready=I('respond-loading-ready');_cache.$avatar=I('respond-avatar');_cache.$area_visitor=I('area-respond-visitor');_cache.$comment_parent=I('comment_parent');_cache.$comment_ta=I('comment-form-comment');_cache.$submit_btn=_cache.$fm.querySelector('.submit');if(!_cache.$respond||!_cache.$fm)
 return false;if(_cache.$loading_ready)
 _cache.$loading_ready.parentNode.removeChild(_cache.$loading_ready);if(_config.registration&&!_config.logged){_cache.$must_logged.style.display='block';return false;}
@@ -45,8 +45,8 @@ function ajax(ajax_data){var xhr=new XMLHttpRequest();xhr.open('POST',config.pro
 if(data&&data.status==='success'){var $new_comment=tools.parseHTML(data.comment)[0];if(_cache.$comment_parent.value!=0){var $parent_comment_body=I(_config.prefix_comment_body_id+_cache.$comment_parent.value);$parent_comment_body.insertAdjacentHTML('afterend','<ul class="children">'+$new_comment.innerHTML+'</ul>');addComment.cancelMove();}else{cache.$comment_list_container.appendChild($new_comment);}
 _cache.$comment_ta.value='';tools.ajax_loading_tip(data.status,data.msg,3);}else if(data&&data.status==='error'){tools.ajax_loading_tip(data.status,data.msg);}else{tools.ajax_loading_tip(data.status,config.lang.E00001);}}else{tools.ajax_loading_tip(data.status,config.lang.E00001);}
 _cache.$submit_btn.removeAttribute('disabled');};xhr.onerror=function(){tools.ajax_loading_tip(data.status,config.lang.E00001);_cache.$submit_btn.removeAttribute('disabled');}}
-function goto_click(){_cache.$goto=I('goto-comment');_cache.$comment=I('comment-form-comment');if(_cache.$goto&&_cache.$comment)
-_cache.$goto.onclick=function(){_cache.$comment.focus();}}}
+function goto_click(){_cache.$goto=I('goto-comment');_cache.$comment=I('comment-form-comment');if(!_cache.$goto||!_cache.$comment)
+return;_cache.$goto.style.display='block';_cache.$goto.onclick=function(){setTimeout(function(){_cache.$comment.focus();},300);}}}
 var addComment={cache:{},cancelMove:function(){var t=this;t.cache.$parent.value='0';t.cache.$tmp.parentNode.insertBefore(t.cache.$respond,t.cache.$tmp);t.cache.$cancel.style.display='none';t.cache.$cancel.onclick=null;},moveForm:function(commId,parentId,respondId,postId){var t=this;t.cache.$comm=I(commId);t.cache.$respond=I(respondId);t.cache.$cancel=I('cancel-comment-reply-link');t.cache.$parent=I('comment_parent');t.cache.$post=I('comment_post_ID'),t.cache.$comment=I('comment-form-comment');if(!t.cache.$comm||!t.cache.$respond||!t.cache.$cancel||!t.cache.$parent)
 return;postId=postId||false;if(!t.cache.$tmp){t.cache.$tmp=document.createElement('div');t.cache.$tmp.id='wp-temp-form-div';t.cache.$tmp.style.display='none';t.cache.$respond.parentNode.insertBefore(t.cache.$tmp,t.cache.$respond);}
 t.cache.$comm.parentNode.insertBefore(t.cache.$respond,t.cache.$comm.nextSibling);if(t.cache.$post&&postId)

@@ -297,7 +297,7 @@ class custom_post_point{
 					 * incr rater posts
 					 */
 					$rater_posts = self::incr_rater_posts($post_id,$rater_id,$points);
-					if(!$rater_posts){
+					if($rater_posts !== true){
 						$output['status'] = 'error';
 						$output['code'] = 'error_incr_rater_posts';
 						$output['msg'] = ___('System can not increase rater posts.');
@@ -307,7 +307,7 @@ class custom_post_point{
 					 * success
 					 */
 					$output['status'] = 'success';
-					$output['points'] = self::get_post_points_count($post_id);
+					$output['points'] = (int)self::get_post_points_count($post_id);
 					$output['msg'] = ___('Operation completed.');
 					die(theme_features::json_format($output));
 				}
@@ -349,7 +349,7 @@ class custom_post_point{
 			return [
 				'status' => 'error',
 				'code' => 'invaild_point_value',
-				'msg' => ___('Invaild post value.'),
+				'msg' => ___('Invaild points value.'),
 			];
 			
 		$count = (int)get_post_meta($post_id,self::$post_meta_key['count_points'],true);
@@ -357,7 +357,7 @@ class custom_post_point{
 		$count += $points;
 		
 		update_post_meta($post_id,self::$post_meta_key['count_points'],$count);
-		return $count;
+		return true;
 	}
 	/**
 	 * 递增文章用户统计
@@ -505,7 +505,7 @@ class custom_post_point{
 			return [
 				'status' => 'error',
 				'code' => 'invaild_point_value',
-				'msg' => ___('Invaild post value.'),
+				'msg' => ___('Invaild points value.'),
 			];
 			
 		$post = get_post($post_id);
@@ -579,7 +579,7 @@ class custom_post_point{
 		unset($raters[$user_id]);
 		update_post_meta($post_id,self::$post_meta_key['users'],$raters);
 		
-		return $raters;
+		return true;
 	}
 	public static function decr_rater_posts($post_id,$rater_id){
 		if(!is_int($post_id) || (int)$post_id === 0)
@@ -608,7 +608,7 @@ class custom_post_point{
 		unset($posts[$post_id]);
 		update_user_meta($rater_id,self::$user_meta_key['posts'],$posts);
 
-		return $posts;
+		return true;
 	}
 	public static function frontend_seajs_alias(array $alias =[]){
 		if(!is_singular('post'))
@@ -644,7 +644,9 @@ class custom_post_point{
 		}
 
 		?>
-		<div id="post-btn-group-<?php echo $post_id;?>" class="btn-group btn-group-lg">
+		<div id="post-point-loading-ready" class="btn btn-info btn-lg"><i class="fa fa-spinner fa-pulse fa-fw"></i> <?php echo ___('Loading, please wait...');?></div>
+		
+		<div id="post-point-btn-group" class="btn-group btn-group-lg">
 			<a href="javascript:;" class="post-point-btn btn btn-info" data-post-id="<?php echo $post_id;?>" data-points="<?php echo $default_point_value;?>">
 				<?php if(empty($point_img)){ ?>
 					<i class="fa fa-diamond"></i> 

@@ -75,7 +75,7 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 			</a>
 			<!-- search btn -->
 			<a class="mx-tool mx-search-btn dropdown-toggle" href="javascript:void(0);" data-toggle="collapse" data-target=".navbar-collapse-form">
-				<i class="fa fa-search"></i>
+				<i class="fa fa-search fa-fw"></i>
 			</a>
 
 			<!-- account btn -->
@@ -85,7 +85,7 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 				</a>
 			<?php }else{ ?>
 				<a class="mx-tool mx-account-btn dropdown-toggle" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
-					<i class="fa fa-user"></i>
+					<i class="fa fa-user fa-fw"></i>
 				</a>
 			<?php } ?>
 		</div>
@@ -106,7 +106,7 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 
 		<!-- search btn -->
 		<a class="mx-tool mx-search-btn dropdown-toggle hidden-xs" href="javascript:void(0);" data-toggle="collapse" data-target=".navbar-collapse-form">
-			<i class="fa fa-search"></i>
+			<i class="fa fa-search fa-fw"></i>
 		</a>
 		
 		<?php
@@ -139,13 +139,13 @@ if(!wp_is_mobile() && get_header_image()){ ?>
             <div class="input-group">
                 <input name="s" class="form-control input-sm" placeholder="<?php echo ___('Keywords');?>" value="<?php echo esc_attr(get_search_query())?>" type="search">
                 <span class="input-group-btn">
-                    <button class="btn btn-default btn-sm" type="submit"><i class="fa fa-search"></i></button>
+                    <button class="btn btn-default btn-sm" type="submit"><i class="fa fa-search fa-fw"></i></button>
                 </span>
             </div>
         </form>		
         
 	</div><!-- /.container-fluid -->
-</div><! -- /.main-nav -->
+</div><!-- /.main-nav -->
 
 </div><!-- /.container -->
 

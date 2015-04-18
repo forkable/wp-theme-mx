@@ -289,11 +289,7 @@ define(function(require, exports, module){
 			xhr.onload = function(){
 				if(xhr.status >= 200 && xhr.status < 400){
 					var data;
-					try{
-						data = JSON.parse(xhr.responseText);
-					}catch(e){
-						data = xhr.responseText;
-					}
+					try{data = JSON.parse(xhr.responseText)}catch(e){data = xhr.responseText}
 					if(data && data.status === 'success'){
 						
 						/**

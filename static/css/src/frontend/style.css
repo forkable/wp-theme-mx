@@ -1008,6 +1008,9 @@ label.error{
 		margin: 20px 0;
 		
 	}
+		#post-point-loading-ready{
+			display: none;
+		}
 		.singluar-post .post-point a{
 			position: relative;
 		}

@@ -18,9 +18,13 @@ define(function(require, exports, module){
 
 	var config = exports.config,
 		caches = {};
+		
 	exports.bind = function(){
 		caches.$btns = document.querySelectorAll('.post-point-btn');
-		if(!caches.$btns)
+		caches.$btn_group = I('post-point-btn-group');
+		caches.$ready = I('post-point-loading-ready');
+		
+		if(!caches.$btns[0])
 			return false;
 			
 		Array.prototype.forEach.call(caches.$btns,function($btn,i){
@@ -30,7 +34,10 @@ define(function(require, exports, module){
 
 	function ajax(){
 		var $btn = this;
+		
 		tools.ajax_loading_tip('loading',config.lang.M00001);
+		caches.$ready.style.display = 'inline-block';
+		caches.$btn_group.style.display = 'none';
 		
 		var xhr = new XMLHttpRequest();
 		xhr.open('POST',config.process_url);
@@ -43,28 +50,33 @@ define(function(require, exports, module){
 		xhr.onload = function(){
 			if(xhr.status >= 200 && xhr.status < 400){
 				var data;
-				try{data = JSON.parse(xhr.responseText);}catch(e){}
+				try{data = JSON.parse(xhr.responseText)}catch(e){data = xhr.responseText}
 				
 				if(data && data.status){
 					done(data);
 				}else{
-					fail(xhr.responseText);
+					fail(data);
 				}
-				always(data);
+			}else{
+				tools.ajax_loading_tip('error',config.lang.E00001);
 			}
+			always(data);
 		};
 		xhr.onerror = function(){
 			tools.ajax_loading_tip('error',config.lang.E00001);
 		}
 
 		function always(){
-			
+			caches.$btn_group.style.display = '';
+			caches.$ready.style.display = 'none';
 		}
 		function done(data){
 			if(data.status === 'success'){
-				tools.ajax_loading_tip(data.status,data.msg,5)
+				tools.ajax_loading_tip(data.status,data.msg,5);
+				/** incre points to dom */
+				I('post-point-number-' + config.post_id).innerHTML = data.points;
 			}else{
-				tools.ajax_loading_tip('error',data.msg);
+				tools.ajax_loading_tip(data.status,data.msg);
 			}
 		}
 		function fail(text){
@@ -72,5 +84,7 @@ define(function(require, exports, module){
 		}
 		
 	}
-	
+	function I(e){
+		return document.getElementById(e);
+	}
 });
