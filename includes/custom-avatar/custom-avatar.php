@@ -19,12 +19,12 @@ class theme_custom_avatar{
 	}
 	public static function get_gravatar($avatar,$id_or_email){
 		static $caches = [];
-			
+
 		$cache_id = md5(serialize(func_get_args()));
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
-		if(!is_integer($id_or_email)){
+		if(!is_numeric($id_or_email)){
 			$caches[$cache_id] = $avatar;
 			return $caches[$cache_id];
 		}

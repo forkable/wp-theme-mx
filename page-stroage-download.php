@@ -11,27 +11,12 @@ $target_post = theme_custom_storage::get_decode_post();
 <div class="container grid-container">
 	<div class="panel panel-default singular-download">
 		<div class="panel-heading">
-			<h3 class="panel-title"><?php echo sprintf(___('You are ready to download "%s"'),'<a href="' . get_permalink($target_post->ID) . '">' . get_the_title($target_post->ID) . '</a>');?></h3>
+			<h3 class="panel-title"><i class="fa fa-file"></i> <?php echo sprintf(___('You are ready to download "%s"'),'<a href="' . get_permalink($target_post->ID) . '">' . get_the_title($target_post->ID) . '</a>');?></h3>
 		</div>
 		<div class="panel-body">
 			<div class="post-content content-reset">
 				<?php the_content();?>
 			</div>
-			<?php
-			if(isset($_GET['code']) && !empty($_GET['code'])){
-				$decode = authcode($_GET['code'],'decode');
-				
-				if(!$decode){
-					echo status_tip('error',___('Sorry, the code is wrong.'));
-				}else{
-					$decode = unserialize($decode);
-					$post = get_post($decode['post-id']);
-					
-				}
-			}else{
-				echo status_tip('error',___('Sorry, the code is wrong.'));
-			}
-			?>
 		</div>
 	</div>
 </div>

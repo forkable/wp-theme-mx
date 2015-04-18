@@ -1,5 +1,7 @@
 <?php
 /**
+ * User rank widget
+ * 
  * @version 1.0.0
  */
 add_action('widgets_init','widget_point_rank::register_widget');
@@ -9,7 +11,7 @@ class widget_point_rank extends WP_Widget{
 		$this->alt_option_name = self::$iden;
 		parent::__construct(
 			self::$iden,
-			___('User point rank <small>(Custom)</small>'),
+			___('User point rank <small>custom</small>'),
 			array(
 				'classname' => self::$iden,
 				'description'=> ___('Display user point rank list'),
@@ -21,8 +23,8 @@ class widget_point_rank extends WP_Widget{
 			(array)$instance,
 			array(
 				'title'=> ___('User point rank'),
-				'total_number' => 20,
-				'rand_number' => 6
+				'total_number' => 100,
+				'rand_number' => 12
 			)
 		);
 		
@@ -39,12 +41,13 @@ class widget_point_rank extends WP_Widget{
 
 		$users = wp_cache_get('widget',self::$iden);
 		if(!$users)
-			$users = get_users([
+			$user_query = new WP_User_Query([
 				'meta_key' => theme_custom_point::$user_meta_key['point'],
-				'orderby' => 'meta_value',
+				'orderby' => 'meta_value_num',
 				'order' => 'desc',
 				'number' => $instance['total_number'],
 			]);
+			$users = $user_query->results;
 		if(!$users){
 			?>
 			<div class="panel-body">
@@ -85,8 +88,8 @@ class widget_point_rank extends WP_Widget{
 			(array)$instance,
 			array(
 				'title'=> ___('User point rank'),
-				'total_number' => 20,
-				'rand_number' => 6
+				'total_number' => 100,
+				'rand_number' => 12
 			)
 		);
 		?>

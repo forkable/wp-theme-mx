@@ -370,7 +370,7 @@ class theme_functions{
 
 		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 		?>
-		<li class="<?php echo esc_attr(implode(' ',$classes));?>">
+		<li class="<?php echo implode(' ',$classes);?>">
 			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
 				<div class="thumbnail-container">
 					<img class="placeholder" alt="Placeholder" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>">
@@ -822,12 +822,11 @@ class theme_functions{
 		if(!$post_id)
 			$post_id = $post->ID;
 
-		$src = '';
+		$src = null;
 		
 		if(has_post_thumbnail()){
 			$src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id),$size)[0];
 		}
-		//$src = get_img_source(get_the_post_thumbnail($post_id,$size));
 		
 		if(!$src){
 			$src = theme_features::get_theme_images_url($placeholder);

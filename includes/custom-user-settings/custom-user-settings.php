@@ -44,12 +44,15 @@ class theme_custom_user_settings{
 		return $vars;
 	}
 	public static function is_page(){
-		if(
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
+			
+		$caches[self::$iden] =
 			is_page(self::$page_slug) 				&& 
-			self::get_tabs(get_query_var('tab'))
-		)
-			return true;
-		return false;
+			self::get_tabs(get_query_var('tab'));
+		
+		return $caches[self::$iden];
 	}
 
 	public static function process(){
@@ -58,13 +61,13 @@ class theme_custom_user_settings{
 		theme_features::check_referer();
 		theme_features::check_nonce();
 		
-		$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : null;
+		$type = isset($_REQUEST['type']) && is_string($_REQUEST['type'])? $_REQUEST['type'] : null;
 		switch($type){
 			/**
 			 * settings
 			 */
 			case 'settings':
-				$user = isset($_POST['user']) ? $_POST['user'] : null;
+				$user = isset($_POST['user']) && is_array($_POST['user']) ? $_POST['user'] : null;
 				if(empty($_POST['user']) || !is_array($_POST['user'])){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_param';
@@ -72,7 +75,7 @@ class theme_custom_user_settings{
 					die(theme_features::json_format($output));
 				}
 
-				$nickname = isset($user['nickname']) ? trim($user['nickname']) : null;
+				$nickname = isset($user['nickname']) && is_string($user['nickname']) ? trim($user['nickname']) : null;
 				if(empty($nickname)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_nickname';
@@ -80,8 +83,9 @@ class theme_custom_user_settings{
 					die(theme_features::json_format($output));
 				}
 
-				$url = isset($user['url']) ? $user['url'] : null;
-				$des = isset($user['description']) ? $user['description'] : null;
+				$url = isset($user['url']) && is_string($user['url']) ? esc_url($user['url']) : null;
+				
+				$des = isset($user['description']) && is_string($user['description']) ? $user['description'] : null;
 				
 				$user_id = wp_update_user(array(
 					'ID' => get_current_user_id(),
@@ -110,8 +114,8 @@ class theme_custom_user_settings{
 				/**
 				 * twice pwd
 				 */
-				$new_pwd_1 = isset($_POST['new-pwd-1']) ? trim($_POST['new-pwd-1']) : null;
-				$new_pwd_2 = isset($_POST['new-pwd-2']) ? trim($_POST['new-pwd-2']) : null;
+				$new_pwd_1 = isset($_POST['new-pwd-1']) && is_string($_POST['new-pwd-1']) ? trim($_POST['new-pwd-1']) : null;
+				$new_pwd_2 = isset($_POST['new-pwd-2']) && is_string($_POST['new-pwd-2']) ? trim($_POST['new-pwd-2']) : null;
 				if(empty($new_pwd_1) 
 					|| empty($new_pwd_2)
 					|| ($old_pwd_1 !== $new_pwd_2)){
@@ -123,7 +127,7 @@ class theme_custom_user_settings{
 				/**
 				 * old pwd
 				 */
-				$old_pwd = isset($_POST['old-pwd']) ? trim($_POST['old-pwd']) : null;
+				$old_pwd = isset($_POST['old-pwd']) && is_string($_POST['old-pwd']) ? trim($_POST['old-pwd']) : null;
 				global $current_user;
 				get_currentuserinfo();
 				if(empty($old_pwd) || 
@@ -202,13 +206,14 @@ class theme_custom_user_settings{
 		die(theme_features::json_format($output));
 	}
 	public static function get_url(){
-		static $url;
-		if($url)
-			return $url;
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
 			
 		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$url = get_permalink($page->ID);
-		return $url;
+		$caches[self::$iden] = get_permalink($page->ID);
+		unset($page);
+		return $caches[self::$iden];
 	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();
@@ -245,28 +250,28 @@ class theme_custom_user_settings{
 	}
 	public static function filter_nav_history($navs){
 		$navs['history'] = '<a href="' . esc_url(self::get_tabs('history')['url']) . '">
-			<i class="fa fa-' . self::get_tabs('history')['icon'] . '"></i> 
-			' . esc_html(self::get_tabs('history')['text']) . '
+			<i class="fa fa-' . self::get_tabs('history')['icon'] . ' fa-fw"></i> 
+			' . self::get_tabs('history')['text'] . '
 		</a>';
 		return $navs;
 	}
 	public static function filter_nav_settings($navs){
 		$navs['settings'] = '<a href="' . esc_url(self::get_tabs('settings')['url']) . '">
-			<i class="fa fa-' . self::get_tabs('settings')['icon'] . '"></i> 
+			<i class="fa fa-' . self::get_tabs('settings')['icon'] . ' fa-fw"></i> 
 			' . esc_html(self::get_tabs('settings')['text']) . '
 		</a>';
 		return $navs;
 	}
 	public static function filter_nav_avatar($navs){
 		$navs['avatar'] = '<a href="' . esc_url(self::get_tabs('avatar')['url']) . '">
-			<i class="fa fa-' . self::get_tabs('avatar')['icon'] . '"></i> 
+			<i class="fa fa-' . self::get_tabs('avatar')['icon'] . ' fa-fw"></i> 
 			' . esc_html(self::get_tabs('avatar')['text']) . '
 		</a>';
 		return $navs;
 	}
 	public static function filter_nav_password($navs){
 		$navs['password'] = '<a href="' . esc_url(self::get_tabs('password')['url']) . '">
-			<i class="fa fa-' . self::get_tabs('password')['icon'] . '"></i> 
+			<i class="fa fa-' . self::get_tabs('password')['icon'] . ' fa-fw"></i> 
 			' . esc_html(self::get_tabs('password')['text']) . '
 		</a>';
 		return $navs;

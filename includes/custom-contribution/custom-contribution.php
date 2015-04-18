@@ -50,13 +50,13 @@ class theme_custom_contribution{
 	}
 	public static function filter_nav_contribution($navs){
 		$navs['contribution'] = '<a href="' . esc_url(self::get_tabs('contribution')['url']) . '">
-			<i class="fa fa-' . self::get_tabs('contribution')['icon'] . '"></i> 
-			' . esc_html(self::get_tabs('contribution')['text']) . '
+			<i class="fa fa-' . self::get_tabs('contribution')['icon'] . ' fa-fw"></i> 
+			' . self::get_tabs('contribution')['text'] . '
 		</a>';
 		return $navs;
 	}
 	public static function display_backend(){
-		$opt = (array)theme_options::get_options(self::$iden);
+		$opt = (array)self::get_options();
 		?>
 		<fieldset>
 			<legend><?php echo ___('Contribution settings');?></legend>
@@ -86,32 +86,35 @@ class theme_custom_contribution{
 		return $opts;
 	}
 	public static function options_default($opts){
-		//var_dump($opts);exit;
 		$opts[self::$iden]['tags-number'] = 6;
 		return $opts;
 	}
 	public static function get_options($key = null){
-		$opt = theme_options::get_options(self::$iden);
+		static $caches = [];
+		if(empty($caches))
+			$caches = theme_options::get_options(self::$iden);
+			
 		if(empty($key)){
-			return $opt;
+			return $caches;
 		}else{
-			return isset($opt[$key]) ? $opt[$key] : null;
+			return isset($caches[$key]) ? $caches[$key] : null;
 		}
 	}
 	public static function get_url(){
-		static $url;
-		if($url)
-			return $url;
+		static $cache = null;
+		if($cache !== null)
+			return $cache;
 		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$url = get_permalink($page->ID);
-		return $url;
+		$cache = get_permalink($page->ID);
+		unset($page);
+		return $cache;
 	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();
 		$tabs = array(
 			'contribution' => array(
 				'text' => ___('Post contribution'),
-				'icon' => 'pencil-square-o',
+				'icon' => 'paint-brush',
 				'url' => add_query_arg('tab','contribution',$baseurl),
 				'filter_priority' => 20,
 			),
@@ -122,12 +125,12 @@ class theme_custom_contribution{
 		return $tabs;
 	}
 	public static function is_page(){
-		if(
-			is_page(self::$page_slug) 				&& 
-			self::get_tabs(get_query_var('tab'))
-		)
-			return true;
-		return false;
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
+			
+		$caches[self::$iden] = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
+		return $caches[self::$iden];
 	}
 	public static function process(){
 		$output = [];

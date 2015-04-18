@@ -192,13 +192,12 @@ class theme_custom_storage{
 			'post-id' => (int)$post_id
 		);
 		$caches[$post_id] = add_query_arg(array(
-			'code' => authcode(serialize($code_obj),'encode')	
+			'code' => base64_encode(authcode(serialize($code_obj),'encode'))
 			),self::get_url());
 		return $caches[$post_id];
 	}
 	public static function get_decode_post(){
-		$code = isset($_GET['code']) && is_string($_GET['code']) ? $_GET['code'] : null;
-
+		$code = isset($_GET['code']) && is_string($_GET['code']) ? base64_decode($_GET['code']) : null;
 		if(!$code)
 			return false;
 			
@@ -220,46 +219,72 @@ class theme_custom_storage{
 		$meta = self::get_post_meta($post->ID);
 		ob_start();
 		?>
-		<div class="post-download">
-			<?php
-			foreach(self::get_types() as $k => $v){
-				?>
-				<fieldset class="post-download-module">
-					<legend><span class="label label-default"><?php echo $v['text'];?></span></legend>
-					<div class="fieldset-content">
-						<div class="row">
-							<?php if(isset($meta[$k]['pwd']) && !empty($meta[$k]['pwd'])){ ?>
-								<div class="col-sm-3">
-									<div class="form-group">
-										<strong class="btn btn-info btn-block btn-lg" id="<?php echo self::$iden;?>-<?php echo $k;?>-pwd" title="<?php echo sprintf(___('%s password'),$v['text']);?>" onclick="var range = document.createRange(),sel = window.getSelection();range.selectNodeContents(this);sel.removeAllRanges();sel.addRange(range);">
-											<?php echo isset($meta[$k]['pwd']) ? esc_html($meta[$k]['pwd']) : '-';?>
-										</strong>
-									</div>
+<div class="post-download">
+	<?php foreach(self::get_types() as $k => $v){ ?>
+		<fieldset class="post-download-module">
+			<legend><span class="label label-default"><?php echo $v['text'];?></span></legend>
+			<div class="fieldset-content">
+				<div class="row">
+					<?php if(isset($meta[$k]['pwd']) && !empty($meta[$k]['pwd'])){ ?>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<div class="pwd btn btn-info btn-lg btn-block" id="<?php echo self::$iden;?>-<?php echo $k;?>-pwd" title="<?php echo sprintf(___('%s password'),$v['text']);?>" >
+									<?php echo isset($meta[$k]['pwd']) ? esc_html($meta[$k]['pwd']) : '-';?>
 								</div>
-					
-								<div class="col-sm-9">
-									<div class="form-group">
-										<div class="btn-group btn-group-lg btn-block">
-											<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-9 col-sm-10"><i class="fa fa-cloud-download"></i> <?php echo ___('Download now');?></a>
-											<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-3 col-sm-2" target="_blank"><i class="fa fa-external-link"></i></a>
-										</div>
-									</div>
+							</div>
+						</div>
+			
+						<div class="col-sm-9">
+							<div class="form-group">
+								<div class="btn-group btn-group-lg btn-block">
+									<a 
+										href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
+										class="btn btn-success col-xs-9 col-sm-10" 
+										rel="nofollow"
+									>
+											<i class="fa fa-cloud-download"></i> 
+											<?php echo ___('Download now');?>
+										</a>
+									<a 
+										href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
+										class="btn btn-success col-xs-3 col-sm-2" 
+										target="_blank" 
+										rel="nofollow"
+									>
+										<i class="fa fa-external-link"></i>
+									</a>
 								</div>
-							<?php }else{ ?>
-								<div class="col-sm-12">
-									<div class="form-group">
-										<div class="btn-group btn-group-lg btn-block">
-											<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-9 col-sm-11"><i class="fa fa-cloud-download"></i> <?php echo ___('Download now');?></a>
-											<a href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" class="btn btn-success col-xs-3 col-sm-1" target="_blank" title="<?php echo ___('Open in new window');?>"><i class="fa fa-external-link"></i></a>
-										</div>
-									</div><!-- /.form-group -->
-								</div><!-- /.col-sm-12 -->
-							<?php } ?>
-						</div><!-- /.row -->
-					</div><!-- /.fieldset -->
-				</fieldset>
-			<?php } ?>
-		</div><!-- /.post-download -->
+							</div>
+						</div>
+					<?php }else{ ?>
+						<div class="col-sm-12">
+							<div class="form-group">
+								<div class="btn-group btn-group-lg btn-block">
+									<a 
+										href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
+										class="btn btn-success col-xs-9 col-sm-11"
+										rel="nofollow"
+									>
+											<i class="fa fa-cloud-download"></i> 
+											<?php echo ___('Download now');?>
+										</a>
+									<a 
+										href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
+										class="btn btn-success col-xs-3 col-sm-1" target="_blank" 
+										title="<?php echo ___('Open in new window');?>" 
+										rel="nofollow"
+										>
+											<i class="fa fa-external-link"></i>
+										</a>
+								</div>
+							</div><!-- /.form-group -->
+						</div><!-- /.col-sm-12 -->
+					<?php } ?>
+				</div><!-- /.row -->
+			</div><!-- /.fieldset -->
+		</fieldset>
+	<?php } ?>
+</div><!-- /.post-download -->
 		<?php
 		wp_reset_postdata();
 		$content = ob_get_contents();
@@ -271,17 +296,19 @@ class theme_custom_storage{
 		$meta = self::get_post_meta($post->ID);
 		if(!$meta)
 			return;
-			
+
+		$download_url = esc_url(self::get_download_page_url($post->ID));
+
 		?>
 		<div class="post-storage">
 			<div class="btn-group btn-group-lg btn-block">
-				<a href="<?php echo esc_url(self::get_download_page_url($post->ID));?>" class="download-link btn btn-success col-xs-9 col-sm-11" rel="nofollow" >
+				<a href="<?php echo $download_url;?>" class="download-link btn btn-success col-xs-9 col-sm-11" rel="nofollow" >
 					<i class="fa fa-cloud-download"></i>
 					<?php echo ___('Download now');?>
 					
 				</a>
-				<a href="<?php echo esc_url(self::get_download_page_url($post->ID));?>" class="download-link btn btn-success col-xs-3 col-sm-1" rel="nofollow" target="_blank" title="<?php echo ___('Open in new window');?>" >
-					<i class="fa fa-external-link"></i>
+				<a href="<?php echo $download_url;?>" class="download-link btn btn-success col-xs-3 col-sm-1" rel="nofollow" target="_blank" title="<?php echo ___('Open in new window');?>" rel="nofollow" >
+					<i class="fa fa-external-link fa-fw"></i>
 				</a>
 			</div>
 			

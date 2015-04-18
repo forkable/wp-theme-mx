@@ -35,26 +35,33 @@ class theme_custom_dashboard{
 	}
 	public static function filter_nav_dashboard($navs){
 		$navs['dashboard'] = '<a href="' . esc_url(self::get_tabs('dashboard')['url']) . '">
-			<i class="fa fa-' . self::get_tabs('dashboard')['icon'] . '"></i> 
-			' . esc_html(self::get_tabs('dashboard')['text']) . '
+			<i class="fa fa-' . self::get_tabs('dashboard')['icon'] . '" fa-fw></i> 
+			' . self::get_tabs('dashboard')['text'] . '
 		</a>';
 		return $navs;
 	}
 
 	public static function is_page(){
-		if(is_page(self::$page_slug))
-			return get_query_var('tab') === 'dashboard' || !get_query_var('tab');
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
 			
-		return false;
+		$caches[self::$iden] = 
+			is_page(self::$page_slug) &&
+			get_query_var('tab') === 'dashboard' || 
+			!get_query_var('tab');
+			
+		return $caches[self::$iden];
 	}
 	public static function get_url(){
-		static $url;
-		if($url)
-			return $url;
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
 		
 		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$url = get_permalink($page->ID);
-		return $url;
+		$caches[self::$iden] = get_permalink($page->ID);
+		unset($page);
+		return $caches[self::$iden];
 	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();
