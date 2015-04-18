@@ -87,7 +87,7 @@ class theme_notification{
 			'notifications' => array(
 				'text' => ___('My notifications'),
 				'icon' => 'bell',
-				'url' => add_query_arg('tab','notifications',$baseurl),
+				'url' => esc_url(add_query_arg('tab','notifications',$baseurl)),
 				'filter_priority' => 40,
 			),
 		);
@@ -125,11 +125,13 @@ class theme_notification{
 		}
 	}
 	public static function get_url(){
-		static $cache = null;
-		if($cache === null)
-			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug));
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
 			
-		return $cache;
+		$caches[self::$iden] = esc_url(get_permalink(theme_cache::get_page_by_path(self::$page_slug)));
+			
+		return $caches[self::$iden];
 	}
 	public static function is_page(){
 		static $caches = [];

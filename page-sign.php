@@ -25,7 +25,7 @@ $error = get_query_var('error');
 		<h3><?php echo ___('Account register');?></h3>
 	</div>
 	<div class="panel-body">
-		<form action="javascript:void(0);" id="fm-sign-register" >
+		<form action="javascript:;" id="fm-sign-register" >
 			<div class="form-group">
 				<div class="input-group">
 					<label for="sign-nickname" class="input-group-addon"><i class="fa fa-user fa-fw"></i></label>
@@ -107,7 +107,7 @@ if(class_exists('theme_open_sign')){ ?>
 		<h3><?php echo ___('Recover password');?></h3>
 	</div>
 	<div class="panel-body">
-		<form action="javascript:void(0);" id="fm-sign-recover">
+		<form action="javascript:;" id="fm-sign-recover">
 			<div class="form-group"><?php echo ___('If you forgot your account password, you can recover your password by your account email. Please entry your account email, we will send a confirm email to it and reset your password.');?></div>
 			<div class="form-group">
 				<div class="input-group">
@@ -155,7 +155,7 @@ if(class_exists('theme_open_sign')){ ?>
 		<h3><?php echo ___('Account login');?></h3>
 	</div>
 	<div class="panel-body">
-		<form action="javascript:void(0);" id="fm-sign-login">
+		<form action="javascript:;" id="fm-sign-login">
 			<div class="form-group">
 				<div class="input-group">
 					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></label>

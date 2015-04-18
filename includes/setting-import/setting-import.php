@@ -38,7 +38,7 @@ class theme_import_settings{
 						<td>
 							<div id="tis_tip"></div>
 							<div id="tis_upload_area">
-								<a href="javascript:void(0);" id="tis_upload" class="button"><?php echo ___('Select a setting file to restore');?></a>
+								<a href="javascript:;" id="tis_upload" class="button"><?php echo ___('Select a setting file to restore');?></a>
 								<input id="tis_file" type="file"/>
 							</div>
 						</td>

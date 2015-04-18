@@ -136,7 +136,7 @@ class theme_custom_slidebox{
 		<tr>
 			<th><label for="slidebox-subtitle-<?php echo $placeholder;?>"><?php echo esc_html(sprintf(___('Subtitles (optional)'),$placeholder));?></label></th>
 			<td><input type="text" id="slidebox-subtitle-<?php echo $placeholder;?>" name="slidebox[<?php echo $placeholder;?>][subtitle]" class="widefat" placeholder="<?php echo esc_attr(___('Subtitle can be date or any text'));?>" value="<?php echo esc_attr($subtitle);?>"/>
-				<a href="javascript:void(0);" onclick="document.getElementById('slidebox-subtitle-<?php echo $placeholder;?>').value='<?php echo date('m.d');?>';" class="slidebox-subtitle-date" data-target="#slidebox-subtitle-<?php echo $placeholder;?>" data-date="<?php echo date('m.d');?>"><?php echo esc_html(___('Current date'));?></a>
+				<a href="javascript:;" onclick="document.getElementById('slidebox-subtitle-<?php echo $placeholder;?>').value='<?php echo date('m.d');?>';" class="slidebox-subtitle-date" data-target="#slidebox-subtitle-<?php echo $placeholder;?>" data-date="<?php echo date('m.d');?>"><?php echo esc_html(___('Current date'));?></a>
 			</td>
 		</tr>
 		<tr>
@@ -158,7 +158,7 @@ class theme_custom_slidebox{
 			<td>
 				<div class="slidebox-upload-area">
 					<input type="url" id="slidebox-img-url-<?php echo $placeholder;?>" name="slidebox[<?php echo $placeholder;?>][img-url]" class="slidebox-img-url" placeholder="<?php echo esc_attr(___('Image address'));?>" value="<?php echo esc_attr($img_url);?>"/>
-					<a href="javascript:void(0);" class="button-primary slidebox-upload" id="slidebox-upload-<?php echo $placeholder;?>"><?php echo esc_html(___('Upload image'));?><input type="file" id="slidebox-file-<?php echo $placeholder;?>" class="slidebox-file"/></a>
+					<a href="javascript:;" class="button-primary slidebox-upload" id="slidebox-upload-<?php echo $placeholder;?>"><?php echo esc_html(___('Upload image'));?><input type="file" id="slidebox-file-<?php echo $placeholder;?>" class="slidebox-file"/></a>
 				</div>
 				<div class="slidebox-upload-tip hide"></div>
 			</td>
@@ -175,7 +175,7 @@ class theme_custom_slidebox{
 					<?php echo esc_html(___('Open in new window'));?>
 				</label>
 
-				<a href="javascript:void(0);" class="slidebox-del delete" id="slidebox-del-<?php echo $placeholder;?>" data-id="<?php echo $placeholder;?>" data-target="#slidebox-item-<?php echo $placeholder;?>"><?php echo esc_html(___('Delete this item'));?></a>
+				<a href="javascript:;" class="slidebox-del delete" id="slidebox-del-<?php echo $placeholder;?>" data-id="<?php echo $placeholder;?>" data-target="#slidebox-item-<?php echo $placeholder;?>"><?php echo esc_html(___('Delete this item'));?></a>
 			</td>
 		</tr>
 		
@@ -208,7 +208,7 @@ class theme_custom_slidebox{
 			<tr>
 			<th><?php echo esc_html(___('Control'));?></th>
 			<td>
-				<a id="slidebox-add" href="javascript:void(0);" class="button-primary"><?php echo esc_html(___('Add a new item'));?></a>
+				<a id="slidebox-add" href="javascript:;" class="button-primary"><?php echo esc_html(___('Add a new item'));?></a>
 			</td>
 			</tr>
 			</tbody>

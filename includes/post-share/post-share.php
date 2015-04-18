@@ -126,11 +126,11 @@ class theme_post_share{
 	'bdPic':'%img_url%'
 }">
 	<span class="description"><?php echo ___('Share to: ');?></span>
-	<a class="bds_tsina" data-cmd="tsina" title="<?php echo sprintf(___('Share to %s'),___('Sina Weibo'));?>" href="javascript:void(0);"></a>
-	<a class="bds_qzone" data-cmd="qzone" href="javascript:void(0);" title="<?php echo sprintf(___('Share to %s'),___('QQ zone'));?>"></a>
-	<a class="bds_tieba" data-cmd="tieba" title="<?php echo sprintf(___('Share to %s'),___('Tieba'));?>" href="javascript:void(0);"></a>
-	<a class="bds_weixin" data-cmd="weixin" title="<?php echo sprintf(___('Share to %s'),___('Wechat'));?>" href="javascript:void(0);"></a>
-	<a class="bds_more" data-cmd="more" href="javascript:void(0);"></a>
+	<a class="bds_tsina" data-cmd="tsina" title="<?php echo sprintf(___('Share to %s'),___('Sina Weibo'));?>" href="javascript:;"></a>
+	<a class="bds_qzone" data-cmd="qzone" href="javascript:;" title="<?php echo sprintf(___('Share to %s'),___('QQ zone'));?>"></a>
+	<a class="bds_tieba" data-cmd="tieba" title="<?php echo sprintf(___('Share to %s'),___('Tieba'));?>" href="javascript:;"></a>
+	<a class="bds_weixin" data-cmd="weixin" title="<?php echo sprintf(___('Share to %s'),___('Wechat'));?>" href="javascript:;"></a>
+	<a class="bds_more" data-cmd="more" href="javascript:;"></a>
 </div>				
 <?php
 		$content = ob_get_contents();

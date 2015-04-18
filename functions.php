@@ -1735,14 +1735,14 @@ class theme_functions{
 			<div class="nplink btn-group btn-group-xs">
 				<a 
 					title="<?php echo ___('Preview page');?>"
-					href="javascript:void(0);" 
+					href="javascript:;" 
 					class="btn btn-default preview disabled" 
 					data-cat-id="<?php echo implode(',',$v['cats']);?>"
 					data-paged="1"
 				><i class="fa fa-caret-left"></i></a>
 				<a 
 					title="<?php echo ___('Next page');?>"
-					href="javascript:void(0);" 
+					href="javascript:;" 
 					class="btn btn-default next" 
 					data-cat-id="<?php echo implode(',',$v['cats']);?>"
 					data-paged="1"

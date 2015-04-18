@@ -35,7 +35,7 @@ class theme_custom_dashboard{
 	}
 	public static function filter_nav_dashboard($navs){
 		$navs['dashboard'] = '<a href="' . esc_url(self::get_tabs('dashboard')['url']) . '">
-			<i class="fa fa-' . self::get_tabs('dashboard')['icon'] . '" fa-fw></i> 
+			<i class="fa fa-' . self::get_tabs('dashboard')['icon'] . ' fa-fw"></i> 
 			' . self::get_tabs('dashboard')['text'] . '
 		</a>';
 		return $navs;
@@ -59,8 +59,8 @@ class theme_custom_dashboard{
 			return $caches[self::$iden];
 		
 		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$caches[self::$iden] = get_permalink($page->ID);
-		unset($page);
+		$caches[self::$iden] = esc_url(get_permalink($page->ID));
+		
 		return $caches[self::$iden];
 	}
 	public static function get_tabs($key = null){

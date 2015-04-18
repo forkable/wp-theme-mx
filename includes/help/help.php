@@ -92,7 +92,7 @@ class theme_help{
 					<th scope="row"><?php echo ___('Donate');?></th>
 					<td>
 						<p>
-							<a id="paypal_donate" href="javascript:void(0);" title="<?php echo ___('Donation by Paypal');?>">
+							<a id="paypal_donate" href="javascript:;" title="<?php echo ___('Donation by Paypal');?>">
 								<img src="http://ww2.sinaimg.cn/large/686ee05djw1ella1kv74cj202o011wea.jpg" alt="<?php echo ___('Donation by Paypal');?>" width="96" height="37"/>
 							</a>
 							<a id="alipay_donate" target="_blank" href="http://ww3.sinaimg.cn/large/686ee05djw1eihtkzlg6mj216y16ydll.jpg" title="<?php echo ___('Donation by Alipay');?>">

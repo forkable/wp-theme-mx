@@ -1397,12 +1397,12 @@ class theme_features{
 		//last page
 		if($numpages != 1 && $numpages == $page){
 			$last_class = 'numbers-last disabled';
-			$next_page_url = 'javascript:void(0);';
+			$next_page_url = 'javascript:;';
 		}
 		//first page
 		if($page == 1 && $numpages != $page){
 			$first_class = 'numbers-first disabled';
-			$prev_page_url = 'javascript:void(0);';
+			$prev_page_url = 'javascript:;';
 		}
 		
 		ob_start();

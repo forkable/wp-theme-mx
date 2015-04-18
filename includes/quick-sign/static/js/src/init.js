@@ -145,7 +145,7 @@ define(function(require, exports, module){
 		
 		},
 		get_form : function(){
-			return '<form action="javascript:void(0);" id="q-login" class="fm-sign">' + 
+			return '<form action="javascript:;" id="q-login" class="fm-sign">' + 
 				'<div class="form-group">' + 
 					'<label for="l-user-email" class="form-icon"><span class="icon-envelope"></span></label>' + 
 					'<input type="email" name="user[email]" id="l-user-email" class="form-control form-control-icon" placeholder="' + exports.config.lang.M00005 + '" required tabindex="0" />' +
@@ -174,7 +174,7 @@ define(function(require, exports, module){
 	exports.register = {
 
 		get_form : function(){
-			return '<form action="javascript:void(0);" id="q-register" class="fm-sign">' + 
+			return '<form action="javascript:;" id="q-register" class="fm-sign">' + 
 				'<div class="form-group">' + 
 					'<label for="r-user-name" class="form-icon"><span class="icon-user"></span></label>' + 
 					'<input type="text" name="user[nickname]" id="r-user-name" class="form-control form-control-icon" placeholder="' + exports.config.lang.M00004 + '" required />' +

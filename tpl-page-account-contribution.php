@@ -56,7 +56,7 @@ if(class_exists('theme_custom_contribution')){
 		</h3>
 	</div>
 	<div class="panel-body">
-		<form action="javascript:void(0);" id="fm-ctb" class="form-horizontal">
+		<form action="javascript:;" id="fm-ctb" class="form-horizontal">
 			<div class="form-group">
 				<label for="ctb-title" class="col-sm-2 control-label">
 					<?php echo ___('Post title');?>

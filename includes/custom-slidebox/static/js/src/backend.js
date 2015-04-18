@@ -121,7 +121,7 @@ define(function(require, exports, module){
 		for(var i in exports.config.preset_colors){
 			var color = exports.config.preset_colors[i],
 				curr_class = curr_color == color ? ' class="current" ' : '';
-			tpl += '<a href="javascript:void(0);" style="background-color:#' + color + '" data-color="' + color + '" ' + curr_class +'></a>';
+			tpl += '<a href="javascript:;" style="background-color:#' + color + '" data-color="' + color + '" ' + curr_class +'></a>';
 		}
 		tpl = '<div id="colorful-selector">' + tpl + '</div>';
 		return tpl;

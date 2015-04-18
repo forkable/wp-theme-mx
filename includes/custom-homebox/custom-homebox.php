@@ -150,7 +150,7 @@ class theme_custom_homebox{
 					<tr>
 						<th scope="row"><?php echo ___('Home box control');?></th>
 						<td>
-							<a id="<?php echo self::$iden;?>-add" href="javascript:void(0);" class="button-primary"><?php echo ___('Add a new home box');?></a>
+							<a id="<?php echo self::$iden;?>-add" href="javascript:;" class="button-primary"><?php echo ___('Add a new home box');?></a>
 						</td>
 					</tr>
 				</tbody>
@@ -210,7 +210,7 @@ class theme_custom_homebox{
 			<td>
 				<textarea name="<?php echo self::$iden;?>[<?php echo $placeholder;?>][keywords]" id="<?php echo self::$iden;?>-<?php echo $placeholder;?>-keywords" cols="30" rows="5" class="widefat" placeholder="<?php echo ___('Eg. Tag1 = http://inn-studio.com');?>"><?php echo esc_textarea($keywords);?></textarea>
 				<span class="description"><?php echo ___('Per keyword/line');?></span>
-				<a href="javascript:void(0);" class="<?php echo self::$iden;?>-del delete" id="<?php echo self::$iden;?>-del-<?php echo $placeholder;?>" data-id="<?php echo $placeholder;?>" data-target="#<?php echo self::$iden;?>-item-<?php echo $placeholder;?>"><?php echo esc_html(___('Delete this item'));?></a>
+				<a href="javascript:;" class="<?php echo self::$iden;?>-del delete" id="<?php echo self::$iden;?>-del-<?php echo $placeholder;?>" data-id="<?php echo $placeholder;?>" data-target="#<?php echo self::$iden;?>-item-<?php echo $placeholder;?>"><?php echo esc_html(___('Delete this item'));?></a>
 				
 			</td>
 		</tr>

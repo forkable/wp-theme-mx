@@ -218,10 +218,12 @@ class theme_custom_point{
 		die(theme_features::json_format($output));
 	}
 	public static function is_page(){
-		static $cache = null;
-		if($cache === null)
-			$cache = is_page(self::$page_slug) && get_query_var('tab') === 'history';
-		return $cache;
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
+			
+			$caches[self::$iden] = is_page(self::$page_slug) && get_query_var('tab') === 'history';
+		return $caches[self::$iden];
 	}
 	public static function get_point_types($key = null){
 		static $caches = null;

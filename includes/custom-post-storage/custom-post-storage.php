@@ -176,7 +176,11 @@ class theme_custom_storage{
 		}
 	}
 	public static function get_url(){
-		return get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
+		$caches[self::$iden] = esc_url(get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID));
+		return $caches[self::$iden];
 	}
 	public static function get_download_page_url($post_id = null){
 		if($post_id === null){
@@ -297,7 +301,7 @@ class theme_custom_storage{
 		if(!$meta)
 			return;
 
-		$download_url = esc_url(self::get_download_page_url($post->ID));
+		$download_url = self::get_download_page_url($post->ID);
 
 		?>
 		<div class="post-storage">

@@ -103,7 +103,7 @@ class theme_widget_author extends WP_Widget{
 				 * follow
 				 */
 				if(class_exists('theme_follow')){ ?>
-					<a href="javascript:void(0);" class="btn btn-success" id="widget-author-card-follow" data-author-id="<?php echo $author_id;?>">
+					<a href="javascript:;" class="btn btn-success" id="widget-author-card-follow" data-author-id="<?php echo $author_id;?>">
 						<span class="followed">
 							<i class="fa fa-check-circle"></i> 
 							<?php echo ___('Followed');?>
@@ -119,7 +119,7 @@ class theme_widget_author extends WP_Widget{
 				 * PM
 				 */
 				if(class_exists('theme_pm')){ ?>
-					<a href="javascript:void(0);" class="btn btn-danger" id="widget-author-card-pm" data-author-id="<?php echo $author_id;?>">
+					<a href="javascript:;" class="btn btn-danger" id="widget-author-card-pm" data-author-id="<?php echo $author_id;?>">
 						<i class="fa fa-envelope-o"></i> 
 						<?php echo ___('Message');?>
 					</a>

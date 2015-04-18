@@ -211,66 +211,76 @@ class theme_custom_user_settings{
 			return $caches[self::$iden];
 			
 		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$caches[self::$iden] = get_permalink($page->ID);
-		unset($page);
+		$caches[self::$iden] = esc_url(get_permalink($page->ID));
+		
 		return $caches[self::$iden];
 	}
 	public static function get_tabs($key = null){
+		static $caches = [];
+		if(!empty($caches)){
+			if($key)
+				return isset($caches[$key]) ? $caches[$key] : null;
+			return $caches;
+		}
+			
+
 		$baseurl = self::get_url();
-		$tabs = array(
+		$caches = array(
 			'history' => array(
 				'text' => ___('Reward history'),
 				'icon' => 'history',
-				'url' => add_query_arg('tab','history',$baseurl),
+				'url' => esc_url(add_query_arg('tab','history',$baseurl)),
 				'filter_priority' => 50,
 			),
 			'settings' => array(
 				'text' => ___('My settings'),
 				'icon' => 'cog',
-				'url' => add_query_arg('tab','settings',$baseurl),
+				'url' => esc_url(add_query_arg('tab','settings',$baseurl)),
 				'filter_priority' => 60,
 			),
 			'avatar' => array(
 				'text' => ___('My avatar'),
 				'icon' => 'image',
-				'url' => add_query_arg('tab','avatar',$baseurl),
+				'url' => esc_url(add_query_arg('tab','avatar',$baseurl)),
 				'filter_priority' => 70,
 			),
 			'password' => array(
 				'text' => ___('Change password'),
 				'icon' => 'lock',
-				'url' => add_query_arg('tab','password',$baseurl),
+				'url' => esc_url(add_query_arg('tab','password',$baseurl)),
 				'filter_priority' => 80,
 			),
 		);
+
 		if($key){
-			return isset($tabs[$key]) ? $tabs[$key] : false;
+			$caches[$key] = isset($caches[$key]) ? $caches[$key] : false;
+			return $caches[$key];
 		}
-		return $tabs;
+		return $caches;
 	}
 	public static function filter_nav_history($navs){
-		$navs['history'] = '<a href="' . esc_url(self::get_tabs('history')['url']) . '">
+		$navs['history'] = '<a href="' . self::get_tabs('history')['url'] . '">
 			<i class="fa fa-' . self::get_tabs('history')['icon'] . ' fa-fw"></i> 
 			' . self::get_tabs('history')['text'] . '
 		</a>';
 		return $navs;
 	}
 	public static function filter_nav_settings($navs){
-		$navs['settings'] = '<a href="' . esc_url(self::get_tabs('settings')['url']) . '">
+		$navs['settings'] = '<a href="' . self::get_tabs('settings')['url'] . '">
 			<i class="fa fa-' . self::get_tabs('settings')['icon'] . ' fa-fw"></i> 
 			' . esc_html(self::get_tabs('settings')['text']) . '
 		</a>';
 		return $navs;
 	}
 	public static function filter_nav_avatar($navs){
-		$navs['avatar'] = '<a href="' . esc_url(self::get_tabs('avatar')['url']) . '">
+		$navs['avatar'] = '<a href="' . self::get_tabs('avatar')['url'] . '">
 			<i class="fa fa-' . self::get_tabs('avatar')['icon'] . ' fa-fw"></i> 
 			' . esc_html(self::get_tabs('avatar')['text']) . '
 		</a>';
 		return $navs;
 	}
 	public static function filter_nav_password($navs){
-		$navs['password'] = '<a href="' . esc_url(self::get_tabs('password')['url']) . '">
+		$navs['password'] = '<a href="' . self::get_tabs('password')['url'] . '">
 			<i class="fa fa-' . self::get_tabs('password')['icon'] . ' fa-fw"></i> 
 			' . esc_html(self::get_tabs('password')['text']) . '
 		</a>';

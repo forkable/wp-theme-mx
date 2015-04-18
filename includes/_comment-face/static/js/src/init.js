@@ -70,12 +70,12 @@ define(function(require, exports, module){
 	exports.hook = {
 		tpl_image : function(img_src,id){
 			if(!img_src || !id) return false;
-			var content = '<a href="javascript:void(0);" data-id="' + id + '"><img src="' + img_src + '" alt="" /></a>';
+			var content = '<a href="javascript:;" data-id="' + id + '"><img src="' + img_src + '" alt="" /></a>';
 			return content;
 		},
 		tpl_text : function(id){
 			if(!img_src || !id) return false;
-			var content = '<a href="javascript:void(0);" data-id="' + id + '">' + id + '</a>';
+			var content = '<a href="javascript:;" data-id="' + id + '">' + id + '</a>';
 			return content;
 		}
 	

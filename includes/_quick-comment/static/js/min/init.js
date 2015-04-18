@@ -19,7 +19,7 @@ exports.cache.$respond_tip.html(tools.status_tip(t,s)).show();}},};exports.reply
 +'<footer class="comment-metas">'
 +'<span class="comment-meta comment-author-name">'+comm_author_name_str+'</span>'
 +'<span class="comment-meta comment-time"><span class="icon-clock"></span><span class="after-icon">'+comm_fri_date+'</span></span>'
-+'<a href="javascript:void(0);" class="comment-meta comment-reply reply" data-post-id="'+comm_post_id+'" data-comment-parent="'+comm_id+'"><span class="icon-undo"></span><span class="after-icon hide-on-mobile">'+exports.config.lang.M00010+'</span></a>'
++'<a href="javascript:;" class="comment-meta comment-reply reply" data-post-id="'+comm_post_id+'" data-comment-parent="'+comm_id+'"><span class="icon-undo"></span><span class="after-icon hide-on-mobile">'+exports.config.lang.M00010+'</span></a>'
 +'</footer>'
 +'<div class="comment-content content-reset">'+comm_content+'</div>'
 +'</div>'

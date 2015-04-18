@@ -101,13 +101,13 @@ class theme_custom_contribution{
 		}
 	}
 	public static function get_url(){
-		static $cache = null;
-		if($cache !== null)
-			return $cache;
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
+			
 		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$cache = get_permalink($page->ID);
-		unset($page);
-		return $cache;
+		$caches[self::$iden] = esc_url(get_permalink($page->ID));
+		return $caches[self::$iden];
 	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();
@@ -115,7 +115,7 @@ class theme_custom_contribution{
 			'contribution' => array(
 				'text' => ___('Post contribution'),
 				'icon' => 'paint-brush',
-				'url' => add_query_arg('tab','contribution',$baseurl),
+				'url' => esc_url(add_query_arg('tab','contribution',$baseurl)),
 				'filter_priority' => 20,
 			),
 		);

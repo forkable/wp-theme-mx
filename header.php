@@ -1,10 +1,10 @@
 <!DOCTYPE html><html <?php language_attributes(); ?>><head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
+	<!-- <meta http-equiv="Cache-Control" content="no-transform" /> -->
 	<meta name="renderer" content="webkit" />
 	<meta name="viewport" content="width=device-width" />
 	<meta name="author" content="INN STUDIO" />
-	<meta http-equiv="Cache-Control" content="no-transform" />
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 	<!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -20,22 +20,20 @@
 <?php if(!wp_is_mobile()){ ?>
 	<div class="top-bar navbar navbar-default hidden-xs">	
 		<div class="container">
-			<!-- <div class="top-bar-menu-container nav navbar-nav navbar-left"> -->
-				<?php
-				/** 
-				 * menu top-bar
-				 */
-	           theme_cache::wp_nav_menu( array(
-	                'theme_location'    => 'menu-top-bar',
-	                'container'         => 'nav',
-	                'container_class'   => 'nav navbar-nav navbar-left',
-	                'menu_class'        => 'nav navbar-nav',
-	                'menu_id' 			=> 'menu-top-bar',
-	                'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
-	                'walker'            => new wp_bootstrap_navwalker())
-	            );
-				?>
-			<!-- </div> -->
+			<?php
+			/** 
+			 * menu top-bar
+			 */
+           theme_cache::wp_nav_menu( array(
+                'theme_location'    => 'menu-top-bar',
+                'container'         => 'nav',
+                'container_class'   => 'nav navbar-nav navbar-left',
+                'menu_class'        => 'nav navbar-nav',
+                'menu_id' 			=> 'menu-top-bar',
+                'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+                'walker'            => new wp_bootstrap_navwalker())
+            );
+			?>
 			<div class="top-bar-tools">
 				<?php include __DIR__ . '/tpl-header-topbar-tools.php';?>
 			</div>
@@ -73,7 +71,7 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 				<?php echo get_bloginfo('name');?>
 			</a>
 			<!-- search btn -->
-			<a class="mx-tool mx-search-btn dropdown-toggle" href="javascript:void(0);" data-toggle="collapse" data-target=".navbar-collapse-form">
+			<a class="mx-tool mx-search-btn dropdown-toggle" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
 				<i class="fa fa-search fa-fw"></i>
 			</a>
 
@@ -104,7 +102,7 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 		?>
 
 		<!-- search btn -->
-		<a class="mx-tool mx-search-btn dropdown-toggle hidden-xs" href="javascript:void(0);" data-toggle="collapse" data-target=".navbar-collapse-form">
+		<a class="mx-tool mx-search-btn dropdown-toggle hidden-xs" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
 			<i class="fa fa-search fa-fw"></i>
 		</a>
 		
@@ -113,7 +111,10 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 		 * account menu
 		 */
 		if(is_user_logged_in()){
-			$active_tab = get_query_var('tab') ? get_query_var('tab') : 'dashboard';
+			$active_tab = get_query_var('tab');
+			if(!$active_tab)
+				$active_tab = 'dashboard';
+				
 			$is_account_page = theme_custom_account::is_page();
 			?>
 			<div class="header-nav-account-menu">

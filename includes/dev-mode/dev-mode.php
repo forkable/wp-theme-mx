@@ -28,21 +28,23 @@ class theme_dev_mode{
 		return self::get_options('enabled');
 	}
 	public static function get_options($key = null){
-		static $caches = null;
-		if($caches === null)
-			$caches = (array)theme_options::get_options(self::$iden);
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
+			
+		$caches[self::$iden] = (array)theme_options::get_options(self::$iden);
 		
 		if($key === null){
-			return $caches;
+			return $caches[self::$iden];
 		}else{
-			return isset($caches[$key]) ? $caches[$key] : false;
+			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : false;
 		}
 	}
 	public static function mark_start_data(){
 		self::$data = array(
-			'start-time' => timer_stop(0),
+			'start-time' => microtime(),
 			'start-query' => get_num_queries(),
-			'start-memory' => sprintf('%01.3f',memory_get_usage()/1024/1024)
+			'start-memory' => memory_get_usage(),
 		);
 	}
 
@@ -117,41 +119,59 @@ class theme_dev_mode{
 	public static function hook_footer(){
 		?>
 		<script>
-		try{
-			<?php
-			self::$data['end-time'] =  sprintf('%01.3f',microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']);
-			self::$data['end-query'] = get_num_queries();
-			self::$data['end-memory'] = sprintf('%01.3f',memory_get_usage()/1024/1024);
-			
-			self::$data['theme-time'] = self::$data['end-time'] - self::$data['start-time'];
-			self::$data['theme-query'] = self::$data['end-query'] - self::$data['start-query'];
-			self::$data['theme-memory'] = self::$data['end-memory'] - self::$data['start-memory'];
+		<?php
+		self::$data['end-time'] =  microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
+		self::$data['end-query'] = get_num_queries();
+		self::$data['end-memory'] = memory_get_usage();
+		
+		self::$data['theme-time'] = self::$data['end-time'] - self::$data['start-time'];
+		self::$data['theme-query'] = self::$data['end-query'] - self::$data['start-query'];
+		self::$data['theme-memory'] = self::$data['end-memory'] - self::$data['start-memory'];
 
-			$data = [
-				[
-					___('Description') => ___('Theme Performance'),
-					___('Time (second)') => self::$data['theme-time'],
-					___('Query') => self::$data['theme-query'],
-					___('Memory (MB)') => self::$data['theme-memory'],
-				],
-				[
-					___('Description') => ___('Basic Performance'),
-					___('Time (second)') => (float)self::$data['start-time'],
-					___('Query') => (float)self::$data['start-query'],
-					___('Memory (MB)') => (float)self::$data['start-memory'],
-				],
-				[
-					___('Description') => ___('Final Performance'),
-					___('Time (second)') => (float)self::$data['end-time'],
-					___('Query') => (float)self::$data['end-query'],
-					___('Memory (MB)') => (float)self::$data['end-memory'],
-				],
-			];
-			?>
-			(function(){
-				console.table(<?php echo json_encode($data);?>);
-			})();
-		}catch(e){}
+		$memory_format = '%09.5f';
+		$query_format = '%03.0f';
+		$time_format = '%06.3f';
+
+		$lang = [
+			'des' => ___('Description'),
+			'time' => ___('Time (second)'),
+			'query' => ___('Query'),
+			'memory' => ___('Memory (MB)'),
+		];
+		$data = [
+			/**
+			 * theme
+			 */
+			[
+			$lang['des'] 	=> ___('Theme Performance'),
+			$lang['time'] 	=> sprintf($time_format,self::$data['theme-time']),
+			$lang['query'] 	=> sprintf($query_format,self::$data['theme-query']),
+			$lang['memory'] => sprintf($memory_format,self::$data['theme-memory']/1024/1024),
+			],
+			/**
+			 * basic
+			 */
+			[
+			$lang['des'] 	=> ___('Basic Performance'),
+			$lang['time'] 	=> sprintf($time_format,self::$data['start-time']),
+			$lang['query'] 	=> sprintf($query_format,self::$data['start-query']),
+			$lang['memory'] => sprintf($memory_format,self::$data['start-memory']/1024/1024),
+			],
+			/**
+			 * end
+			 */
+			[
+			$lang['des'] 	=> ___('Final Performance'),
+			$lang['time'] 	=> sprintf($time_format,self::$data['end-time']),
+			$lang['query'] 	=> sprintf($query_format,self::$data['end-query']),
+			$lang['memory'] => sprintf($memory_format,self::$data['end-memory']/1024/1024),
+			],
+		];
+		?>
+		(function(){
+			console.table(<?php echo json_encode($data);?>);
+		})();
+
 		<?php
 		if(self::is_enabled()){
 			global $wpdb;
