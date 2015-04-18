@@ -547,19 +547,31 @@ class custom_post_point{
 	 */
 	public static function decr_post_raters($post_id,$rater_id){
 		if(!is_int($post_id) || (int)$post_id === 0)
-			return false;
+			return [
+				'status' => 'error',
+				'code' => 'invaild_post_id',
+				'msg' => ___('Invaild post id.'),
+			];
 			
 		if(!is_int($rater_id) || (int)$rater_id === 0)
-			return false;
+			return [
+				'status' => 'error',
+				'code' => 'invaild_rater_id',
+				'msg' => ___('Invaild rater id.'),
+			];
 			
 
 		$raters = (array)get_post_meta($post_id,self::$post_meta_key['users'],true);
 		
 		/**
-		 * if is new point user, do not remove
+		 * if not rated, return error
 		 */
 		if(!isset($raters[$user_id]))
-			return false;
+			return [
+				'status' => 'error',
+				'code' => 'no_rated',
+				'msg' => ___('You did not rate this post yet.'),
+			];
 
 		/**
 		 * if already exist, just remove
@@ -570,16 +582,28 @@ class custom_post_point{
 		return $raters;
 	}
 	public static function decr_rater_posts($post_id,$rater_id){
-		if(!is_int($post_id) || $post_id <= 0)
-			return false;
+		if(!is_int($post_id) || (int)$post_id === 0)
+			return [
+				'status' => 'error',
+				'code' => 'invaild_post_id',
+				'msg' => ___('Invaild post id.'),
+			];
 			
-		if(!is_int($rater_id) || $rater_id <= 0)
-			return false;
+		if(!is_int($rater_id) || (int)$rater_id === 0)
+			return [
+				'status' => 'error',
+				'code' => 'invaild_rater_id',
+				'msg' => ___('Invaild rater id.'),
+			];
 
 		$posts = (array)get_user_meta($rater_id,self::$user_meta_key['posts'],true);
 
 		if(!isset($posts[$post_id]))
-			return false;
+			return [
+				'status' => 'error',
+				'code' => 'no_rated',
+				'msg' => ___('You did not rate this post yet.'),
+			];
 
 		unset($posts[$post_id]);
 		update_user_meta($rater_id,self::$user_meta_key['posts'],$posts);
@@ -609,8 +633,6 @@ class custom_post_point{
 		<?php
 	}
 	public static function post_btn($post_id){
-		if(!is_int($post_id))
-			return false;
 			
 		$point_img = theme_custom_point::get_point_img_url();
 		$point_values = (array)self::get_point_values();
