@@ -40,7 +40,7 @@ class widget_point_rank extends WP_Widget{
 		echo $args['after_title'];
 
 		$users = wp_cache_get('widget',self::$iden);
-		if(!$users)
+		if(!$users){
 			$user_query = new WP_User_Query([
 				'meta_key' => theme_custom_point::$user_meta_key['point'],
 				'orderby' => 'meta_value_num',
@@ -48,6 +48,7 @@ class widget_point_rank extends WP_Widget{
 				'number' => $instance['total_number'],
 			]);
 			$users = $user_query->results;
+		}
 		if(!$users){
 			?>
 			<div class="panel-body">
