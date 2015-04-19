@@ -1,11 +1,10 @@
 define(function(require, exports, module){
-	$ = require('modules/jquery');
-
+	'use strict';
 	/**
 	 * admin page init js
 	 */
 	exports.init = function(args){
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			var ootab = new exports.backend_tab({
 				done : args.done,
 				custom : args.custom,

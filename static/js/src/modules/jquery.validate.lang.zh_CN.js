@@ -1,5 +1,4 @@
 define(function(require, exports, module){
-	var $ = require('modules/jquery');
 	require('modules/jquery.validate');
 /*
  * Translated default messages for the jQuery validation plugin.

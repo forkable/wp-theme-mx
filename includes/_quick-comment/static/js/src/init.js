@@ -1,7 +1,5 @@
 define(function(require, exports, module){
 	'use strict';
-	var $ = require('modules/jquery'),jQuery = $;
-
 	var dialog 		= require('modules/jquery.dialog'),
 		js_request 	= require('theme-cache-request'),
 		tools 		= require('modules/tools');

@@ -1,5 +1,4 @@
 define(function(require,exports,module){
-var $ = require('modules/jquery'),jQuery = $;
 
 require('theme_css/modules/fancybox.css');
 /*! fancyBox v2.1.5 fancyapps.com | fancyapps.com/fancybox/#license */

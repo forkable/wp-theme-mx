@@ -1,5 +1,5 @@
 define(function(require,exports,module){
-var $ = require('modules/jquery'),jQuery = $;
+
 /*! Copyright (c) 2011 Brandon Aaron (http://brandonaaron.net)
  * Licensed under the MIT License (LICENSE.txt).
  *

@@ -1,7 +1,5 @@
 define(function(require,exports,module){
-	var $ = require('modules/jquery'),
-		jQuery = $;
-		require('modules/bootstrap');
+	'use strict';
 	exports.config = {
 		width : 500,
 		height : 300

@@ -1,5 +1,5 @@
 define(function(require,exports,module){
-var $ = require('modules/jquery'),jQuery = $;
+
 require('theme_css/modules/fancybox-buttons.css');
  /*!
  * Buttons helper for fancyBox

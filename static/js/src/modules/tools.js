@@ -1,8 +1,6 @@
 define(function(require, exports, module){
 	'use strict';
 	
-	var $ = require('modules/jquery'),jQuery = $;
-
 	exports.parseHTML = function(str) {
 		var tmp = document.implementation.createHTMLDocument();
 		tmp.body.innerHTML = str;

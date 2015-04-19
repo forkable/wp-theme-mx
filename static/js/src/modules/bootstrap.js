@@ -1,5 +1,3 @@
-define(function(require, exports, module){
-	var $ = require('modules/jquery'), jQuery = $;
 /*!
  * Bootstrap v3.3.2 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -1067,5 +1065,3 @@ if (typeof jQuery === 'undefined') {
 
 }(jQuery);
 
-
-});

@@ -7,12 +7,7 @@
 	<meta name="author" content="INN STUDIO" />
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
-	<!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-	<link href="//cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"> -->
-	<?php echo theme_features::get_theme_css('modules/bootstrap','normal',true);?>
-	<?php echo theme_features::get_theme_css('modules/fa-fonts','normal',true);?>
-	<?php echo theme_features::get_theme_css('frontend/style','normal',true);?>
-	<link rel="shortcut icon" href="http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif" type="image/x-icon" />
+	<!-- <link rel="shortcut icon" href="http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif" type="image/x-icon" /> -->
 	<?php wp_head();?>
 </head>
 <body <?php body_class(); ?>>

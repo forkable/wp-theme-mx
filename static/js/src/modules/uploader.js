@@ -1,8 +1,5 @@
 define(function(require, exports, module){
 'use strict';
-var $ = require('modules/jquery'),
-	jQuery = $;
-
 exports.init = function(config){
 	var defaults = {
 		$file : false,

@@ -1,7 +1,6 @@
 define(function(require, exports, module){
-	var $ = require('modules/jquery'),
-		tools = require('modules/tools'),
-		dialog = require('modules/jquery.dialog'),
+	'use strict';
+	var dialog = require('modules/jquery.dialog'),
 		js_request 	= require('theme-cache-request');
 	require('modules/jquery.validate');
 	require('modules/jquery.validate.lang.{locale}');

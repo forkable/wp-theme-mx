@@ -1,5 +1,4 @@
 define(function(require, exports, module){
-	var $ = require('modules/jquery');
 	
 	exports.init = function(){
 		var that = exports;

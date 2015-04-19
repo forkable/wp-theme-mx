@@ -12,8 +12,6 @@
  */
 define("popup", function (require) {
 
-var $ = require('modules/jquery'),jQuery = $;
-
 var _count = 0;
 var _isIE6 = !('minWidth' in $('html')[0].style);
 var _isFixed = !_isIE6;
@@ -774,7 +772,6 @@ define("dialog-config", {
  */
 define(function (require) {
 
-var $ = require('modules/jquery'),jQuery = $;
 var Popup = require("popup");
 var defaults = require("dialog-config");
 var css = defaults.cssUri;
@@ -1256,8 +1253,6 @@ return artDialog;
  */
 define("drag", function (require) {
 
-var $ = require('modules/jquery'),jQuery = $;
-
 
 var $window = $(window);
 var $document = $(document);
@@ -1482,7 +1477,6 @@ return DragEvent;
  */
 define("dialog-plus", function (require) {
 
-var $ = require('modules/jquery'),jQuery = $;
 var dialog = require("dialog");
 var drag = require("drag");
 

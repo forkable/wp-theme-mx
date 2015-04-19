@@ -1,8 +1,6 @@
 define(function(require, exports, module){
 	'use strict';
-	var $ = require('modules/jquery'),
-		jQuery = $,
-		tools = require('modules/tools'),
+	var tools = require('modules/tools'),
 		js_request 	= require('theme-cache-request');
 		require('theme_custom_user_settings-avatar-cropper');
 		

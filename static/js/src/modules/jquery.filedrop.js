@@ -1,5 +1,4 @@
 define(function(require,exports,module){
-var $ = require('modules/jquery'),jQuery = $;
 
 /*
  * Default text - jQuery plugin for html5 dragging files from desktop to browser

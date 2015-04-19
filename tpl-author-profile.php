@@ -5,7 +5,7 @@ global $author;
 	<fieldset class="author-profile">
 		<legend>
 			<i class="fa fa-newspaper-o"></i> 
-			<?php echo ___('Basic profile');?></span>
+			<?php echo ___('Basic profile');?>
 		</legend>
 		<table class="table">
 			<tbody>

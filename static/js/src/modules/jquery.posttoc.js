@@ -1,5 +1,5 @@
 define(function(require, exports, module){
-	var $ = require('modules/jquery');
+	'use strict';
 	/**
 	 * post_toc
 	 * 

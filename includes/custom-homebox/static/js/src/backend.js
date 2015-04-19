@@ -1,8 +1,6 @@
 define(function(require, exports, module){
 	'use strict';
-	var $ = require('modules/jquery'),
-		jQuery = $,
-		tools = require('modules/tools');
+	var tools = require('modules/tools');
 	exports.init = function(){
 		$(document).ready(function(){
 			bind();

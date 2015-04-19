@@ -9,28 +9,23 @@ define(function(require, exports, module){
 	
 	};
 	exports.init = function(){
-		function ready(fn) {
-			if (document.readyState != 'loading'){
-				exports.bind();
-			} else {
-				document.addEventListener('DOMContentLoaded', exports.bind);
-			}
-		}
+		tools.ready(exports.bind);
 	};
 	var config = exports.config;
 	exports.bind = function(){
-		var $btns = document.querySelector('.theme_clean_up-btn');
+		var $btns = document.querySelectorAll('.theme_clean_up-btn');
 		if(!$btns)
 			return;
 
-		[].forEach.call($btns,function(el,i){
+		Array.prototype.forEach.call($btns,function(el,i){
 			el.addEventListener('click',action);
 		});
 	}
 
-	function action(el){
-		var $parent = el.parentNode,
-			$tip = document.getElementById(el.getAttribute('data-tip-target'));
+	function action(){
+		var $this = this,
+			$parent = $this.parentNode,
+			$tip = document.getElementById($this.getAttribute('data-tip-target'));
 		/**
 		 * tip
 		 */
@@ -42,7 +37,7 @@ define(function(require, exports, module){
 		 * ajax start
 		 */
 		var xhr = new XMLHttpRequest();
-		xhr.open('GET',config.process_url + '&type=' . el.getAttribute('data-action'));
+		xhr.open('GET',config.process_url + '&type=' + $this.getAttribute('data-action'));
 		xhr.onload = function(){
 			if(xhr.status >= 200 && xhr.status < 400){
 				var data = JSON.parse(xhr.responseText);

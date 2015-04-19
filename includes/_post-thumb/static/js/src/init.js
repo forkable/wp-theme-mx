@@ -5,9 +5,8 @@
  * @author KM@INN STUDIO
  */
 define(function(require, exports, module){
-	var $ = require('modules/jquery'),
-		tools = require('modules/tools'),
-		dialog = require('modules/jquery.dialog');
+	'use strict';
+	var dialog = require('modules/jquery.dialog');
 	/**
 	 * init
 	 * 

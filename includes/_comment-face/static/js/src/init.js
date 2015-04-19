@@ -1,6 +1,5 @@
 define(function(require, exports, module){
-	var $ = require('modules/jquery'),jQuery = $;
-
+	'use strict';
 	exports.config = {
 		face_btn_id : '#comment-face li',
 		face_box_id : '.comment-face-box',

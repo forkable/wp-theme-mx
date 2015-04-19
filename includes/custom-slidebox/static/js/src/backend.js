@@ -1,8 +1,6 @@
 define(function(require, exports, module){
 	'use strict';
-	var $ = require('modules/jquery'),
-		jQuery = $,
-		uploader = require('modules/uploader'),
+	var uploader = require('modules/uploader'),
 		tools = require('modules/tools');
 	exports.init = function(){
 		jQuery(document).ready(function(){
