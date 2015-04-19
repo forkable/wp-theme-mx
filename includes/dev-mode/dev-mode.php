@@ -18,10 +18,18 @@ class theme_dev_mode{
 		
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
 
-		add_action('after_setup_theme',__CLASS__ . '::mark_start_data',1);
-		add_action('wp_footer',__CLASS__ . '::hook_footer',9999);
 		add_action('dev_settings',__CLASS__ . '::display_backend');
-
+		
+		add_action('dev_settings',__CLASS__ . '::display_backend_options_list',90);
+		
+		if(self::get_options('performance')){
+			add_action('after_setup_theme',__CLASS__ . '::mark_start_data',1);
+			add_action('wp_footer',__CLASS__ . '::hook_footer_performance',90);
+		}
+		
+		if(self::get_options('queries')){
+			add_action('wp_footer',__CLASS__ . '::hook_footer_queries',99);
+		}
 		
 	}
 	public static function is_enabled(){
@@ -49,8 +57,12 @@ class theme_dev_mode{
 	}
 
 	public static function display_backend(){
-		
+		$opt = self::get_options();
 		$checked = self::is_enabled() ? ' checked ' : null;
+		
+		$checked_queries = isset($opt['queries']) && $opt['queries'] == 1 ? ' checked ' : null;
+		
+		$checked_performance = isset($opt['performance']) && $opt['performance'] == 1 ? ' checked ' : null;
 		?>
 		<fieldset>
 			<legend><?php echo ___('Related Options');?></legend>
@@ -64,20 +76,45 @@ class theme_dev_mode{
 						<td>
 							<label for="<?php echo self::$iden;?>-enabled"><input id="<?php echo self::$iden;?>-enabled" name="<?php echo self::$iden;?>[enabled]" type="checkbox" value="1" <?php echo $checked;?> /> <?php echo ___('Enabled');?></label>
 
+							<span class="description"><?php echo ___('If enable, your site will work within development mode, or works within high performance product mode.');?></span>
+
 							<input type="hidden" name="<?php echo self::$iden;?>[old-enabled]" value="<?php echo $checked ? 1 : -1 ;?>">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="<?php echo self::$iden;?>-performance"><?php echo ___('Display frontend performance');?></label>
+						</th>
+						<td>
+							<label for="<?php echo self::$iden;?>-performance"><input id="<?php echo self::$iden;?>-performance" name="<?php echo self::$iden;?>[performance]" type="checkbox" value="1" <?php echo $checked_performance;?> /> <?php echo ___('Enabled');?></label>
+							<span class="description"><?php echo ___('Display theme performance information on frontend from F12 console.');?></span>
+
+						</td>
+					</tr>
+					
+					<tr>
+						<th scope="row">
+							<label for="<?php echo self::$iden;?>-queries"><?php echo ___('Display database queries detail');?></label>
+						</th>
+						<td>
+							<label for="<?php echo self::$iden;?>-queries"><input id="<?php echo self::$iden;?>-queries" name="<?php echo self::$iden;?>[queries]" type="checkbox" value="1" <?php echo $checked_queries;?> /> <?php echo ___('Enabled');?></label>
+							<span class="description"><?php echo ___('Display database queries detail on frontend from F12 console.');?></span>
+
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</fieldset>
-
+		<?php
+	}
+	public static function display_backend_options_list(){
+		?>
 		<fieldset>
 			<legend><?php echo ___('Theme options debug');?></legend>
 			<textarea class="code widefat" cols="50" rows="50" ><?php esc_textarea(print_r(theme_options::get_options()));?></textarea>
 		</fieldset>
 		<?php
 	}
-
 	/**
 	 * save
 	 * 
@@ -92,9 +129,12 @@ class theme_dev_mode{
 		if(isset($_POST[self::$iden])){
 			$options[self::$iden] = $_POST[self::$iden];
 			//var_dump($options);exit;
-			$old_enable = isset($_POST[self::$iden]['old-enabled']) ? $_POST[self::$iden]['old-enabled'] : null;
+			
+			$old_enable = isset($_POST[self::$iden]['old-enabled']) ? $_POST[self::$iden]['old-enabled'] : -1;
 
-			unset($options[self::$iden]['old-enabled']);
+			if(isset($options[self::$iden]['old-enabled']))
+				unset($options[self::$iden]['old-enabled']);
+
 			/**
 			 * Dev mode ON => OFF, do minify
 			 */
@@ -116,7 +156,7 @@ class theme_dev_mode{
 		return $options;
 	}
 
-	public static function hook_footer(){
+	public static function hook_footer_performance(){
 		?>
 		<script>
 		<?php
@@ -128,7 +168,7 @@ class theme_dev_mode{
 		self::$data['theme-query'] = self::$data['end-query'] - self::$data['start-query'];
 		self::$data['theme-memory'] = self::$data['end-memory'] - self::$data['start-memory'];
 
-		$memory_format = '%09.5f';
+		$memory_format = '%08.5f';
 		$query_format = '%03.0f';
 		$time_format = '%06.3f';
 
@@ -171,18 +211,17 @@ class theme_dev_mode{
 		(function(){
 			console.table(<?php echo json_encode($data);?>);
 		})();
-
-		<?php
-		if(self::is_enabled()){
-			global $wpdb;
-			?>
-			console.table(<?php echo json_encode($wpdb->queries);?>);
-			<?php
-		}
-		?>
 		</script>
 		<?php
 
+	}
+	public static function hook_footer_queries(){
+		global $wpdb;
+		?>
+		<script>
+		console.table(<?php echo json_encode($wpdb->queries);?>);
+		</script>
+		<?php
 	}
 }
 ?>

@@ -714,51 +714,25 @@ class theme_features{
 		$caches[$cache_id] = $file_url;
 		return $file_url;
 	}
-	/* 输出后台页面地址 */
-	static function get_admin_url($file_name = null){
-		$file_name = $file_name ? '/' .$file_name : '/';
-		$output = home_url(). '/wp-admin' .$file_name;
-		return $output;
-	}
 	/**
 	 * get the process file url of theme
 	 * 
-	 * @param mixed 
+	 * @param array $param The url args
 	 * @return string The process file url
-	 * @version 1.1.0
+	 * @version 1.2.0
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function get_process_url($param = null){
+	public static function get_process_url(array $param = []){
 		static $admin_ajax_url = null;
 		
-		if(!$admin_ajax_url === null)
+		if($admin_ajax_url === null)
 			$admin_ajax_url = admin_url('admin-ajax.php');
 
-		if(!$param) return $admin_ajax_url;
-		/** 
-		 * is_string
-		 */
-		if(is_string($param)){
-			$param = str_replace('?','',$param);
-			/** 
-			 * string to array
-			 */
-			parse_str($param,$param);
-			/** 
-			 * check the action key and value
-			 */
-		}
-		/** 
-		 * check the action key and value
-		 */
-		if(!isset($param['action']) || empty($param['action'])) return false;
-		/** 
-		 * add action
-		 */
-		$query = '?' . http_build_query($param);
-		$admin_ajax_url = admin_url('admin-ajax.php') . $query;
-		return $admin_ajax_url;
+		if(!$param) 
+			return $admin_ajax_url;
+		
+		return $admin_ajax_url . '?' . http_build_query($param);
 	}
 	/**
 	 * json_format
@@ -923,21 +897,6 @@ class theme_features{
 		$file_path = $file_basename[0] === '/' ? self::get_stylesheet_directory() . self::$basedir_includes . $file_basename : self::get_stylesheet_directory() . self::$basedir_includes . $file_basename;
 		
 		$caches[$cache_id] = $file_path;
-		return $file_path;
-	}
-	/**
-	 * theme_features::get_admin_path
-	 * 
-	 * @param string $file_basename
-	 * @return string $file_path
-	 * @version 1.0.1
-	 * @author KM@INN STUDIO
-	 */
-	public static function get_admin_path($file_basename = null){
-		$basedir_name = '/wp-admin/';
-		if(!$file_basename) return ABSPATH . $basedir_name;
-		$file_basename = $file_basename ? '/' .$file_basename : '/';
-		$file_path = ABSPATH . $basedir_name . $file_basename;
 		return $file_path;
 	}
 	/**

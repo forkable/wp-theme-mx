@@ -3,13 +3,11 @@
  * Theme Options
  * the theme options and show admin control planel
  * 
- * @version 5.0.0
+ * @version 5.0.1
  * @author KM@INN STUDIO
  * 
  */
-add_action('admin_init','theme_options::init' );
-add_action('admin_menu','theme_options::add_page');
-add_action('admin_bar_menu','theme_options::add_bar',61);
+theme_options::init();
 class theme_options{
 	public static $iden = 'theme_options';
 	public static $opts = [];
@@ -17,16 +15,22 @@ class theme_options{
 	 * init
 	 * 
 	 * @return 
-	 * @version 1.0.1
+	 * @version 2.0.0
 	 * @author KM@INN STUDIO
 	 */
 	public static function init(){
+		
+		add_action('admin_menu', __CLASS__ . '::add_page');
+		add_action('admin_bar_menu', __CLASS__ . '::add_bar',61);
+		add_action('wp_ajax_' . self::$iden , __CLASS__ . '::process');
+		
+		add_action('admin_init', __CLASS__ . '::admin_init' );
+
+	}
+	public static function admin_init(){
 		if(!self::is_options_page())
 			return false;
-			
 		add_action('admin_head',__CLASS__ . '::backend_header');
-		self::options_save();
-		self::redirect();
 	}
 	/**
 	 * get the theme options from the features default value or DB.
@@ -48,8 +52,39 @@ class theme_options{
 			return self::$opts;
 		}
 	}
+	public static function process(){
+		
+		if(!isset($_POST[self::$iden]['nonce']))
+			die();
+			
+		if(!wp_verify_nonce($_POST[self::$iden]['nonce'],self::$iden))
+			die();
+		
+		self::options_save();
+		
+		wp_redirect(add_query_arg(
+			'updated',
+			true,
+			self::get_url()
+		));
+		die();
+	}
+	public static function get_url(){
+		static $caches = [];
+		if(!isset($caches[self::$iden]))
+			$caches[self::$iden] = admin_url('themes.php?page=core-options');
+
+		return $caches[self::$iden];
+	}
+	public static function current_user_can($key){
+		static $caches = [];
+		if(!isset($caches[$key]))
+			$caches[$key] = current_user_can($key);
+
+		return $caches[$key];
+	}
 	public static function backend_header(){
-		if(!current_user_can('manage_options'))
+		if(!self::current_user_can('manage_options'))
 			return false;
 
 
@@ -123,14 +158,16 @@ class theme_options{
 					<?php echo status_tip('success',___('Settings have been saved.'));?>
 				</div>
 			<?php } ?>
-			<form id="backend-options-frm" method="post" action="">
+			<form id="backend-options-frm" method="post" action="<?php echo theme_features::get_process_url([
+				'action' => self::$iden,
+			]);?>">
 				
 				<div class="backend-tab-loading"><?php echo status_tip('loading',___('Loading, please wait...'));?></div>
 				
 				<dl id="backend-tab" class="backend-tab">
 					<?php do_action('before_base_settings');?>
 					<dt title="<?php echo ___('Theme common settings.');?>">
-						<i class="fa fa-cog"></i>
+						<i class="fa fa-fw fa-cog"></i>
 						<span class="tx"><?php echo ___('Basic Settings');?></span>
 					</dt>
 					<dd>
@@ -140,7 +177,7 @@ class theme_options{
 					
 					<?php do_action('before_page_settings');?>
 					<dt title="<?php echo ___('Theme appearance/template settings.');?>">
-						<i class="fa fa-paint-brush"></i>
+						<i class="fa fa-fw fa-paint-brush"></i>
 						<span class="tx"><?php echo ___('Page Settings');?></span>
 					</dt>
 					<dd>
@@ -150,7 +187,7 @@ class theme_options{
 					
 					<?php do_action('before_advanced_settings');?>
 					<dt title="<?php echo ___('Theme special settings, you need to know what are you doing.');?>">
-						<i class="fa fa-cogs"></i>
+						<i class="fa fa-fw fa-cogs"></i>
 						<span class="tx"><?php echo ___('Advanced Settings');?></span>
 					</dt>
 					<dd>
@@ -160,7 +197,7 @@ class theme_options{
 										
 					<?php do_action('before_dev_settings');?>
 					<dt>
-						<i class="fa fa-code"></i>
+						<i class="fa fa-fw fa-code"></i>
 						<span class="tx"><?php echo ___('Developer Mode');?></span>
 					</dt>
 					<dd>
@@ -169,7 +206,7 @@ class theme_options{
 					
 					<?php do_action('before_help_settings');?>
 					<dt>
-						<i class="fa fa-question-circle"></i>
+						<i class="fa fa-fw fa-question-circle"></i>
 						<span class="tx"><?php echo ___('About &amp; Help');?></span>
 					</dt>
 					<dd>
@@ -179,10 +216,12 @@ class theme_options{
 				</dl>
 		
 				<p>
-					<input type="hidden" value="options-save" name="action" />
+					<input type="hidden" name="<?php echo self::$iden;?>[nonce]" value="<?php echo wp_create_nonce(self::$iden);?>">
+					
 					<input type="submit" value="<?php echo ___('Save all settings');?>" class="button button-primary button-large"/>
+					
 					<label for="options-restore" class="label-options-restore" title="<?php echo ___('Something error with theme? Try to restore. Be careful, theme options will be cleared up!');?>">
-						<input id="options-restore" name="options-restore" type="checkbox" value="1"/>
+						<input id="options-restore" name="<?php echo self::$iden;?>[restore]" type="checkbox" value="1"/>
 						<?php echo ___('Restore to theme default options');?>
 					</label>
 				</p>
@@ -198,19 +237,17 @@ class theme_options{
 	 * 
 	 */
 	private static function options_save(){
-		if(!current_user_can('manage_options'))
+		if(!self::current_user_can('manage_options'))
 			return false;
-		/** Check the action and save options */
-		if(isset($_POST['action']) && $_POST['action'] === 'options-save'){
-			$opts_new = apply_filters(self::$iden . '_save',[]);
-			
-			/** Reset the options? */
-			if(isset($_POST['options-restore'])){
-				/** Delete theme options */
-				set_theme_mod(self::$iden,[]);
-			}else{
-				set_theme_mod(self::$iden,$opts_new);
-			}
+
+		$opts_new = apply_filters(self::$iden . '_save',[]);
+		
+		/** Reset the options? */
+		if(isset($_POST[self::$iden]['restore'])){
+			/** Delete theme options */
+			set_theme_mod(self::$iden,[]);
+		}else{
+			set_theme_mod(self::$iden,$opts_new);
 		}
 	}
 	/**
@@ -253,32 +290,16 @@ class theme_options{
 	 * @author KM@INN STUDIO
 	 */
 	private static function is_options_page(){
-		if(!current_user_can('manage_options'))
+		if(!self::current_user_can('manage_options'))
 			return false;
-		if(is_admin() && isset($_GET['page']) && $_GET['page'] === basename(__FILE__,'.php')){
+			
+		if(is_admin() && isset($_GET['page']) && $_GET['page'] === 'core-options'){
 			return true;
 		}else{
 			return false;
 		}
 	}
-	/**
-	 * redirect
-	 * 
-	 * @return n/a
-	 * @version 1.0.0
-	 * @author KM@INN STUDIO
-	 */
-	private static function redirect(){
-		if(!current_user_can('manage_options'))
-			return false;
-		if(self::is_options_page() && isset($_POST['action']) && $_POST['action'] === 'options-save'){
-			if(isset($_GET['updated'])){
-				wp_redirect(get_current_url());
-			}else{
-				wp_redirect(add_query_arg('updated',true,get_current_url()));
-			}
-		}
-	}
+
 	/**
 	 * Add to page
 	 * 
@@ -289,10 +310,15 @@ class theme_options{
 	 * 
 	 */
 	public static function add_page(){
-		if(!current_user_can('manage_options'))
+		if(!self::current_user_can('manage_options'))
 			return false;
 		/* Add to theme setting menu */
-		add_theme_page(___('Theme settings'),___('Theme settings'), 'edit_themes', 'core-options',__CLASS__ . '::display');
+		add_theme_page(
+			___('Theme settings'),
+			___('Theme settings'), 
+			'edit_themes', 
+			'core-options',__CLASS__ . '::display'
+		);
 	}
 	/**
 	 * Add admin bar
@@ -304,7 +330,7 @@ class theme_options{
 	 * 
 	 */
 	public static function add_bar(){
-		if(!current_user_can('manage_options'))
+		if(!self::current_user_can('manage_options'))
 			return false;
 		
 		global $wp_admin_bar;
@@ -312,9 +338,7 @@ class theme_options{
 			'parent' => 'appearance',
 			'id' => 'theme_settings',
 			'title' => ___('Theme settings'),
-			'href' => admin_url('themes.php?page=core-options')
+			'href' => self::get_url()
 		));
 	}
 }
-/* End Theme Options */
-?>

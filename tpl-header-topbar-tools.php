@@ -65,8 +65,8 @@ if(is_user_logged_in()){
 		<!-- pm -->
 		<?php if(class_exists('theme_pm')){ ?>
 			<a href="<?php echo theme_pm::get_url();?>" class="meta tool-favor btn btn-default">
-				<i class="fa fa-envelope"></i>
-				<?php echo ___('My favor fa-fw');?>
+				<i class="fa fa-envelope fa-fw"></i>
+				<?php echo ___('My favor');?>
 				<?php if(theme_pm::get_unread_count() != 0){ ?>
 					<span class="badge"><?php echo theme_pm::get_unread_count();?></span>
 				<?php } ?>

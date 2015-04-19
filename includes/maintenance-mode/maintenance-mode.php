@@ -2,7 +2,7 @@
 /*
 Feature Name:	Maintenance Mode
 Feature URI:	http://www.inn-studio.com
-Version:		1.1.3
+Version:		1.1.5
 Description:	Site in the background to maintain or measured using the change function, visitors will jump to a specified page, the administrator will not.
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -15,31 +15,52 @@ class maintenance_mode{
 	public static $iden = 'maintenance_mode';
 	
 	public static function init(){
-		add_action('base_settings', __CLASS__ . '::backend_display',90);
-		add_action('wp_head', __CLASS__ . '::redirect',10);
+		add_action('dev_settings', __CLASS__ . '::display_backend',90);
+		add_action('after_setup_theme', __CLASS__ . '::redirect');
 		add_filter('theme_options_save', __CLASS__ . '::options_save');
-		add_action('wp_ajax_nopriv_maintenance_mode', __CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . self::$iden, __CLASS__ . '::process');
 	
 	}
-	/**
-	 * Admin Display
-	 */
-	public static function backend_display(){
+	public static function get_options($key = null){
+		static $caches = [];
+		if(!isset($caches[self::$iden]))
+			$caches[self::$iden] = theme_options::get_options(self::$iden);
+
+		if($key){
+			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
+		}else{
+			return $caches[self::$iden];
+		}
+	}
+	public static function has_url(){
+		static $caches = [];
+		if(!isset($caches[self::$iden]))
+			$caches[self::$iden] = trim(esc_url(self::get_options('url')));
+
+		return empty($caches[self::$iden]) ? null : $caches[self::$iden];
+	}
+	public static function display_backend(){
 		
-		$options = theme_options::get_options();
-		$maintenance_mode = isset($options['maintenance_site_url']) ?  stripslashes($options['maintenance_site_url']): null
+		$options = self::get_options();
+		$url = isset($options['url']) ?  stripslashes($options['url']): null
 		?>
 		<!-- maintenance_mode -->
 		<fieldset>
-			<legend><?php echo esc_html(___('Maintenance Mode'));?></legend>
+			<legend><?php echo ___('Maintenance Mode');?></legend>
 			<p class="description"><?php echo esc_html(___('If your site needs to test privately, maybe fill a URL in the redirect area that the the visitors will see the redirect page but yourself, otherwise left blank.'));?></p>
-			<p class="description"><strong><?php echo esc_html(___('Attention: if theme has frontend log-in page, please DO NOT use maintenance mode, or you can not log-in to background.'));?></strong></p>
+			<p class="description"><strong><?php echo ___('Attention: if theme has frontend log-in page, please DO NOT use maintenance mode, or you can not log-in to background.');?></strong></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="maintenance_site_url"><?php echo ___('Redirect URL (include http://):');?></label></th>
-						<td><input type="url" id="maintenance_site_url" name="maintenance_site_url" class="widefat" value="<?php echo $maintenance_mode;?>"/>
-							<p class="description"><?php echo ___('Optional template URL: ');?><input type="url" class="regular-text text-select" value="<?php echo theme_features::get_process_url(array('action'=>'maintenance_mode'));?>" readonly /></p>
+						<th scope="row"><label for="<?php echo self::$iden;?>-url"><?php echo ___('Redirect URL (include http://):');?></label></th>
+						<td>
+							<input type="url" id="<?php echo self::$iden;?>-url" name="<?php echo self::$iden;?>[url]" class="widefat" value="<?php echo $url;?>"/>
+							
+							<p class="description">
+								<?php echo ___('Optional template URL: ');?>
+							
+								<input type="url" class="widfat text-select" value="<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>" readonly />
+							</p>
 						</td>
 					</tr>
 				</tbody>
@@ -48,13 +69,14 @@ class maintenance_mode{
 	<?php
 	}
 	public static function process($output){
-		
+		if(!self::has_url())
+			return;
 		$output = '
 <!doctype html>
 <html lang="' . get_bloginfo('language') . '">
 	<head>
 	<meta charset="' . get_bloginfo( 'charset' ) . '">
-	<title>' . esc_attr(get_bloginfo('name')) . ' - ' . esc_attr(___('Maintenance Mode')) . '</title>
+	<title>' . esc_attr(get_bloginfo('name')) . ' - ' . ___('Maintenance Mode') . '</title>
 	<style>
 	body {font:20px/2 "Microsoft YaHei",Arial,"Liberation Sans",FreeSans,sans-serif;text-align: center; padding: 150px; color: #333;}
 	article { display: block; text-align: left; width: 650px; margin: 0 auto; }
@@ -65,7 +87,7 @@ class maintenance_mode{
 	</head>
 	 <body>
 		<article>
-		<h1>' . esc_html(___('We&rsquo;ll be back soon!')) . '</h1>
+		<h1>' . ___('We&rsquo;ll be back soon!') . '</h1>
 		<p>' . sprintf(___('Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. If you need to you can always <a href="mailto:%s">contact us</a>, otherwise we&rsquo;ll be back online shortly!'),esc_html(get_bloginfo('admin_email'))) . '</p>
 		<p class="by">&mdash; ' . esc_html(get_bloginfo('name')) . '</p>
 		</article>
@@ -79,16 +101,18 @@ class maintenance_mode{
 	 * Save options
 	 */
 	public static function options_save($options){
-		$options['maintenance_site_url'] = isset($_POST['maintenance_site_url']) ? esc_url($_POST['maintenance_site_url']) : null;
+		if(isset($_POST[self::$iden])){
+			$options[self::$iden] = $_POST[self::$iden];
+		}
 		return $options;
 	}
 	/**
 	 * Redirect
 	 */
 	public static function redirect(){
-		$options = theme_options::get_options();
-		if(!current_user_can('administrator') && !empty($options['maintenance_site_url'])){
-			header('Location: '.$options['maintenance_site_url']);
+		$url = self::has_url();
+		if(!current_user_can('manage_options') && $url){
+			header("Location: $url");
 			die();
 		}
 	}

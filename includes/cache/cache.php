@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme-cache
 Feature URI:	http://inn-studio.com
-Version:		2.1.2
+Version:		2.1.3
 Description:	theme-cache
 Author:			INN STUDIO
 Author URI:		http://inn-studio.com
@@ -14,7 +14,7 @@ add_filter('theme_includes',function($fns){
 });
 class theme_cache{
 	public static $cache_expire = 3600;
-	public static $iden = 'theme-cache';
+	public static $iden = 'theme_cache';
 	
 	public static $cache;
 	public static $cache_key;
@@ -22,7 +22,7 @@ class theme_cache{
 	public static function init(){
 		self::$cache_key = md5(AUTH_KEY . theme_functions::$iden);
 		
-		add_action('base_settings',__CLASS__ . '::backend_display');
+		add_action('dev_settings',__CLASS__ . '::display_backend');
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 		/**
 		 * When delete menu
@@ -106,7 +106,7 @@ class theme_cache{
 	/**
 	 * Admin Display
 	 */
-	public static function backend_display(){
+	public static function display_backend(){
 		?>
 		<fieldset id="<?php echo self::$iden;?>">
 			<legend><?php echo ___('Theme cache');?></legend>
@@ -132,7 +132,7 @@ class theme_cache{
 									<?php echo ___('Enable theme object cache');?>
 								</a>
 							<?php } ?>
-							<span class="description"><span class="icon-exclamation"></span><span class="after-icon"><?php echo ___('Save your settings before click.');?></span></span>
+							<span class="description"><i class="fa fa-exclamation-circle"></i> <?php echo ___('Save your settings before click.');?></span>
 							
 						</p></td>
 					</tr>
@@ -153,7 +153,7 @@ class theme_cache{
 								<a href="<?php echo self::get_process_url('nav-menus');?>" class="button" onclick="javascript:this.innerHTML='<?php echo ___('Processing, please wait...');?>'"><?php echo ___('Clean menu cache');?></a>
 								
 								
-								<span class="description"><span class="icon-exclamation"></span><span class="after-icon"><?php echo ___('Save your settings before clean');?></span></span>
+								<span class="description"><i class="fa fa-exclamation-circle"></i> <?php echo ___('Save your settings before clean');?></span>
 								
 							</p>
 						</td>
@@ -354,6 +354,10 @@ class theme_cache{
 		return $cache;
 	}
 	private static function get_page_prefix(){
+		static $caches = [];
+		if(isset($caches[self::$iden]))
+			return $caches[self::$iden];
+			
 		if(is_singular()){
 			global $post;
 			$cache_id_prefix = 'post-' . $post->ID;
@@ -379,7 +383,8 @@ class theme_cache{
 		}else{
 			$cache_id_prefix = 'unknow';
 		}
-		return $cache_id_prefix;
+		$caches[self::$iden] = $cache_id_prefix;
+		return $caches[self::$iden];
 	}
 	/**
 	 * output dynamic sidebar from cache
