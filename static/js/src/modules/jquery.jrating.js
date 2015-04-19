@@ -54,40 +54,40 @@ require('theme_css/modules/jrating.css');
 			globalWidth = 0,
 			nbOfRates = opts.nbRates;
 
-			if($(this).hasClass('jDisabled') || opts.isDisabled)
+			if(jQuery(this).hasClass('jDisabled') || opts.isDisabled)
 				var jDisabled = true;
 			else
 				var jDisabled = false;
 
 			getStarWidth();
-			$(this).height(starHeight);
+			jQuery(this).height(starHeight);
 
-			var average = parseFloat($(this).data('average')), // get the average of all rates
-			idBox = parseInt($(this).data('id')), // get the id of the box
+			var average = parseFloat(jQuery(this).data('average')), // get the average of all rates
+			idBox = parseInt(jQuery(this).data('id')), // get the id of the box
 			widthRatingContainer = starWidth*opts.length, // Width of the Container
 			widthColor = average/opts.rateMax*widthRatingContainer, // Width of the color Container
 
 			quotient =
-			$('<div>',
+			jQuery('<div>',
 			{
 				'class' : 'jRatingColor',
 				css:{
 					width:widthColor
 				}
-			}).appendTo($(this)),
+			}).appendTo(jQuery(this)),
 
 			average =
-			$('<div>',
+			jQuery('<div>',
 			{
 				'class' : 'jRatingAverage',
 				css:{
 					width:0,
 					top:- starHeight
 				}
-			}).appendTo($(this)),
+			}).appendTo(jQuery(this)),
 
 			 jstar =
-			$('<div>',
+			jQuery('<div>',
 			{
 				'class' : 'jStar',
 				css:{
@@ -96,33 +96,33 @@ require('theme_css/modules/jrating.css');
 					top:- (starHeight*2)/*,
 					background: 'url('+bgPath+') repeat-x'*/
 				}
-			}).appendTo($(this));
+			}).appendTo(jQuery(this));
 
 
-			$(this).css({width: widthRatingContainer,overflow:'hidden',zIndex:1,position:'relative'});
+			jQuery(this).css({width: widthRatingContainer,overflow:'hidden',zIndex:1,position:'relative'});
 
 			if(!jDisabled)
-			$(this).off().on({
+			jQuery(this).off().on({
 				mouseenter : function(e){
 					var realOffsetLeft = findRealLeft(this);
 					var relativeX = e.pageX - realOffsetLeft;
 					if (opts.showRateInfo)
 					var tooltip =
-					$('<p>',{
+					jQuery('<p>',{
 						'class' : 'jRatingInfos',
 						html : getNote(relativeX)+' <span class="maxRate">/ '+opts.rateMax+'</span>',
 						css : {
 							// top: (e.pageY + opts.rateInfosY),
-							top: ($(this).offset().top - $(this).height()),
+							top: (jQuery(this).offset().top - jQuery(this).height()),
 							left: (e.pageX + opts.rateInfosX)
 						}
 					}).appendTo('body').show();
 				},
 				mouseover : function(e){
-					$(this).css('cursor','pointer');
+					jQuery(this).css('cursor','pointer');
 				},
 				mouseout : function(){
-					$(this).css('cursor','default');
+					jQuery(this).css('cursor','default');
 					if(hasRated) average.width(globalWidth);
 					else average.width(0);
 				},
@@ -133,14 +133,14 @@ require('theme_css/modules/jrating.css');
 					else newWidth = relativeX;
 					average.width(newWidth);
 					if (opts.showRateInfo)
-					$("p.jRatingInfos")
+					jQuery("p.jRatingInfos")
 					.css({
 						left: (e.pageX + opts.rateInfosX)
 					})
 					.html(getNote(newWidth) +' <span class="maxRate">/ '+opts.rateMax+'</span>');
 				},
 				mouseleave : function(){
-					$("p.jRatingInfos").remove();
+					jQuery("p.jRatingInfos").remove();
 				},
 				click : function(e){
                     var element = this;
@@ -150,17 +150,17 @@ require('theme_css/modules/jrating.css');
 					globalWidth = newWidth;
 					nbOfRates--;
 
-					if(!opts.canRateAgain || parseInt(nbOfRates) <= 0) $(this).unbind().css('cursor','default').addClass('jDisabled');
+					if(!opts.canRateAgain || parseInt(nbOfRates) <= 0) jQuery(this).unbind().css('cursor','default').addClass('jDisabled');
 
-					if (opts.showRateInfo) $("p.jRatingInfos").fadeOut('fast',function(){$(this).remove();});
+					if (opts.showRateInfo) jQuery("p.jRatingInfos").fadeOut('fast',function(){jQuery(this).remove();});
 					e.preventDefault();
 					var rate = getNote(newWidth);
 					average.width(newWidth);
 
 
 					/** ONLY FOR THE DEMO, YOU CAN REMOVE THIS CODE **/
-						// $('.datasSent p').html('<strong>idBox : </strong>'+idBox+'<br /><strong>rate : </strong>'+rate+'<br /><strong>action :</strong> rating');
-						// $('.serverResponse p').html('<strong>Loading...</strong>');
+						// jQuery('.datasSent p').html('<strong>idBox : </strong>'+idBox+'<br /><strong>rate : </strong>'+rate+'<br /><strong>action :</strong> rating');
+						// jQuery('.serverResponse p').html('<strong>Loading...</strong>');
 					/** END ONLY FOR THE DEMO **/
 
 					if(opts.onClick) opts.onClick( element, rate );
@@ -195,7 +195,7 @@ require('theme_css/modules/jrating.css');
 								// if(!data.error)
 								// {
 									// /** ONLY FOR THE DEMO, YOU CAN REMOVE THIS CODE **/
-										// $('.serverResponse p').html(data.server);
+										// jQuery('.serverResponse p').html(data.server);
 									// /** END ONLY FOR THE DEMO **/
 
 
@@ -208,7 +208,7 @@ require('theme_css/modules/jrating.css');
 								// {
 
 									// /** ONLY FOR THE DEMO, YOU CAN REMOVE THIS CODE **/
-										// $('.serverResponse p').html(data.server);
+										// jQuery('.serverResponse p').html(data.server);
 									// /** END ONLY FOR THE DEMO **/
 
 									// /** Here you can display an alert box,

@@ -30,8 +30,8 @@ define(function(require, exports, module){
 				
 				var $hs = this.find('h1, h2, h3, h4, h5, h6');
 				if(!$hs[0]) return false;
-				var $toc_title = $('<div class="toc-title">' + exports.config.lang.M00001 + '</div>'),
-					$target = $(options.id).append($toc_title),
+				var $toc_title = jQuery('<div class="toc-title">' + exports.config.lang.M00001 + '</div>'),
+					$target = jQuery(options.id).append($toc_title),
 					prevLevel = 0,
 					
 					getLevel = function(tagname) {
@@ -49,10 +49,10 @@ define(function(require, exports, module){
 						return '__toc_id:' + Math.floor(Math.random() * 100000);
 					};
 				$hs.each(function() {
-					var that = $(this),
+					var that = jQuery(this),
 						currentLevel = getLevel(that[0].tagName.toLowerCase());
 					if(currentLevel > prevLevel) {
-						var tmp = $('<ul></ul>').data('level', currentLevel);
+						var tmp = jQuery('<ul></ul>').data('level', currentLevel);
 						$target = $target.append(tmp);
 						$target = tmp;
 						
@@ -69,28 +69,28 @@ define(function(require, exports, module){
 						that.attr({ 'id': txtId });
 					}
 
-					var alink = $('<a></a>').text(txt).attr({ 'href': '#' + txtId });
-					$target.append($('<li></li>').append(alink));
+					var alink = jQuery('<a></a>').text(txt).attr({ 'href': '#' + txtId });
+					$target.append(jQuery('<li></li>').append(alink));
 					prevLevel = currentLevel;
 					/** 
 					 * add [top] link
 					 */
-					var $gotop = $('<a></a>').
+					var $gotop = jQuery('<a></a>').
 						text(exports.config.lang.M00002)
 						.attr({'href' : options.id})
 						.addClass('gotop');
 					$gotop.appendTo(that);
 				});
 				$toc_title.on('click',function(){
-					$(options.id).find('>ul').toggle('fast');
+					jQuery(options.id).find('>ul').toggle('fast');
 				
 				});
 				return this;
 			};
 		}($));
 	
-		var $toc = $('<nav id="post-toc"></nav>'),
-			$post_content = $(exports.config.post_content_id);
+		var $toc = jQuery('<nav id="post-toc"></nav>'),
+			$post_content = jQuery(exports.config.post_content_id);
 		if(!$post_content.find('h1, h2, h3, h4, h5, h6')[0]) return false;
 		$toc.insertBefore($post_content);
 		$post_content.toc({id:'#post-toc'});

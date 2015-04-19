@@ -17,7 +17,7 @@ define(function(require, exports, module){
 	 * @copyright Copyright (c) 2011-2013 INN STUDIO. (http://www.inn-studio.com)
 	 **/
 	exports.init = function(){
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			exports.bind();
 		});
 	};
@@ -42,7 +42,7 @@ define(function(require, exports, module){
 		process_url : ''
 	};
 	exports.init = function(){
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			exports.bind();
 		});
 	};
@@ -55,8 +55,8 @@ define(function(require, exports, module){
 	 * 
 	 */
 	exports.bind = function(){
-		$(exports.config.post_thumb_id).on('click',function(){
-			exports.cache.$post_thumb = $(this);
+		jQuery(exports.config.post_thumb_id).on('click',function(){
+			exports.cache.$post_thumb = jQuery(this);
 			/** 
 			 * need data-post-thumb="post_id,up"
 			 */

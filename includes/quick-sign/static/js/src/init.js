@@ -23,7 +23,7 @@ define(function(require, exports, module){
 	exports.cache = {};
 	
 	exports.init = function(){
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			if(!js_request['user']['logged']){
 				exports.login.bind();
 				// exports.register.bind();
@@ -36,7 +36,7 @@ define(function(require, exports, module){
 	exports.tab = {
 		init : function(current_tab){
 			require.async(['modules/jquery.kandytabs'],function(_a){
-				exports.cache.$tab_container = $(exports.common.tpl());
+				exports.cache.$tab_container = jQuery(exports.common.tpl());
 				exports.cache.$tab_loading = exports.cache.$tab_container.find('#q-sign-loading');
 				exports.cache.$tab = exports.cache.$tab_container.find('#q-sign');
 				// exports.cache.$fm_login = exports.cache.$tab.find('#q-login');
@@ -100,10 +100,10 @@ define(function(require, exports, module){
 							switch(data.id){
 								case 'empty_user_login':
 								case 'invalid_nickname':
-									$('#r-user-name').select();
+									jQuery('#r-user-name').select();
 								break;
 								case 'email_exists':
-									$('#r-user-email').select();
+									jQuery('#r-user-email').select();
 								break;
 							}
 						}
@@ -119,7 +119,7 @@ define(function(require, exports, module){
 	};
 	exports.login = {
 		bind : function(){
-			exports.cache.$btn_login = $(exports.config.btn_login_id);
+			exports.cache.$btn_login = jQuery(exports.config.btn_login_id);
 			if(!exports.cache.$btn_login[0]) return false;
 			exports.cache.$btn_login.on('click',function(){
 				/** ╪сть dialog */
@@ -255,7 +255,7 @@ define(function(require, exports, module){
 	};
 	exports.logged = {
 		init : function(){
-			$('#sign').html($(exports.logged.tpl()));
+			jQuery('#sign').html(jQuery(exports.logged.tpl()));
 		},
 		tpl : function(){
 			return '<a href="' + js_request['user']['posts_url'] + '" class="logged" target="_blank">' + 

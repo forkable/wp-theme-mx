@@ -94,7 +94,7 @@ define(function(require, exports, module){
 		}
 	};
 	
-	exports.$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? $('html') : $('body');
+	exports.$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? jQuery('html') : jQuery('body');
 	/**
 	 * validate
 	 *
@@ -119,7 +119,7 @@ define(function(require, exports, module){
 			that.$fm.validate({
 				rules : that.rules,
 				submitHandler : function(fm){
-					that.$fm = $(fm);
+					that.$fm = jQuery(fm);
 					if(!cache.$tip){
 						cache.$tip = that.$fm.find('.submit-tip').hide();
 					}
@@ -227,7 +227,7 @@ define(function(require, exports, module){
 	/**
 	 * in_screen
 	 *
-	 * @param object $(selector)
+	 * @param object jQuery(selector)
 	 * @return bool
 	 * @link https://msdn.microsoft.com/en-us/library/ie/ms534303%28v=vs.85%29.aspx
 	 */
@@ -243,7 +243,7 @@ define(function(require, exports, module){
 	 * auto_focus
 	 * 
 	 * 
-	 * @return $(obj) $this the focus element of jq
+	 * @return jQuery(obj) $this the focus element of jq
 	 * @version 1.0.1
 	 * @author KM@INN STUDIO
 	 * 
@@ -267,7 +267,7 @@ define(function(require, exports, module){
 	 * @params $this the form $ object
 	 * @return object 
 	 * @return object.is_invalid bool The value is null or false
-	 * @return object.$this $($this) This current object
+	 * @return object.$this jQuery($this) This current object
 	 * @version 1.0.1
 	 * @author KM@INN STUDIO
 	 * 
@@ -279,7 +279,7 @@ define(function(require, exports, module){
 				is_invalid : false
 			};
 		fm.find("[required]").each(function(i){
-			var $this = $(this);
+			var $this = jQuery(this);
 			if(!($.trim($this.val())) && !return_data.is_invalid){
 				warning_effect(100,5,function(){
 					$this.css({'border-color':'red'});

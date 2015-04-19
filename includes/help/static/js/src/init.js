@@ -2,7 +2,7 @@ define(function(require, exports, module){
 	
 	exports.init = function(){
 		var that = exports;
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			that.alipay.init();
 			that.paypal.init();
 		});
@@ -21,7 +21,7 @@ define(function(require, exports, module){
 		init : function(){
 			var _this = this,
 				that = this.that;
-			var $btn = $(_this.config.btn_id);
+			var $btn = jQuery(_this.config.btn_id);
 			if(!$btn[0]) return false;
 			$btn.on('click',function(){
 				if(_this.cache.$fm){
@@ -38,7 +38,7 @@ define(function(require, exports, module){
 						'lc' : 'US',
 						'no_note' : '0'
 					},
-					$fm = $('<form></form>')
+					$fm = jQuery('<form></form>')
 						.attr({
 							'accept-charset' : 'GBK',
 							'name' : '_xclick',
@@ -73,7 +73,7 @@ define(function(require, exports, module){
 		init : function(){
 			var _this = this,
 				that = this.that;
-			var $btn = $(_this.config.btn_id);
+			var $btn = jQuery(_this.config.btn_id);
 			if(!$btn[0]) return false;
 			$btn.on('click',function(){
 				if(_this.cache.$fm){
@@ -87,7 +87,7 @@ define(function(require, exports, module){
 						'memo' : _this.config.lang.M00002,
 						'payAmount' : ''
 					},
-					$fm = $('<form></form>')
+					$fm = jQuery('<form></form>')
 						.attr({
 							'accept-charset' : 'GBK',
 							'id' : 'fm-alipay-donate',
@@ -111,7 +111,7 @@ define(function(require, exports, module){
 		submit : function(inputs,$fm){
 			inputs = inputs.join('',inputs);
 			$fm.append(inputs);
-			$('body').prepend($fm);
+			jQuery('body').prepend($fm);
 			$fm.submit();
 		}
 	

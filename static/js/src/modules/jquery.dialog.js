@@ -13,7 +13,7 @@
 define("popup", function (require) {
 
 var _count = 0;
-var _isIE6 = !('minWidth' in $('html')[0].style);
+var _isIE6 = !('minWidth' in jQuery('html')[0].style);
 var _isFixed = !_isIE6;
 
 
@@ -22,7 +22,7 @@ function Popup () {
     this.destroyed = false;
 
 
-    this.__popup = $('<div />')/*使用 <dialog /> 可能导致 z-index 永远置顶的问题*/
+    this.__popup = jQuery('<div />')/*使用 <dialog /> 可能导致 z-index 永远置顶的问题*/
     .attr({
         tabindex: '-1'
     })
@@ -45,7 +45,7 @@ function Popup () {
     .appendTo('body');
 
 
-    this.__backdrop = $('<div />');
+    this.__backdrop = jQuery('<div />');
 
 
     // 使用 HTMLElement 作为外部接口使用，而不是 jquery 对象
@@ -171,7 +171,7 @@ $.extend(Popup.prototype, {
 
 
             if (!_isIE6) {
-                $(window).on('resize', this.__onresize = function () {
+                jQuery(window).on('resize', this.__onresize = function () {
                     that.reset();
                 });
             }
@@ -242,7 +242,7 @@ $.extend(Popup.prototype, {
         this.__backdrop.remove();
 
         if (!_isIE6) {
-            $(window).off('resize', this.__onresize);
+            jQuery(window).off('resize', this.__onresize);
         }
 
         this.__dispatchEvent('remove');
@@ -417,8 +417,8 @@ $.extend(Popup.prototype, {
     __center: function () {
     
         var popup = this.__popup;
-        var $window = $(window);
-        var $document = $(document);
+        var $window = jQuery(window);
+        var $document = jQuery(document);
         var fixed = this.fixed;
         var dl = fixed ? 0 : $document.scrollLeft();
         var dt = fixed ? 0 : $document.scrollTop();
@@ -439,7 +439,7 @@ $.extend(Popup.prototype, {
     // 指定位置 @param    {HTMLElement, Event}  anchor
     __follow: function (anchor) {
         
-        var $elem = anchor.parentNode && $(anchor);
+        var $elem = anchor.parentNode && jQuery(anchor);
         var popup = this.__popup;
         
 
@@ -459,8 +459,8 @@ $.extend(Popup.prototype, {
         var that = this;
         var fixed = this.fixed;
 
-        var $window = $(window);
-        var $document = $(document);
+        var $window = jQuery(window);
+        var $document = jQuery(document);
         var winWidth = $window.width();
         var winHeight = $window.height();
         var docLeft =  $document.scrollLeft();
@@ -562,7 +562,7 @@ $.extend(Popup.prototype, {
     __offset: function (anchor) {
 
         var isNode = anchor.parentNode;
-        var offset = isNode ? $(anchor).offset() : {
+        var offset = isNode ? jQuery(anchor).offset() : {
             left: anchor.pageX,
             top: anchor.pageY
         };
@@ -578,10 +578,10 @@ $.extend(Popup.prototype, {
 
         // {Element Ifarme}
         var frameElement = defaultView.frameElement;
-        var $ownerDocument = $(ownerDocument);
+        var $ownerDocument = jQuery(ownerDocument);
         var docLeft =  $ownerDocument.scrollLeft();
         var docTop = $ownerDocument.scrollTop();
-        var frameOffset = $(frameElement).offset();
+        var frameOffset = jQuery(frameElement).offset();
         var frameLeft = frameOffset.left;
         var frameTop = frameOffset.top;
         
@@ -623,8 +623,8 @@ $.extend(Popup.prototype, {
         if (!_isFixed) {
             $.extend(backdropCss, {
                 position: 'absolute',
-                width: $(window).width() + 'px',
-                height: $(document).height() + 'px'
+                width: jQuery(window).width() + 'px',
+                height: jQuery(document).height() + 'px'
             });
         }
 
@@ -783,10 +783,10 @@ if (css) {
     if (fn) {
         css = fn(css);
         css = '<link rel="stylesheet" href="' + css + '" />';
-        if ($('base')[0]) {
-            $('base').before(css);
+        if (jQuery('base')[0]) {
+            jQuery('base').before(css);
         } else {
-            $('head').append(css);
+            jQuery('head').append(css);
         } 
     }
 }
@@ -794,7 +794,7 @@ if (css) {
 
 var _count = 0;
 var _expando = new Date() - 0; // Data.now()
-var _isIE6 = !('minWidth' in $('html')[0].style);
+var _isIE6 = !('minWidth' in jQuery('html')[0].style);
 var _isMobile = 'createTouch' in document && !('onmousemove' in document)
     || /(iPhone|iPad|iPod)/i.test(navigator.userAgent);
 var _isFixed = !_isIE6 && !_isMobile;
@@ -887,7 +887,7 @@ artDialog.create = function (options) {
 
     $.extend(this, new Popup());
 
-    var $popup = $(this.node).html(options.innerHTML);
+    var $popup = jQuery(this.node).html(options.innerHTML);
 
     this.options = options;
     this._popup = $popup;
@@ -910,15 +910,15 @@ artDialog.create = function (options) {
 
     // 设置 ARIA 信息
     $popup.attr({
-        'aria-labelledby': this._$('title')
+        'aria-labelledby': this._jQuery('title')
             .attr('id', 'title:' + this.id).attr('id'),
-        'aria-describedby': this._$('content')
+        'aria-describedby': this._jQuery('content')
             .attr('id', 'content:' + this.id).attr('id')
     });
 
 
     // 关闭按钮
-    this._$('close')
+    this._jQuery('close')
     .css('display', this.cancel === false ? 'none' : '')
     .attr('title', this.cancelValue)
     .on('click', function (event) {
@@ -928,13 +928,13 @@ artDialog.create = function (options) {
     
 
     // 添加视觉参数
-    this._$('dialog').addClass(this.skin);
-    this._$('body').css('padding', this.padding);
+    this._jQuery('dialog').addClass(this.skin);
+    this._jQuery('body').css('padding', this.padding);
 
 
     // 按钮组点击
     $popup.on('click', '[data-id]', function (event) {
-        var $this = $(this);
+        var $this = jQuery(this);
         if (!$this.attr('disabled')) {// IE BUG
             that._trigger($this.data('id'));
         }
@@ -945,7 +945,7 @@ artDialog.create = function (options) {
 
     // 点击遮罩自动关闭对话框
     if (options.quickClose) {
-        $(this.backdrop).on(
+        jQuery(this.backdrop).on(
             'onmousedown' in document ? 'mousedown' : 'click',
             function () {
             that._trigger('cancel');
@@ -972,9 +972,9 @@ artDialog.create = function (options) {
         }
     };
 
-    $(document).on('keydown', this._esc);
+    jQuery(document).on('keydown', this._esc);
     this.addEventListener('remove', function () {
-        $(document).off('keydown', this._esc);
+        jQuery(document).off('keydown', this._esc);
         delete artDialog.list[this.id];
     });
 
@@ -1094,7 +1094,7 @@ $.extend(prototype, {
      */
     content: function (html) {
     
-        this._$('content').empty('')
+        this._jQuery('content').empty('')
         [typeof html === 'object' ? 'append' : 'html'](html);
                 
         return this.reset();
@@ -1106,22 +1106,22 @@ $.extend(prototype, {
      * @param    {String}   标题内容
      */
     title: function (text) {
-        this._$('title').text(text);
-        this._$('header')[text ? 'show' : 'hide']();
+        this._jQuery('title').text(text);
+        this._jQuery('header')[text ? 'show' : 'hide']();
         return this;
     },
 
 
     /** 设置宽度 */
     width: function (value) {
-        this._$('content').css('width', value);
+        this._jQuery('content').css('width', value);
         return this.reset();
     },
 
 
     /** 设置高度 */
     height: function (value) {
-        this._$('content').css('height', value);
+        this._jQuery('content').css('height', value);
         return this.reset();
     },
 
@@ -1169,15 +1169,15 @@ $.extend(prototype, {
             });
         }
 
-        this._$('footer')[number ? 'show' : 'hide']();
-        this._$('button').html(html);
+        this._jQuery('footer')[number ? 'show' : 'hide']();
+        this._jQuery('button').html(html);
         
         return this;
     },
 
 
     statusbar: function (html) {
-        this._$('statusbar')
+        this._jQuery('statusbar')
         .html(html)[html ? 'show' : 'hide']();
 
         return this;
@@ -1254,8 +1254,8 @@ return artDialog;
 define("drag", function (require) {
 
 
-var $window = $(window);
-var $document = $(document);
+var $window = jQuery(window);
+var $document = jQuery(document);
 var isTouch = 'createTouch' in document;
 var html = document.documentElement;
 var isIE6 = !('minWidth' in html.style);
@@ -1322,7 +1322,7 @@ DragEvent.prototype = {
     startFix: function (event) {
         event = getEvent(event);
 
-        this.target = $(event.target);
+        this.target = jQuery(event.target);
         this.selectstart = function () {
             return false;
         };
@@ -1378,7 +1378,7 @@ DragEvent.prototype = {
  * @param   {Event} 触发拖拽的事件对象。可选，若无则监听 elem 的按下事件启动
  */
 DragEvent.create = function (elem, event) {
-    var $elem = $(elem);
+    var $elem = jQuery(elem);
     var dragEvent = new DragEvent();
     var startType = DragEvent.types.start;
     var noop = function () {};
@@ -1496,7 +1496,7 @@ dialog.oncreate = function (api) {
     if (url) {
         this.padding = options.padding = 0;
 
-        $iframe = $('<iframe />');
+        $iframe = jQuery('<iframe />');
 
         $iframe.attr({
             src: url,
@@ -1562,7 +1562,7 @@ dialog.oncreate = function (api) {
                 if (originalOptions instanceof frames[i].Object) {
                     // 让 iframe 刷新前时候也关闭对话框，
                     // 防止要执行的对象被强制收回导致 IE 报错：“不能执行已释放 Script 的代码”
-                    $(frames[i]).one('unload', un);
+                    jQuery(frames[i]).one('unload', un);
                     break;
                 }
             } catch (e) {} 
@@ -1571,7 +1571,7 @@ dialog.oncreate = function (api) {
 
 
     // 拖拽支持
-    $(api.node).on(drag.types.start, '[i=title]', function (event) {
+    jQuery(api.node).on(drag.types.start, '[i=title]', function (event) {
         // 排除气泡类型的对话框
         if (!api.follow) {
             api.focus();

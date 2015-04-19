@@ -7,7 +7,7 @@ require('theme_css/modules/fancybox-buttons.css');
  * @requires fancyBox v2.0 or later
  *
  * Usage:
- *     $(".fancybox").fancybox({
+ *     jQuery(".fancybox").fancybox({
  *         helpers : {
  *             buttons: {
  *                 position : 'top'
@@ -61,7 +61,7 @@ require('theme_css/modules/fancybox-buttons.css');
 			var buttons = this.buttons;
 
 			if (!buttons) {
-				this.list = $(opts.tpl).addClass(opts.position).appendTo('body');
+				this.list = jQuery(opts.tpl).addClass(opts.position).appendTo('body');
 
 				buttons = {
 					prev   : this.list.find('.btnPrev').click( F.prev ),

@@ -14,8 +14,8 @@ exports.init = function(config){
 		ondone : function(data,i,file,count){},
 		onprogress : function(e){},
 		onerror : function(data,i,file,count){}
-	}
-	config = $.extend({},defaults,config);
+	},
+	config = jQuery.extend({},defaults,config);
 
 	if(!config.$file[0]) return false;
 	config.$file.on({
@@ -82,7 +82,7 @@ exports.init = function(config){
 	function complete(){
 		var data = this.responseText;
 		try{
-			data = $.parseJSON(this.responseText);
+			data = jQuery.parseJSON(this.responseText);
 		}catch(error){
 			data = false;
 		}

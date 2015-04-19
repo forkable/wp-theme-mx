@@ -5,8 +5,8 @@ define(function(require,exports,module){
 		height : 300
 	}
 	exports.init = function(){
-		$(document).ready(function(){
-			var $slide = $('#slidebox');
+		jQuery(document).ready(function(){
+			var $slide = jQuery('#slidebox');
 			if(!$slide[0]) return;
 			$slide.carousel({
 				interval: 5000 //changes the speed

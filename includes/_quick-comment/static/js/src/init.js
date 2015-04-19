@@ -51,7 +51,7 @@ define(function(require, exports, module){
 	exports.list = {
 		init : function($bind_ele){
 			/** 获取显示评论列表的按钮并写入到缓存 Get show comm btn and set to cache */
-			exports.cache.$show_comms = $(exports.config.show_comm_id);
+			exports.cache.$show_comms = jQuery(exports.config.show_comm_id);
 			if(!exports.cache.$show_comms[0]) return false;
 			if(!exports.cache.$show_comms.data('postId')) return false;
 			/** 绑定点击 Bind click event */
@@ -65,19 +65,19 @@ define(function(require, exports, module){
 			if(exports.config.is_singular){
 				if(location.hash.indexOf('#comment-') === 0){
 					exports.$scroll_ele.animate({
-						scrollTop : $(exports.config.comm_box_id + $ele.data('postId')).offset().top - 20
+						scrollTop : jQuery(exports.config.comm_box_id + $ele.data('postId')).offset().top - 20
 					})
 				}
 				$ele.on('click',function(){
 					exports.$scroll_ele.animate({
-						scrollTop : $('.comment-box').offset().top - 40
+						scrollTop : jQuery('.comment-box').offset().top - 40
 					},300);
 					
 				});
 				_this.core($ele,false);
 			}else{
 				$ele.on('click',function(){
-					_this.core($(this),true);
+					_this.core(jQuery(this),true);
 				});
 			}
 		},
@@ -87,7 +87,7 @@ define(function(require, exports, module){
 			/** 设置post id 缓存 */
 			if(!exports.cache.posts[exports.cache.post_id]) exports.cache.posts[exports.cache.post_id] = {};
 			/** 设置评论盒子容器 */
-			exports.cache.posts[exports.cache.post_id].$comm_box = $(exports.config.comm_box_id + exports.cache.post_id);
+			exports.cache.posts[exports.cache.post_id].$comm_box = jQuery(exports.config.comm_box_id + exports.cache.post_id);
 			/** 设置评论列表容器 */
 			exports.cache.posts[exports.cache.post_id].$comm_container = exports.cache.posts[exports.cache.post_id].$comm_box.find(exports.config.comms_container_id);
 			/** 设置评论提示 */
@@ -182,13 +182,13 @@ define(function(require, exports, module){
 							$child_comms = {},
 							$comms = {},
 							$parent_comms = {},
-							$comments_list = $(exports.config.comm_box_id + exports.cache.post_id);
+							$comments_list = jQuery(exports.config.comm_box_id + exports.cache.post_id);
 							
 						/** 
 						 * find all child & parent comments
 						 */
 						for(var i in comms){
-							$comms[i] = $(exports.tpl.get_comm(comms[i]));
+							$comms[i] = jQuery(exports.tpl.get_comm(comms[i]));
 							/** find child */
 							if(comms[i]['comment_parent']){
 								if(!child_comms[comms[i]['comment_parent']]) child_comms[comms[i]['comment_parent']] = [];
@@ -225,7 +225,7 @@ define(function(require, exports, module){
 						
 						/** 绑定点击 - 回复评论 */
 						exports.cache.posts[exports.cache.post_id].$reply_comm_btn.off().on('click',function(){
-							exports.respond.bind_core($(this));
+							exports.respond.bind_core(jQuery(this));
 							/** 取消默认行为 */
 							return false;
 						});
@@ -236,7 +236,7 @@ define(function(require, exports, module){
 						exports.list.tip('hide');
 						/** location.hash */
 						if(location.hash.indexOf('#comment-') === 0){
-							var $scroll_to_comment = $(location.hash);
+							var $scroll_to_comment = jQuery(location.hash);
 							if($scroll_to_comment[0]){
 								exports.$scroll_ele.animate({
 									scrollTop : $scroll_to_comment.offset().top - 20
@@ -247,7 +247,7 @@ define(function(require, exports, module){
 					}else if(data && data.status === 'error'){
 						/** no_comment */
 						if(data.id === 'no_comment'){
-							exports.cache.posts[exports.cache.post_id].$comm_tip.html($('<div class="no-comment">' + exports.config.lang.M00004 + '</div>'));
+							exports.cache.posts[exports.cache.post_id].$comm_tip.html(jQuery('<div class="no-comment">' + exports.config.lang.M00004 + '</div>'));
 						}else{
 							exports.list.tip('info',data.msg);
 						}
@@ -270,10 +270,10 @@ define(function(require, exports, module){
 	exports.respond = {
 		init : function($bind_ele){
 			/** 设置添加评论按钮的缓存 */
-			exports.cache.posts[exports.cache.post_id].$add_comm_btn = $(exports.config.add_comm_btn_id + exports.cache.post_id);
+			exports.cache.posts[exports.cache.post_id].$add_comm_btn = jQuery(exports.config.add_comm_btn_id + exports.cache.post_id);
 			/** 绑定点击 - 添加评论 */
 			exports.cache.posts[exports.cache.post_id].$add_comm_btn.off().on('click',function(){
-				exports.respond.bind_core($(this));
+				exports.respond.bind_core(jQuery(this));
 				/** 取消默认行为 */
 				return false;
 			});
@@ -287,7 +287,7 @@ define(function(require, exports, module){
 			/** 父评论id */
 			var comment_parent = $this.data('commentParent') ? $this.data('commentParent') : 0;
 			/** 设置评论弹出层模板 */
-			exports.cache.$respond = $(exports.tpl.get_respond({
+			exports.cache.$respond = jQuery(exports.tpl.get_respond({
 				post_id : exports.cache.post_id,
 				comment_parent : comment_parent
 			}));
@@ -429,7 +429,7 @@ define(function(require, exports, module){
 						var tpl_data = data.comment;
 						tpl_data.comment_class = ['new-comment'];
 							
-						exports.cache.$respond_comm = $(exports.tpl.get_comm(tpl_data)).hide();
+						exports.cache.$respond_comm = jQuery(exports.tpl.get_comm(tpl_data)).hide();
 						
 						/** 如果是子评论，插入到父评论中 */
 						if(tpl_data.comment_parent){
@@ -632,7 +632,7 @@ define(function(require, exports, module){
 	/** 
 	 * 滚动元素
 	 */
-	exports.$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? $('html') : $('body');
+	exports.$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? jQuery('html') : jQuery('body');
 	//get_dialog_width
 	exports.get_dialog_width = function(){
 		var bw = document.body.clientWidth;

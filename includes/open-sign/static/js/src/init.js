@@ -6,7 +6,7 @@ define(function(require, exports, module){
 	};
 	
 	exports.init = function(){
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			
 		});
 	};

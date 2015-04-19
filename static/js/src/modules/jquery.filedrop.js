@@ -61,7 +61,7 @@ define(function(require,exports,module){
 	$.fn.filedrop = function(options) {
 		opts = $.extend( {}, default_opts, options );
 		this.bind('change',drop).bind('drop', drop).bind('dragenter', dragEnter).bind('dragover', dragOver).bind('dragleave', dragLeave);
-		$(document).bind('drop', docDrop).bind('dragenter', docEnter).bind('dragover', docOver).bind('dragleave', docLeave);
+		jQuery(document).bind('drop', docDrop).bind('dragenter', docEnter).bind('dragover', docOver).bind('dragleave', docLeave);
 	};
      
 	function drop(e) {

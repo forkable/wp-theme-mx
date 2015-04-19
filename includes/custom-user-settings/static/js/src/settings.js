@@ -16,12 +16,12 @@ define(function(require, exports, module){
 		config = exports.config;
 		
 	exports.init = function(){
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			exports.bind();
 		})
 	}
 	exports.bind = function(){
-		cache.$fm = $('.user-form');
+		cache.$fm = jQuery('.user-form');
 		if(!cache.$fm[0]) return false;
 		fm_validate(cache.$fm);
 	}

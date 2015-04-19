@@ -2,7 +2,7 @@ define(function(require, exports, module){
 	'use strict';
 	var tools = require('modules/tools');
 	exports.init = function(){
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			bind();
 		});
 	}
@@ -15,15 +15,15 @@ define(function(require, exports, module){
 	}
 	function bind(){
 		add();
-		del($(exports.config.items_id));
+		del(jQuery(exports.config.items_id));
 		
 	}
 	function add(){
-		var $add = $(exports.config.add_id),
-			$control_container = $(exports.config.control_container_id);
+		var $add = jQuery(exports.config.add_id),
+			$control_container = jQuery(exports.config.control_container_id);
 		if(!$add[0]) return false;
 		$add.on('click',function(){
-			var $tpl = $(exports.config.tpl.replace(/\%placeholder\%/ig,get_random_int(100,999)));
+			var $tpl = jQuery(exports.config.tpl.replace(/\%placeholder\%/ig,get_random_int(100,999)));
 			del($tpl);
 			$control_container.before($tpl);
 			$tpl.find('input').eq(0).focus();
@@ -32,9 +32,9 @@ define(function(require, exports, module){
 	}
 	function del($tpl){
 		$tpl.find('.delete').on('click',function(){
-			$($(this).data('target')).css('background','#d54e21')
+			jQuery(jQuery(this).data('target')).css('background','#d54e21')
 			.fadeOut('slow',function(){
-				$(this).remove();
+				jQuery(this).remove();
 			})
 		})
 	}

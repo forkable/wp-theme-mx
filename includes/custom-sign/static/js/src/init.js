@@ -20,7 +20,7 @@ define(function(require, exports, module){
 	exports.cache = {};
 	
 	exports.init = function(){
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			// alert('a');
 			exports.sign.init();
 			exports.recover.init();
@@ -32,7 +32,7 @@ define(function(require, exports, module){
 	 */
 	exports.reset = {
 		init : function(){
-			exports.cache.$fm_reset = $(exports.config.fm_reset_id);
+			exports.cache.$fm_reset = jQuery(exports.config.fm_reset_id);
 			if(exports.cache.$fm_reset[0]){
 				tools.auto_focus(exports.cache.$fm_reset[0]);
 				var m = new tools.validate();
@@ -58,7 +58,7 @@ define(function(require, exports, module){
 	 */
 	exports.recover = {
 		init : function(){
-			exports.cache.$fm_recover = $(exports.config.fm_recover_id);
+			exports.cache.$fm_recover = jQuery(exports.config.fm_recover_id);
 				// alert('a');
 			if(exports.cache.$fm_recover[0]){
 				tools.auto_focus(exports.cache.$fm_recover[0]);
@@ -75,7 +75,7 @@ define(function(require, exports, module){
 	};
 	exports.sign = {
 		init : function(){
-			exports.cache.$fm_login = $(exports.config.fm_login_id);
+			exports.cache.$fm_login = jQuery(exports.config.fm_login_id);
 			if(exports.cache.$fm_login[0]){
 				tools.auto_focus(exports.cache.$fm_login[0]);
 				var m = new tools.validate();
@@ -92,7 +92,7 @@ define(function(require, exports, module){
 					m.$fm = exports.cache.$fm_login;
 					m.init();
 			}else{
-				exports.cache.$fm_reg = $(exports.config.fm_reg_id);
+				exports.cache.$fm_reg = jQuery(exports.config.fm_reg_id);
 				if(exports.cache.$fm_reg[0]){
 					tools.auto_focus(exports.cache.$fm_reg[0]);
 					var m = new tools.validate();

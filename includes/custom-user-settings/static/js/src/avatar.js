@@ -16,21 +16,21 @@ define(function(require, exports, module){
 		config = exports.config;
 		
 	exports.init = function(){
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			exports.bind();
 		});
 	}
 	exports.bind = function(){
-		cache.$fm = $('#fm-change-avatar');
-		cache.$crop_container = $('#cropper-container');
-		cache.$avatar_preview = $('#avatar-preview');
-		cache.$crop_done_btn = $('#cropper-done-btn');
-		cache.$base64 = $('#avatar-base64');
+		cache.$fm = jQuery('#fm-change-avatar');
+		cache.$crop_container = jQuery('#cropper-container');
+		cache.$avatar_preview = jQuery('#avatar-preview');
+		cache.$crop_done_btn = jQuery('#cropper-done-btn');
+		cache.$base64 = jQuery('#avatar-base64');
 		if(!cache.$crop_container[0]) return;
 		exports.upload();
 	}
 	exports.upload = function(){
-		cache.$file = $('#file');
+		cache.$file = jQuery('#file');
 		
 		cache.$file.on({
 			drop : file_select,
@@ -52,7 +52,7 @@ define(function(require, exports, module){
 					alert('Invaild file type.');
 					return false;
 				}
-				cache.$crop_img = $('<img src="' + reader.result + '" alt="cropper">');
+				cache.$crop_img = jQuery('<img src="' + reader.result + '" alt="cropper">');
 				cache.$crop_container.html(cache.$crop_img).fadeIn();
 				cache.$avatar_preview.show();
 				cache.$crop_img.cropper({
@@ -82,7 +82,7 @@ define(function(require, exports, module){
 				}
 				m.done = function(data){
 					if(data && data.status === 'success'){
-						$('.current-avatar > img').attr('src',cache.base64);
+						jQuery('.current-avatar > img').attr('src',cache.base64);
 						setTimeout(function(){
 							location.reload(true);
 						},2000);

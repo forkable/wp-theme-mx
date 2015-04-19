@@ -25,22 +25,22 @@ define(function(require, exports, module){
 	var config = exports.config,
 		cache = {};
 	exports.init = function(){
-		$(document).ready(function(){
+		jQuery(document).ready(function(){
 			exports.bind();
 			toggle_reprint_group();
 		});
 	}
 		
 	exports.bind = function(){
-		cache.$fm = 			$('#fm-ctb');
-		cache.$file_area = 		$('#ctb-file-area');
-		cache.$file_btn = 		$('#ctb-file-btn');
-		cache.$file = 			$('#ctb-file');
-		cache.$files = 			$('#ctb-files');
-		cache.$file_progress = 		$('#ctb-file-progress');
-		cache.$file_completion_tip = $('#ctb-file-completion');
-		cache.$file_progress_bar = 	$('#ctb-file-progress-bar');
-		cache.$file_progress_tx = 	$('#ctb-file-progress-tx');
+		cache.$fm = 			jQuery('#fm-ctb');
+		cache.$file_area = 		jQuery('#ctb-file-area');
+		cache.$file_btn = 		jQuery('#ctb-file-btn');
+		cache.$file = 			jQuery('#ctb-file');
+		cache.$files = 			jQuery('#ctb-files');
+		cache.$file_progress = 		jQuery('#ctb-file-progress');
+		cache.$file_completion_tip = jQuery('#ctb-file-completion');
+		cache.$file_progress_bar = 	jQuery('#ctb-file-progress-bar');
+		cache.$file_progress_tx = 	jQuery('#ctb-file-progress-tx');
 
 		if(!cache.$fm[0]) return false;
 		upload();
@@ -214,7 +214,7 @@ define(function(require, exports, module){
 					'<a href="javascript:;" class="img-del">X</a>' +
 					'<input type="hidden" name="ctb[attach-ids][]" value="' + args.attach_id + '" title="' + config.lang.M00003 + '" >' + 
 				'</div>',
-				$tpl = $(tpl).hide(),
+				$tpl = jQuery(tpl).hide(),
 				$del = $tpl.find('a.img-del');
 			$del.on('click',function(){
 				$tpl.fadeOut('slow',function(){
@@ -292,9 +292,9 @@ define(function(require, exports, module){
 		$boxes = $fm.find('.checkbox-select');
 		var selected_class = 'label-success';
 		$boxes.each(function(){
-			var $labels = $(this).find('label');
+			var $labels = jQuery(this).find('label');
 			$labels.on('click',function(){
-				var $this = $(this);
+				var $this = jQuery(this);
 				if($this.hasClass(selected_class)){
 					$this.removeClass(selected_class);
 				}else{
@@ -326,13 +326,13 @@ define(function(require, exports, module){
 	}
 
 	function toggle_reprint_group(){
-		var $reprint_group = $('#reprint-group');
-		var $radios = $('.theme_custom_post_source-source-radio');
+		var $reprint_group = jQuery('#reprint-group');
+		var $radios = jQuery('.theme_custom_post_source-source-radio');
 		$radios.each(function(){
-			action($(this));
+			action(jQuery(this));
 		});
 		$radios.on('change',function(){
-			action($(this));
+			action(jQuery(this));
 		});
 		function action($radio){
 			if($radio[0].id === 'theme_custom_post_source-source-reprint' && $radio.prop('checked')){

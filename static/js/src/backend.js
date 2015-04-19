@@ -25,7 +25,7 @@ define(function(require, exports, module){
 			input_id : '.text-select'
 		},
 		init : function(){
-			$inputs = document.querySelectorAll(exports.select_text.config.input_id);
+			var $inputs = document.querySelectorAll(exports.select_text.config.input_id);
 
 			if(!$inputs[0])
 				return false;
@@ -45,13 +45,13 @@ define(function(require, exports, module){
 		}
 
 		var that = this,
-			$tab = $(that.config.tab_id);
+			$tab = jQuery(that.config.tab_id);
 		if(!$tab[0]) return false;
 		require('modules/jquery.kandytabs');
 		var tools = require('modules/tools'),
 			current_tab = tools.cookie.get(that.config.tab_cookie_id),
-			$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? $('html') : $('body'),
-			admin_bar_height = $('#wpadminbar').height();
+			$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? jQuery('html') : jQuery('body'),
+			admin_bar_height = jQuery('#wpadminbar').height();
 		if(!current_tab) current_tab = 1;
 
 		function get_data($cont){
@@ -59,7 +59,7 @@ define(function(require, exports, module){
 				legends_ot = [],
 				$legends = $cont.find('legend');
 			$legends.each(function(i){
-				var $this = $(this),
+				var $this = jQuery(this),
 					tx = $this.text();
 				nav_links += '<li title="' + tx + '" data-target-index="' + i +'">' + tx + '</li>';
 				legends_ot.push(parseInt($this.offset().top));
@@ -71,7 +71,7 @@ define(function(require, exports, module){
 			}
 		}
 		function scroll_to_switch($nav_links,items_ot){
-			var $win = $(window),
+			var $win = jQuery(window),
 				len = items_ot.length,
 				win_st = 0,
 				last_active_i = 0,
@@ -92,7 +92,7 @@ define(function(require, exports, module){
 			})
 		}
 		function fixed_nav($nav){
-			var $win = $(window),
+			var $win = jQuery(window),
 				ori_st = $nav.offset().top,
 				margin_t = 0,
 				placeholder_t = 20,
@@ -123,7 +123,7 @@ define(function(require, exports, module){
 		function scroll_to_item($nav_links,$items){
 			var placeholder_t = 20;
 			$nav_links.each(function(i){
-				var $this = $(this);
+				var $this = jQuery(this);
 				$this.on('click',function(){
 					$nav_links.removeClass('active');
 					$this.addClass('active');
@@ -140,10 +140,10 @@ define(function(require, exports, module){
 			custom:function(b,c,i,t){
 				tools.cookie.set(that.config.tab_cookie_id,i+1);
 				args.custom(b,c,i,t);
-				var $cont = $(c[i]);
+				var $cont = jQuery(c[i]);
 				if($cont[1]) return;
-				var data = get_data($cont);
-					$nav_container = $(data.nav_html),
+				var data = get_data($cont),
+					$nav_container = jQuery(data.nav_html),
 					$nav = $nav_container.find('ul'),
 					$nav_links = $nav_container.find('li'),
 					legends_ot = data.legends_ot;
@@ -154,7 +154,7 @@ define(function(require, exports, module){
 				//console.log($nav_container);
 			},
 			done:function($btn,$cont,$tab){
-				$('.backend-tab-loading').hide();
+				jQuery('.backend-tab-loading').hide();
 				$btn.eq(0).before('<span class="tab-title">' + args.tab_title +'</span>');
 				$tab.show();
 				args.done($btn,$cont,$tab);

@@ -27,11 +27,11 @@ define(function(require, exports, module){
 	exports.cache = {}
 	
 	exports.bind = function(){
-		exports.cache.$item = $(exports.config.items_id);
-		exports.cache.$add_btn = $(exports.config.add_btn_id);
-		exports.cache.$control_box = $(exports.config.control_box_id);
-		exports.cache.$del_btns = $(exports.config.del_btn_id);
-		exports.cache.$file_btns = $(exports.config.file_btn_id);
+		exports.cache.$item = jQuery(exports.config.items_id);
+		exports.cache.$add_btn = jQuery(exports.config.add_btn_id);
+		exports.cache.$control_box = jQuery(exports.config.control_box_id);
+		exports.cache.$del_btns = jQuery(exports.config.del_btn_id);
+		exports.cache.$file_btns = jQuery(exports.config.file_btn_id);
 		/** 
 		 * bind del event for first init
 		 */
@@ -45,7 +45,7 @@ define(function(require, exports, module){
 		 */
 		exports.cache.$item.each(function(){
 			exports.file({
-				$item : $(this)
+				$item : jQuery(this)
 			});
 		});
 
@@ -83,7 +83,7 @@ define(function(require, exports, module){
 	exports.event_add = function($add){
 		$add.on('click',function(){
 			var tpl = exports.config.tpl.replace(exports.config.placeholder_pattern,exports.get_next_id_number()),
-				$new_item = $(tpl).hide();
+				$new_item = jQuery(tpl).hide();
 			exports.event_del($new_item.find('.slidebox-del'));
 			/** 
 			 * bind upload event
@@ -99,17 +99,17 @@ define(function(require, exports, module){
 	}
 	exports.event_del = function($del){
 		$del.on('click',function(){
-			var $this = $(this),
+			var $this = jQuery(this),
 				id = $this.data('id');
-			$(exports.config.items_prefix_id + id).fadeOut('1',function(){
-				$(this).remove();
+			jQuery(exports.config.items_prefix_id + id).fadeOut('1',function(){
+				jQuery(this).remove();
 			}).css({
 				'background-color':'#d54e21'
 			});
 		});
 	}
 	exports.get_next_id_number = function(){
-		exports.cache.$items = $(exports.config.items_id);
+		exports.cache.$items = jQuery(exports.config.items_id);
 		if(!exports.cache.$items[0]) return 1;
 		return exports.cache.$items.eq(exports.cache.$items.length - 1).data('placeholder') + 1;
 	}
