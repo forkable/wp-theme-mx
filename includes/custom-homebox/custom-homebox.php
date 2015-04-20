@@ -23,7 +23,7 @@ class theme_custom_homebox{
 		add_filter('after_backend_tab_init',__CLASS__ . '::after_backend_tab_init');
 		add_filter('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 		add_action('backend_css',__CLASS__ . '::backend_css'); 
-		add_action('page_settings',__CLASS__ . '::backend_display');
+		add_action('page_settings',__CLASS__ . '::display_backend');
 
 	}
 
@@ -42,24 +42,26 @@ class theme_custom_homebox{
 		return $output_kws;
 	}
 	public static function get_options($key = null){
-		static $caches = [];
-		if(empty($caches))
-			$caches = (array)theme_options::get_options(self::$iden);
+		$caches = [];
+		if(!isset($caches[self::$iden]))
+			$caches[self::$iden] = theme_options::get_options(self::$iden);
 
 		if($key){
-			return isset($caches[$key]) ? $caches[$key] : false;
+			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
+		}else{
+			return $caches[self::$iden];
 		}
-		return $caches;
+		
 	}
-	public static function frontend_display($args = null){
+	public static function display_frontend($args = null){
 		$boxes = self::get_options();
-		var_dump($boxes);
+		//var_dump($boxes);
 		if(empty($boxes)) return false;
 		global $wp_query,$post;
 		$defaults = array(
 			'dt_title' => null,
 			'posts_per_page' => 10,
-			'classes' => array('grid-20','tablet-grid-20','mobile-grid-50'),
+			'classes' => [],
 		);
 		$r = wp_parse_args($args,$defaults);
 		extract($r,EXTR_SKIP);
@@ -107,7 +109,7 @@ class theme_custom_homebox{
 		}
 	}
 	private static function cat_checkbox_tpl($placeholder){
-		$opt = self::get_options(self::$iden);
+		$opt = self::get_options();
 		$exists_cats = isset($opt[$placeholder]['cats']) ? (array)$opt[$placeholder]['cats'] : [];
 		$cats = get_categories(array(
 			'orderby' => 'id',
@@ -131,18 +133,18 @@ class theme_custom_homebox{
 			<?php
 		}
 	}
-	public static function backend_display(){
-		$opt = self::get_options(self::$iden);
+	public static function display_backend(){
+		$opt = self::get_options();
 		?>
 		<fieldset>
 			<legend><?php echo ___('Theme home box settings');?></legend>
 			<?php
-			if(!empty($opt)){
+			if(is_null_array($opt)){
+				echo self::get_home_box_tpl('1');
+			}else{
 				foreach($opt as $k => $v){
 					echo self::get_home_box_tpl($k);
 				}
-			}else{
-				echo self::get_home_box_tpl(1);
 			}
 			?>
 			<table class="form-table" id="<?php echo self::$iden;?>-control">
@@ -150,7 +152,7 @@ class theme_custom_homebox{
 					<tr>
 						<th scope="row"><?php echo ___('Home box control');?></th>
 						<td>
-							<a id="<?php echo self::$iden;?>-add" href="javascript:;" class="button-primary"><?php echo ___('Add a new home box');?></a>
+							<a id="<?php echo self::$iden;?>-add" href="javascript:;" class="button-primary"><i class="fa fa-plus"></i> <?php echo ___('Add a new home box');?></a>
 						</td>
 					</tr>
 				</tbody>
@@ -160,11 +162,16 @@ class theme_custom_homebox{
 	
 	}
 	private static function get_home_box_tpl($placeholder){
-		$boxes = self::get_options(self::$iden);
+		$boxes = self::get_options();
+		
 		$title = isset($boxes[$placeholder]['title']) ? $boxes[$placeholder]['title'] : null;
+		
 		$link = isset($boxes[$placeholder]['link']) ? $boxes[$placeholder]['link'] : null;
+		
 		$selected = isset($boxes[$placeholder]['cat']) ? (int)$boxes[$placeholder]['cat'] : null;
+		
 		$keywords = isset($boxes[$placeholder]['keywords']) ? $boxes[$placeholder]['keywords'] : null;
+		
 		ob_start();
 		?>
 		<table 
@@ -219,12 +226,13 @@ class theme_custom_homebox{
 		ob_end_clean();
 		return $content;
 	}
-	public static function options_save($options){
+	public static function options_save(array $options = []){
 		if(isset($_POST[self::$iden])){
-			$options[self::$iden] = (array)$_POST[self::$iden];
+			$options[self::$iden] = $_POST[self::$iden];
 		}
 		return $options;
 	}
+	
 	public static function backend_css(){
 		?>
 		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend');?>" rel="stylesheet"  media="all"/>
@@ -233,7 +241,7 @@ class theme_custom_homebox{
 	public static function after_backend_tab_init(){
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(_m){
-			_m.config.tpl = <?php echo json_encode(self::get_home_box_tpl('%placeholder%'));?>;
+			_m.config.tpl = <?php echo json_encode(html_compress(self::get_home_box_tpl('%placeholder%')));?>;
 			_m.init();
 		});
 		<?php

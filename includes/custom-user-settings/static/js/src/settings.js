@@ -2,7 +2,6 @@ define(function(require, exports, module){
 	'use strict';
 	var tools = require('modules/tools'),
 		js_request 	= require('theme-cache-request');
-	require('modules/jquery.validate');
 
 	exports.config = {
 		process_url : '',

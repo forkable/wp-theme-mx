@@ -66,6 +66,18 @@ class theme_custom_slidebox{
 		ob_end_clean();
 		return $content;
 	}
+	public static function get_options($key = null){
+		$caches = [];
+		if(!isset($caches[self::$iden]))
+			$caches[self::$iden] = theme_options::get_options(self::$iden);
+
+		if($key){
+			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
+		}else{
+			return $caches[self::$iden];
+		}
+		
+	}
 	public static function process(){
 		$output = [];
 		

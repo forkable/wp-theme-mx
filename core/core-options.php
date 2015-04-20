@@ -91,8 +91,9 @@ class theme_options{
 
 		if(!self::is_options_page())
 			return false;
-
-		echo theme_features::get_theme_css('modules/fa-fonts','normal');
+		?>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<?php
 		echo theme_features::get_theme_css('backend/style','normal');
 		/**
 		 * add admin_css hook 
@@ -149,13 +150,12 @@ class theme_options{
 	/**
 	 * show the options settings for admin theme setting page.
 	 * 
-	 * @usedby theme_options::display()
 	 * @return string html string for options
 	 * @version 3.1.7
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function display(){
+	public static function display_backend(){
 		?>
 		<div class="wrap">
 			<?php if(isset($_GET['updated'])){?>
@@ -223,11 +223,11 @@ class theme_options{
 				<p>
 					<input type="hidden" name="<?php echo self::$iden;?>[nonce]" value="<?php echo wp_create_nonce(self::$iden);?>">
 					
-					<input type="submit" value="<?php echo ___('Save all settings');?>" class="button button-primary button-large"/>
+					<button type="submit" class="button button-primary button-large"><i class="fa fa-check"></i> <?php echo ___('Save all settings');?></button>
 					
 					<label for="options-restore" class="label-options-restore" title="<?php echo ___('Something error with theme? Try to restore. Be careful, theme options will be cleared up!');?>">
 						<input id="options-restore" name="<?php echo self::$iden;?>[restore]" type="checkbox" value="1"/>
-						<?php echo ___('Restore to theme default options');?>
+						<?php echo ___('Restore to theme default options');?> <i class="fa fa-question-circle"></i>
 					</label>
 				</p>
 			</form>
@@ -322,7 +322,8 @@ class theme_options{
 			___('Theme settings'),
 			___('Theme settings'), 
 			'edit_themes', 
-			'core-options',__CLASS__ . '::display'
+			'core-options',
+			__CLASS__ . '::display_backend'
 		);
 	}
 	/**

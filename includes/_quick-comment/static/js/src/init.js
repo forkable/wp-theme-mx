@@ -3,7 +3,7 @@ define(function(require, exports, module){
 	var dialog 		= require('modules/jquery.dialog'),
 		js_request 	= require('theme-cache-request'),
 		tools 		= require('modules/tools');
-					require('modules/jquery.validate');
+
 	exports.init = function(){
 		exports.list.init();
 	};

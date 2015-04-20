@@ -11,18 +11,22 @@ add_filter('theme_includes',function($fns){
 });
 class theme_custom_header{
 	public static function init(){
-		add_action( 'after_setup_theme', __CLASS__ . '::custom_header_setup', 11 );
+		add_action( 'after_setup_theme', __CLASS__ . '::custom_header_setup' );
 
 	}
 	public static function custom_header_setup() {
 		$default_headers = [];
-		$img_names = array('bridge.jpg','classical.jpg','polygon.jpg','natural.jpg','dusk.jpg','mountain.jpg');
+		$img_names = array(
+			'bridge.jpg',
+			'classical.jpg',
+			'dusk.jpg'
+		);
 		$args = array(
 			'default-text-color'     => 'fff',
 			'default-image'          => theme_features::get_theme_includes_image(__DIR__) . $img_names[0],
 
-			'height'                 => 150,
-			'width'                  => 1600,
+			'height'                 => 170,
+			'width'                  => 1140,
 
 			'wp-head-callback'       => __CLASS__ . '::header_style',
 			'admin-head-callback'    => __CLASS__ . '::admin_header_style',

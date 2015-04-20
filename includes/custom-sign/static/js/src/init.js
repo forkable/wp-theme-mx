@@ -2,8 +2,6 @@ define(function(require, exports, module){
 	'use strict';
 	var tools = require('modules/tools'),
 		js_request 	= require('theme-cache-request');
-	require('modules/jquery.validate');
-	require('modules/jquery.validate.lang.{locale}');
 	
 	exports.config = {
 		fm_login_id : '#fm-sign-login',

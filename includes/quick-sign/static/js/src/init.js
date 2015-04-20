@@ -2,8 +2,7 @@ define(function(require, exports, module){
 	'use strict';
 	var dialog = require('modules/jquery.dialog'),
 		js_request 	= require('theme-cache-request');
-	require('modules/jquery.validate');
-	require('modules/jquery.validate.lang.{locale}');
+
 		
 	exports.config = {
 		btn_login_id : '.btn-q-login',

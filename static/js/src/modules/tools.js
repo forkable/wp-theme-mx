@@ -103,6 +103,8 @@ define(function(require, exports, module){
 	 * @author KM@INN STUDIO
 	 */
 	exports.validate = function(){
+		require('modules/jquery.validate');
+		require('modules/jquery.validate.lang.{locale}');
 		/** config */
 		this.process_url = '';
 		this.loading_tx = 'Loading, please wait...';

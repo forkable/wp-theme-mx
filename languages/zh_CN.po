@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-20 12:38+0800\n"
-"PO-Revision-Date: 2015-04-20 12:39+0800\n"
+"POT-Creation-Date: 2015-04-20 18:52+0800\n"
+"PO-Revision-Date: 2015-04-20 18:53+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -26,7 +26,7 @@ msgstr "评论"
 msgid "Respond"
 msgstr "添加评论"
 
-#: comments.php:34 core/core-options.php:170 functions.php:1799
+#: comments.php:34 core/core-options.php:171 functions.php:1799
 #: includes/_post-thumb/post-thumb.php:245
 #: includes/_quick-comment/quick-comment.php:342
 #: includes/clean-up/clean-up.php:224
@@ -39,7 +39,7 @@ msgstr "添加评论"
 #: includes/custom-post-point/custom-post-point.php:625
 #: includes/custom-post-point/custom-post-point.php:647
 #: includes/custom-sign/custom-sign.php:196
-#: includes/custom-slidebox/custom-slidebox.php:326
+#: includes/custom-slidebox/custom-slidebox.php:338
 #: includes/custom-user-settings/custom-user-settings.php:312
 #: includes/custom-user-settings/custom-user-settings.php:323
 #: includes/quick-sign/quick-sign.php:386
@@ -134,62 +134,62 @@ msgstr "m月d日"
 msgid "M j, Y"
 msgstr "Y年m月d日"
 
-#: core/core-options.php:139
+#: core/core-options.php:140
 msgid "theme settings"
 msgstr "主题设置"
 
-#: core/core-options.php:163
+#: core/core-options.php:164
 msgid "Settings have been saved."
 msgstr "设置已保存。"
 
-#: core/core-options.php:174
+#: core/core-options.php:175
 msgid "Theme common settings."
 msgstr "主题通用的设置。"
 
-#: core/core-options.php:176
+#: core/core-options.php:177
 msgid "Basic Settings"
 msgstr "基本设置"
 
-#: core/core-options.php:184
+#: core/core-options.php:185
 msgid "Theme appearance/template settings."
 msgstr "主题的外观/模板设置。"
 
-#: core/core-options.php:186
+#: core/core-options.php:187
 msgid "Page Settings"
 msgstr "页面设置"
 
-#: core/core-options.php:194
+#: core/core-options.php:195
 msgid "Theme special settings, you need to know what are you doing."
 msgstr "主题独有的设置，您需要知道自己正在做什么。"
 
-#: core/core-options.php:196
+#: core/core-options.php:197
 msgid "Advanced Settings"
 msgstr "高级设置"
 
-#: core/core-options.php:206
+#: core/core-options.php:207
 msgid "Developer Mode"
 msgstr "开发者模式"
 
-#: core/core-options.php:215
+#: core/core-options.php:216
 msgid "About &amp; Help"
 msgstr "关于 &amp; 帮助"
 
-#: core/core-options.php:226
+#: core/core-options.php:227
 msgid "Save all settings"
 msgstr "保存所有设置"
 
-#: core/core-options.php:228
+#: core/core-options.php:229
 msgid ""
 "Something error with theme? Try to restore. Be careful, theme options will "
 "be cleared up!"
 msgstr "主题发生了错误？试试还原数据。注意，主题选项将会被清空！"
 
-#: core/core-options.php:230
+#: core/core-options.php:231
 msgid "Restore to theme default options"
 msgstr "还原主题选项"
 
-#: core/core-options.php:322 core/core-options.php:323
-#: core/core-options.php:345
+#: core/core-options.php:323 core/core-options.php:324
+#: core/core-options.php:346
 msgid "Theme settings"
 msgstr "主题设置"
 
@@ -655,7 +655,7 @@ msgstr "我不喜欢"
 #: includes/_quick-comment/quick-comment.php:353
 #: includes/clean-up/clean-up.php:225
 #: includes/custom-point/custom-point.php:882
-#: includes/custom-slidebox/custom-slidebox.php:327
+#: includes/custom-slidebox/custom-slidebox.php:339
 #: includes/quick-sign/quick-sign.php:398
 msgid "Server error or network is disconnected."
 msgstr "服务器错误或网络未连接。"
@@ -827,7 +827,7 @@ msgstr "点击之前保存设置。"
 #: includes/custom-page-cats/custom-page-cats.php:62
 #: includes/custom-page-tags/custom-page-tags.php:60
 #: includes/custom-point/custom-point.php:127
-#: includes/custom-slidebox/custom-slidebox.php:209
+#: includes/custom-slidebox/custom-slidebox.php:221
 #: includes/min-rebuild/min-rebuild.php:37
 msgid "Control"
 msgstr "操作"
@@ -1078,12 +1078,12 @@ msgid "Post contribution"
 msgstr "文章投稿"
 
 #: includes/custom-contribution/custom-contribution.php:155
-#: includes/custom-slidebox/custom-slidebox.php:80
+#: includes/custom-slidebox/custom-slidebox.php:92
 msgid "Invaild file type."
 msgstr "无效的文件类型。"
 
 #: includes/custom-contribution/custom-contribution.php:180
-#: includes/custom-slidebox/custom-slidebox.php:110
+#: includes/custom-slidebox/custom-slidebox.php:122
 msgid "Upload success."
 msgstr "上传成功。"
 
@@ -1204,62 +1204,62 @@ msgstr "取消关注成功。"
 msgid "Unkown param."
 msgstr "位置参数。"
 
-#: includes/custom-homebox/custom-homebox.php:74
+#: includes/custom-homebox/custom-homebox.php:76
 msgid "&raquo; detail"
 msgstr "&raquo; 详细"
 
-#: includes/custom-homebox/custom-homebox.php:99
+#: includes/custom-homebox/custom-homebox.php:101
 msgid "Not data in this category"
 msgstr "在此分类目录中找不到数据"
 
-#: includes/custom-homebox/custom-homebox.php:129
+#: includes/custom-homebox/custom-homebox.php:131
 msgid "link"
 msgstr "链接"
 
-#: includes/custom-homebox/custom-homebox.php:138
+#: includes/custom-homebox/custom-homebox.php:141
 msgid "Theme home box settings"
 msgstr "首页盒子设置"
 
-#: includes/custom-homebox/custom-homebox.php:151
+#: includes/custom-homebox/custom-homebox.php:155
 msgid "Home box control"
 msgstr "盒子操作"
 
-#: includes/custom-homebox/custom-homebox.php:153
+#: includes/custom-homebox/custom-homebox.php:157
 msgid "Add a new home box"
 msgstr "添加一个新的盒子"
 
-#: includes/custom-homebox/custom-homebox.php:177
-#: includes/custom-homebox/custom-homebox.php:185
+#: includes/custom-homebox/custom-homebox.php:181
+#: includes/custom-homebox/custom-homebox.php:189
 msgid "Box title"
-msgstr "幻灯片标题 - %s"
+msgstr "幻灯片标题"
 
-#: includes/custom-homebox/custom-homebox.php:190
+#: includes/custom-homebox/custom-homebox.php:194
 msgid "Box link"
 msgstr "盒子链接"
 
-#: includes/custom-homebox/custom-homebox.php:198
+#: includes/custom-homebox/custom-homebox.php:202
 msgid "Box link (include http://)"
 msgstr "盒子地址（包括 http://）"
 
-#: includes/custom-homebox/custom-homebox.php:203
+#: includes/custom-homebox/custom-homebox.php:207
 #: tpl-page-account-contribution.php:166
 msgid "Categories"
 msgstr "分类"
 
-#: includes/custom-homebox/custom-homebox.php:209
+#: includes/custom-homebox/custom-homebox.php:213
 msgid "Keywords and links"
 msgstr "关键词与链接"
 
-#: includes/custom-homebox/custom-homebox.php:211
+#: includes/custom-homebox/custom-homebox.php:215
 msgid "Eg. Tag1 = http://inn-studio.com"
 msgstr "例如 标签1 = http://inn-studio.com"
 
-#: includes/custom-homebox/custom-homebox.php:212
+#: includes/custom-homebox/custom-homebox.php:216
 msgid "Per keyword/line"
 msgstr "一行一个关键词"
 
-#: includes/custom-homebox/custom-homebox.php:213
-#: includes/custom-slidebox/custom-slidebox.php:178
+#: includes/custom-homebox/custom-homebox.php:217
+#: includes/custom-slidebox/custom-slidebox.php:190
 msgid "Delete this item"
 msgstr "删除此条目"
 
@@ -1704,7 +1704,7 @@ msgstr "立即下载"
 
 #: includes/custom-post-storage/custom-post-storage.php:278
 #: includes/custom-post-storage/custom-post-storage.php:314
-#: includes/custom-slidebox/custom-slidebox.php:175
+#: includes/custom-slidebox/custom-slidebox.php:187
 msgid "Open in new window"
 msgstr "在新窗口中打开"
 
@@ -1727,69 +1727,69 @@ msgstr "找回密码"
 msgid "Sign"
 msgstr "登录"
 
-#: includes/custom-slidebox/custom-slidebox.php:89
+#: includes/custom-slidebox/custom-slidebox.php:101
 msgid "You have not permission to upload."
 msgstr "您没有上传的权限。"
 
-#: includes/custom-slidebox/custom-slidebox.php:133
+#: includes/custom-slidebox/custom-slidebox.php:145
 #, php-format
 msgid "Slide-box title - %s"
 msgstr "幻灯片标题 - %s"
 
-#: includes/custom-slidebox/custom-slidebox.php:134
+#: includes/custom-slidebox/custom-slidebox.php:146
 msgid "Title will be display as attribute-alt"
 msgstr "将会被作用于 alt 属性"
 
-#: includes/custom-slidebox/custom-slidebox.php:137
+#: includes/custom-slidebox/custom-slidebox.php:149
 msgid "Subtitles (optional)"
 msgstr "子标题（可选）"
 
-#: includes/custom-slidebox/custom-slidebox.php:138
+#: includes/custom-slidebox/custom-slidebox.php:150
 msgid "Subtitle can be date or any text"
 msgstr "子标题可以是日期或任何纯文本"
 
-#: includes/custom-slidebox/custom-slidebox.php:139
+#: includes/custom-slidebox/custom-slidebox.php:151
 msgid "Current date"
 msgstr "当前日期"
 
-#: includes/custom-slidebox/custom-slidebox.php:143
+#: includes/custom-slidebox/custom-slidebox.php:155
 msgid "Categories (optional)"
 msgstr "分类目录（可选）"
 
-#: includes/custom-slidebox/custom-slidebox.php:153
+#: includes/custom-slidebox/custom-slidebox.php:165
 msgid "Link url"
 msgstr "链接 url"
 
-#: includes/custom-slidebox/custom-slidebox.php:154
+#: includes/custom-slidebox/custom-slidebox.php:166
 msgid "Url address"
 msgstr "Url 地址"
 
-#: includes/custom-slidebox/custom-slidebox.php:157
+#: includes/custom-slidebox/custom-slidebox.php:169
 msgid "Image url"
 msgstr "图片 url"
 
-#: includes/custom-slidebox/custom-slidebox.php:160
+#: includes/custom-slidebox/custom-slidebox.php:172
 msgid "Image address"
 msgstr "图片地址"
 
-#: includes/custom-slidebox/custom-slidebox.php:161
+#: includes/custom-slidebox/custom-slidebox.php:173
 #: tpl-page-account-contribution.php:103
 msgid "Upload image"
 msgstr "上传图片"
 
-#: includes/custom-slidebox/custom-slidebox.php:167
+#: includes/custom-slidebox/custom-slidebox.php:179
 msgid "Addon options"
 msgstr "附加选项"
 
-#: includes/custom-slidebox/custom-slidebox.php:171
+#: includes/custom-slidebox/custom-slidebox.php:183
 msgid "Nofollow link"
 msgstr "Nofollow 链接"
 
-#: includes/custom-slidebox/custom-slidebox.php:193
+#: includes/custom-slidebox/custom-slidebox.php:205
 msgid "Slide-box settings"
 msgstr "幻灯片设置"
 
-#: includes/custom-slidebox/custom-slidebox.php:195
+#: includes/custom-slidebox/custom-slidebox.php:207
 #, php-format
 msgid ""
 "You can set images and link to slide-box on homepage. Image size is %s&times;"
@@ -1798,11 +1798,11 @@ msgstr ""
 "您可以设置图片和链接在首页的幻灯片中。图像尺寸为 %s&times;%s 象素。记得完成设"
 "置后保存哦。"
 
-#: includes/custom-slidebox/custom-slidebox.php:195
+#: includes/custom-slidebox/custom-slidebox.php:207
 msgid "unlimited"
 msgstr "不限制"
 
-#: includes/custom-slidebox/custom-slidebox.php:211
+#: includes/custom-slidebox/custom-slidebox.php:223
 msgid "Add a new item"
 msgstr "添加新条目"
 

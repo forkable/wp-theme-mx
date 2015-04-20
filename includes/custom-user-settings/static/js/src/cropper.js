@@ -1,7 +1,5 @@
 define(function(require, exports, module){
-	var $ = require("modules/jquery"),
-		jQuery = $,
-		a = $;
+	var a = jQuery;
 
 /*!
  * Cropper v0.8.0
