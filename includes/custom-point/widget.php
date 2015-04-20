@@ -11,7 +11,7 @@ class widget_point_rank extends WP_Widget{
 		$this->alt_option_name = self::$iden;
 		parent::__construct(
 			self::$iden,
-			___('User point rank <small>custom</small>'),
+			___('User point rank <small>(custom)</small>'),
 			array(
 				'classname' => self::$iden,
 				'description'=> ___('Display user point rank list'),

@@ -27,7 +27,7 @@ define(function(require, exports, module){
 	}
 	function fm_validate($fm){
 		var m = new tools.validate();
-			m.process_url = config.process_url + '&' + $.param({
+			m.process_url = config.process_url + '&' + jQuery.param({
 				'theme-nonce' : js_request['theme-nonce']
 			});
 			m.loading_tx = config.lang.M00001;

@@ -31,6 +31,7 @@ class theme_options{
 		if(!self::is_options_page())
 			return false;
 		add_action('admin_head',__CLASS__ . '::backend_header');
+		add_action('backend_seajs_alias', __CLASS__ . '::backend_seajs_alias');
 	}
 	/**
 	 * get the theme options from the features default value or DB.
@@ -140,6 +141,10 @@ class theme_options{
 		});
 		</script>
 		<?php	
+	}
+	public static function backend_seajs_alias(array $alias = []){
+		$alias['backend'] = theme_features::get_theme_js('backend');
+		return $alias;
 	}
 	/**
 	 * show the options settings for admin theme setting page.

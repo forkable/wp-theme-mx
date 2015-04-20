@@ -1,4 +1,5 @@
 define(function(require, exports, module){
+
 	'use strict';
 	var tools = require('modules/tools');
 	
@@ -16,14 +17,17 @@ define(function(require, exports, module){
 	};
 	
 	exports.hide_no_js = function(){
-		var $no_js = document.querySelectorAll('.hide-no-js'),
-			$on_js = document.querySelectorAll('.hide-on-js');
-		if($no_js){
+		var A = function(e){
+				return document.querySelectorAll(e);
+			},
+			$no_js = A('.hide-no-js'),
+			$on_js = A('.hide-on-js');
+		if($no_js[0]){
 			Array.prototype.forEach.call($no_js, function(el){
 				el.style.display = 'none';
 			});
 		}
-		if($on_js){
+		if($on_js[0]){
 			Array.prototype.forEach.call($on_js, function(el){
 				el.style.display = 'block';
 			});

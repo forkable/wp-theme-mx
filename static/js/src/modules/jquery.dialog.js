@@ -57,7 +57,7 @@ function Popup () {
 }
 
 
-$.extend(Popup.prototype, {
+jQuery.extend(Popup.prototype, {
     
     /**
      * 初始化完毕事件，在 show()、showModal() 执行
@@ -283,7 +283,7 @@ $.extend(Popup.prototype, {
         }
 
         // 检查焦点是否在浮层里面
-        if (!$.contains(node, this.__getActive())) {
+        if (!jQuery.contains(node, this.__getActive())) {
             var autofocus = this.__popup.find('[autofocus]')[0];
 
             if (!this._autofocus && autofocus) {
@@ -517,7 +517,7 @@ $.extend(Popup.prototype, {
 
 
         // 超出可视区域重新适应位置
-        $.each(align, function (i, val) {
+        jQuery.each(align, function (i, val) {
 
             // 超出右或下边界：使用左或者上边对齐
             if (temp[i][val] > range[name[val]][1]) {
@@ -621,7 +621,7 @@ $.extend(Popup.prototype, {
 
 
         if (!_isFixed) {
-            $.extend(backdropCss, {
+            jQuery.extend(backdropCss, {
                 position: 'absolute',
                 width: jQuery(window).width() + 'px',
                 height: jQuery(document).height() + 'px'
@@ -811,7 +811,7 @@ var artDialog = function (options, ok, cancel) {
     }
     
 
-    options = $.extend(true, {}, artDialog.defaults, options);
+    options = jQuery.extend(true, {}, artDialog.defaults, options);
     options._ = originalOptions;
 
     var id = options.id = options.id || _expando + _count;
@@ -840,7 +840,7 @@ var artDialog = function (options, ok, cancel) {
     
 
     // 按钮组
-    if (!$.isArray(options.button)) {
+    if (!jQuery.isArray(options.button)) {
         options.button = [];
     }
 
@@ -885,7 +885,7 @@ var prototype = artDialog.prototype = new popup();
 artDialog.create = function (options) {
     var that = this;
 
-    $.extend(this, new Popup());
+    jQuery.extend(this, new Popup());
 
     var $popup = jQuery(this.node).html(options.innerHTML);
 
@@ -893,7 +893,7 @@ artDialog.create = function (options) {
     this._popup = $popup;
 
     
-    $.each(options, function (name, value) {
+    jQuery.each(options, function (name, value) {
         if (typeof that[name] === 'function') {
             that[name](value);
         } else {
@@ -991,7 +991,7 @@ artDialog.create.prototype = prototype;
 
 
 
-$.extend(prototype, {
+jQuery.extend(prototype, {
 
     /**
      * 显示对话框
@@ -1142,7 +1142,7 @@ $.extend(prototype, {
         if (typeof args === 'string') {
             html = args;
         } else {
-            $.each(args, function (i, val) {
+            jQuery.each(args, function (i, val) {
 
                 val.id = val.id || val.value;
                 that.callbacks[val.id] = val.callback;
@@ -1202,7 +1202,7 @@ $.extend(prototype, {
 
 
 
-artDialog.oncreate = $.noop;
+artDialog.oncreate = jQuery.noop;
 
 
 
@@ -1281,10 +1281,10 @@ var getEvent = isTouch ? function (event) {
 
 
 var DragEvent = function () {
-    this.start = $.proxy(this.start, this);
-    this.over = $.proxy(this.over, this);
-    this.end = $.proxy(this.end, this);
-    this.onstart = this.onover = this.onend = $.noop;
+    this.start = jQuery.proxy(this.start, this);
+    this.over = jQuery.proxy(this.over, this);
+    this.end = jQuery.proxy(this.end, this);
+    this.onstart = this.onover = this.onend = jQuery.noop;
 };
 
 DragEvent.types = types;

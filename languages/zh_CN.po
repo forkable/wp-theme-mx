@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-19 10:58+0800\n"
-"PO-Revision-Date: 2015-04-19 14:51+0800\n"
+"POT-Creation-Date: 2015-04-20 12:38+0800\n"
+"PO-Revision-Date: 2015-04-20 12:39+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -26,7 +26,7 @@ msgstr "评论"
 msgid "Respond"
 msgstr "添加评论"
 
-#: comments.php:34 core/core-options.php:128 functions.php:1799
+#: comments.php:34 core/core-options.php:170 functions.php:1799
 #: includes/_post-thumb/post-thumb.php:245
 #: includes/_quick-comment/quick-comment.php:342
 #: includes/clean-up/clean-up.php:224
@@ -47,46 +47,46 @@ msgstr "添加评论"
 msgid "Loading, please wait..."
 msgstr "加载中，请稍候…"
 
-#: core/core-features.php:810
+#: core/core-features.php:769
 msgid "Sorry, referer is invalid."
 msgstr "抱歉，无效的来路。"
 
-#: core/core-features.php:828
+#: core/core-features.php:787
 msgid "Sorry, security code is invalid."
 msgstr "抱歉，无效的安全码。"
 
-#: core/core-features.php:1415 core/core-features.php:1481 functions.php:1301
+#: core/core-features.php:1359 core/core-features.php:1425 functions.php:1301
 msgid "&lsaquo; Previous"
 msgstr "&lsaquo;  上一页"
 
-#: core/core-features.php:1450 core/core-features.php:1482 functions.php:1325
+#: core/core-features.php:1394 core/core-features.php:1426 functions.php:1325
 msgid "Next &rsaquo;"
 msgstr "下一页 &rsaquo;"
 
-#: core/core-features.php:1480
+#: core/core-features.php:1424
 msgid "&laquo; First"
 msgstr "&laquo; 首页"
 
-#: core/core-features.php:1483
+#: core/core-features.php:1427
 msgid "Last &raquo;"
 msgstr "尾页 &raquo;"
 
-#: core/core-features.php:1826
+#: core/core-features.php:1770
 #: includes/widget-category-post/widget-category-post.php:133
 msgid "Select category"
 msgstr "选择目录"
 
-#: core/core-features.php:1883
+#: core/core-features.php:1827
 #, php-format
 msgid "(%s)"
 msgstr "（%s）"
 
-#: core/core-features.php:1890 includes/custom-slidebox/custom-slidebox.php:63
+#: core/core-features.php:1834 includes/custom-slidebox/custom-slidebox.php:63
 #: includes/widget-rank/widget-rank.php:269
 msgid "No category, pleass go to add some categories."
 msgstr "暂无分类目录，请去添加一些分类。"
 
-#: core/core-features.php:1919
+#: core/core-features.php:1863
 msgid "Select page"
 msgstr "选择页面"
 
@@ -134,61 +134,62 @@ msgstr "m月d日"
 msgid "M j, Y"
 msgstr "Y年m月d日"
 
-#: core/core-options.php:103
+#: core/core-options.php:139
 msgid "theme settings"
 msgstr "主题设置"
 
-#: core/core-options.php:123
+#: core/core-options.php:163
 msgid "Settings have been saved."
 msgstr "设置已保存。"
 
-#: core/core-options.php:132
+#: core/core-options.php:174
 msgid "Theme common settings."
 msgstr "主题通用的设置。"
 
-#: core/core-options.php:134
+#: core/core-options.php:176
 msgid "Basic Settings"
 msgstr "基本设置"
 
-#: core/core-options.php:142
+#: core/core-options.php:184
 msgid "Theme appearance/template settings."
 msgstr "主题的外观/模板设置。"
 
-#: core/core-options.php:144
+#: core/core-options.php:186
 msgid "Page Settings"
 msgstr "页面设置"
 
-#: core/core-options.php:152
+#: core/core-options.php:194
 msgid "Theme special settings, you need to know what are you doing."
 msgstr "主题独有的设置，您需要知道自己正在做什么。"
 
-#: core/core-options.php:154
+#: core/core-options.php:196
 msgid "Advanced Settings"
 msgstr "高级设置"
 
-#: core/core-options.php:164
+#: core/core-options.php:206
 msgid "Developer Mode"
 msgstr "开发者模式"
 
-#: core/core-options.php:173
+#: core/core-options.php:215
 msgid "About &amp; Help"
 msgstr "关于 &amp; 帮助"
 
-#: core/core-options.php:183
+#: core/core-options.php:226
 msgid "Save all settings"
 msgstr "保存所有设置"
 
-#: core/core-options.php:184
+#: core/core-options.php:228
 msgid ""
 "Something error with theme? Try to restore. Be careful, theme options will "
 "be cleared up!"
 msgstr "主题发生了错误？试试还原数据。注意，主题选项将会被清空！"
 
-#: core/core-options.php:186
+#: core/core-options.php:230
 msgid "Restore to theme default options"
 msgstr "还原主题选项"
 
-#: core/core-options.php:295 core/core-options.php:314
+#: core/core-options.php:322 core/core-options.php:323
+#: core/core-options.php:345
 msgid "Theme settings"
 msgstr "主题设置"
 
@@ -571,7 +572,7 @@ msgstr "邮箱"
 msgid "Whats your Email?"
 msgstr "您的邮箱"
 
-#: header.php:140
+#: header.php:135
 msgid "Keywords"
 msgstr "搜索关键词"
 
@@ -827,7 +828,7 @@ msgstr "点击之前保存设置。"
 #: includes/custom-page-tags/custom-page-tags.php:60
 #: includes/custom-point/custom-point.php:127
 #: includes/custom-slidebox/custom-slidebox.php:209
-#: includes/min-rebuild/min-rebuild.php:40
+#: includes/min-rebuild/min-rebuild.php:37
 msgid "Control"
 msgstr "操作"
 
@@ -1481,8 +1482,8 @@ msgid "Special event"
 msgstr "特别事件"
 
 #: includes/custom-point/widget.php:14
-msgid "User point rank <small>custom</small>"
-msgstr "用户积分排行 <small>定制</small>"
+msgid "User point rank <small>(custom)</small>"
+msgstr "用户积分排行 <small>（定制）</small>"
 
 #: includes/custom-point/widget.php:17
 msgid "Display user point rank list"
@@ -1882,79 +1883,80 @@ msgstr "这里"
 msgid "Custom avatar URL"
 msgstr "自定义头像地址 URL"
 
-#: includes/dev-mode/dev-mode.php:61
+#: includes/dev-mode/dev-mode.php:68
 msgid "Related Options"
 msgstr "相关选项"
 
-#: includes/dev-mode/dev-mode.php:62
+#: includes/dev-mode/dev-mode.php:69
 msgid ""
 "For developers to debug the site and it will affect the user experience if "
 "enable, please note."
 msgstr ""
 "针对开发人员进行网站的相关调试，开启前台性能提示将会影响前台的体验，请注意。"
 
-#: includes/dev-mode/dev-mode.php:67
+#: includes/dev-mode/dev-mode.php:74
 msgid "Developer mode"
 msgstr "开发者模式"
 
-#: includes/dev-mode/dev-mode.php:70 includes/dev-mode/dev-mode.php:82
-#: includes/dev-mode/dev-mode.php:93 includes/gravatar-fix/gravatar-fix.php:40
+#: includes/dev-mode/dev-mode.php:77 includes/dev-mode/dev-mode.php:89
+#: includes/dev-mode/dev-mode.php:100
+#: includes/gravatar-fix/gravatar-fix.php:40
 #: includes/post-views/post-views.php:69
 msgid "Enabled"
 msgstr "启用"
 
-#: includes/dev-mode/dev-mode.php:72
+#: includes/dev-mode/dev-mode.php:79
 msgid ""
 "If enable, your site will work within development mode, or works within high "
 "performance product mode."
 msgstr "如果启用，您的站点将会以开发模式运作，否则以高性能的运营模式运作。"
 
-#: includes/dev-mode/dev-mode.php:79
+#: includes/dev-mode/dev-mode.php:86
 msgid "Display frontend performance"
 msgstr "显示前台性能"
 
-#: includes/dev-mode/dev-mode.php:83
+#: includes/dev-mode/dev-mode.php:90
 msgid "Display theme performance information on frontend from F12 console."
 msgstr "在前台从 F12 控制台中显示主题性能信息."
 
-#: includes/dev-mode/dev-mode.php:90
+#: includes/dev-mode/dev-mode.php:97
 msgid "Display database queries detail"
 msgstr "显示数据库查询明细"
 
-#: includes/dev-mode/dev-mode.php:94
+#: includes/dev-mode/dev-mode.php:101
 msgid "Display database queries detail on frontend from F12 console."
 msgstr "在前台从 F12 控制台中显示数据库查询明细。"
 
-#: includes/dev-mode/dev-mode.php:106
+#: includes/dev-mode/dev-mode.php:113
 msgid "Theme options debug"
 msgstr "主题选项调试"
 
-#: includes/dev-mode/dev-mode.php:166 tpl-author-profile.php:42
+#: includes/dev-mode/dev-mode.php:176 tpl-author-profile.php:42
 #: tpl-page-account-settings.php:64
 msgid "Description"
 msgstr "描述"
 
-#: includes/dev-mode/dev-mode.php:167
+#: includes/dev-mode/dev-mode.php:177
 msgid "Time (second)"
 msgstr "时间（秒）"
 
-#: includes/dev-mode/dev-mode.php:168
+#: includes/dev-mode/dev-mode.php:178
 msgid "Query"
 msgstr "查询数"
 
-#: includes/dev-mode/dev-mode.php:169
+#: includes/dev-mode/dev-mode.php:179
 msgid "Memory (MB)"
 msgstr "内存（兆）"
 
-#: includes/dev-mode/dev-mode.php:176
+#: includes/dev-mode/dev-mode.php:186
 msgid "Theme Performance"
 msgstr "主题性能"
 
-#: includes/dev-mode/dev-mode.php:185
+#: includes/dev-mode/dev-mode.php:195
 msgid "Basic Performance"
 msgstr "基本性能"
 
-#: includes/dev-mode/dev-mode.php:194
+#: includes/dev-mode/dev-mode.php:204
 msgid "Final Performance"
 msgstr "最终性能"
 
@@ -2077,7 +2079,7 @@ msgstr ""
 "用“菜单”来代替“链路管理器”。"
 
 #: includes/maintenance-mode/maintenance-mode.php:49
-#: includes/maintenance-mode/maintenance-mode.php:74
+#: includes/maintenance-mode/maintenance-mode.php:79
 msgid "Maintenance Mode"
 msgstr "维护模式"
 
@@ -2101,15 +2103,15 @@ msgstr ""
 msgid "Redirect URL (include http://):"
 msgstr "跳转地址（包括 http://）："
 
-#: includes/maintenance-mode/maintenance-mode.php:57
+#: includes/maintenance-mode/maintenance-mode.php:60
 msgid "Optional template URL: "
 msgstr "可选的模板地址："
 
-#: includes/maintenance-mode/maintenance-mode.php:85
+#: includes/maintenance-mode/maintenance-mode.php:90
 msgid "We&rsquo;ll be back soon!"
 msgstr "我们稍后就回来！"
 
-#: includes/maintenance-mode/maintenance-mode.php:86
+#: includes/maintenance-mode/maintenance-mode.php:91
 #, php-format
 msgid ""
 "Sorry for the inconvenience but we&rsquo;re performing some maintenance at "
@@ -2119,11 +2121,11 @@ msgstr ""
 "很抱歉给您带来不便，我们目前执行一些维护。如果需要您可以随时<a href=\"mailto:"
 "%s\">联系我们</a>，我们很快就回来！"
 
-#: includes/min-rebuild/min-rebuild.php:35
+#: includes/min-rebuild/min-rebuild.php:32
 msgid "Rebuild minify version"
 msgstr "重建压缩版文件"
 
-#: includes/min-rebuild/min-rebuild.php:36
+#: includes/min-rebuild/min-rebuild.php:33
 msgid ""
 "Rebuild the minify version file of JS and CSS. If you have edit JS or CSS "
 "file, please run it. May take several minutes."
@@ -2131,25 +2133,21 @@ msgstr ""
 "重建 JS 和 CSS 的压缩版文件。如果你曾经修改过 JS 或 CSS 文件，请运行它。执行"
 "过程可能需数分钟。"
 
-#: includes/min-rebuild/min-rebuild.php:44
+#: includes/min-rebuild/min-rebuild.php:41
 msgid "Files have been rebuilt."
 msgstr "文件已经重建完成。"
 
-#: includes/min-rebuild/min-rebuild.php:48
+#: includes/min-rebuild/min-rebuild.php:45
 msgid "Rebuilding, please wait..."
 msgstr "重建中，请稍后…"
 
-#: includes/min-rebuild/min-rebuild.php:48
+#: includes/min-rebuild/min-rebuild.php:45
 msgid "Start rebuild"
 msgstr "开始重建"
 
-#: includes/min-rebuild/min-rebuild.php:49
+#: includes/min-rebuild/min-rebuild.php:46
 msgid "Save your settings before rebuild"
 msgstr "在重建前请保存您的设置"
-
-#: includes/min-rebuild/min-rebuild.php:65
-msgid "Lack the return param."
-msgstr "缺少返回值。"
 
 #: includes/open-sign/open-sign.php:48
 msgid "Open sign settings"
@@ -2868,8 +2866,8 @@ msgid "Code"
 msgstr "代码"
 
 #: includes/widget-author/widget-author.php:16
-msgid "Author card <small>(Custom)</small>"
-msgstr "作者名片 <small>（定制版）</small>"
+msgid "Author card <small>(custom)</small>"
+msgstr "作者名片 <small>（定制）</small>"
 
 #: includes/widget-author/widget-author.php:19
 msgid "Show the author information."
@@ -3413,6 +3411,15 @@ msgstr "向每个人介绍自己"
 #: tpl-page-account-settings.php:77
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "User point rank <small>custom</small>"
+#~ msgstr "用户积分排行 <small>定制</small>"
+
+#~ msgid "Lack the return param."
+#~ msgstr "缺少返回值。"
+
+#~ msgid "Author card <small>(Custom)</small>"
+#~ msgstr "作者名片 <small>（定制版）</small>"
 
 #~ msgid "User point rank <small>(Custom)</small>"
 #~ msgstr "用户积分排行 <small>（定制版）</small>"

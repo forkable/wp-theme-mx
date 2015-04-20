@@ -1,8 +1,8 @@
 
-define(function(require,exports,module){var $=require('modules/jquery'),jQuery=$;if(typeof jQuery==='undefined'){throw new Error('Bootstrap\'s JavaScript requires jQuery')}
-+function($){'use strict';var version=$.fn.jquery.split(' ')[0].split('.')
+if(typeof jQuery==='undefined'){throw new Error('Bootstrap\'s JavaScript requires jQuery')}
++function($){'use strict';var version=jQuery.fn.jquery.split(' ')[0].split('.')
 if((version[0]<2&&version[1]<9)||(version[0]==1&&version[1]==9&&version[2]<1)){throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher')}}(jQuery);+function($){'use strict';var Button=function(element,options){this.$element=jQuery(element)
-this.options=$.extend({},Button.DEFAULTS,options)
+this.options=jQuery.extend({},Button.DEFAULTS,options)
 this.isLoading=false}
 Button.VERSION='3.3.2'
 Button.DEFAULTS={loadingText:'loading...'}
@@ -12,7 +12,7 @@ var val=$el.is('input')?'val':'html'
 var data=$el.data()
 state=state+'Text'
 if(data.resetText==null)$el.data('resetText',$el[val]())
-setTimeout($.proxy(function(){$el[val](data[state]==null?this.options[state]:data[state])
+setTimeout(jQuery.proxy(function(){$el[val](data[state]==null?this.options[state]:data[state])
 if(state=='loadingText'){this.isLoading=true
 $el.addClass(d).attr(d,d)}else if(this.isLoading){this.isLoading=false
 $el.removeClass(d).removeAttr(d)}},this),0)}
@@ -29,10 +29,10 @@ var options=typeof option=='object'&&option
 if(!data)$this.data('bs.button',(data=new Button(this,options)))
 if(option=='toggle')data.toggle()
 else if(option)data.setState(option)})}
-var old=$.fn.button
-$.fn.button=Plugin
-$.fn.button.Constructor=Button
-$.fn.button.noConflict=function(){$.fn.button=old
+var old=jQuery.fn.button
+jQuery.fn.button=Plugin
+jQuery.fn.button.Constructor=Button
+jQuery.fn.button.noConflict=function(){jQuery.fn.button=old
 return this}
 jQuery(document).on('click.bs.button.data-api','[data-toggle^="button"]',function(e){var $btn=jQuery(e.target)
 if(!$btn.hasClass('btn'))$btn=$btn.closest('.btn')
@@ -41,8 +41,8 @@ e.preventDefault()}).on('focus.bs.button.data-api blur.bs.button.data-api','[dat
 this.$indicators=this.$element.find('.carousel-indicators')
 this.options=options
 this.paused=this.sliding=this.interval=this.$active=this.$items=null
-this.options.keyboard&&this.$element.on('keydown.bs.carousel',$.proxy(this.keydown,this))
-this.options.pause=='hover'&&!('ontouchstart'in document.documentElement)&&this.$element.on('mouseenter.bs.carousel',$.proxy(this.pause,this)).on('mouseleave.bs.carousel',$.proxy(this.cycle,this))}
+this.options.keyboard&&this.$element.on('keydown.bs.carousel',jQuery.proxy(this.keydown,this))
+this.options.pause=='hover'&&!('ontouchstart'in document.documentElement)&&this.$element.on('mouseenter.bs.carousel',jQuery.proxy(this.pause,this)).on('mouseleave.bs.carousel',jQuery.proxy(this.cycle,this))}
 Carousel.VERSION='3.3.2'
 Carousel.TRANSITION_DURATION=600
 Carousel.DEFAULTS={interval:5000,pause:'hover',wrap:true,keyboard:true}
@@ -53,7 +53,7 @@ default:return}
 e.preventDefault()}
 Carousel.prototype.cycle=function(e){e||(this.paused=false)
 this.interval&&clearInterval(this.interval)
-this.options.interval&&!this.paused&&(this.interval=setInterval($.proxy(this.next,this),this.options.interval))
+this.options.interval&&!this.paused&&(this.interval=setInterval(jQuery.proxy(this.next,this),this.options.interval))
 return this}
 Carousel.prototype.getItemIndex=function(item){this.$items=item.parent().children('.item')
 return this.$items.index(item||this.$active)}
@@ -70,7 +70,7 @@ if(this.sliding)return this.$element.one('slid.bs.carousel',function(){that.to(p
 if(activeIndex==pos)return this.pause().cycle()
 return this.slide(pos>activeIndex?'next':'prev',this.$items.eq(pos))}
 Carousel.prototype.pause=function(e){e||(this.paused=true)
-if(this.$element.find('.next, .prev').length&&$.support.transition){this.$element.trigger($.support.transition.end)
+if(this.$element.find('.next, .prev').length&&jQuery.support.transition){this.$element.trigger(jQuery.support.transition.end)
 this.cycle(true)}
 this.interval=clearInterval(this.interval)
 return this}
@@ -85,7 +85,7 @@ var direction=type=='next'?'left':'right'
 var that=this
 if($next.hasClass('active'))return(this.sliding=false)
 var relatedTarget=$next[0]
-var slideEvent=$.Event('slide.bs.carousel',{relatedTarget:relatedTarget,direction:direction})
+var slideEvent=jQuery.Event('slide.bs.carousel',{relatedTarget:relatedTarget,direction:direction})
 this.$element.trigger(slideEvent)
 if(slideEvent.isDefaultPrevented())return
 this.sliding=true
@@ -93,8 +93,8 @@ isCycling&&this.pause()
 if(this.$indicators.length){this.$indicators.find('.active').removeClass('active')
 var $nextIndicator=jQuery(this.$indicators.children()[this.getItemIndex($next)])
 $nextIndicator&&$nextIndicator.addClass('active')}
-var slidEvent=$.Event('slid.bs.carousel',{relatedTarget:relatedTarget,direction:direction})
-if($.support.transition&&this.$element.hasClass('slide')){$next.addClass(type)
+var slidEvent=jQuery.Event('slid.bs.carousel',{relatedTarget:relatedTarget,direction:direction})
+if(jQuery.support.transition&&this.$element.hasClass('slide')){$next.addClass(type)
 $next[0].offsetWidth
 $active.addClass(direction)
 $next.addClass(direction)
@@ -109,22 +109,22 @@ isCycling&&this.cycle()
 return this}
 function Plugin(option){return this.each(function(){var $this=jQuery(this)
 var data=$this.data('bs.carousel')
-var options=$.extend({},Carousel.DEFAULTS,$this.data(),typeof option=='object'&&option)
+var options=jQuery.extend({},Carousel.DEFAULTS,$this.data(),typeof option=='object'&&option)
 var action=typeof option=='string'?option:options.slide
 if(!data)$this.data('bs.carousel',(data=new Carousel(this,options)))
 if(typeof option=='number')data.to(option)
 else if(action)data[action]()
 else if(options.interval)data.pause().cycle()})}
-var old=$.fn.carousel
-$.fn.carousel=Plugin
-$.fn.carousel.Constructor=Carousel
-$.fn.carousel.noConflict=function(){$.fn.carousel=old
+var old=jQuery.fn.carousel
+jQuery.fn.carousel=Plugin
+jQuery.fn.carousel.Constructor=Carousel
+jQuery.fn.carousel.noConflict=function(){jQuery.fn.carousel=old
 return this}
 var clickHandler=function(e){var href
 var $this=jQuery(this)
 var $target=jQuery($this.attr('data-target')||(href=$this.attr('href'))&&href.replace(/.*(?=#[^\s]+$)/,''))
 if(!$target.hasClass('carousel'))return
-var options=$.extend({},$target.data(),$this.data())
+var options=jQuery.extend({},$target.data(),$this.data())
 var slideIndex=$this.attr('data-slide-to')
 if(slideIndex)options.interval=false
 Plugin.call($target,options)
@@ -143,7 +143,7 @@ var isActive=$parent.hasClass('open')
 clearMenus()
 if(!isActive){if('ontouchstart'in document.documentElement&&!$parent.closest('.navbar-nav').length){jQuery('<div class="dropdown-backdrop"/>').insertAfter(jQuery(this)).on('click',clearMenus)}
 var relatedTarget={relatedTarget:this}
-$parent.trigger(e=$.Event('show.bs.dropdown',relatedTarget))
+$parent.trigger(e=jQuery.Event('show.bs.dropdown',relatedTarget))
 if(e.isDefaultPrevented())return
 $this.trigger('focus').attr('aria-expanded','true')
 $parent.toggleClass('open').trigger('shown.bs.dropdown',relatedTarget)}
@@ -171,7 +171,7 @@ jQuery(toggle).each(function(){var $this=jQuery(this)
 var $parent=getParent($this)
 var relatedTarget={relatedTarget:this}
 if(!$parent.hasClass('open'))return
-$parent.trigger(e=$.Event('hide.bs.dropdown',relatedTarget))
+$parent.trigger(e=jQuery.Event('hide.bs.dropdown',relatedTarget))
 if(e.isDefaultPrevented())return
 $this.attr('aria-expanded','false')
 $parent.removeClass('open').trigger('hidden.bs.dropdown',relatedTarget)})}
@@ -184,10 +184,10 @@ function Plugin(option){return this.each(function(){var $this=jQuery(this)
 var data=$this.data('bs.dropdown')
 if(!data)$this.data('bs.dropdown',(data=new Dropdown(this)))
 if(typeof option=='string')data[option].call($this)})}
-var old=$.fn.dropdown
-$.fn.dropdown=Plugin
-$.fn.dropdown.Constructor=Dropdown
-$.fn.dropdown.noConflict=function(){$.fn.dropdown=old
+var old=jQuery.fn.dropdown
+jQuery.fn.dropdown=Plugin
+jQuery.fn.dropdown.Constructor=Dropdown
+jQuery.fn.dropdown.noConflict=function(){jQuery.fn.dropdown=old
 return this}
 jQuery(document).on('click.bs.dropdown.data-api',clearMenus).on('click.bs.dropdown.data-api','.dropdown form',function(e){e.stopPropagation()}).on('click.bs.dropdown.data-api',toggle,Dropdown.prototype.toggle).on('keydown.bs.dropdown.data-api',toggle,Dropdown.prototype.keydown).on('keydown.bs.dropdown.data-api','[role="menu"]',Dropdown.prototype.keydown).on('keydown.bs.dropdown.data-api','[role="listbox"]',Dropdown.prototype.keydown)}(jQuery);+function($){'use strict';var Tab=function(element){this.element=jQuery(element)}
 Tab.VERSION='3.3.2'
@@ -199,8 +199,8 @@ if(!selector){selector=$this.attr('href')
 selector=selector&&selector.replace(/.*(?=#[^\s]*$)/,'')}
 if($this.parent('li').hasClass('active'))return
 var $previous=$ul.find('.active:last a')
-var hideEvent=$.Event('hide.bs.tab',{relatedTarget:$this[0]})
-var showEvent=$.Event('show.bs.tab',{relatedTarget:$previous[0]})
+var hideEvent=jQuery.Event('hide.bs.tab',{relatedTarget:$this[0]})
+var showEvent=jQuery.Event('show.bs.tab',{relatedTarget:$previous[0]})
 $previous.trigger(hideEvent)
 $this.trigger(showEvent)
 if(showEvent.isDefaultPrevented()||hideEvent.isDefaultPrevented())return
@@ -209,7 +209,7 @@ this.activate($this.closest('li'),$ul)
 this.activate($target,$target.parent(),function(){$previous.trigger({type:'hidden.bs.tab',relatedTarget:$this[0]})
 $this.trigger({type:'shown.bs.tab',relatedTarget:$previous[0]})})}
 Tab.prototype.activate=function(element,container,callback){var $active=container.find('> .active')
-var transition=callback&&$.support.transition&&(($active.length&&$active.hasClass('fade'))||!!container.find('> .fade').length)
+var transition=callback&&jQuery.support.transition&&(($active.length&&$active.hasClass('fade'))||!!container.find('> .fade').length)
 function next(){$active.removeClass('active').find('> .dropdown-menu > .active').removeClass('active').end().find('[data-toggle="tab"]').attr('aria-expanded',false)
 element.addClass('active').find('[data-toggle="tab"]').attr('aria-expanded',true)
 if(transition){element[0].offsetWidth
@@ -222,15 +222,15 @@ function Plugin(option){return this.each(function(){var $this=jQuery(this)
 var data=$this.data('bs.tab')
 if(!data)$this.data('bs.tab',(data=new Tab(this)))
 if(typeof option=='string')data[option]()})}
-var old=$.fn.tab
-$.fn.tab=Plugin
-$.fn.tab.Constructor=Tab
-$.fn.tab.noConflict=function(){$.fn.tab=old
+var old=jQuery.fn.tab
+jQuery.fn.tab=Plugin
+jQuery.fn.tab.Constructor=Tab
+jQuery.fn.tab.noConflict=function(){jQuery.fn.tab=old
 return this}
 var clickHandler=function(e){e.preventDefault()
 Plugin.call(jQuery(this),'show')}
-jQuery(document).on('click.bs.tab.data-api','[data-toggle="tab"]',clickHandler).on('click.bs.tab.data-api','[data-toggle="pill"]',clickHandler)}(jQuery);+function($){'use strict';var Affix=function(element,options){this.options=$.extend({},Affix.DEFAULTS,options)
-this.$target=jQuery(this.options.target).on('scroll.bs.affix.data-api',$.proxy(this.checkPosition,this)).on('click.bs.affix.data-api',$.proxy(this.checkPositionWithEventLoop,this))
+jQuery(document).on('click.bs.tab.data-api','[data-toggle="tab"]',clickHandler).on('click.bs.tab.data-api','[data-toggle="pill"]',clickHandler)}(jQuery);+function($){'use strict';var Affix=function(element,options){this.options=jQuery.extend({},Affix.DEFAULTS,options)
+this.$target=jQuery(this.options.target).on('scroll.bs.affix.data-api',jQuery.proxy(this.checkPosition,this)).on('click.bs.affix.data-api',jQuery.proxy(this.checkPositionWithEventLoop,this))
 this.$element=jQuery(element)
 this.affixed=this.unpin=this.pinnedOffset=null
 this.checkPosition()}
@@ -254,7 +254,7 @@ this.$element.removeClass(Affix.RESET).addClass('affix')
 var scrollTop=this.$target.scrollTop()
 var position=this.$element.offset()
 return(this.pinnedOffset=position.top-scrollTop)}
-Affix.prototype.checkPositionWithEventLoop=function(){setTimeout($.proxy(this.checkPosition,this),1)}
+Affix.prototype.checkPositionWithEventLoop=function(){setTimeout(jQuery.proxy(this.checkPosition,this),1)}
 Affix.prototype.checkPosition=function(){if(!this.$element.is(':visible'))return
 var height=this.$element.height()
 var offset=this.options.offset
@@ -267,7 +267,7 @@ if(typeof offsetBottom=='function')offsetBottom=offset.bottom(this.$element)
 var affix=this.getState(scrollHeight,height,offsetTop,offsetBottom)
 if(this.affixed!=affix){if(this.unpin!=null)this.$element.css('top','')
 var affixType='affix'+(affix?'-'+affix:'')
-var e=$.Event(affixType+'.bs.affix')
+var e=jQuery.Event(affixType+'.bs.affix')
 this.$element.trigger(e)
 if(e.isDefaultPrevented())return
 this.affixed=affix
@@ -279,10 +279,10 @@ var data=$this.data('bs.affix')
 var options=typeof option=='object'&&option
 if(!data)$this.data('bs.affix',(data=new Affix(this,options)))
 if(typeof option=='string')data[option]()})}
-var old=$.fn.affix
-$.fn.affix=Plugin
-$.fn.affix.Constructor=Affix
-$.fn.affix.noConflict=function(){$.fn.affix=old
+var old=jQuery.fn.affix
+jQuery.fn.affix=Plugin
+jQuery.fn.affix.Constructor=Affix
+jQuery.fn.affix.noConflict=function(){jQuery.fn.affix=old
 return this}
 jQuery(window).on('load',function(){jQuery('[data-spy="affix"]').each(function(){var $spy=jQuery(this)
 var data=$spy.data()
@@ -290,7 +290,7 @@ data.offset=data.offset||{}
 if(data.offsetBottom!=null)data.offset.bottom=data.offsetBottom
 if(data.offsetTop!=null)data.offset.top=data.offsetTop
 Plugin.call($spy,data)})})}(jQuery);+function($){'use strict';var Collapse=function(element,options){this.$element=jQuery(element)
-this.options=$.extend({},Collapse.DEFAULTS,options)
+this.options=jQuery.extend({},Collapse.DEFAULTS,options)
 this.$trigger=jQuery(this.options.trigger).filter('[href="#'+element.id+'"], [data-target="#'+element.id+'"]')
 this.transitioning=null
 if(this.options.parent){this.$parent=this.getParent()}else{this.addAriaAndCollapsedClass(this.$element,this.$trigger)}
@@ -305,7 +305,7 @@ var activesData
 var actives=this.$parent&&this.$parent.children('.panel').children('.in, .collapsing')
 if(actives&&actives.length){activesData=actives.data('bs.collapse')
 if(activesData&&activesData.transitioning)return}
-var startEvent=$.Event('show.bs.collapse')
+var startEvent=jQuery.Event('show.bs.collapse')
 this.$element.trigger(startEvent)
 if(startEvent.isDefaultPrevented())return
 if(actives&&actives.length){Plugin.call(actives,'hide')
@@ -317,11 +317,11 @@ this.transitioning=1
 var complete=function(){this.$element.removeClass('collapsing').addClass('collapse in')[dimension]('')
 this.transitioning=0
 this.$element.trigger('shown.bs.collapse')}
-if(!$.support.transition)return complete.call(this)
-var scrollSize=$.camelCase(['scroll',dimension].join('-'))
-this.$element.one('bsTransitionEnd',$.proxy(complete,this)).emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])}
+if(!jQuery.support.transition)return complete.call(this)
+var scrollSize=jQuery.camelCase(['scroll',dimension].join('-'))
+this.$element.one('bsTransitionEnd',jQuery.proxy(complete,this)).emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])}
 Collapse.prototype.hide=function(){if(this.transitioning||!this.$element.hasClass('in'))return
-var startEvent=$.Event('hide.bs.collapse')
+var startEvent=jQuery.Event('hide.bs.collapse')
 this.$element.trigger(startEvent)
 if(startEvent.isDefaultPrevented())return
 var dimension=this.dimension()
@@ -331,11 +331,11 @@ this.$trigger.addClass('collapsed').attr('aria-expanded',false)
 this.transitioning=1
 var complete=function(){this.transitioning=0
 this.$element.removeClass('collapsing').addClass('collapse').trigger('hidden.bs.collapse')}
-if(!$.support.transition)return complete.call(this)
+if(!jQuery.support.transition)return complete.call(this)
 this.$element
-[dimension](0).one('bsTransitionEnd',$.proxy(complete,this)).emulateTransitionEnd(Collapse.TRANSITION_DURATION)}
+[dimension](0).one('bsTransitionEnd',jQuery.proxy(complete,this)).emulateTransitionEnd(Collapse.TRANSITION_DURATION)}
 Collapse.prototype.toggle=function(){this[this.$element.hasClass('in')?'hide':'show']()}
-Collapse.prototype.getParent=function(){return jQuery(this.options.parent).find('[data-toggle="collapse"][data-parent="'+this.options.parent+'"]').each($.proxy(function(i,element){var $element=jQuery(element)
+Collapse.prototype.getParent=function(){return jQuery(this.options.parent).find('[data-toggle="collapse"][data-parent="'+this.options.parent+'"]').each(jQuery.proxy(function(i,element){var $element=jQuery(element)
 this.addAriaAndCollapsedClass(getTargetFromTrigger($element),$element)},this)).end()}
 Collapse.prototype.addAriaAndCollapsedClass=function($element,$trigger){var isOpen=$element.hasClass('in')
 $element.attr('aria-expanded',isOpen)
@@ -345,18 +345,18 @@ var target=$trigger.attr('data-target')||(href=$trigger.attr('href'))&&href.repl
 return jQuery(target)}
 function Plugin(option){return this.each(function(){var $this=jQuery(this)
 var data=$this.data('bs.collapse')
-var options=$.extend({},Collapse.DEFAULTS,$this.data(),typeof option=='object'&&option)
+var options=jQuery.extend({},Collapse.DEFAULTS,$this.data(),typeof option=='object'&&option)
 if(!data&&options.toggle&&option=='show')options.toggle=false
 if(!data)$this.data('bs.collapse',(data=new Collapse(this,options)))
 if(typeof option=='string')data[option]()})}
-var old=$.fn.collapse
-$.fn.collapse=Plugin
-$.fn.collapse.Constructor=Collapse
-$.fn.collapse.noConflict=function(){$.fn.collapse=old
+var old=jQuery.fn.collapse
+jQuery.fn.collapse=Plugin
+jQuery.fn.collapse.Constructor=Collapse
+jQuery.fn.collapse.noConflict=function(){jQuery.fn.collapse=old
 return this}
 jQuery(document).on('click.bs.collapse.data-api','[data-toggle="collapse"]',function(e){var $this=jQuery(this)
 if(!$this.attr('data-target'))e.preventDefault()
 var $target=getTargetFromTrigger($this)
 var data=$target.data('bs.collapse')
-var option=data?'toggle':$.extend({},$this.data(),{trigger:this})
-Plugin.call($target,option)})}(jQuery);});
+var option=data?'toggle':jQuery.extend({},$this.data(),{trigger:this})
+Plugin.call($target,option)})}(jQuery);

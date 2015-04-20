@@ -73,7 +73,7 @@ define(function(require, exports, module){
 			 * validate
 			 */
 			var login_validate = new tools.validate();
-				login_validate.process_url = exports.config.process_url + '&' + $.param({
+				login_validate.process_url = exports.config.process_url + '&' + jQuery.param({
 					'theme-nonce' : js_request['theme-nonce']
 				});
 				login_validate.loading_tx = exports.config.lang.M00001;
@@ -86,7 +86,7 @@ define(function(require, exports, module){
 				};
 				login_validate.init();
 			var register_validate = new tools.validate();
-				register_validate.process_url = exports.config.process_url + '&' + $.param({
+				register_validate.process_url = exports.config.process_url + '&' + jQuery.param({
 					'theme-nonce' : js_request['theme-nonce']
 				});
 				register_validate.loading_tx = exports.config.lang.M00001;

@@ -13,7 +13,7 @@ require('theme_css/modules/jrating.css');
 **************************************************************************
 *************************************************************************/
 (function($) {
-	$.fn.jRating = function(op) {
+	jQuery.fn.jRating = function(op) {
 		var defaults = {
 			/** String vars **/
 			bigStarsPath : 'jrating/stars.png', // path of the icon stars.png
@@ -45,7 +45,7 @@ require('theme_css/modules/jrating.css');
 		if(this.length>0)
 		return this.each(function() {
 			/*vars*/
-			var opts = $.extend(defaults, op),
+			var opts = jQuery.extend(defaults, op),
 			newWidth = 0,
 			starWidth = 0,
 			starHeight = 0,
@@ -168,7 +168,7 @@ require('theme_css/modules/jrating.css');
 					 * add by KMVAN
 					 */
 					if(opts.sendRequest) {
-						$.ajax({
+						jQuery.ajax({
 							url : opts.phpPath,
 							type : 'post',
 							data : {
@@ -185,7 +185,7 @@ require('theme_css/modules/jrating.css');
 							if(opts.always) opts.always(element,rate);
 						});
 						
-						// $.post(opts.phpPath,{
+						// jQuery.post(opts.phpPath,{
 								// idBox : idBox,
 								// rate : rate,
 								// action : 'rating'

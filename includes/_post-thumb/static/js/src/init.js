@@ -71,7 +71,7 @@ define(function(require, exports, module){
 				id : 'post-thumb',
 				content : tools.status_tip('loading',exports.config.lang.M00001)
 			});
-			$.ajax({
+			jQuery.ajax({
 				url : exports.config.process_url,
 				dataType : 'json',
 				data : ajax_data

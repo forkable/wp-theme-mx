@@ -157,7 +157,7 @@ define(function(require, exports, module){
 				 * list.get_comm_data_from_server.ajax.init
 				 */
 				init : function(){
-					$.ajax({
+					jQuery.ajax({
 						url : exports.config.process_url,
 						dataType : 'json',
 						data : {
@@ -312,8 +312,8 @@ define(function(require, exports, module){
 			 * respond.ajax.init 初始化
 			 */
 			init : function(){
-				$.ajax({
-					url : exports.config.process_url + '&' + $.param({
+				jQuery.ajax({
+					url : exports.config.process_url + '&' + jQuery.param({
 						'type' : 'get-respond',
 						'post-id' : exports.cache.post_id,
 						'theme-nonce' : js_request['theme-nonce']
@@ -404,8 +404,8 @@ define(function(require, exports, module){
 			 */
 			ajax : {
 				init : function(){
-					$.ajax({
-						url : exports.config.process_url + '&' + $.param({
+					jQuery.ajax({
+						url : exports.config.process_url + '&' + jQuery.param({
 							'post-id' : exports.cache.post_id,
 							'theme-nonce' : js_request['theme-nonce'],
 							'type' : 'post-comment'

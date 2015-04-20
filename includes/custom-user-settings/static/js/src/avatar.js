@@ -70,7 +70,7 @@ define(function(require, exports, module){
 		}
 		function validate(){
 			var m = new tools.validate();
-				m.process_url = exports.config.process_url + '&' + $.param({
+				m.process_url = exports.config.process_url + '&' + jQuery.param({
 					'theme-nonce' : js_request['theme-nonce']
 				});
 				m.before = function(){

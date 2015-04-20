@@ -13,7 +13,7 @@ if (typeof jQuery === 'undefined') {
 }
 +function ($) {
   'use strict';
-  var version = $.fn.jquery.split(' ')[0].split('.')
+  var version = jQuery.fn.jquery.split(' ')[0].split('.')
   if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1)) {
     throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher')
   }
@@ -36,7 +36,7 @@ if (typeof jQuery === 'undefined') {
 
   var Button = function (element, options) {
     this.$element  = jQuery(element)
-    this.options   = $.extend({}, Button.DEFAULTS, options)
+    this.options   = jQuery.extend({}, Button.DEFAULTS, options)
     this.isLoading = false
   }
 
@@ -57,7 +57,7 @@ if (typeof jQuery === 'undefined') {
     if (data.resetText == null) $el.data('resetText', $el[val]())
 
     // push to event loop to allow forms to submit
-    setTimeout($.proxy(function () {
+    setTimeout(jQuery.proxy(function () {
       $el[val](data[state] == null ? this.options[state] : data[state])
 
       if (state == 'loadingText') {
@@ -105,17 +105,17 @@ if (typeof jQuery === 'undefined') {
     })
   }
 
-  var old = $.fn.button
+  var old = jQuery.fn.button
 
-  $.fn.button             = Plugin
-  $.fn.button.Constructor = Button
+  jQuery.fn.button             = Plugin
+  jQuery.fn.button.Constructor = Button
 
 
   // BUTTON NO CONFLICT
   // ==================
 
-  $.fn.button.noConflict = function () {
-    $.fn.button = old
+  jQuery.fn.button.noConflict = function () {
+    jQuery.fn.button = old
     return this
   }
 
@@ -161,11 +161,11 @@ if (typeof jQuery === 'undefined') {
     this.$active     =
     this.$items      = null
 
-    this.options.keyboard && this.$element.on('keydown.bs.carousel', $.proxy(this.keydown, this))
+    this.options.keyboard && this.$element.on('keydown.bs.carousel', jQuery.proxy(this.keydown, this))
 
     this.options.pause == 'hover' && !('ontouchstart' in document.documentElement) && this.$element
-      .on('mouseenter.bs.carousel', $.proxy(this.pause, this))
-      .on('mouseleave.bs.carousel', $.proxy(this.cycle, this))
+      .on('mouseenter.bs.carousel', jQuery.proxy(this.pause, this))
+      .on('mouseleave.bs.carousel', jQuery.proxy(this.cycle, this))
   }
 
   Carousel.VERSION  = '3.3.2'
@@ -197,7 +197,7 @@ if (typeof jQuery === 'undefined') {
 
     this.options.interval
       && !this.paused
-      && (this.interval = setInterval($.proxy(this.next, this), this.options.interval))
+      && (this.interval = setInterval(jQuery.proxy(this.next, this), this.options.interval))
 
     return this
   }
@@ -232,8 +232,8 @@ if (typeof jQuery === 'undefined') {
   Carousel.prototype.pause = function (e) {
     e || (this.paused = true)
 
-    if (this.$element.find('.next, .prev').length && $.support.transition) {
-      this.$element.trigger($.support.transition.end)
+    if (this.$element.find('.next, .prev').length && jQuery.support.transition) {
+      this.$element.trigger(jQuery.support.transition.end)
       this.cycle(true)
     }
 
@@ -262,7 +262,7 @@ if (typeof jQuery === 'undefined') {
     if ($next.hasClass('active')) return (this.sliding = false)
 
     var relatedTarget = $next[0]
-    var slideEvent = $.Event('slide.bs.carousel', {
+    var slideEvent = jQuery.Event('slide.bs.carousel', {
       relatedTarget: relatedTarget,
       direction: direction
     })
@@ -279,8 +279,8 @@ if (typeof jQuery === 'undefined') {
       $nextIndicator && $nextIndicator.addClass('active')
     }
 
-    var slidEvent = $.Event('slid.bs.carousel', { relatedTarget: relatedTarget, direction: direction }) // yes, "slid"
-    if ($.support.transition && this.$element.hasClass('slide')) {
+    var slidEvent = jQuery.Event('slid.bs.carousel', { relatedTarget: relatedTarget, direction: direction }) // yes, "slid"
+    if (jQuery.support.transition && this.$element.hasClass('slide')) {
       $next.addClass(type)
       $next[0].offsetWidth // force reflow
       $active.addClass(direction)
@@ -315,7 +315,7 @@ if (typeof jQuery === 'undefined') {
     return this.each(function () {
       var $this   = jQuery(this)
       var data    = $this.data('bs.carousel')
-      var options = $.extend({}, Carousel.DEFAULTS, $this.data(), typeof option == 'object' && option)
+      var options = jQuery.extend({}, Carousel.DEFAULTS, $this.data(), typeof option == 'object' && option)
       var action  = typeof option == 'string' ? option : options.slide
 
       if (!data) $this.data('bs.carousel', (data = new Carousel(this, options)))
@@ -325,17 +325,17 @@ if (typeof jQuery === 'undefined') {
     })
   }
 
-  var old = $.fn.carousel
+  var old = jQuery.fn.carousel
 
-  $.fn.carousel             = Plugin
-  $.fn.carousel.Constructor = Carousel
+  jQuery.fn.carousel             = Plugin
+  jQuery.fn.carousel.Constructor = Carousel
 
 
   // CAROUSEL NO CONFLICT
   // ====================
 
-  $.fn.carousel.noConflict = function () {
-    $.fn.carousel = old
+  jQuery.fn.carousel.noConflict = function () {
+    jQuery.fn.carousel = old
     return this
   }
 
@@ -348,7 +348,7 @@ if (typeof jQuery === 'undefined') {
     var $this   = jQuery(this)
     var $target = jQuery($this.attr('data-target') || (href = $this.attr('href')) && href.replace(/.*(?=#[^\s]+$)/, '')) // strip for ie7
     if (!$target.hasClass('carousel')) return
-    var options = $.extend({}, $target.data(), $this.data())
+    var options = jQuery.extend({}, $target.data(), $this.data())
     var slideIndex = $this.attr('data-slide-to')
     if (slideIndex) options.interval = false
 
@@ -414,7 +414,7 @@ if (typeof jQuery === 'undefined') {
       }
 
       var relatedTarget = { relatedTarget: this }
-      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+      $parent.trigger(e = jQuery.Event('show.bs.dropdown', relatedTarget))
 
       if (e.isDefaultPrevented()) return
 
@@ -472,7 +472,7 @@ if (typeof jQuery === 'undefined') {
 
       if (!$parent.hasClass('open')) return
 
-      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+      $parent.trigger(e = jQuery.Event('hide.bs.dropdown', relatedTarget))
 
       if (e.isDefaultPrevented()) return
 
@@ -508,17 +508,17 @@ if (typeof jQuery === 'undefined') {
     })
   }
 
-  var old = $.fn.dropdown
+  var old = jQuery.fn.dropdown
 
-  $.fn.dropdown             = Plugin
-  $.fn.dropdown.Constructor = Dropdown
+  jQuery.fn.dropdown             = Plugin
+  jQuery.fn.dropdown.Constructor = Dropdown
 
 
   // DROPDOWN NO CONFLICT
   // ====================
 
-  $.fn.dropdown.noConflict = function () {
-    $.fn.dropdown = old
+  jQuery.fn.dropdown.noConflict = function () {
+    jQuery.fn.dropdown = old
     return this
   }
 
@@ -572,10 +572,10 @@ if (typeof jQuery === 'undefined') {
     if ($this.parent('li').hasClass('active')) return
 
     var $previous = $ul.find('.active:last a')
-    var hideEvent = $.Event('hide.bs.tab', {
+    var hideEvent = jQuery.Event('hide.bs.tab', {
       relatedTarget: $this[0]
     })
-    var showEvent = $.Event('show.bs.tab', {
+    var showEvent = jQuery.Event('show.bs.tab', {
       relatedTarget: $previous[0]
     })
 
@@ -602,7 +602,7 @@ if (typeof jQuery === 'undefined') {
   Tab.prototype.activate = function (element, container, callback) {
     var $active    = container.find('> .active')
     var transition = callback
-      && $.support.transition
+      && jQuery.support.transition
       && (($active.length && $active.hasClass('fade')) || !!container.find('> .fade').length)
 
     function next() {
@@ -661,17 +661,17 @@ if (typeof jQuery === 'undefined') {
     })
   }
 
-  var old = $.fn.tab
+  var old = jQuery.fn.tab
 
-  $.fn.tab             = Plugin
-  $.fn.tab.Constructor = Tab
+  jQuery.fn.tab             = Plugin
+  jQuery.fn.tab.Constructor = Tab
 
 
   // TAB NO CONFLICT
   // ===============
 
-  $.fn.tab.noConflict = function () {
-    $.fn.tab = old
+  jQuery.fn.tab.noConflict = function () {
+    jQuery.fn.tab = old
     return this
   }
 
@@ -706,11 +706,11 @@ if (typeof jQuery === 'undefined') {
   // ======================
 
   var Affix = function (element, options) {
-    this.options = $.extend({}, Affix.DEFAULTS, options)
+    this.options = jQuery.extend({}, Affix.DEFAULTS, options)
 
     this.$target = jQuery(this.options.target)
-      .on('scroll.bs.affix.data-api', $.proxy(this.checkPosition, this))
-      .on('click.bs.affix.data-api',  $.proxy(this.checkPositionWithEventLoop, this))
+      .on('scroll.bs.affix.data-api', jQuery.proxy(this.checkPosition, this))
+      .on('click.bs.affix.data-api',  jQuery.proxy(this.checkPositionWithEventLoop, this))
 
     this.$element     = jQuery(element)
     this.affixed      =
@@ -760,7 +760,7 @@ if (typeof jQuery === 'undefined') {
   }
 
   Affix.prototype.checkPositionWithEventLoop = function () {
-    setTimeout($.proxy(this.checkPosition, this), 1)
+    setTimeout(jQuery.proxy(this.checkPosition, this), 1)
   }
 
   Affix.prototype.checkPosition = function () {
@@ -782,7 +782,7 @@ if (typeof jQuery === 'undefined') {
       if (this.unpin != null) this.$element.css('top', '')
 
       var affixType = 'affix' + (affix ? '-' + affix : '')
-      var e         = $.Event(affixType + '.bs.affix')
+      var e         = jQuery.Event(affixType + '.bs.affix')
 
       this.$element.trigger(e)
 
@@ -819,17 +819,17 @@ if (typeof jQuery === 'undefined') {
     })
   }
 
-  var old = $.fn.affix
+  var old = jQuery.fn.affix
 
-  $.fn.affix             = Plugin
-  $.fn.affix.Constructor = Affix
+  jQuery.fn.affix             = Plugin
+  jQuery.fn.affix.Constructor = Affix
 
 
   // AFFIX NO CONFLICT
   // =================
 
-  $.fn.affix.noConflict = function () {
-    $.fn.affix = old
+  jQuery.fn.affix.noConflict = function () {
+    jQuery.fn.affix = old
     return this
   }
 
@@ -870,7 +870,7 @@ if (typeof jQuery === 'undefined') {
 
   var Collapse = function (element, options) {
     this.$element      = jQuery(element)
-    this.options       = $.extend({}, Collapse.DEFAULTS, options)
+    this.options       = jQuery.extend({}, Collapse.DEFAULTS, options)
     this.$trigger      = jQuery(this.options.trigger).filter('[href="#' + element.id + '"], [data-target="#' + element.id + '"]')
     this.transitioning = null
 
@@ -908,7 +908,7 @@ if (typeof jQuery === 'undefined') {
       if (activesData && activesData.transitioning) return
     }
 
-    var startEvent = $.Event('show.bs.collapse')
+    var startEvent = jQuery.Event('show.bs.collapse')
     this.$element.trigger(startEvent)
     if (startEvent.isDefaultPrevented()) return
 
@@ -939,19 +939,19 @@ if (typeof jQuery === 'undefined') {
         .trigger('shown.bs.collapse')
     }
 
-    if (!$.support.transition) return complete.call(this)
+    if (!jQuery.support.transition) return complete.call(this)
 
-    var scrollSize = $.camelCase(['scroll', dimension].join('-'))
+    var scrollSize = jQuery.camelCase(['scroll', dimension].join('-'))
 
     this.$element
-      .one('bsTransitionEnd', $.proxy(complete, this))
+      .one('bsTransitionEnd', jQuery.proxy(complete, this))
       .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
   }
 
   Collapse.prototype.hide = function () {
     if (this.transitioning || !this.$element.hasClass('in')) return
 
-    var startEvent = $.Event('hide.bs.collapse')
+    var startEvent = jQuery.Event('hide.bs.collapse')
     this.$element.trigger(startEvent)
     if (startEvent.isDefaultPrevented()) return
 
@@ -978,11 +978,11 @@ if (typeof jQuery === 'undefined') {
         .trigger('hidden.bs.collapse')
     }
 
-    if (!$.support.transition) return complete.call(this)
+    if (!jQuery.support.transition) return complete.call(this)
 
     this.$element
       [dimension](0)
-      .one('bsTransitionEnd', $.proxy(complete, this))
+      .one('bsTransitionEnd', jQuery.proxy(complete, this))
       .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
   }
 
@@ -993,7 +993,7 @@ if (typeof jQuery === 'undefined') {
   Collapse.prototype.getParent = function () {
     return jQuery(this.options.parent)
       .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
-      .each($.proxy(function (i, element) {
+      .each(jQuery.proxy(function (i, element) {
         var $element = jQuery(element)
         this.addAriaAndCollapsedClass(getTargetFromTrigger($element), $element)
       }, this))
@@ -1025,7 +1025,7 @@ if (typeof jQuery === 'undefined') {
     return this.each(function () {
       var $this   = jQuery(this)
       var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
+      var options = jQuery.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
       if (!data && options.toggle && option == 'show') options.toggle = false
       if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
@@ -1033,17 +1033,17 @@ if (typeof jQuery === 'undefined') {
     })
   }
 
-  var old = $.fn.collapse
+  var old = jQuery.fn.collapse
 
-  $.fn.collapse             = Plugin
-  $.fn.collapse.Constructor = Collapse
+  jQuery.fn.collapse             = Plugin
+  jQuery.fn.collapse.Constructor = Collapse
 
 
   // COLLAPSE NO CONFLICT
   // ====================
 
-  $.fn.collapse.noConflict = function () {
-    $.fn.collapse = old
+  jQuery.fn.collapse.noConflict = function () {
+    jQuery.fn.collapse = old
     return this
   }
 
@@ -1058,7 +1058,7 @@ if (typeof jQuery === 'undefined') {
 
     var $target = getTargetFromTrigger($this)
     var data    = $target.data('bs.collapse')
-    var option  = data ? 'toggle' : $.extend({}, $this.data(), { trigger: this })
+    var option  = data ? 'toggle' : jQuery.extend({}, $this.data(), { trigger: this })
 
     Plugin.call($target, option)
   })

@@ -13,7 +13,7 @@ class theme_widget_author extends WP_Widget{
 		$this->alt_option_name = self::$iden;
 		parent::__construct(
 			self::$iden,
-			___('Author card <small>(Custom)</small>'),
+			___('Author card <small>(custom)</small>'),
 			array(
 				'classname' => self::$iden,
 				'description'=> ___('Show the author information.'),

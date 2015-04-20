@@ -36,7 +36,7 @@ define(function(require, exports, module){
 			if(exports.cache.$fm_reset[0]){
 				tools.auto_focus(exports.cache.$fm_reset[0]);
 				var m = new tools.validate();
-					m.process_url = exports.config.process_url + '&' + $.param({
+					m.process_url = exports.config.process_url + '&' + jQuery.param({
 						'theme-nonce' : js_request['theme-nonce']
 					});
 					m.done = function(data){
@@ -63,7 +63,7 @@ define(function(require, exports, module){
 			if(exports.cache.$fm_recover[0]){
 				tools.auto_focus(exports.cache.$fm_recover[0]);
 				var m = new tools.validate();
-					m.process_url = exports.config.process_url + '&' + $.param({
+					m.process_url = exports.config.process_url + '&' + jQuery.param({
 						'theme-nonce' : js_request['theme-nonce']
 					});
 					m.loading_tx = exports.config.lang.M00001;
@@ -79,7 +79,7 @@ define(function(require, exports, module){
 			if(exports.cache.$fm_login[0]){
 				tools.auto_focus(exports.cache.$fm_login[0]);
 				var m = new tools.validate();
-					m.process_url = exports.config.process_url + '&' + $.param({
+					m.process_url = exports.config.process_url + '&' + jQuery.param({
 						'theme-nonce' : js_request['theme-nonce']
 					});
 					m.done = function(data){
@@ -96,7 +96,7 @@ define(function(require, exports, module){
 				if(exports.cache.$fm_reg[0]){
 					tools.auto_focus(exports.cache.$fm_reg[0]);
 					var m = new tools.validate();
-						m.process_url = exports.config.process_url + '&' + $.param({
+						m.process_url = exports.config.process_url + '&' + jQuery.param({
 							'theme-nonce' : js_request['theme-nonce']
 						});
 						m.done = function(data){

@@ -141,7 +141,7 @@ define(function(require, exports, module){
 				
 				tip('loading',cache.submit_loading_tx);
 				
-				$.ajax({
+				jQuery.ajax({
 					url : that.process_url,
 					type : 'post',
 					data : that.$fm.serialize(),
@@ -280,7 +280,7 @@ define(function(require, exports, module){
 			};
 		fm.find("[required]").each(function(i){
 			var $this = jQuery(this);
-			if(!($.trim($this.val())) && !return_data.is_invalid){
+			if(!(jQuery.trim($this.val())) && !return_data.is_invalid){
 				warning_effect(100,5,function(){
 					$this.css({'border-color':'red'});
 				},function(){

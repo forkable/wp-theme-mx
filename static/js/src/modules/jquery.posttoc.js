@@ -21,12 +21,12 @@ define(function(require, exports, module){
 	exports.init = function(){
 	
 		(function ($) {
-			$.fn.toc = function(options) {
-				var settings = $.extend({
+			jQuery.fn.toc = function(options) {
+				var settings = jQuery.extend({
 					id: 'container'
 				}, options);
 
-				options = $.extend(settings, options);
+				options = jQuery.extend(settings, options);
 				
 				var $hs = this.find('h1, h2, h3, h4, h5, h6');
 				if(!$hs[0]) return false;

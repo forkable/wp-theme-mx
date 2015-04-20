@@ -1,5 +1,5 @@
 
-define(function(require,exports,module){'use strict';var $=require('modules/jquery'),jQuery=$,uploader=require('modules/uploader'),tools=require('modules/tools');exports.init=function(){jQuery(document).ready(function(){exports.bind();});}
+define(function(require,exports,module){'use strict';var uploader=require('modules/uploader'),tools=require('modules/tools');exports.init=function(){jQuery(document).ready(function(){exports.bind();});}
 exports.config={items_id:'.slidebox-item',items_prefix_id:'#slidebox-item-',add_btn_id:'#slidebox-add',control_box_id:'#slidebox-control',del_btn_id:'.slidebox-del',file_btn_id:'.slidebox-file',placeholder_pattern:/\%placeholder\%/ig,tpl:'',process_url:'',lang:{M00001:'Loading, please wait...',E00001:'Server error or network is disconnected.'}}
 exports.cache={}
 exports.bind=function(){exports.cache.$item=jQuery(exports.config.items_id);exports.cache.$add_btn=jQuery(exports.config.add_btn_id);exports.cache.$control_box=jQuery(exports.config.control_box_id);exports.cache.$del_btns=jQuery(exports.config.del_btn_id);exports.cache.$file_btns=jQuery(exports.config.file_btn_id);exports.event_del(exports.cache.$del_btns);exports.event_add(exports.cache.$add_btn);exports.cache.$item.each(function(){exports.file({$item:jQuery(this)});});}

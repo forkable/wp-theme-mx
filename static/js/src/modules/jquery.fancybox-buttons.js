@@ -18,7 +18,7 @@ require('theme_css/modules/fancybox-buttons.css');
  */
 (function ($) {
 	//Shortcut for fancyBox object
-	var F = $.fancybox;
+	var F = jQuery.fancybox;
 
 	//Add helper object
 	F.helpers.buttons = {

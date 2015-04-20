@@ -58,8 +58,8 @@ define(function(require,exports,module){
 		files_count = 0,
 		files;
 
-	$.fn.filedrop = function(options) {
-		opts = $.extend( {}, default_opts, options );
+	jQuery.fn.filedrop = function(options) {
+		opts = jQuery.extend( {}, default_opts, options );
 		this.bind('change',drop).bind('drop', drop).bind('dragenter', dragEnter).bind('dragover', dragOver).bind('dragleave', dragLeave);
 		jQuery(document).bind('drop', docDrop).bind('dragenter', docEnter).bind('dragover', docOver).bind('dragleave', docLeave);
 	};
@@ -83,7 +83,7 @@ define(function(require,exports,module){
 			crlf = '\r\n',
 			builder = '';
 
-		$.each(opts.data, function(i, val) {
+		jQuery.each(opts.data, function(i, val) {
 	    	if (typeof val === 'function') val = val();
 			builder += dashdash;
 			builder += boundary;
