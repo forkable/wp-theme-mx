@@ -1641,7 +1641,7 @@ class theme_functions{
 	 * the_recommended
 	 */
 	public static function the_recommended(){
-		$recomms = (array)theme_options::get_options(theme_recommended_post::$iden);
+		$recomms = theme_recommended_post::get_ids();
 		
 		if(empty($recomms)){
 			?>
@@ -1650,7 +1650,7 @@ class theme_functions{
 			return false;
 		}
 		$cache_id = md5(serialize($recomms));
-		$cache = theme_cache::get($cache_id);
+		$cache = wp_cache_get($cache_id);
 		
 		if(!empty($cache)){
 			echo $cache;
@@ -1680,9 +1680,8 @@ class theme_functions{
 		}
 		$cache = ob_get_contents();
 		ob_end_clean();
-		theme_cache::set($cache_id,null,$cache);
+		wp_cache_set($cache_id,$cache,3600*24);
 		wp_reset_query();
-		wp_reset_postdata();
 		echo $cache;
 		return $cache;
 	}
@@ -1692,6 +1691,18 @@ class theme_functions{
 			
 		$opt = (array)theme_custom_homebox::get_options();
 
+		/**
+		 * cache
+		 */
+		$cache_id = md5(serialize($opt));
+		$cache = wp_cache_get($cache_id);
+		if(!empty($cache)){
+			echo $cache;
+			return $cache;
+		}
+
+		ob_start();
+		
 		if(is_null_array($opt)){
 			?>
 			<div class="panel panel-default">
@@ -1737,15 +1748,15 @@ class theme_functions{
 					title="<?php echo ___('Preview page');?>"
 					href="javascript:;" 
 					class="btn btn-default preview disabled" 
-					data-cat-id="<?php echo implode(',',$v['cats']);?>"
-					data-paged="1"
+					data-box-id="<?php echo $k;?>"
+					data-cpage="1"
 				><i class="fa fa-caret-left"></i></a>
 				<a 
 					title="<?php echo ___('Next page');?>"
 					href="javascript:;" 
 					class="btn btn-default next" 
-					data-cat-id="<?php echo implode(',',$v['cats']);?>"
-					data-paged="1"
+					data-box-id="<?php echo $k;?>"
+					data-cpage="1"
 				><i class="fa fa-caret-right"></i></a>
 			</div>
 			
@@ -1757,7 +1768,8 @@ class theme_functions{
 			$wp_query = self::get_posts_query(array(
 				'orderby' => 'lastest',
 				'category__in' => $v['cats'],
-				'posts_per_page' => 8
+				'posts_per_page' => 8,
+				'ignore_sticky_posts' => false,
 			));
 			if(have_posts()){
 				while(have_posts()){
@@ -1769,7 +1781,6 @@ class theme_functions{
 			}else{
 				
 			}
-			wp_reset_postdata();
 			wp_reset_query();
 			?>
 		</ul>
@@ -1777,6 +1788,13 @@ class theme_functions{
 </div>
 	<?php
 		} /** end foreach */
+
+		$cache = html_compress(ob_get_contents());
+		ob_end_clean();
+
+		wp_cache_set($cache_id,$cache);
+		echo $cache;
+		return $cache;
 	}
 	public static function theme_respond(){
 		global $post;
@@ -1910,16 +1928,17 @@ class theme_functions{
 		$user = $args['user'];
 		
 		if(is_int($user))
-			$user = get_user_by('ID',$user);
+			$user = get_user_by('id',$user);
 			
 		if(empty($user))
 			return false;
-		
+
+		$display_name = esc_html($user->display_name);
 		?>
 		<div class="user-list <?php echo $args['classes'];?>">
-			<a href="<?php echo theme_cache::get_author_posts_url($user->ID)?>">
-				<?php echo get_avatar($user->ID,50);?>
-				<h4 class="author"><?php echo esc_html($user->display_name);?></h4>
+			<a href="<?php echo theme_cache::get_author_posts_url($user->ID)?>" title="<?php echo $display_name;?>">
+				<img src="<?php echo theme_features::get_theme_images_url('frontend/avatar.jpg');?>" data-src="<?php echo get_img_source(get_avatar($user->ID));?>" alt="<?php echo $display_name;?>" class="avatar">
+				<h4 class="author"><?php echo $display_name;?></h4>
 				<?php if($args['extra']){ ?>
 					<div class="extra">
 						<span class="<?php echo $args['extra'];?>">

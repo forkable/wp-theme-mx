@@ -51,7 +51,6 @@ class theme_custom_homebox{
 		}else{
 			return $caches[self::$iden];
 		}
-		
 	}
 	public static function display_frontend($args = null){
 		$boxes = self::get_options();

@@ -37,10 +37,10 @@ class theme_dev_mode{
 	}
 	public static function get_options($key = null){
 		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
+		if(!isset($caches[self::$iden]))
+			$caches[self::$iden] = (array)theme_options::get_options(self::$iden);
 			
-		$caches[self::$iden] = (array)theme_options::get_options(self::$iden);
+		
 		
 		if($key === null){
 			return $caches[self::$iden];
