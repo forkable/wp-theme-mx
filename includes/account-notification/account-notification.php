@@ -107,7 +107,7 @@ class theme_notification{
 		}
 
 		$navs['notifications'] = '<a href="' . esc_url(self::get_tabs('notifications')['url']) . '">
-			<i class="fa fa-' . self::get_tabs('notifications')['icon'] . '"></i> 
+			<i class="fa fa-' . self::get_tabs('notifications')['icon'] . ' fa-fw"></i> 
 			' . self::get_tabs('notifications')['text'] . '
 			' . $unread_html . '
 		</a>';

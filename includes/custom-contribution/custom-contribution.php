@@ -38,7 +38,9 @@ class theme_custom_contribution{
 		add_action('page_settings',			__CLASS__ . '::display_backend');
 	}
 	public static function wp_title($title, $sep){
-		if(!self::is_page()) return $title;
+		if(!self::is_page()) 
+			return $title;
+			
 		if(self::get_tabs(get_query_var('tab'))){
 			$title = self::get_tabs(get_query_var('tab'))['text'];
 		}

@@ -19,6 +19,7 @@ class theme_functions{
 	public static $theme_date = '2015-02-01 00:00';
 	public static $thumbnail_size = array('thumbnail',320,200);
 	public static $comment_avatar_size = 60;
+	public static $thumbnail_placeholder = 'frontend/thumbnail.png';
 	public static $cache_expire = 3600;
 	public static $colors = array(
 		'61b4ca',	'e1b32a',	'ee916f',	'a89d84',
@@ -373,8 +374,8 @@ class theme_functions{
 		<li class="<?php echo implode(' ',$classes);?>">
 			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
 				<div class="thumbnail-container">
-					<img class="placeholder" alt="Placeholder" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>">
-					<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+					<img class="placeholder" alt="Placeholder" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>">
+					<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 				</div>
 				<h3 class="post-list-title"><?php the_title();?></h3>
 					
@@ -494,7 +495,7 @@ class theme_functions{
 				<div class="sticky-post" title="<?php echo esc_attr(___('Sticky post'));?>"></div>
 			<?php } ?>
 			<a class="post-list-bg" href="<?php echo get_permalink();?>">
-				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+				<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 				<div class="caption area-tx">
 					<h3 class="post-list-title" title="<?php echo esc_attr($post_title);?>"><?php echo esc_html($post_title);?></h3>
 					<p class="excerpt"><?php echo esc_html($excerpt);?></p>
@@ -542,7 +543,7 @@ class theme_functions{
 		<li class="list-group-item">
 			<a class="post-list-bg media" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
 				<div class="media-left">
-					<img class="media-object" src="<?php echo theme_features::get_theme_images_url('frontend/thumbnail.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+					<img class="media-object" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading"><?php the_title();?></h4>
@@ -814,7 +815,11 @@ class theme_functions{
 	 * @version 1.0.1
 	 * @author KM@INN STUDIO
 	 */
-	public static function get_thumbnail_src($post_id = null,$size = 'thumbnail',$placeholder = 'frontend/thumbnail.jpg'){
+	public static function get_thumbnail_src($post_id = null,$size = 'thumbnail',$placeholder = null){
+		
+		if(!$placeholder)
+			$placeholder = self::$thumbnail_placeholder;
+			
 		global $post;
 		if(!$size)
 			$size = self::$thumbnail_size[0];

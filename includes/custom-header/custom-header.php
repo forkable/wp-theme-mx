@@ -10,11 +10,7 @@ add_filter('theme_includes',function($fns){
 	return $fns;
 });
 class theme_custom_header{
-	public static function init(){
-		add_action( 'after_setup_theme', __CLASS__ . '::custom_header_setup' );
-
-	}
-	public static function custom_header_setup() {
+	public static function init() {
 		$default_headers = [];
 		$img_names = array(
 			'bridge.jpg',
@@ -53,9 +49,9 @@ class theme_custom_header{
 		?>
 		<style id="header-css">
 		<?php if(!empty($header_image)){ ?>
-		.banner{
-			background-image: url(<?php header_image(); ?>);
-		}
+			.banner{
+				background-image: url(<?php header_image(); ?>);
+			}
 		<?php } ?>
 		</style>
 		<?php

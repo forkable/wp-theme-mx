@@ -15,7 +15,7 @@ class theme_img_lazyload{
 		$pattern = '/(<img[^>]+)src=/i';
 		$content = preg_replace(
 			$pattern,
-			'$1src="' . theme_features::get_theme_images_url('frontend/thumbnail.jpg') . '" data-src=',
+			'$1src="' . theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder) . '" data-src=',
 			$content);
 		return $content;
 	}

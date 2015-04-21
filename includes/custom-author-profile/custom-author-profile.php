@@ -24,7 +24,9 @@ class theme_custom_author_profile{
 		
 	}
 	public static function wp_title($title, $sep){
-		if(!is_author()) return $title;
+		if(!is_author())
+			return $title;
+			
 		global $author;
 		$tab_active = get_query_var('tab');
 		$author_display_name = get_the_author_meta('display_name',$author);

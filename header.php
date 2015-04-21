@@ -67,13 +67,13 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 			</a>
 			<!-- search btn -->
 			<a class="mx-tool mx-search-btn dropdown-toggle" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
-				<i class="fa fa-search fa-fw"></i>
+				<i class="fa fa-search fa-fw fa-fw"></i>
 			</a>
 
 			<!-- account btn -->
 			<?php if(is_user_logged_in()){ ?>
 				<a class="mx-tool mx-account-btn dropdown-toggle" href="javascript:;" data-toggle="collapse" data-target=".header-nav-account-menu">
-					<i class="fa fa-user"></i>
+					<i class="fa fa-user fa-fw"></i>
 				</a>
 			<?php }else{ ?>
 				<a class="mx-tool mx-account-btn dropdown-toggle" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
@@ -97,7 +97,7 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 		?>
 
 		<!-- search btn -->
-		<a class="mx-tool mx-search-btn dropdown-toggle hidden-xs" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
+		<a class="mx-tool mx-search-btn hidden-xs" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
 			<i class="fa fa-search fa-fw"></i>
 		</a>
 		
@@ -130,7 +130,7 @@ if(!wp_is_mobile() && get_header_image()){ ?>
 		<?php } ?>
 
 		<!-- search form -->
-		<form class="mx-form navbar-form navbar-collapse-form" role="search" action="<?php echo esc_url(home_url('/')); ?>" method="get">
+		<form class="mx-form navbar-form navbar-collapse-form collapse" role="search" action="<?php echo esc_url(home_url('/')); ?>" method="get">
             <div class="input-group">
                 <input name="s" class="form-control input-sm" placeholder="<?php echo ___('Keywords');?>" value="<?php echo esc_attr(get_search_query())?>" type="search">
                 <span class="input-group-btn">

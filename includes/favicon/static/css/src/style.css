@@ -1,0 +1,20 @@
+#theme_custom_favicon-url{
+	width:80%;
+}
+#theme_custom_favicon-upload{
+	position:relative;
+	float:right;
+	width:19%;
+	text-align:center;
+	overflow:hidden;
+}
+
+#theme_custom_favicon-file{
+	position:absolute;
+	font-size:30px;
+	right:-10px;
+	bottom:-10px;
+	opacity:0;
+	cursor:pointer;
+}
+

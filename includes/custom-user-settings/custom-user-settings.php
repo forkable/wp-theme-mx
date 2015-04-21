@@ -33,7 +33,9 @@ class theme_custom_user_settings{
 	}
 
 	public static function wp_title($title, $sep){
-		if(!self::is_page()) return $title;
+		if(!self::is_page()) 
+			return $title;
+			
 		if(self::get_tabs(get_query_var('tab'))){
 			$title = self::get_tabs(get_query_var('tab'))['text'];
 		}
