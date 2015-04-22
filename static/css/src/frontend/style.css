@@ -192,12 +192,9 @@ img{
 	.mx-card .caption .row{
 		font-size: 12px;
 	}
-	.mx-card-header-extra .nplink{
-		margin-left: 20px;
-	}
-	.mx-card-header-extra .nplink a{
-		padding-left: 10px;
-		padding-right: 10px;
+	.mx-panel-heading-extra .homebox-refresh:hover,
+	.mx-panel-heading-extra .homebox-refresh:active{
+		color:#000;
 	}
 /**
  * .avatar

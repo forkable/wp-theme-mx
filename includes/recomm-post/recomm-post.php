@@ -148,7 +148,6 @@ class theme_recommended_post{
 									echo status_tip('info',___('No any post yet'));
 								}
 								wp_reset_query();
-								wp_reset_postdata();
 							}else{
 								echo status_tip('info',___('No any post yet'));
 							}

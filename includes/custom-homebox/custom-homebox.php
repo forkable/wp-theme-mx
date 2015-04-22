@@ -163,7 +163,7 @@ class theme_custom_homebox{
 	private static function get_home_box_tpl($placeholder){
 		$boxes = self::get_options();
 		
-		$title = isset($boxes[$placeholder]['title']) ? $boxes[$placeholder]['title'] : null;
+		$title = isset($boxes[$placeholder]['title']) ? stripcslashes($boxes[$placeholder]['title']) : null;
 		
 		$link = isset($boxes[$placeholder]['link']) ? $boxes[$placeholder]['link'] : null;
 		
@@ -224,6 +224,11 @@ class theme_custom_homebox{
 		$content = ob_get_contents();
 		ob_end_clean();
 		return $content;
+	}
+	public static function process(){
+		$output = [];
+		
+		die(theme_features::json_format($output));
 	}
 	public static function options_save(array $options = []){
 		if(isset($_POST[self::$iden])){

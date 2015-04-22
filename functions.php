@@ -1046,9 +1046,9 @@ class theme_functions{
 	public static function pagination( $args = [] ) {
 	    
 	    $defaults = array(
-	        'custom_query'		=> FALSE,
-	        'previous_string' 	=> '<i class="fa fa-arrow-left"></i> ' . ___('Previous'),
-	        'next_string'     	=> ___('Next') . ' <i class="fa fa-arrow-right"></i>',
+	        'custom_query'		=> false,
+	        'previous_string' 	=> '<i class="fa fa-arrow-left"></i>',
+	        'next_string'     	=> '<i class="fa fa-arrow-right"></i>',
 	        'before_output'   	=> '<div class="posts-nav btn-group btn-group-justified" role="group" aria-label="' . ___('Posts pagination navigation') . '">',
 	        'after_output'    	=> '</div>'
 	    );
@@ -1059,28 +1059,30 @@ class theme_functions{
 	        
 	    $count = (int) $args['custom_query']->max_num_pages;
 	    $page  = intval( get_query_var( 'paged' ) );
-
-	    
+    
 	    if ( $count <= 1 )
-	        return FALSE;
+	        return false;
 	    
 	    if ( !$page )
 	        $page = 1;
-	    
 	   
-		$echo = '';
+		/**
+		 * output before_output;
+		 */
+		echo $args['before_output'];
 		
-
+		/**
+		 * prev page
+		 */
 	    if ( $page > 1 ){
 		    $previous = intval($page) - 1;
 		    $previous_url = get_pagenum_link($previous);
 		    
-	        $echo .= '<a class="btn btn-success prev" href="' . esc_url($previous_url) . '" title="' . ___( 'Previous page') . '">' . $args['previous_string'] . '</a>';
+	       echo '<a class="btn btn-success prev" href="' . esc_url($previous_url) . '" title="' . ___( 'Previous page') . '">' . $args['previous_string'] . '</a>';
         }
 	    /**
 	     * middle
 	     */
-	    ob_start();
 	    if ( $count > 1 ) {
 		    ?>
 		    <div class="btn-group" role="group">
@@ -1091,14 +1093,32 @@ class theme_functions{
 				<ul class="dropdown-menu" role="menu">
 					
 					<?php
-			        for( $i = 1; $i <= $count; $i++ ) {
-			            if ($page == $i) {
-				            $active_class = 'active'; 
-			            } else {
-				            $active_class = null;
-			            }
+					/**
+					 * Previous 5 page
+					 */
+					for( $i = $page - 3; $i < $page; $i++){
+						if($i < 1 )
+							continue;
+						?>
+						<li>
+							<a href="<?php echo esc_url( get_pagenum_link($i) );?>">
+								<?php echo sprintf(___('Page %d'),$i);?>
+							</a>
+						</li>
+						<?php
+					}
+					?>
+					<li class="active">
+						<a href="<?php echo esc_url( get_pagenum_link($page) );?>">
+							<?php echo sprintf(___('Page %d'),$page);?>
+						</a>
+					</li>
+					<?php
+			        for( $i = $page + 1; $i < $page + 4; $i++ ) {
+				        if($i > $count)
+				        	break;
 			            ?>
-						<li class="<?php echo $active_class;?>">
+						<li>
 							<a href="<?php echo esc_url( get_pagenum_link($i) );?>">
 								<?php echo sprintf(___('Page %d'),$i);?>
 							</a>
@@ -1110,18 +1130,21 @@ class theme_functions{
 	        </div>
 	        <?php
 	    }
-	    $echo .= ob_get_contents();
-	    ob_end_clean();
 	    
-	    
+	    /**
+	     * next page
+	     */
 	    if ($page < $count ){
 		    $next = intval($page) + 1;
 	   		$next_url = get_pagenum_link($next);
-	        $echo .= '<a class="btn btn-success next" href="' . esc_url($next_url) . '" title="' . __( 'Next page') . '">' . $args['next_string'] . '</a>';
+	        echo '<a class="btn btn-success next" href="' . esc_url($next_url) . '" title="' . __( 'Next page') . '">' . $args['next_string'] . '</a>';
     	}
 
-	    if ( isset($echo) )
-	        echo $args['before_output'] . $echo . $args['after_output'];
+		/**
+		 * output
+		 */
+		echo $args['after_output'];
+
 	}
 	/**
 	 * get the comment pagenavi
@@ -1719,16 +1742,17 @@ class theme_functions{
 		global $wp_query,$post;
 		foreach($opt as $k => $v){
 			?>
-<div class="homebox panel panel-default mx-panel">
+<div id="homebox-<?php echo $k;?>" class="homebox panel panel-default mx-panel">
 	
 	<div class="panel-heading mx-panel-heading clearfix">
 		<h3 class="panel-title mx-panel-title">
 			<?php 
+			
 			if(empty($v['link'])){
-				echo $v['title'];
+				echo stripcslashes($v['title']);
 			}else{
 				?>
-				<a href="<?php echo esc_url($v['link']);?>"><?php echo $v['title'];?> <small class="hidden-xs"><?php echo ___('&raquo; more');?></small></a>
+				<a href="<?php echo esc_url($v['link']);?>"><?php echo stripcslashes($v['title']);?> <small class="hidden-xs"><?php echo ___('&raquo; more');?></small></a>
 				<?php
 			}
 			?>
@@ -1737,7 +1761,7 @@ class theme_functions{
 			
 			<?php if(!is_null_array($v['keywords'])){ ?>
 				<div class="keywords hidden-xs">
-					<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){ ?>
+					<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){?>
 						<a class="" href="<?php echo esc_url($kw['url']);?>">
 							<?php echo $kw['name'];?>
 						</a>
@@ -1745,22 +1769,15 @@ class theme_functions{
 				</div>
 			<?php } ?>
 			
-			<div class="nplink btn-group btn-group-xs">
-				<a 
-					title="<?php echo ___('Preview page');?>"
-					href="javascript:;" 
-					class="btn btn-default preview disabled" 
-					data-box-id="<?php echo $k;?>"
-					data-cpage="1"
-				><i class="fa fa-caret-left"></i></a>
-				<a 
-					title="<?php echo ___('Next page');?>"
-					href="javascript:;" 
-					class="btn btn-default next" 
-					data-box-id="<?php echo $k;?>"
-					data-cpage="1"
-				><i class="fa fa-caret-right"></i></a>
-			</div>
+			
+			<a 
+				title="<?php echo ___('I feel lucky');?>"
+				href="javascript:;" 
+				class="homebox-refresh" 
+				data-target="#homebox-<?php echo $k;?> .post-img-lists" 
+				data-box-id="<?php echo $k;?>"
+			><i class="fa fa-refresh fa-fw"></i></a>
+			
 			
 		</div>
 	</div>
