@@ -42,7 +42,7 @@ class theme_open_sign{
 		return $opts;
 	}
 	public static function display_backend(){
-		$opt = theme_options::get_options(self::$iden);
+		$opt = self::get_options();
 		?>
 		<fieldset>
 			<legend><?php echo ___('Open sign settings');?></legend>
@@ -79,7 +79,7 @@ class theme_open_sign{
 		<?php
 	}
 	private static function get_sina_config($key = null){
-		$opt = theme_options::get_options(self::$iden);
+		$opt = self::get_options();
 		$arr = array(
 			'akey' => isset($opt['sina']['appkey']) ? $opt['sina']['akey'] : null,
 			'skey' => isset($opt['sina']['skey']) ? $opt['sina']['skey'] : null,
@@ -91,14 +91,16 @@ class theme_open_sign{
 		}
 	}
 	private static function get_qc_config(){
-		$opt = theme_options::get_options(self::$iden);
+		$opt = self::get_options();
 		return (object)array(
 			'appid' => isset($opt['qq']['appid']) ? $opt['qq']['appid'] : null,
 			'appkey' => isset($opt['qq']['appkey']) ? $opt['qq']['appkey'] : null,
-			'callback' => theme_features::get_process_url(array(
+			'callback' => urlencode(theme_features::get_process_url(array(
 				'action' => 'isos_cb',
-				'redirect' => isset($_GET['redirect']) ? urlencode($_GET['redirect']) : null,
-			)),
+				'nonce' => theme_features::create_nonce(),
+				'qq' => 'set-auth',
+				'redirect_uri' => isset($_GET['redirect']) ? ($_GET['redirect']) : null,
+			))),
 			'scope' => 'get_user_info,add_share,list_album,add_album,upload_pic,add_topic,add_one_blog,add_weibo,check_page_fans,add_t,add_pic_t,del_t,get_repost_list,get_info,get_other_info,get_fanslist,get_idolist,add_idol,del_idol,get_tenpay_addr',
 			'errorReport' => true,
 		);
@@ -106,13 +108,25 @@ class theme_open_sign{
 	public static function get_login_url($type){
 		return theme_features::get_process_url(array(
 			'action' => self::$iden,
-			'sign-type' => $type
+			'sign-type' => $type,
+			'redirect' => isset($_GET['redirect']) && is_string($_GET['redirect']) ? $_GET['redirect'] : null
 		));
 	}
+	public static function get_options($key = null){
+		static $caches = [];
+		if(!isset($caches[self::$iden]))
+			$caches[self::$iden] = theme_options::get_options(self::$iden);
 
+		if($key){
+			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
+		}else{
+			return $caches[self::$iden];
+		}
+	}
 	public static function process_cb(){
+		//var_dump($_GET);exit;
 		theme_features::check_nonce('nonce');
-		$opt = theme_options::get_options(self::$iden);
+		$opt = self::get_options();
 		$current_timestamp = time();
 		// print_r($_GET);
 		/** 
@@ -268,13 +282,12 @@ class theme_open_sign{
 		/**
 		 * nonce
 		 */
-		if(!isset($_SESSION)) session_start();
-		$nonce = wp_create_nonce(AUTH_KEY);
+		$nonce = theme_features::create_nonce();
 		/**
 		 * sign-type
 		 */
 		$sign_type = isset($_REQUEST['sign-type']) ? $_REQUEST['sign-type'] : null;
-		$opt = theme_options::get_options(self::$iden);
+		$opt = self::get_options();
 		switch($sign_type){
 			/**
 			 * sina
@@ -300,6 +313,7 @@ class theme_open_sign{
 			case 'qq':
 				include __DIR__ . '/inc/qq/qqConnectAPI.php';
 				$qc = new theme_open_sign\inc\qq\QC(self::get_qc_config());
+				//var_dump($qc);exit;
 				/** go to login page */
 				$qc->qq_login();
 				die(___('Redirecting, please wait...'));

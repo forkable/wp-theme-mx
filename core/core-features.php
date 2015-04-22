@@ -771,16 +771,23 @@ class theme_features{
 			die(theme_features::json_format($output));
 		}
 	}
+	public static function create_nonce($key = 'theme-nonce'){
+		static $nonce = null;
+		if($nonce === null)
+			$nonce = wp_create_nonce($key);
+
+		return $nonce;
+	}
 	/**
 	 * Check theme nonce code
 	 *
 	 * @return 
-	 * @version 1.2.0
+	 * @version 1.3.0
 	 * @author KM@INN STUDIO
 	 */
-	public static function check_nonce($key = 'theme-nonce'){
-		$nonce = isset($_REQUEST[$key]) ? $_REQUEST[$key] : null;
-		if(!wp_verify_nonce($nonce,'theme-nonce')){
+	public static function check_nonce($action = 'theme-nonce',$key = 'theme-nonce'){
+		$nonce = isset($_REQUEST[$action]) ? $_REQUEST[$action] : null;
+		if(!wp_verify_nonce($nonce,$key)){
 			$output = array(
 				'status' => 'error',
 				'code' => 'invalid_security_code',

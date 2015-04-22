@@ -35,7 +35,11 @@ class custom_post_point{
 		$post = get_post($post_id);
 		if(!$post)
 			return;
-		$post_point_users = (array)self::get_post_point_users($post_id);
+			
+		if($post->post_type !== 'post')
+			return;
+			
+		$post_point_users = (array)self::get_post_raters($post_id);
 		if(!empty($post_point_users)){
 			foreach($post_point_users as $user_id){
 				/**
