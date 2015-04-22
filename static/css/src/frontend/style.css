@@ -124,7 +124,7 @@ img{
 	position: relative;
 	margin-top: 20px;
 	padding-top: 30px;
-	background: #eee;
+	background: rgba(255,255,255,.3);
 	margin-bottom: 0;
 	padding-bottom: 20px;
 	
@@ -741,8 +741,6 @@ label.error{
 	min-height: 1px;
 	font-size: 12px;
 	border-radius: 0;
-	box-shadow: 0 1px 3px rgba(0,0,0,.1),
-				0 -20px 20px rgba(0,0,0,.03) inset;
 	height: 30px;
 	border-top: none;
 	margin-bottom: 0;
@@ -826,7 +824,6 @@ label.error{
  * #banner
  */
 .banner{
-	height: 170px;
 	margin-bottom: -70px;
 	border-radius: 0 0 4px 4px;
 	box-shadow: 0 1px 1px rgba(0,0,0,.05);
@@ -1412,6 +1409,9 @@ label.error{
 	color:#fff;
 }
 @media (min-width: 768px){
+	.main-nav{
+		background: rgba(255,255,255,.7);
+	}
 	.navbar-nav{
 		margin: 0;
 	}

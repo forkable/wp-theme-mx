@@ -46,9 +46,10 @@
  */
 if(!wp_is_mobile() && get_header_image()){ ?>
 	<div class="banner hidden-xs">
+		<img src="<?php header_image(); ?>" alt="Banner">
 		<?php if(display_header_text()){ ?>
-			<h1 hidden><?php echo esc_html(get_bloginfo('name'));?></h1>
-			<h2 hidden><?php echo esc_html(get_bloginfo('description'));?></h2>
+			<h1 hidden><?php echo get_bloginfo('name');?></h1>
+			<span hidden><?php echo get_bloginfo('description');?></span>
 	<?php } ?>
 	</div>
 <?php } ?>

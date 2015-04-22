@@ -41,20 +41,11 @@ class theme_custom_header{
 		register_default_headers($default_headers);
 	}
 	public static function header_style() {
-		$header_image = get_header_image();
-		$text_color   = get_header_textcolor();
+		//$header_image = get_header_image();
+		//$text_color   = get_header_textcolor();
 
-		if ( empty( $header_image ) && $text_color == get_theme_support( 'custom-header', 'default-text-color' ) )
-			return;
-		?>
-		<style id="header-css">
-		<?php if(!empty($header_image)){ ?>
-			.banner{
-				background-image: url(<?php header_image(); ?>);
-			}
-		<?php } ?>
-		</style>
-		<?php
+		//if ( empty( $header_image ) && $text_color == get_theme_support( 'custom-header', 'default-text-color' ) )
+			//return;
 	}
 	public static function admin_header_style() {
 		$header_image = get_header_image();
