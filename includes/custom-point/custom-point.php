@@ -379,8 +379,9 @@ class theme_custom_point{
 		}
 		return $metas;
 	}
-	public static function get_history_list($args = null){
+	public static function get_history_list(array $args = []){
 		$metas = self::get_history($args);
+
 		if(empty($metas))
 			return false;
 		ob_start();
@@ -406,7 +407,7 @@ class theme_custom_point{
 			$tx = '+' . $type_point;
 		}else{
 			$cls = 'minus';
-			$tx = '-' . $type_point;
+			$tx = $type_point;
 		}
 		?>
 		<span class="point-value <?php echo $cls;?>"><?php echo $tx;?></span>
@@ -414,19 +415,21 @@ class theme_custom_point{
 	}
 //var_dump($v);
 switch($v['type']){
+	/**
+	 * post-delete
+	 */
+	case 'post-delete':
+		?>
+		<span class="history-text">
+			<?php echo sprintf(___('Your post "%s" has been deleted.'),$v['post-title']);?>
+		</span>
+		<?php
+		break;
 	/*****************************************
 	 * signup
 	 */
 	case 'special-event':
-		if($v['point'] >= 0){
-			$cls = 'plus';
-			$tx = '+' . $v['point'];
-		}else{
-			$cls = 'minus';
-			$tx = '-' . $v['point'];
-		}
 		?>
-		<span class="point-value <?php echo $cls;?>"><?php echo $tx;?></span>
 		<span class="history-text"><strong>
 			<?php echo sprintf(___('One special event happened: %s'),$v['event']);?>
 		</strong></span>
@@ -592,7 +595,11 @@ switch($v['type']){
 	public static function action_add_history_post_delete($post_id){
 		$post = get_post($post_id);
 		if(!$post)
-			return;
+			return false;
+			
+		if($post->post_type == 'post')
+			return false;
+			
 		$meta = array(
 			'type'=> 'post-delete',
 			'post-title' => get_the_title($post->ID),

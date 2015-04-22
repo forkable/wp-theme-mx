@@ -1046,27 +1046,20 @@ class theme_functions{
 	public static function pagination( $args = [] ) {
 	    
 	    $defaults = array(
-	        'range'				=> 2,
 	        'custom_query'		=> FALSE,
-	        'previous_string' 	=> '<i class="fa fa-chevron-left"></i>',
-	        'next_string'     	=> '<i class="fa fa-chevron-right"></i>',
-	        'last_string'		=> '<i class="fa fa-step-forward"></i>',
-	        'first_string'		=> '<i class="fa fa-step-backward"></i>',
-	        'before_output'   	=> '<div class="post-nav"><ul class="pager">',
-	        'after_output'    	=> '</ul></div>'
+	        'previous_string' 	=> '<i class="fa fa-arrow-left"></i> ' . ___('Previous'),
+	        'next_string'     	=> ___('Next') . ' <i class="fa fa-arrow-right"></i>',
+	        'before_output'   	=> '<div class="posts-nav btn-group btn-group-justified" role="group" aria-label="' . ___('Posts pagination navigation') . '">',
+	        'after_output'    	=> '</div>'
 	    );
+	    $args = wp_parse_args($args,$defaults);
 	    
-	    $args = wp_parse_args( 
-	        $args, 
-	        apply_filters( 'wp_bootstrap_pagination_defaults', $defaults )
-	    );
-	    
-	    $args['range'] = (int) $args['range'] - 1;
 	    if ( !$args['custom_query'] )
 	        $args['custom_query'] = @$GLOBALS['wp_query'];
+	        
 	    $count = (int) $args['custom_query']->max_num_pages;
 	    $page  = intval( get_query_var( 'paged' ) );
-	    $ceil  = ceil( $args['range'] / 2 );
+
 	    
 	    if ( $count <= 1 )
 	        return FALSE;
@@ -1074,54 +1067,58 @@ class theme_functions{
 	    if ( !$page )
 	        $page = 1;
 	    
-	    if ( $count > $args['range'] ) {
-	        if ( $page <= $args['range'] ) {
-	            $min = 1;
-	            $max = $args['range'] + 1;
-	        } elseif ( $page >= ($count - $ceil) ) {
-	            $min = $count - $args['range'];
-	            $max = $count;
-	        } elseif ( $page >= $args['range'] && $page < ($count - $ceil) ) {
-	            $min = $page - $ceil;
-	            $max = $page + $ceil;
-	        }
-	    } else {
-	        $min = 1;
-	        $max = $count;
-	    }
+	   
 		$echo = '';
 		
-	    $previous = intval($page) - 1;
-	    $previous_url = get_pagenum_link($previous);
-	    
-	    $firstpage_url =  get_pagenum_link(1);
-	    if ( 1 != $page )
-	        $echo .= '<li class="previous"><a href="' . esc_url($firstpage_url) . '" title="' . ___('First page') . '">' . $args['first_string'] . '</a></li>';
 
-	    if ( 1 != $page )
-	        $echo .= '<li><a href="' . esc_url($previous_url) . '" title="' . ___( 'Previous page') . '">' . $args['previous_string'] . '</a></li>';
+	    if ( $page > 1 ){
+		    $previous = intval($page) - 1;
+		    $previous_url = get_pagenum_link($previous);
+		    
+	        $echo .= '<a class="btn btn-success prev" href="' . esc_url($previous_url) . '" title="' . ___( 'Previous page') . '">' . $args['previous_string'] . '</a>';
+        }
 	    /**
 	     * middle
 	     */
-	    if ( !empty($min) && !empty($max) ) {
-	        for( $i = $min; $i <= $max; $i++ ) {
-	            if ($page == $i) {
-	                $echo .= '<li class="active disabled"><span>' . (int)$i . '</span></li>';
-	            } else {
-	                $echo .= sprintf( '<li><a href="%s">%d</a></li>', esc_url( get_pagenum_link($i) ), $i );
-	            }
-	        }
+	    ob_start();
+	    if ( $count > 1 ) {
+		    ?>
+		    <div class="btn-group" role="group">
+			    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				    <?php echo sprintf(___('Page %d'),$page);?>
+				    <span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					
+					<?php
+			        for( $i = 1; $i <= $count; $i++ ) {
+			            if ($page == $i) {
+				            $active_class = 'active'; 
+			            } else {
+				            $active_class = null;
+			            }
+			            ?>
+						<li class="<?php echo $active_class;?>">
+							<a href="<?php echo esc_url( get_pagenum_link($i) );?>">
+								<?php echo sprintf(___('Page %d'),$i);?>
+							</a>
+						</li>
+						<?php
+			        }
+			        ?>
+	        	</ul>
+	        </div>
+	        <?php
 	    }
+	    $echo .= ob_get_contents();
+	    ob_end_clean();
 	    
-	    $next = intval($page) + 1;
-	    $next_url = get_pagenum_link($next);
-	    if ($count != $page)
-	        $echo .= '<li><a href="' . esc_url($next_url) . '" title="' . __( 'Next page') . '">' . $args['next_string'] . '</a></li>';
 	    
-	    $lastpage_url =  get_pagenum_link($count);
-	    if ( $page < $count ) {
-	        $echo .= '<li class="next"><a href="' . esc_url($lastpage_url) . '" title="' . ___('Last page') . '">' . $args['last_string'] . '</a></li>';
-	    }
+	    if ($page < $count ){
+		    $next = intval($page) + 1;
+	   		$next_url = get_pagenum_link($next);
+	        $echo .= '<a class="btn btn-success next" href="' . esc_url($next_url) . '" title="' . __( 'Next page') . '">' . $args['next_string'] . '</a>';
+    	}
 
 	    if ( isset($echo) )
 	        echo $args['before_output'] . $echo . $args['after_output'];
