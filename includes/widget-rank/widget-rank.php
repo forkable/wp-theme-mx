@@ -41,8 +41,8 @@ class widget_rank extends WP_Widget{
 		<?php
 		echo $args['after_title'];
 		
-		global $wp_query,$post;
-		$wp_query = theme_functions::get_posts_query(array(
+		global $post;
+		$query = theme_functions::get_posts_query(array(
 			'category__in' => (array)$instance['category__in'],
 			'posts_per_page' => (int)$instance['posts_per_page'],
 			'date' => $instance['date'],
@@ -63,14 +63,14 @@ class widget_rank extends WP_Widget{
 			default:
 				$container_tag = 'div';
 		}
-		if(have_posts()){
+		if($query->have_posts()){
 			?>
 			<ul class="list-group <?php echo $content_type_class;?> widget-orderby-<?php echo $instance['orderby'];?>">
 			
 			<!-- <ul class="tabbody post-lists <?php echo $content_type_class;?> widget-orderby-<?php echo $instance['orderby'];?>"> -->
 				<?php
-				while(have_posts()){
-					the_post();
+				while($query->have_posts()){
+					$query->the_post();
 					if($instance['content_type'] === 'tx'){
 						theme_functions::widget_rank_tx_content(array(
 							'meta_type' => $instance['orderby'],
@@ -79,6 +79,7 @@ class widget_rank extends WP_Widget{
 						theme_functions::widget_rank_img_content();
 					}
 				}
+				wp_reset_postdata();
 				?>
 			</ul>
 		<?php }else{ ?>
@@ -87,8 +88,7 @@ class widget_rank extends WP_Widget{
 			</div>
 		<?php 
 		}
-		wp_reset_postdata();
-		wp_reset_query();
+		//wp_reset_query();
 	}
 	function widget($args,$instance){
 		// var_dump($instance);

@@ -64,7 +64,7 @@ class theme_related_post{
 		wp_cache_delete($post->ID,'theme_related_post');
 	}
 	public static function get_posts($args = null){
-		global $wp_query,$post;
+		global $post;
 		$current_post = $post;
 		$options = theme_options::get_options();
 
@@ -93,14 +93,14 @@ class theme_related_post{
 				'post__not_in' => array($current_post->ID),
 				'posts_per_page' => $surprise_num,
 			);
-			$wp_query = new WP_Query($query_args);
-			if(have_posts()){
-				while(have_posts()){
-					the_post();
+			$query = new WP_Query($query_args);
+			if($query->have_posts()){
+				while($query->have_posts()){
+					$query->the_post();
 					$posts[] = $post;
 				}
 			}
-			$found_posts = $wp_query->found_posts;/* 发现到的文章数量 */
+			$found_posts = $query->found_posts;/* 发现到的文章数量 */
 		}
 		$surprise_num = $surprise_num - $found_posts;/* 计算剩余文章数量 */
 
@@ -111,20 +111,20 @@ class theme_related_post{
 				'post__not_in' => array($current_post->ID),
 				'posts_per_page' => $surprise_num,
 			);
-			$wp_query = new WP_Query($args);
-			if(have_posts()){
-				while(have_posts()){
-					the_post();
+			$query = new WP_Query($args);
+			if($query->have_posts()){
+				while($query->have_posts()){
+					$query->the_post();
 					$posts[] = $post;
 				}
 			}
-			$found_posts = $wp_query->found_posts;/* 发现到的文章数量 */
+			$found_posts = $query->found_posts;/* 发现到的文章数量 */
 			$surprise_num = $surprise_num - $found_posts;/* 计算剩余文章数量 */
 		}
 		$posts = array_filter($posts);
 
 		wp_cache_set($current_post->ID,$posts,'theme_related_post');
-		wp_reset_query();
+		//wp_reset_query();
 		wp_reset_postdata();
 		
 		return $posts;

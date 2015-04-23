@@ -56,7 +56,7 @@ class theme_custom_homebox{
 		$boxes = self::get_options();
 		//var_dump($boxes);
 		if(empty($boxes)) return false;
-		global $wp_query,$post;
+		global $post;
 		$defaults = array(
 			'dt_title' => null,
 			'posts_per_page' => 10,
@@ -77,21 +77,22 @@ class theme_custom_homebox{
 					<?php self::keywords_to_html($v['keywords']);?>
 				</h3>
 				<?php
-				$wp_query = theme_functions::get_posts_query(array(
+				$query = theme_functions::get_posts_query(array(
 					'orderby' => 'lastest',
 					'posts_per_page' => 10,
 					'category__in' => array($v['cat']),
 				));
-				if(have_posts()){
+				if($query->have_posts()){
 					?>
 					<ul class="post-img-lists">
 						<?php
-						while(have_posts()){
-							the_post();
+						while($query->have_posts()){
+							$query->the_post();
 							theme_functions::archive_img_content(array(
 								'classes' => array('grid-20 tablet-grid-20 mobile-grid-50'),
 							));
 						}
+						wp_reset_postdata();
 						?>
 					</ul>
 					<?php
@@ -100,8 +101,7 @@ class theme_custom_homebox{
 					<?php echo status_tip('info',___('Not data in this category'));?>
 					<?php
 				}
-				wp_reset_query();
-				wp_reset_postdata();
+				//wp_reset_query();
 				?>
 			</section>
 			<?php

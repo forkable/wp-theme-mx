@@ -129,14 +129,14 @@ class theme_recommended_post{
 						<td>
 							<?php
 							if(!empty($recomm_posts)){
-								global $post,$wp_query;
-								$wp_query = new WP_Query(array(
+								global $post;
+								$query = new WP_Query(array(
 									'posts_per_page' =>-1,
 									'post__in' => $recomm_posts
 								));
-								if(have_posts()){
-									while(have_posts()){
-										the_post();
+								if($query->have_posts()){
+									while($query->have_posts()){
+										$query->the_post();
 										?>
 										<label for="recomm-post-<?php echo $post->ID;?>" class="button">
 											<input type="checkbox" id="recomm-post-<?php echo $post->ID;?>" name="<?php echo self::$iden;?>[ids][<?php echo $post->ID;?>]" value="<?php echo $post->ID;?>" checked/>
@@ -144,10 +144,10 @@ class theme_recommended_post{
 										</label>
 										<?php
 									}
+									wp_reset_postdata();
 								}else{
 									echo status_tip('info',___('No any post yet'));
 								}
-								wp_reset_query();
 							}else{
 								echo status_tip('info',___('No any post yet'));
 							}

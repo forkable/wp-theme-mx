@@ -106,7 +106,7 @@ class theme_page_tags{
 
 	}
 	public static function get_tags(){
-		global $wp_query,$post;
+		global $post;
 		
 		$whitelist = (array)self::get_options('whitelist');
 
@@ -114,16 +114,16 @@ class theme_page_tags{
 		/**
 		 * get all whitelist posts & tag ids
 		 */
-		$wp_query = new WP_Query(array(
+		$query = new WP_Query(array(
 			'author__in' => isset($whitelist['user-ids']) ? explode(',',$whitelist['user-ids']) : [],
 			'category__not_in' => array(1),
 		));
-		if(have_posts()){
+		if($query->have_posts()){
 			/** load pinyin */
 			include __DIR__ . '/inc/Pinyin/Pinyin.php';
 			$double_pinyins = array('zh','ch','sh');
-			while(have_posts()){
-				the_post();
+			while($query->have_posts()){
+				$query->the_post();
 				$tags = get_the_tags();
 				/** skip empty tags */
 				if(empty($tags)) 
@@ -170,11 +170,11 @@ class theme_page_tags{
 					}
 				}
 			}
+			wp_reset_postdata();
 		}else{
 			return false;
 		}
-		wp_reset_query();
-		wp_reset_postdata();
+		//wp_reset_query();
 		return $new_tags;
 	}
 	public static function display_frontend(){
@@ -191,7 +191,7 @@ class theme_page_tags{
 			?><div class="page-tip"><?php echo status_tip('info',___('No tag yet.'));?></div><?php
 			return false;
 		}
-		global $wp_query,$post;
+		global $post;
 		//var_dump($tags);
 		arsort($tags);
 		foreach($tags as $k => $v){
@@ -209,12 +209,12 @@ class theme_page_tags{
 						</a></h3>
 						<ul class="row">
 							<?php
-							$wp_query = new WP_Query(array(
+							$query = new WP_Query(array(
 								'nopaging' => true,
 								'tag__in' => array($tag->term_id),
 							));
-							while(have_posts()){
-								the_post();
+							while($query->have_posts()){
+								$query->the_post();
 								?>
 								<li class="col-sm-6">
 									<a href="<?php the_permalink();?>" title="<?php the_title();?>"><?php the_title();?></a>
@@ -226,7 +226,7 @@ class theme_page_tags{
 								</li>
 								<?php
 							}
-							wp_reset_query();
+							//wp_reset_query();
 							wp_reset_postdata();
 							?>
 						</ul>

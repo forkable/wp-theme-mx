@@ -1,6 +1,7 @@
 /**
  * reset bs
  */
+
 .pager{
 	margin: 0;
 }
@@ -1409,6 +1410,9 @@ label.error{
 	color:#fff;
 }
 @media (min-width: 768px){
+	.dropdown:hover .dropdown-menu {
+		display: block;
+	}
 	.main-nav{
 		background: rgba(255,255,255,.7);
 	}

@@ -102,7 +102,7 @@ class custom_post_point{
 		}
 		
 		$caches[$cache_id] = $query;
-		wp_reset_query();
+		//wp_reset_postdata();
 		wp_cache_set('most_point_posts',$caches,self::$iden,$args['expire']);
 		return $caches[$cache_id];
 	}
@@ -667,7 +667,7 @@ class custom_post_point{
 			</a>
 			
 			<?php if($count_point_values > 1){ ?>
-				<span class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				<span class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false" role="group">
 					<span class="caret"></span>
 					<span class="sr-only"><?php ___('Toggle Dropdown');?></span>
 				</span>

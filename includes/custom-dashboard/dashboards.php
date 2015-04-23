@@ -172,17 +172,17 @@ class theme_dashboards extends theme_custom_dashboard{
 				<?php echo ___('My recent posts');?>
 			</div>
 			<?php
-			global $post,$wp_query;
-			$wp_query = new WP_Query(array(
+			global $post;
+			$query = new WP_Query(array(
 				'posts_per_page' => $posts_per_page,
 				'author' => get_current_user_id(),
 			));
-			if(have_posts()){
+			if($query->have_posts()){
 				?>
 				<ul class="list-group">
 				<?php
-				while(have_posts()){
-					the_post();
+				while($query->have_posts()){
+					$query->the_post();
 					?>
 					<li class="list-group-item">
 						<a href="<?php the_permalink();?>"><?php the_title();?></a>
@@ -190,6 +190,7 @@ class theme_dashboards extends theme_custom_dashboard{
 					</li>
 					<?php
 				}
+				wp_reset_postdata();
 				?>
 				</ul>
 				<?php
@@ -198,6 +199,7 @@ class theme_dashboards extends theme_custom_dashboard{
 				<div class="panel-body"><?php echo status_tip('info',___('No posts yet'));?></div>
 				<?php
 			}
+			
 			?>
 		</div>
 		<?php

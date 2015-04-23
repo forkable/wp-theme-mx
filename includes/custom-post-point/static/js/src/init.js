@@ -34,6 +34,8 @@ define(function(require, exports, module){
 
 	function ajax(){
 		var $btn = this;
+
+		config.post_id = $btn.getAttribute('data-post-id');
 		
 		tools.ajax_loading_tip('loading',config.lang.M00001);
 		caches.$ready.style.display = 'inline-block';

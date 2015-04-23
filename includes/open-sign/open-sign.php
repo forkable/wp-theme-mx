@@ -1,6 +1,7 @@
 <?php
-
-
+/**
+ * @version 2.0.0
+ */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_open_sign::init';
 	return $fns;
@@ -133,8 +134,8 @@ class theme_open_sign{
 		 * sina set-auth
 		 */
 		if(isset($_GET['sina']) && $_GET['sina'] === 'set-auth'){
-			$access_token = isset($_GET['access_token']) ? $_GET['access_token'] : null;
-			$expires_in = isset($_GET['expires_in']) ? (int)$_GET['expires_in'] : null;
+			$access_token = isset($_GET['access_token']) && is_string($_GET['access_token']) ? $_GET['access_token'] : null;
+			$expires_in = isset($_GET['expires_in']) & is_string($_GET['expires_in']) ? (int)$_GET['expires_in'] : null;
 			
 			/** 
 			 * check callback data
@@ -187,7 +188,7 @@ class theme_open_sign{
 			do_action('wp_login',$user->user_login,$user);
 
 			/** redirect  */
-			$redirect_uri = isset($_GET['uri']) ? urldecode($_GET['uri']) : null;
+			$redirect_uri = isset($_GET['uri']) && is_string($_GET['uri']) ? urldecode($_GET['uri']) : null;
 			if($redirect_uri){
 				wp_safe_redirect($redirect_uri);
 			}else{
@@ -203,20 +204,24 @@ class theme_open_sign{
 			$cb = $qc->qq_callback();
 			
 			/** access_token */
-			$access_token = isset($cb['access_token']) ? $cb['access_token'] : null;
-			if(empty($access_token)) die(___('Invalid access token,'));
+			$access_token = isset($cb['access_token']) && is_string($cb['access_token']) ? $cb['access_token'] : null;
+			if(empty($access_token))
+				die(___('Invalid access token,'));
 
 			/** redirect */
-			$redirect = isset($_GET['redirect']) ? esc_url($_GET['redirect']) : null;
-			if(empty($redirect)) $redirect = home_url();
+			$redirect = isset($_GET['redirect_uri']) && is_string($_GET['redirect_uri']) ? esc_url($_GET['redirect_uri']) : null;
+			if(empty($redirect)) 
+				$redirect = home_url();
 
 			/** expires_in */
-			$expires_in = isset($cb['expires_in']) ? (int)($cb['expires_in']) : null;
-			if(empty($expires_in)) die(___('Invalid expires time.'));
+			$expires_in = isset($cb['expires_in']) && is_string($cb['expires_in']) ? (int)($cb['expires_in']) : null;
+			if(empty($expires_in)) 
+				die(___('Invalid expires time.'));
 
 			/** refresh_token */
-			$refresh_token = isset($cb['refresh_token']) ? $cb['refresh_token'] : null;
-			if(empty($refresh_token)) die(___('Invalid refresh token.'));
+			$refresh_token = isset($cb['refresh_token']) && is_string($cb['refresh_token']) ? $cb['refresh_token'] : null;
+			if(empty($refresh_token)) 
+				die(___('Invalid refresh token.'));
 
 			/** openid */
 			$open_id = $qc->get_openid();
@@ -264,12 +269,8 @@ class theme_open_sign{
 			do_action('wp_login',$user->user_login,$user);
 
 			/** redirect  */
-			$redirect_uri = isset($_GET['redirect_uri']) ? urldecode($_GET['redirect_uri']) : null;
-			if($redirect_uri){
-				wp_safe_redirect($redirect_uri);
-			}else{
-				wp_safe_redirect(home_url());
-			}
+			wp_safe_redirect($redirect);
+			
 			die(___('Redirecting, please wait...'));
 		}
 		die();

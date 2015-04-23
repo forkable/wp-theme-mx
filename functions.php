@@ -233,41 +233,9 @@ class theme_functions{
 		</nav>
 		<?php
 	}
-	public static function get_home_posts($args = null){
-		global $post,$wp_query;
-		$options = theme_options::get_options();
-		$home_data_filter = isset($options['home-data-filter']) ? $options['home-data-filter'] : null;
-		$defaults = array(
-			'date' => $home_data_filter,
-			'paged' => get_query_var('paged') ? get_query_var('paged') : 1,
-			'current_tab' => get_query_var('tab') ? get_query_var('tab') : 'lastest',
-			'posts_per_page' => get_option('posts_per_page'),
-		);
-		$r = wp_parse_args($args,$defaults);
-		extract($r);
-		
-		$query_args['paged'] = $paged;
-		$query_args['date'] = $date;
-		$query_args['posts_per_page'] = $posts_per_page;
-
-		switch($current_tab){
-			case 'pop':
-				$query_args['orderby'] = 'thumb-up';
-				break;
-			case 'rand':
-				$query_args['orderby'] = 'rand';
-				break;
-			default:
-				$query_args['orderby'] = 'lastest';
-				$query_args['date'] = 'all';
-		}
-		$wp_query = self::get_posts_query($query_args);
-		
-		return $wp_query;
-	}
+	
 	public static function get_posts_query($args,$query_args = null){
 		global $paged;
-		$options = theme_options::get_options();
 		$defaults = array(
 			'orderby' => 'views',
 			'order' => 'desc',
@@ -312,7 +280,7 @@ class theme_functions{
 			case 'recomm':
 			case 'recommended':
 				if(class_exists('theme_recommended_post')){
-					$query_args['post__in'] = (array)theme_options::get_options(theme_recommended_post::$iden);
+					$query_args['post__in'] = (array)theme_recommended_post::get_ids();
 				}else{
 					$query_args['post__in'] = (array)get_option( 'sticky_posts' );
 				unset($query_args['ignore_sticky_posts']);
@@ -611,6 +579,9 @@ class theme_functions{
 	 */
 	public static function singular_content(array $args = []){
 		global $post;
+		//var_dump($post);
+		//wp_reset_postdata();
+		//var_dump($post);
 		
 		$defaults = array(
 			'classes'			=> [],
@@ -1520,7 +1491,7 @@ class theme_functions{
 		return str_replace('comment-reply-','btn btn-primary btn-xs comment-reply-',$str);
 	}
 	public static function the_related_posts_plus($args = null){
-		global $wp_query,$post;
+		global $post;
 
 		/**
 		 * cache
@@ -1568,23 +1539,23 @@ class theme_functions{
 						return $term->term_id;
 					},get_the_tags());
 				}
-				$wp_query = self::get_posts_query($same_tag_args,$same_tag_query);
-				if(have_posts()){
+				$query = self::get_posts_query($same_tag_args,$same_tag_query);
+				if($query->have_posts()){
 					?>
 					<ul class="row post-img-lists">
 						<?php
-						while(have_posts()){
-							the_post();
+						while($query->have_posts()){
+							$query->the_post();
 							self::archive_img_content($content_args);
 						}
+						wp_reset_postdata();
 					?>
 					</ul>
 				<?php }else{ ?>
 					<div class="page-tip"><?php echo status_tip('info',___('No data.'));?></div>
 				<?php
 				}
-				wp_reset_query();
-				wp_reset_postdata();
+				//wp_reset_query();
 				?>
 			</div>
 
@@ -1681,8 +1652,8 @@ class theme_functions{
 			echo $cache;
 			return $cache;
 		}
-		global $post,$wp_query;
-		$wp_query = self::get_posts_query(array(
+		global $post;
+		$query = self::get_posts_query(array(
 			'posts_per_page' => 8,
 			'orderby' => 'recomm',
 		));
@@ -1691,12 +1662,13 @@ class theme_functions{
 			?>
 			<ul class="home-recomm row post-img-lists">
 				<?php
-				while(have_posts()){
-					the_post();
+				while($query->have_posts()){
+					$query->the_post();
 					self::archive_img_content(array(
 						'classes' => array('col-sm-4')
 					));
 				}
+				wp_reset_postdata();
 				?>
 			</ul>
 			<?php
@@ -1706,7 +1678,7 @@ class theme_functions{
 		$cache = ob_get_contents();
 		ob_end_clean();
 		wp_cache_set($cache_id,$cache,3600*24);
-		wp_reset_query();
+
 		echo $cache;
 		return $cache;
 	}
@@ -1739,7 +1711,7 @@ class theme_functions{
 			return false;
 		}
 
-		global $wp_query,$post;
+		global $post;
 		foreach($opt as $k => $v){
 			?>
 <div id="homebox-<?php echo $k;?>" class="homebox panel panel-default mx-panel">
@@ -1784,23 +1756,23 @@ class theme_functions{
 	<div class="panel-body">
 		<ul class="row mx-card-body post-img-lists">
 			<?php
-			$wp_query = self::get_posts_query(array(
+			$query = self::get_posts_query(array(
 				'orderby' => 'lastest',
 				'category__in' => $v['cats'],
 				'posts_per_page' => 8,
 				'ignore_sticky_posts' => false,
 			));
-			if(have_posts()){
-				while(have_posts()){
-					the_post();
+			if($query->have_posts()){
+				while($query->have_posts()){
+					$query->the_post();
 					self::archive_img_content(array(
 						'classes' => array('col-xs-6 col-sm-3')
 					));
 				}
+				wp_reset_postdata();
 			}else{
 				
 			}
-			wp_reset_query();
 			?>
 		</ul>
 	</div>
@@ -2097,7 +2069,7 @@ $item_output = $args->before;
 * property is NOT null we apply it as the class name for the glyphicon.
 */
 if ( ! empty( $item->attr_title ) )
-$item_output .= '<a'. $attributes .'><span class="fa fa-' . esc_attr( $item->attr_title ) . '"></span>&nbsp;';
+$item_output .= '<a'. $attributes .'><i class="fa fa-fw fa-' . esc_attr( $item->attr_title ) . '"></i>&nbsp;';
 else
 $item_output .= '<a'. $attributes .'>';
 $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;

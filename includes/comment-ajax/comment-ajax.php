@@ -273,7 +273,7 @@ class theme_comment_ajax{
 					die(theme_features::json_format($output));
 				}
 				
-				global $post,$wp_query;
+				global $post;
 				/**
 				 * check post exists
 				 */

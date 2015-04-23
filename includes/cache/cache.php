@@ -212,7 +212,7 @@ class theme_cache{
 	}
 
 	public static function get_author_posts_url($user_id,$author_nicename = ''){
-		$cache_id = md5($user_id.$author_nicename);
+		$cache_id = md5(serialize(func_get_args()));
 		$group_id = 'author_posts_urls';
 		$caches = wp_cache_get($group_id);
 		if(isset($caches[$cache_id]))
@@ -321,7 +321,7 @@ class theme_cache{
 	 */
 	public static function get_comments($args,$expire = 3600){
 		$cache_group_id = 'comments';
-		$id = md5(serialize($args));
+		$id = md5(serialize(func_get_args()));
 		$caches = (array)self::get(self::$cache_key);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
 		if(empty($cache)){
@@ -342,14 +342,14 @@ class theme_cache{
 	 */
 	public static function get_queries($args,$expire = 3600){
 		$cache_group_id = 'queries';
-		$cache_id = md5(serialize($args));
+		$cache_id = md5(serialize(func_get_args()));
 		$caches = (array)self::get(self::$cache_key);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
 		if(empty($cache)){
 			$cache = new WP_Query($args);
 			$caches[$cache_group_id][$cache_id] = $cache;
 			self::set(self::$cache_key,$caches,null,$expire);
-			wp_reset_query();
+			//wp_reset_postdata();
 		}
 		return $cache;
 	}

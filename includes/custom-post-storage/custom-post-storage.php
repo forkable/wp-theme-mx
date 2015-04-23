@@ -195,9 +195,9 @@ class theme_custom_storage{
 		$code_obj = array(
 			'post-id' => (int)$post_id
 		);
-		$caches[$post_id] = add_query_arg(array(
+		$caches[$post_id] = esc_url(add_query_arg(array(
 			'code' => base64_encode(authcode(serialize($code_obj),'encode'))
-			),self::get_url());
+			),self::get_url()));
 		return $caches[$post_id];
 	}
 	public static function get_decode_post(){
@@ -311,7 +311,7 @@ class theme_custom_storage{
 					<?php echo ___('Download now');?>
 					
 				</a>
-				<a href="<?php echo $download_url;?>" class="download-link btn btn-success col-xs-3 col-sm-1" rel="nofollow" target="_blank" title="<?php echo ___('Open in new window');?>" rel="nofollow" >
+				<a href="<?php echo $download_url;?>" class="download-link btn btn-success col-xs-3 col-sm-1" rel="nofollow" target="_blank" title="<?php echo ___('Open in new window');?>" >
 					<i class="fa fa-external-link fa-fw"></i>
 				</a>
 			</div>

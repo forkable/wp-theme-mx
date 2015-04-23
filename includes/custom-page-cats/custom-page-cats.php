@@ -110,7 +110,7 @@ class theme_page_cats{
 
 	}
 	public static function get_slugs(){
-		global $wp_query,$post;
+		global $post;
 		
 		$cats = (array)self::get_options('cats');
 
@@ -118,14 +118,14 @@ class theme_page_cats{
 		/**
 		 * get all whitelist posts & tag ids
 		 */
-		$wp_query = new WP_Query(array(
+		$query = new WP_Query(array(
 			'category__in' => $cats,
 		));
 
-		if(have_posts()){
+		if($query->have_posts()){
 			/** load pinyin */
-			while(have_posts()){
-				the_post();
+			while($query->have_posts()){
+				$query->the_post();
 				/** 提取别名是数字或英文开头的 */
 				$first_letter_pattern = '/^[a-z0-9]{1}/';
 				$first_letter = $post->post_name[0];
@@ -137,11 +137,11 @@ class theme_page_cats{
 					continue;
 				}
 			}
+			wp_reset_postdata();
 		}else{
 			return false;
 		}
-		wp_reset_query();
-		wp_reset_postdata();
+		//wp_reset_query();
 		return $new_tags;
 	}
 	public static function display_frontend(){
@@ -157,7 +157,7 @@ class theme_page_cats{
 			?><div class="page-tip"><?php echo status_tip('info',___('No cagtegory yet.'));?></div><?php
 			return false;
 		}
-		global $wp_query,$post;
+		global $post;
 		//var_dump($tags);
 		arsort($slugs);
 		foreach($slugs as $k => $post_ids){
@@ -170,17 +170,17 @@ class theme_page_cats{
 				<div class="panel-body">
 					<ul class="row post-img-lists">
 						<?php
-						$wp_query = new WP_Query(array(
+						$query = new WP_Query(array(
 							'nopaging' => true,
 							'post__in' => $post_ids,
 						));
-						while(have_posts()){
-							the_post();
+						while($query->have_posts()){
+							$query->the_post();
 							theme_functions::archive_img_content(array(
 								'classes' => array('col-xs-6 col-sm-4 col-md-3 col-lg-2'),
 							));
 						}
-						wp_reset_query();
+						//wp_reset_query();
 						wp_reset_postdata();
 						?>
 					</ul>
