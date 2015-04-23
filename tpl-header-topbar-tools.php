@@ -9,11 +9,6 @@ if(is_user_logged_in()){
 		
 		<!-- my profile -->
 		<?php
-		//if(class_exists('theme_custom_dashboard')){
-		//	$profile_url = theme_custom_dashboard::get_tabs('dashboard')['url'];
-		//}else{
-		//	$profile_url = theme_cache::get_author_posts_url(get_current_user_id());
-		//}
 		$current_user_id = get_current_user_id();
 		?>
 		<a href="<?php echo theme_cache::get_author_posts_url($current_user_id);?>" class="btn btn-default meta user-avatar" title="<?php echo ___('My profile');?>">
@@ -98,7 +93,7 @@ if(is_user_logged_in()){
 }else{
 	?>
 	<div class="btn-group btn-group-xs">
-		<a class="sign-in sign-in-meta btn btn-primary" href="<?php echo wp_login_url(get_current_url());?>">
+		<a class="sign-in sign-in-meta btn btn-primary" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
 			<i class="fa fa-user fa-fw"></i>
 			<?php echo ___('Login');?>
 		</a>
@@ -123,7 +118,7 @@ if(is_user_logged_in()){
 			}
 		}
 		?>
-		<a class="sign-up meta btn btn-success" href="<?php echo wp_registration_url(get_current_url());?>">
+		<a class="sign-up meta btn btn-success" href="<?php echo esc_url(wp_registration_url(get_current_url()));?>">
 			<i class="fa fa-user-plus fa-fw"></i>
 			<?php echo ___('Register');?>
 		</a>

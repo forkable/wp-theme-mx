@@ -94,9 +94,8 @@ label{
 	box-sizing: border-box;*/
 }
 body{
-	position: relative;
 	font-family: STheiti,Verdana,'Microsoft Yahei',arial,sans-serif;
-	/*font-size: 14px;*/
+	font-size: 14px;
 	background: #E3E3E3;
 }
 a{
@@ -617,6 +616,12 @@ label.error{
 		.comment-list .comment-body:hover .avatar{ 
 		}
 	.comment-list .avatar{
+		width: 50px;
+		height: 50px;
+	}
+	.comment-list .children .avatar{
+		width: 20px;
+		height: 20px;
 	}
 	.comment-list .media-heading{
 		font-size: 1em;

@@ -277,10 +277,10 @@ class theme_comment_ajax{
 				/**
 				 * check post exists
 				 */
-				$wp_query = new WP_Query([
+				$query = new WP_Query([
 					'p' => $post_id
 				]);
-				if(!have_posts()){
+				if(!$query-have_posts()){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_post';
 					$output['msg'] = ___('Post is not exist.');
@@ -332,10 +332,11 @@ class theme_comment_ajax{
 			return $caches[$cache_id];
 
 		global $wp_query,$post;
+
 		$wp_query = new WP_Query([
 			'p' => $post_id
 		]);
-		//if(have_posts())
+
 		$comments = self::get_comments([
 			'post_id' => $post_id,
 		]);
@@ -351,7 +352,7 @@ class theme_comment_ajax{
 			'page' => $cpaged,
 			'echo' => false,
 		),$comments);
-		
+		wp_reset_query();
 		return $caches[$cache_id];
 	}
 	private static function get_comments(array $args = []){

@@ -15,21 +15,42 @@ class theme_custom_avatar{
 		'avatar' => 'avatar',
 	);
 	public static function init(){
-		add_filter('get_avatar', __CLASS__ . '::get_gravatar',99,2);
+		add_filter('get_avatar', __CLASS__ . '::get_avatar',99,2);
 	}
-	public static function get_gravatar($avatar,$id_or_email){
-		static $caches = [];
+	public static function get_avatar($avatar,$id_or_email){
 
-		$cache_id = md5(serialize(func_get_args()));
-		if(isset($caches[$cache_id]))
-			return $caches[$cache_id];
-		
-		if(!is_numeric($id_or_email)){
-			$caches[$cache_id] = $avatar;
-			return $caches[$cache_id];
+		/**
+		 * is user id
+		 */
+		if(is_numeric($id_or_email)){
+			return self::get_avatar_from_meta($avatar,(int)$id_or_email);
+
+		/**
+		 * is comment object
+		 */
+		}else if(is_object($id_or_email)){
+			
+			/** if visitor, return */
+			if($id_or_email->user_id == 0){
+				return $avatar;
+			}else{
+				return self::get_avatar_from_meta($avatar,$id_or_email->user_id);
+			}
+		/**
+		 * is email
+		 */
+		}else{
+			return $avatar;
 		}
-		$meta = get_user_meta($id_or_email,self::$user_meta_key['avatar'],true);
 		
+	}
+	private static function get_avatar_from_meta($avatar,$user_id){
+		static $caches = [];
+		if(isset($caches[$user_id]))
+			return $caches[$user_id];
+			
+		$meta = get_user_meta($user_id,self::$user_meta_key['avatar'],true);
+
 		if(empty($meta)) 
 			return $avatar;
 
@@ -43,11 +64,12 @@ class theme_custom_avatar{
 			}
 			$meta = $baseurl . $meta;
 		}
-		//var_dump($meta);
+
 		$avatar = preg_replace('/\s+src=\'?"?(\S+)?"?\'?/i',' src="' . $meta . '"',$avatar);
 
-		$caches[$cache_id] = $avatar;
-		return $avatar;
+		$caches[$user_id] = $avatar;
+		
+		return $caches[$user_id];
 	}
 }
 ?>

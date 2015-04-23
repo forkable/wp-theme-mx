@@ -580,7 +580,7 @@ class theme_functions{
 	public static function singular_content(array $args = []){
 		global $post;
 		//var_dump($post);
-		//wp_reset_postdata();
+		wp_reset_postdata();
 		//var_dump($post);
 		
 		$defaults = array(
@@ -1456,7 +1456,7 @@ class theme_functions{
 				<span class="comment-meta-data author">
 					<?php
 					if($comment->comment_parent != 0){
-						echo get_avatar($comment,15);
+						echo get_avatar($comment,50);
 						echo '&nbsp;';
 					}
 					?>
@@ -1812,7 +1812,7 @@ class theme_functions{
 			<?php 
 			echo sprintf(
 				___('You must be %s to post a comment.'),
-				'<a href="' . wp_login_url(get_permalink($post->ID)) . '#respond' . '"><strong>' . ___('log-in') . '</strong></a>'
+				'<a href="' . esc_url(wp_login_url(get_permalink($post->ID))) . '#respond' . '"><strong>' . ___('log-in') . '</strong></a>'
 			);
 			?>
 		</p>
