@@ -20,6 +20,7 @@ class theme_functions{
 	public static $thumbnail_size = array('thumbnail',320,200);
 	public static $comment_avatar_size = 60;
 	public static $thumbnail_placeholder = 'frontend/thumbnail.png';
+	public static $avatar_placeholder = 'frontend/avatar.jpg';
 	public static $cache_expire = 3600;
 	public static $colors = array(
 		'61b4ca',	'e1b32a',	'ee916f',	'a89d84',
@@ -1682,7 +1683,7 @@ class theme_functions{
 		echo $cache;
 		return $cache;
 	}
-	public static function the_homebox($args = null){
+	public static function the_homebox(array $args = []){
 		if(!class_exists('theme_custom_homebox')) 
 			return false;
 			
@@ -1731,8 +1732,17 @@ class theme_functions{
 		</h3>
 		<div class="mx-panel-heading-extra">
 			
+			
+			<a 
+				title="<?php echo ___('I feel lucky');?>"
+				href="javascript:;" 
+				class="extra homebox-refresh" 
+				data-target="#homebox-<?php echo $k;?> .post-img-lists" 
+				data-box-id="<?php echo $k;?>"
+			><i class="fa fa-refresh fa-fw"></i></a>
+			
 			<?php if(!is_null_array($v['keywords'])){ ?>
-				<div class="keywords hidden-xs">
+				<div class="extra keywords hidden-xs">
 					<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){?>
 						<a class="" href="<?php echo esc_url($kw['url']);?>">
 							<?php echo $kw['name'];?>
@@ -1741,14 +1751,6 @@ class theme_functions{
 				</div>
 			<?php } ?>
 			
-			
-			<a 
-				title="<?php echo ___('I feel lucky');?>"
-				href="javascript:;" 
-				class="homebox-refresh" 
-				data-target="#homebox-<?php echo $k;?> .post-img-lists" 
-				data-box-id="<?php echo $k;?>"
-			><i class="fa fa-refresh fa-fw"></i></a>
 			
 			
 		</div>

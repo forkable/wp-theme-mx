@@ -197,10 +197,34 @@ img{
 	.mx-card .caption .row{
 		font-size: 12px;
 	}
+	.mx-panel-heading-extra .extra{
+		float: right;
+		margin-left: 20px;
+	}
+		.mx-panel-heading-extra .extra:last-child{
+			margin-left: 0;
+		}
 	.mx-panel-heading-extra .homebox-refresh:hover,
 	.mx-panel-heading-extra .homebox-refresh:active{
 		color:#000;
 	}
+	.mx-panel-heading-extra{
+		float: right;
+	}
+	.mx-panel-heading-extra a{
+		color:#999;
+	}
+		.mx-panel-heading-extra .keywords a:before{
+			content:'/';
+			color:#ccc;
+		}
+		.mx-panel-heading-extra .keywords a:first-child:before{
+			display: none;
+		}
+		.mx-panel-heading-extra .keywords a:hover,
+		.mx-panel-heading-extra .keywords a:active{
+			color:#333;
+		}
 /**
  * .avatar
  */
@@ -273,37 +297,7 @@ img{
 	.mx-panel-heading .panel-title{
 		float: left;
 	}
-	.mx-panel-heading-extra{
-		float: right;
-	}
-	.mx-panel-heading-extra a{
-		color:#999;
-	}
-		.mx-panel-heading-extra .nplink{
-			position: absolute;
-			right: 20px;
-			top: 10px;
-		}
-		.mx-panel-heading-extra .nplink a{
-			padding-left: 1em;
-			padding-right: 1em;
-			line-height: 15px;
-		}
-		.mx-panel-heading-extra .keywords{
-			position: absolute;
-			right: 100px;
-		}
-		.mx-panel-heading-extra .keywords a:before{
-			content:'/';
-			color:#ccc;
-		}
-		.mx-panel-heading-extra .keywords a:first-child:before{
-			display: none;
-		}
-		.mx-panel-heading-extra .keywords a:hover,
-		.mx-panel-heading-extra .keywords a:active{
-			color:#333;
-		}
+
 .post-mixed-list-container{
 	padding: 0 5px;
 	margin-top: -10px;
@@ -1194,7 +1188,18 @@ label.error{
 			border-bottom: 1px solid #F5F5F5;
 			
 		}
-
+/**
+ * .widget_comments 
+ */
+.widget_comments .media-heading{
+	font-size: 1.3rem;
+}
+.widget_comments .author{
+	margin-right: .5rem;
+}
+.widget_comments .text{
+	color:#666;
+}
 /**
  * .neck
  */
@@ -1483,16 +1488,12 @@ label.error{
 	.navbar-header .mx-tool{
 		display: block;
 	}
-	#slidebox .fill{height: 280px;}
+	#slidebox .fill{height: 300px;}
 
 }
 @media (min-width: 992px){
-	#slidebox .fill{height: 280px;}
+	#slidebox .fill{height: 300px;}
 }
 @media (min-width: 1200px){
-	#slidebox .fill{height: 320px;}
-}
-@media (min-width: 1300px){
-	/*.container{width: 1300px;}*/
-	/*#slidebox .fill{height: 342px;}*/
+	#slidebox .fill{height: 340px;}
 }
