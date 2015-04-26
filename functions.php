@@ -234,7 +234,7 @@ class theme_functions{
 		<?php
 	}
 	
-	public static function get_posts_query($args,$query_args = null){
+	public static function get_posts_query($args,array $query_args = []){
 		global $paged;
 		$defaults = array(
 			'orderby' => 'views',
@@ -245,9 +245,9 @@ class theme_functions{
 			'date' => 'all',
 			
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r);
-		$query_args = wp_parse_args($query_args,array(
+		$query_args = array_merge([
 			'posts_per_page' => $posts_per_page,
 			'paged' => $paged,
 			'ignore_sticky_posts' => 1,
@@ -255,7 +255,7 @@ class theme_functions{
 			'post_status' => 'publish',
 			'post_type' => 'post',
 			'has_password' => false,
-		));
+		],$query_args);
 		
 		switch($orderby){
 			case 'views':
@@ -328,7 +328,7 @@ class theme_functions{
 			'classes' => [],
 			'lazyload' => true,
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 
 		global $post;
@@ -396,7 +396,7 @@ class theme_functions{
 			'classes'			=> [],
 			'meta_type'			=> 'views',
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		
 		$post_title = get_the_title();
@@ -443,7 +443,7 @@ class theme_functions{
 			'lazyload'			=> true,
 			
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		
 		global $post;
@@ -490,14 +490,14 @@ class theme_functions{
 	public static function widget_rank_tx_content($args){
 		self::archive_tx_content($args);
 	}
-	public static function widget_rank_img_content($args = null){
+	public static function widget_rank_img_content($args = []){
 		global $post;
 		
 		$defaults = array(
-			'classes' => array('grid-50','tablet-grid-50','mobile-grid-50'),
+			'classes' => array(),
 			'lazyload' => true,
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 
 		global $post;
@@ -550,7 +550,7 @@ class theme_functions{
 			'lazyload'			=> true,
 			
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		
 		$post_title = get_the_title();
@@ -588,7 +588,7 @@ class theme_functions{
 			'lazyload'			=> true,
 			
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		
 		/** 
@@ -887,7 +887,7 @@ class theme_functions{
 			'header' => null,
 			'footer' => null,
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		
 		
@@ -1014,7 +1014,7 @@ class theme_functions{
 			return $output;
 		}
 	}
-	public static function pagination( $args = [] ) {
+	public static function pagination( array $args = [] ) {
 	    
 	    $defaults = array(
 	        'custom_query'		=> false,
@@ -1023,7 +1023,7 @@ class theme_functions{
 	        'before_output'   	=> '<div class="posts-nav btn-group btn-group-justified" role="group" aria-label="' . ___('Posts pagination navigation') . '">',
 	        'after_output'    	=> '</div>'
 	    );
-	    $args = wp_parse_args($args,$defaults);
+	    $args = array_merge($defaults,$args);
 	    
 	    if ( !$args['custom_query'] )
 	        $args['custom_query'] = @$GLOBALS['wp_query'];
@@ -1172,7 +1172,7 @@ class theme_functions{
 			'max_pages' 		=> $max_pages,
 			
 		];
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 				
 		/** If has page to show me */
@@ -1228,14 +1228,14 @@ class theme_functions{
 	/** 
 	 * smart_page_pagination
 	 */
-	public static function smart_page_pagination($args = null){
+	public static function smart_page_pagination($args = []){
 		global $post,$page,$numpages;
 		$output = null;
 	
 		$defaults = array(
 			'add_fragment' => 'post-' . $post->ID
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r);
 		$output['numpages'] = $numpages;
 		$output['page'] = $page;
@@ -1408,7 +1408,7 @@ class theme_functions{
 		$defaults = array(
 			'lazy' => true,
 		);
-		$args = wp_parse_args($args,$defaults);
+		$args = array_merge($defaults,$args);
 		// extract($r,EXTR_SKIP);
 		// var_dump($args);
 		switch ( $comment->comment_type ){
@@ -1490,7 +1490,7 @@ class theme_functions{
 	public static function filter_comment_reply_link($str){
 		return str_replace('comment-reply-','btn btn-primary btn-xs comment-reply-',$str);
 	}
-	public static function the_related_posts_plus($args = null){
+	public static function the_related_posts_plus(array $args = []){
 		global $post;
 
 		/**
@@ -1510,7 +1510,7 @@ class theme_functions{
 		$query_args = array(
 			'post__not_in' => array($post->ID),
 		);
-		$args = wp_parse_args($args,$defaults);
+		$args = array_merge($defaults,$args);
 		$content_args = array(
 			'classes' => array('col-xs-6 col-sm-4 col-md-2')
 		);
@@ -1570,18 +1570,18 @@ class theme_functions{
 	/** 
 	 * the_related_posts
 	 */
-	public static function the_related_posts($args_content = null,$args_query = null){
+	public static function the_related_posts(array $args_content = [],array  $args_query = []){
 		global $post;
 		
-		$defaults_query = array(
+		$defaults_query = [
 			'posts_per_page' => 10
-		);
-		$args_query = wp_parse_args($args_query,$defaults_query);
+		];
+		$args_query = array_merge($defaults_query,$args_query);
 		
-		$defaults_content = array(
-			'classes' => array('grid-20 tablet-grid-20 mobile-grid-50'),
-		);
-		$args_content = wp_parse_args($args_content,$defaults_content);
+		$defaults_content = [
+			'classes' => [],
+		];
+		$args_content = array_merge($defaults_content,$args_content);
 		
 		$posts = theme_related_post::get_posts($args_query);
 		if(!is_null_array($posts)){
@@ -1595,12 +1595,12 @@ class theme_functions{
 				?>
 			</ul>
 			<?php
+			wp_reset_postdata();
 		}else{
 			?>
 			<div class="no-post page-tip"><?php echo status_tip('info',___('No data yet'));?></div>
 			<?php
 		}
-		wp_reset_postdata();
 	}
 
 
@@ -1914,7 +1914,7 @@ class theme_functions{
 			'user' => null,
 			'extra' => 'point',
 		];
-		$args = wp_parse_args($args,$defaults);
+		$args = array_merge($defaults,$args);
 		
 		$user = $args['user'];
 		

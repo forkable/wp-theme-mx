@@ -69,14 +69,11 @@ class widget_comments extends WP_Widget{
 		}
 		echo $after_widget;
 	}
-	function form($instance){
-		$instance = wp_parse_args(
-			(array)$instance,
-			array(
-				'title' => ___('Latest comments'),
-				'number' => 6
-			)
-		);
+	function form($instance = []){
+		$instance = array_merge([
+			'title' => ___('Latest comments'),
+			'number' => 6
+		],$instance);
 		?>
 		<p>
 			<label for="<?php echo esc_attr(self::get_field_id('title'));?>"><?php echo esc_html(___('Title (optional)'));?></label>
@@ -96,7 +93,7 @@ class widget_comments extends WP_Widget{
 		<?php
 	}
 	function update($new_instance,$old_instance){
-		$instance = wp_parse_args($new_instance,$old_instance);
+		$instance = array_merge($old_instance,$new_instance);
 		return $instance;
 	}
 	public static function register_widget(){

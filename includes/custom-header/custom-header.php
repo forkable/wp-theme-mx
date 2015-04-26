@@ -20,9 +20,6 @@ class theme_custom_header{
 		$args = array(
 			'default-text-color'     => 'fff',
 			'default-image'          => theme_features::get_theme_includes_image(__DIR__) . $img_names[0],
-
-			'height'                 => 150,
-
 			'wp-head-callback'       => __CLASS__ . '::header_style',
 			'admin-head-callback'    => __CLASS__ . '::admin_header_style',
 			'admin-preview-callback' => __CLASS__ . '::admin_header_image',

@@ -66,7 +66,7 @@ class custom_post_point{
 			'orderby' => 'desc',
 			'expire' => 3600*24,
 		];
-		$args = wp_parse_args($args,$defaults);
+		$args = array_merge($defaults,$args);
 		$cache_id = md5(serialize(func_get_args()));
 		$caches = wp_cache_get('most_point_posts',self::$iden);
 		if(isset($caches[$cache_id]))
@@ -185,7 +185,8 @@ class custom_post_point{
 			'posts_per_page' => 10,
 			'paged' => 1,
 		];
-		$query_args = wp_parse_args($query_args,$defaults);		$cache_id = md5(serialize(func_get_args()));
+		$query_args = array_merge($defaults,$query_args);
+		$cache_id = md5(serialize(func_get_args()));
 		
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];

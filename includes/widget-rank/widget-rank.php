@@ -17,16 +17,16 @@ class widget_rank extends WP_Widget{
 			)
 		);
 	}
-	public static function frontend_display($args,$instance){
-		$instance_defaults = array(
+	public static function frontend_display(array $args = [],$instance){
+		$instance = array_merge([
 			'title' => ___('Posts rank'),
 			'posts_per_page' => 6,
 			'date' => 'all',
 			'orderby' => 'views',
 			'category__in' => [],
 			'content_type' => 'tx',
-		);
-		$instance = wp_parse_args($instance,$instance_defaults);
+		],$instance);
+		
 		echo $args['before_title'];
 		if(isset($instance['category__in'][0])){ ?>
 			<a class="link" href="<?php echo get_category_link($instance['category__in'][0]);?>" title="<?php echo esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>">
@@ -103,17 +103,14 @@ class widget_rank extends WP_Widget{
 		
 	}
 	
-	function form($instance){
-		$instance = wp_parse_args(
-			(array)$instance,
-			array(
-				'title'=>___('Posts ranking'),
-				'posts_per_page' => 6,
-				'category__in' => [],
-				'content_type' => 'tx',
-				'orderby' => 'latest',
-			)
-		);
+	function form($instance = []){
+		$instance = array_merge([
+			'title'=>___('Posts ranking'),
+			'posts_per_page' => 6,
+			'category__in' => [],
+			'content_type' => 'tx',
+			'orderby' => 'latest',
+		],$instance);
 		?>
 		<p>
 			<label for="<?php echo esc_attr(self::get_field_id('title'));?>"><?php echo esc_html(___('Title (optional)'));?></label>
@@ -273,7 +270,7 @@ class widget_rank extends WP_Widget{
 		return $content;
 	}
 	function update($new_instance,$old_instance){
-		$instance = wp_parse_args($new_instance,$old_instance);
+		$instance = array_merge($old_instance,$new_instance);
 		
 		return $instance;
 	}

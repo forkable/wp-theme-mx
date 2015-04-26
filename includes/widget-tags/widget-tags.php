@@ -89,40 +89,35 @@ class widget_hot_tags extends WP_Widget{
 		theme_cache::set($cache_id,$cache);
 		echo $cache;
 	}
-	function widget($args,$instance){
-		extract($args);
-		$instance = wp_parse_args(
-			(array)$instance,
-			array(
-				'title' => '',
-				'number' => 20,
-				'sticky' => [],
-			)
-		);
-		echo $before_widget;
+	function widget($args = [], $instance = []){
+		$instance = array_merge([
+			'title' => '',
+			'number' => 20,
+			'sticky' => [],
+		],$instance);
+		
+		echo $args['before_widget'];
 		if(!empty($instance['title'])){
-			echo $before_title;
+			echo $args['before_title'];
 			?>
 			<span class="icon-tags"></span><span class="after-icon"><?php echo esc_html($instance['title']);?></span>
 			<?php
-			echo $after_title;
+			echo $args['after_title'];
 		}
 		?>
 		<div class="widget-content">
 		<?php self::frontend_display($args,$instance); ?>
 		</div>
 		<?php
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
-	function form($instance){
-		$instance = wp_parse_args(
-			(array)$instance,
-			array(
-				'title'=>___('Hot tags'),
-				'number' => 20,
-				'sticky' => [],
-			)
-		);
+	function form($instance = []){
+		$instance = array_merge([
+			'title'=>___('Hot tags'),
+			'number' => 20,
+			'sticky' => [],
+		],$instance);
+		
 		$sticky_tx = implode(PHP_EOL,(array)$instance['sticky']);
 		?>
 		<p>
@@ -160,7 +155,7 @@ class widget_hot_tags extends WP_Widget{
 		<?php
 	}
 	function update($new_instance,$old_instance){
-		$instance = wp_parse_args($new_instance,$old_instance);
+		$instance = array_merge($old_instance,$new_instance);
 		/** 
 		 * text tags to array tags
 		 */

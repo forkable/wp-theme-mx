@@ -93,18 +93,21 @@ class theme_open_sign{
 	}
 	private static function get_qc_config(){
 		$opt = self::get_options();
-		return (object)array(
+
+		return (object)[
+		//var_dump((object)array(
 			'appid' => isset($opt['qq']['appid']) ? $opt['qq']['appid'] : null,
 			'appkey' => isset($opt['qq']['appkey']) ? $opt['qq']['appkey'] : null,
-			'callback' => urlencode(theme_features::get_process_url(array(
-				'action' => 'isos_cb',
-				'nonce' => theme_features::create_nonce(),
-				'qq' => 'set-auth',
-				'redirect_uri' => isset($_GET['redirect']) ? ($_GET['redirect']) : null,
-			))),
+			'callback' => theme_features::get_process_url([
+				'action' => 'isos_cb&nonce=' . 
+				theme_features::create_nonce() . 
+				'&qq=set-auth',
+				'redirect_uri' => isset($_GET['redirect']) && is_string($_GET['redirect']) ? $_GET['redirect'] : null,
+				//'redirect_uri' => home_url(),
+			]),
 			'scope' => 'get_user_info,add_share,list_album,add_album,upload_pic,add_topic,add_one_blog,add_weibo,check_page_fans,add_t,add_pic_t,del_t,get_repost_list,get_info,get_other_info,get_fanslist,get_idolist,add_idol,del_idol,get_tenpay_addr',
 			'errorReport' => true,
-		);
+		];
 	}
 	public static function get_login_url($type){
 		static $caches = [];
@@ -203,8 +206,12 @@ class theme_open_sign{
 		 */
 		}else if(isset($_GET['qq']) && $_GET['qq'] === 'set-auth'){
 			include __DIR__ . '/inc/qq/qqConnectAPI.php';
+			
 			$qc = new theme_open_sign\inc\qq\QC(self::get_qc_config());
+
 			$cb = $qc->qq_callback();
+			/** openid */
+			$open_id = $qc->get_openid();
 			
 			/** access_token */
 			$access_token = isset($cb['access_token']) && is_string($cb['access_token']) ? $cb['access_token'] : null;
@@ -225,9 +232,6 @@ class theme_open_sign{
 			$refresh_token = isset($cb['refresh_token']) && is_string($cb['refresh_token']) ? $cb['refresh_token'] : null;
 			if(empty($refresh_token)) 
 				die(___('Invalid refresh token.'));
-
-			/** openid */
-			$open_id = $qc->get_openid();
 
 
 			/** load user from database */

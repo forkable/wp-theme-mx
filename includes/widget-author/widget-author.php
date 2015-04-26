@@ -130,10 +130,9 @@ class theme_widget_author extends WP_Widget{
 		echo $args['after_widget'];
 	}
 	function form($instance = []){
-		$defaults = array(
-			'title' => ___('Member information')
-		);
-		$instance = wp_parse_args($instance,$defaults);
+		$instance = array_merge([
+			'title' => ___('Member information'),
+		],$instance);
 		?>
 		<p>
 			<label for="<?php echo esc_attr(self::get_field_id('title'));?>"><?php echo esc_html(___('Title (optional)'));?></label>
@@ -149,7 +148,7 @@ class theme_widget_author extends WP_Widget{
 		<?php
 	}
 	function update($new_instance,$old_instance){
-		$instance = wp_parse_args($new_instance,$old_instance);
+		$instance = array_merge($old_instance,$new_instance);
 		return $instance;
 	}
 	public static function register_widget(){

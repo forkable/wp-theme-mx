@@ -439,7 +439,7 @@ class theme_features{
 			'file_basename' => null,
 			'mtime' => false
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		
 		$dev_mode = class_exists('theme_dev_mode') && theme_dev_mode::is_enabled() ? true : false;
@@ -591,7 +591,7 @@ class theme_features{
 			'file_basename' => null,
 			'mtime' => true,
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		
 		
@@ -1332,7 +1332,7 @@ class theme_features{
 			'numbers_class' => array(),
 			'middle_class' => '',
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 
 		$first_class = null;
@@ -1435,7 +1435,7 @@ class theme_features{
 			'add_fragment' => 'post-content',
 			
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		$output = null;
 		$showitems = ($range * 2)+1;  

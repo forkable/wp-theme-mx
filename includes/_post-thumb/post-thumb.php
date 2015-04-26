@@ -180,7 +180,7 @@ class theme_post_thumb{
 			'action_title' => null,
 			'extra_tx' => null,
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r);
 		
 		$extra_tx = $extra_tx ? '<span class="post_thumb_extra_tx">' . $extra_tx . '</span>' : null;

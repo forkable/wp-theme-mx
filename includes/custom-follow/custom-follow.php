@@ -26,7 +26,7 @@ class theme_custom_follow{
 			'user_id' => null,
 			'type' => 'all',
 		);
-		$args = wp_parse_args($args,$defaults);
+		$args = array_merge($defaults,$args);
 		if(empty($args['user_id'])) return false;
 
 		$key = self::$user_meta_key[$args['type'] . '_count'];
@@ -39,7 +39,7 @@ class theme_custom_follow{
 			'page' => 1,
 			'type' => null, /** follower / following */
 		);
-		$args = wp_parse_args($args,$defaults);
+		$args = array_merge($defaults,$args);
 		$key = self::$user_meta_key[$args['type']];
 		$metas = get_user_meta($args['user_id'],$key);
 		if(is_null_array($metas)){

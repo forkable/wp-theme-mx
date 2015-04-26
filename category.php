@@ -29,7 +29,7 @@
 					<?php } ?>
 				</div>
 				<div class="panel-footer area-pagination">
-					<?php theme_functions::pagination('posts-pagination posts-pagination-bottom');?>
+					<?php theme_functions::pagination();?>
 				</div>
 			</div>
 		</div><!-- /#main -->

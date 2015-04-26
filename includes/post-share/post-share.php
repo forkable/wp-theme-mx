@@ -51,7 +51,7 @@ class theme_post_share{
 			'post_content' => esc_attr(mb_substr(html_compress(strip_tags(get_the_content())),0,120)),
 			'author' => esc_attr(get_the_author_meta('display_name',$post->post_author)),
 		);
-		$output_keywords = wp_parse_args($args,$defaults);
+		$output_keywords = array_merge($defaults,$args);
 	
 		$tpl_keywords = array(
 			'%post_title_text%',

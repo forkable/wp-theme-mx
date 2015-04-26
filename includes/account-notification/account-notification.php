@@ -148,7 +148,7 @@ class theme_notification{
 			'user_id' => get_current_user_id(),
 			'type' => 'all',
 		);
-		$args = wp_parse_args($args,$defaults);
+		$args = array_merge($defaults,$args);
 		if(empty($args['user_id'])) return false;
 		
 		/**
@@ -177,7 +177,7 @@ class theme_notification{
 			'paged' => 1,
 			'orderby' => 'desc',
 		);
-		$args = wp_parse_args($args,$defaults);
+		$args = array_merge($defaults,$args);
 		if(empty($args['user_id'])) return false;
 		
 		/**

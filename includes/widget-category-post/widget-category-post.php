@@ -40,7 +40,7 @@ class widget_posts extends WP_Widget{
 			'posts_per_page' => 8,
 			'show_date' => 0,
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		
 		/** 
 		 * theme cache
@@ -104,15 +104,13 @@ class widget_posts extends WP_Widget{
 		echo self::display_frontend($args);
 		echo $after_widget;
 	}
-	function form($instance){
-		
-		$defaults = array(
+	function form($instance = []){
+		$instance = array_merge([
 			'title' => ___('Category posts'),
 			'selected' => -1,
 			'posts_per_page' => 8,
 			'show_date' => 0,
-		);
-		$instance = wp_parse_args((array)$instance,$defaults);	
+		],$instance);	
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id('title');?>"><?php echo esc_html(___('Title'));?></label>

@@ -62,7 +62,7 @@ class theme_custom_homebox{
 			'posts_per_page' => 10,
 			'classes' => [],
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		
 		foreach($boxes as $k => $v){

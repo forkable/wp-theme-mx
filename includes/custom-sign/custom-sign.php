@@ -198,7 +198,7 @@ class theme_custom_sign{
 		foreach($page_slugs as $k => $v){
 			$page = theme_cache::get_page_by_path($k);
 			if(!$page){
-				$r = wp_parse_args($v,$defaults);
+				$r = array_merge($defaults,$v);
 				$page_id = wp_insert_post($r);
 			}
 		}

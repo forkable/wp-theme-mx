@@ -18,15 +18,12 @@ class widget_point_rank extends WP_Widget{
 			)
 		);
 	}
-	function widget($args,$instance){
-		$instance = wp_parse_args(
-			(array)$instance,
-			array(
-				'title'=> ___('User point rank'),
-				'total_number' => 100,
-				'rand_number' => 12
-			)
-		);
+	function widget($args = [], $instance = []){
+		$instance = array_merge([
+			'title'=> ___('User point rank'),
+			'total_number' => 100,
+			'rand_number' => 12
+		],$instance);
 		
 		if((int)$instance['total_number'] === 0 || (int)$instance['rand_number'] === 0)
 			return false;
@@ -84,15 +81,12 @@ class widget_point_rank extends WP_Widget{
 		<?php
 		echo $args['after_widget'];
 	}
-	function form($instance){
-		$instance = wp_parse_args(
-			(array)$instance,
-			array(
-				'title'=> ___('User point rank'),
-				'total_number' => 100,
-				'rand_number' => 12
-			)
-		);
+	function form($instance = []){
+		$instance = array_merge([
+			'title'=> ___('User point rank'),
+			'total_number' => 100,
+			'rand_number' => 12
+		],$instance);
 		?>
 		<p>
 			<label for="<?php echo self::get_field_id('title');?>"><?php echo ___('Title (optional)');?></label>
@@ -136,7 +130,7 @@ class widget_point_rank extends WP_Widget{
 			(int)$old_instance['total_number'] < $old_instance['rand_number']){
 			$old_instance['rand_number'] = (int)$old_instance['total_number'];
 		}
-		return wp_parse_args($new_instance,$old_instance);
+		return array_merge($old_instance,$new_instance);
 	}
 	public static function register_widget(){
 		register_widget(self::$iden);

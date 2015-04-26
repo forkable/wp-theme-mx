@@ -1,9 +1,6 @@
 <?php
 namespace theme_open_sign\inc\qq;
 
-if(!isset($_SESSION)){ 
-	session_start(); 
-}
 /* PHP SDK
  * @version 2.0.0
  * @author connect@qq.com
@@ -144,7 +141,9 @@ class Recorder{
         if(empty($this->inc)){
             $this->error->showError("20001");
         }
-
+		if(!isset($_SESSION))
+			session_start(); 
+		
         if(empty($_SESSION['QC_userData'])){
             self::$data = [];
         }else{
@@ -177,6 +176,8 @@ class Recorder{
     }
 
     function __destruct(){
+	    if(!isset($_SESSION))
+			session_start(); 
         $_SESSION['QC_userData'] = self::$data;
     }
 }
@@ -542,7 +543,6 @@ class Oauth{
         if($_GET['state'] != $state){
             $this->error->showError("30001");
         }
-
         //-------请求参数列表
         $keysArr = array(
             "grant_type" => "authorization_code",

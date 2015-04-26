@@ -71,7 +71,7 @@ class theme_related_post{
 		$defaults = array(
 			'posts_per_page' => isset($options['related_post_num']) ? (int)$options['related_post_num'] : 6 ,
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r);
 		/**
 		 * get the cache

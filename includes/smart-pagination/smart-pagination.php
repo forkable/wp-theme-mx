@@ -15,7 +15,7 @@ class theme_smart_pagination{
 		$defaults = array(
 			'add_fragment' => 'post-' . $post->ID
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r);
 		$output['numpages'] = $numpages;
 		$output['page'] = $page;

@@ -356,7 +356,7 @@ class theme_custom_point{
 			'paged' => 1,
 			'posts_per_page' => 20,
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r);
 
 		

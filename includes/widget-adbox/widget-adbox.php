@@ -34,18 +34,15 @@ class widget_adbox extends WP_Widget{
 		<?php
 		echo $after_widget;
 	}
-	function form($instance){
-		$instance = wp_parse_args(
-			(array)$instance,
-			array(
-				'title' =>___('Advertisement'),
-				'type' => 'all',
-				'code' => null,
-			)
-		);
+	function form($instance = []){
+		$instance = array_merge([
+			'title' =>___('Advertisement'),
+			'type' => 'all',
+			'code' => null,
+		],$instance);
 		?>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('type'));?>"><?php echo esc_html(___('Type'));?></label>
+			<label for="<?php echo esc_attr(self::get_field_id('type'));?>"><?php echo ___('Type');?></label>
 			<select 
 				name="<?php echo esc_attr(self::get_field_name('type'));?>" 
 				class="widefat"
@@ -57,7 +54,7 @@ class widget_adbox extends WP_Widget{
 			</select>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('code'));?>"><?php echo esc_html(___('Code'));?></label>
+			<label for="<?php echo esc_attr(self::get_field_id('code'));?>"><?php echo ___('Code');?></label>
 			<textarea 
 				name="<?php echo esc_attr(self::get_field_name('code'));?>" 
 				id="<?php echo esc_attr(self::get_field_id('code'));?>" 
@@ -70,7 +67,7 @@ class widget_adbox extends WP_Widget{
 		<?php
 	}
 	function update($new_instance,$old_instance){
-		$instance = wp_parse_args($new_instance,$old_instance);
+		$instance = array_merge($old_instance,$new_instance);
 		return $instance;
 	}
 	public static function register_widget(){

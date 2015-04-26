@@ -272,7 +272,7 @@ class theme_quick_sign{
 			'pwd' => null,
 			'remember' => false,
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		// var_dump($pwd);exit;
 		if(!$pwd){
@@ -309,7 +309,7 @@ class theme_quick_sign{
 			'nickname' => null,
 			'remember' => true,
 		);
-		$r = wp_parse_args($args,$defaults);
+		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		
 		if(!$pwd){
