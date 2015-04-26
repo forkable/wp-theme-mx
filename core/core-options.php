@@ -45,7 +45,10 @@ class theme_options{
 	 */
 	public static function get_options($key = null){
 		/** Default options hook */
-		self::$opts = wp_parse_args((array)get_theme_mod(self::$iden),apply_filters('theme_options_default',[]));
+		self::$opts = array_merge(
+			apply_filters('theme_options_default',[]),
+			(array)get_theme_mod(self::$iden)
+		);
 		
 		if($key){
 			return isset(self::$opts[$key]) ? self::$opts[$key] : null;

@@ -21,8 +21,7 @@ class theme_custom_header{
 			'default-text-color'     => 'fff',
 			'default-image'          => theme_features::get_theme_includes_image(__DIR__) . $img_names[0],
 
-			'height'                 => 170,
-			'width'                  => 1140,
+			'height'                 => 150,
 
 			'wp-head-callback'       => __CLASS__ . '::header_style',
 			'admin-head-callback'    => __CLASS__ . '::admin_header_style',

@@ -37,24 +37,22 @@
 <?php } ?>
 
 
-	
-<div class="container">
-
 <?php
 /** 
  * banner
  */
-if(!wp_is_mobile() && get_header_image()){ ?>
-	<div class="banner hidden-xs">
+if(!wp_is_mobile() && has_header_image()){ ?>
+	<a href="<?php echo home_url();?>" class="banner hidden-xs">
 		<img src="<?php header_image(); ?>" alt="Banner">
 		<?php if(display_header_text()){ ?>
 			<h1 hidden><?php echo get_bloginfo('name');?></h1>
 			<span hidden><?php echo get_bloginfo('description');?></span>
-	<?php } ?>
-	</div>
+		<?php } ?>
+	</a>
 <?php } ?>
 
 <div class="main-nav navbar navbar-default">
+	<div class="container">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".menu-header">
@@ -141,7 +139,5 @@ if(!wp_is_mobile() && get_header_image()){ ?>
         </form>		
         
 	</div><!-- /.container-fluid -->
+	</div>
 </div><!-- /.main-nav -->
-
-</div><!-- /.container -->
-
