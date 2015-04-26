@@ -15,15 +15,15 @@ class theme_custom_avatar{
 		'avatar' => 'avatar',
 	);
 	public static function init(){
-		add_filter('get_avatar', __CLASS__ . '::get_avatar',99,2);
+		add_filter('get_avatar_url', __CLASS__ . '::get_avatar_url',99,2);
 	}
-	public static function get_avatar($avatar,$id_or_email){
+	public static function get_avatar_url($url,$id_or_email){
 
 		/**
 		 * is user id
 		 */
 		if(is_numeric($id_or_email)){
-			return self::get_avatar_from_meta($avatar,(int)$id_or_email);
+			return self::get_avatar_from_meta($url,(int)$id_or_email);
 
 		/**
 		 * is comment object
@@ -32,43 +32,42 @@ class theme_custom_avatar{
 			
 			/** if visitor, return */
 			if($id_or_email->user_id == 0){
-				return $avatar;
+				return $url;
 			}else{
-				return self::get_avatar_from_meta($avatar,$id_or_email->user_id);
+				return self::get_avatar_from_meta($url,$id_or_email->user_id);
 			}
 		/**
 		 * is email
 		 */
 		}else{
-			return $avatar;
+			return $url;
 		}
 		
 	}
-	private static function get_avatar_from_meta($avatar,$user_id){
+	private static function get_avatar_from_meta($url,$user_id){
 		static $caches = [];
 		if(isset($caches[$user_id]))
 			return $caches[$user_id];
-			
+
 		$meta = get_user_meta($user_id,self::$user_meta_key['avatar'],true);
 
-		if(empty($meta)) 
-			return $avatar;
-
+		if(empty($meta)){
+			$caches[$user_id] = $url;
+			return $caches[$user_id];
+		}
+		
 		/**
 		 * if is /12/2015/xx.jpg format, add upload baseurl
 		 */
 		if(strpos($meta,'http') === false){
 			static $baseurl;
-			if(!$baseurl){
+			if(!$baseurl)
 				$baseurl = wp_upload_dir()['baseurl'];
-			}
-			$meta = $baseurl . $meta;
+			
+			$caches[$user_id] = $baseurl . $meta;
+		}else{
+			$caches[$user_id] = $meta;
 		}
-
-		$avatar = preg_replace('/\s+src=\'?"?(\S+)?"?\'?/i',' src="' . $meta . '"',$avatar);
-
-		$caches[$user_id] = $avatar;
-		
 		return $caches[$user_id];
 	}
 }

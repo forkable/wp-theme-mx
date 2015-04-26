@@ -97,32 +97,45 @@ if(is_user_logged_in()){
 			<i class="fa fa-user fa-fw"></i>
 			<?php echo ___('Login');?>
 		</a>
-		<?php
-		/**
-		 * open sign
-		 */
-		if(method_exists('theme_open_sign','get_login_url')){
-			if(theme_open_sign::get_login_url('qq')){
-				?>
-				<a href="<?php echo theme_open_sign::get_login_url('qq');?>" class="open-sign sign-in-meta qq btn btn-primary" title="<?php echo ___('Login from QQ');?>">
-					<i class="fa fa-qq fa-fw"></i>
-				</a>
+		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+			<span class="caret"></span>
+			<span class="sr-only">Toggle Dropdown</span>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			
 			<?php
+			/**
+			 * open sign
+			 */
+			if(method_exists('theme_open_sign','get_login_url')){
+				if(theme_open_sign::get_login_url('qq')){
+					?>
+					<li>
+						<a href="<?php echo theme_open_sign::get_login_url('qq');?>" class="open-sign qq" title="<?php echo ___('Login from QQ');?>">
+						<i class="fa fa-qq fa-fw"></i> 
+						<?php echo ___('Login from QQ');?>
+					</a>
+					</li>
+				<?php
+				}
+				if(theme_open_sign::get_login_url('sina')){
+					?>
+					<li>
+						<a href="<?php echo theme_open_sign::get_login_url('sina');?>" class="open-sign sina" title="<?php echo ___('Login from Weibo');?>">
+						<i class="fa fa-weibo fa-fw"></i> 
+						<?php echo ___('Login from Weibo');?>
+					</a>
+					</li>
+				<?php 
+				}
 			}
-			if(theme_open_sign::get_login_url('sina')){
-				?>
-				<a href="<?php echo theme_open_sign::get_login_url('sina');?>" class="open-sign sign-in-meta sina btn btn-primary" title="<?php echo ___('Login from Weibo');?>">
-					<i class="fa fa-weibo fa-fw"></i>
-				</a>
-			<?php 
-			}
-		}
-		?>
-		<a class="sign-up meta btn btn-success" href="<?php echo esc_url(wp_registration_url(get_current_url()));?>">
-			<i class="fa fa-user-plus fa-fw"></i>
-			<?php echo ___('Register');?>
-		</a>
+			?>
+		</ul>
 	</div>
+	<a class="sign-up meta btn btn-success btn-xs" href="<?php echo esc_url(wp_registration_url(get_current_url()));?>">
+		<i class="fa fa-user-plus"></i> 
+		<?php echo ___('Register');?>
+	</a>
 <?php
 }
 ?>

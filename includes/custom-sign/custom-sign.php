@@ -21,20 +21,75 @@ class theme_custom_sign{
 		add_action('template_redirect',		__CLASS__ . '::template_redirect');
 		add_action('frontend_seajs_use',	__CLASS__ . '::frontend_seajs_use');
 		//add_action('wp_ajax_nopriv_theme_quick_sign', 'theme_quick_sign::process');
-		add_filter('show_admin_bar', 		__CLASS__ . '::action_show_admin_bar');
+		add_filter('show_admin_bar', 		__CLASS__ . '::filter_show_admin_bar');
 		add_filter('login_url', 			__CLASS__ . '::filter_wp_login_url',10,2);
 		add_filter('register_url', 			__CLASS__ . '::filter_wp_registration_url');
 		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
+
+		/**
+		 * backend
+		 */
+		add_action('page_settings' , __CLASS__ . '::display_backend');
+		add_filter('theme_options_save' , __CLASS__ . '::options_save');
 	}
-	
+	public static function options_save(array $options = []){
+		if(isset($_POST[self::$iden])){
+			$options[self::$iden] = $_POST[self::$iden];
+		}
+		return $options;
+	}
+	public static function options_default(array $opts = []){
+		$opts[self::$iden] = [
+			'avatar-url' => 'http://ww3.sinaimg.cn/thumb150/686ee05djw1eriqgtewe7j202o02o3y9.jpg'
+		];
+		return $opts;
+	}
+	public static function get_options($key = null){
+		static $caches = [];
+		if(!isset($caches[self::$iden]))
+			$caches[self::$iden] = theme_options::get_options(self::$iden);
+
+		if($key)
+			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
+		return $caches[self::$iden];
+	}
+	public static function display_backend(){
+		?>
+		<fieldset id="<?php echo self::$iden;?>">
+			<legend><?php echo ___('Custom sign settings');?></legend>
+			<p class="description"><?php echo ___('You can custom the sign page here.');?></p>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th>
+							<?php echo ___('Sign-in avatar URL');?><br>
+							<?php if(!empty(self::get_options('avatar-url'))){ ?>
+								<img src="<?php echo esc_url(self::get_options('avatar-url'));?>" alt="avatar">
+							<?php } ?>
+						</th>
+						<td>
+							<input type="url" name="<?php echo self::$iden;?>[avatar-url]" id="<?php echo self::$iden;?>-avatar-url" class="widefat code" value="<?php echo esc_url(self::get_options('avatar-url'));?>">
+							<p class="description"><?php echo ___('Recommend 100x100 px image.');?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><?php echo ___('Terms of service page URL');?></th>
+						<td><input type="url" name="<?php echo self::$iden;?>[tos-url]" id="<?php echo self::$iden;?>-tos-url" class="widefat code" value="<?php echo esc_url(self::get_options('tos-url'));?>"></td>
+					</tr>
+				</tbody>
+			</table>
+		</fieldset>
+		<?php
+	}
 	public static function filter_login_headerurl($login_header_url){
 		// if(current_user_can('moderate_comments')) return $login_header_url;
 		wp_safe_redirect(get_permalink(theme_cache::get_page_by_path(self::$page_slug)));
 		die();
 	}
-	public static function action_show_admin_bar(){
-		if(!current_user_can('manage_options')) return false;
-		return true;
+	public static function filter_show_admin_bar($show_admin_bar){
+		if(current_user_can('manage_options'))
+			return $show_admin_bar;
+		return false;
 	}
 	public static function action_not_allow_login_backend(){
 		/** 
@@ -56,15 +111,7 @@ class theme_custom_sign{
 		if(!in_array('step',$vars)) $vars[] = 'step';
 		return $vars;
 	}
-	public static function get_options($key = null){
-		static $caches;
-		if(!$caches)
-			$caches = theme_options::get_options(self::$iden);
-		if($key){
-			return isset($caches[$key]) ? $caches[$key] : null;
-		}
-		return $caches;
-	}
+
 	public static function filter_wp_registration_url(){
 		return self::get_tabs('register',get_current_url())['url'];
 	}
@@ -75,8 +122,10 @@ class theme_custom_sign{
 		static $baseurl;
 		if(!$baseurl)
 			$baseurl = get_permalink(theme_cache::get_page_by_path(self::$page_slug));
-		
-		$redirect = $redirect ? $redirect : get_query_var('redirect');
+
+		if(!$redirect)
+			$redirect =  get_query_var('redirect');
+			
 		if($redirect){
 			$baseurl = add_query_arg(array(
 				'redirect' => $redirect
@@ -112,7 +161,7 @@ class theme_custom_sign{
 		}
 	}
 	public static function is_page(){
-		static $caches;
+		static $caches = [];
 		if(isset($caches[self::$iden]))
 			return $caches[self::$iden];
 			
@@ -151,9 +200,7 @@ class theme_custom_sign{
 			if(!$page){
 				$r = wp_parse_args($v,$defaults);
 				$page_id = wp_insert_post($r);
-				// $page = get_post($page_id);
 			}
-			// self::$pages[$k] = $page;
 		}
 	}
 	public static function wp_title($title, $sep){
@@ -192,9 +239,11 @@ class theme_custom_sign{
 			return false;
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => theme_quick_sign::$iden));?>';
-			m.config.lang.M00001 = '<?php echo esc_js(___('Loading, please wait...'));?>';
-			m.config.lang.E00001 = '<?php echo esc_js(___('Sorry, server error please try again later.'));?>';
+			m.config.process_url = '<?php echo theme_features::get_process_url([
+				'action' => theme_quick_sign::$iden
+			]);?>';
+			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?php echo ___('Sorry, server error please try again later.');?>';
 			
 			m.init();
 		});

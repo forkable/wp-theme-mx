@@ -2033,7 +2033,7 @@ $classes[] = 'menu-item-' . $item->ID;
 $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
 if ( $args->has_children )
 $class_names .= ' dropdown';
-if ( in_array( 'current-menu-item', $classes ) )
+if ( in_array( 'current-menu-item', $classes ) || in_array( 'current-menu-parent', $classes ) )
 $class_names .= ' active';
 $class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 $id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );

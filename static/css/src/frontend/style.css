@@ -5,6 +5,11 @@
 .pager{
 	margin: 0;
 }
+.btn-group:hover .dropdown-menu{
+	margin-top: 0px;
+	display: block;
+}
+
 .list-group-item{
 	padding: 10px 20px;
 }
@@ -1268,6 +1273,22 @@ label.error{
 		border: none;
 		color: #428BCA;
 		margin-bottom: 0;
+	}
+	.mx-sign-panel.has-avatar{
+		margin-top: 60px;
+	}
+	.mx-sign-panel .avatar{
+		/*border-radius: 99px;*/
+		width: 96px;
+		height: 96px;
+		margin-bottom: 20px;
+		margin-top: -80px;
+		padding: 5px;
+		background: #fff;
+		box-shadow: 0 -3px 3px rgba(0,0,0,.1);
+		-webkit-box-sizing: content-box;
+		-moz-box-sizing: content-box;
+		box-sizing: content-box;
 	}
 	.mx-sign-panel .panel-heading h3{
 		font-weight: 100;

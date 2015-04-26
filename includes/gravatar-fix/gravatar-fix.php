@@ -5,7 +5,7 @@ Plugin URI: http://inn-studio.com/gravatar-fix
 Description: A simple and easy way to fix your gravatar can not be show in China. Replace by eqoe.cn. 
 Author: INN STUDIO
 Author URI: http://inn-studio.com
-Version: 1.0.4
+Version: 1.1.0
 */
 if(!class_exists('theme_gravatar_fix')){
 	add_filter('theme_includes',function($fns){
@@ -15,7 +15,7 @@ if(!class_exists('theme_gravatar_fix')){
 	class theme_gravatar_fix{
 		public static $iden = 'theme_gravatar_fix';
 		public static function init(){
-			add_filter('get_avatar', __CLASS__ . '::get_gravatar');	
+			add_filter('get_avatar_url', __CLASS__ . '::get_avatar_url');	
 			
 			add_filter('theme_options_save', __CLASS__ . '::options_save');
 			
@@ -74,23 +74,19 @@ if(!class_exists('theme_gravatar_fix')){
 				return $caches;
 			}
 		}
-		public static function get_gravatar($avatar){
+		public static function get_avatar_url($url){
 			
 			if(!self::is_enabled())
-				return $avatar;
+				return $url;
 				
-		   	$pattern = '!src=["|\'](.*?)["|\']!';
-			preg_match_all($pattern, $avatar, $matches);
-			if(!isset($matches[1][0])) return $avatar;
-
 			/** if is SSL */
-			if(strpos($matches[1][0],'https://') === 0){
-				$avatar = preg_replace('/(\d)?(secure)?([a-z]{0,2})\.gravatar\.com\/avatar/i', 'ssl-gravatar.eqoe.cn/avatar', $avatar);
+			if(strpos($url,'https://') === 0){
+				$url = preg_replace('/(\d)?(secure)?([a-z]{0,2})\.gravatar\.com\/avatar/i', 'ssl-gravatar.eqoe.cn/avatar', $url);
 			/** Not SSL */
 			}else{
-				$avatar = preg_replace('/(\d)?(secure)?([a-z]{0,2})\.gravatar\.com\/avatar/i', 'gravatar.eqoe.cn/avatar', $avatar);
+				$url = preg_replace('/(\d)?([a-z]{0,2})\.gravatar\.com\/avatar/i', 'gravatar.eqoe.cn/avatar', $url);
 			}
-			return $avatar;
+			return $url;
 		}
 	}
 }

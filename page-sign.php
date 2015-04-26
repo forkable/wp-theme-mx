@@ -4,10 +4,13 @@
  */
 $tabs = theme_custom_sign::get_tabs();
 $tab_active = get_query_var('tab');
-$tab_active = isset($tabs[$tab_active]) ? $tab_active : 'login';
-$redirect = get_query_var('redirect');
-$error = get_query_var('error');
 
+if(!isset($tabs[$tab_active]))
+	$tab_active = 'login';
+	
+$redirect = get_query_var('redirect');
+
+$avatar = theme_custom_sign::get_options('avatar-url');
 ?>
 <?php get_header();?>
 <div class="container grid-container">
@@ -20,8 +23,13 @@ $error = get_query_var('error');
 			 */
 			case 'register':
 			?>
-<div class="panel panel-default mx-sign-panel mx-sign-panel-<?php echo $tab_active;?>">
+<div class="<?php echo $avatar ? 'has-avatar' : null;?> panel panel-default mx-sign-panel mx-sign-panel-<?php echo $tab_active;?>">
 	<div class="panel-heading">
+		
+		<?php if(!empty($avatar)){ ?>
+			<img class="avatar" src="<?php echo esc_url($avatar);?>" alt="avatar">
+		<?php } ?>
+		
 		<h3><?php echo ___('Account register');?></h3>
 	</div>
 	<div class="panel-body">
@@ -47,7 +55,7 @@ $error = get_query_var('error');
 			<div class="checkbox">
 				<label for="sign-agree">
 					<input type="checkbox" name="user[agree]" id="sign-agree" value="1" checked required onclick="return false" >
-					<?php echo sprintf(___('I am agree the %s'),'<a href="###" target="_blank">' . ___('TOS') . '</a>');?>
+					<?php echo sprintf(___('I am agree the %s'),'<a href="' . theme_custom_sign::get_options('tos-url') . '" target="_blank">' . ___('TOS') . '</a>');?>
 				</label>
 			</div>
 			<div class="form-group submit-tip"></div>
@@ -150,8 +158,14 @@ if(class_exists('theme_open_sign')){ ?>
 			case 'login':
 			default:
 				?>
-<div class="panel panel-default mx-sign-panel mx-sign-panel-<?php echo $tab_active;?>">
+<div class="<?php echo $avatar ? 'has-avatar' : null;?> panel panel-default mx-sign-panel mx-sign-panel-<?php echo $tab_active;?>">
 	<div class="panel-heading">
+
+		<?php if(!empty($avatar)){ ?>
+			<img class="avatar" src="<?php echo $avatar;?>" alt="avatar">
+		<?php } ?>
+
+		
 		<h3><?php echo ___('Account login');?></h3>
 	</div>
 	<div class="panel-body">

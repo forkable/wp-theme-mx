@@ -29,7 +29,7 @@ class default_gravatar{
 		return $default_urls;
 	}
 	public static function get_url(){
-		static $caches;
+		static $caches = [];
 		if(isset($caches['url']))
 			return $caches['url'];
 			

@@ -107,14 +107,14 @@ class theme_open_sign{
 		);
 	}
 	public static function get_login_url($type){
-		static $cache = null;
-		if($cache === null)
-		$cache = esc_url(theme_features::get_process_url(array(
+		static $caches = [];
+		if(!isset($caches[$type]))
+		$caches[$type] = esc_url(theme_features::get_process_url(array(
 			'action' => self::$iden,
 			'sign-type' => $type,
 			'redirect' => isset($_GET['redirect']) && is_string($_GET['redirect']) ? urlencode($_GET['redirect']) : null
 		)));
-		return $cache;
+		return $caches[$type];
 	}
 	public static function get_options($key = null){
 		static $caches = [];
