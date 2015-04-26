@@ -16,6 +16,7 @@ $target_post = theme_custom_storage::get_decode_post();
 		<div class="panel-body">
 			<div class="post-content content-reset">
 				<?php the_content();?>
+				<?php echo theme_custom_storage::add_shortcode(null);?>
 			</div>
 		</div>
 	</div>

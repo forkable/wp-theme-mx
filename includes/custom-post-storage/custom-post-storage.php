@@ -21,7 +21,7 @@ class theme_custom_storage{
 		
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 		
-		add_shortcode('post-stroage-download',__CLASS__ . '::add_shortcode');
+		//add_shortcode('post-stroage-download',__CLASS__ . '::add_shortcode');
 		
 		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);	
 	}
