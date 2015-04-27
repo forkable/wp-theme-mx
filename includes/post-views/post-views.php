@@ -226,21 +226,28 @@ class theme_post_views{
 			return true;
 		}
 	}
+	private static function is_singular_post(){
+		static $cache = null;
+		if($cache === null)
+			$cache = is_singular('post');
+
+		return $cache;
+	}
 	public static function js_cache_request(array $alias = []){
-		if(!is_singular())
+		if(!self::is_singular_post())
 			return $alias;
 		$alias[self::$iden] = get_the_ID();
 		return $alias;
 	}
 	public static function frontend_seajs_alias(array $alias = []){
-		if(!is_singular())
+		if(!self::is_singular_post())
 			return $alias;
 
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(!is_singular())
+		if(!self::is_singular_post())
 			return;
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){

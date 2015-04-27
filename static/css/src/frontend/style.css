@@ -5,9 +5,13 @@
 .pager{
 	margin: 0;
 }
-.btn-group:hover .dropdown-menu{
+.btn-group:hover > .dropdown-menu{
 	margin-top: 0px;
 	display: block;
+}
+.btn-group .dropdown-menu{
+	left: auto;
+	right: 0;
 }
 
 .list-group-item{

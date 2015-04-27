@@ -517,6 +517,7 @@ class Oauth{
         $appid = $this->recorder->readInc("appid");
         $callback = $this->recorder->readInc("callback");
         $scope = $this->recorder->readInc("scope");
+        
 
         //-------生成唯一随机串防CSRF攻击
         $state = md5(uniqid(rand(), TRUE));
@@ -528,11 +529,12 @@ class Oauth{
             "client_id" => $appid,
             "redirect_uri" => $callback,
             "state" => $state,
+            'display' => 'mobile',
             "scope" => $scope
         );
 
         $login_url =  $this->urlUtils->combineURL(self::GET_AUTH_CODE_URL, $keysArr);
-
+//var_dump($login_url);exit;
         header("Location:$login_url");
     }
 
@@ -547,13 +549,13 @@ class Oauth{
         $keysArr = array(
             "grant_type" => "authorization_code",
             "client_id" => $this->recorder->readInc("appid"),
-            "redirect_uri" => urlencode($this->recorder->readInc("callback")),
+            "redirect_uri" => ($this->recorder->readInc("callback")),
             "client_secret" => $this->recorder->readInc("appkey"),
             "code" => $_GET['code']
         );
-
         //------构造请求access_token的url
         $token_url = $this->urlUtils->combineURL(self::GET_ACCESS_TOKEN_URL, $keysArr);
+//var_dump($token_url);exit;
         $response = $this->urlUtils->get_contents($token_url);
 
         if(strpos($response, "callback") !== false){

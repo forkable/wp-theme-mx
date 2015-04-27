@@ -1,9 +1,8 @@
 define(function(require, exports, module){
+	'use strict';
 	var tools = require('modules/tools'),
 		js_request 	= require('theme-cache-request');
-	require('modules/jquery.validate');
-	require('modules/jquery.validate.lang.{locale}');
-
+		
 	exports.config = {
 		fm_id : 			'#fm-ctb',
 		file_area_id : 		'#ctb-file-area',
@@ -289,8 +288,8 @@ define(function(require, exports, module){
 		}
 	}
 	function checkbox_select($fm){
-		$boxes = $fm.find('.checkbox-select');
-		var selected_class = 'label-success';
+		var $boxes = $fm.find('.checkbox-select'),
+			selected_class = 'label-success';
 		$boxes.each(function(){
 			var $labels = jQuery(this).find('label');
 			$labels.on('click',function(){

@@ -97,40 +97,42 @@ if(is_user_logged_in()){
 			<i class="fa fa-user fa-fw"></i>
 			<?php echo ___('Login');?>
 		</a>
-		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-			<span class="caret"></span>
-			<span class="sr-only">Toggle Dropdown</span>
-		</button>
-		<ul class="dropdown-menu" role="menu">
-			
-			<?php
-			/**
-			 * open sign
-			 */
-			if(method_exists('theme_open_sign','get_login_url')){
-				if(theme_open_sign::get_login_url('qq')){
-					?>
-					<li>
-						<a href="<?php echo theme_open_sign::get_login_url('qq');?>" class="open-sign qq" title="<?php echo ___('Login from QQ');?>">
-						<i class="fa fa-qq fa-fw"></i> 
-						<?php echo ___('Login from QQ');?>
-					</a>
-					</li>
+		<div class="btn-group btn-group-xs">
+			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				<span class="caret"></span>
+				<span class="sr-only">Toggle Dropdown</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				
 				<?php
+				/**
+				 * open sign
+				 */
+				if(method_exists('theme_open_sign','get_login_url')){
+					if(theme_open_sign::get_login_url('qq')){
+						?>
+						<li>
+							<a href="<?php echo theme_open_sign::get_login_url('qq');?>" class="open-sign qq" title="<?php echo ___('Login from QQ');?>">
+							<i class="fa fa-qq fa-fw"></i> 
+							<?php echo ___('Login from QQ');?>
+						</a>
+						</li>
+					<?php
+					}
+					if(theme_open_sign::get_login_url('sina')){
+						?>
+						<li>
+							<a href="<?php echo theme_open_sign::get_login_url('sina');?>" class="open-sign sina" title="<?php echo ___('Login from Weibo');?>">
+							<i class="fa fa-weibo fa-fw"></i> 
+							<?php echo ___('Login from Weibo');?>
+						</a>
+						</li>
+					<?php 
+					}
 				}
-				if(theme_open_sign::get_login_url('sina')){
-					?>
-					<li>
-						<a href="<?php echo theme_open_sign::get_login_url('sina');?>" class="open-sign sina" title="<?php echo ___('Login from Weibo');?>">
-						<i class="fa fa-weibo fa-fw"></i> 
-						<?php echo ___('Login from Weibo');?>
-					</a>
-					</li>
-				<?php 
-				}
-			}
-			?>
-		</ul>
+				?>
+			</ul>
+		</div>
 	</div>
 	<a class="sign-up meta btn btn-success btn-xs" href="<?php echo esc_url(wp_registration_url(get_current_url()));?>">
 		<i class="fa fa-user-plus"></i> 

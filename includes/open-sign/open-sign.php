@@ -95,16 +95,14 @@ class theme_open_sign{
 		$opt = self::get_options();
 
 		return (object)[
-		//var_dump((object)array(
 			'appid' => isset($opt['qq']['appid']) ? $opt['qq']['appid'] : null,
 			'appkey' => isset($opt['qq']['appkey']) ? $opt['qq']['appkey'] : null,
-			'callback' => theme_features::get_process_url([
-				'action' => 'isos_cb&nonce=' . 
-				theme_features::create_nonce() . 
-				'&qq=set-auth',
+			'callback' => urlencode(theme_features::get_process_url([
+				'qq' => 'set-auth',
+				'nonce' => theme_features::create_nonce(),
+				'action' => 'isos_cb',
 				'redirect_uri' => isset($_GET['redirect']) && is_string($_GET['redirect']) ? $_GET['redirect'] : null,
-				//'redirect_uri' => home_url(),
-			]),
+			])),
 			'scope' => 'get_user_info,add_share,list_album,add_album,upload_pic,add_topic,add_one_blog,add_weibo,check_page_fans,add_t,add_pic_t,del_t,get_repost_list,get_info,get_other_info,get_fanslist,get_idolist,add_idol,del_idol,get_tenpay_addr',
 			'errorReport' => true,
 		];
@@ -131,16 +129,24 @@ class theme_open_sign{
 		}
 	}
 	public static function process_cb(){
-		//var_dump($_GET);exit;
+
 		theme_features::check_nonce('nonce');
-		$opt = self::get_options();
-		$current_timestamp = time();
-		// print_r($_GET);
+
 		/** 
 		 * sina set-auth
 		 */
 		if(isset($_GET['sina']) && $_GET['sina'] === 'set-auth'){
-			$access_token = isset($_GET['access_token']) && is_string($_GET['access_token']) ? $_GET['access_token'] : null;
+			self::open_sign_sina();
+		/** 
+		 * qq
+		 */
+		}else if(isset($_GET['qq']) && $_GET['qq'] === 'set-auth'){
+			self::open_sign_qq();
+		}
+		die();
+	}
+	public static function open_sign_sina(){
+		$access_token = isset($_GET['access_token']) && is_string($_GET['access_token']) ? $_GET['access_token'] : null;
 			$expires_in = isset($_GET['expires_in']) & is_string($_GET['expires_in']) ? (int)$_GET['expires_in'] : null;
 			
 			/** 
@@ -157,9 +163,14 @@ class theme_open_sign{
 			 */
 			include __DIR__ . '/inc/sina/saetv2.ex.class.php';
 			$sina = new theme_open_sign\inc\sina\SaeTClientV2(self::get_sina_config('akey'), self::get_sina_config('skey') , $access_token );
+			
 			/** get uid */
 			$open_id = $sina->get_uid()['uid'];				
 			$user = get_user_by('login',$open_id);
+			
+			/** current time */
+			$current_timestamp = time();
+			
 			/** register insert user */
 			if(empty($user)){
 				$sina_userdata = $sina->show_user_by_id($open_id);
@@ -201,86 +212,83 @@ class theme_open_sign{
 				wp_safe_redirect(home_url());
 			}
 			die(___('Redirecting, please wait...'));
-		/** 
-		 * qq
+	}
+	public static function open_sign_qq(){
+		include __DIR__ . '/inc/qq/qqConnectAPI.php';
+		$qc = new theme_open_sign\inc\qq\QC(self::get_qc_config());
+
+		$cb = $qc->qq_callback();
+		/** openid */
+		$open_id = $qc->get_openid();
+		
+		/** access_token */
+		$access_token = isset($cb['access_token']) && is_string($cb['access_token']) ? $cb['access_token'] : null;
+		if(empty($access_token))
+			die(___('Invalid access token,'));
+
+		/** redirect */
+		$redirect = isset($_GET['redirect_uri']) && is_string($_GET['redirect_uri']) ? urldecode($_GET['redirect_uri']) : null;
+		if(empty($redirect)) 
+			$redirect = home_url();
+
+		/** expires_in */
+		$expires_in = isset($cb['expires_in']) && is_string($cb['expires_in']) ? (int)($cb['expires_in']) : null;
+		if(empty($expires_in)) 
+			die(___('Invalid expires time.'));
+
+		/** refresh_token */
+		$refresh_token = isset($cb['refresh_token']) && is_string($cb['refresh_token']) ? $cb['refresh_token'] : null;
+		if(empty($refresh_token)) 
+			die(___('Invalid refresh token.'));
+
+		/** current time */
+		$current_timestamp = time();
+
+		/** load user from database */
+		$user = get_user_by('login',$open_id);
+		/**
+		 * if not exist user, create it
 		 */
-		}else if(isset($_GET['qq']) && $_GET['qq'] === 'set-auth'){
-			include __DIR__ . '/inc/qq/qqConnectAPI.php';
+		if(empty($user)){
+			/** load qqzone info */
+			$open_info = $qc->get_user_info();
 			
-			$qc = new theme_open_sign\inc\qq\QC(self::get_qc_config());
-
-			$cb = $qc->qq_callback();
-			/** openid */
-			$open_id = $qc->get_openid();
+			/** avatar */
+			$user_avatar = !empty($open_info['figureurl_qq_2']) ? $open_info['figureurl_qq_2'] : $open_info['figureurl_qq_1'];
 			
-			/** access_token */
-			$access_token = isset($cb['access_token']) && is_string($cb['access_token']) ? $cb['access_token'] : null;
-			if(empty($access_token))
-				die(___('Invalid access token,'));
-
-			/** redirect */
-			$redirect = isset($_GET['redirect_uri']) && is_string($_GET['redirect_uri']) ? esc_url($_GET['redirect_uri']) : null;
-			if(empty($redirect)) 
-				$redirect = home_url();
-
-			/** expires_in */
-			$expires_in = isset($cb['expires_in']) && is_string($cb['expires_in']) ? (int)($cb['expires_in']) : null;
-			if(empty($expires_in)) 
-				die(___('Invalid expires time.'));
-
-			/** refresh_token */
-			$refresh_token = isset($cb['refresh_token']) && is_string($cb['refresh_token']) ? $cb['refresh_token'] : null;
-			if(empty($refresh_token)) 
-				die(___('Invalid refresh token.'));
-
-
-			/** load user from database */
-			$user = get_user_by('login',$open_id);
-			/**
-			 * if not exist user, create it
-			 */
-			if(empty($user)){
-				/** load qqzone info */
-				$open_info = $qc->get_user_info();
-				
-				/** avatar */
-				$user_avatar = !empty($open_info['figureurl_qq_2']) ? $open_info['figureurl_qq_2'] : $open_info['figureurl_qq_1'];
-				
-				$user_id = wp_insert_user(array(
-					'user_login' => $open_id,
-					'user_pass' => $current_timestamp,
-					'nickname' => $open_info['nickname'],
-					'display_name' => $open_info['nickname'],
-					'user_email' => self::get_tmp_email($open_id),
-				));
-				if(!is_wp_error($user_id)){
-					add_user_meta($user_id,self::$user_meta_key['id'],$open_id);
-					add_user_meta($user_id,self::$user_meta_key['type'],'qq');
-					add_user_meta($user_id,'avatar',$user_avatar);
-					$user = get_user_by('id',$user_id);
-				}else{
-					$output['status'] = 'error';
-					$output['code'] = $user_id->get_error_code();
-					$output['msg'] = $user_id->get_error_message();
-					die(theme_features::json_format($output));
-				}
+			$user_id = wp_insert_user(array(
+				'user_login' => $open_id,
+				'user_pass' => $current_timestamp,
+				'nickname' => $open_info['nickname'],
+				'display_name' => $open_info['nickname'],
+				'user_email' => self::get_tmp_email($open_id),
+			));
+			if(!is_wp_error($user_id)){
+				add_user_meta($user_id,self::$user_meta_key['id'],$open_id);
+				add_user_meta($user_id,self::$user_meta_key['type'],'qq');
+				add_user_meta($user_id,'avatar',$user_avatar);
+				$user = get_user_by('id',$user_id);
+			}else{
+				$output['status'] = 'error';
+				$output['code'] = $user_id->get_error_code();
+				$output['msg'] = $user_id->get_error_message();
+				die(theme_features::json_format($output));
 			}
-			/** update open data */
-			update_user_meta($user->ID,self::$user_meta_key['token'],$access_token);
-			update_user_meta($user->ID,self::$user_meta_key['expire'],$expires_in);
-			update_user_meta($user->ID,self::$user_meta_key['access'],$current_timestamp);
-			update_user_meta($user->ID,self::$user_meta_key['refresh_token'],$refresh_token);
-
-			wp_set_current_user($user->ID);
-			wp_set_auth_cookie($user->ID);
-			do_action('wp_login',$user->user_login,$user);
-
-			/** redirect  */
-			wp_safe_redirect($redirect);
-			
-			die(___('Redirecting, please wait...'));
 		}
-		die();
+		/** update open data */
+		update_user_meta($user->ID,self::$user_meta_key['token'],$access_token);
+		update_user_meta($user->ID,self::$user_meta_key['expire'],$expires_in);
+		update_user_meta($user->ID,self::$user_meta_key['access'],$current_timestamp);
+		update_user_meta($user->ID,self::$user_meta_key['refresh_token'],$refresh_token);
+
+		wp_set_current_user($user->ID);
+		wp_set_auth_cookie($user->ID);
+		do_action('wp_login',$user->user_login,$user);
+
+		/** redirect  */
+		wp_safe_redirect($redirect);
+		
+		die(___('Redirecting, please wait...'));
 	}
 	public static function get_tmp_email($open_id){
 		return $open_id . '@opensign.inn-studio.com';

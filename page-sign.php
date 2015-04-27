@@ -11,6 +11,30 @@ if(!isset($tabs[$tab_active]))
 $redirect = get_query_var('redirect');
 
 $avatar = theme_custom_sign::get_options('avatar-url');
+
+/**
+ * open sign
+ */
+$open_sign_html = function(){
+	if(!class_exists('theme_open_sign'))
+		return;
+	?>
+	<div class="open-login btn-group btn-group-justified" role="group">
+		<div class="btn-group" role="group">
+			<a href="<?php echo esc_url(theme_open_sign::get_login_url('qq'));?>" class="btn btn-info">
+				<i class="fa fa-qq fa-fw"></i> 
+				<?php echo ___('Login from QQ');?>
+			</a>
+		</div>
+		<div class="btn-group" role="group">
+			<a href="<?php echo esc_url(theme_open_sign::get_login_url('sina'));?>" class="btn btn-danger">
+				<i class="fa fa-weibo fa-fw"></i> 
+				<?php echo ___('Login from Weibo');?>
+			</a>
+		</div>
+	</div>
+	<?php
+};
 ?>
 <?php get_header();?>
 <div class="container grid-container">
@@ -87,23 +111,8 @@ $avatar = theme_custom_sign::get_options('avatar-url');
 /**
  * open sign
  */
-if(class_exists('theme_open_sign')){ ?>
-	<div class="open-login btn-group btn-group-justified" role="group">
-		<div class="btn-group" role="group">
-			<a href="<?php echo esc_url(theme_open_sign::get_login_url('qq'));?>" class="btn btn-info">
-				<i class="fa fa-qq"></i> 
-				<?php echo ___('Login from QQ');?>
-			</a>
-		</div>
-		<div class="btn-group" role="group">
-			<a href="<?php echo esc_url(theme_open_sign::get_login_url('sina'));?>" class="btn btn-danger">
-				<i class="fa fa-weibo"></i> 
-				<?php echo ___('Login from Weibo');?>
-			</a>
-		</div>
-	</div>
-<?php } ?>
-				<?php
+$open_sign_html();
+
 				break;
 			/**
 			 * recover
@@ -217,23 +226,9 @@ if(class_exists('theme_open_sign')){ ?>
 /**
  * open sign
  */
-if(class_exists('theme_open_sign')){ ?>
-	<div class="open-login btn-group btn-group-justified" role="group">
-		<div class="btn-group" role="group">
-			<a href="<?php echo esc_url(theme_open_sign::get_login_url('qq'));?>" class="btn btn-info">
-				<i class="fa fa-qq fa-fw"></i> 
-				<?php echo ___('Login from QQ');?>
-			</a>
-		</div>
-		<div class="btn-group" role="group">
-			<a href="<?php echo esc_url(theme_open_sign::get_login_url('sina'));?>" class="btn btn-danger">
-				<i class="fa fa-weibo fa-fw"></i> 
-				<?php echo ___('Login from Weibo');?>
-			</a>
-		</div>
-	</div>
-<?php } ?>
-		<?php } ?>
+$open_sign_html();
+
+		} /** end switch */ ?>
 		</div><!-- /.main.col-->
 	</div><!-- /.row -->
 </div>

@@ -7,7 +7,7 @@ add_filter('theme_includes',function($fns){
 	return $fns;
 });
 class theme_custom_contribution{
-	public static $iden = 'theme-custom-contribution';
+	public static $iden = 'theme_custom_contribution';
 	public static $page_slug = 'account';
 	public static $file_exts = array('png','jpg','gif');
 	public static $pages = [];
@@ -334,25 +334,28 @@ class theme_custom_contribution{
 		die(theme_features::json_format($output));
 	}
 	public static function frontend_seajs_alias($alias){
-		if(!self::is_page()) return $alias;
-
-		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+		if(self::is_page()){
+			$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+		}
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(!self::is_page()) return;
+		if(!self::is_page()) 
+			return false;
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
 			m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => self::$iden));?>';
-			m.config.lang.M00001 = '<?php echo esc_js(___('Loading, please wait...'));?>';
-			m.config.lang.E00001 = '<?php echo esc_js(___('Sorry, server error please try again later.'));?>';
+			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?php echo ___('Sorry, server error please try again later.');?>';
 			
 			m.init();
 		});
 		<?php
 	}
 	public static function frontend_css(){
-		if(!self::is_page()) return;
+		if(!self::is_page()) 
+			return false;
+			
 		wp_enqueue_style(self::$iden,theme_features::get_theme_includes_css(__DIR__,'style',false),false,theme_features::get_theme_info('version'));
 	}
 

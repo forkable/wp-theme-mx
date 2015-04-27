@@ -668,21 +668,23 @@ class custom_post_point{
 			</a>
 			
 			<?php if($count_point_values > 1){ ?>
-				<span class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false" role="group">
-					<span class="caret"></span>
-					<span class="sr-only"><?php ___('Toggle Dropdown');?></span>
-				</span>
-				<ul class="dropdown-menu" role="menu">
-					<?php foreach($point_values as $v){ ?>
-						<li><a href="javascript:;" class="post-point-btn" data-post-id="<?php echo $post_id;?>" data-points="<?php echo $v;?>">
-							<?php 
-							echo sprintf(___('Rate %d %s'),
-								$v,
-								theme_custom_point::get_point_name()
-							);?>
-						</a></li>
-					<?php } ?>
-				</ul>
+				<div class="btn-group btn-group-lg">
+					<span class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false" role="group">
+						<span class="caret"></span>
+						<span class="sr-only"><?php ___('Toggle Dropdown');?></span>
+					</span>
+					<ul class="dropdown-menu" role="menu">
+						<?php foreach($point_values as $v){ ?>
+							<li><a href="javascript:;" class="post-point-btn" data-post-id="<?php echo $post_id;?>" data-points="<?php echo $v;?>">
+								<?php 
+								echo sprintf(___('Rate %d %s'),
+									$v,
+									theme_custom_point::get_point_name()
+								);?>
+							</a></li>
+						<?php } ?>
+					</ul>
+				</div>
 			<?php } ?>
 		</div>
 		<?php
