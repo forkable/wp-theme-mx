@@ -4,9 +4,9 @@
  * .my-settings-history
  */
 .total-point{
+	display: inline-block;
 	font-size: 45px;
 	color:#428BCA;
-	display: inline-block;
 	margin-bottom: 20px;
 }
 .history-group .point-name,
@@ -14,13 +14,17 @@
 	color: #b2b2b2;
 }
 .history-group .point-value{
+	display: inline-block;
 	font-size: 20px;
 	font-weight: bold;
 	padding-right:10px;
+	width: 4em;
+	text-align: right;
+	white-space: nowrap;
 }
 	.history-group .point-value.plus{
 		color: #D9534F;
 	}
-	.history-group .point-value.times{
+	.history-group .point-value.minus{
 		color: #5cb85c;
 	}

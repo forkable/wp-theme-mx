@@ -1546,15 +1546,14 @@ class theme_features{
 	 *
 	 * @param int user_id id
 	 * @return 
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_user_comments_count($user_id){
-		$user_id = (int)$user_id;
 		$cache_id = 'user_comments_count-' . $user_id;
-		$cache = (int)wp_cache_get($cache_id);
-		if($cache !== false)
-			return (int)$cache;
+		$cache = wp_cache_get($cache_id);
+		if(is_numeric($cache))
+			return $cache;
 			
 		global $wpdb;
 		$count = $wpdb->get_var($wpdb->prepare( 
@@ -1565,8 +1564,8 @@ class theme_features{
 			AND user_id = %d
 			',$user_id
 		));
-		wp_cache_set($cache_id,(int)$count,null,3600);
-		return (int)$count;
+		wp_cache_set($cache_id,$count,null,3600);
+		return $count;
 	}
 
 	/* 后台登录logo 链接修改 */
@@ -1577,6 +1576,7 @@ class theme_features{
 			
 		return $cache;
 	}
+
 	/* 增強bodyclass樣式 */
 	public static function theme_body_classes(array $classes = []){
 		if(is_singular()){

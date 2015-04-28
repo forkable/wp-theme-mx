@@ -27,9 +27,18 @@ class theme_dashboards extends theme_custom_dashboard{
 			/**
 			 * show lastest histories
 			 */
-			echo theme_custom_point::get_history_list(array(
+			$histories = theme_custom_point::get_history_list(array(
 				'posts_per_page' => 5,
 			));
+			if(!$histories){
+				?>
+				<div class="panel-body">
+					<?php echo status_tip('info',___('No data yet.'));?>
+				</div>
+				<?php
+			}else{
+				echo $histories;
+			}
 			?>
 		</div>
 		<?php
@@ -49,12 +58,13 @@ class theme_dashboards extends theme_custom_dashboard{
 			/**
 			 * get comments
 			 */
-			$comments = get_comments(array(
-				'post_author' => get_current_user_id(),
-				'author__not_in' => array(get_current_user_id()),
+			$current_user_id = get_current_user_id();
+			$comments = get_comments([
+				'post_author' => $current_user_id,
+				'author__not_in' => [$current_user_id],
 				'number' => 5,
 				'status' => '1',
-			));
+			]);
 			if(empty($comments)){
 				?>
 				<div class="panel-body">
@@ -77,13 +87,13 @@ class theme_dashboards extends theme_custom_dashboard{
 				?>
 				<a 
 					href="<?php echo esc_url($comment_author_url);?>"
-					<?php echo (int)$comment->user_id === 0 ? 'target="target"' : null;?>
+					<?php echo (int)$comment->user_id === 0 ? 'target="_blank"' : null;?>
 				>
-					<?php echo get_avatar(get_comment_author_email(),50);?>
+					<?php echo get_avatar($comment,50);?>
 				</a>
 				<?php 
 			}else{
-				echo get_avatar(get_comment_author_email(),50);
+				echo get_avatar($comment,50);
 			} 
 			?>
 		</div>
@@ -117,6 +127,7 @@ class theme_dashboards extends theme_custom_dashboard{
 	 * My statistics
 	 */
 	public static function my_statistics(){
+		$current_user_id = get_current_user_id();
 		?>
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -124,9 +135,9 @@ class theme_dashboards extends theme_custom_dashboard{
 				<?php echo ___('My statistics');?>
 			</div>
 			<div class="panel-body">
-				<a class="media" href="<?php echo esc_url(theme_custom_user_settings::get_tabs('history')['url']);?>" title="<?php echo ___('Views my histories');?>">
+				<a class="media" href="<?php echo theme_custom_user_settings::get_tabs('history')['url'];?>" title="<?php echo ___('Views my histories');?>">
 					<div class="media-left">
-						<img class="media-object" src="<?php echo esc_url(theme_options::get_options(theme_custom_point::$iden)['point-img-url']);?>" alt="">
+						<img class="media-object" src="<?php echo theme_custom_point::get_point_img_url();?>" alt="">
 					</div>
 					<div class="media-body">
 						<h4 class="media-heading"><strong class="total-point"><?php echo theme_custom_point::get_point();?> </strong></h4>
@@ -136,25 +147,35 @@ class theme_dashboards extends theme_custom_dashboard{
 					<!-- posts count -->
 					<div class="col-xs-6">
 						<?php
-						echo sprintf(___('My posts: %s'),'<a href="' . theme_cache::get_author_posts_url(get_current_user_id()) . '">' . theme_custom_author_profile::get_count('works',get_current_user_id()) . '</a>');
+						echo sprintf(___('My posts: %s'),'<a href="' . theme_cache::get_author_posts_url($current_user_id) . '">' . theme_custom_author_profile::get_count('works',$current_user_id) . '</a>');
 						?>
 					</div>
 					<!-- comments count -->
 					<div class="col-xs-6">
 						<?php
-						echo sprintf(___('My comments: %d'),theme_custom_author_profile::get_count('comments',get_current_user_id()));
+						echo sprintf(
+							___('My comments: %s'),
+							'<a href="' . theme_custom_author_profile::get_tabs('comments',$current_user_id)['url'] . '">' . theme_custom_author_profile::get_count('comments',$current_user_id) . '</a>'
+						);
 						?>
 					</div>
 					<!-- followers count -->
 					<div class="col-xs-6">
 						<?php
-						echo sprintf(___('My followers: %d'),theme_custom_author_profile::get_count('followers_count',get_current_user_id()));
+						echo sprintf(
+							___('My followers: %s'),
+							'<a href="' . theme_custom_author_profile::get_tabs('followers_count',$current_user_id)['url'] . '">' . theme_custom_author_profile::get_count('followers_count',$current_user_id) . '</a>'
+						);
 						?>
 					</div>
 					<!-- following count -->
 					<div class="col-xs-6">
 						<?php
-						echo sprintf(___('My following: %d'),theme_custom_author_profile::get_count('following_count',get_current_user_id()));
+						echo sprintf(
+							___('My following: %s'),
+							'<a href="' . theme_custom_author_profile::get_tabs('following_count',$current_user_id)['url'] . '">' .
+							theme_custom_author_profile::get_count('following_count',$current_user_id) . '</a>'
+						);
 						?>
 					</div>
 				</div>

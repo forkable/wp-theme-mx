@@ -30,6 +30,16 @@ class custom_post_point{
 		add_filter('custom-point-options-default',__CLASS__ . '::filter_custom_point_options_default');
 
 		add_filter('custom-point-types',__CLASS__ . '::filter_custom_point_types');
+
+
+		/**
+		 * list history hooks
+		 */
+		foreach([
+			'list_history_post_rate',
+			'list_history_post_be_rate'
+		] as $v)
+			add_action('list_point_histroy',__CLASS__ . '::' . $v);
 	}
 	public static function sync_delete_post($post_id){
 		$post = get_post($post_id);
@@ -309,6 +319,23 @@ class custom_post_point{
 						die(theme_features::json_format($output));
 					}
 					/**
+					 * increase post author points
+					 */
+					theme_custom_point::incr_user_points($post->post_author,$points);
+					/**
+					 * add point history for rater
+					 */
+					self::add_history_for_rater($post_id,$rater_id,$points);
+					/**
+					 * add point history for post author
+					 */
+					self::add_history_for_post_author($post_id,$rater_id,$points);
+					/**
+					 * decrease rater points
+					 */
+					theme_custom_point::decr_user_points($rater_id,$points);
+					
+					/**
 					 * success
 					 */
 					$output['status'] = 'success';
@@ -326,6 +353,100 @@ class custom_post_point{
 			
 
 		die(theme_features::json_format($output));
+	}
+	public static function get_post($post_id){
+		static $post = null;
+		if($post === null)
+			$post = get_post($post_id);
+
+		return $post;
+	}
+	public static function list_history_post_rate($history){
+		if($history['type'] !== 'post-rate')
+			return false;
+		?>
+		<li class="list-group-item">
+			<span class="point-name"><?php echo theme_custom_point::get_point_name();?></span>
+			<?php theme_custom_point::the_point_sign($history['points']);?>
+			
+			<span class="history-text">
+				<?php
+				$post = get_post($history['post-id']);
+				if(!$post){
+					echo ___('The post has been deleted.');
+				}else{
+					echo sprintf(
+						___('You rated %1$d %2$s for the post %3$s.'),
+						abs($history['points']),
+						theme_custom_point::get_point_name(),
+						'<a href="' . esc_url(get_permalink($history['post-id'])) . '">' . esc_html(get_the_title($history['post-id'])) . '</a>'
+					);
+				}
+				?>
+			</span>
+			
+			<?php theme_custom_point::the_history_time($history);?>
+		</li>
+		<?php
+	}
+	public static function list_history_post_be_rate($history){
+		if($history['type'] !== 'post-be-rate')
+			return false;
+		?>
+		<li class="list-group-item">
+			<span class="point-name"><?php echo theme_custom_point::get_point_name();?></span>
+			<?php theme_custom_point::the_point_sign($history['points']);?>
+			
+			<span class="history-text">
+				<?php
+				$post = get_post($history['post-id']);
+				if(!$post){
+					echo ___('The post has been deleted.');
+				}else{
+					echo sprintf(
+						___('You post %1$s has been rated %2$d %3$s by %4$s.'),
+						'<a href="' . esc_url(get_permalink($history['post-id'])) . '">' . esc_html(get_the_title($history['post-id'])) . '</a>',
+						abs($history['points']),
+						theme_custom_point::get_point_name(),
+						esc_html(get_author_meta('display_name',$history['rater-id']))
+					);
+				}
+				?>
+			</span>
+			
+			<?php theme_custom_point::the_history_time($history);?>
+		</li>
+		<?php
+	}
+	
+	public static function get_timestamp(){
+		static $t = null;
+		if($t === null)
+			$t = current_time('timestamp');
+		return $t;
+	}
+	public static function add_history_for_rater($post_id,$rater_id,$points){
+
+		$meta = [
+			'type'=> 'post-rate',
+			'timestamp' => self::get_timestamp(),
+			'post-id' => $post_id,
+			'points' => 0 - $points,
+		];
+		add_user_meta($rater_id,theme_custom_point::$user_meta_key['history'],$meta);
+		
+	}
+	public static function add_history_for_post_author($post_id,$rater_id,$points){
+
+		$meta = [
+			'type'=> 'post-be-rated',
+			'timestamp' => self::get_timestamp(),
+			'rater-id' => $rater_id,
+			'post-id' => $post_id,
+			'points' => $points,
+		];
+		add_user_meta(self::get_post($post_id)->post_author,theme_custom_point::$user_meta_key['history'],$meta);
+		
 	}
 	public static function set_error($error){
 		if(is_array($error))

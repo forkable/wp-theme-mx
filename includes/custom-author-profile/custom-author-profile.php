@@ -9,7 +9,7 @@ add_filter('theme_includes',function($fns){
 });
 class theme_custom_author_profile{
 	public static $iden = 'theme_custom_author_profile';
-	public static $cache_expire = 2505600; /** 29 days */
+	public static $cache_expire = 3600*12;
 
 	public static $user_meta_key = array(
 		'followers_count' 	=> 'followers_count',
@@ -44,13 +44,8 @@ class theme_custom_author_profile{
 		if(!in_array('page',$vars)) $vars[] = 'page';
 		return $vars;
 	}
-	public static function get_count($key,$user_id = null){
-		global $author;
-		$user_id = $user_id ? $user_id : $author;
-		if(empty($user_id)){
-			global $post;
-			$user_id = $post->post_author;
-		}
+	public static function get_count($key,$user_id){
+
 		$cache_id = 'user-count-' . $user_id;
 		$caches = (array)wp_cache_get($cache_id);
 		switch($key){
@@ -72,49 +67,51 @@ class theme_custom_author_profile{
 				return (int)get_user_meta($user_id,self::$user_meta_key['following_count'],true);
 		}
 	}
-	public static function get_tabs($key = null,$author_id = null){
-		global $author;
-		$author_id = $author_id ? $author_id : $author;
-		if(empty($author_id)){
-			global $post;
-			$author_id = $post->post_author;
-		}
-		$baseurl = theme_cache::get_author_posts_url($author_id);
-		$tabs = array(
+	public static function get_tabs($key = null,$author_id){
+		static $caches = [], $baseurl;
+		$cache_id = md5(serialize(func_get_args()));
+		
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
+		
+		if(!$baseurl)
+			$baseurl = theme_cache::get_author_posts_url($author_id);
+			
+		$caches = array(
 			'profile' => array(
 				'text' => ___('Profile'),
 				'icon' => 'newspaper-o',
-				'url' => $baseurl
+				'url' => esc_url($baseurl)
 			),
 			'works' => array(
 				'text' => ___('Works'),
 				'icon' => 'file-text',
-				'url' => add_query_arg('tab','works',$baseurl),
+				'url' => esc_url(add_query_arg('tab','works',$baseurl)),
 				'count' => self::get_count('works',$author_id),
 			),
 			'comments' => array(
 				'text' => ___('Comments'),
 				'icon' => 'comments',
-				'url' => add_query_arg('tab','comments',$baseurl),
+				'url' => esc_url(add_query_arg('tab','comments',$baseurl)),
 				'count' => self::get_count('comments',$author_id),
 			),
 			'followers' => array(
 				'text' => ___('Followers'),
 				'icon' => 'venus-double',
-				'url' => add_query_arg('tab','followers',$baseurl),
+				'url' => esc_url(add_query_arg('tab','followers',$baseurl)),
 				'count' => self::get_count('followers_count',$author_id),
 			),
 			'following' => array(
 				'text' => ___('Following'),
 				'icon' => 'venus-mars',
-				'url' => add_query_arg('tab','following',$baseurl),
+				'url' => esc_url(add_query_arg('tab','following',$baseurl)),
 				'count' => self::get_count('following_count',$author_id),
 			)
 		);
 		if($key){
-			return isset($tabs[$key]) ? $tabs[$key] : false;
+			return isset($caches[$key]) ? $caches[$key] : null;
 		}
-		return $tabs;
+		return $caches;
 	}
 }
 ?>

@@ -49,7 +49,21 @@ class theme_custom_point{
 		add_action('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use');
 
+		/**
+		 * list history hooks
+		 */
+		foreach([
+			'list_history_sepcial_event',
+			'list_history_comment_publish',
+			'list_history_post_delete',
+			'list_history_post_publish',
+			'list_history_post_reply',
+			'list_history_signup',
+			'list_history_signin_daily'
+		] as $v)
+			add_action('list_point_histroy',__CLASS__ . '::' . $v);
 	}
+
 	public static function display_backend(){
 		$opt = self::get_options();
 
@@ -140,8 +154,18 @@ class theme_custom_point{
 		if(isset($caches['url']))
 			return $caches['url'];
 
-		$caches['url'] = self::get_options('point-img-url');
+		$caches['url'] = esc_url(self::get_options('point-img-url'));
 		return $caches['url'];
+	}
+	public static function incr_user_points($user_id,$points){
+		$old_points = (int)get_user_meta($user_id,self::$user_meta_key['point'],true);
+		$old_points += $points;
+		update_user_meta($user_id,self::$user_meta_key['point'],$old_points);
+	}
+	public static function decr_user_points($user_id,$points){
+		$old_points = (int)get_user_meta($user_id,self::$user_meta_key['point'],true);
+		$old_points -= $points;
+		update_user_meta($user_id,self::$user_meta_key['point'],$old_points);
 	}
 	public static function process(){
 		$output = [];
@@ -310,13 +334,10 @@ class theme_custom_point{
 	}
 	public static function get_point_value($type){
 		static $caches;
-		if(isset($caches[$type]))
-			return $caches[$type];
+		if(!$caches)
+			$caches = self::get_options('points');
 
-		
-		$opt = self::get_options('points');
-		$caches[$type] = isset($opt[$type]) ? $opt[$type] : false;
-		return $caches[$type];
+		return isset($caches[$type]) ? $caches[$type] : false;
 	}
 	/**
 	 * Get user point
@@ -379,155 +400,190 @@ class theme_custom_point{
 		}
 		return $metas;
 	}
-	public static function get_history_list(array $args = []){
-		$metas = self::get_history($args);
-
-		if(empty($metas))
+	public static function the_history_time($history){
+		if(!isset($history['timestamp']))
 			return false;
-		ob_start();
-
-		$point_name = self::get_point_name();
-		?>
-		<ul class="list-group history-group">
-			<?php
-			foreach($metas as $k => $v){
-				$type_point = self::get_point_value($v['type']);
-			?>
-<li class="list-group-item">
-	<span class="point-name">
-		<?php echo esc_html($point_name);?>
-	</span>
-	<?php
-	/**
-	 * special event point
-	 */
-	if($v['type'] !== 'special-event'){
-		if($type_point >= 0){
-			$cls = 'plus';
-			$tx = '+' . $type_point;
-		}else{
-			$cls = 'minus';
-			$tx = $type_point;
-		}
-		?>
-		<span class="point-value <?php echo $cls;?>"><?php echo $tx;?></span>
-	<?php
-	}
-//var_dump($v);
-switch($v['type']){
-	/**
-	 * post-delete
-	 */
-	case 'post-delete':
-		?>
-		<span class="history-text">
-			<?php echo sprintf(___('Your post "%s" has been deleted.'),$v['post-title']);?>
-		</span>
-		<?php
-		break;
-	/*****************************************
-	 * signup
-	 */
-	case 'special-event':
-		?>
-		<span class="history-text"><strong>
-			<?php echo sprintf(___('One special event happened: %s'),$v['event']);?>
-		</strong></span>
-		<?php
-		break;
-	/*****************************************
-	 * signup
-	 */
-	case 'signup':
-		?>
-		<span class="history-text">
-			<?php echo sprintf(___('I registered %s.'),'<a href="' . home_url() . '">' . get_bloginfo('name') . '</a>');?>
-		</span>
-		<?php
-		break;
-	/***************************************
-	 * comment-publish
-	 */
-	case 'comment-publish':
-		global $comment;
-		$comment = get_comment($v['comment-id']);
-		
-		?>
-		<span class="history-text">
-			<?php 
-			echo sprintf(___('You published a comment in %1$s.'),
-
-			'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '">' . esc_html(get_the_title($comment->comment_post_ID)) . '</a>'
-			);
-			?>
-		</span>
-		<?php
-		break;
-	/***************************************
-	 * post-publish
-	 */
-	case 'post-publish':
-		global $post;
-		$post_bak = $post;
-		$post = get_post($v['psot-id']);
-		?>
-		<span class="history-text">
-			<?php
-			if(!$post){
-				echo ___('The post has been deleted.');
-			}else{
-				echo sprintf(___('I published a post %s.'),'<a href="' . esc_url(get_permalink($v['post-id'])) . '">' . esc_html(get_the_title($v['post-id'])) . '</a>');
-			}
-			?>
-		</span>
-		<?php
-		$post = $post_bak;
-		unset($post_bak);
-		break;
-	/***************************************
-	 * post-reply
-	 */
-	case 'post-reply':
-		global $comment;
-		$comment = get_comment($v['comment-id']);
-		
-		?>
-		<span class="history-text">
-			<?php echo sprintf(___('Your post %1$s has a new comment by %2$s.'),
-
-			'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '">' . esc_html(get_the_title($comment->comment_post_ID)) . '</a>',
-
-			'<span class="comment-author">' . get_comment_author_link() . '</span>'
-			);?>
-		</span>
-		<?php
-		break;
-	/****************************************
-	 * signin-daily
-	 */
-	case 'signin-daily':
-		?>
-		<span class="history-text">
-			<?php echo ___('Log-in daily reward.');?>
-		</span>
-		<?php
-		break;
-	default:
-	
-} /** end switch */
 		?>
 		<span class="history-time">
-			<?php
-			if(isset($v['timestamp'])){
-				echo friendly_date($v['timestamp']);
-			}
-			?>
+			<?php echo friendly_date($history['timestamp']); ?>
 		</span>
-</li>
-<?php
-} /** end foreach */
-?>
-		</ul>				
+		<?php
+	}
+	public static function list_history_sepcial_event($history){
+		if($history['type'] !== 'special-event')
+			return false;
+		?>
+		<li class="list-group-item list-group-item-warning">
+			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<?php self::the_point_sign($history['point']);?>
+			
+			<span class="history-text">
+				<?php echo sprintf(___('One special event happened: %s'),$history['event']);?>
+			</span>
+			
+			<?php self::the_history_time($history);?>
+		</li>
+		<?php
+	}
+	public static function list_history_post_delete($history){
+		if($history['type'] !== 'post-delete')
+			return false;
+		?>
+		<li class="list-group-item">
+			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<?php self::the_point_sign(self::get_point_value('post-delete'));?>
+			
+			<span class="history-text">
+				<?php echo sprintf(___('Your post "%s" has been deleted.'),$history['post-title']);?>
+			</span>
+			
+			<?php self::the_history_time($history);?>
+		</li>
+		</li>
+		<?php
+	}
+	public static function list_history_signup($history){
+		if($history['type'] !== 'signup')
+			return false;
+		?>
+		<li class="list-group-item">
+			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<?php self::the_point_sign(self::get_point_value('signup'));?>
+			
+			<span class="history-text">
+				<?php echo sprintf(___('You registered %s.'),'<a href="' . home_url() . '">' . get_bloginfo('name') . '</a>');?>
+			</span>
+			
+			<?php self::the_history_time($history);?>
+		</li>
+		<?php
+	}
+	public static function list_history_comment_publish($history){
+		if($history['type'] !== 'comment-publish')
+			return false;
+		?>
+		<li class="list-group-item">
+			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<?php self::the_point_sign(self::get_point_value('comment-publish'));?>
+			
+			<span class="history-text">
+				<?php 
+				$comment = get_comment($history['comment-id']);
+				if(!$comment){
+					echo ___('The comment has been deleted.');
+				}else{
+					echo sprintf(___('You published a comment in %1$s.'),
+
+					'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '">' . esc_html(get_the_title($comment->comment_post_ID)) . '</a>'
+					);
+				}
+				?>
+			</span>
+			
+			<?php self::the_history_time($history);?>
+		</li>
+		<?php
+	}
+	public static function list_history_post_publish($history){
+		if($history['type'] !== 'post-publish')
+			return false;
+		?>
+		<li class="list-group-item">
+			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<?php self::the_point_sign(self::get_point_value('post-publish'));?>
+			
+			<span class="history-text">
+				<?php
+				$post = get_post($history['post-id']);
+				if(!$post){
+					echo ___('The post has been deleted.');
+				}else{
+					echo sprintf(___('You published a post %s.'),'<a href="' . esc_url(get_permalink($history['post-id'])) . '">' . esc_html(get_the_title($history['post-id'])) . '</a>');
+				}
+				?>
+			</span>
+			
+			<?php self::the_history_time($history);?>
+		</li>
+		<?php
+	}
+	public static function list_history_post_reply($history){
+		if($history['type'] !== 'post-reply')
+			return false;
+		?>
+		<li class="list-group-item">
+			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<?php self::the_point_sign(self::get_point_value('post-reply'));?>
+			
+			<span class="history-text">
+				<?php 
+				$comment = get_comment($history['comment-id']);
+				if(!$comment){
+					echo ___('The comment has been deleted.');
+				}else{
+					$post = get_post($comment->comment_post_ID);
+					if(!$post){
+						echo ___('The post has been deleted.');
+					}else{
+						echo sprintf(___('Your post %1$s has a new comment by %2$s.'),
+
+						'<a href="' . esc_url(get_permalink($post->ID)) . '">' . esc_html(get_the_title($post->ID)) . '</a>',
+
+						'<span class="comment-author">' . get_comment_author_link($history['comment-id']) . '</span>'
+						);
+					}
+				}
+				?>
+			</span>
+			
+			<?php self::the_history_time($history);?>
+		</li>
+		<?php
+	}
+	public static function list_history_signin_daily($history){
+		if($history['type'] !== 'signin-daily')
+			return false;
+		?>
+		<li class="list-group-item">
+			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<?php self::the_point_sign(self::get_point_value('signin-daily'));?>
+			
+			<span class="history-text">
+				<?php echo ___('Log-in daily reward.');?>
+			</span>
+			
+			<?php self::the_history_time($history);?>
+		</li>
+		<?php
+	}
+	public static function the_point_sign($points){
+		if(!is_numeric($points))
+			return false;
+
+		$class = null;
+		if($points > 0){
+			$points = '+ ' . $points;
+			$class = 'plus';
+		}else if($points < 0){
+			$points = '- ' . abs($points);
+			$class = 'minus';
+		}
+		?>
+		<span class="point-value <?php echo $class;?>"><?php echo $points;?></span>
+		<?php
+	}
+	public static function get_history_list(array $args = []){
+		$histories = self::get_history($args);
+
+		if(empty($histories))
+			return false;
+		ob_start();
+		?>
+		<ul class="list-group history-group">
+			<?php foreach($histories as $history){ ?>
+				<?php do_action('list_point_histroy',$history);?>
+			<?php } ?>
+		</ul>
 
 		<?php
 		$content = ob_get_contents();

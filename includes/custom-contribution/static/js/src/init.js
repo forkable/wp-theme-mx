@@ -24,7 +24,7 @@ define(function(require, exports, module){
 	var config = exports.config,
 		cache = {};
 	exports.init = function(){
-		jQuery(document).ready(function(){
+		tools.ready(function(){
 			exports.bind();
 			toggle_reprint_group();
 		});
