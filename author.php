@@ -3,7 +3,7 @@
 global $author;
 $tab_active = get_query_var('tab');
 
-$tabs = theme_custom_author_profile::get_tabs();
+$tabs = theme_custom_author_profile::get_tabs(null,$author);
 
 if(empty($tab_active) || !isset($tabs[$tab_active]))
 	$tab_active = 'profile';

@@ -221,6 +221,7 @@ class theme_open_sign{
 		/** openid */
 		$open_id = $qc->get_openid();
 		
+
 		/** access_token */
 		$access_token = isset($cb['access_token']) && is_string($cb['access_token']) ? $cb['access_token'] : null;
 		if(empty($access_token))
@@ -251,7 +252,10 @@ class theme_open_sign{
 		 */
 		if(empty($user)){
 			/** load qqzone info */
+			$qc = new theme_open_sign\inc\qq\QC(self::get_qc_config(),$access_token,$open_id);
+
 			$open_info = $qc->get_user_info();
+
 			
 			/** avatar */
 			$user_avatar = !empty($open_info['figureurl_qq_2']) ? $open_info['figureurl_qq_2'] : $open_info['figureurl_qq_1'];

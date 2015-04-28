@@ -220,7 +220,7 @@ class theme_page_tags{
 									<a href="<?php the_permalink();?>" title="<?php the_title();?>"><?php the_title();?></a>
 									<?php if(has_post_thumbnail()){ ?>
 										<div class="extra-thumbnail">
-<img src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-src="<?php echo esc_url(theme_functions::get_thumbnail_src());?>" alt="<?php the_title();?>" width="<?php echo theme_functions::$thumbnail_size[1];?>" height="<?php echo theme_functions::$thumbnail_size[2];?>"/>
+<img src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url(theme_functions::get_thumbnail_src());?>" alt="<?php the_title();?>" width="<?php echo theme_functions::$thumbnail_size[1];?>" height="<?php echo theme_functions::$thumbnail_size[2];?>"/>
 										</div>
 									<?php } ?>
 								</li>

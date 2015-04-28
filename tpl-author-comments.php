@@ -23,7 +23,7 @@ $comments = get_comments(array(
 					<div class="media">
 						<div class="media-left">
 							<a href="<?php echo get_permalink();?>">
-								<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url('frontend/thumb-preview.jpg');?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr(get_the_title());?>" width="80" height="50"/>
+								<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr(get_the_title());?>" width="80" height="50"/>
 							</a>
 						</div>
 						<div class="media-body">

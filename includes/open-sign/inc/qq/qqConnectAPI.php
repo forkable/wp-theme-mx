@@ -220,7 +220,6 @@ class QC extends Oauth{
                 "openid" => $openid
             );
         }
-
         //初始化APIMap
         /*
          * 加#表示非必须，无则不传入url(url中不会出现该参数)， "key" => "val" 表示key如果没有定义则使用默认值val
@@ -534,8 +533,9 @@ class Oauth{
         );
 
         $login_url =  $this->urlUtils->combineURL(self::GET_AUTH_CODE_URL, $keysArr);
-//var_dump($login_url);exit;
+
         header("Location:$login_url");
+        die();
     }
 
     public function qq_callback(){
@@ -555,7 +555,7 @@ class Oauth{
         );
         //------构造请求access_token的url
         $token_url = $this->urlUtils->combineURL(self::GET_ACCESS_TOKEN_URL, $keysArr);
-//var_dump($token_url);exit;
+
         $response = $this->urlUtils->get_contents($token_url);
 
         if(strpos($response, "callback") !== false){

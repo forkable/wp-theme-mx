@@ -18,8 +18,7 @@ define(function(require, exports, module){
 	exports.cache = {};
 	
 	exports.init = function(){
-		jQuery(document).ready(function(){
-			// alert('a');
+		tools.ready(function(){
 			exports.sign.init();
 			exports.recover.init();
 			exports.reset.init();

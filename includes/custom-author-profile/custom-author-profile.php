@@ -30,7 +30,7 @@ class theme_custom_author_profile{
 		global $author;
 		$tab_active = get_query_var('tab');
 		$author_display_name = get_the_author_meta('display_name',$author);
-		$tabs = self::get_tabs();
+		$tabs = self::get_tabs(null,$author);
 		if(!empty($tab_active) && isset($tabs[$tab_active])){
 			$title = $tabs[$tab_active]['text'];
 		}else{
