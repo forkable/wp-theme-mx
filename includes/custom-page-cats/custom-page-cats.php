@@ -31,11 +31,14 @@ class theme_page_cats{
 		
 	}
 	public static function get_options($key = null){
-		$opt = theme_options::get_options(self::$iden);
+		static $caches = [];
+		if(!isset($caches[self::$iden]))
+			$caches[self::$iden] = theme_options::get_options(self::$iden);
+		
 		if(empty($key)){
-			return $opt;
+			return $caches[self::$iden];
 		}else{
-			return isset($opt[$key]) ? $opt[$key] : null;
+			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
 		}
 	}
 	public static function options_save($opts){
@@ -45,7 +48,7 @@ class theme_page_cats{
 		return $opts;
 	}
 	public static function display_backend(){
-		$opt = theme_options::get_options(self::$iden);
+		$opt = self::get_options();
 		?>
 		<fieldset>
 			<legend><?php echo ___('Categories index settings');?></legend>
@@ -113,22 +116,23 @@ class theme_page_cats{
 		global $post;
 		
 		$cats = (array)self::get_options('cats');
-
 		$new_tags = [];
 		/**
 		 * get all whitelist posts & tag ids
 		 */
 		$query = new WP_Query(array(
+			'nopaging' => 1,
 			'category__in' => $cats,
 		));
-
 		if($query->have_posts()){
 			/** load pinyin */
 			while($query->have_posts()){
+
 				$query->the_post();
 				/** 提取别名是数字或英文开头的 */
-				$first_letter_pattern = '/^[a-z0-9]{1}/';
+				$first_letter_pattern = '/^[a-z0-9]/';
 				$first_letter = $post->post_name[0];
+
 				preg_match($first_letter_pattern,$first_letter,$matches);
 				if(!empty($matches[0])){
 					if(isset($new_tags[$first_letter][$post->ID]))
@@ -162,7 +166,7 @@ class theme_page_cats{
 		arsort($slugs);
 		foreach($slugs as $k => $post_ids){
 		?>
-			<div class="panel-tags-index panel panel-default">
+			<div class="panel-tags-index panel panel-primary">
 				<div class="panel-heading">
 					<strong><?php echo $k;?></strong>
 					<small> - <?php echo ___('Initial');?></small>

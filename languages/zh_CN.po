@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-28 21:29+0800\n"
-"PO-Revision-Date: 2015-04-28 21:32+0800\n"
+"POT-Creation-Date: 2015-04-29 13:27+0800\n"
+"PO-Revision-Date: 2015-04-29 13:28+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -33,8 +33,8 @@ msgstr "添加评论"
 #: includes/comment-ajax/comment-ajax.php:452
 #: includes/custom-contribution/custom-contribution.php:348
 #: includes/custom-follow/custom-follow.php:140
-#: includes/custom-page-cats/custom-page-cats.php:204
-#: includes/custom-page-tags/custom-page-tags.php:252
+#: includes/custom-page-cats/custom-page-cats.php:208
+#: includes/custom-page-tags/custom-page-tags.php:255
 #: includes/custom-point/custom-point.php:944
 #: includes/custom-post-point/custom-post-point.php:751
 #: includes/custom-post-point/custom-post-point.php:773
@@ -754,7 +754,7 @@ msgid "Commented successfully, thank you!"
 msgstr "发表评论成功，感谢您的参与！"
 
 #: includes/_quick-comment/quick-comment.php:344
-#: includes/widget-author/widget-author.php:124
+#: includes/widget-author/widget-author.php:120
 msgid "Message"
 msgstr "提示"
 
@@ -825,8 +825,8 @@ msgid "Save your settings before click."
 msgstr "点击之前保存设置。"
 
 #: includes/cache/cache.php:141
-#: includes/custom-page-cats/custom-page-cats.php:62
-#: includes/custom-page-tags/custom-page-tags.php:60
+#: includes/custom-page-cats/custom-page-cats.php:65
+#: includes/custom-page-tags/custom-page-tags.php:65
 #: includes/custom-point/custom-point.php:141
 #: includes/custom-slidebox/custom-slidebox.php:221
 #: includes/min-rebuild/min-rebuild.php:37
@@ -1272,67 +1272,75 @@ msgstr "一行一个关键词"
 msgid "Delete this item"
 msgstr "删除此条目"
 
-#: includes/custom-page-cats/custom-page-cats.php:51
+#: includes/custom-page-cats/custom-page-cats.php:54
 msgid "Categories index settings"
 msgstr "分类目录索引设置"
 
-#: includes/custom-page-cats/custom-page-cats.php:52
+#: includes/custom-page-cats/custom-page-cats.php:55
 msgid "Display posts number or alphabet slug index on categories index page."
 msgstr "在分类目录中根据日志的数字或英文字母别名来显示索引。"
 
-#: includes/custom-page-cats/custom-page-cats.php:56
+#: includes/custom-page-cats/custom-page-cats.php:59
 msgid "Index Categories"
 msgstr "分类索引"
 
-#: includes/custom-page-cats/custom-page-cats.php:66
-#: includes/custom-page-tags/custom-page-tags.php:63
+#: includes/custom-page-cats/custom-page-cats.php:69
+#: includes/custom-page-tags/custom-page-tags.php:68
 msgid "Flush cache"
 msgstr "刷新缓存"
 
-#: includes/custom-page-cats/custom-page-cats.php:80
-#: includes/custom-page-tags/custom-page-tags.php:76
+#: includes/custom-page-cats/custom-page-cats.php:83
+#: includes/custom-page-tags/custom-page-tags.php:81
 msgid "Cache has been cleaned."
 msgstr "缓存已成功清空。"
 
-#: includes/custom-page-cats/custom-page-cats.php:90
+#: includes/custom-page-cats/custom-page-cats.php:93
 msgid "Categories index"
 msgstr "分类索引"
 
-#: includes/custom-page-cats/custom-page-cats.php:157
+#: includes/custom-page-cats/custom-page-cats.php:161
 msgid "No cagtegory yet."
 msgstr "暂无分类。"
 
-#: includes/custom-page-cats/custom-page-cats.php:168
+#: includes/custom-page-cats/custom-page-cats.php:172
 msgid "Initial"
 msgstr "首字"
 
-#: includes/custom-page-tags/custom-page-tags.php:48
+#: includes/custom-page-tags/custom-page-tags.php:53
 msgid "Tags index settings"
 msgstr "标签索引设置"
 
-#: includes/custom-page-tags/custom-page-tags.php:49
+#: includes/custom-page-tags/custom-page-tags.php:54
 msgid "Display posts chinese pinyin title index on tags index page."
 msgstr "在标签索引页面中显示中文标题的文章索引。"
 
-#: includes/custom-page-tags/custom-page-tags.php:53
+#: includes/custom-page-tags/custom-page-tags.php:58
 msgid "Whitelist - users "
 msgstr "白名单 - 用户"
 
-#: includes/custom-page-tags/custom-page-tags.php:56
+#: includes/custom-page-tags/custom-page-tags.php:61
 msgid "User ID, multiple users separated by ,(commas). E.g. 1,2,3,4"
 msgstr "用户 ID，多个用户使用 ,（英文逗号）分隔。例如 1,2,3,4"
 
-#: includes/custom-page-tags/custom-page-tags.php:86
+#: includes/custom-page-tags/custom-page-tags.php:91
 msgid "Tags index"
 msgstr "标签索引"
 
-#: includes/custom-page-tags/custom-page-tags.php:191
+#: includes/custom-page-tags/custom-page-tags.php:197
 msgid "No tag yet."
 msgstr "还没有标签"
 
-#: includes/custom-page-tags/custom-page-tags.php:202
+#: includes/custom-page-tags/custom-page-tags.php:208
 msgid "Pinyin initial"
 msgstr "拼音首字母"
+
+#: includes/custom-page-tags/custom-page-tags.php:279
+msgid "Preview image is loading..."
+msgstr "正在加载预览图……"
+
+#: includes/custom-page-tags/custom-page-tags.php:280
+msgid "ERROR: can not load the preview image."
+msgstr "错误: 无法加载预览图。"
 
 #: includes/custom-point/custom-point.php:71
 #: includes/custom-point/custom-point.php:305
@@ -1520,8 +1528,8 @@ msgid "No matched user yet."
 msgstr "暂无匹配到的用户。"
 
 #: includes/custom-point/widget.php:92 includes/custom-point/widget.php:99
-#: includes/widget-author/widget-author.php:138
-#: includes/widget-author/widget-author.php:145
+#: includes/widget-author/widget-author.php:134
+#: includes/widget-author/widget-author.php:141
 #: includes/widget-comments/widget-comments.php:109
 #: includes/widget-comments/widget-comments.php:116
 #: includes/widget-rank/widget-rank.php:116
@@ -2251,20 +2259,20 @@ msgstr ""
 msgid "Invalid callback data."
 msgstr "无效的回调数据。"
 
-#: includes/open-sign/open-sign.php:214 includes/open-sign/open-sign.php:291
-#: includes/open-sign/open-sign.php:325 includes/open-sign/open-sign.php:335
+#: includes/open-sign/open-sign.php:214 includes/open-sign/open-sign.php:295
+#: includes/open-sign/open-sign.php:329 includes/open-sign/open-sign.php:339
 msgid "Redirecting, please wait..."
 msgstr "跳转中，请稍后……"
 
-#: includes/open-sign/open-sign.php:227
+#: includes/open-sign/open-sign.php:228
 msgid "Invalid access token,"
 msgstr "无效的token。"
 
-#: includes/open-sign/open-sign.php:237
+#: includes/open-sign/open-sign.php:238
 msgid "Invalid expires time."
 msgstr "无效的 expires time。"
 
-#: includes/open-sign/open-sign.php:242
+#: includes/open-sign/open-sign.php:243
 msgid "Invalid refresh token."
 msgstr "无效的 refresh token。"
 
@@ -2947,31 +2955,27 @@ msgstr "作者名片 <small>（定制）</small>"
 msgid "Show the author information."
 msgstr "显示作者信息。"
 
-#: includes/widget-author/widget-author.php:59
+#: includes/widget-author/widget-author.php:55
 msgid "Views the author information detail"
 msgstr "查看作者资料"
 
-#: includes/widget-author/widget-author.php:61
-msgid "Author avatar"
-msgstr "作者头像"
-
-#: includes/widget-author/widget-author.php:68
+#: includes/widget-author/widget-author.php:64
 msgid "The author is lazy, nothing writes here."
 msgstr "作者很懒，啥都没写。"
 
-#: includes/widget-author/widget-author.php:77
+#: includes/widget-author/widget-author.php:73
 msgid "Author meta link group"
 msgstr "作者相关链接"
 
-#: includes/widget-author/widget-author.php:109
+#: includes/widget-author/widget-author.php:105
 msgid "Followed"
 msgstr "已关注"
 
-#: includes/widget-author/widget-author.php:113
+#: includes/widget-author/widget-author.php:109
 msgid "Follow"
 msgstr "关注"
 
-#: includes/widget-author/widget-author.php:134
+#: includes/widget-author/widget-author.php:130
 msgid "Member information"
 msgstr "会员资料"
 
@@ -3482,6 +3486,9 @@ msgstr "向每个人介绍自己"
 #: tpl-page-account-settings.php:77
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "Author avatar"
+#~ msgstr "作者头像"
 
 #~ msgid "Previous"
 #~ msgstr "上一页"

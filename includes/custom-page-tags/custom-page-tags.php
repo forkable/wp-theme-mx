@@ -21,6 +21,9 @@ class theme_page_tags{
 		
 		add_filter('theme_options_save', 	__CLASS__ . '::options_save');
 
+		add_filter('frontend_seajs_alias' , __CLASS__ . '::frontend_seajs_alias');
+		add_action('frontend_seajs_use' , __CLASS__ . '::frontend_seajs_use');
+
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 
 		add_action('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
@@ -28,11 +31,13 @@ class theme_page_tags{
 		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use'); 
 	}
 	public static function get_options($key = null){
-		$opt = theme_options::get_options(self::$iden);
+		static $caches = [];
+		if(!isset($caches[self::$iden]))
+			$caches[self::$iden] = theme_options::get_options(self::$iden);
 		if(empty($key)){
-			return $opt;
+			return $caches[self::$iden];
 		}else{
-			return isset($opt[$key]) ? $opt[$key] : null;
+			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
 		}
 	}
 	public static function options_save($opts){
@@ -42,7 +47,7 @@ class theme_page_tags{
 		return $opts;
 	}
 	public static function display_backend(){
-		$opt = theme_options::get_options(self::$iden);
+		$opt = self::get_options();
 		?>
 		<fieldset>
 			<legend><?php echo ___('Tags index settings');?></legend>
@@ -115,6 +120,7 @@ class theme_page_tags{
 		 * get all whitelist posts & tag ids
 		 */
 		$query = new WP_Query(array(
+			'nopaging' => 1,
 			'author__in' => isset($whitelist['user-ids']) ? explode(',',$whitelist['user-ids']) : [],
 			'category__not_in' => array(1),
 		));
@@ -196,7 +202,7 @@ class theme_page_tags{
 		arsort($tags);
 		foreach($tags as $k => $v){
 			?>
-			<div class="panel-tags-index panel panel-default">
+			<div class="panel-tags-index panel panel-primary">
 				<div class="panel-heading">
 					<strong><?php echo $k;?></strong>
 					<small> - <?php echo ___('Pinyin initial');?></small>
@@ -216,17 +222,14 @@ class theme_page_tags{
 							while($query->have_posts()){
 								$query->the_post();
 								?>
-								<li class="col-sm-6">
-									<a href="<?php the_permalink();?>" title="<?php the_title();?>"><?php the_title();?></a>
+								<li class="col-sm-6 tag-list">
+									<a class="tag-link" href="<?php the_permalink();?>" title="<?php the_title();?>" target="_blank"><?php the_title();?></a>
 									<?php if(has_post_thumbnail()){ ?>
-										<div class="extra-thumbnail">
-<img src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url(theme_functions::get_thumbnail_src());?>" alt="<?php the_title();?>" width="<?php echo theme_functions::$thumbnail_size[1];?>" height="<?php echo theme_functions::$thumbnail_size[2];?>"/>
-										</div>
+										<div class="extra-thumbnail" data-img-url="<?php echo esc_url(theme_functions::get_thumbnail_src());?>"></div>
 									<?php } ?>
 								</li>
 								<?php
 							}
-							//wp_reset_query();
 							wp_reset_postdata();
 							?>
 						</ul>
@@ -254,8 +257,34 @@ class theme_page_tags{
 		});
 		<?php
 	}
+	public static function is_page(){
+		static $cache = null;
+		if($cache === null)
+			$cache = is_page(self::$page_slug);
+
+		return $cache;
+	}
+	public static function frontend_seajs_alias(array $alias = []){
+		if(self::is_page()){
+			$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+		}
+		return $alias;
+	}
+	public static function frontend_seajs_use(){
+		if(!self::is_page())
+			return false;
+
+		?>
+		seajs.use(['<?php echo self::$iden;?>'],function(m){
+			m.config.lang.M00001 = '<?php echo ___('Preview image is loading...');?>';
+			m.config.lang.E00001 = '<?php echo ___('ERROR: can not load the preview image.');?>';
+			m.init();
+		});
+		<?php
+	}
 	public static function frontend_css(){
-		if(!is_page(self::$page_slug)) return false;
+		if(!self::is_page()) 
+			return false;
 		wp_enqueue_style(
 			self::$iden,
 			theme_features::get_theme_includes_css(__DIR__,'style',false),

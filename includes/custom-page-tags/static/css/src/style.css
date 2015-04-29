@@ -25,6 +25,7 @@
 			white-space: nowrap;
 			overflow: hidden;
 			color:#666;
+			line-height: 2;
 		}
 			.panel-tags-index li a:hover,
 			.panel-tags-index li a:active,
@@ -41,7 +42,7 @@
 		display: none;
 		position: absolute;
 		bottom: 150%;
-		max-width: 100%;
+		max-width: 50%;
 		background: #fff;
 		box-shadow: 0 0 5px rgba(0,0,0,.3);
 		border-radius: 4px;
@@ -53,10 +54,10 @@
 		.panel-tags-index .extra-thumbnail:after{
 			position:absolute;
 			background:#fff;
-			width:10px;
-			height:10px;
+			width:15px;
+			height:15px;
 			left:20px;
-			bottom:-5px;
+			bottom:-7.5px;
 			z-index:0;
 			content:'';
 			-ms-transform: rotate(-45deg);

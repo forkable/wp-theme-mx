@@ -36,19 +36,15 @@ class theme_widget_author extends WP_Widget{
 			?>
 			<i class="fa fa-user"></i> 
 			<?php
-			echo esc_html($instance['title']);
+			echo $instance['title'];
 			echo $args['after_title'];
 		}
-		/**
-		 * avatar
-		 */
-
-		$avatar = get_img_source(get_avatar($author_id,'100'));
+	
 		/**
 		 * author profile page url
 		 */
 		if(class_exists('theme_custom_author_profile')){
-			$author_url = theme_custom_author_profile::get_tabs('profile')['url'];
+			$author_url = theme_custom_author_profile::get_tabs('profile',$author_id)['url'];
 		}else{
 			$author_url = theme_cache::get_author_posts_url($author_id);
 		}
@@ -58,7 +54,7 @@ class theme_widget_author extends WP_Widget{
 		<div id="widget-author-card" class="widget-container panel-body">
 			<a href="<?php echo esc_url($author_url);?>" class="media" title="<?php echo ___('Views the author information detail');?>">
 				<div class="media-left">
-					<img src="<?php echo esc_url($avatar);?>" alt="<?php echo ___('Author avatar');?>" class="avatar media-object" width="100" height="100">
+					<?php echo get_avatar($author_id,'100');?>
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading author-card-name"><?php echo esc_html(get_the_author_meta('display_name',$author_id));?></h4>
@@ -76,24 +72,24 @@ class theme_widget_author extends WP_Widget{
 			<?php if(class_exists('theme_custom_author_profile')){ ?>
 				<div class="author-card-meta-links btn-group btn-group-justified" role="group" aria-label="<?php echo ___('Author meta link group');?>">
 					<!-- works count -->
-					<a href="<?php echo esc_url(theme_custom_author_profile::get_tabs('profile')['url']);?>" class="btn btn-default" role="button">
-						<span class="tx"><?php echo  esc_html(theme_custom_author_profile::get_tabs('works')['text']);?></span>
-						<span class="count"><?php echo (int)esc_html(theme_custom_author_profile::get_tabs('works')['count']);?></span>
+					<a href="<?php echo theme_custom_author_profile::get_tabs('profile',$author_id)['url'];?>" class="btn btn-default" role="button">
+						<span class="tx"><?php echo  theme_custom_author_profile::get_tabs('works',$author_id)['text'];?></span>
+						<span class="count"><?php echo (int)theme_custom_author_profile::get_tabs('works',$author_id)['count'];?></span>
 					</a>
 					<!-- comments count -->
-					<a href="<?php echo esc_url(theme_custom_author_profile::get_tabs('comments')['url']);?>" class="btn btn-default" role="button">
-						<span class="tx"><?php echo  esc_html(theme_custom_author_profile::get_tabs('comments')['text']);?></span>
-						<span class="count"><?php echo (int)esc_html(theme_custom_author_profile::get_tabs('comments')['count']);?></span>
+					<a href="<?php echo theme_custom_author_profile::get_tabs('comments',$author_id)['url'];?>" class="btn btn-default" role="button">
+						<span class="tx"><?php echo  theme_custom_author_profile::get_tabs('comments',$author_id)['text'];?></span>
+						<span class="count"><?php echo (int)theme_custom_author_profile::get_tabs('comments',$author_id)['count'];?></span>
 					</a>
 					<!-- followers count -->
-					<a href="#<?php echo esc_url(theme_custom_author_profile::get_tabs('followers')['url']);?>" class="btn btn-default disabled" role="button">
-						<span class="tx"><?php echo  esc_html(theme_custom_author_profile::get_tabs('followers')['text']);?></span>
-						<span class="count"><?php echo (int)esc_html(theme_custom_author_profile::get_tabs('followers')['count']);?></span>
+					<a href="#<?php echo theme_custom_author_profile::get_tabs('followers',$author_id)['url'];?>" class="btn btn-default disabled" role="button">
+						<span class="tx"><?php echo  theme_custom_author_profile::get_tabs('followers',$author_id)['text'];?></span>
+						<span class="count"><?php echo (int)theme_custom_author_profile::get_tabs('followers',$author_id)['count'];?></span>
 					</a>
 					<!-- following count -->
-					<a href="#<?php echo esc_url(theme_custom_author_profile::get_tabs('following')['url']);?>" class="btn btn-default disabled" role="button">
-						<span class="tx"><?php echo  esc_html(theme_custom_author_profile::get_tabs('following')['text']);?></span>
-						<span class="count"><?php echo (int)esc_html(theme_custom_author_profile::get_tabs('following')['count']);?></span>
+					<a href="#<?php echo theme_custom_author_profile::get_tabs('following',$author_id)['url'];?>" class="btn btn-default disabled" role="button">
+						<span class="tx"><?php echo  theme_custom_author_profile::get_tabs('following',$author_id)['text'];?></span>
+						<span class="count"><?php echo (int)theme_custom_author_profile::get_tabs('following',$author_id)['count'];?></span>
 					</a>
 				</div>
 			<?php } ?>
@@ -135,21 +131,20 @@ class theme_widget_author extends WP_Widget{
 		],$instance);
 		?>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('title'));?>"><?php echo esc_html(___('Title (optional)'));?></label>
+			<label for="<?php echo esc_attr(self::get_field_id('title'));?>"><?php echo ___('Title (optional)');?></label>
 			<input 
-				id="<?php echo esc_attr(self::get_field_id('title'));?>"
+				id="<?php echo self::get_field_id('title');?>"
 				class="widefat"
-				name="<?php echo esc_attr(self::get_field_name('title'));?>" 
+				name="<?php echo self::get_field_name('title');?>" 
 				type="text" 
-				value="<?php echo esc_attr($instance['title']);?>" 
-				placeholder="<?php echo esc_attr(___('Title (optional)'));?>"
+				value="<?php echo $instance['title'];?>" 
+				placeholder="<?php echo ___('Title (optional)');?>"
 			/>
 		</p>
 		<?php
 	}
 	function update($new_instance,$old_instance){
-		$instance = array_merge($old_instance,$new_instance);
-		return $instance;
+		return array_merge($old_instance,$new_instance);
 	}
 	public static function register_widget(){
 		register_widget(self::$iden);

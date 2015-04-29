@@ -11,7 +11,7 @@ define(function(require, exports, module){
 		cache = {};
 	
 	exports.init = function(){
-		ready(exports.bind);
+		tools.ready(exports.bind);
 	}
 	exports.bind = function(){
 		cache.$btn = document.getElementById('theme_page_tags-clean-cache');
@@ -46,12 +46,5 @@ define(function(require, exports, module){
 			cache.$parent.style.display = '';
 		};
 		xhr.send();
-	}
-	function ready(fn){
-		if(document.readyState != 'loading'){
-			fn();
-		}else{
-			document.addEventListener('DOMContentLoaded',fn);
-		}
 	}
 });
