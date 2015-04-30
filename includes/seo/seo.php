@@ -2,7 +2,7 @@
 /*
 Feature Name:	SEO PLUS
 Feature URI:	http://www.inn-studio.com
-Version:		1.4.0
+Version:		1.4.1
 Description:	Improve the seo friendly
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -76,8 +76,7 @@ class theme_seo_plus{
 		 * in home page
 		 */
 		if(is_home()){
-			$opt = (array)theme_options::get_options(self::$iden);
-			if(isset($opt['description']) && !empty($opt['description'])){
+			if(!empty(self::get_options('description'))){
 				$descriptions[] = apply_filters('meta_description_home',$opt['description']);
 			}else{
 				$descriptions[] = apply_filters('meta_description_home',get_bloginfo('description'));

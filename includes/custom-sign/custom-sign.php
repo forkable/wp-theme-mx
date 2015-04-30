@@ -115,14 +115,25 @@ class theme_custom_sign{
 	public static function filter_wp_registration_url(){
 		return self::get_tabs('register',get_current_url())['url'];
 	}
-	public static function filter_wp_login_url($redirect,$force_reauth){
-		return self::get_tabs('login',get_current_url())['url'];
+	public static function filter_wp_login_url($login_url,$redirect){
+		if(empty($redirect))
+			$redirect = get_current_url();
+		return self::get_tabs('login',$redirect)['url'];
 	}
+	/**
+	 * Get sign page tabs
+	 *
+	 * @param string $key Page tab type
+	 * @param string $redirect Redirect url when login success
+	 * @return mix/array
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
 	public static function get_tabs($key = null,$redirect = null){
 		static $baseurl;
 		if(!$baseurl)
 			$baseurl = get_permalink(theme_cache::get_page_by_path(self::$page_slug));
-
+		
 		if(!$redirect)
 			$redirect =  get_query_var('redirect');
 			

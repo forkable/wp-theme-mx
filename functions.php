@@ -59,9 +59,9 @@ class theme_functions{
 		register_nav_menus(
 			array(
 				'menu-header' 			=> ___('Header menu'),
-				'menu-header-mobile' 	=> ___('Header menu mobile'),
+				//'menu-header-mobile' 	=> ___('Header menu mobile'),
 				'menu-top-bar' 			=> ___('Top bar menu'),
-				'menu-tools' 			=> ___('Header menu tools'),
+				//'menu-tools' 			=> ___('Header menu tools'),
 			)
 		);	
 		/** 
@@ -539,39 +539,70 @@ class theme_functions{
 	}
 	public static function page_content($args = []){
 		global $post;
+		wp_reset_postdata();
 		
 		$defaults = array(
-			'target' 			=> '_blank',
-			'classes'			=> array('grid-100','tablet-grid-100','mobile-grid-100'),
-			'show_author' 		=> true,
-			'show_date' 		=> true,
-			'show_views' 		=> true,
-			'show_comms' 		=> true,
-			'show_rating' 		=> true,
+			'classes'			=> [],
 			'lazyload'			=> true,
 			
 		);
 		$r = array_merge($defaults,$args);
 		extract($r,EXTR_SKIP);
 		
-		$post_title = get_the_title();
-		$target = $target ? ' target="' . $target . '" ' : null;
 		/** 
 		 * classes
 		 */
-		$classes[] = 'singluar-post';
-
+		$classes[] = 'singluar-post panel panel-default';
 		?>
 		<article id="post-<?php the_ID();?>" <?php post_class($classes);?>>
-			<?php if(!empty($post_title)){ ?>
-				<h3 class="entry-title"><?php echo esc_html($post_title);?></h3>
-			<?php } ?>
-			<!-- post-content -->
-			<div class="post-content content-reset">
-				<?php the_content();?>
+			<div class="panel-heading">
+				<?php if(!empty(get_the_title())){ ?>
+					<h3 class="entry-title panel-title"><?php the_title();?></h3>
+				<?php } ?>
+
+			</div>
+
+			<div class="panel-body">
+
+				
+				<!-- post-content -->
+				<div class="post-content content-reset">
+					<?php the_content();?>
+				</div>
+
+				<?php
+				/**
+				 * Hook fires after_singular_post_content
+				 */
+				do_action('after_singular_post_content');
+				?>
+				<?php echo theme_features::get_prev_next_pagination(array(
+					'numbers_class' => array('btn btn-primary')
+				));?>
+								
+			
+				
+			
 			</div>
 			
-			<?php// self::the_post_pagination();?>
+			
+			<!-- post-footer -->
+			<footer class="post-footer post-metas panel-footer clearfix">
+		
+				<?php
+				/** 
+				 * post-share
+				 */
+				if(class_exists('theme_post_share') && theme_post_share::is_enabled()){
+					?>
+					<div class="post-meta post-share">
+						<?php echo theme_post_share::display();?>
+					</div>
+					<?php
+				} /** end post-share */
+				?>
+				
+			</footer>
 		</article>
 		<?php
 	}
@@ -2025,9 +2056,9 @@ $output .= $indent . '<li role="presentation" class="divider">';
 } else if ( strcasecmp( $item->title, 'divider') == 0 && $depth === 1 ) {
 $output .= $indent . '<li role="presentation" class="divider">';
 } else if ( strcasecmp( $item->attr_title, 'dropdown-header') == 0 && $depth === 1 ) {
-$output .= $indent . '<li role="presentation" class="dropdown-header">' . esc_attr( $item->title );
+$output .= $indent . '<li role="presentation" class="dropdown-header">' . $item->title ;
 } else if ( strcasecmp($item->attr_title, 'disabled' ) == 0 ) {
-$output .= $indent . '<li role="presentation" class="disabled"><a href="#">' . esc_attr( $item->title ) . '</a>';
+$output .= $indent . '<li role="presentation" class="disabled"><a href="javascript:;">' . $item->title  . '</a>';
 } else {
 $class_names = $value = '';
 $classes = empty( $item->classes ) ? [] : (array) $item->classes;
@@ -2037,12 +2068,12 @@ if ( $args->has_children )
 $class_names .= ' dropdown';
 if ( in_array( 'current-menu-item', $classes ) || in_array( 'current-menu-parent', $classes ) )
 $class_names .= ' active';
-$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
+$class_names = $class_names ? ' class="' .  $class_names  . '"' : '';
 $id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
-$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
+$id = $id ? ' id="' .  $id  . '"' : '';
 $output .= $indent . '<li' . $id . $value . $class_names .'>';
 $atts = [];
-$atts['title'] = ! empty( $item->title ) ? $item->title	: '';
+$atts['title'] = ! empty( $item->title ) ? strip_tags($item->title)	: '';
 $atts['target'] = ! empty( $item->target ) ? $item->target	: '';
 $atts['rel'] = ! empty( $item->xfn ) ? $item->xfn	: '';
 // If item has_children add atts to a.

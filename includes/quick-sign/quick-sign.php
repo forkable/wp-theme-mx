@@ -3,7 +3,7 @@
 /**
  * Theme quick sign
  *
- * @version 1.0.2
+ * @version 1.0.3
  * @author KM@INN STUDIO
  */
 add_filter('theme_includes',function($fns){
@@ -19,7 +19,7 @@ class theme_quick_sign{
 		
 		/** action */
 		//add_action('frontend_seajs_use',			__CLASS__ . '::frontend_seajs_use');
-		add_action('wp_ajax_' . __CLASS__,		__CLASS__ . '::process');
+		//add_action('wp_ajax_' . __CLASS__,		__CLASS__ . '::process');
 		add_action('wp_ajax_nopriv_' . __CLASS__,	__CLASS__ . '::process');
 	}
 	public static function cache_request($datas){

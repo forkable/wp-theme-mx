@@ -30,7 +30,7 @@ $tags_args = array(
 	'orderby' => 'count',
 	'order' => 'desc',
 	'hide_empty' => 0,
-	'number' => 5,
+	'number' => theme_custom_contribution::get_options('tags-number') ? theme_custom_contribution::get_options('tags-number') : 16,
 );
 if(class_exists('theme_custom_contribution')){
 	$tags_ids = theme_custom_contribution::get_options('tags');
