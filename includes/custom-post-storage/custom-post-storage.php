@@ -8,7 +8,7 @@ add_filter('theme_includes',function($fns){
 });
 class theme_custom_storage{
 	public static $iden = 'theme_custom_storage';
-	public static $page_slug = 'stroage-download';
+	public static $page_slug = 'storage-download';
 	public static $post_meta_key = array(
 		'key' => '_theme_custom_storage'
 	);

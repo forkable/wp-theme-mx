@@ -1724,8 +1724,9 @@ class theme_functions{
 		/**
 		 * cache
 		 */
-		$cache_id = md5(serialize($opt));
-		$cache = wp_cache_get($cache_id);
+
+		$cache = theme_custom_homebox::get_cache();
+		
 		if(!empty($cache)){
 			echo $cache;
 			return $cache;
@@ -1816,8 +1817,8 @@ class theme_functions{
 
 		$cache = html_compress(ob_get_contents());
 		ob_end_clean();
-
-		wp_cache_set($cache_id,$cache);
+		
+		theme_custom_homebox::set_cache($cache);
 		echo $cache;
 		return $cache;
 	}

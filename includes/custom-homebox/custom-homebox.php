@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme-custom-homebox
 Feature URI:	http://www.inn-studio.com
-Version:		1.1.0
+Version:		1.1.1
 Description:	
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -13,20 +13,25 @@ add_filter('theme_includes',function($fns){
 });
 class theme_custom_homebox{
 	public static $iden = 'theme_custom_homebox';
+	public static $cache_id_mtime = 'theme_custom_homebox-mtime';
 	private static $colors = array(
 		'61b4ca',	'e1b32a',	'ee916f',	'a89d84',
 		'86b767',	'6170ca',	'c461ca',	'ca6161',
 		'ca8661',	'333333',	'84a89e',	'a584a8'
 	);
 	public static function init(){
+		
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
 		add_filter('after_backend_tab_init',__CLASS__ . '::after_backend_tab_init');
 		add_filter('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 		add_action('backend_css',__CLASS__ . '::backend_css'); 
 		add_action('page_settings',__CLASS__ . '::display_backend');
 
+		add_action('publish_post',__CLASS__ . '::action_public_post');
 	}
-
+	public static function action_public_post(){
+		self::delete_cache();
+	}
 	public static function keywords_to_html($keywords = null,$class = null){
 		if(!$keywords) return false;
 		/** 
@@ -233,10 +238,19 @@ class theme_custom_homebox{
 	public static function options_save(array $options = []){
 		if(isset($_POST[self::$iden])){
 			$options[self::$iden] = $_POST[self::$iden];
+			self::delete_cache();
 		}
 		return $options;
 	}
-	
+	public static function delete_cache(){
+		wp_cache_delete(self::$iden);
+	}
+	public static function set_cache($data){
+		wp_cache_set(self::$iden,$data,null,3600*24);
+	}
+	public static function get_cache(){
+		return wp_cache_get(self::$iden);
+	}
 	public static function backend_css(){
 		?>
 		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend');?>" rel="stylesheet"  media="all"/>

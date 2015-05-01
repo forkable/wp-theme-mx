@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.0
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_point::init';
@@ -29,7 +29,7 @@ class theme_custom_point{
 		add_action('transition_comment_status',__CLASS__ . '::action_add_history_transition_comment_status_comment_publish',10,3);
 
 		
-		add_action('publish_post',__CLASS__ . '::add_action_publish_post_history_post_publish',10,2);
+		add_action('transition_post_status',__CLASS__ . '::add_action_publish_post_history_post_publish',10,3);
 		
 		
 		add_action('user_register',__CLASS__ . '::action_add_history_signup');
@@ -895,11 +895,14 @@ class theme_custom_point{
 	/**
 	 * HOOK add history for post author when publish post
 	 */
-	public static function add_action_publish_post_history_post_publish($post_id,$post){
+	public static function add_action_publish_post_history_post_publish($new_status, $old_status, $post){
+		if($old_status == 'publish' || $new_status != 'publish')
+			return false;
+
 		/**
 		 * add history for post author
 		 */
-		self::action_add_history_core_post_publish($post_id,$post);
+		self::action_add_history_core_post_publish($post->ID,$post);
 	}
 	/**
 	 * action_add_history_core_transition_post_status_post_publish

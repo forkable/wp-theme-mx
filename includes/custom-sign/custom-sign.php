@@ -1,6 +1,7 @@
 <?php
 /** 
  * sign
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_sign::init';
@@ -87,7 +88,7 @@ class theme_custom_sign{
 		die();
 	}
 	public static function filter_show_admin_bar($show_admin_bar){
-		if(current_user_can('manage_options'))
+		if(current_user_can('manage_categories'))
 			return $show_admin_bar;
 		return false;
 	}

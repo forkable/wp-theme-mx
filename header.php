@@ -7,7 +7,6 @@
 	<meta name="author" content="INN STUDIO" />
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
-	<!-- <link rel="shortcut icon" href="http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif" type="image/x-icon" /> -->
 	<?php wp_head();?>
 </head>
 <body <?php body_class(); ?>>
