@@ -503,16 +503,17 @@ class theme_functions{
 
 		global $post;
 		$classes[] = 'post-list post-img-list';
-		$post_title = get_the_title();
+		$post_title = esc_html(get_the_title());
 
-		$excerpt = get_the_excerpt() ? get_the_excerpt() : null;
+		$excerpt = get_the_excerpt() ? esc_html(get_the_excerpt()): null;
 
 		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 		?>
 		<li class="list-group-item">
-			<a class="post-list-bg media" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
+			<a class="post-list-bg media" href="<?php echo get_permalink();?>" title="<?php echo $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
 				<div class="media-left">
-					<img class="media-object" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+					<img src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" alt="placeholder" class="media-object placeholder">
+					<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo $post_title;?>"/>
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading"><?php the_title();?></h4>

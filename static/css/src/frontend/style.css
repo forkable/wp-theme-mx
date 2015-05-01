@@ -399,7 +399,9 @@ img{
  * .widget_rank
  */
 
-
+	.widget_rank .media-left{
+		position: relative;
+	}
 
 	.widget_rank .list-group-item:before{
 		position: absolute;
@@ -421,6 +423,16 @@ img{
 		.widget_rank .list-group-item:nth-child(8):before{content:'8'}
 		.widget_rank .list-group-item:nth-child(9):before{content:'9'}
 		.widget_rank .list-group-item:nth-child(10):before{content:'10'}
+		.widget_rank .list-group-item:nth-child(11):before{content:'11'}
+		.widget_rank .list-group-item:nth-child(12):before{content:'12'}
+		.widget_rank .list-group-item:nth-child(13):before{content:'13'}
+		.widget_rank .list-group-item:nth-child(14):before{content:'14'}
+		.widget_rank .list-group-item:nth-child(15):before{content:'15'}
+		.widget_rank .list-group-item:nth-child(16):before{content:'16'}
+		.widget_rank .list-group-item:nth-child(17):before{content:'17'}
+		.widget_rank .list-group-item:nth-child(18):before{content:'18'}
+		.widget_rank .list-group-item:nth-child(19):before{content:'19'}
+		.widget_rank .list-group-item:nth-child(20):before{content:'20'}
 	.widget_rank .list-group-item:nth-child(2n){
 		background: rgb(248,248,248);
 	}
@@ -431,6 +443,17 @@ img{
 		.widget_rank .list-group-item:hover .meta{
 			color:#666;
 		}
+		.widget_rank .placeholder{
+			opacity: 0;
+		}
+		.widget_rank .post-list-img{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100px;
+			height: auto;
+		}
+		
 .widget_rank .media-heading{
 	font-size: 13px;
 	line-height: 1.5;
