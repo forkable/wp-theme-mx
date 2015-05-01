@@ -128,10 +128,10 @@ if(class_exists('theme_custom_contribution')){
 <div class="row">
 <div class="col-sm-8">
 <div class="input-group">
-<label class="input-group-addon" id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url-addon" for="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url"><i class="fa fa-link"></i></label>
+<label class="input-group-addon" id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url-addon" for="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url"><i class="fa fa-link fa-fw"></i></label>
 <input 
 	type="url" 
-	name="<?php echo theme_custom_storage::$iden;?>[storage][<?php echo $k;?>][url]" 
+	name="<?php echo theme_custom_storage::$iden;?>[<?php echo $k;?>][url]" 
 	id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url" 
 	class="form-control" 
 	placeholder="<?php echo sprintf(___('%s url'),$v['text']);?>"
@@ -142,10 +142,10 @@ if(class_exists('theme_custom_contribution')){
 </div>
 <div class="col-sm-4">
 <div class="input-group">
-<label class="input-group-addon" id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd-addon" for="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd"><i class="fa fa-key"></i></label>
+<label class="input-group-addon" id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd-addon" for="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd"><i class="fa fa-key fa-fw"></i></label>
 <input 
 	type="text" 
-	name="<?php echo theme_custom_storage::$iden;?>[storage][<?php echo $k;?>][pwd]" 
+	name="<?php echo theme_custom_storage::$iden;?>[<?php echo $k;?>][pwd]" 
 	id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd" 
 	class="form-control" 
 	placeholder="<?php echo sprintf(___('%s password'),$v['text']);?>"
@@ -259,7 +259,7 @@ if(class_exists('theme_custom_contribution')){
 			<!-- submit -->
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<div class="page-tip"><div class="submit-tip"></div></div>
+					<div class="page-tip submit-tip"></div>
 					
 					<button type="submit" class="btn btn-lg btn-success btn-block submit" data-loading-text="<?php echo ___('Loading, please wait...');?>">
 						<i class="fa fa-check"></i>

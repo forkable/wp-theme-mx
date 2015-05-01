@@ -317,6 +317,7 @@ define(function(require, exports, module){
 					//	location.href = location.href;
 					//},2000);
 				}
+				$fm.find('.page-tip').show();
 			};
 			m.loading_tx = config.lang.M00001;
 			m.error_tx = config.lang.E00001;

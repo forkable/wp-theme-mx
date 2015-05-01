@@ -108,6 +108,7 @@ class theme_custom_storage{
 	}
 	public static function meta_box_display($post){
 		$meta = self::get_post_meta($post->ID);
+
 		//wp_nonce_field(self::$iden,self::$iden . '-nonce');
 		foreach(self::get_types() as $k => $v){
 			?>
@@ -232,8 +233,8 @@ class theme_custom_storage{
 					<?php if(isset($meta[$k]['pwd']) && !empty($meta[$k]['pwd'])){ ?>
 						<div class="col-sm-3">
 							<div class="form-group">
-								<div class="pwd btn btn-info btn-lg btn-block" id="<?php echo self::$iden;?>-<?php echo $k;?>-pwd" title="<?php echo sprintf(___('%s password'),$v['text']);?>" >
-									<?php echo isset($meta[$k]['pwd']) ? esc_html($meta[$k]['pwd']) : '-';?>
+								<div class="btn btn-info btn-lg btn-block" title="<?php echo sprintf(___('%s password'),$v['text']);?>" >
+									<?php echo sprintf(___('Password: %s'),'<strong class="pwd" id="' . self::$iden . '-' . $k . '-pwd">' . esc_html($meta[$k]['pwd']) . '</strong>');?>
 								</div>
 							</div>
 						</div>
