@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.0
+ * @version 1.0.1
  * @author KM <kmvan.com@gmail.com>
  */
 add_filter('theme_includes',function($fns){
@@ -120,7 +120,7 @@ class theme_custom_user_settings{
 				$new_pwd_2 = isset($_POST['new-pwd-2']) && is_string($_POST['new-pwd-2']) ? trim($_POST['new-pwd-2']) : null;
 				if(empty($new_pwd_1) 
 					|| empty($new_pwd_2)
-					|| ($old_pwd_1 !== $new_pwd_2)){
+					|| ($new_pwd_1 !== $new_pwd_2)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_pwd_twice';
 					$output['msg'] = ___('Password invaild twice.');
@@ -290,7 +290,9 @@ class theme_custom_user_settings{
 	}
 
 	public static function frontend_seajs_alias($alias){
-		if(!self::is_page()) return $alias;
+		if(!self::is_page()) 
+			return $alias;
+			
 		foreach(self::get_tabs() as $k => $v){
 			$alias[self::$iden . '-' . $k] = theme_features::get_theme_includes_js(__DIR__,$k);
 			if($k === 'avatar'){
@@ -332,7 +334,9 @@ class theme_custom_user_settings{
 		}
 	}
 	public static function frontend_css(){
-		if(!is_user_logged_in() || !is_page(self::$page_slug)) return false;
+		if(!self::is_page())
+			 return false;
+			 
 		$tabs = self::get_tabs();
 		$tab_active = get_query_var('tab');
 		switch($tab_active){

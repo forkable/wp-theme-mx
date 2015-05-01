@@ -1,9 +1,8 @@
 <?php
-
 /*
 Plugin Name: Memcached
 Description: Memcached backend for the WP Object Cache.
-Version: 2.1.0
+Version: 2.1.1
 Plugin URI: http://wordpress.org/extend/plugins/memcached/
 Author: Ryan Boren, Denis de Bernardy, Matt Martz, Km.Van
 
@@ -95,13 +94,16 @@ class WP_Object_Cache {
 	var $group_ops = [];
 		
 	var $cache_enabled = true;
-	var $default_expiration = 2505600;
+	var $default_expiration = 2505600; //29 days
 	
 	var $ns_key = '';
 	var $ns_time = '';
 
-	function add($id, $data, $group = 'default', $expire = 0) {
-		//$group = empty($group) ? WP_CACHE_KEY_SALT : WP_CACHE_KEY_SALT . '::' . $group;
+	function add($id, $data, $group = null, $expire = 0) {
+		
+		if(!$group)
+			$group = 'default';
+			
 		$key = $this->key($id, $group);
 
 		if ( is_object( $data ) )
@@ -115,7 +117,8 @@ class WP_Object_Cache {
 		}
 
 		$mc =& $this->get_mc($group);
-		$expire = ($expire == 0) ? $this->default_expiration : $expire;
+		if($expire === 0)
+			$expire = $this->default_expiration;
 		$result = $mc->add($key, $data, false, $expire);
 
 		if ( false !== $result ) {
@@ -143,16 +146,22 @@ class WP_Object_Cache {
 		$this->no_mc_groups = array_unique($this->no_mc_groups);
 	}
 
-	function incr($id, $n = 1, $group = 'default' ) {
-		//$group = empty($group) ? WP_CACHE_KEY_SALT : WP_CACHE_KEY_SALT . '::' . $group;
+	function incr($id, $n = 1, $group = null ) {
+		
+		if(!$group)
+			$group = 'default';
+			
 		$key = $this->key($id, $group);
 		$mc =& $this->get_mc($group);
 		$this->cache[ $key ] = $mc->increment( $key, $n );	
 		return $this->cache[ $key ];
 	}
 
-	function decr($id, $n = 1, $group = 'default' ) {
-		//$group = empty($group) ? WP_CACHE_KEY_SALT : WP_CACHE_KEY_SALT . '::' . $group;
+	function decr($id, $n = 1, $group = null ) {
+		
+		if(!$group)
+			$group = 'default';
+			
 		$key = $this->key($id, $group);
 		$mc =& $this->get_mc($group);
 		$this->cache[ $key ] = $mc->decrement( $key, $n );
@@ -165,8 +174,11 @@ class WP_Object_Cache {
 			$mc->close();
 	}
 
-	function delete($id, $group = 'default') {
-		//$group = empty($group) ? WP_CACHE_KEY_SALT : WP_CACHE_KEY_SALT . '::' . $group;
+	function delete($id, $group = null) {
+		
+		if(!$group)
+			$group = 'default';
+			
 		$key = $this->key($id, $group);
 
 		if ( in_array($group, $this->no_mc_groups) ) {
@@ -205,9 +217,11 @@ class WP_Object_Cache {
 		return $ret;
 	}
 
-	function get($id, $group = 'default', $force = false) {
-		//$group = empty($group) ? WP_CACHE_KEY_SALT : WP_CACHE_KEY_SALT . '::' . $group;
-
+	function get($id, $group = null, $force = false) {
+		
+		if(!$group)
+			$group = 'default';
+			
 		$key = $this->key($id, $group);
 
 		$mc =& $this->get_mc($group);
@@ -271,20 +285,24 @@ class WP_Object_Cache {
 	}
 
 	function key($key, $group) {	
-
 		if ( false !== array_search($group, $this->global_groups) )
 			$prefix = $this->global_prefix;
 		else
 			$prefix = $this->blog_prefix;
 
-		return $this->ns_time . "$prefix$group:$key";
-		// return preg_replace('/\s+/', '', $this->ns_time . "$prefix$group:$key");
+		return $this->ns_time . $prefix . $group . ':' . $key;
 	}
 
-	function replace($id, $data, $group = 'default', $expire = 0) {
-		//$group = empty($group) ? WP_CACHE_KEY_SALT : WP_CACHE_KEY_SALT . '::' . $group;
+	function replace($id, $data, $group = null, $expire = 0) {
+		
+		if(!$group)
+			$group = 'default';
+			
 		$key = $this->key($id, $group);
-		$expire = ($expire == 0) ? $this->default_expiration : $expire;
+		
+		if($expire === 0)
+			$expire = $this->default_expiration;
+			
 		$mc =& $this->get_mc($group);
 
 		if ( is_object( $data ) )
@@ -296,8 +314,11 @@ class WP_Object_Cache {
 		return $result;
 	}
 
-	function set($id, $data, $group = 'default', $expire = 0) {
-		//$group = empty($group) ? WP_CACHE_KEY_SALT : WP_CACHE_KEY_SALT . '::' . $group;
+	function set($id, $data, $group = null, $expire = 0) {
+		
+		if(!$group)
+			$group = 'default';
+			
 		$key = $this->key($id, $group);
 		if ( isset($this->cache[$key]) && ('checkthedatabaseplease' === $this->cache[$key]) )
 			return false;
@@ -310,7 +331,8 @@ class WP_Object_Cache {
 		if ( in_array($group, $this->no_mc_groups) )
 			return true;
 
-		$expire = ($expire == 0) ? $this->default_expiration : $expire;
+		if($expire === 0)
+			$expire = $this->default_expiration;
 		$mc =& $this->get_mc($group);
 		$result = $mc->set($key, $data, false, $expire);
 
@@ -358,7 +380,10 @@ class WP_Object_Cache {
 			var_dump($this->memcache_debug);
 	}
 
-	function &get_mc($group = '') {
+	function &get_mc($group = null) {
+		if(!$group)
+			$group = 'default';
+			
 		$group = WP_CACHE_KEY_SALT . $group;
 		if ( isset($this->mc[$group]) )
 			return $this->mc[$group];
