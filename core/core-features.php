@@ -727,7 +727,7 @@ class theme_features{
 	 * @version 1.0.3
 	 * @author KM@INN STUDIO
 	 */
-	public static function json_format(array $output = [],$die = false){
+	public static function json_format(array $output = [],$die = false,$jsonp = false){
 		if(empty($output)) 
 			return false;
 		/** Reduce the size but will inccrease the CPU load */

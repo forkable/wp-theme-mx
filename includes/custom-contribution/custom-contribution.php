@@ -213,7 +213,7 @@ class theme_custom_contribution{
 					foreach($attach_ids as $attach_id){
 						$img_full_attrs = wp_get_attachment_image_src($attach_id,'full');
 						if(!empty($img_full_attrs)){
-							$img_large_attrs = wp_get_attachment_image_src($attach_id,'large');
+							$img_large_attrs = wp_get_attachment_image_src($attach_id,'middle');
 							/**
 							 * if thumbnail src = full src, do not echo <a>
 							 */

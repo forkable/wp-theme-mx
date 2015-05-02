@@ -246,7 +246,7 @@ class theme_custom_homebox{
 		wp_cache_delete(self::$iden);
 	}
 	public static function set_cache($data){
-		wp_cache_set(self::$iden,$data,null,3600*24);
+		wp_cache_set(self::$iden,$data,null,3600);
 	}
 	public static function get_cache(){
 		return wp_cache_get(self::$iden);

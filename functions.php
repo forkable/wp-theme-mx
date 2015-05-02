@@ -1736,7 +1736,7 @@ class theme_functions{
 		
 		if(is_null_array($opt)){
 			?>
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
 				<div class="panel-body">
 					<div class="page-tip"><?php echo status_tip('info',___('Please add some homebox.'));?></div>
 				</div>
@@ -1748,7 +1748,7 @@ class theme_functions{
 		global $post;
 		foreach($opt as $k => $v){
 			?>
-<div id="homebox-<?php echo $k;?>" class="homebox panel panel-default mx-panel">
+<div id="homebox-<?php echo $k;?>" class="homebox panel panel-primary mx-panel">
 	
 	<div class="panel-heading mx-panel-heading clearfix">
 		<h3 class="panel-title mx-panel-title">
@@ -1947,62 +1947,71 @@ class theme_functions{
 		$defaults = [
 			'classes' => 'col-xs-4',
 			'user' => null,
+			'extra_title' => '', /** eg. You have % points */
 			'extra' => 'point',
 		];
 		$args = array_merge($defaults,$args);
 		
 		$user = $args['user'];
 		
-		if(is_int($user))
+		if(is_numeric($user))
 			$user = get_user_by('id',$user);
 			
 		if(empty($user))
 			return false;
 
+
+		/**
+		 * extra point value
+		 */
+		switch($args['extra']){
+			/**
+			 * user point
+			 */
+			case 'point':
+				if(class_exists('theme_custom_point')){
+					$point_value = theme_custom_point::get_point($user->ID);
+				}
+				break;
+			/**
+			 * user fav be_count
+			 */
+			case 'fav':
+				if(class_exists('custom_post_fav')){
+					$point_value = custom_post_fav::get_user_be_fav_count($user->ID);
+				}
+				break;
+			/**
+			 * user posts count
+			 */
+			case 'posts':
+				if(class_exists('theme_custom_author_profile')){
+					$point_value = theme_custom_author_profile::get_count('works',$user->ID);
+				}else{
+					$point_value = count_user_posts($user->ID);
+				}
+				break;
+			default:
+				$point_value = null;
+		}
+
+		if(!empty($args['extra_title']) && $point_value)
+			$args['extra_title'] = str_replace('%',$point_value,$args['extra_title']);
+
+		
 		$display_name = esc_html($user->display_name);
 		?>
 		<div class="user-list <?php echo $args['classes'];?>">
 			<a href="<?php echo theme_cache::get_author_posts_url($user->ID)?>" title="<?php echo $display_name;?>">
-				<img src="<?php echo theme_features::get_theme_images_url('frontend/avatar.jpg');?>" data-src="<?php echo get_img_source(get_avatar($user->ID));?>" alt="<?php echo $display_name;?>" class="avatar">
+				<div class="avatar-container">
+					<img src="<?php echo theme_features::get_theme_images_url(self::$avatar_placeholder);?>" alt="Placeholder" class="placeholder">
+					<img src="<?php echo theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?php echo get_avatar_url($user->ID);?>" alt="<?php echo $display_name;?>" class="avatar">
+				</div>
 				<h4 class="author"><?php echo $display_name;?></h4>
 				<?php if($args['extra']){ ?>
 					<div class="extra">
-						<span class="<?php echo $args['extra'];?>">
-						<?php
-						/**
-						 * extra
-						 */
-						switch($args['extra']){
-							/**
-							 * user point
-							 */
-							case 'point':
-								if(class_exists('theme_custom_point')){
-									echo theme_custom_point::get_point($user->ID);
-								}
-								break;
-							/**
-							 * user fav be_count
-							 */
-							case 'fav':
-								if(class_exists('custom_post_fav')){
-									echo custom_post_fav::get_user_be_fav_count($user->ID);
-								}
-								break;
-							/**
-							 * user posts count
-							 */
-							case 'posts':
-								if(class_exists('theme_custom_author_profile')){
-									echo theme_custom_author_profile::get_count('works',$user->ID);
-								}else{
-									echo count_user_posts($user->ID);
-								}
-								break;
-							
-						}
-						
-						?>
+						<span class="<?php echo $args['extra'];?>" title="<?php echo $args['extra_title'];?>">
+							<?php echo $point_value;?>
 						</span>
 					</div>
 				<?php }/** end args extra */ ?>

@@ -69,6 +69,11 @@ class widget_point_rank extends WP_Widget{
 						theme_functions::the_user_list([
 							'user' => $users[$k],
 							'extra' => 'point',
+							'extra_title' => sprintf(
+								__x('%s %s','eg. 20 points'),
+								'%',
+								theme_custom_point::get_point_name()
+							),
 						]);
 					}
 					?>

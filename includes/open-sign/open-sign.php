@@ -322,6 +322,8 @@ class theme_open_sign{
 				)));
 				$url = add_query_arg(array(
 					'sina' => 'get-auth',
+					'akey' => base64_encode(authcode(self::get_sina_config('akey'),'encode')),
+					'skey' => base64_encode(authcode(self::get_sina_config('skey'),'encode')),
 					'uri' => $url,
 					'state' => $nonce,
 				),self::$open_url);
