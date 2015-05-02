@@ -1,8 +1,10 @@
 define(function(require, exports, module){
 	'use strict';
 	
-	var tools = require('modules/tools');
+	var tools = require('modules/tools'),
+		js_request = require('theme-cache-request');
 	exports.config = {
+		process_url : '',
 		lang : {
 			M00001 : 'Preivew image is loading...',
 			E00001 : 'Error: can not load the preview image.'
@@ -26,24 +28,56 @@ define(function(require, exports, module){
 
 		function load_img(){
 			var $container = this.querySelector('.extra-thumbnail'),
-				src = $container.getAttribute('data-img-url');
+				$a = this.querySelector('a'),
+				post_id = $a.getAttribute('data-post-id');
 
-			if(caches[src])
+			if(caches[post_id])
 				return;
 
-			caches[src] = 1;
+			caches[post_id] = 1;
 
 			$container.innerHTML = tools.status_tip('loading',config.lang.M00001);
 			
-			var $this = this,
-				img = new Image(300,200);
-			img.src = src;
-			img.onload = function(){
-				$container.innerHTML = '';
-				$container.appendChild(img);
+			var $a = this,
+				xhr = new XMLHttpRequest();
+				
+
+			xhr.open('GET', config.process_url + '&theme-nonce=' + js_request['theme-nonce'] + '&post-id=' + post_id);
+			xhr.send();
+			xhr.onload = function(){
+				if (xhr.status >= 200 && xhr.status < 400) {
+					var data;
+					try{data = JSON.parse(xhr.responseText);}catch(e){}
+					if(data && data.status){
+						/**
+						 * success
+						 */
+						if(data.status === 'success'){
+							var img = new Image(300,200);
+							img.src = data.url;
+							img.onload = function(){
+								$container.innerHTML = '';
+								$container.appendChild(img);
+							};
+						}else if(data.status === 'error'){
+							fail(data.msg);
+						}
+					}else{
+						fail(xhr.responseText);
+					}
+				}else{
+					fail(xhr.responseText);
+				}
 			};
-			img.onerror = function(){
-				$container.innerHTML = tools.status_tip('error',config.lang.E00001);
+
+			xhr.onerror = function(){
+				fail();
+			};
+			
+			function fail(msg){
+				if(!msg)
+					msg = config.lang.E00001;
+				$container.innerHTML = tools.status_tip('error',msg);
 			}
 			
 			

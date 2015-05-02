@@ -257,7 +257,7 @@ class custom_post_point{
 		}
 		
 		$post = get_post($post_id);
-		if(empty($post))
+		if(empty($post) || $post->post_type !== 'post')
 			die(theme_features::json_format([
 				'status' => 'error',
 				'code' => 'post_not_exist',

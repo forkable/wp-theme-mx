@@ -251,7 +251,12 @@ img{
 	max-width: none;
 }
 
-
+/**
+ * .prev-next-pagination
+ */
+.prev-next-pagination{
+	margin: 20px 0;
+}
 
 /**
  * .post-img-list
@@ -1058,7 +1063,7 @@ label.error{
 		border-top: 1px solid rgba(0,0,0,.05);
 	}
 	.singluar-post .post-point{
-		margin: 20px 0;
+		margin-bottom: 20px;
 		
 	}
 		#post-point-loading-ready{
@@ -1117,6 +1122,10 @@ label.error{
 	.post-storage{
 		margin-bottom: 20px;
 	}
+		.post-storage .download-link[target="_blank"]{
+			padding-left: 0;
+			padding-right: 0;
+		}
 	/** 
 	 * thumb
 	 */
@@ -1160,7 +1169,13 @@ label.error{
  */
 .related-posts{
 }
-
+/**
+ * .cats-index
+ */
+.cats-index .panel-heading{
+	text-transform: uppercase;
+	font-size: 1.5em;
+}
 
 /**
  * .widget-author-card

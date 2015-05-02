@@ -25,6 +25,7 @@ class theme_page_tags{
 		add_action('frontend_seajs_use' , __CLASS__ . '::frontend_seajs_use');
 
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . self::$iden, __CLASS__ . '::process');
 
 		add_action('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 
@@ -76,9 +77,41 @@ class theme_page_tags{
 	public static function process(){
 		theme_features::check_referer();
 		$output = [];
-		wp_cache_delete(self::$iden);
-		$output['status'] = 'success';
-		$output['msg'] = ___('Cache has been cleaned.');
+
+		$type = isset($_GET['type']) && is_string($_GET['type']) ? $_GET['type'] : null;
+		
+		switch($type){
+			case 'clean-cache':
+				wp_cache_delete('display-frontend',self::$iden);
+				wp_cache_delete('urls',self::$iden);
+				$output['status'] = 'success';
+				$output['msg'] = ___('Cache has been cleaned.');
+				break;
+			case 'get-thumbnail-url':
+				theme_features::check_nonce();
+				$post_id = isset($_GET['post-id']) && is_numeric($_GET['post-id']) ? $_GET['post-id'] : null;
+				
+				if(!$post_id){
+					die(theme_features::json_format([
+						'status' => 'error',
+						'code' => 'invaild_post_id',
+						'msg' => ___('Invalid post id.'),
+					]));
+				}
+				
+				$caches = wp_cache_get('urls',self::$iden);
+				if(isset($caches[$post_id])){
+					$output['status'] = 'success';
+					$output['url'] = $caches[$post_id];
+				}else{
+					$output['status'] = 'success';
+					$caches[$post_id] = theme_functions::get_thumbnail_src($post_id);
+					$output['url'] = $caches[$post_id];
+					wp_cache_set('urls',$caches,self::$iden,3600*24);
+				}
+				break;
+		}
+		
 		die(theme_features::json_format($output));
 	}
 	public static function page_create(){
@@ -119,11 +152,19 @@ class theme_page_tags{
 		/**
 		 * get all whitelist posts & tag ids
 		 */
+		//global $wpdb;
+		//$wpdb->get_results($wpdb->prepare(
+		//	"
+		//	SELECT `$wpdb->posts.ID`
+		//	WHERE 
+		//	"
+		//)
 		$query = new WP_Query(array(
 			'nopaging' => 1,
 			'author__in' => isset($whitelist['user-ids']) ? explode(',',$whitelist['user-ids']) : [],
 			'category__not_in' => array(1),
 		));
+		//print_r($wpdb->queries);exit;
 		if($query->have_posts()){
 			/** load pinyin */
 			include __DIR__ . '/inc/Pinyin/Pinyin.php';
@@ -219,14 +260,15 @@ class theme_page_tags{
 								'nopaging' => true,
 								'tag__in' => array($tag->term_id),
 							));
+		//var_dump(get_num_queries());
+		//exit;
 							while($query->have_posts()){
 								$query->the_post();
+								$title = esc_html(get_the_title());
 								?>
 								<li class="col-sm-6 tag-list">
-									<a class="tag-link" href="<?php the_permalink();?>" title="<?php the_title();?>" target="_blank"><?php the_title();?></a>
-									<?php if(has_post_thumbnail()){ ?>
-										<div class="extra-thumbnail" data-img-url="<?php echo esc_url(theme_functions::get_thumbnail_src());?>"></div>
-									<?php } ?>
+									<a class="tag-link" href="<?php the_permalink();?>" title="<?php echo $title;?>" target="_blank" data-post-id="<?php echo $post->ID;?>"><?php echo $title;?></a>
+									<div class="extra-thumbnail"></div>
 								</li>
 								<?php
 							}
@@ -239,7 +281,7 @@ class theme_page_tags{
 
 			<?php
 		}
-		$cache = ob_get_contents();
+		$cache = html_compress(ob_get_contents());
 		ob_end_clean();
 		wp_cache_set($cache_id,$cache,self::$iden,86400);/** 24 hours */
 		echo $cache;
@@ -251,7 +293,10 @@ class theme_page_tags{
 	public static function backend_seajs_use(){
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.process_url = '<?php echo theme_features::get_process_url(array(
+				'action'=>self::$iden,
+				'type' => 'clean-cache',
+			));?>';
 			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
 			m.init();
 		});
@@ -276,6 +321,10 @@ class theme_page_tags{
 
 		?>
 		seajs.use(['<?php echo self::$iden;?>'],function(m){
+			m.config.process_url = '<?php echo theme_features::get_process_url([
+				'action' => self::$iden,
+				'type' => 'get-thumbnail-url',
+			]);?>';
 			m.config.lang.M00001 = '<?php echo ___('Preview image is loading...');?>';
 			m.config.lang.E00001 = '<?php echo ___('ERROR: can not load the preview image.');?>';
 			m.init();

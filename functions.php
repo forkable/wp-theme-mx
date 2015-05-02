@@ -324,27 +324,35 @@ class theme_functions{
 	 * @version 1.0.0
 	 * @author KM@INN STUDIO
 	 */
-	public static function archive_img_content($args = []){
+	public static function archive_img_content(array $args = []){
 		$defaults = array(
 			'classes' => [],
 			'lazyload' => true,
 		);
-		$r = array_merge($defaults,$args);
-		extract($r,EXTR_SKIP);
+		$args = array_merge($defaults,$args);
 
 		global $post;
-		$classes[] = 'post-list post-img-list';
+		$args['classes'][] = 'post-list post-img-list';
 		$post_title = get_the_title();
 
 		$excerpt = get_the_excerpt() ? get_the_excerpt() : null;
 
 		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 		?>
-		<li class="<?php echo implode(' ',$classes);?>">
+		<li class="<?php echo implode(' ',$args['classes']);?>">
 			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
 				<div class="thumbnail-container">
 					<img class="placeholder" alt="Placeholder" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>">
-					<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+					<?php
+					/**
+					 * lazyload img
+					 */
+					if($args['lazyload']){
+						?>
+						<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+					<?php }else{ ?>
+						<img class="post-list-img" src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+					<?php } ?>
 				</div>
 				<h3 class="post-list-title"><?php the_title();?></h3>
 					
@@ -612,9 +620,9 @@ class theme_functions{
 	 */
 	public static function singular_content(array $args = []){
 		global $post;
-		//var_dump($post);
+
 		wp_reset_postdata();
-		//var_dump($post);
+
 		
 		$defaults = array(
 			'classes'			=> [],
@@ -688,38 +696,47 @@ class theme_functions{
 					theme_custom_post_source::display_frontend($post->ID);
 				}
 				?>
-
 				<?php
 				/**
 				 * Hook fires after_singular_post_content
 				 */
 				do_action('after_singular_post_content');
 				?>
-				<?php echo theme_features::get_prev_next_pagination(array(
-					'numbers_class' => array('btn btn-primary')
-				));?>
+				
+				<?php self::the_post_pagination();?>
+				
+
+
+
+				<div class="row">
+					<div class="col-xs-12 col-lg-5">
+						<?php
+						/**
+						 * post point
+						 */
+						if(class_exists('custom_post_point') && class_exists('theme_custom_point')){
+							?>
+							<div class="post-point">
+								<?php custom_post_point::post_btn($post->ID);?>
 								
-				<?php
-				/**
-				 * post point
-				 */
-				if(class_exists('custom_post_point') && class_exists('theme_custom_point')){
-					?>
-					<div class="post-point">
-						<?php custom_post_point::post_btn($post->ID);?>
+							</div>
+							<?php
+						}
+						?>						
+					</div>
+					<div class="col-xs-12 col-lg-7">
+						<!-- theme_custom_storage -->
+						<?php if(class_exists('theme_custom_storage') && theme_custom_storage::is_enabled()){
+							theme_custom_storage::display_frontend($post->ID);
+						}
+						?>
 						
 					</div>
-					<?php
-				}
-				?>
+				</div>
 
-				<!-- theme_custom_storage -->
-				<?php if(class_exists('theme_custom_storage') && theme_custom_storage::is_enabled()){
-					theme_custom_storage::display_frontend($post->ID);
-				}
-				?>
+
 			
-			</div>
+			</div><!-- /.row -->
 			
 			
 			<!-- post-footer -->
@@ -770,7 +787,6 @@ class theme_functions{
 		</article>
 		<?php
 	}
-	
 	public static function the_post_tags(){
 		global $post;
 		$tags = get_the_tags();
@@ -1263,13 +1279,15 @@ class theme_functions{
 	 */
 	public static function smart_page_pagination($args = []){
 		global $post,$page,$numpages;
+
+		//$cache = wp_cache_
 		$output = null;
 	
 		$defaults = array(
 			'add_fragment' => 'post-' . $post->ID
 		);
-		$r = array_merge($defaults,$args);
-		extract($r);
+		$args = array_merge($defaults,$args);
+		
 		$output['numpages'] = $numpages;
 		$output['page'] = $page;
 		/** 
@@ -1298,7 +1316,7 @@ class theme_functions{
 			 */
 			if($page > 1){
 				$prev_page_number = $page - 1;
-				$output['prev_page']['url'] = theme_features::get_link_page_url($prev_page_number,$add_fragment);
+				$output['prev_page']['url'] = theme_features::get_link_page_url($prev_page_number,$args['add_fragment']);
 				$output['prev_page']['number'] = $prev_page_number;
 			}
 			/** 
@@ -1310,118 +1328,76 @@ class theme_functions{
 				$output['next_page']['number'] = $next_page_number;
 			}
 		}
-		// var_dump(array_filter($output));
 		return array_filter($output);
 	}
 
-	public static function filter_prev_pagination_link($link,$page,$numpages){
-		global $post;
-		// var_dump($page);
-		// var_dump($numpages);
-		if($page > 1) return $link;
-		$prev_post = get_previous_post(true);
-		// var_dump($prev_post);
-		$prev_post = empty($prev_post) ? get_previous_post() : $prev_post;
-		if(empty($prev_post)) return $link;
-		
-		ob_start();
-		?>
-		<a href="<?php echo get_permalink($prev_post->ID);?>" class="nowrap page-numbers page-next btn btn-success grid-40 tablet-grid-40 mobile-grid-50 numbers-first" title="<?php echo esc_attr($prev_post->post_title);?>">
-			<?php echo esc_html(___('&lsaquo; Previous'));?>
-			-
-			<?php echo esc_html($prev_post->post_title);?>
-		</a>
-		<?php
-		$link = ob_get_contents();
-		ob_end_clean();
-		return $link;
-	}
-	public static function filter_next_pagination_link($link,$page,$numpages){
-		global $post;
-		// var_dump($page);
-		// var_dump($numpages);
-		if($page < $numpages) return $link;
-		$next_post = get_next_post(true);
-		// var_dump($prev_post);
-		$next_post = empty($next_post) ? get_next_post() : $next_post;
-		if(empty($next_post)) return $link;
-		
-		ob_start();
-		?>
-		<a href="<?php echo get_permalink($next_post->ID);?>" class="nowrap page-numbers page-next btn btn-success grid-40 tablet-grid-40 mobile-grid-50 numbers-first" title="<?php echo esc_attr($next_post->post_title);?>">
-			<?php echo esc_html($next_post->post_title);?>
-			-
-			<?php echo esc_html(___('Next &rsaquo;'));?>
-		</a>
-		<?php
-		$link = ob_get_contents();
-		ob_end_clean();
-		return $link;
-	}
+	
+	
 	public static function the_post_pagination(){
-		global $post,$page,$numpages;
+		global $post,$page;
+		$cache_id = $post->ID . $page;
+		$cache_group = 'post-pagi';
+
+		$cache = wp_cache_get($cache_id,$cache_group);
+		if(!empty($cache))
+			echo $cache;
 		?>
-		<nav class="prev-next-pagination">
+		<nav class="prev-next-pagination btn-group btn-group-justified">
 			<?php
-			$prev_next_pagination = theme_smart_pagination::get_post_pagination();
-			
-			/** 
-			 * exists prev page and next page, just show them
+			$prev_next_pagination = self::smart_page_pagination();
+
+			$prev_url = null;
+			$next_url = null;
+
+			ob_start();
+			/**
+			 * prev
 			 */
-			if(isset($prev_next_pagination['prev_page']) && isset($prev_next_pagination['next_page'])){
-				?>
-				<a href="<?php echo esc_url($prev_next_pagination['prev_page']['url']);?>" class="prev-page nowrap btn btn-primary grid-parent grid-50 tablet-grid-50 mobile-grid-50"><?php echo esc_html(___('&larr; Preview page'));?></a>
-				<a href="<?php echo esc_url($prev_next_pagination['next_page']['url']);?>" class="next-page nowrap btn btn-primary grid-parent grid-50 tablet-grid-50 mobile-grid-50"><?php echo esc_html(___('Next page &rarr;'));?></a>
-				<?php
-			/** 
-			 * exists prev page, show prev page and next post
-			 */
-			}else if(isset($prev_next_pagination['prev_page'])){
-				$grid_class = isset($prev_next_pagination['prev_post']) ? ' grid-50 tablet-grid-50 mobile-grid-50 ' : ' grid-100 tablet-grid-100 mobile-grid-100';
-				?>
-				<a href="<?php echo esc_url($prev_next_pagination['prev_page']['url']);?>" class="prev-page nowrap btn btn-primary grid-parent <?php echo $grid_class;?>"><?php echo esc_html(___('&larr; Preview page'));?></a>
-				<?php
-				if(isset($prev_next_pagination['prev_post'])){
-					?>
-					<a href="<?php echo get_permalink($prev_next_pagination['prev_post']->ID);?>" class="next-page nowrap btn btn-success grid-parent <?php echo $grid_class;?>"><span class="tx"><?php echo ___('Next post &rarr;');?></span><span class="next-post-tx hide"><?php echo esc_html(sprintf(___('%s &rarr;'),$prev_next_pagination['prev_post']->post_title));?></span></a>
-					<?php
-				}
-			/** 
-			 * exists next page, show next page and prev post
-			 */
-			}else if(isset($prev_next_pagination['next_page'])){
-				$grid_class = isset($prev_next_pagination['prev_post']) ? ' grid-50 tablet-grid-50 mobile-grid-50 ' : ' grid-100 tablet-grid-100 mobile-grid-100';
-				
-				if(isset($prev_next_pagination['next_post'])){
-					?>
-					<a href="<?php echo get_permalink($prev_next_pagination['next_post']->ID);?>" class="prev-post nowrap btn btn-success grid-parent <?php echo $grid_class;?>"><span class="tx"><?php echo ___('&larr; Preview post');?></span><span class="prev-post-tx hide"><?php echo esc_html(sprintf(___('&larr; %s'),$prev_next_pagination['next_post']->post_title));?></span></a>
-					<?php
-				}
-				?>
-				<a href="<?php echo esc_url($prev_next_pagination['next_page']['url']);?>" class="next-page nowrap btn btn-primary grid-parent <?php echo $grid_class;?>"><?php echo esc_html(___('Next page &rarr;'));?></a>
-				<?php
-			/** 
-			 * only exists next post and prev post, show them
-			 */
+			if(isset($prev_next_pagination['prev_page'])){
+				$prev_url = $prev_next_pagination['prev_page']['url'];
+				$prev_type = 'page';
 			}else{
-
-				$grid_class = isset($prev_next_pagination['prev_post']) && isset($prev_next_pagination['next_post']) ? ' grid-50 tablet-grid-50 mobile-grid-50 ' : ' grid-100 tablet-grid-100 mobile-grid-100';
-				
-				if(isset($prev_next_pagination['next_post'])){
-					?>
-					<a href="<?php echo get_permalink($prev_next_pagination['next_post']->ID);?>" class="prev-post nowrap btn btn-success grid-parent <?php echo $grid_class;?>"><span class="tx"><?php echo ___('&larr; Preview post');?></span><span class="prev-post-tx hide"><?php echo esc_html(sprintf(___('&larr; %s'),$prev_next_pagination['next_post']->post_title));?></span></a>
+				$prev_url = get_permalink($prev_next_pagination['next_post']->ID);
+				$prev_type = 'post';
+			}
+			/**
+			 * next
+			 */
+			if(isset($prev_next_pagination['next_page'])){
+				$next_url = $prev_next_pagination['next_page']['url'];
+				$next_type = 'page';
+			}else{
+				$next_url = get_permalink($prev_next_pagination['prev_post']->ID);
+				$next_type = 'post';
+			}
+			if($prev_url){
+				$prev_btn = $prev_type === 'page' ? 'btn-success' : 'btn-primary';
+				$prev_tx =  $prev_type === 'page' ? ___('Preview page') : ___('Preview post');
+				?>
+				<div class="btn-group btn-group-lg" role="group">
+					<a href="<?php echo esc_url($prev_url);?>" class="prev-page btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo $prev_tx;?></a>
+				</div>
 				<?php
-				}
-				if(isset($prev_next_pagination['prev_post'])){
-					?>
-					<a href="<?php echo get_permalink($prev_next_pagination['prev_post']->ID);?>" class="next-page nowrap btn btn-success grid-parent <?php echo $grid_class;?>"><span class="tx"><?php echo ___('Next post &rarr;');?></span><span class="next-post-tx hide"><?php echo esc_html(sprintf(___('%s &rarr;'),$prev_next_pagination['prev_post']->post_title));?></span></a>
-
+			}
+			if($next_url){
+				$next_btn = $prev_type === 'page' ? 'btn-success' : 'btn-primary';
+				$next_tx =  $prev_type === 'page' ? ___('Next page') : ___('Next post');
+				?>
+				<div class="btn-group btn-group-lg" role="group">
+					<a href="<?php echo esc_url($next_url);?>" class="next-page btn btn-default"><?php echo $next_tx;?> <i class="fa fa-arrow-right"></i></a>
+				</div>
 				<?php
-				}
 			}
 			?>
 		</nav>
 		<?php
+		$cache = html_compress(ob_get_contents());
+		ob_end_clean();
+
+		wp_cache_set($cache_id,$cache,$cache_group,3600);
+		echo $cache;
+		return $cache;
+		
 	}
 	/**
 	 * Theme comment
@@ -1687,7 +1663,7 @@ class theme_functions{
 		}
 		global $post;
 		$query = self::get_posts_query(array(
-			'posts_per_page' => 8,
+			'posts_per_page' => 6,
 			'orderby' => 'recomm',
 		));
 		ob_start();
@@ -1698,7 +1674,8 @@ class theme_functions{
 				while($query->have_posts()){
 					$query->the_post();
 					self::archive_img_content(array(
-						'classes' => array('col-sm-4')
+						'classes' => array('col-sm-4'),
+						'lazyload' => false,
 					));
 				}
 				wp_reset_postdata();
@@ -1758,7 +1735,7 @@ class theme_functions{
 				echo stripcslashes($v['title']);
 			}else{
 				?>
-				<a href="<?php echo esc_url($v['link']);?>"><?php echo stripcslashes($v['title']);?> <small class="hidden-xs"><?php echo ___('&raquo; more');?></small></a>
+				<a href="<?php echo esc_url($v['link']);?>"><?php echo stripcslashes($v['title']);?> <small><?php echo ___('&raquo; more');?></small></a>
 				<?php
 			}
 			?>
@@ -1769,7 +1746,7 @@ class theme_functions{
 			<a 
 				title="<?php echo ___('I feel lucky');?>"
 				href="javascript:;" 
-				class="extra homebox-refresh" 
+				class="extra homebox-refresh hide" 
 				data-target="#homebox-<?php echo $k;?> .post-img-lists" 
 				data-box-id="<?php echo $k;?>"
 			><i class="fa fa-refresh fa-fw"></i></a>
@@ -1791,12 +1768,11 @@ class theme_functions{
 	<div class="panel-body">
 		<ul class="row mx-card-body post-img-lists">
 			<?php
-			$query = self::get_posts_query(array(
-				'orderby' => 'lastest',
+			$query = new WP_Query([
 				'category__in' => $v['cats'],
 				'posts_per_page' => 8,
 				'ignore_sticky_posts' => false,
-			));
+			]);
 			if($query->have_posts()){
 				while($query->have_posts()){
 					$query->the_post();

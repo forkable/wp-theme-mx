@@ -141,17 +141,18 @@ class theme_custom_post_source{
 					echo sprintf(
 						___('This article is %1$s member %2$s\'s original work.'),
 						
-						'<a href="' . esc_url(home_url()) . '">' .get_bloginfo('name') . '</a>',
+						'<a href="' . home_url() . '">' .get_bloginfo('name') . '</a>',
 						
-						'<a href="' . esc_url(theme_cache::get_author_posts_url($post->post_author)) . '">' . esc_html(get_the_author_meta('display_name',$post->post_author)) . '</a>'
+						'<a href="' . theme_cache::get_author_posts_url($post->post_author) . '">' . esc_html(get_the_author_meta('display_name',$post->post_author)) . '</a>'
 						
 						);
 						
 					?></li>
 					<li><?php 
+					$permalink = esc_url(get_permalink());
 					echo sprintf(
 						___('Welcome to reprint but must indicate the source url %1$s.'),
-						'<a href="' . esc_url(get_permalink()) . '" target="_blank" rel="nofollow">' . esc_url(get_permalink()) . '</a>'
+						'<a href="' . $permalink . '" target="_blank" rel="nofollow">' . $permalink . '</a>'
 					);?></li>
 					<?php
 					break;
@@ -164,9 +165,9 @@ class theme_custom_post_source{
 					echo sprintf(
 						___('This article is %1$s member %2$s\'s reprint work.'),
 						
-						'<a href="' . esc_url(home_url()) . '">' .get_bloginfo('name') . '</a>',
+						'<a href="' . home_url() . '">' .get_bloginfo('name') . '</a>',
 						
-						'<a href="' . esc_url(theme_cache::get_author_posts_url($post->post_author)) . '">' . esc_html(get_the_author_meta('display_name',$post->post_author)) . '</a>'
+						'<a href="' . theme_cache::get_author_posts_url($post->post_author) . '">' . esc_html(get_the_author_meta('display_name',$post->post_author)) . '</a>'
 						
 						);
 						

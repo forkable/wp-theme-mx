@@ -607,41 +607,7 @@ class theme_custom_point{
 		}
 		return $output;
 	}
-	public static function action_add_history_post_coin($post_id,$giver_id){
-		$post = get_post($post_id);
-		if(!$post)
-			return;
-		/**
-		 * add history for post author
-		 */
-		$meta = [
-			'type'=> 'receive-post-coin',
-			'timestamp' => current_time('timestamp'),
-			'post-id' => (int)$post_id,
-			'giver-user-id' => (int)$giver_id,
-		];
-		add_user_meta($post->post_author,self::$user_meta_key['history'],$meta);
-		/**
-		 * update point for post author
-		 */
-		$old_point = self::get_point($post->post_author);
-		update_user_meta($post->post_author,self::$user_meta_key['point'],$old_point + self::get_point_value('post-coin'));
-
-		/**
-		 * add history for giver
-		 */
-		$meta = [
-			'type'=> 'give-post-coin',
-			'timestamp' => current_time('timestamp'),
-			'post-id' => (int)$post_id,
-		];
-		add_user_meta($post->post_author,self::$user_meta_key['history'],$meta);
-		/**
-		 * update point for giver
-		 */
-		$old_point = self::get_point($giver_id);
-		update_user_meta($giver_id,self::$user_meta_key['point'],$old_point - self::get_point_value('post-coin'));
-	}
+	
 	/**
 	 * HOOK - Add post-delete history to user meta
 	 *
@@ -849,8 +815,10 @@ class theme_custom_point{
 
 		$comment = get_comment($comment_id);
 		$comment_author_id = $comment->user_id;
-		$post_author_id = get_post($comment->comment_post_ID)->post_author;
-		if($comment_author_id == $post_author_id) return false;
+
+		$post = get_post($comment->comment_post_ID);
+
+		if($comment_author_id == $post->post_author) return false;
 		$meta = array(
 			'type' => 'comment-publish',
 			'comment-id' => $comment_id,
@@ -860,6 +828,9 @@ class theme_custom_point{
 		/**
 		 * update point
 		 */
+		if($post->post_type !== 'post')
+			return false;
+			
 		$old_point = self::get_point($comment_author_id);
 		update_user_meta($comment_author_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['comment-publish']);		
 	}
@@ -874,23 +845,32 @@ class theme_custom_point{
 		
 		$comment = get_comment($comment_id);
 		
+		$post = get_post($comment->comment_post_ID);
+		
 		/** post author id */
-		$post_author_id = get_post($comment->comment_post_ID)->post_author;
+		$post_author_id = $post->post_author;
+		
 		
 		/** do not add history for myself post */
-		if($post_author_id == $comment->user_id) return false;
+		if($post->post_author == $comment->user_id) return false;
 		
 		$meta = array(
 			'type' => 'post-reply',
 			'comment-id' => $comment_id,
 			'timestamp' => current_time('timestamp'),
 		);
-		add_user_meta($post_author_id,self::$user_meta_key['history'],$meta);
+		add_user_meta($post->post_author,self::$user_meta_key['history'],$meta);
 		/**
 		 * update point
 		 */
-		$old_point = self::get_point($post_author_id);
-		update_user_meta($post_author_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['post-reply']);
+		/**
+		 * if not post type, return false
+		 */
+		if($post->post_type !== 'post')
+			return false;
+			
+		$old_point = self::get_point($post->post_author);
+		update_user_meta($post->post_author,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['post-reply']);
 	}
 	/**
 	 * HOOK add history for post author when publish post
@@ -913,18 +893,24 @@ class theme_custom_point{
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	public static function action_add_history_core_post_publish($post_id,$post){
-		$post_author_id = $post->post_author;
+		
 		$meta = array(
 			'type' => 'post-publish',
 			'post-id' => $post_id,
 			'timestamp' => current_time('timestamp'),
 		);
-		add_user_meta($post_author_id,self::$user_meta_key['history'],$meta);
+		add_user_meta($post->post_author,self::$user_meta_key['history'],$meta);
 		/**
 		 * update point
 		 */
-		$old_point = self::get_point($post_author_id);
-		update_user_meta($post_author_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['post-publish']);
+		/**
+		 * if is not post type, return false
+		 */
+		if($post->post_type !== 'post')
+			return false;
+			
+		$old_point = self::get_point($post->post_author);
+		update_user_meta($post->post_author,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['post-publish']);
 	}
 	public static function frontend_css(){
 		if(!self::is_page()) 

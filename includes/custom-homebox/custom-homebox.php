@@ -31,6 +31,7 @@ class theme_custom_homebox{
 	}
 	public static function action_public_post(){
 		self::delete_cache();
+		//die();
 	}
 	public static function keywords_to_html($keywords = null,$class = null){
 		if(!$keywords) return false;
@@ -246,7 +247,7 @@ class theme_custom_homebox{
 		wp_cache_delete(self::$iden);
 	}
 	public static function set_cache($data){
-		wp_cache_set(self::$iden,$data,null,3600);
+		wp_cache_set(self::$iden,$data,null,3600*24);
 	}
 	public static function get_cache(){
 		return wp_cache_get(self::$iden);
