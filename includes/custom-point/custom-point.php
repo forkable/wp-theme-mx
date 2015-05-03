@@ -120,28 +120,30 @@ class theme_custom_point{
 					<tr>
 						<th><?php echo ___('User ID');?></th>
 						<td>
-							<input class="short-text" type="number" id="<?php echo self::$iden;?>-special-user-id" data-target="<?php echo self::$iden;?>-special-tip-user-id" data-ajax-type="user-id">
-							<span class="description" id="<?php echo self::$iden;?>-special-tip-user-name"></span>
+							<input class="short-text" type="number" id="<?php echo self::$iden;?>-special-user-id" data-target="<?php echo self::$iden;?>-special-tip-user-id" data-ajax-type="get-points" data-ajax-field="user-id">
+							<span id="<?php echo self::$iden;?>-special-tip-user-id"></span>
 						</td>
 					</tr>
 					<tr>
 						<th><?php echo ___('How many point to add/reduce');?></th>
 						<td>
-							<input class="short-text" type="number" id="<?php echo self::$iden;?>-special-point" data-target="<?php echo self::$iden;?>-special-tip-user-point" data-ajax-type="point">
-							<span class="description" id="<?php echo self::$iden;?>-special-tip-user-point"></span>
+							<input class="short-text" type="number" id="<?php echo self::$iden;?>-special-point" data-target="<?php echo self::$iden;?>-special-tip-user-point" data-ajax-field="point">
+							<span id="<?php echo self::$iden;?>-special-tip-user-point"></span>
 						</td>
 					</tr>
 					<tr>
 						<th><?php echo ___('Event description');?></th>
 						<td>
-							<input class="widefat" type="text" id="<?php echo self::$iden;?>-special-event" data-ajax-type="event">
+							<input class="widefat" type="text" id="<?php echo self::$iden;?>-special-event" data-ajax-field="event">
 						</td>
 					</tr>
 					<tr>
 						<th><?php echo ___('Control');?></th>
 						<td>
-							<div class="page-tip" id="<?php echo self::$iden;?>-special-tip-set"></div>
 							<a href="javascript:;" class="button button-primary" id="<?php echo self::$iden;?>-special-set" data-target="<?php echo self::$iden;?>-special-tip-set"><?php echo ___('Add/Reduce');?></a>
+							
+							<span class="page-tip" id="<?php echo self::$iden;?>-special-tip-set"></span>
+							
 						</td>
 					</tr>
 				</tbody>
@@ -174,6 +176,24 @@ class theme_custom_point{
 		$type = isset($_GET['type']) ? $_GET['type'] : null;
 
 		switch($type){
+			case 'get-points':
+				if(!isset($_GET['user-id']) || !is_numeric($_GET['user-id'])){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_user_id';
+					$output['msg'] = ___('Invaild user id.');
+					die(theme_features::json_format($output));
+				}
+				$user = get_user_by('id',$_GET['user-id']);
+				if(!$user){
+					$output['status'] = 'error';
+					$output['code'] = 'user_not_exist';
+					$output['msg'] = ___('User does not exist.');
+					die(theme_features::json_format($output));
+				}
+				$output['status'] = 'success';
+				$output['points'] = self::get_point($user->ID);
+				$output['msg'] = sprintf(___('The user has %d points now.'),self::get_point($user->ID));
+				break;
 			/**
 			 * special
 			 */
@@ -228,11 +248,13 @@ class theme_custom_point{
 				 */
 				self::action_add_history_special_event($special['user-id'],$special['point'],$special['event']);
 				$output['status'] = 'success';
+				
+				$sign = $special['point'] > 0 ? '+' : null;
 				$output['msg'] = sprintf(
-					___('The user %s(%d) point has set to %d.'),
+					___('The user %s(%d) point has set to %s.'),
 					$user->display_name,
 					$user->ID,
-					self::get_point($user->ID)
+					self::get_point($user->ID) . $sign . $special['point'] . '=' . self::get_point($user->ID,true)
 				);
 				die(theme_features::json_format($output));
 				break;
@@ -343,13 +365,14 @@ class theme_custom_point{
 	 * Get user point
 	 *
 	 * @param int User id
-	 * @version 1.0.0
+	 * @param bool $force Force to get point value without cache.
+	 * @version 1.0.1
 	 * @return int
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
-	public static function get_point($user_id = null){
+	public static function get_point($user_id = null,$force = false){
 		static $caches;
-		if(isset($caches[$user_id]))
+		if(isset($caches[$user_id]) && !$force)
 			return $caches[$user_id];
 			
 		if(!$user_id) 
@@ -666,7 +689,10 @@ class theme_custom_point{
 		$user_id = (int)$user_id;
 		if($point === 0 || $user_id === 0)
 			return false;
-
+			
+		if(!is_numeric($point))
+			return false;
+			
 		$current_timestamp = current_time('timestamp');
 		if(empty($event))
 			$event = ___('Special event');
@@ -684,7 +710,7 @@ class theme_custom_point{
 		/**
 		 * update point
 		 */
-		$old_point = self::get_point($user_id);
+		$old_point = self::get_point($user_id,true);
 		update_user_meta($user_id,self::$user_meta_key['point'],$old_point + $point);
 
 		return true;

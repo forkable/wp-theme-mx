@@ -22,6 +22,8 @@ class theme_custom_slidebox{
 		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
 		add_action('wp_ajax_' . self::$iden,__CLASS__ . '::process');
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
+
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 	}
 	public static function options_save($options){
 		if(isset($_POST['slidebox'])){
@@ -242,75 +244,66 @@ class theme_custom_slidebox{
 		krsort($boxes);
 		ob_start();
 		?>
-		<div id="slidebox" class="carousel slide">
-		<ol class="carousel-indicators">
-			<?php for($len=count($boxes),$i=0;$i<$len;$i++){ ?>
-				<li data-target="#slidebox" data-slide-to="<?php echo $i; ?>" class="<?php echo $i==0?'active':null;?>"></li>
-			<?php } ?>
-		</ol>
-		<div class="carousel-inner">
-			<?php
-			$i = 0;
-			foreach($boxes as $k => $v){
-				$rel_nofollow = isset($v['rel']['nofollow']) ? ' rel="nofollow" ' : null;
-				$target_blank = isset($v['target']['blank']) ? ' target="blank" ' : null;
-				?>
-				<a 
-					class="item <?php echo $i==0?'active':null;?>"
-					href="<?php echo esc_url($v['link-url']);?>" 
-					title="<?php echo esc_attr($v['title']);?>"
-					<?php echo $rel_nofollow;?>
-					<?php echo $target_blank;?>
-				>
-					<div class="fill" style="background-image:url('<?php echo esc_url($v['img-url']);?>');">
-		                <div class="carousel-caption">
-		                    <h2>
-			                    <?php echo $v['title'];?>
-								<?php if(isset($v['subtitle']) && !empty($v['subtitle'])){ ?>
-									<small><?php echo $v['subtitle'];?></small>
-								<?php } ?>
-			                </h2>
-							<?php
-							if(isset($v['catids']) && is_array($v['catids'])){
-								?>
-								<div class="cats">
-									<?php
-									foreach($v['catids'] as $catid){
-										$cat_name = get_cat_name($catid);
-										if(class_exists('theme_colorful_cats')){
-											$cat_colors = theme_options::get_options(theme_colorful_cats::$iden);
-											$cat_color = isset($cat_colors[$catid]) ? $cat_colors[$catid] : '0c94d7';
-										}else{
-											$cat_color = '0c94d7';
-										}
-										?>
-										<span class="cat" style="background-color:#<?php echo $cat_color;?>"><?php echo esc_html($cat_name);?></span>
-									<?php } ?>
-								</div>
-							<?php } ?>
-						</div>
-	            	</div>
-				</a>
-				<?php 
-				$i++;
-			} 
-			?>
-		</div>
+<div id="slidebox">
+	<?php
+	/**
+	 * slide setup
+	 */
+	for($i = 1, $len = count($boxes); $i <= $len; ++$i){ ?>
+		<input type="radio" name="slide-checkbox" class="slide-checkbox" id="slide-<?php echo $i;?>" <?php echo $i === 1 ? 'checked' : null;?>/>
+	<?php } ?>
+	<div class="slides">
+		<div class="overflow">
+			<div class="inner">
+				<?php
+				foreach($boxes as $k => $v){
+					$rel_nofollow = isset($v['rel']['nofollow']) ? ' rel="nofollow" ' : null;
+					$target_blank = isset($v['target']['blank']) ? ' target="blank" ' : null;
+					$title = $v['title'];
+					?>
+					<a 
+						href="<?php echo esc_url($v['link-url']);?>" 
+						title="<?php echo $v['title'];?>"
+						<?php echo $rel_nofollow;?>
+						<?php echo $target_blank;?>
+					>
+						<img src="<?php echo esc_url($v['img-url']);?>" alt="<?php echo $v['title'];?>">
 
-        <!-- Controls -->
-        <a class="left carousel-control" href="#slidebox" data-slide="prev">
-            <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#slidebox" data-slide="next">
-            <span class="icon-next"></span>
-        </a>
-        
-		</div>
+						<h2>
+		                    <?php echo $v['title'];?>
+							<?php if(isset($v['subtitle']) && !empty($v['subtitle'])){ ?>
+								<small><?php echo $v['subtitle'];?></small>
+							<?php } ?>
+		                </h2>
+					</a>
+					<?php
+				}
+				?>
+			</div><!-- /.inner -->
+		</div><!-- /.overflow -->
+	</div><!-- /#slides -->
+	<div class="control"><?php echo self::get_labels($boxes);?></div>
+	<div class="active"><?php echo self::get_labels($boxes);?></div>
+</div><!-- /#slidebox-container -->
 		<?php
 		$cache = html_compress(ob_get_contents());
 		ob_end_clean();
 		wp_cache_set($cache_id,$cache);
 		echo $cache;
+		return $cache;
+	}
+	private static function get_labels($boxes){
+		static $cache = null;
+		if($cache !== null)
+			return $cache;
+		
+		$len = count($boxes);
+		if($len < 2)
+			return false;
+			
+		for($i = 1; $i <= $len; ++$i){
+			$cache .= '<label for="slide-' . $i . '"></label>';
+		}
 		return $cache;
 	}
 	public static function backend_css(){
@@ -319,14 +312,24 @@ class theme_custom_slidebox{
 		<?php
 	}
 	public static function frontend_seajs_use(){
-		if(!is_home()) return;
+		if(!is_home()) 
+			return;
 		?>
 		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
-			m.config.width = <?php echo self::$image_size[0];?>;
-			m.config.height = <?php echo self::$image_size[1];?>;
 			m.init();
 		});
 		<?php
+	}
+	public static function frontend_css(){
+		if(!is_home()) 
+			return false;
+		wp_enqueue_style(
+			self::$iden,
+			theme_features::get_theme_includes_css(__DIR__,'style',false),
+			'frontend',
+			theme_features::get_theme_info('version')
+		);
+
 	}
 	public static function backend_seajs_use(){
 		

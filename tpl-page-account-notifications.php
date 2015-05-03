@@ -52,8 +52,22 @@
 		<i class="fa fa-bullhorn"></i>
 	</div>
 	<div class="media-body">
-		<h4 class="media-heading"><?php echo ___('Special event');?></h4>
-		<?php echo sprintf(___('A special event happend: %s'),$v['event']);?>
+		<h4 class="media-heading">
+			<?php echo ___('Special event');?>
+			<?php
+			if($v['point'] > 0){
+				$tip_type = 'success';
+				$sign = '+';
+			}else{
+				$tip_type = 'danger';
+				$sign = '';
+			}
+			?>
+			<span class="label label-<?php echo $tip_type;?>">
+			<?php echo theme_custom_point::get_point_name();?>
+			<?php echo $sign,$v['point'];?></label>
+		</h4>
+		<div class="excerpt"><p><?php echo $v['event'];?></p></div>
 	</div>
 </div>
 					<?php
@@ -67,7 +81,7 @@ $comment = theme_notification::get_comment($v['comment-id']);
 <div class="media">
 	<div class="media-left">
 		<a href="<?php comment_author_url();?>">
-		<img src="<?php echo esc_url(get_img_source(get_avatar($comment->user_id)));?>" class="avatar media-object" alt="avatar" width="60" height="60">
+		<img src="<?php echo esc_url(get_avatar_url($comment->user_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
 	<div class="media-body">
@@ -95,7 +109,7 @@ $parent_comment = theme_notification::get_comment($comment->comment_parent);
 <div class="media">
 	<div class="media-left">
 		<a href="<?php echo comment_author_url();?>">
-			<img src="<?php echo theme_features::get_theme_images_url('frontend/avatar.jpg');?>" data-src="<?php echo esc_url(get_img_source(get_avatar($comment->user_id)));?>" class="avatar media-object" alt="avatar" width="60" height="60">
+			<img src="<?php echo theme_features::get_theme_images_url('frontend/avatar.jpg');?>" data-src="<?php echo esc_url(get_avatar_url($comment->user_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
 	<div class="media-body">
@@ -124,7 +138,7 @@ $follower_id = $v['follower-id'];
 <div class="media">
 	<div class="media-left">
 		<a href="<?php comment_author_url();?>">
-			<img src="<?php echo esc_url(get_img_source(get_avatar($follower_id)));?>" class="avatar media-object" alt="avatar" width="60" height="60">
+			<img src="<?php echo esc_url(get_avatar_url($follower_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
 	<div class="media-body">

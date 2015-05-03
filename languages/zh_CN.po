@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-02 17:28+0800\n"
-"PO-Revision-Date: 2015-05-03 00:48+0800\n"
+"POT-Creation-Date: 2015-05-03 11:27+0800\n"
+"PO-Revision-Date: 2015-05-03 11:39+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -26,7 +26,7 @@ msgstr "评论"
 msgid "Respond"
 msgstr "添加评论"
 
-#: comments.php:34 core/core-options.php:173 functions.php:1820
+#: comments.php:34 core/core-options.php:173 functions.php:1819
 #: includes/_post-thumb/post-thumb.php:245
 #: includes/_quick-comment/quick-comment.php:342
 #: includes/clean-up/clean-up.php:224
@@ -34,8 +34,8 @@ msgstr "添加评论"
 #: includes/custom-contribution/custom-contribution.php:348
 #: includes/custom-follow/custom-follow.php:140
 #: includes/custom-page-cats/custom-page-cats.php:208
-#: includes/custom-page-tags/custom-page-tags.php:255
-#: includes/custom-point/custom-point.php:933
+#: includes/custom-page-tags/custom-page-tags.php:300
+#: includes/custom-point/custom-point.php:959
 #: includes/custom-post-point/custom-post-point.php:751
 #: includes/custom-post-point/custom-post-point.php:773
 #: includes/custom-sign/custom-sign.php:257
@@ -507,47 +507,47 @@ msgstr "&raquo; 更多"
 msgid "I feel lucky"
 msgstr ""
 
-#: functions.php:1810
+#: functions.php:1809
 msgid "Leave a comment"
 msgstr "留下评论"
 
-#: functions.php:1813
+#: functions.php:1812
 msgid "Cancel reply"
 msgstr "取消回复"
 
-#: functions.php:1826
+#: functions.php:1825
 #, php-format
 msgid "You must be %s to post a comment."
 msgstr "您需要 %s 后才能发表评论。"
 
-#: functions.php:1827
+#: functions.php:1826
 msgid "log-in"
 msgstr "登录"
 
-#: functions.php:1853
+#: functions.php:1852
 msgid "Hi, have something to say?"
 msgstr "Hi, 有什么要说的吗？"
 
-#: functions.php:1854
+#: functions.php:1853
 msgid "Nothing to say?"
 msgstr "没什么好说的吗？"
 
-#: functions.php:1883 includes/_quick-comment/quick-comment.php:348
+#: functions.php:1882 includes/_quick-comment/quick-comment.php:348
 #: includes/quick-sign/quick-sign.php:389 tpl-author-profile.php:21
 #: tpl-page-account-settings.php:44
 msgid "Nickname"
 msgstr "昵称"
 
-#: functions.php:1885
+#: functions.php:1884
 msgid "Whats your nickname?"
 msgstr "您的昵称"
 
-#: functions.php:1901 includes/_quick-comment/quick-comment.php:349
+#: functions.php:1900 includes/_quick-comment/quick-comment.php:349
 #: includes/quick-sign/quick-sign.php:390
 msgid "Email"
 msgstr "邮箱"
 
-#: functions.php:1903
+#: functions.php:1902
 msgid "Whats your Email?"
 msgstr "您的邮箱"
 
@@ -633,7 +633,7 @@ msgstr "我不喜欢"
 #: includes/_post-thumb/post-thumb.php:246
 #: includes/_quick-comment/quick-comment.php:353
 #: includes/clean-up/clean-up.php:225
-#: includes/custom-point/custom-point.php:934
+#: includes/custom-point/custom-point.php:960
 #: includes/custom-slidebox/custom-slidebox.php:339
 #: includes/favicon/favicon.php:199 includes/quick-sign/quick-sign.php:398
 msgid "Server error or network is disconnected."
@@ -804,7 +804,7 @@ msgstr "点击之前保存设置。"
 
 #: includes/cache/cache.php:141
 #: includes/custom-page-cats/custom-page-cats.php:65
-#: includes/custom-page-tags/custom-page-tags.php:65
+#: includes/custom-page-tags/custom-page-tags.php:66
 #: includes/custom-point/custom-point.php:141
 #: includes/custom-slidebox/custom-slidebox.php:221
 #: includes/min-rebuild/min-rebuild.php:37
@@ -1191,61 +1191,61 @@ msgstr "取消关注成功。"
 msgid "Unkown param."
 msgstr "位置参数。"
 
-#: includes/custom-homebox/custom-homebox.php:80
+#: includes/custom-homebox/custom-homebox.php:81
 msgid "&raquo; detail"
 msgstr "&raquo; 详细"
 
-#: includes/custom-homebox/custom-homebox.php:106
+#: includes/custom-homebox/custom-homebox.php:107
 msgid "Not data in this category"
 msgstr "在此分类目录中找不到数据"
 
-#: includes/custom-homebox/custom-homebox.php:135
+#: includes/custom-homebox/custom-homebox.php:136
 msgid "link"
 msgstr "链接"
 
-#: includes/custom-homebox/custom-homebox.php:144
+#: includes/custom-homebox/custom-homebox.php:145
 msgid "Theme home box settings"
 msgstr "首页盒子设置"
 
-#: includes/custom-homebox/custom-homebox.php:157
+#: includes/custom-homebox/custom-homebox.php:158
 msgid "Home box control"
 msgstr "盒子操作"
 
-#: includes/custom-homebox/custom-homebox.php:159
+#: includes/custom-homebox/custom-homebox.php:160
 msgid "Add a new home box"
 msgstr "添加一个新的盒子"
 
-#: includes/custom-homebox/custom-homebox.php:188
-#: includes/custom-homebox/custom-homebox.php:196
+#: includes/custom-homebox/custom-homebox.php:189
+#: includes/custom-homebox/custom-homebox.php:197
 msgid "Box title"
 msgstr "幻灯片标题"
 
-#: includes/custom-homebox/custom-homebox.php:201
+#: includes/custom-homebox/custom-homebox.php:202
 msgid "Box link"
 msgstr "盒子链接"
 
-#: includes/custom-homebox/custom-homebox.php:209
+#: includes/custom-homebox/custom-homebox.php:210
 msgid "Box link (include http://)"
 msgstr "盒子地址（包括 http://）"
 
-#: includes/custom-homebox/custom-homebox.php:214
+#: includes/custom-homebox/custom-homebox.php:215
 #: tpl-page-account-contribution.php:166
 msgid "Categories"
 msgstr "分类"
 
-#: includes/custom-homebox/custom-homebox.php:220
+#: includes/custom-homebox/custom-homebox.php:221
 msgid "Keywords and links"
 msgstr "关键词与链接"
 
-#: includes/custom-homebox/custom-homebox.php:222
+#: includes/custom-homebox/custom-homebox.php:223
 msgid "Eg. Tag1 = http://inn-studio.com"
 msgstr "例如 标签1 = http://inn-studio.com"
 
-#: includes/custom-homebox/custom-homebox.php:223
+#: includes/custom-homebox/custom-homebox.php:224
 msgid "Per keyword/line"
 msgstr "一行一个关键词"
 
-#: includes/custom-homebox/custom-homebox.php:224
+#: includes/custom-homebox/custom-homebox.php:225
 #: includes/custom-slidebox/custom-slidebox.php:190
 msgid "Delete this item"
 msgstr "删除此条目"
@@ -1263,12 +1263,12 @@ msgid "Index Categories"
 msgstr "分类索引"
 
 #: includes/custom-page-cats/custom-page-cats.php:69
-#: includes/custom-page-tags/custom-page-tags.php:68
+#: includes/custom-page-tags/custom-page-tags.php:69
 msgid "Flush cache"
 msgstr "刷新缓存"
 
 #: includes/custom-page-cats/custom-page-cats.php:83
-#: includes/custom-page-tags/custom-page-tags.php:81
+#: includes/custom-page-tags/custom-page-tags.php:88
 msgid "Cache has been cleaned."
 msgstr "缓存已成功清空。"
 
@@ -1284,45 +1284,49 @@ msgstr "暂无分类。"
 msgid "Initial"
 msgstr "首字"
 
-#: includes/custom-page-tags/custom-page-tags.php:53
+#: includes/custom-page-tags/custom-page-tags.php:54
 msgid "Tags index settings"
 msgstr "标签索引设置"
 
-#: includes/custom-page-tags/custom-page-tags.php:54
+#: includes/custom-page-tags/custom-page-tags.php:55
 msgid "Display posts chinese pinyin title index on tags index page."
 msgstr "在标签索引页面中显示中文标题的文章索引。"
 
-#: includes/custom-page-tags/custom-page-tags.php:58
+#: includes/custom-page-tags/custom-page-tags.php:59
 msgid "Whitelist - users "
 msgstr "白名单 - 用户"
 
-#: includes/custom-page-tags/custom-page-tags.php:61
+#: includes/custom-page-tags/custom-page-tags.php:62
 msgid "User ID, multiple users separated by ,(commas). E.g. 1,2,3,4"
 msgstr "用户 ID，多个用户使用 ,（英文逗号）分隔。例如 1,2,3,4"
 
-#: includes/custom-page-tags/custom-page-tags.php:91
+#: includes/custom-page-tags/custom-page-tags.php:98
+msgid "Invalid post id."
+msgstr "无效的文章 ID。"
+
+#: includes/custom-page-tags/custom-page-tags.php:124
 msgid "Tags index"
 msgstr "标签索引"
 
-#: includes/custom-page-tags/custom-page-tags.php:197
+#: includes/custom-page-tags/custom-page-tags.php:238
 msgid "No tag yet."
 msgstr "还没有标签"
 
-#: includes/custom-page-tags/custom-page-tags.php:208
+#: includes/custom-page-tags/custom-page-tags.php:249
 msgid "Pinyin initial"
 msgstr "拼音首字母"
 
-#: includes/custom-page-tags/custom-page-tags.php:279
+#: includes/custom-page-tags/custom-page-tags.php:328
 msgid "Preview image is loading..."
 msgstr "正在加载预览图……"
 
-#: includes/custom-page-tags/custom-page-tags.php:280
+#: includes/custom-page-tags/custom-page-tags.php:329
 msgid "ERROR: can not load the preview image."
 msgstr "错误: 无法加载预览图。"
 
 #: includes/custom-point/custom-point.php:71
-#: includes/custom-point/custom-point.php:305
-#: includes/custom-point/custom-point.php:320
+#: includes/custom-point/custom-point.php:327
+#: includes/custom-point/custom-point.php:342
 msgid "Cat-paw"
 msgstr "喵爪"
 
@@ -1359,132 +1363,145 @@ msgstr "增/减用户多少积分"
 msgid "Event description"
 msgstr "事件描述"
 
-#: includes/custom-point/custom-point.php:144
+#: includes/custom-point/custom-point.php:143
 msgid "Add/Reduce"
 msgstr "增加/削减"
 
-#: includes/custom-point/custom-point.php:184
+#: includes/custom-point/custom-point.php:183
+msgid "Invaild user id."
+msgstr "无效的用户 ID。"
+
+#: includes/custom-point/custom-point.php:190
+msgid "User does not exist."
+msgstr "用户不存在。"
+
+#: includes/custom-point/custom-point.php:195
+#, php-format
+msgid "The user has %d points now."
+msgstr "该用户当前积分为 %d。"
+
+#: includes/custom-point/custom-point.php:204
 msgid "Your are not enough permission to modify user."
 msgstr "你有没有足够的权限来修改用户。"
 
-#: includes/custom-point/custom-point.php:191
+#: includes/custom-point/custom-point.php:211
 #: includes/custom-user-settings/custom-user-settings.php:76
 msgid "Invaild param."
 msgstr "无效的参数。"
 
-#: includes/custom-point/custom-point.php:196
+#: includes/custom-point/custom-point.php:216
 msgid "Invaild user ID."
 msgstr "无效的用户 ID。"
 
-#: includes/custom-point/custom-point.php:200
+#: includes/custom-point/custom-point.php:220
 msgid "Invaild point."
 msgstr "无效的积分。"
 
-#: includes/custom-point/custom-point.php:204
+#: includes/custom-point/custom-point.php:224
 msgid "Invaild event."
 msgstr "无效的事件。"
 
-#: includes/custom-point/custom-point.php:223
+#: includes/custom-point/custom-point.php:243
 msgid "Fuck you man, the user is not exist"
 msgstr "用户不存在。"
 
-#: includes/custom-point/custom-point.php:232
+#: includes/custom-point/custom-point.php:254
 #, php-format
-msgid "The user %s(%d) point has set to %d."
-msgstr "用户 %s（%d）积分已设置为 %d。"
+msgid "The user %s(%d) point has set to %s."
+msgstr "用户 %s（%d）积分已设置为 %s。"
 
-#: includes/custom-point/custom-point.php:258
+#: includes/custom-point/custom-point.php:280
 msgid "When sign-up"
 msgstr "当注册时"
 
-#: includes/custom-point/custom-point.php:261
+#: includes/custom-point/custom-point.php:283
 msgid "When sign-in daily"
 msgstr "当每天登录时"
 
-#: includes/custom-point/custom-point.php:264
+#: includes/custom-point/custom-point.php:286
 msgid "When publish comment"
 msgstr "当发表评论时"
 
-#: includes/custom-point/custom-point.php:267
+#: includes/custom-point/custom-point.php:289
 msgid "When delete comment"
 msgstr "当删除评论时"
 
-#: includes/custom-point/custom-point.php:270
+#: includes/custom-point/custom-point.php:292
 msgid "When publish post"
 msgstr "当发表文章时"
 
-#: includes/custom-point/custom-point.php:273
+#: includes/custom-point/custom-point.php:295
 msgid "When reply post"
 msgstr "当文章被回复时"
 
-#: includes/custom-point/custom-point.php:276
+#: includes/custom-point/custom-point.php:298
 msgid "When delete post"
 msgstr "当文章被删除时"
 
-#: includes/custom-point/custom-point.php:279
+#: includes/custom-point/custom-point.php:301
 msgid "When post per hundred view "
 msgstr "当文章增加 100 查看数时"
 
-#: includes/custom-point/custom-point.php:282
+#: includes/custom-point/custom-point.php:304
 msgid "When aff sign-up"
 msgstr "当推广注册时"
 
-#: includes/custom-point/custom-point.php:306
+#: includes/custom-point/custom-point.php:328
 msgid "Point can exchange many things."
 msgstr "积分能换许多东西哦。"
 
-#: includes/custom-point/custom-point.php:421
+#: includes/custom-point/custom-point.php:444
 #, php-format
 msgid "One special event happened: %s"
 msgstr "一个特别事件发生了：%s"
 
-#: includes/custom-point/custom-point.php:437
+#: includes/custom-point/custom-point.php:460
 #, php-format
 msgid "Your post \"%s\" has been deleted."
 msgstr "你的文章 \"%s\" 已被删除。"
 
-#: includes/custom-point/custom-point.php:454
+#: includes/custom-point/custom-point.php:477
 #, php-format
 msgid "You registered %s."
 msgstr "你注册了 %s。"
 
-#: includes/custom-point/custom-point.php:473
-#: includes/custom-point/custom-point.php:522
+#: includes/custom-point/custom-point.php:496
+#: includes/custom-point/custom-point.php:545
 msgid "The comment has been deleted."
 msgstr "该评论已被删除。"
 
-#: includes/custom-point/custom-point.php:475
+#: includes/custom-point/custom-point.php:498
 #, php-format
 msgid "You published a comment in %1$s."
 msgstr "你在 %1$s 中发表了一篇评论。"
 
-#: includes/custom-point/custom-point.php:499
-#: includes/custom-point/custom-point.php:526
+#: includes/custom-point/custom-point.php:522
+#: includes/custom-point/custom-point.php:549
 #: includes/custom-post-point/custom-post-point.php:376
 #: includes/custom-post-point/custom-post-point.php:404
 msgid "The post has been deleted."
 msgstr "该文章被删除。"
 
-#: includes/custom-point/custom-point.php:501
+#: includes/custom-point/custom-point.php:524
 #, php-format
 msgid "You published a post %s."
 msgstr "您发布了一篇文章 %s。"
 
-#: includes/custom-point/custom-point.php:528
+#: includes/custom-point/custom-point.php:551
 #, php-format
 msgid "Your post %1$s has a new comment by %2$s."
 msgstr "%2$s 评论了您的文章 %1$s。"
 
-#: includes/custom-point/custom-point.php:552
+#: includes/custom-point/custom-point.php:575
 msgid "Log-in daily reward."
 msgstr "每天登录奖励。"
 
-#: includes/custom-point/custom-point.php:603
+#: includes/custom-point/custom-point.php:626
 #, php-format
 msgid "Sign-in daily points: +%s"
 msgstr "当每天登录奖励：+%s"
 
-#: includes/custom-point/custom-point.php:672
+#: includes/custom-point/custom-point.php:698
 #: tpl-page-account-notifications.php:55
 msgid "Special event"
 msgstr "特别事件"
@@ -1661,22 +1678,22 @@ msgstr "作者（原创作品不填写）"
 msgid "This article is %1$s member %2$s's original work."
 msgstr "本作品是由 %1$s 会员 %2$s 的投递作品。"
 
-#: includes/custom-post-source/custom-post-source.php:153
+#: includes/custom-post-source/custom-post-source.php:154
 #, php-format
 msgid "Welcome to reprint but must indicate the source url %1$s."
 msgstr "欢迎转载，但请务必注明来源地址：%1$s。"
 
-#: includes/custom-post-source/custom-post-source.php:159
-#: includes/custom-post-source/custom-post-source.php:161
+#: includes/custom-post-source/custom-post-source.php:160
+#: includes/custom-post-source/custom-post-source.php:162
 msgid "Unkown"
 msgstr "不详"
 
-#: includes/custom-post-source/custom-post-source.php:165
+#: includes/custom-post-source/custom-post-source.php:166
 #, php-format
 msgid "This article is %1$s member %2$s's reprint work."
 msgstr "本作品是由 %1$s 会员 %2$s 的搬运作品。"
 
-#: includes/custom-post-source/custom-post-source.php:176
+#: includes/custom-post-source/custom-post-source.php:177
 #, php-format
 msgid "Source: %s, author: %s."
 msgstr "来源：%s，作者：%s。"
@@ -3380,7 +3397,7 @@ msgstr "您暂无任何历史记录哦。"
 #: tpl-page-account-notifications.php:56
 #, php-format
 msgid "A special event happend: %s"
-msgstr "一个特殊的事件发生了：%s"
+msgstr "一个特别的事件发生了：%s"
 
 #: tpl-page-account-notifications.php:77
 #, php-format
@@ -3469,6 +3486,9 @@ msgstr "向每个人介绍自己"
 #: tpl-page-account-settings.php:77
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "The user %s(%d) point has set to %d."
+#~ msgstr "用户 %s（%d）积分已设置为 %d。"
 
 #~ msgid "&larr; Preview page"
 #~ msgstr "&larr; 上一页"

@@ -257,6 +257,7 @@ define(function(require, exports, module){
 		}
 		
 		function ajax(){
+			scroll_to_list();
 			/**
 			 * restore form
 			 */
@@ -276,7 +277,6 @@ define(function(require, exports, module){
 				
 				done_prev();
 				done_next();
-				scroll_to_list();
 				return false;
 			}
 			
@@ -308,7 +308,6 @@ define(function(require, exports, module){
 						tools.ajax_loading_tip('hide');
 						done_next();
 						done_prev();
-						scroll_to_list();
 					}else if(data && data.status === 'error'){
 						tools.ajax_loading_tip(data.status,data.msg);
 					}else{

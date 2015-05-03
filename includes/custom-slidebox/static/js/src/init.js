@@ -1,16 +1,36 @@
 define(function(require,exports,module){
 	'use strict';
-	exports.config = {
-		width : 500,
-		height : 300
-	}
+	var tools = require('modules/tools');
 	exports.init = function(){
-		jQuery(document).ready(function(){
-			var $slide = jQuery('#slidebox');
-			if(!$slide[0]) return;
-			$slide.carousel({
-				interval: 5000 //changes the speed
-			})
+		tools.ready(function(){
+			var $box = document.getElementById('slidebox');
+			if(!$box)
+				return false;
+
+			var $checkboxes = $box.querySelectorAll('input[type="radio"]');
+			if($checkboxes.length < 2)
+				return false;
+				
+			var i = 0,
+				t;
+				
+			function switch_checkbox(t){
+				//if(t){
+					if(i === $checkboxes.length)
+						i = 0;
+						
+					$checkboxes[i].checked = true;
+					i++;
+				//}
+				t = setTimeout(function(){
+					switch_checkbox(t);
+				}, 5000);
+			}
+			switch_checkbox(t);
+			//$box.addEventListener('mouseover',function(){
+			//	clearTimeout(t);
+			//	switch_checkbox(t);
+			//})
 		});
 	}
 	

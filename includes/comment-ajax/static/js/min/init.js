@@ -23,10 +23,10 @@ function next_click(){if(_that.cpage==_that.pages)
 return false;target_page=parseInt(_that.cpage)+1;ajax();}
 function done_next(){if(_that.cpage==_that.pages){_cache.$next.classList.add('disabled');}else{_cache.$next.classList.remove('disabled');}}
 function get_process_url(){return _that.url_format.replace('=n','='+target_page);}
-function ajax(){if(document.getElementById('comments').querySelector('#respond'))
-addComment.cancelMove();set_cpage();if(get_cache(_that.cpage)){cache.$comment_list_container.innerHTML=get_cache(_that.cpage);done_prev();done_next();scroll_to_list();return false;}
+function ajax(){scroll_to_list();if(document.getElementById('comments').querySelector('#respond'))
+addComment.cancelMove();set_cpage();if(get_cache(_that.cpage)){cache.$comment_list_container.innerHTML=get_cache(_that.cpage);done_prev();done_next();return false;}
 tools.ajax_loading_tip('loading',_that.lang.loading);var xhr=new XMLHttpRequest();xhr.open('GET',get_process_url());xhr.send();xhr.onload=function(){if(xhr.status>=200&&xhr.status<400){var data;try{data=JSON.parse(xhr.responseText)}catch(e){data=xhr.responseText}
-if(data&&data.status==='success'){cache.$comment_list_container.innerHTML=data.comments;set_cache(_that.cpage,data.comments);tools.ajax_loading_tip('hide');done_next();done_prev();scroll_to_list();}else if(data&&data.status==='error'){tools.ajax_loading_tip(data.status,data.msg);}else{tools.ajax_loading_tip('error',data);}}
+if(data&&data.status==='success'){cache.$comment_list_container.innerHTML=data.comments;set_cache(_that.cpage,data.comments);tools.ajax_loading_tip('hide');done_next();done_prev();}else if(data&&data.status==='error'){tools.ajax_loading_tip(data.status,data.msg);}else{tools.ajax_loading_tip('error',data);}}
 _that.always();xhr=null;};xhr.onerror=function(){tools.ajax_loading_tip('error',_that.lang.error);};}
 function set_cpage(){if(_that.cpage>=target_page){_that.cpage--;}else{_that.cpage++;}}
 function scroll_to_list(){location.hash='comments';}}

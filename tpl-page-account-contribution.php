@@ -249,7 +249,7 @@ if(class_exists('theme_custom_contribution')){
 									<label class="input-group-addon" for="<?php echo theme_custom_post_source::$iden;?>-reprint-author">
 										<i class="fa fa-user"></i>
 									</label>
-									<input type="url" class="form-control" name="<?php echo theme_custom_post_source::$iden;?>[reprint][author]" id="<?php echo theme_custom_post_source::$iden;?>-reprint-author" placeholder="<?php echo ___('Author');?>" title="<?php echo ___('Author');?>">
+									<input type="text" class="form-control" name="<?php echo theme_custom_post_source::$iden;?>[reprint][author]" id="<?php echo theme_custom_post_source::$iden;?>-reprint-author" placeholder="<?php echo ___('Author');?>" title="<?php echo ___('Author');?>">
 								</div>
 							</div>
 						</div>

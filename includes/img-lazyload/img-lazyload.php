@@ -13,10 +13,17 @@ class theme_img_lazyload{
 	}
 	public static function the_content($content){
 		$pattern = '/(<img[^>]+)src=/i';
-		$content = preg_replace(
+		return preg_replace_callback(
 			$pattern,
-			'$1src="' . theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder) . '" data-src=',
-			$content);
-		return $content;
+			function($matches){
+				static $i = 0;
+				if($i < 3){
+					++$i;
+					return $matches[0];
+				}
+				return $matches[1] . 'src="' . theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder) . '" data-src=';
+			},
+			$content
+		);
 	}
 }

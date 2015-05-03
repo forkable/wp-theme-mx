@@ -1,6 +1,7 @@
 define(function(require, exports, module){
 
 	'use strict';
+	$.support.transition = false;
 	var tools = require('modules/tools');
 	
 	/**
