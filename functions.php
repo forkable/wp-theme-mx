@@ -17,7 +17,7 @@ class theme_functions{
 	public static $iden = 'mx';
 	public static $theme_edition = 1;
 	public static $theme_date = '2015-02-01 00:00';
-	public static $thumbnail_size = array('thumbnail',320,200);
+	public static $thumbnail_size = array('post-thumbnail',320,200);
 	public static $comment_avatar_size = 60;
 	public static $thumbnail_placeholder = 'frontend/thumbnail.png';
 	public static $avatar_placeholder = 'frontend/avatar.jpg';

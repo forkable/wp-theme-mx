@@ -24,16 +24,16 @@ class theme_asset_enqueue{
 		$js = [
 			'frontend-seajs' => [
 				'deps' => [],
-				'src' => theme_features::get_theme_js('seajs/sea',true,false),
+				'src' => 'https://cdnjs.cloudflare.com/ajax/libs/seajs/3.0.1/sea.js',
 			],
 			'jquery' => [
 				'deps' => [],
-				'cdn' => 'http://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.3.min.js',
+				'cdn' => 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js',
 				'version' => null,
 			],
 			'bootstrap' => [
 				'deps' => ['jquery'],
-				'cdn' => 'http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.4/bootstrap.min.js',
+				'cdn' => 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js',
 				'version' => null,
 			],
 			
@@ -77,12 +77,12 @@ class theme_asset_enqueue{
 			],
 			'bootstrap' => [
 				'deps' => [],
-				'cdn' => 'http://ajax.aspnetcdn.com/ajax/bootstrap/3.3.4/css/bootstrap.min.css',
+				'cdn' => 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css',
 				'version' => null,
 			],
 			'awesome' => [
 				'deps' => [],
-				'cdn' => 'http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css',
+				'cdn' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css',
 				'version' => null,
 			],
 			

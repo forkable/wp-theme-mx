@@ -4,7 +4,7 @@
 	/**
 	 * slidebox
 	 */
-	if(!wp_is_mobile()){
+	if(!theme_features::is_mobile()){
 		?>
 		<div class="panel panel-default hidden-xs">
 			<div class="mx-card-body row neck">

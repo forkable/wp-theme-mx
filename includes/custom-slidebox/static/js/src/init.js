@@ -12,25 +12,26 @@ define(function(require,exports,module){
 				return false;
 				
 			var i = 0,
-				t;
-				
-			function switch_checkbox(t){
-				//if(t){
+				t,
+				switch_checkbox = function(){
+					if(!t)
+						return false;
+						
 					if(i === $checkboxes.length)
 						i = 0;
 						
 					$checkboxes[i].checked = true;
 					i++;
-				//}
-				t = setTimeout(function(){
-					switch_checkbox(t);
-				}, 5000);
-			}
-			switch_checkbox(t);
-			//$box.addEventListener('mouseover',function(){
-			//	clearTimeout(t);
-			//	switch_checkbox(t);
-			//})
+				},
+				switch_timer = function(){
+					t = setInterval(switch_checkbox,5000);
+				};
+			
+			switch_timer();
+			$box.addEventListener('mouseover',function(){
+				clearInterval(t);
+				switch_timer();
+			})
 		});
 	}
 	
