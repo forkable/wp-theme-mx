@@ -2050,20 +2050,20 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 		 * a 0 if the strings are equal.
 		 */
 		
-		if (strcasecmp($item -> attr_title, 'divider') == 0 && $depth === 1){
+		if (strcasecmp($item->attr_title, 'divider') == 0 && $depth === 1){
 			$output .= $indent . '<li role="presentation" class="divider">';
-		}else if (strcasecmp($item -> title, 'divider') == 0 && $depth === 1){
+		}else if (strcasecmp($item->title, 'divider') == 0 && $depth === 1){
 			$output .= $indent . '<li role="presentation" class="divider">';
-		}else if (strcasecmp($item -> attr_title, 'dropdown-header') == 0 && $depth === 1){
-			$output .= $indent . '<li role="presentation" class="dropdown-header">' . $item -> title ;
-		}else if (strcasecmp($item -> attr_title, 'disabled') == 0){
-			$output .= $indent . '<li role="presentation" class="disabled"><a href="javascript:;">' . $item -> title . '</a>';
+		}else if (strcasecmp($item->attr_title, 'dropdown-header') == 0 && $depth === 1){
+			$output .= $indent . '<li role="presentation" class="dropdown-header">' . $item->title ;
+		}else if (strcasecmp($item->attr_title, 'disabled') == 0){
+			$output .= $indent . '<li role="presentation" class="disabled"><a href="javascript:;">' . $item->title . '</a>';
 		}else{
 			$class_names = $value = '';
-			$classes = empty($item -> classes) ? [] : (array) $item -> classes;
-			$classes[] = 'menu-item-' . $item -> ID;
+			$classes = empty($item->classes) ? [] : (array) $item->classes;
+			$classes[] = 'menu-item-' . $item->ID;
 			$class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
-		if ($args -> has_children)
+		if ($args->has_children)
 			$class_names .= ' dropdown';
 			
 		/**
@@ -2082,27 +2082,26 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 			
 			$class_names = $class_names ? ' class="' . $class_names . '"' : '';
 			
-			$id = apply_filters('nav_menu_item_id', 'menu-item-' . $item -> ID, $item, $args);
+			$id = apply_filters('nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args);
 			$id = $id ? ' id="' . $id . '"' : '';
 			
 			$output .= $indent . '<li' . $id . $value . $class_names . '>';
 			
 			$atts = [];
 			
-			$atts['title'] = ! empty($item -> title) ? strip_tags($item -> title) : '';
+			$atts['title'] = ! empty($item->title) ? strip_tags($item->title) : '';
 			
-			$atts['target'] = ! empty($item -> target) ? $item -> target : '';
+			$atts['target'] = ! empty($item->target) ? $item->target : '';
 			
-			$atts['rel'] = ! empty($item -> xfn) ? $item -> xfn : '';
+			$atts['rel'] = ! empty($item->xfn) ? $item->xfn : '';
+
+			$atts['href'] = $item->url;
 			
 			// If item has_children add atts to a.
-		if ($args -> has_children && $depth === 0){
-			$atts['href'] = 'javascript:;';
+		if ($args->has_children && $depth === 0){
 			$atts['data-toggle'] = 'dropdown';
 			$atts['class'] = 'dropdown-toggle';
 			$atts['aria-haspopup'] = 'true';
-		}else{
-			$atts['href'] = ! empty($item -> url) ? $item -> url : '';
 		}
 		$atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args);
 		$attributes = '';
@@ -2112,7 +2111,7 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 				$attributes .= ' ' . $attr . '="' . $value . '"';
 				}
 			}
-		$item_output = $args -> before;
+		$item_output = $args->before;
 		/**
 		 * Glyphicons
 		 * ===========
@@ -2120,16 +2119,16 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 		 * if there is a value in the attr_title property. If the attr_title
 		 * property is NOT null we apply it as the class name for the glyphicon.
 		 */
-		if (! empty($item -> xfn))
-			$item_output .= '<a' . $attributes . '><i class="fa fa-fw fa-' . $item -> xfn . '"></i>&nbsp;';
+		if (! empty($item->xfn))
+			$item_output .= '<a' . $attributes . '><i class="fa fa-fw fa-' . $item->xfn . '"></i>&nbsp;';
 		else
 			$item_output .= '<a' . $attributes . '>';
 			
-		$item_output .= $args -> link_before . apply_filters('the_title', $item -> title, $item -> ID) . $args -> link_after;
+		$item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
 		
-		$item_output .= ($args -> has_children && 0 === $depth) ? ' <span class="caret"></span></a>' : '</a>';
+		$item_output .= ($args->has_children && 0 === $depth) ? ' <span class="caret"></span></a>' : '</a>';
 		
-		$item_output .= $args -> after;
+		$item_output .= $args->after;
 		
 		$output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
 		}
@@ -2157,10 +2156,10 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 		if (! $element)
 			return;
 			
-		$id_field = $this -> db_fields['id'];
+		$id_field = $this->db_fields['id'];
 		// Display this element.
 		if (is_object($args[0]))
-			$args[0] -> has_children = ! empty($children_elements[ $element -> $id_field ]);
+			$args[0]->has_children = ! empty($children_elements[ $element->$id_field ]);
 			
 		parent::display_element($element, $children_elements, $max_depth, $depth, $args, $output);
 		}

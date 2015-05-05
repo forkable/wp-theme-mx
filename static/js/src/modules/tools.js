@@ -88,7 +88,8 @@ define(function(require, exports, module){
 	
 	exports.ready = function(fn){
 		if (document.readyState != 'loading'){
-			fn();
+			if(typeof(fn) === 'function')
+				fn();
 		} else {
 			document.addEventListener('DOMContentLoaded', fn);
 		}

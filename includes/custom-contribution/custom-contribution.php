@@ -1,6 +1,6 @@
 <?php
 /** 
- * @version 1.0.0
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_contribution::init';
@@ -10,6 +10,7 @@ class theme_custom_contribution{
 	public static $iden = 'theme_custom_contribution';
 	public static $page_slug = 'account';
 	public static $file_exts = array('png','jpg','gif');
+	public static $thumbnail_size = 'large';
 	public static $pages = [];
 	public static $post_meta_key = array(
 		'bdyun' => '_theme_ctb_bdyun'
@@ -213,7 +214,7 @@ class theme_custom_contribution{
 					foreach($attach_ids as $attach_id){
 						$img_full_attrs = wp_get_attachment_image_src($attach_id,'full');
 						if(!empty($img_full_attrs)){
-							$img_large_attrs = wp_get_attachment_image_src($attach_id,'medium');
+							$img_large_attrs = wp_get_attachment_image_src($attach_id,self::$thumbnail_size);
 							/**
 							 * if thumbnail src = full src, do not echo <a>
 							 */

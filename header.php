@@ -110,7 +110,7 @@ if(!theme_features::is_mobile() && has_header_image()){ ?>
 				
 			$is_account_page = theme_custom_account::is_page();
 			?>
-			<div class="header-nav-account-menu">
+			<div class="header-nav-account-menu collapse">
 				<ul class="nav navbar-nav">
 					<?php
 					$account_navs = apply_filters('account_navs',[]);

@@ -40,6 +40,12 @@
 	background: #428BCA;
 	color:#fff;
 }
+.dropdown-menu > li > a:focus, 
+.dropdown-menu > li > a:hover,
+.navbar-default .navbar-nav .dropdown:hover > a{
+	background: #428BCA;
+	color:#fff;
+}
 .media-left .media-object,
 .media-left img{
 	max-width: none;
@@ -68,12 +74,7 @@
 	color:#428BCA;
 	font-weight: bold;
 }
-.navbar-collapse.collapsing {
-	-webkit-transition: height .01s;
-	-moz-transition: height .01s;
-	-ms-transition: height .01s;
-	transition: height .01s;
-}
+
 .btn{
 	font-weight: normal;
 }
