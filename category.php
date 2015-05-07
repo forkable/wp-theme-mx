@@ -12,12 +12,14 @@
 				</div>
 				<div class="panel-body">
 					<?php
+					//var_dump($wp_query);
 					if(have_posts()){
 						?>
 						<ul class="row mx-card-body post-img-lists">
 							<?php
-							while(have_posts()){
-								the_post();
+							//while(have_posts()){
+								foreach($wp_query->posts as $post){
+								//the_post();
 								theme_functions::archive_img_content(array(
 									'classes' => array('col-lg-3 col-md-4 col-xs-6')
 								));

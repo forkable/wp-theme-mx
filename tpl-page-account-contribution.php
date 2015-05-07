@@ -1,28 +1,5 @@
 <?php
-/**
- * cats
- */
-$cats_args = array(
-	'orderby' => 'count',
-	'order' => 'desc',
-	'hide_empty' => 0,
-	'number' => 5,
-);
-if(class_exists('theme_custom_contribution')){
-	$cat_ids = theme_custom_contribution::get_options('cats');
-	if(empty($cat_ids)){
-		$cats = get_categories($cats_args);
-	}else{
-		$cats = get_categories(array(
-			'include' => $cat_ids,
-			'orderby' => 'count',
-			'order' => 'desc',
-			'hide_empty' => 0,
-		));
-	}
-}else{
-	$cats = get_categories($cats_args);
-}
+
 /**
  * tags
  */
@@ -47,6 +24,7 @@ if(class_exists('theme_custom_contribution')){
 }else{
 	$tags = get_tags($tags_args);
 }
+//var_dump($cap = get_user_meta(get_current_user_id(),'wp_capabilities', true));
 ?>
 <div class="panel panel-default">
 	<div class="panel-heading">
@@ -79,7 +57,16 @@ if(class_exists('theme_custom_contribution')){
 					<?php echo ___('Post content');?>
 				</label>
 				<div class="col-sm-10">
-					<textarea 
+					<?php 
+					wp_editor( '', 'ctb-content', [
+						'textarea_name' => 'ctb[post-content]',
+						'drag_drop_upload' => true,
+						'teeny' => true,
+						'textarea_rows' => 10,
+						'media_buttons' => false,
+					]);
+					?>
+					<!-- <textarea 
 					class="form-control" 
 						id="ctb-content" 
 						name="ctb[post-content]" 
@@ -87,22 +74,22 @@ if(class_exists('theme_custom_contribution')){
 						title="<?php echo ___('Post content must to write');?>" 
 						rows="5" 
 						required 
-					></textarea>
+					></textarea> -->
 				</div>
 			</div>
 			<!-- upload image -->
 			<div class="form-group">
 				<div class="col-sm-2 control-label">
 					<i class="fa fa-image"></i>
-					<?php echo ___('Preview images');?>
+					<?php echo ___('Upload image');?>
 				</div>
 				<div class="col-sm-10">
 					<div id="ctb-file-area">
-						<a href="javascript:;" class="btn btn-info" id="ctb-file-btn">
+						<div class="" id="ctb-file-btn">
 							<i class="fa fa-image"></i>
-							<?php echo ___('Upload image');?>
+							<?php echo ___('Select or Drag images');?>
 							<input type="file" id="ctb-file" multiple >
-						</a>
+						</div>
 					</div>
 					<!-- upload progress -->
 					<div id="ctb-file-progress">
@@ -127,32 +114,32 @@ if(class_exists('theme_custom_contribution')){
 						<?php foreach(theme_custom_storage::get_types() as $k => $v){ ?>
 <div class="row">
 <div class="col-sm-8">
-<div class="input-group">
-<label class="input-group-addon" id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url-addon" for="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url"><i class="fa fa-link fa-fw"></i></label>
-<input 
-	type="url" 
-	name="<?php echo theme_custom_storage::$iden;?>[<?php echo $k;?>][url]" 
-	id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url" 
-	class="form-control" 
-	placeholder="<?php echo sprintf(___('%s url'),$v['text']);?>"
-	aria-describedby="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url-addon"
-	title="<?php echo sprintf(___('%s url'),$v['text']);?>"
->
-</div>
+	<div class="input-group">
+	<label class="input-group-addon" id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url-addon" for="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url"><i class="fa fa-link fa-fw"></i></label>
+	<input 
+		type="url" 
+		name="<?php echo theme_custom_storage::$iden;?>[<?php echo $k;?>][url]" 
+		id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url" 
+		class="form-control" 
+		placeholder="<?php echo sprintf(___('%s url'),$v['text']);?>"
+		aria-describedby="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-url-addon"
+		title="<?php echo sprintf(___('%s url'),$v['text']);?>"
+	>
+	</div>
 </div>
 <div class="col-sm-4">
-<div class="input-group">
-<label class="input-group-addon" id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd-addon" for="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd"><i class="fa fa-key fa-fw"></i></label>
-<input 
-	type="text" 
-	name="<?php echo theme_custom_storage::$iden;?>[<?php echo $k;?>][pwd]" 
-	id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd" 
-	class="form-control" 
-	placeholder="<?php echo sprintf(___('%s password'),$v['text']);?>"
-	aria-describedby="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd-addon"
-	title="<?php echo sprintf(___('%s password'),$v['text']);?>"
->
-</div>
+	<div class="input-group">
+	<label class="input-group-addon" id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd-addon" for="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd"><i class="fa fa-key fa-fw"></i></label>
+	<input 
+		type="text" 
+		name="<?php echo theme_custom_storage::$iden;?>[<?php echo $k;?>][pwd]" 
+		id="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd" 
+		class="form-control" 
+		placeholder="<?php echo sprintf(___('%s password'),$v['text']);?>"
+		aria-describedby="<?php echo theme_custom_storage::$iden;?>-<?php echo $k;?>-pwd-addon"
+		title="<?php echo sprintf(___('%s password'),$v['text']);?>"
+	>
+	</div>
 </div>
 </div>
 						<?php } ?>
@@ -163,62 +150,80 @@ if(class_exists('theme_custom_contribution')){
 			<div class="form-group">
 				<div class="col-sm-2 control-label">
 					<i class="fa fa-folder-open"></i>
-					<?php echo ___('Categories');?>
+					<?php echo ___('Category');?>
 				</div>
 				<div class="col-sm-10">
-					<div class="checkbox-select">
-						<?php
-						foreach($cats as $cat){
-							?>
-							<label class="ctb-cat label label-default" for="ctb-cats-<?php echo $cat->term_id;?>">
-								<?php echo esc_html($cat->name);?>
-							</label>
-							
-							<?php
-						}
-						?>
-					</div>
-					<?php foreach($cats as $cat){ ?>
-						<input 
-							type="checkbox" 
-							id="ctb-cats-<?php echo $cat->term_id;?>" 
-							name="ctb[cats][]" 
-							value="<?php echo $cat->term_id;?>"
-							hidden
-						>
-					<?php } ?>
+					<?php 
+					wp_dropdown_categories([
+						'id' => 'ctb-cat',
+						'class' => 'form-control',
+						'show_option_none' => ___('Select a category'),
+						'hierarchical' => true,
+						'include' => (array)theme_custom_contribution::get_options('cats'),
+					]); 
+					?>
 				</div>
 			</div>
 			<!-- tags -->
 			<div class="form-group">
 				<div class="col-sm-2 control-label">
 					<i class="fa fa-tags"></i>
-					<?php echo ___('Tags');?>
+					<?php echo ___('Pop. tags');?>
 				</div>
 				<div class="col-sm-10">
 					<div class="checkbox-select">
 						<?php
 						foreach($tags as $tag){
 							?>
-							<label class="ctb-tag label label-default" for="ctb-tags-<?php echo $tag->term_id;?>">
-								<?php echo esc_html($tag->name);?>
+							<label class="ctb-tag" for="ctb-tags-<?php echo $tag->term_id;?>">
+								<input 
+									type="checkbox" 
+									id="ctb-tags-<?php echo $tag->term_id;?>" 
+									name="ctb[tags][]" 
+									value="<?php echo esc_attr($tag->name);?>"
+									hidden
+								>
+								<span class="label label-default">
+									<?php echo esc_html($tag->name);?>
+								</span>
 							</label>
 							
 							<?php
 						}
 						?>
 					</div>
-					<?php foreach($tags as $tag){ ?>
-						<input 
-							type="checkbox" 
-							id="ctb-tags-<?php echo $tag->term_id;?>" 
-							name="ctb[tags][]" 
-							value="<?php echo esc_attr($tag->name);?>"
-							hidden
-						>
-					<?php } ?>
 				</div>
 			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">
+					<i class="fa fa-tag"></i>
+					<?php echo ___('Custom tags');?>
+				</div>
+				<div class="col-sm-10">
+					<div id="custom-tag">
+						<div class="row">
+							<?php for($i = 0;$i<=3;++$i){ ?>
+								<div class="col-xs-6 col-sm-3">
+									<div class="input-group input-group-sm">
+										<label class="input-group-addon" for="ctb-tag-<?php echo $i;?>"><i class="fa fa-tag fa-fw"></i></label>
+										<input id="ctb-tag-<?php echo $i;?>" class="custom-tag-list form-control" type="text" name="ctb[tags][]" placeholder="<?php echo sprintf(___('tag %d'),$i+1);?>" size="10">
+									</div>
+								</div>
+							<?php } ?>
+						</div>
+						<!-- <div id="custom-tag-added-container"></div>
+						<div id="custom-tag-add-container">
+							<div class="input-group">
+								<input type="text" id="custom-tag-new" class="form-control" placeholder="<?php echo ___('Custom tag');?>" size="10">
+								<span class="input-group-btn">
+									<a id="custom-tag-add-btn" href="javascript:;" class="btn btn-info"><i class="fa fa-plus" data-tpl=""></i> <?php echo ___('Add');?></a>
+								</span>
+							</div>
+						</div> -->
+					</div>
+				</div>
+			</div>
+
 			<!-- source -->
 			<?php if(class_exists('theme_custom_post_source')){ ?>
 				<div class="form-group">

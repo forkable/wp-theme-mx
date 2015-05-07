@@ -178,8 +178,9 @@ class theme_page_cats{
 							'nopaging' => true,
 							'post__in' => $post_ids,
 						));
-						while($query->have_posts()){
-							$query->the_post();
+						//while($query->have_posts()){
+							foreach($query->posts as $post){
+							//$query->the_post();
 							theme_functions::archive_img_content(array(
 								'classes' => array('col-xs-6 col-sm-4 col-md-3 col-lg-2'),
 							));

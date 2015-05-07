@@ -49,17 +49,18 @@ class custom_post_point{
 		if($post->post_type !== 'post')
 			return;
 			
-		$post_point_users = (array)self::get_post_raters($post_id);
-		if(!empty($post_point_users)){
-			foreach($post_point_users as $user_id){
-				/**
-				 * delete user meta
-				 */
-				self::decr_user_point_count($user_id);
+		$rater_ids = (array)self::get_post_raters($post_id);
+		if(!empty($raters)){
+			foreach($rater_ids as $rater_id){
+				
+				self::decr_post_raters($post_id,$rater_id);
+				self::decr_post_raters_count($post_id);
+				self::decr_rater_posts($post_id,$rater_id);
 			}
 		}
 		
 	}
+	//public static function decr_user_point_count()
 	/**
 	 * 随机在总量中获取被投币最多的文章排行（最受欢迎的文章）
 	 *
@@ -171,7 +172,7 @@ class custom_post_point{
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	public static function get_post_raters($post_id){
-		if(!is_int($post_id))
+		if(!is_numeric($post_id))
 			return false;
 			
 		static $caches;
@@ -464,14 +465,14 @@ class custom_post_point{
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	public static function incr_post_points_count($post_id,$points){
-		if(!is_int($post_id) || (int)$post_id === 0)
+		if(!is_numeric($post_id) || (int)$post_id === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_post_id',
 				'msg' => ___('Invaild post id.'),
 			];
 
-		if(!is_int($points) || (int)$points === 0)
+		if(!is_numeric($points) || (int)$points === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_point_value',
@@ -494,7 +495,7 @@ class custom_post_point{
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	public static function incr_post_raters_count($post_id){
-		if(!is_int($post_id) || !(int)$post_id)
+		if(!is_numeric($post_id) || !(int)$post_id)
 			return false;
 			
 		$count = (int)get_post_meta($post_id,self::$post_meta_key['count_users'],true);
@@ -513,7 +514,7 @@ class custom_post_point{
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	public static function decr_post_raters_count($post_id){
-		if(!is_int($post_id) || !(int)$post_id)
+		if(!is_numeric($post_id) || !(int)$post_id)
 			return false;
 			
 		$count = (int)get_post_meta($post_id,self::$post_meta_key['count_users'],true);
@@ -538,21 +539,21 @@ class custom_post_point{
 	 */
 	public static function incr_post_raters($post_id,$rater_id,$points){
 			
-		if(!is_int($post_id) || (int)$post_id === 0)
+		if(!is_numeric($post_id) || (int)$post_id === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_post_id',
 				'msg' => ___('Invaild post id.'),
 			];
 			
-		if(!is_int($rater_id) || (int)$rater_id === 0)
+		if(!is_numeric($rater_id) || (int)$rater_id === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_rater_id',
 				'msg' => ___('Invaild rater id.'),
 			];
 
-		if(!is_int($points) || (int)$points === 0)
+		if(!is_numeric($points) || (int)$points === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_points',
@@ -613,21 +614,21 @@ class custom_post_point{
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	public static function incr_rater_posts($post_id,$rater_id,$points){
-		if(!is_int($post_id) || (int)$post_id === 0)
+		if(!is_numeric($post_id) || (int)$post_id === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_post_id',
 				'msg' => ___('Invaild post id.'),
 			];
 
-		if(!is_int($rater_id) || (int)$rater_id === 0)
+		if(!is_numeric($rater_id) || (int)$rater_id === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_rater_id',
 				'msg' => ___('Invaild rater id.'),
 			];
 			
-		if(!is_int($points) || (int)$points === 0)
+		if(!is_numeric($points) || (int)$points === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_point_value',
@@ -672,14 +673,14 @@ class custom_post_point{
 	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
 	 */
 	public static function decr_post_raters($post_id,$rater_id){
-		if(!is_int($post_id) || (int)$post_id === 0)
+		if(!is_numeric($post_id) || (int)$post_id === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_post_id',
 				'msg' => ___('Invaild post id.'),
 			];
 			
-		if(!is_int($rater_id) || (int)$rater_id === 0)
+		if(!is_numeric($rater_id) || (int)$rater_id === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_rater_id',
@@ -708,14 +709,14 @@ class custom_post_point{
 		return true;
 	}
 	public static function decr_rater_posts($post_id,$rater_id){
-		if(!is_int($post_id) || (int)$post_id === 0)
+		if(!is_numeric($post_id) || (int)$post_id === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_post_id',
 				'msg' => ___('Invaild post id.'),
 			];
 			
-		if(!is_int($rater_id) || (int)$rater_id === 0)
+		if(!is_numeric($rater_id) || (int)$rater_id === 0)
 			return [
 				'status' => 'error',
 				'code' => 'invaild_rater_id',

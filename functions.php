@@ -333,14 +333,14 @@ class theme_functions{
 
 		global $post;
 		$args['classes'][] = 'post-list post-img-list';
-		$post_title = get_the_title();
+		$post_title = esc_html(get_the_title());
 
-		$excerpt = get_the_excerpt() ? get_the_excerpt() : null;
+		$excerpt = get_the_excerpt();
 
 		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 		?>
 		<li class="<?php echo implode(' ',$args['classes']);?>">
-			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo esc_attr($post_title), empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
+			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo $post_title, empty($excerpt) ? null : ' - ' . esc_attr($excerpt);?>">
 				<div class="thumbnail-container">
 					<img class="placeholder" alt="Placeholder" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>">
 					<?php
@@ -349,12 +349,12 @@ class theme_functions{
 					 */
 					if($args['lazyload']){
 						?>
-						<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+						<img class="post-list-img" src="<?php echo theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" data-src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo $post_title;?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 					<?php }else{ ?>
-						<img class="post-list-img" src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo esc_attr($post_title);?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+						<img class="post-list-img" src="<?php echo esc_url($thumbnail_real_src);?>" alt="<?php echo $post_title;?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
 					<?php } ?>
 				</div>
-				<h3 class="post-list-title"><?php the_title();?></h3>
+				<h3 class="post-list-title"><?php echo $post_title;?></h3>
 					
 			</a>
 		</li>
@@ -1784,8 +1784,8 @@ class theme_functions{
 				'ignore_sticky_posts' => false,
 			]);
 			if($query->have_posts()){
-				while($query->have_posts()){
-					$query->the_post();
+				foreach($query->posts as $post){
+					//$query->the_post();
 					self::archive_img_content(array(
 						'classes' => array('col-xs-6 col-sm-3')
 					));

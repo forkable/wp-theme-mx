@@ -1,7 +1,31 @@
+.wp-editor-container{
+	border: 1px solid #e5e5e5;
+	
+}
+.mce-statusbar .mce-container-body{
+	background: #f5f5f5 !important;
+}
+.screen-reader-text{
+	display: none;
+}
+
 #ctb-file-btn{
 	position: relative;
+	background: rgb(248,248,248);
 	overflow: hidden;
+	width: 100%;
+	padding: 1em 0;
+	border: 3px dashed #ccc;
+	text-align: center;
+	border-radius: 4px;
+	font-size: 2em;
+	color: #666;
 }
+	#ctb-file-btn:hover{
+		background: #eee;
+		border-color: #333;
+		color: #333;
+	}
 #ctb-file{
 	position: absolute;
 	font-size: 99em;
@@ -31,13 +55,33 @@
 	#ctb-file-progress{
 		position: relative;
 	}
+	#ctb-file-progress .tip-status{
+		font-size: 2em;
+		padding: 1em 0;
+		text-align: center;
+	}
+		#ctb-file-progress .tip-status i{
+			
+		}
 		#ctb-file-progress-bar{
 			background: #428bca;
 			position: absolute;
 			bottom: 0;
 			left: 0;
-			height: 1px;
+			height: 2px;
 		}
+			#ctb-file-progress-bar:after{
+				width: 10px;
+				height: 10px;
+				background: #428bca;
+				content: '';
+				position: absolute;
+				right: 0;
+				bottom: -4px;
+				-webkit-border-radius: 50%;
+				-moz-border-radius: 50%;
+				border-radius: 50%;
+			}
 	#ctb-files{
 		margin-top: 0;
 	}
@@ -46,19 +90,48 @@
 		position: relative;
 		margin-top: 10px;
 	}
+		#ctb-files .thumbnail-tpl input[type=radio]{
+			display: none;
+		}
+		.ctb-insert-btn{
+			margin-bottom: 5px;
+		}
+		.ctb-set-cover-btn{
+			display: block;
+			border: 1px solid #b2b2b2;
+			border-radius: 4px;
+			padding: .1em 0;
+			text-align: center;
+			font-weight: normal;
+		}
+			.ctb-set-cover-btn:hover{
+				background: #eee;
+			}
+		#ctb-files .thumbnail-tpl .img-thumbnail-checkbox:checked + .ctb-set-cover-btn{
+			background: #428bca;
+			color: #fff;
+			border-color: #428bca;
+		}
+		.ctb-img-des{
+			width: 100%;
+			resize: none;
+		}
 		#ctb-files .img-link{
 			display: block;
-			border: 5px solid #fff;
+			border: 1px solid #fff;
 			box-shadow: 0 0 3px rgba(0,0,0,.3);
 			border-radius: 4px;
+			margin-bottom: 5px;
+			height: 100px;
+			overflow: hidden;
 		}
 			#ctb-files .img-link:hover{
 				border-color: #428bca;
 			}
 			#ctb-files .img-del{
 				position: absolute;
-				right: 15px;
-				bottom: 5px;
+				right: 10px;
+				top: 0;
 				width: 20px;
 				height: 20px;
 				font-size: 10px;
@@ -69,6 +142,7 @@
 				border-radius: 50%;
 				background: #d9534f;
 				opacity: .7;
+				cursor: pointer;
 			}
 			#ctb-files .img-del:hover{
 				opacity: 1;
@@ -77,23 +151,49 @@
 	display: none;
 }
 /**
+ * #ctb-cat
+ */
+#ctb-cat{
+	width: auto;
+	cursor: pointer;
+}
+/**
  * .checkbox-select
  */
 #fm-ctb .checkbox-select{
-	padding-top: .5em;
+	font-size: 1.3em;
 }
-	#fm-ctb .checkbox-select label{
-		display: inline-block;
-		font-size: 1em;
+	.ctb-tag .label .fa{
+		display: none;
 	}
-		#fm-ctb .checkbox-select label.label-success:before{
-			font-family: 'FontAwesome';
-			content: "\f00c";
-			font-weight: normal;
-			line-height: 0;
-		}
+	.ctb-tag input:checked ~ .label{
+		background: #4cae4c;
+		color: #fff;
+	}
 
+/**
+ * #custom-tag
+ */
+.custom-tag-list{
+	width: 100%;
+}
+#custom-tag-added-container,
+#custom-tag-add-container{
+	float: left;
+}
 #reprint-group{
 	padding-top: 10px;
 	display: none;
+}
+
+.wp-editor-wrap{
+	margin-top: -30px;
+}
+@media (min-width: 768px){
+	label[for="ctb-content"]{
+		margin-top: 30px;
+	}
+	.wp-editor-wrap{
+		margin-top: 0;
+	}
 }

@@ -4,12 +4,12 @@ define(function(require, exports, module){
 		js_request 	= require('theme-cache-request');
 		
 	exports.config = {
-		fm_id : 			'#fm-ctb',
-		file_area_id : 		'#ctb-file-area',
-		file_btn_id : 		'#ctb-file-btn',
-		file_id : 			'#ctb-file',
-		file_tip_id : 		'#ctb-file-tip',
-		files_id : 			'#ctb-files',
+		fm_id : 			'fm-ctb',
+		file_area_id : 		'ctb-file-area',
+		file_btn_id : 		'ctb-file-btn',
+		file_id : 			'ctb-file',
+		file_tip_id : 		'ctb-file-tip',
+		files_id : 			'ctb-files',
 
 		process_url : '',
 		
@@ -18,6 +18,11 @@ define(function(require, exports, module){
 			M00002 : 'Uploading {0}/{1}, please wait...',
 			M00003 : 'Click to delete',
 			M00004 : '{0} files have been uploaded.',
+			M00005 : 'Source',
+			M00006 : 'Click to view source',
+			M00007 : 'Set as cover.',
+			M00008 : 'Optional: some description',
+			M00009 : 'Insert',
 			E00001 : 'Sorry, server error please try again later.'
 		}
 	}
@@ -29,34 +34,61 @@ define(function(require, exports, module){
 			toggle_reprint_group();
 		});
 	}
-		
+	function I(e){
+		return document.getElementById(e);
+	}
 	exports.bind = function(){
-		cache.$fm = 			jQuery('#fm-ctb');
-		cache.$file_area = 		jQuery('#ctb-file-area');
-		cache.$file_btn = 		jQuery('#ctb-file-btn');
-		cache.$file = 			jQuery('#ctb-file');
-		cache.$files = 			jQuery('#ctb-files');
-		cache.$file_progress = 		jQuery('#ctb-file-progress');
-		cache.$file_completion_tip = jQuery('#ctb-file-completion');
-		cache.$file_progress_bar = 	jQuery('#ctb-file-progress-bar');
-		cache.$file_progress_tx = 	jQuery('#ctb-file-progress-tx');
+		cache.$fm = 			I('fm-ctb');
+		cache.$file_area = 		I('ctb-file-area');
+		cache.$file_btn = 		I('ctb-file-btn');
+		cache.$file = 			I('ctb-file');
+		cache.$files = 			I('ctb-files');
+		cache.$file_progress = 		I('ctb-file-progress');
+		cache.$file_completion_tip = I('ctb-file-completion');
+		cache.$file_progress_bar = 	I('ctb-file-progress-bar');
+		cache.$file_progress_tx = 	I('ctb-file-progress-tx');
 
-		if(!cache.$fm[0]) return false;
+		if(!cache.$fm) return false;
 		upload();
-		checkbox_select(cache.$fm);
-		fm_validate(cache.$fm);
+		//checkbox_select(cache.$fm);
+		fm_validate(jQuery(cache.$fm));
 		
 		
+	}
+
+	function custom_tag(){
+		this.added_container_id = 'custom-tag-added-container';
+		this.add_container_id = 'custom-tag-add-container';
+		this.add_new_id = 'custom-tag-new';
+		this.add_btn_id = 'custom-tag-add-btn';
+
+
+		function get_tpl(tx){
+			var $tpl = document.createElement('span'),
+				$remove = document.createElement('span');
+			$tpl.textContent = tx;
+			$tpl.setAttribute('class','label label-success');
+			
+			$remove.classList.add('remove');
+			$remove.innerHTML = '<i class="fa fa-minus-circle"></i>';
+			$remove.addEventListener('click', function (e) {
+				$tpl.parentNode.removeChild($tpl);
+			}, false);
+			
+			return $tpl;
+		}
 	}
 	/**
 	 * upload
 	 */
 	
 	function upload(){
-		cache.$file.on({
-			change 		: file_select,
-			drop 		: file_select
-		});
+		cache.$file.addEventListener('change',file_select,false);
+		cache.$file.addEventListener('drop',file_select,false);
+		//	change 		: file_select,
+		//	drop 		: file_select
+		//});
+		
 		/**
 		 * file_select
 		 */
@@ -107,9 +139,7 @@ define(function(require, exports, module){
 			xhr.upload.onprogress = function(e){
 				if (e.lengthComputable) {
 					var percent = e.loaded / e.total * 100;		
-					cache.$file_progress_bar.animate({
-						width : percent + '%'
-					},500);
+					cache.$file_progress_bar.style.width = percent + '%';
 					
 				}
 			}
@@ -117,7 +147,7 @@ define(function(require, exports, module){
 		}
 		function beforesend_callback(){
 			var tx = config.lang.M00002.format(cache.file_index + 1,cache.file_count);
-			cache.$file_progress_bar.width('0');
+			cache.$file_progress_bar.style.width = 0;
 			uploading_tip('loading',tx);
 		}
 		function error_callback(msg){
@@ -149,8 +179,9 @@ define(function(require, exports, module){
 					attach_id : data['attach-id']
 					},
 					$tpl = get_$tpl(args);
-				cache.$files.show().append($tpl);
-				$tpl.fadeIn();
+				cache.$files.style.display = 'block';
+				cache.$files.appendChild($tpl);
+				$tpl.style.display = 'block';
 				/** 
 				 * check all thing has finished, if finished
 				 */
@@ -193,7 +224,7 @@ define(function(require, exports, module){
 					/** 
 					 * reset file input
 					 */
-					cache.$file.val('');
+					cache.$file.value = '';
 
 				}
 			}
@@ -206,20 +237,33 @@ define(function(require, exports, module){
 		 }
 		 */
 		function get_$tpl(args){
-			var tpl = '<div id="img-' + args.attach_id + '" class="thumbnail-tpl col-xs-6 col-sm-3 col-md-2">' +
-					'<a class="img-link" href="' + args.original + '" target="_blank">' + 
-						'<img src="' + args.thumbnail + '" alt="Thumbnail preview" >' +
+			var $tpl = document.createElement('div'),
+				content = '<a class="img-link" href="' + args.original + '" target="_blank" title="' + config.lang.M00006 + '">' + 
+						'<img src="' + args.thumbnail + '" alt="Preview" >' +
 					'</a>' +
-					'<a href="javascript:;" class="img-del">X</a>' +
-					'<input type="hidden" name="ctb[attach-ids][]" value="' + args.attach_id + '" title="' + config.lang.M00003 + '" >' + 
-				'</div>',
-				$tpl = jQuery(tpl).hide(),
-				$del = $tpl.find('a.img-del');
-			$del.on('click',function(){
-				$tpl.fadeOut('slow',function(){
-					$tpl.remove();
-				});
+					'<span class="img-del" title="' + config.lang.M00003 + '">X</span>' +
+					'<a href="javascript:;" class="btn btn-primary btn-block ctb-insert-btn" id="ctb-insert-' + args.attach_id + '"><i class="fa fa-plug"></i> ' + config.lang.M00009 + '</a>' +
+					'<input type="radio" name="ctb[thumbnail-id]" id="img-thumbnail-' + args.attach_id + '" value="' + args.attach_id + '" hidden class="img-thumbnail-checkbox">' +
+					'<label for="img-thumbnail-' + args.attach_id + '" class="ctb-set-cover-btn">' + config.lang.M00007 + '</label>' +
+					'<textarea id="ctb-img-des-' + args.attach_id + '" rows="2" class="ctb-img-des form-control" placeholder="' + config.lang.M00008 + '"></textarea>' +
+					'<input type="hidden" name="ctb[attach-ids][]" value="' + args.attach_id + '" >';
+					
+			$tpl.id = 'img-' + args.attach_id;
+			$tpl.setAttribute('class','thumbnail-tpl col-xs-6 col-sm-3 col-md-2');
+			$tpl.innerHTML = content;
+			$tpl.style.display = 'none';
+			var $del = $tpl.querySelector('.img-del');
+			$del.addEventListener('click',function(){
+				$tpl.parentNode.removeChild($tpl);
 			});
+			/**
+			 * set as cover
+			 */
+			
+			//if(I('img-thumbnail-' + args.attach_id).checked){
+				
+			//}
+
 			return $tpl;
 		}
 		/**
@@ -273,36 +317,22 @@ define(function(require, exports, module){
 			 * uploading status
 			 */
 			if(!status || status === 'loading'){
-				cache.$file_progress_tx.html(tools.status_tip('loading',text));
-				cache.$file_progress.show();
-				cache.$file_area.hide();
-				cache.$file_completion_tip.hide();
+				cache.$file_progress_tx.innerHTML = tools.status_tip('loading',text);
+				cache.$file_progress.style.display = 'block';
+				cache.$file_area.style.display = 'none';
+				cache.$file_completion_tip.style.display = 'none';
 			/** 
 			 * success status
 			 */
 			}else{
-				cache.$file_completion_tip.html(tools.status_tip(status,text)).show();
-				cache.$file_progress.hide();
-				cache.$file_area.show();
+				cache.$file_completion_tip.innerHTML = tools.status_tip(status,text)
+				cache.$file_completion_tip.style.display = 'block';
+				cache.$file_progress.style.display = 'none';
+				cache.$file_area.style.display = 'block';
 			}
 		}
 	}
-	function checkbox_select($fm){
-		var $boxes = $fm.find('.checkbox-select'),
-			selected_class = 'label-success';
-		$boxes.each(function(){
-			var $labels = jQuery(this).find('label');
-			$labels.on('click',function(){
-				var $this = jQuery(this);
-				if($this.hasClass(selected_class)){
-					$this.removeClass(selected_class);
-				}else{
-					$this.addClass(selected_class);
-				}
-			});
-			
-		});
-	}
+
 	function fm_validate($fm){
 		var m = new tools.validate();
 			m.process_url = config.process_url + '&' + jQuery.param({
@@ -311,13 +341,13 @@ define(function(require, exports, module){
 			});
 			m.done = function(data){
 				if(data && data.status === 'success'){
-					$fm.find('input:text').val('');
-					$fm.find('textarea').text('');
+					//$fm[0].find('input:text').val('');
+					//$fm[0].find('textarea').text('');
 					//setTimeout(function(){
 					//	location.href = location.href;
 					//},2000);
 				}
-				$fm.find('.page-tip').show();
+				$fm[0].querySelector('.page-tip').style.display = 'block';
 			};
 			m.loading_tx = config.lang.M00001;
 			m.error_tx = config.lang.E00001;
@@ -326,20 +356,24 @@ define(function(require, exports, module){
 	}
 
 	function toggle_reprint_group(){
-		var $reprint_group = jQuery('#reprint-group');
-		var $radios = jQuery('.theme_custom_post_source-source-radio');
-		$radios.each(function(){
-			action(jQuery(this));
-		});
-		$radios.on('change',function(){
-			action(jQuery(this));
-		});
+		var $reprint_group = I('reprint-group');
+		var $radios = document.querySelectorAll('.theme_custom_post_source-source-radio');
+		
+		for(var i = 0, len = $radios.length; i<len; i++){
+			//console.log(i);
+			action($radios[i]);
+			$radios[i].addEventListener('change',function(){
+				action(this);
+			});
+		}
+
 		function action($radio){
-			if($radio[0].id === 'theme_custom_post_source-source-reprint' && $radio.prop('checked')){
-				$reprint_group.show();
-				$reprint_group.find('input').eq(0).focus();
+			//console.log($radio);
+			if($radio.id === 'theme_custom_post_source-source-reprint' && $radio.checked){
+				$reprint_group.style.display = 'block';
+				$reprint_group.querySelector('input').focus();
 			}else{
-				$reprint_group.hide();
+				$reprint_group.style.display = 'none';
 			}
 		}
 	}

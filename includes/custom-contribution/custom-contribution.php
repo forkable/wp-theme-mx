@@ -260,14 +260,10 @@ class theme_custom_contribution{
 				/**
 				 * post status
 				 */
-				$cap = get_user_meta(get_current_user_id(),'wp_capabilities', true);
-				switch($cap){
-					case 'contributor':
-					case 'subscriber':
-						$post_status = 'pending';
-						break;
-					default:
-						$post_status = 'publish';
+				if(current_user_can('publish_posts')){
+					$post_status = 'publish';
+				}else{
+					$post_status = 'pending';
 				} 
 				/**
 				 * insert
