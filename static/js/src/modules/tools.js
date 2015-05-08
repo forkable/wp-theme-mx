@@ -142,7 +142,7 @@ define(function(require, exports, module){
 				}
 				cache.$submit.text(cache.submit_loading_tx).attr('disabled',true);
 				
-				tip('loading',cache.submit_loading_tx);
+				exports.ajax_loading_tip('loading',cache.submit_loading_tx);
 				
 				jQuery.ajax({
 					url : that.process_url,
@@ -151,7 +151,7 @@ define(function(require, exports, module){
 					dataType : 'json'
 				}).done(function(data){
 					if(data && data.status === 'success'){
-						tip(data.status,data.msg);
+						exports.ajax_loading_tip(data.status,data.msg);
 						if(data.redirect){
 							setTimeout(function(){
 								location.href = data.redirect;
@@ -163,7 +163,7 @@ define(function(require, exports, module){
 						}
 					}else if(data && data.status === 'error'){
 						cache.$submit.removeAttr('disabled');
-						tip(data.status,data.msg);
+						exports.ajax_loading_tip(data.status,data.msg);
 						/**
 						 * email_pwd_not_match
 						 */
@@ -176,13 +176,13 @@ define(function(require, exports, module){
 						}
 					}else{
 						cache.$submit.removeAttr('disabled');
-						tip('error',that.error_tx);
+						exports.ajax_loading_tip('error',that.error_tx);
 					}
 					cache.$submit.text(cache.submit_ori_tx);
 					/** callback done */
 					that.done(data);
 				}).fail(function(){
-					tip('error',that.error_tx);
+					exports.ajax_loading_tip('error',that.error_tx);
 					cache.$submit.text(cache.submit_ori_tx).removeAttr('disabled');
 				}).always(function(){
 					/** callback always */
@@ -190,19 +190,6 @@ define(function(require, exports, module){
 				});
 			}
 		};
-		function tip(t,s){
-			if(t === 'hide'){
-				if(!cache.$tip.is(':hidden')){
-					cache.$tip.hide();
-				}
-			}else{
-				cache.$tip.html(exports.status_tip(t,s));
-				if(cache.$tip.is(':hidden')){
-					cache.$tip.show();
-				}
-			}
-		};
-		
 		return this;
 	}
 

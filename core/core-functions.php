@@ -1,5 +1,17 @@
 <?php
-
+/**
+ * Filter the js
+ *
+ * @param string $value HTML code
+ * @return string
+ * @version 1.0.0
+ */
+function fliter_script($value) {
+	$value = preg_replace("/(javascript:)?on(click|load|key|mouse|error|abort|move|unload|change|dblclick|move|reset|resize|submit)/i","data-filter",$value);
+	$value = preg_replace("/(.*?)<\/script>/si","",$value);
+	$value = preg_replace("/(.*?)<\/iframe>/si","",$value);
+	return $value;
+}
 /**
  * Output select tag html
  *

@@ -48,6 +48,7 @@ if(class_exists('theme_custom_contribution')){
 						placeholder="<?php echo ___('Post title (require)');?>" 
 						title="<?php echo ___('Post title must to write');?>" 
 						required 
+						autofocus
 					>
 				</div>
 			</div>
@@ -62,19 +63,9 @@ if(class_exists('theme_custom_contribution')){
 						'textarea_name' => 'ctb[post-content]',
 						'drag_drop_upload' => true,
 						'teeny' => true,
-						'textarea_rows' => 10,
 						'media_buttons' => false,
 					]);
 					?>
-					<!-- <textarea 
-					class="form-control" 
-						id="ctb-content" 
-						name="ctb[post-content]" 
-						placeholder="<?php echo ___('Just write about introduction (require)');?>" 
-						title="<?php echo ___('Post content must to write');?>" 
-						rows="5" 
-						required 
-					></textarea> -->
 				</div>
 			</div>
 			<!-- upload image -->
@@ -156,6 +147,7 @@ if(class_exists('theme_custom_contribution')){
 					<?php 
 					wp_dropdown_categories([
 						'id' => 'ctb-cat',
+						'name' => 'ctb[cat]',
 						'class' => 'form-control',
 						'show_option_none' => ___('Select a category'),
 						'hierarchical' => true,

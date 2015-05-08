@@ -6,7 +6,7 @@
  * Help you write a wp site quickly.
  *
  * @package KMTF
- * @version 5.0.0
+ * @version 5.0.1
  * @author KM@INN STUDIO
  * @date 2015-04-13
  */
@@ -30,18 +30,18 @@ class theme_features{
 	
 	public static function init(){
 		add_action('after_setup_theme',	__CLASS__ . '::after_setup_theme');
-		add_action('wp_footer',			__CLASS__ . '::theme_header');
+		add_action('wp_footer',			__CLASS__ . '::theme_js',20);
 	}
 	/**
-	 * theme_header
+	 * theme_js
 	 * 
 	 * @return 
 	 * @example 
-	 * @version 1.1.3
+	 * @version 1.1.4
 	 * @author KM (kmvan.com@gmail.com)
 	 * @copyright Copyright (c) 2011-2013 INN STUDIO. (http://www.inn-studio.com)
 	 **/
-	public static function theme_header(){
+	public static function theme_js(){
 		?>
 		<script>
 		<?php
@@ -1955,6 +1955,25 @@ class theme_features{
 				self::get_option('thread_comments')
 			);
 		return $count;
+	}
+	/**
+	 * Get all cat ID by children cat id
+	 *
+	 * @param int $cat_id Current children cat id
+	 * @param array &$all_cat_id All cats id
+	 * @return 
+	 * @version 1.0.0
+	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 */
+	public static function get_all_cats_by_child($cat_id, array & $all_cat_id){
+		$cat = get_category($cat_id);
+		if(!$cat){
+			return false;
+		}
+		$all_cat_id[] = $cat_id;
+		if($cat->parent != 0){
+			return self::get_all_cats_by_child(get_category($cat->parent)->term_id,$all_cat_id);
+		}
 	}
 }
 

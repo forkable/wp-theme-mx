@@ -23,6 +23,10 @@ define(function(require, exports, module){
 			M00007 : 'Set as cover.',
 			M00008 : 'Optional: some description',
 			M00009 : 'Insert',
+			M00010 : 'Preview',
+			M00011 : 'Large size',
+			M00012 : 'Medium size',
+			M00013 : 'Small size',
 			E00001 : 'Sorry, server error please try again later.'
 		}
 	}
@@ -51,11 +55,59 @@ define(function(require, exports, module){
 		if(!cache.$fm) return false;
 		upload();
 		//checkbox_select(cache.$fm);
-		fm_validate(jQuery(cache.$fm));
+		fm_validate(cache.$fm);
 		
 		
 	}
+	/**
+	 * send_to_editor
+	 * 
+	 * @return 
+	 * @version 1.0.0
+	 * @author KM@INN STUDIO
+	 */
+	function send_to_editor(h) {
+		var ed, mce = typeof(tinymce) != 'undefined', qt = typeof(QTags) != 'undefined';
 
+		if ( !wpActiveEditor ) {
+			if ( mce && tinymce.activeEditor ) {
+				ed = tinymce.activeEditor;
+				wpActiveEditor = ed.id;
+			} else if ( !qt ) {
+				return false;
+			}
+		} else if ( mce ) {
+			if ( tinymce.activeEditor && (tinymce.activeEditor.id == 'mce_fullscreen' || tinymce.activeEditor.id == 'wp_mce_fullscreen') )
+				ed = tinymce.activeEditor;
+			else
+				ed = tinymce.get(wpActiveEditor);
+		}
+
+		if ( ed && !ed.isHidden() ) {
+			// restore caret position on IE
+			if ( tinymce.isIE && ed.windowManager.insertimagebookmark )
+				ed.selection.moveToBookmark(ed.windowManager.insertimagebookmark);
+
+			if ( h.indexOf('[caption') !== -1 ) {
+				if ( ed.wpSetImgCaption )
+					h = ed.wpSetImgCaption(h);
+			} else if ( h.indexOf('[gallery') !== -1 ) {
+				if ( ed.plugins.wpgallery )
+					h = ed.plugins.wpgallery._do_gallery(h);
+			} else if ( h.indexOf('[embed') === 0 ) {
+				if ( ed.plugins.wordpress )
+					h = ed.plugins.wordpress._setEmbed(h);
+			}
+
+			ed.execCommand('mceInsertContent', false, h);
+		} else if ( qt ) {
+			QTags.insertContent(h);
+		} else {
+			document.getElementById(wpActiveEditor).value += h;
+		}
+
+		try{tb_remove();}catch(e){};
+	}
 	function custom_tag(){
 		this.added_container_id = 'custom-tag-added-container';
 		this.add_container_id = 'custom-tag-add-container';
@@ -85,9 +137,6 @@ define(function(require, exports, module){
 	function upload(){
 		cache.$file.addEventListener('change',file_select,false);
 		cache.$file.addEventListener('drop',file_select,false);
-		//	change 		: file_select,
-		//	drop 		: file_select
-		//});
 		
 		/**
 		 * file_select
@@ -174,11 +223,13 @@ define(function(require, exports, module){
 			 */
 			if(data && data.status === 'success'){
 				var args = {
-					thumbnail : data.thumbnail,
-					original : data.original,
-					attach_id : data['attach-id']
+						thumbnail : data.thumbnail,
+						medium : data.medium,
+						large : data.large,
+						full : data.full,
+						attach_id : data['attach-id']
 					},
-					$tpl = get_$tpl(args);
+					$tpl = get_tpl(args);
 				cache.$files.style.display = 'block';
 				cache.$files.appendChild($tpl);
 				$tpl.style.display = 'block';
@@ -188,7 +239,7 @@ define(function(require, exports, module){
 				if(cache.file_count === cache.file_index){
 					var tx = config.lang.M00004.format(cache.file_index,cache.file_count);
 					uploading_tip('success',tx);
-					cache.$file.val('');
+					cache.$file.value = '';
 				/**
 				 * upload next file
 				 */
@@ -233,76 +284,56 @@ define(function(require, exports, module){
 		 * args = {
 			original,
 			thumbnail,
+			mi
 			attach_id
 		 }
 		 */
-		function get_$tpl(args){
+		function get_tpl(args){
 			var $tpl = document.createElement('div'),
-				content = '<a class="img-link" href="' + args.original + '" target="_blank" title="' + config.lang.M00006 + '">' + 
-						'<img src="' + args.thumbnail + '" alt="Preview" >' +
+				M00010 = I('ctb-title').value == '' ? config.lang.M00010 : I('ctb-title').value,
+				content = '<a class="img-link" href="' + args.full.url + '" target="_blank" title="' + config.lang.M00006 + '">' + 
+						'<img src="' + args.thumbnail.url + '" alt="' + M00010 +'" >' +
 					'</a>' +
 					'<span class="img-del" title="' + config.lang.M00003 + '">X</span>' +
-					'<a href="javascript:;" class="btn btn-primary btn-block ctb-insert-btn" id="ctb-insert-' + args.attach_id + '"><i class="fa fa-plug"></i> ' + config.lang.M00009 + '</a>' +
-					'<input type="radio" name="ctb[thumbnail-id]" id="img-thumbnail-' + args.attach_id + '" value="' + args.attach_id + '" hidden class="img-thumbnail-checkbox">' +
+					'<div class="btn-group btn-block">' +
+						'<a href="javascript:;" class="btn btn-primary col-xs-10 ctb-insert-btn" id="ctb-insert-' + args.attach_id + '" data-size="medium"><i class="fa fa-plug"></i> ' + config.lang.M00009 + '</a>' +
+						'<span class="btn btn-primary dropdown-toggle col-xs-2" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></span><ul class="dropdown-menu" role="menu"><li><a href="javascript:;" class="ctb-insert-btn" data-size="large">' + config.lang.M00011 + '</a></li>' +
+					'</div>' +
+					'<input type="radio" name="ctb[thumbnail-id]" id="img-thumbnail-' + args.attach_id + '" value="' + args.attach_id + '" hidden class="img-thumbnail-checkbox" required >' +
 					'<label for="img-thumbnail-' + args.attach_id + '" class="ctb-set-cover-btn">' + config.lang.M00007 + '</label>' +
-					'<textarea id="ctb-img-des-' + args.attach_id + '" rows="2" class="ctb-img-des form-control" placeholder="' + config.lang.M00008 + '"></textarea>' +
 					'<input type="hidden" name="ctb[attach-ids][]" value="' + args.attach_id + '" >';
 					
 			$tpl.id = 'img-' + args.attach_id;
 			$tpl.setAttribute('class','thumbnail-tpl col-xs-6 col-sm-3 col-md-2');
 			$tpl.innerHTML = content;
 			$tpl.style.display = 'none';
+			
 			var $del = $tpl.querySelector('.img-del');
 			$del.addEventListener('click',function(){
 				$tpl.parentNode.removeChild($tpl);
-			});
+			},false);
 			/**
 			 * set as cover
 			 */
-			
-			//if(I('img-thumbnail-' + args.attach_id).checked){
-				
-			//}
+			if(!cache.first_cover){
+				$tpl.querySelector('.img-thumbnail-checkbox').checked = true;
+				cache.first_cover = true;
+			}
+			/**
+			 * insert
+			 */
+			var $insert_btn = $tpl.querySelectorAll('.ctb-insert-btn');
+			for(var i = 0, len = $insert_btn.length; i < len; i++){
+				$insert_btn[i].addEventListener('click',function(){
+					send_to_editor('<p><a href="' + args.full.url + '" title="' + config.lang.M00006 + '" target="_blank" >' + 
+						'<img src="' + args[this.getAttribute('data-size')].url + '" alt="' + M00010 + '" >' +
+					'</a></p>');
+				},false);
+			}
 
 			return $tpl;
 		}
-		/**
-		 * get_img_url_by_size
-		 * 
-		 * @params string size The img size,eg:
-		 * 						square 		(mw/mh:80)
-		 * 						thumbnail 	(mw/mh:120)
-		 * 						thumb150 	(150x150,crop)
-		 * 						mw600 		(mw:600)
-		 * 						bmiddle  	(mw:440)
-		 * 						large 		(original)
-		 * @return string The img url
-		 * @version 1.0.2
-		 * @author KM@INN STUDIO
-		 */
-		function get_img_url_by_size(size,img_url){
-			if(!size) size = 'square';
-			var file_obj = img_url.split('/'),
-				len = file_obj.length,
-				basename = file_obj[len - 1],
-				old_size = file_obj[len - 2],
-				hostname = img_url.substr(0,img_url.indexOf(old_size));
-				url = hostname + size + '/' + basename;
-			return url;
-		}
-		/**
-		 * get_id
-		 * 
-		 * @params string Image url
-		 * @return string The ID
-		 * @version 1.0.0
-		 * @author KM@INN STUDIO
-		 */
-		function get_id(img_url){
-			var id = img_url.split('/'),
-				id = id[id.length - 1].split('.')[0];
-			return id;
-		}
+		
 		/**
 		 * The tip when pic is uploading
 		 *
@@ -334,25 +365,73 @@ define(function(require, exports, module){
 	}
 
 	function fm_validate($fm){
-		var m = new tools.validate();
-			m.process_url = config.process_url + '&' + jQuery.param({
+		$fm.addEventListener('submit',function(){
+			var fm_data = new FormData(),
+				$submit = $fm.querySelector('[type=submit]'),
+				submit_ori_tx = $submit.textContent,
+				submit_loading_tx = $submit.getAttribute('data-loading-text'),
+				inputs = $fm.querySelectorAll('[name]');
+			for(var i = 0, len = inputs.length; i<len; i++){
+				/**
+				 * radio checked
+				 */
+				if(inputs[i].getAttribute('type') === 'radio' && !inputs[i].checked)
+					continue;
+				/**
+				 * checkbox
+				 */
+				if(inputs[i].getAttribute('type') === 'checkbox' && !inputs[i].checked)
+					continue;
+					
+				fm_data.append([inputs[i].name],inputs[i].value);
+			}
+			//console.log(fm_data);
+
+			/**
+			 * sending tip
+			 */
+			tools.ajax_loading_tip('loading',config.lang.M00001);
+			$submit.textContent = submit_loading_tx;
+			$submit.setAttribute('disabled',true);
+			
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST',config.process_url + '&' + tools.param({
 				'theme-nonce' : js_request['theme-nonce'],
 				type : 'post'
-			});
-			m.done = function(data){
-				if(data && data.status === 'success'){
-					//$fm[0].find('input:text').val('');
-					//$fm[0].find('textarea').text('');
-					//setTimeout(function(){
-					//	location.href = location.href;
-					//},2000);
+			}));
+			xhr.send(fm_data);
+			xhr.onload = function(){
+				if(xhr.status >= 200 && xhr.status < 400){
+					var data;
+					try{data = JSON.parse(xhr.responseText)}catch(e){data = xhr.responseText}
+					
+					if(data && data.status){
+						if(data.status === 'error'){
+							//if(data.code ===)
+							$submit.removeAttribute('disabled');
+						}
+						tools.ajax_loading_tip(data.status,data.msg);
+						$submit.textContent = submit_ori_tx;
+					}else{
+						tools.ajax_loading_tip('error',data);
+						$submit.textContent = submit_ori_tx;
+						$submit.removeAttribute('disabled');
+					}
+				}else{
+					tools.ajax_loading_tip('error',config.lang.E00001);
+					$submit.textContent = submit_ori_tx;
+					$submit.removeAttribute('disabled');
 				}
-				$fm[0].querySelector('.page-tip').style.display = 'block';
 			};
-			m.loading_tx = config.lang.M00001;
-			m.error_tx = config.lang.E00001;
-			m.$fm = $fm;
-			m.init();
+			xhr.onerror = function(){
+				tools.ajax_loading_tip('error',config.lang.E00001);
+				$submit.textContent = submit_ori_tx;
+				$submit.removeAttribute('disabled');
+			}
+			
+			
+		});
+		
 	}
 
 	function toggle_reprint_group(){

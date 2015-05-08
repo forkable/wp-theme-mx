@@ -157,6 +157,18 @@
 	width: auto;
 	cursor: pointer;
 }
+
+/**
+ * .howto
+ */
+.howto{display: none;}
+/**
+ * .ctb-insert-btn
+ */
+.ctb-insert-btn + .dropdown-toggle{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
 /**
  * .checkbox-select
  */

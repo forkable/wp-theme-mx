@@ -49,7 +49,8 @@ class theme_asset_enqueue{
 				$k,
 				isset($v['src']) ? $v['src'] : $v['cdn'],
 				isset($v['deps']) ? $v['deps'] : [],
-				self::get_version($v)
+				self::get_version($v),
+				true
 				
 			);
 		}

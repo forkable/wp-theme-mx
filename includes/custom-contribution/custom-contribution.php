@@ -135,6 +135,14 @@ class theme_custom_contribution{
 		$caches[self::$iden] = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 		return $caches[self::$iden];
 	}
+	private static function wp_get_attachment_image_src(...$args){
+		static $caches = [];
+		$cache_id = md5(serialize($args));
+		if(!isset($caches[$cache_id]))
+			$caches[$cache_id] = call_user_func_array('wp_get_attachment_image_src',$args);
+
+		return $caches[$cache_id];
+	}
 	public static function process(){
 		$output = [];
 		
@@ -176,8 +184,30 @@ class theme_custom_contribution{
 					die(theme_features::json_format($output));
 				}else{
 					$output['status'] = 'success';
-					$output['thumbnail'] = wp_get_attachment_image_src($attach_id,'thumbnail')[0];
-					$output['original'] = wp_get_attachment_image_src($attach_id,'full')[0];
+					$output['thumbnail'] = [
+						'url' => 
+						self::wp_get_attachment_image_src($attach_id,'thumbnail')[0],
+						'width' => self::wp_get_attachment_image_src($attach_id,'thumbnail')[1],
+						'height' => self::wp_get_attachment_image_src($attach_id,'thumbnail')[2],
+					];
+					$output['medium'] = [
+						'url' => 
+						self::wp_get_attachment_image_src($attach_id,'medium')[0],
+						'width' => self::wp_get_attachment_image_src($attach_id,'medium')[1],
+						'height' => self::wp_get_attachment_image_src($attach_id,'medium')[2],
+					];
+					$output['large'] = [
+						'url' => 
+						self::wp_get_attachment_image_src($attach_id,'large')[0],
+						'width' => self::wp_get_attachment_image_src($attach_id,'large')[1],
+						'height' => self::wp_get_attachment_image_src($attach_id,'large')[2],
+					];
+					$output['full'] = [
+						'url' => 
+						self::wp_get_attachment_image_src($attach_id,'full')[0],
+						'width' => self::wp_get_attachment_image_src($attach_id,'full')[1],
+						'height' => self::wp_get_attachment_image_src($attach_id,'full')[2],
+					];
 					
 					$output['attach-id'] = $attach_id;
 					$output['msg'] = ___('Upload success.');
@@ -199,36 +229,9 @@ class theme_custom_contribution{
 				if(!$post_title){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_post_title';
-					$output['msg'] = ___('Invaild post title.');
+					$output['msg'] = ___('Please write the post title.');
 					die(theme_features::json_format($output));
 				}
-				/**
-				 * attach
-				 */
-				$attach_ids = isset($ctb['attach-ids']) && is_array($ctb['attach-ids']) ? array_map('intval',$ctb['attach-ids']) : [];
-				$attach_htmls = '';
-				if(!is_null_array($attach_ids)){
-					/**
-					 * get attachment url
-					 */
-					foreach($attach_ids as $attach_id){
-						$img_full_attrs = wp_get_attachment_image_src($attach_id,'full');
-						if(!empty($img_full_attrs)){
-							$img_large_attrs = wp_get_attachment_image_src($attach_id,self::$thumbnail_size);
-							/**
-							 * if thumbnail src = full src, do not echo <a>
-							 */
-							if($img_full_attrs[0] == $img_large_attrs[0]){
-								$attach_html = '<img src="' . $img_large_attrs[0] . '" alt="' . esc_attr($post_title). '" width="' . $img_large_attrs[1] . '" height="' . $img_large_attrs[2] . '">';
-							}else{
-								$attach_html = '<a href="' . $img_full_attrs[0] . '" target="_blank" title="' . sprintf(___('Views source image: %d x %d'),$img_full_attrs[1],$img_full_attrs[2]) . '">
-									<img src="' . $img_large_attrs[0] . '" alt="' . esc_attr($post_title). '" width="' . $img_large_attrs[1] . '" height="' . $img_large_attrs[2] . '">
-								</a>';
-							}
-							$attach_htmls .= '<p>' . $attach_html . '</p>';
-						}
-					}
-				} /** end if have attachment */
 				/**
 				 * post content
 				 */
@@ -236,17 +239,34 @@ class theme_custom_contribution{
 				if(!$post_content){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_post_content';
-					$output['msg'] = ___('Invaild post content.');
+					$output['msg'] = ___('Please write the post content.');
+					die(theme_features::json_format($output));
+				}
+				/**
+				 * check thumbnail cover
+				 */
+				$thumbnail_id = isset($ctb['thumbnail-id']) && is_numeric($ctb['thumbnail-id']) ? (int)$ctb['thumbnail-id'] : null;
+				if(!$thumbnail_id){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_thumbnail_id';
+					$output['msg'] = ___('Please set an image as post thumbnail');
 					die(theme_features::json_format($output));
 				}
 				/**
 				 * cats
 				 */
-				$cats = isset($ctb['cats']) && is_array($ctb['cats']) ? $ctb['cats'] : [];
-				if(!empty($cats)){
-					$cats = array_map('intval',$cats);
-					
+				$cat_id = isset($ctb['cat']) && is_numeric($ctb['cat']) ?(int)$ctb['cat'] : null;
+				if($cat_id < 1){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_cat_id';
+					$output['msg'] = ___('Please select a category.');
+					die(theme_features::json_format($output));
 				}
+				/**
+				 * get all cats
+				 */
+				$all_cats = [];
+				theme_features::get_all_cats_by_child($cat_id,$all_cats);
 				/**
 				 * tags
 				 */
@@ -270,10 +290,10 @@ class theme_custom_contribution{
 				 */
 				$post_id = wp_insert_post(array(
 					'post_title' => $post_title,
-					'post_content' => $post_content . $attach_htmls,
+					'post_content' => fliter_script($post_content),
 					'post_status' => $post_status,
 					'post_author' => get_current_user_id(),
-					'post_category' => $cats,
+					'post_category' => $all_cats,
 					'tags_input' => $tags,
 				),true);
 				if(is_wp_error($post_id)){
@@ -284,16 +304,20 @@ class theme_custom_contribution{
 					/**
 					 * set thumbnail and post parent
 					 */
-					if(!empty($attach_ids)){
+					$attach_ids = isset($ctb['attach-ids']) && is_array($ctb['attach-ids']) ? array_map('intval',$ctb['attach-ids']) : null;
+					if(!is_null_array($attach_ids)){
 						/** set post thumbnail */
-						set_post_thumbnail($post_id,$attach_ids[0]);
+						set_post_thumbnail($post_id,$thumbnail_id);
 						
 						/** set attachment post parent */
 						foreach($attach_ids as $attach_id){
-							wp_update_post(array(
+							$post = get_post($attach_id);
+							if(!$post || $post->post_type !== 'attachment')
+								continue;
+							wp_update_post([
 								'ID' => $attach_id,
 								'post_parent' => $post_id,
-							));
+							]);
 						}
 					}
 					/**
@@ -342,9 +366,22 @@ class theme_custom_contribution{
 		?>
 		seajs.use('<?php echo self::$iden;?>',function(m){
 			m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => self::$iden));?>';
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?php echo ___('Sorry, server error please try again later.');?>';
-			
+			m.config.lang = {
+				M00001 : '<?php echo ___('Loading, please wait...');?>',
+				M00002 : '<?php echo ___('Uploading {0}/{1}, please wait...');?>',
+				M00003 : '<?php echo ___('Click to delete');?>',
+				M00004 : '<?php echo ___('{0} files have been uploaded.');?>',
+				M00005 : '<?php echo ___('Source');?>',
+				M00006 : '<?php echo ___('Click to view source');?>',
+				M00007 : '<?php echo ___('Set as cover.');?>',
+				M00008 : '<?php echo ___('Optional: some description');?>',
+				M00009 : '<?php echo ___('Insert');?>',
+				M00010 : '<?php echo ___('Preview');?>',
+				M00011 : '<?php echo ___('Large size');?>',
+				M00012 : '<?php echo ___('Medium size');?>',
+				M00013 : '<?php echo ___('Small size');?>',
+				E00001 : '<?php echo ___('Sorry, server error please try again later.');?>'
+			};
 			m.init();
 		});
 		<?php
