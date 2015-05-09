@@ -160,9 +160,9 @@ class theme_post_share{
 			
 		wp_enqueue_style(
 			self::$iden,
-			theme_features::get_theme_includes_css(__DIR__,'style',false),
-			false,
-			theme_features::get_theme_info('version')
+			theme_features::get_theme_includes_css(__DIR__),
+			'frontend',
+			theme_file_timestamp::get_timestamp()
 		);
 	}
 	public static function frontend_seajs_alias($alias){

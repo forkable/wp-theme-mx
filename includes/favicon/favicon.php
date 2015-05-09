@@ -182,7 +182,7 @@ class theme_custom_favicon{
 
 	public static function backend_css(){
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__);?>" rel="stylesheet"  media="all"/>
+		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function backend_seajs_alias(array $alias = []){

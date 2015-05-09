@@ -126,9 +126,7 @@ class theme_page_cats{
 		));
 		if($query->have_posts()){
 			/** load pinyin */
-			while($query->have_posts()){
-
-				$query->the_post();
+			foreach($query->posts as $post){
 				/** 提取别名是数字或英文开头的 */
 				$first_letter_pattern = '/^[a-z0-9]/';
 				$first_letter = $post->post_name[0];

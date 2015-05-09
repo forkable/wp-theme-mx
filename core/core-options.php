@@ -95,31 +95,31 @@ class theme_options{
 		if(!self::is_options_page())
 			return false;
 		?>
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
 		<?php
 		echo theme_features::get_theme_css('backend/style','normal');
 		/**
 		 * add admin_css hook 
 		 */
 		do_action('backend_css');
-		?><script id="seajsnode" src="<?php echo theme_features::get_theme_js('seajs/sea');?>"></script>
+		?><script id="seajsnode" src="https://cdnjs.cloudflare.com/ajax/libs/seajs/3.0.1/sea.js"></script>
 		<script>
 		<?php
 		$config = array();
-		$config['base'] = esc_js(theme_features::get_theme_js());
+		$config['base'] = theme_features::get_theme_js();
 		$config['paths'] = array(
-			'theme_js' => esc_js(theme_features::get_theme_js()),
-			'theme_css' => esc_js(theme_features::get_theme_css()),
+			'theme_js' => theme_features::get_theme_js(),
+			'theme_css' => theme_features::get_theme_css(),
 		);
 		$config['vars'] = array(
 			'locale' => str_replace('-','_',get_bloginfo('language')),
-			'theme_js' => esc_js(theme_features::get_theme_js()),
-			'theme_css' => esc_js(theme_features::get_theme_css()),
+			'theme_js' => theme_features::get_theme_js(),
+			'theme_css' => theme_features::get_theme_css(),
 			'process_url' => esc_js(theme_features::get_process_url()),
 		);
 		$config['map'] = array(
-			array('.css','.css?v=' . theme_features::get_theme_info('version')),
-			array('.js','.js?v=' . theme_features::get_theme_info('version'))
+			['.css','.css?v=' . theme_file_timestamp::get_timestamp()],
+			['.js','.js?v=' . theme_file_timestamp::get_timestamp()]
 		);
 		/** 
 		 * seajs hook

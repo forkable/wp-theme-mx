@@ -135,8 +135,7 @@ class theme_recommended_post{
 									'post__in' => $recomm_posts
 								));
 								if($query->have_posts()){
-									while($query->have_posts()){
-										$query->the_post();
+									foreach($query->posts as $post){
 										?>
 										<label for="recomm-post-<?php echo $post->ID;?>" class="button">
 											<input type="checkbox" id="recomm-post-<?php echo $post->ID;?>" name="<?php echo self::$iden;?>[ids][<?php echo $post->ID;?>]" value="<?php echo $post->ID;?>" checked/>

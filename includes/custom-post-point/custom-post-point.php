@@ -95,8 +95,7 @@ class custom_post_point{
 		]);
 		if($args['orderby'] === 'rand' && !empty($query)){
 			$rand_post_ids = [];
-			while($query->have_posts()){
-				$query->the_posts();
+			foreach($query->posts as $post){
 				$rand_post_ids[] = $post->ID;
 			}
 			wp_reset_postdata();

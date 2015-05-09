@@ -343,16 +343,18 @@ class theme_custom_user_settings{
 			case 'avatar':
 				wp_enqueue_style(
 					self::$iden . '-' . $tab_active,
-					theme_features::get_theme_includes_css(__DIR__,$tab_active,false),
-					false,
-					theme_features::get_theme_info('version')
+					theme_features::get_theme_includes_css(__DIR__,$tab_active),
+					'frontend',
+					theme_file_timestamp::get_timestamp()
 				);
+				
 				wp_enqueue_style(
 					self::$iden . '-cropper',
-					theme_features::get_theme_includes_css(__DIR__,'cropper',false),
-					false,
-					theme_features::get_theme_info('version')
+					theme_features::get_theme_includes_css(__DIR__,'cropper'),
+					'frontend',
+					theme_file_timestamp::get_timestamp()
 				);
+
 				break;
 		}
 	}

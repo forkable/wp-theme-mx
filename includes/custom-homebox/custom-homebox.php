@@ -92,8 +92,7 @@ class theme_custom_homebox{
 					?>
 					<ul class="post-img-lists">
 						<?php
-						while($query->have_posts()){
-							$query->the_post();
+						foreach($query->posts as $post){
 							theme_functions::archive_img_content(array(
 								'classes' => array('grid-20 tablet-grid-20 mobile-grid-50'),
 							));
@@ -254,7 +253,7 @@ class theme_custom_homebox{
 	}
 	public static function backend_css(){
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend');?>" rel="stylesheet"  media="all"/>
+		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function after_backend_tab_init(){

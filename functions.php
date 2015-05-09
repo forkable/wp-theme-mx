@@ -17,7 +17,7 @@ class theme_functions{
 	public static $iden = 'mx';
 	public static $theme_edition = 1;
 	public static $theme_date = '2015-02-01 00:00';
-	public static $thumbnail_size = array('post-thumbnail',320,200);
+	public static $thumbnail_size = array('thumbnail',320,200);
 	public static $comment_avatar_size = 60;
 	public static $thumbnail_placeholder = 'frontend/thumbnail.png';
 	public static $avatar_placeholder = 'frontend/avatar.jpg';
@@ -59,29 +59,24 @@ class theme_functions{
 		register_nav_menus(
 			array(
 				'menu-header' 			=> ___('Header menu'),
-				//'menu-header-mobile' 	=> ___('Header menu mobile'),
 				'menu-top-bar' 			=> ___('Top bar menu'),
-				//'menu-tools' 			=> ___('Header menu tools'),
 			)
 		);	
 		/** 
-		 * frontend_js
+		 * frontend_seajs_use
 		 */
-		add_action('frontend_seajs_use',__CLASS__ . '::frontend_js',1);
+		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use',1);
 		/** 
 		 * other
 		 */
 		add_action('widgets_init',__CLASS__ . '::widget_init');
 		add_filter('use_default_gallery_style','__return_false');
-		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form' ) );
-		add_theme_support('post-thumbnails');
+		add_theme_support('html5',['comment-list','comment-form','search-form']);
+
 		add_image_size(self::$thumbnail_size[0],self::$thumbnail_size[1],self::$thumbnail_size[2],true);
-		set_post_thumbnail_size(self::$thumbnail_size[1],self::$thumbnail_size[2]);
+		//set_post_thumbnail_size(self::$thumbnail_size[1],self::$thumbnail_size[2]);
+		
 		add_theme_support('title-tag');
-		/** 
-		 * query_vars
-		 */
-		//add_filter('query_vars', __CLASS__ . '::filter_query_vars');
 		/** 
 		 * bg
 		 */
@@ -92,13 +87,9 @@ class theme_functions{
 			'default-attachment'	=> 'fixed',
 			'wp-head-callback'		=> 'theme_features::_fix_custom_background_cb',
 		));
-		/**
-		 * filter filter_comment_reply_link
-		 */
-		//add_filter('comment_reply_link',__CLASS__ . '::filter_comment_reply_link');
 	}
 	
-	public static function frontend_js(){
+	public static function frontend_seajs_use(){
 		?>
 		seajs.use('frontend',function(m){
 			m.init();
@@ -1563,8 +1554,7 @@ class theme_functions{
 					?>
 					<ul class="row post-img-lists">
 						<?php
-						while($query->have_posts()){
-							$query->the_post();
+						foreach($query->posts as $post){
 							self::archive_img_content($content_args);
 						}
 						wp_reset_postdata();
@@ -1681,8 +1671,7 @@ class theme_functions{
 			?>
 			<ul class="home-recomm row post-img-lists">
 				<?php
-				while($query->have_posts()){
-					$query->the_post();
+				foreach($query->posts as $post){
 					self::archive_img_content(array(
 						'classes' => array('col-sm-4'),
 						'lazyload' => false,

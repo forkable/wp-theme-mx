@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme_import_settings
 Feature URI:	http://www.inn-studio.com
-Version:		2.0.0
+Version:		3.0.0
 Description:	theme_import_settings
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -15,9 +15,9 @@ class theme_import_settings{
 	public static $iden = 'theme_import_settings';
 	
 	public static function init(){
-		add_action('wp_ajax_tis_download',		__CLASS__ . '::process');
-		add_action('wp_ajax_tis_upload',		__CLASS__ . '::process');
-		add_action('after_backend_tab_init',	__CLASS__ . '::js'); 
+		add_action('wp_ajax_' . self::$iden,	__CLASS__ . '::process');
+		add_action('after_backend_tab_init',	__CLASS__ . '::backend_seajs_use'); 
+		add_filter('backend_seajs_alias' , 		__CLASS__ . '::backend_seajs_alias');
 		add_action('backend_css',				__CLASS__ . '::style'); 
 		add_action('advanced_settings',			__CLASS__ . '::display_backend',99);		
 	}
@@ -32,9 +32,7 @@ class theme_import_settings{
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row">
-							<?php echo ___('Import: ');?>
-						</th>
+						<th scope="row"><?php echo ___('Import');?></th>
 						<td>
 							<div id="tis_tip"></div>
 							<div id="tis_upload_area">
@@ -44,11 +42,9 @@ class theme_import_settings{
 						</td>
 					</tr>
 					<tr>
-						<th scope="row">
-							<?php echo ___('Export: ');?>
-						</th>
+						<th scope="row"><?php echo ___('Export');?></th>
 						<td>
-							<a href="<?php echo theme_features::get_process_url(array('action'=>'tis_download'));?>" id="tis_export" class="button"><?php echo ___('Start export settings file');?></a>
+							<a href="<?php echo theme_features::get_process_url(array('action'=>self;:$iden));?>" id="tis_export" class="button"><?php echo ___('Start export settings file');?></a>
 						</td>
 					</tr>
 				</tbody>
@@ -66,19 +62,18 @@ class theme_import_settings{
 	 * 
 	 */
 	public static function process(){
+		if(current_user_can('manage_options'))
+			return false;
+			
+		$output = [];
 		
-		$output = null;
-		/**
-		 * tis_upload
-		 */
-		if(isset($_GET['action']) && $_GET['action'] === 'tis_upload'){
-			/**
-			 * is administrator
-			 */
-			if(current_user_can('administrator')){
-				$contents = isset($_POST['tis_content']) ? @unserialize(base64_decode($_POST['tis_content'])) : null;
+		$type = isset($_GET['type']) && is_string($_GET['type']) ? $_GET['type'] : null;
+
+		switch($type){
+			case 'upload':
+				$contents = isset($_POST['content']) ? @unserialize(base64_decode($_POST['content'])) : null;
 				if(is_array($contents) && !empty($contents)){
-					update_option('theme_options',$contents);
+					set_theme_mod(theme_options::$iden,$contents);
 					$output['status'] = 'success';
 					$output['msg'] = ___('Settings has been restored, refreshing page, please wait... ');
 				/**
@@ -88,20 +83,8 @@ class theme_import_settings{
 					$output['status'] = 'error';
 					$output['msg'] = ___('Invalid content. ');
 				}
-			/**
-			 * invalid user
-			 */
-			}else{
-					$output['status'] = 'error';
-					$output['msg'] = ___('Invalid user. ');
-			}
-		}
-		/**
-		 * download
-		 */
-		if(isset($_GET['action']) && $_GET['action'] === 'tis_download'){
-			if(current_user_can('administrator')){
-
+				break;
+			case 'download':
 				$options = theme_options::get_options();
 				$contents = base64_encode(serialize($options));
 				/**
@@ -125,11 +108,9 @@ class theme_import_settings{
 				exit;
 				$output['status'] = 'success';
 				$output['msg'] = ___('Settings has been restored, refreshing page, please wait... ');
-			}else{
-				$output['status'] = 'error';
-				$output['msg'] = ___('Invalid user. ');
-			}
+				break;
 		}
+
 		die(theme_features::json_format($output));
 	}
 	/**
@@ -143,31 +124,25 @@ class theme_import_settings{
 	 */
 	public static function style(){
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__);?>" rel="stylesheet"  media="all"/>
+		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'bakcend',true);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
-	/**
-	 * Load js
-	 * 
-	 * 
-	 * @return 
-	 * @version 1.0.0
-	 * @author KM@INN STUDIO
-	 * 
-	 */
-	public static function js(){
-		
+	public static function backend_seajs_alias(array $alias = []){
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__,'backend');
+		return $alias;
+	}
+	public static function backend_seajs_use(){
 		?>
-		
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
+		seajs.use('<?php echo self::$iden;?>',function(m){
 			m.config.lang.M00001 = '<?php echo ___('Processing, please wait...');?>';
 			m.config.lang.M00002 = '<?php echo ___('Error: Your browser does not support HTML5. ');?>';
 			m.config.lang.E00001 = '<?php echo ___('Error: failed to complete the operation. ');?>';
 			m.config.lang.E00002 = '<?php echo ___('Error: Not match file. ');?>';
-			m.config.process_url = '<?php echo theme_features::get_process_url();?>';
+			m.config.process_url = '<?php echo theme_features::get_process_url([
+				'action' => self::$iden
+			]);?>';
 			m.init();
 		});
-
 		<?php
 	}
 }

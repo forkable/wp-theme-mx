@@ -34,14 +34,7 @@ class theme_custom_storage{
 			return get_the_title($post->ID) . $sep . ___('storage download') . $sep . get_bloginfo('name');
 		
 	}
-	public static function is_page(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-			
-		$caches[self::$iden] = is_page(self::$page_slug);
-		return $caches[self::$iden];
-	}
+	
 	public static function get_types($key = null){
 		$types = array(
 			'bdyun' => array(
@@ -320,13 +313,22 @@ class theme_custom_storage{
 		</div>
 		<?php
 	}
+	public static function is_page(){
+		static $cache = null;
+		if($cache === null)
+			$cache = is_page(self::$page_slug);
+
+		return $cache;
+	}
 	public static function frontend_css(){
-		if(!is_page(self::$page_slug)) return false;
+		if(!self::is_page()) 
+			return false;
+
 		wp_enqueue_style(
 			self::$iden,
-			theme_features::get_theme_includes_css(__DIR__,'style',false),
-			false,
-			theme_features::get_theme_info('version')
+			theme_features::get_theme_includes_css(__DIR__),
+			'frontend',
+			theme_file_timestamp::get_timestamp()
 		);
 
 	}

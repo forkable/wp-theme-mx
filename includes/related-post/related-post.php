@@ -95,8 +95,7 @@ class theme_related_post{
 			);
 			$query = new WP_Query($query_args);
 			if($query->have_posts()){
-				while($query->have_posts()){
-					$query->the_post();
+				foreach($query->posts as $post){
 					$posts[] = $post;
 				}
 			}
@@ -113,8 +112,7 @@ class theme_related_post{
 			);
 			$query = new WP_Query($args);
 			if($query->have_posts()){
-				while($query->have_posts()){
-					$query->the_post();
+				foreach($query->posts as $post){
 					$posts[] = $post;
 				}
 			}

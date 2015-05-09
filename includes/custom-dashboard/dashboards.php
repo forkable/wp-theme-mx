@@ -202,8 +202,7 @@ class theme_dashboards extends theme_custom_dashboard{
 				?>
 				<ul class="list-group">
 				<?php
-				while($query->have_posts()){
-					$query->the_post();
+				foreach($query->posts as $post){
 					?>
 					<li class="list-group-item">
 						<a href="<?php the_permalink();?>"><?php the_title();?></a>

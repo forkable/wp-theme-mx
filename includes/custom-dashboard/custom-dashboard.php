@@ -82,12 +82,13 @@ class theme_custom_dashboard{
 	}
 	public static function frontend_css(){
 		if(!self::is_page()) 
-			return;
+			return false;
+
 		wp_enqueue_style(
 			self::$iden,
-			theme_features::get_theme_includes_css(__DIR__,'style',false),
-			false,
-			theme_features::get_theme_info('version')
+			theme_features::get_theme_includes_css(__DIR__),
+			'frontend',
+			theme_file_timestamp::get_timestamp()
 		);
 	}
 }

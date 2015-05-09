@@ -308,7 +308,7 @@ class theme_custom_slidebox{
 	}
 	public static function backend_css(){
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend');?>" rel="stylesheet"  media="all"/>
+		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function frontend_seajs_use(){
@@ -323,11 +323,12 @@ class theme_custom_slidebox{
 	public static function frontend_css(){
 		if(!is_home()) 
 			return false;
+			
 		wp_enqueue_style(
 			self::$iden,
-			theme_features::get_theme_includes_css(__DIR__,'style',false),
+			theme_features::get_theme_includes_css(__DIR__),
 			'frontend',
-			theme_features::get_theme_info('version')
+			theme_file_timestamp::get_timestamp()
 		);
 
 	}

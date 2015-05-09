@@ -19,7 +19,7 @@ class theme_custom_header{
 		);
 		$args = array(
 			'default-text-color'     => 'fff',
-			'default-image'          => theme_features::get_theme_includes_image(__DIR__) . $img_names[0],
+			'default-image'          => theme_features::get_theme_includes_image(__DIR__,$img_names[0]),
 			'wp-head-callback'       => __CLASS__ . '::header_style',
 			'admin-head-callback'    => __CLASS__ . '::admin_header_style',
 			'admin-preview-callback' => __CLASS__ . '::admin_header_image',
@@ -29,8 +29,8 @@ class theme_custom_header{
 		foreach($img_names as $img_name){
 			$basename = explode('.',$img_name);
 			$default_headers[$img_name] = array(
-				'url' => theme_features::get_theme_includes_image(__DIR__) . $img_name,
-				'thumbnail_url' => theme_features::get_theme_includes_image(__DIR__) . $basename[0] . '-thumbnail.' . $basename[1],
+				'url' => theme_features::get_theme_includes_image(__DIR__,$img_name),
+				'thumbnail_url' => theme_features::get_theme_includes_image(__DIR__,$basename[0] . '-thumbnail.' . $basename[1]),
 			);
 		}
 		add_theme_support( 'custom-header', $args );
@@ -67,7 +67,7 @@ class theme_custom_header{
 		?>
 		<div id="banner" style="background-image:url(<?php echo get_header_image();?>)">
 			<?php if(display_header_text()){ ?>
-				<h2><?php echo esc_html(get_bloginfo('description'));?></h2>
+				<h2><?php echo get_bloginfo('description');?></h2>
 				</div>
 			<?php } ?>
 		</div>

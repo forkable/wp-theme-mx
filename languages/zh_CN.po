@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-08 22:12+0800\n"
-"PO-Revision-Date: 2015-05-08 22:12+0800\n"
+"POT-Creation-Date: 2015-05-09 17:01+0800\n"
+"PO-Revision-Date: 2015-05-09 17:01+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -31,7 +31,7 @@ msgstr "添加评论"
 #: includes/_quick-comment/quick-comment.php:342
 #: includes/clean-up/clean-up.php:224
 #: includes/comment-ajax/comment-ajax.php:452
-#: includes/custom-contribution/custom-contribution.php:360
+#: includes/custom-contribution/custom-contribution.php:370
 #: includes/custom-follow/custom-follow.php:140
 #: includes/custom-page-cats/custom-page-cats.php:209
 #: includes/custom-page-tags/custom-page-tags.php:391
@@ -43,94 +43,94 @@ msgstr "添加评论"
 #: includes/custom-user-settings/custom-user-settings.php:316
 #: includes/custom-user-settings/custom-user-settings.php:327
 #: includes/favicon/favicon.php:198 includes/quick-sign/quick-sign.php:386
-#: tpl-page-account-contribution.php:259
+#: tpl-page-account-contribution.php:261
 msgid "Loading, please wait..."
 msgstr "加载中，请稍候…"
 
-#: core/core-features.php:776
+#: core/core-features.php:798
 msgid "Sorry, referer is invalid."
 msgstr "抱歉，无效的来路。"
 
-#: core/core-features.php:801
+#: core/core-features.php:823
 msgid "Sorry, security code is invalid."
 msgstr "抱歉，无效的安全码。"
 
-#: core/core-features.php:1373 core/core-features.php:1439
+#: core/core-features.php:1395 core/core-features.php:1461
 msgid "&lsaquo; Previous"
 msgstr "&lsaquo;  上一页"
 
-#: core/core-features.php:1408 core/core-features.php:1440
+#: core/core-features.php:1430 core/core-features.php:1462
 msgid "Next &rsaquo;"
 msgstr "下一页 &rsaquo;"
 
-#: core/core-features.php:1438
+#: core/core-features.php:1460
 msgid "&laquo; First"
 msgstr "&laquo; 首页"
 
-#: core/core-features.php:1441
+#: core/core-features.php:1463
 msgid "Last &raquo;"
 msgstr "尾页 &raquo;"
 
-#: core/core-features.php:1784
+#: core/core-features.php:1806
 #: includes/widget-category-post/widget-category-post.php:131
 msgid "Select category"
 msgstr "选择目录"
 
-#: core/core-features.php:1841
+#: core/core-features.php:1863
 #, php-format
 msgid "(%s)"
 msgstr "（%s）"
 
-#: core/core-features.php:1848 includes/custom-slidebox/custom-slidebox.php:65
+#: core/core-features.php:1870 includes/custom-slidebox/custom-slidebox.php:65
 #: includes/widget-rank/widget-rank.php:266
 msgid "No category, pleass go to add some categories."
 msgstr "暂无分类目录，请去添加一些分类。"
 
-#: core/core-features.php:1877
+#: core/core-features.php:1899
 msgid "Select page"
 msgstr "选择页面"
 
-#: core/core-functions.php:708
+#: core/core-functions.php:720
 msgid "Just"
 msgstr "刚刚"
 
-#: core/core-functions.php:714
+#: core/core-functions.php:726
 #, php-format
 msgid "%d seconds ago"
 msgstr "%d 秒前"
 
-#: core/core-functions.php:721
+#: core/core-functions.php:733
 msgid "a minute ago"
 msgstr "一分钟前"
 
-#: core/core-functions.php:723
+#: core/core-functions.php:735
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d 分钟前"
 
-#: core/core-functions.php:731
+#: core/core-functions.php:743
 msgid "an hour ago"
 msgstr "一小时前"
 
-#: core/core-functions.php:733
+#: core/core-functions.php:745
 #, php-format
 msgid "%d hours ago"
 msgstr "%d 小时前"
 
-#: core/core-functions.php:740
+#: core/core-functions.php:752
 msgid "yesterday"
 msgstr "昨天"
 
-#: core/core-functions.php:746
+#: core/core-functions.php:758
 #, php-format
 msgid "%d days ago"
 msgstr "%d 天前"
 
-#: core/core-functions.php:752
+#: core/core-functions.php:764
 msgid "M j"
 msgstr "m月d日"
 
-#: core/core-functions.php:755
+#: core/core-functions.php:767
 msgid "M j, Y"
 msgstr "Y年m月d日"
 
@@ -330,7 +330,7 @@ msgstr "查看数"
 msgid "Sticky post"
 msgstr "顶置文章"
 
-#: functions.php:655 tpl-page-account-contribution.php:143
+#: functions.php:655 tpl-page-account-contribution.php:144
 msgid "Category"
 msgstr "分类"
 
@@ -1084,79 +1084,83 @@ msgstr "文章内容必须填写哦"
 msgid "Please set an image as post thumbnail"
 msgstr "请选择一张图片作为封面"
 
-#: includes/custom-contribution/custom-contribution.php:318
+#: includes/custom-contribution/custom-contribution.php:262
+msgid "Please select a category."
+msgstr "请选择一个类别。"
+
+#: includes/custom-contribution/custom-contribution.php:328
 msgid ""
 "Your post submitted successful, it will be published after approve in a "
 "while."
 msgstr "你的文章提交成功，一会儿审核通过后将会发表，感谢您的参与！"
 
-#: includes/custom-contribution/custom-contribution.php:323
+#: includes/custom-contribution/custom-contribution.php:333
 #, php-format
 msgid "Congratulation! Your post has been published. You can %s or %s."
 msgstr "恭喜！您的文章已发表成功。现在您可以 %s 或 %s。"
 
-#: includes/custom-contribution/custom-contribution.php:324
+#: includes/custom-contribution/custom-contribution.php:334
 msgid "View it now"
 msgstr "立即查看它"
 
-#: includes/custom-contribution/custom-contribution.php:325
+#: includes/custom-contribution/custom-contribution.php:335
 msgid "countinue to write a new post"
 msgstr "继续写一篇"
 
-#: includes/custom-contribution/custom-contribution.php:335
+#: includes/custom-contribution/custom-contribution.php:345
 msgid "Post published"
 msgstr "文章发表"
 
-#: includes/custom-contribution/custom-contribution.php:361
+#: includes/custom-contribution/custom-contribution.php:371
 msgid "Uploading {0}/{1}, please wait..."
 msgstr "正在上传 {0}/{1}，请稍候…"
 
-#: includes/custom-contribution/custom-contribution.php:362
+#: includes/custom-contribution/custom-contribution.php:372
 msgid "Click to delete"
 msgstr "点击删除此张图片"
 
-#: includes/custom-contribution/custom-contribution.php:363
+#: includes/custom-contribution/custom-contribution.php:373
 msgid "{0} files have been uploaded."
 msgstr "{0} 个文件上传成功，嘻嘻…"
 
-#: includes/custom-contribution/custom-contribution.php:364
-#: tpl-page-account-contribution.php:222
+#: includes/custom-contribution/custom-contribution.php:374
+#: tpl-page-account-contribution.php:224
 msgid "Source"
 msgstr "来源"
 
-#: includes/custom-contribution/custom-contribution.php:365
+#: includes/custom-contribution/custom-contribution.php:375
 msgid "Click to view source"
 msgstr "点击查看原图"
 
-#: includes/custom-contribution/custom-contribution.php:366
+#: includes/custom-contribution/custom-contribution.php:376
 msgid "Set as cover."
 msgstr "设为封面"
 
-#: includes/custom-contribution/custom-contribution.php:367
+#: includes/custom-contribution/custom-contribution.php:377
 msgid "Optional: some description"
 msgstr "[在此处写下一些描述]"
 
-#: includes/custom-contribution/custom-contribution.php:368
+#: includes/custom-contribution/custom-contribution.php:378
 msgid "Insert"
 msgstr "插入"
 
-#: includes/custom-contribution/custom-contribution.php:369
+#: includes/custom-contribution/custom-contribution.php:379
 msgid "Preview"
 msgstr "预览图"
 
-#: includes/custom-contribution/custom-contribution.php:370
+#: includes/custom-contribution/custom-contribution.php:380
 msgid "Large size"
 msgstr "大尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:371
+#: includes/custom-contribution/custom-contribution.php:381
 msgid "Medium size"
 msgstr "中尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:372
+#: includes/custom-contribution/custom-contribution.php:382
 msgid "Small size"
 msgstr "小尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:373
+#: includes/custom-contribution/custom-contribution.php:383
 #: includes/custom-follow/custom-follow.php:141
 #: includes/custom-sign/custom-sign.php:258
 #: includes/custom-user-settings/custom-user-settings.php:317
@@ -1693,12 +1697,12 @@ msgid "Toggle Dropdown"
 msgstr "下拉菜单"
 
 #: includes/custom-post-source/custom-post-source.php:21
-#: tpl-page-account-contribution.php:227
+#: tpl-page-account-contribution.php:229
 msgid "Original"
 msgstr "原创"
 
 #: includes/custom-post-source/custom-post-source.php:24
-#: tpl-page-account-contribution.php:231
+#: tpl-page-account-contribution.php:233
 msgid "Reprint"
 msgstr "转载"
 
@@ -1758,14 +1762,14 @@ msgid "File storage"
 msgstr "文件存储"
 
 #: includes/custom-post-storage/custom-post-storage.php:124
-#: tpl-page-account-contribution.php:114 tpl-page-account-contribution.php:116
+#: tpl-page-account-contribution.php:115 tpl-page-account-contribution.php:117
 #, php-format
 msgid "%s url"
 msgstr "%s url"
 
 #: includes/custom-post-storage/custom-post-storage.php:132
 #: includes/custom-post-storage/custom-post-storage.php:236
-#: tpl-page-account-contribution.php:128 tpl-page-account-contribution.php:130
+#: tpl-page-account-contribution.php:129 tpl-page-account-contribution.php:131
 #, php-format
 msgid "%s password"
 msgstr "%s 密码"
@@ -1877,7 +1881,7 @@ msgid "Image address"
 msgstr "图片地址"
 
 #: includes/custom-slidebox/custom-slidebox.php:175
-#: includes/favicon/favicon.php:171 tpl-page-account-contribution.php:74
+#: includes/favicon/favicon.php:171 tpl-page-account-contribution.php:75
 msgid "Upload image"
 msgstr "上传图片"
 
@@ -3393,52 +3397,52 @@ msgstr "文章标题（必填）"
 msgid "Post title must to write"
 msgstr "文章标题必须填写哦"
 
-#: tpl-page-account-contribution.php:57
+#: tpl-page-account-contribution.php:58
 msgid "Post content"
 msgstr "文章内容"
 
-#: tpl-page-account-contribution.php:80
+#: tpl-page-account-contribution.php:81
 msgid "Select or Drag images"
 msgstr "选择或拖放图片"
 
-#: tpl-page-account-contribution.php:101
+#: tpl-page-account-contribution.php:102
 msgid "Storage link"
 msgstr "网盘链接"
 
-#: tpl-page-account-contribution.php:150
+#: tpl-page-account-contribution.php:152
 msgid "Select a category"
 msgstr "选择一个分类"
 
-#: tpl-page-account-contribution.php:161
+#: tpl-page-account-contribution.php:163
 msgid "Pop. tags"
 msgstr "热门标签"
 
-#: tpl-page-account-contribution.php:190
+#: tpl-page-account-contribution.php:192
 msgid "Custom tags"
 msgstr "自定义标签"
 
-#: tpl-page-account-contribution.php:199
+#: tpl-page-account-contribution.php:201
 #, php-format
 msgid "tag %d"
 msgstr "标签 %d"
 
-#: tpl-page-account-contribution.php:207
+#: tpl-page-account-contribution.php:209
 msgid "Custom tag"
 msgstr "自定义标签"
 
-#: tpl-page-account-contribution.php:209
+#: tpl-page-account-contribution.php:211
 msgid "Add"
 msgstr "添加"
 
-#: tpl-page-account-contribution.php:239
+#: tpl-page-account-contribution.php:241
 msgid "The source of work URL, includes http://"
 msgstr "作品的来源地址，包括 http://"
 
-#: tpl-page-account-contribution.php:247
+#: tpl-page-account-contribution.php:249
 msgid "Author"
 msgstr "作者"
 
-#: tpl-page-account-contribution.php:261
+#: tpl-page-account-contribution.php:263
 msgid "Submit"
 msgstr "提交"
 
