@@ -2,7 +2,7 @@
 	<div class="panel-heading">
 		<h3 class="panel-title">
 			<i class="fa fa-bell"></i>
-			<?php echo ___('My notifications');?>
+			<?= ___('My notifications');?>
 			<?php
 			$unread = theme_notification::get_count(array(
 				'type' => 'unread'
@@ -38,7 +38,7 @@
 				$unread_class = null;
 			}
 			?>
-			<li class="list-group-item type-<?php echo $v['type'];?> <?php echo $unread_class;?>">
+			<li class="list-group-item type-<?= $v['type'];?> <?= $unread_class;?>">
 			<?php
 			switch($v['type']){
 				
@@ -53,7 +53,7 @@
 	</div>
 	<div class="media-body">
 		<h4 class="media-heading">
-			<?php echo ___('Special event');?>
+			<?= ___('Special event');?>
 			<?php
 			if($v['point'] > 0){
 				$tip_type = 'success';
@@ -63,11 +63,11 @@
 				$sign = '';
 			}
 			?>
-			<span class="label label-<?php echo $tip_type;?>">
-			<?php echo theme_custom_point::get_point_name();?>
-			<?php echo $sign,$v['point'];?></label>
+			<span class="label label-<?= $tip_type;?>">
+			<?= theme_custom_point::get_point_name();?>
+			<?= $sign,$v['point'];?></label>
 		</h4>
-		<div class="excerpt"><p><?php echo $v['event'];?></p></div>
+		<div class="excerpt"><p><?= $v['event'];?></p></div>
 	</div>
 </div>
 					<?php
@@ -81,7 +81,7 @@ $comment = theme_notification::get_comment($v['comment-id']);
 <div class="media">
 	<div class="media-left">
 		<a href="<?php comment_author_url();?>">
-		<img src="<?php echo esc_url(get_avatar_url($comment->user_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
+		<img src="<?= esc_url(get_avatar_url($comment->user_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
 	<div class="media-body">
@@ -108,8 +108,8 @@ $parent_comment = theme_notification::get_comment($comment->comment_parent);
 ?>
 <div class="media">
 	<div class="media-left">
-		<a href="<?php echo comment_author_url();?>">
-			<img src="<?php echo theme_features::get_theme_images_url('frontend/avatar.jpg');?>" data-src="<?php echo esc_url(get_avatar_url($comment->user_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
+		<a href="<?= comment_author_url();?>">
+			<img src="<?= theme_features::get_theme_images_url('frontend/avatar.jpg');?>" data-src="<?= esc_url(get_avatar_url($comment->user_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
 	<div class="media-body">
@@ -138,7 +138,7 @@ $follower_id = $v['follower-id'];
 <div class="media">
 	<div class="media-left">
 		<a href="<?php comment_author_url();?>">
-			<img src="<?php echo esc_url(get_avatar_url($follower_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
+			<img src="<?= esc_url(get_avatar_url($follower_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
 		</a>
 	</div>
 	<div class="media-body">
@@ -166,7 +166,7 @@ $post = theme_notification::get_post($v['post-id']);
 <div class="media">
 	<div class="media-left">
 		<a href="<?php comment_author_url();?>">
-			<?php echo get_avatar($post->post_author,60);?>
+			<?= get_avatar($post->post_author,60);?>
 		</a>
 	</div>
 	<div class="media-body">
@@ -196,7 +196,7 @@ $post = $post_bk;
 	}else{
 		?>
 		<div class="panel-body">
-			<div class="page-tip"><?php echo status_tip('info',___('You have not any notification yet'));?></div>
+			<div class="page-tip"><?= status_tip('info',___('You have not any notification yet'));?></div>
 		</div>
 		<?php
 	}

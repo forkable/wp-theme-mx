@@ -25,26 +25,26 @@ class theme_import_settings{
 		
 		?>
 		<fieldset>
-			<legend><?php echo ___('Import & Export Theme Settings');?></legend>
+			<legend><?= ___('Import & Export Theme Settings');?></legend>
 			<p class="description">
-				<?php echo ___('You can select the settings file to upload and restore settings if you have the *.txt file. If you want to export the settings backup, please click the export button.');?>
+				<?= ___('You can select the settings file to upload and restore settings if you have the *.txt file. If you want to export the settings backup, please click the export button.');?>
 			</p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><?php echo ___('Import');?></th>
+						<th scope="row"><?= ___('Import');?></th>
 						<td>
 							<div id="tis_tip"></div>
 							<div id="tis_upload_area">
-								<a href="javascript:;" id="tis_upload" class="button"><?php echo ___('Select a setting file to restore');?></a>
+								<a href="javascript:;" id="tis_upload" class="button"><?= ___('Select a setting file to restore');?></a>
 								<input id="tis_file" type="file"/>
 							</div>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php echo ___('Export');?></th>
+						<th scope="row"><?= ___('Export');?></th>
 						<td>
-							<a href="<?php echo theme_features::get_process_url(array('action'=>self;:$iden));?>" id="tis_export" class="button"><?php echo ___('Start export settings file');?></a>
+							<a href="<?= theme_features::get_process_url(array('action'=>self;:$iden));?>" id="tis_export" class="button"><?= ___('Start export settings file');?></a>
 						</td>
 					</tr>
 				</tbody>
@@ -124,7 +124,7 @@ class theme_import_settings{
 	 */
 	public static function style(){
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'bakcend',true);?>" rel="stylesheet"  media="all"/>
+		<link href="<?= theme_features::get_theme_includes_css(__DIR__,'bakcend',true);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function backend_seajs_alias(array $alias = []){
@@ -133,12 +133,12 @@ class theme_import_settings{
 	}
 	public static function backend_seajs_use(){
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.lang.M00001 = '<?php echo ___('Processing, please wait...');?>';
-			m.config.lang.M00002 = '<?php echo ___('Error: Your browser does not support HTML5. ');?>';
-			m.config.lang.E00001 = '<?php echo ___('Error: failed to complete the operation. ');?>';
-			m.config.lang.E00002 = '<?php echo ___('Error: Not match file. ');?>';
-			m.config.process_url = '<?php echo theme_features::get_process_url([
+		seajs.use('<?= self::$iden;?>',function(m){
+			m.config.lang.M00001 = '<?= ___('Processing, please wait...');?>';
+			m.config.lang.M00002 = '<?= ___('Error: Your browser does not support HTML5. ');?>';
+			m.config.lang.E00001 = '<?= ___('Error: failed to complete the operation. ');?>';
+			m.config.lang.E00002 = '<?= ___('Error: Not match file. ');?>';
+			m.config.process_url = '<?= theme_features::get_process_url([
 				'action' => self::$iden
 			]);?>';
 			m.init();

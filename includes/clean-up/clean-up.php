@@ -23,73 +23,73 @@ class theme_clean_up{
 				
 		?>
 		<fieldset>
-			<legend><?php echo ___('Database Optimization');?></legend>
-			<p class="description"><?php echo ___('If your site works for a long time, maybe will have some redundant data in the database, they will reduce the operating speed of the your site, recommend to clean them regularly.');?></p>
-			<p class="description"><strong><?php echo esc_html(___('Attention: this action will be auto clean up all theme cache.'));?></strong></p>
+			<legend><?= ___('Database Optimization');?></legend>
+			<p class="description"><?= ___('If your site works for a long time, maybe will have some redundant data in the database, they will reduce the operating speed of the your site, recommend to clean them regularly.');?></p>
+			<p class="description"><strong><?= esc_html(___('Attention: this action will be auto clean up all theme cache.'));?></strong></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><?php echo ___('Clean redundant post data');?></th>
+						<th scope="row"><?= ___('Clean redundant post data');?></th>
 						<td>
 							<p>
 								<a 
 									href="javascript:;"
-									class="button <?php echo self::$iden;?>-btn" 
+									class="button <?= self::$iden;?>-btn" 
 									data-action="redundant-posts" 
-									data-tip-target="<?php echo self::$iden;?>-redundant-posts"
-								><?php echo ___('Delete revision &amp; draft &amp; auto-draft &amp; trash posts');?></a>
+									data-tip-target="<?= self::$iden;?>-redundant-posts"
+								><?= ___('Delete revision &amp; draft &amp; auto-draft &amp; trash posts');?></a>
 							</p>
-							<div id="<?php echo self::$iden;?>-redundant-posts"></div>
+							<div id="<?= self::$iden;?>-redundant-posts"></div>
 							<p>
 								<a 
 									href="javascript:;"
-									class="button <?php echo self::$iden;?>-btn" 
+									class="button <?= self::$iden;?>-btn" 
 									data-action="orphan-postmeta"
-									data-tip-target="<?php echo self::$iden;?>-tip-orphan-postmeta"
-								><?php echo ___('Delete orphan post meta');?></a>
+									data-tip-target="<?= self::$iden;?>-tip-orphan-postmeta"
+								><?= ___('Delete orphan post meta');?></a>
 							</p>
-							<div id="<?php echo self::$iden;?>-orphan-postmeta"></div>
+							<div id="<?= self::$iden;?>-orphan-postmeta"></div>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php echo ___('Clean redundant comment data');?></th>
+						<th scope="row"><?= ___('Clean redundant comment data');?></th>
 						<td>
 							<p><a 
 								href="javascript:;"
-								class="button <?php echo self::$iden;?>-btn" 
+								class="button <?= self::$iden;?>-btn" 
 								data-action="redundant-comments"
-								data-tip-target="<?php echo self::$iden;?>-tip-redundant-comments""
-							><?php echo ___('Delete moderated &amp; spam &amp; trash comments');?></a></p>
-							<div id="<?php echo self::$iden;?>-tip-redundant-comments"></div>
+								data-tip-target="<?= self::$iden;?>-tip-redundant-comments""
+							><?= ___('Delete moderated &amp; spam &amp; trash comments');?></a></p>
+							<div id="<?= self::$iden;?>-tip-redundant-comments"></div>
 							<p><a 
 								href="javascript:;"
-								class="button <?php echo self::$iden;?>-btn" 
+								class="button <?= self::$iden;?>-btn" 
 								data-action="orphan-commentmeta"
-								data-tip-target="<?php echo self::$iden;?>-tip-orphan-commentmeta""
-							><?php echo ___('Delete orphan comment meta');?></a></p>
-							<div id="<?php echo self::$iden;?>-tip-orphan-commentmeta"></div>
+								data-tip-target="<?= self::$iden;?>-tip-orphan-commentmeta""
+							><?= ___('Delete orphan comment meta');?></a></p>
+							<div id="<?= self::$iden;?>-tip-orphan-commentmeta"></div>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php echo ___('Clean redundant other data');?></th>
+						<th scope="row"><?= ___('Clean redundant other data');?></th>
 						<td>
 							<p><a 
-								class="button <?php echo self::$iden;?>-btn" 
+								class="button <?= self::$iden;?>-btn" 
 								data-action="orphan-relationships"
-								data-tip-target="<?php echo self::$iden;?>-tip-orphan-relationships"
-							><?php echo ___('Delete orphan relationship');?></a></p>
-							<div id="<?php echo self::$iden;?>-tip-orphan-relationships"></div>
+								data-tip-target="<?= self::$iden;?>-tip-orphan-relationships"
+							><?= ___('Delete orphan relationship');?></a></p>
+							<div id="<?= self::$iden;?>-tip-orphan-relationships"></div>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php echo ___('Optimizate the WP Database');?></th>
+						<th scope="row"><?= ___('Optimizate the WP Database');?></th>
 						<td>
 							<p><a 
-								class="button <?php echo self::$iden;?>-btn" 
+								class="button <?= self::$iden;?>-btn" 
 								data-action="optimizate"
-								data-tip-target="<?php echo self::$iden;?>-tip-database-optimization"
-							><?php echo ___('Optimizate Now');?></a></p>
-							<div id="<?php echo self::$iden;?>-tip-database-optimization"></div>
+								data-tip-target="<?= self::$iden;?>-tip-database-optimization"
+							><?= ___('Optimizate Now');?></a></p>
+							<div id="<?= self::$iden;?>-tip-database-optimization"></div>
 						</td>
 					</tr>
 				</tbody>
@@ -219,10 +219,10 @@ class theme_clean_up{
 	}
 	public static function backend_seajs_use(){
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?php echo ___('Server error or network is disconnected.');?>';
+		seajs.use('<?= self::$iden;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?= ___('Server error or network is disconnected.');?>';
 			m.init();
 		});
 		<?php

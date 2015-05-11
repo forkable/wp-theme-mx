@@ -46,32 +46,32 @@ class theme_open_sign{
 		$opt = self::get_options();
 		?>
 		<fieldset>
-			<legend><?php echo ___('Open sign settings');?></legend>
-			<p class="description"><?php echo sprintf(___('You can use the third-part sign feature for easy to register and login.'));?></p>
+			<legend><?= ___('Open sign settings');?></legend>
+			<p class="description"><?= sprintf(___('You can use the third-part sign feature for easy to register and login.'));?></p>
 			<table class="form-table">
 				<tbody>
 					<!-- qq -->
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-qq-appid"><?php echo ___('QQ - APPID');?></label></th>
+						<th><label for="<?= self::$iden;?>-qq-appid"><?= ___('QQ - APPID');?></label></th>
 						<td>
-							<input type="text" class="widefat code" id="<?php echo self::$iden;?>-qq-appid" name="<?php echo self::$iden;?>[qq][appid]" value="<?php echo isset($opt['qq']['appid']) ? $opt['qq']['appid'] : null;?>">
+							<input type="text" class="widefat code" id="<?= self::$iden;?>-qq-appid" name="<?= self::$iden;?>[qq][appid]" value="<?= isset($opt['qq']['appid']) ? $opt['qq']['appid'] : null;?>">
 						</td>
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-qq-appkey"><?php echo ___('QQ - APPKEY');?></label></th>
+						<th><label for="<?= self::$iden;?>-qq-appkey"><?= ___('QQ - APPKEY');?></label></th>
 						<td>
-							<input type="text" class="widefat code" id="<?php echo self::$iden;?>-qq-appkey" name="<?php echo self::$iden;?>[qq][appkey]" value="<?php echo isset($opt['qq']['appkey']) ? $opt['qq']['appkey'] : null;?>">
+							<input type="text" class="widefat code" id="<?= self::$iden;?>-qq-appkey" name="<?= self::$iden;?>[qq][appkey]" value="<?= isset($opt['qq']['appkey']) ? $opt['qq']['appkey'] : null;?>">
 						</td>
 					</tr>
 					<!-- sina -->
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-sina-akey"><?php echo ___('Sina - APPKEY');?></label></th>
+						<th><label for="<?= self::$iden;?>-sina-akey"><?= ___('Sina - APPKEY');?></label></th>
 						<td>
-							<input type="text" class="widefat code" id="<?php echo self::$iden;?>-sina-akey" name="<?php echo self::$iden;?>[sina][akey]" value="<?php echo isset($opt['sina']['akey']) ? $opt['sina']['akey'] : null;?>">
+							<input type="text" class="widefat code" id="<?= self::$iden;?>-sina-akey" name="<?= self::$iden;?>[sina][akey]" value="<?= isset($opt['sina']['akey']) ? $opt['sina']['akey'] : null;?>">
 						</td>
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-sina-skey"><?php echo ___('Sina - SECUREKEY');?></label></th>
+						<th><label for="<?= self::$iden;?>-sina-skey"><?= ___('Sina - SECUREKEY');?></label></th>
 						<td>
-							<input type="text" class="widefat code" id="<?php echo self::$iden;?>-sina-skey" name="<?php echo self::$iden;?>[sina][skey]" value="<?php echo isset($opt['sina']['skey']) ? $opt['sina']['skey'] : null;?>">
+							<input type="text" class="widefat code" id="<?= self::$iden;?>-sina-skey" name="<?= self::$iden;?>[sina][skey]" value="<?= isset($opt['sina']['skey']) ? $opt['sina']['skey'] : null;?>">
 						</td>
 					</tr>
 				</tbody>

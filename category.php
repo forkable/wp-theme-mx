@@ -1,13 +1,13 @@
 <?php get_header();?>
 <div class="container">
-	<?php echo theme_functions::get_crumb();?>
+	<?= theme_functions::get_crumb();?>
 	<div class="row">
 		<div id="main" class="col-md-9 col-sm-12">
 			<div class="panel panel-default mx-panel">
 				<div class="panel-heading">
 					<h3 class="panel-title">
 						<i class="fa fa-folder-open"></i> 
-						<a href="<?php echo get_category_link(theme_features::get_current_cat_id());?>"><?php echo  single_cat_title(null,false);?></a>
+						<a href="<?= get_category_link(theme_features::get_current_cat_id());?>"><?=  single_cat_title(null,false);?></a>
 					</h3>
 				</div>
 				<div class="panel-body">

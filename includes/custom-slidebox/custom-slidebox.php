@@ -49,20 +49,20 @@ class theme_custom_slidebox{
 					$selected_class = null;
 				}
 			?>
-			<label for="<?php echo $id;?>-<?php echo $cat->term_id;?>" class="item button <?php echo $selected_class;?>">
+			<label for="<?= $id;?>-<?= $cat->term_id;?>" class="item button <?= $selected_class;?>">
 				<input 
 					type="checkbox" 
-					id="<?php echo $id;?>-<?php echo $cat->term_id;?>" 
-					name="<?php echo esc_attr($name);?>[]" 
-					value="<?php echo $cat->term_id;?>"
-					<?php echo $checked;?>
+					id="<?= $id;?>-<?= $cat->term_id;?>" 
+					name="<?= esc_attr($name);?>[]" 
+					value="<?= $cat->term_id;?>"
+					<?= $checked;?>
 				/>
-					<?php echo esc_html($cat->name);?>
+					<?= esc_html($cat->name);?>
 			</label>
 			<?php 
 			}
 		}else{ ?>
-			<p><?php echo ___('No category, pleass go to add some categories.');?></p>
+			<p><?= ___('No category, pleass go to add some categories.');?></p>
 		<?php }
 		$content = ob_get_contents();
 		ob_end_clean();
@@ -139,22 +139,22 @@ class theme_custom_slidebox{
 		?>
 		<table 
 			class="form-table slidebox-item" 
-			id="slidebox-item-<?php echo $placeholder;?>" 
-			data-placeholder="<?php echo $placeholder;?>" 
+			id="slidebox-item-<?= $placeholder;?>" 
+			data-placeholder="<?= $placeholder;?>" 
 		>
 		<tbody>
 		<tr>
-			<th><label for="slidebox-title-<?php echo $placeholder;?>"><?php echo sprintf(___('Slide-box title - %s'),$placeholder);?></label></th>
-			<td><input type="text" id="slidebox-title-<?php echo $placeholder;?>" name="slidebox[<?php echo $placeholder;?>][title]" class="widefat" placeholder="<?php echo ___('Title will be display as attribute-alt');?>" value="<?php echo $title;?>"/></td>
+			<th><label for="slidebox-title-<?= $placeholder;?>"><?= sprintf(___('Slide-box title - %s'),$placeholder);?></label></th>
+			<td><input type="text" id="slidebox-title-<?= $placeholder;?>" name="slidebox[<?= $placeholder;?>][title]" class="widefat" placeholder="<?= ___('Title will be display as attribute-alt');?>" value="<?= $title;?>"/></td>
 		</tr>
 		<tr>
-			<th><label for="slidebox-subtitle-<?php echo $placeholder;?>"><?php echo ___('Subtitles (optional)');?></label></th>
-			<td><input type="text" id="slidebox-subtitle-<?php echo $placeholder;?>" name="slidebox[<?php echo $placeholder;?>][subtitle]" class="widefat" placeholder="<?php echo ___('Subtitle can be date or any text');?>" value="<?php echo $subtitle;?>"/>
-				<a href="javascript:;" onclick="document.getElementById('slidebox-subtitle-<?php echo $placeholder;?>').value='<?php echo date('m.d');?>';" class="slidebox-subtitle-date" data-target="#slidebox-subtitle-<?php echo $placeholder;?>" data-date="<?php echo date('m.d');?>"><?php echo ___('Current date');?></a>
+			<th><label for="slidebox-subtitle-<?= $placeholder;?>"><?= ___('Subtitles (optional)');?></label></th>
+			<td><input type="text" id="slidebox-subtitle-<?= $placeholder;?>" name="slidebox[<?= $placeholder;?>][subtitle]" class="widefat" placeholder="<?= ___('Subtitle can be date or any text');?>" value="<?= $subtitle;?>"/>
+				<a href="javascript:;" onclick="document.getElementById('slidebox-subtitle-<?= $placeholder;?>').value='<?= date('m.d');?>';" class="slidebox-subtitle-date" data-target="#slidebox-subtitle-<?= $placeholder;?>" data-date="<?= date('m.d');?>"><?= ___('Current date');?></a>
 			</td>
 		</tr>
 		<tr>
-			<th><label for="slidebox-cat-<?php echo $placeholder;?>"><?php echo ___('Categories (optional)');?></label></th>
+			<th><label for="slidebox-cat-<?= $placeholder;?>"><?= ___('Categories (optional)');?></label></th>
 			<td>
 				
 				<?php
@@ -164,32 +164,32 @@ class theme_custom_slidebox{
 			</td>
 		</tr>
 		<tr>
-			<th><label for="slidebox-link-url-<?php echo $placeholder;?>"><?php echo ___('Link url');?></label></th>
-			<td><input type="url" id="slidebox-link-url-<?php echo $placeholder;?>" name="slidebox[<?php echo $placeholder;?>][link-url]" class="widefat" placeholder="<?php echo ___('Url address');?>" value="<?php echo esc_attr($link_url);?>"/></td>
+			<th><label for="slidebox-link-url-<?= $placeholder;?>"><?= ___('Link url');?></label></th>
+			<td><input type="url" id="slidebox-link-url-<?= $placeholder;?>" name="slidebox[<?= $placeholder;?>][link-url]" class="widefat" placeholder="<?= ___('Url address');?>" value="<?= esc_attr($link_url);?>"/></td>
 		</tr>
 		<tr>
-			<th><label for="slidebox-img-url-<?php echo $placeholder;?>"><?php echo ___('Image url');?></label></th>
+			<th><label for="slidebox-img-url-<?= $placeholder;?>"><?= ___('Image url');?></label></th>
 			<td>
 				<div class="slidebox-upload-area">
-					<input type="url" id="slidebox-img-url-<?php echo $placeholder;?>" name="slidebox[<?php echo $placeholder;?>][img-url]" class="slidebox-img-url" placeholder="<?php echo ___('Image address');?>" value="<?php echo esc_attr($img_url);?>"/>
-					<a href="javascript:;" class="button-primary slidebox-upload" id="slidebox-upload-<?php echo $placeholder;?>"><?php echo ___('Upload image');?><input type="file" id="slidebox-file-<?php echo $placeholder;?>" class="slidebox-file"/></a>
+					<input type="url" id="slidebox-img-url-<?= $placeholder;?>" name="slidebox[<?= $placeholder;?>][img-url]" class="slidebox-img-url" placeholder="<?= ___('Image address');?>" value="<?= esc_attr($img_url);?>"/>
+					<a href="javascript:;" class="button-primary slidebox-upload" id="slidebox-upload-<?= $placeholder;?>"><?= ___('Upload image');?><input type="file" id="slidebox-file-<?= $placeholder;?>" class="slidebox-file"/></a>
 				</div>
 				<div class="slidebox-upload-tip hide"></div>
 			</td>
 		</tr>
 		<tr>
-			<th><?php echo ___('Addon options');?></th>
+			<th><?= ___('Addon options');?></th>
 			<td>
-				<label for="slidebox-rel-nofollow-<?php echo $placeholder;?>" class="button">
-					<input type="checkbox" name="slidebox[<?php echo $placeholder;?>][rel][nofollow]" id="slidebox-rel-nofollow-<?php echo $placeholder;?>" value="1" <?php echo $checked_rel_nofollow;?> />
-					<?php echo ___('Nofollow link');?>
+				<label for="slidebox-rel-nofollow-<?= $placeholder;?>" class="button">
+					<input type="checkbox" name="slidebox[<?= $placeholder;?>][rel][nofollow]" id="slidebox-rel-nofollow-<?= $placeholder;?>" value="1" <?= $checked_rel_nofollow;?> />
+					<?= ___('Nofollow link');?>
 				</label>
-				<label for="slidebox-target-blank-<?php echo $placeholder;?>" class="button">
-					<input type="checkbox" name="slidebox[<?php echo $placeholder;?>][target][blank]" id="slidebox-target-blank-<?php echo $placeholder;?>" value="1" <?php echo $checked_target_blank;?> />
-					<?php echo ___('Open in new window');?>
+				<label for="slidebox-target-blank-<?= $placeholder;?>" class="button">
+					<input type="checkbox" name="slidebox[<?= $placeholder;?>][target][blank]" id="slidebox-target-blank-<?= $placeholder;?>" value="1" <?= $checked_target_blank;?> />
+					<?= ___('Open in new window');?>
 				</label>
 
-				<a href="javascript:;" class="slidebox-del delete" id="slidebox-del-<?php echo $placeholder;?>" data-id="<?php echo $placeholder;?>" data-target="#slidebox-item-<?php echo $placeholder;?>"><?php echo ___('Delete this item');?></a>
+				<a href="javascript:;" class="slidebox-del delete" id="slidebox-del-<?= $placeholder;?>" data-id="<?= $placeholder;?>" data-target="#slidebox-item-<?= $placeholder;?>"><?= ___('Delete this item');?></a>
 			</td>
 		</tr>
 		
@@ -204,9 +204,9 @@ class theme_custom_slidebox{
 		$boxes = self::get_options();
 		?>
 		<fieldset>
-			<legend><?php echo ___('Slide-box settings');?></legend>
+			<legend><?= ___('Slide-box settings');?></legend>
 			<p class="description">
-				<?php echo sprintf(___('You can set images and link to slide-box on homepage. Image size is %s&times;%s px. Remember save your settings when all done.'),self::$image_size[0] === 999 ? ___('unlimited') : self::$image_size[0],self::$image_size[1] === 999 ? ___('unlimited') : self::$image_size[1]);?>
+				<?= sprintf(___('You can set images and link to slide-box on homepage. Image size is %s&times;%s px. Remember save your settings when all done.'),self::$image_size[0] === 999 ? ___('unlimited') : self::$image_size[0],self::$image_size[1] === 999 ? ___('unlimited') : self::$image_size[1]);?>
 			</p>
 			<?php
 			if(!empty($boxes)){
@@ -220,9 +220,9 @@ class theme_custom_slidebox{
 			<table class="form-table" id="slidebox-control">
 			<tbody>
 			<tr>
-			<th><?php echo ___('Control');?></th>
+			<th><?= ___('Control');?></th>
 			<td>
-				<a id="slidebox-add" href="javascript:;" class="button-primary"><?php echo ___('Add a new item');?></a>
+				<a id="slidebox-add" href="javascript:;" class="button-primary"><?= ___('Add a new item');?></a>
 			</td>
 			</tr>
 			</tbody>
@@ -250,7 +250,7 @@ class theme_custom_slidebox{
 	 * slide setup
 	 */
 	for($i = 1, $len = count($boxes); $i <= $len; ++$i){ ?>
-		<input type="radio" name="slide-checkbox" class="slide-checkbox" id="slide-<?php echo $i;?>" <?php echo $i === 1 ? 'checked' : null;?>/>
+		<input type="radio" name="slide-checkbox" class="slide-checkbox" id="slide-<?= $i;?>" <?= $i === 1 ? 'checked' : null;?>/>
 	<?php } ?>
 	<div class="slides">
 		<div class="overflow">
@@ -262,17 +262,17 @@ class theme_custom_slidebox{
 					$title = $v['title'];
 					?>
 					<a 
-						href="<?php echo esc_url($v['link-url']);?>" 
-						title="<?php echo $v['title'];?>"
-						<?php echo $rel_nofollow;?>
-						<?php echo $target_blank;?>
+						href="<?= esc_url($v['link-url']);?>" 
+						title="<?= $v['title'];?>"
+						<?= $rel_nofollow;?>
+						<?= $target_blank;?>
 					>
-						<img src="<?php echo esc_url($v['img-url']);?>" alt="<?php echo $v['title'];?>">
+						<img src="<?= esc_url($v['img-url']);?>" alt="<?= $v['title'];?>">
 
 						<h2>
-		                    <?php echo $v['title'];?>
+		                    <?= $v['title'];?>
 							<?php if(isset($v['subtitle']) && !empty($v['subtitle'])){ ?>
-								<small><?php echo $v['subtitle'];?></small>
+								<small><?= $v['subtitle'];?></small>
 							<?php } ?>
 		                </h2>
 					</a>
@@ -282,8 +282,8 @@ class theme_custom_slidebox{
 			</div><!-- /.inner -->
 		</div><!-- /.overflow -->
 	</div><!-- /#slides -->
-	<div class="control"><?php echo self::get_labels($boxes);?></div>
-	<div class="active"><?php echo self::get_labels($boxes);?></div>
+	<div class="control"><?= self::get_labels($boxes);?></div>
+	<div class="active"><?= self::get_labels($boxes);?></div>
 </div><!-- /#slidebox-container -->
 		<?php
 		$cache = html_compress(ob_get_contents());
@@ -308,14 +308,14 @@ class theme_custom_slidebox{
 	}
 	public static function backend_css(){
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
+		<link href="<?= theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function frontend_seajs_use(){
 		if(!is_home()) 
 			return;
 		?>
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
+		seajs.use('<?= theme_features::get_theme_includes_js(__DIR__);?>',function(m){
 			m.init();
 		});
 		<?php
@@ -336,11 +336,11 @@ class theme_custom_slidebox{
 		
 		?>
 		
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__,'backend.js');?>',function(m){
-			m.config.tpl = <?php echo json_encode(html_compress(self::get_box_tpl('%placeholder%')));?>;
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?php echo ___('Server error or network is disconnected.');?>';
+		seajs.use('<?= theme_features::get_theme_includes_js(__DIR__,'backend.js');?>',function(m){
+			m.config.tpl = <?= json_encode(html_compress(self::get_box_tpl('%placeholder%')));?>;
+			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?= ___('Server error or network is disconnected.');?>';
 			m.init();
 		});
 

@@ -28,7 +28,7 @@ class theme_tinymce_plus{
 		
 		?>
 	    <script>
-		QTags.addButton('nextpage','nextpage',bolo_QTnextpage_arg1,'','n','<?php echo ___('Next Page');?>', 121);
+		QTags.addButton('nextpage','nextpage',bolo_QTnextpage_arg1,'','n','<?= ___('Next Page');?>', 121);
 		function bolo_QTnextpage_arg1(){
 			QTags.insertContent('<!--nextpage-->');
 		}

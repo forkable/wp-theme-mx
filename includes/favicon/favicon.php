@@ -67,7 +67,7 @@ class theme_custom_favicon{
 				if(!$url)
 					continue;
 				?>
-				<link rel="<?php echo $k;?>" href="<?php echo esc_url($url);?>" size="<?php echo "{$size}x{$size}";?>">
+				<link rel="<?= $k;?>" href="<?= esc_url($url);?>" size="<?= "{$size}x{$size}";?>">
 				<?php
 			}
 		}
@@ -90,9 +90,9 @@ class theme_custom_favicon{
 		$icons = self::get_options('icons');
 		if(!$icons){
 			?>
-<link rel="shortcut icon" href="<?php echo theme_features::get_theme_images_url('frontend/favicon.ico',true,true);?>" type="image/x-icon" />
-<link rel="apple-touch-icon" href="<?php echo theme_features::get_theme_images_url('frontend/apple-touch-icon.png',true,true);?>" />
-<link rel="icon" href="<?php echo theme_features::get_theme_images_url('frontend/apple-touch-icon.png',true,true);?>" />
+<link rel="shortcut icon" href="<?= theme_features::get_theme_images_url('frontend/favicon.ico',true,true);?>" type="image/x-icon" />
+<link rel="apple-touch-icon" href="<?= theme_features::get_theme_images_url('frontend/apple-touch-icon.png',true,true);?>" />
+<link rel="icon" href="<?= theme_features::get_theme_images_url('frontend/apple-touch-icon.png',true,true);?>" />
 			<?php
 			return;
 		}
@@ -156,22 +156,22 @@ class theme_custom_favicon{
 		
 		?>
 		<fieldset>
-			<legend><?php echo ___('Favicon settings');?></legend>
+			<legend><?= ___('Favicon settings');?></legend>
 			<p class="description">
-				<?php echo sprintf(___('You can set a PNG image for blog favicon. Image size is %s&times;%s px. Remember save your settings when all done.'),self::get_max_size(),self::get_max_size());?>
+				<?= sprintf(___('You can set a PNG image for blog favicon. Image size is %s&times;%s px. Remember save your settings when all done.'),self::get_max_size(),self::get_max_size());?>
 			</p>
 			<table class="form-table">
 			<tbody>
 			<tr>
-			<th><?php echo ___('Image URL');?></th>
+			<th><?= ___('Image URL');?></th>
 			<td>
-				<div id="<?php echo self::$iden;?>-area">
-					<input type="url" name="<?php echo self::$iden;?>[url]" id="<?php echo self::$iden;?>-url" class="code url" value="<?php echo esc_url($url);?>" placeholder="<?php echo esc_attr(___('Image URL (include http://)'));?>"/>
+				<div id="<?= self::$iden;?>-area">
+					<input type="url" name="<?= self::$iden;?>[url]" id="<?= self::$iden;?>-url" class="code url" value="<?= esc_url($url);?>" placeholder="<?= esc_attr(___('Image URL (include http://)'));?>"/>
 					
-					<a href="javascript:void(0);" class="button-primary" id="<?php echo self::$iden;?>-upload"><?php echo esc_html(___('Upload image'));?><input type="file" id="<?php echo self::$iden;?>-file"/></a>
+					<a href="javascript:void(0);" class="button-primary" id="<?= self::$iden;?>-upload"><?= esc_html(___('Upload image'));?><input type="file" id="<?= self::$iden;?>-file"/></a>
 				</div>
-				<div id="<?php echo self::$iden;?>-tip"></div>
-				<input type="hidden" name="<?php echo self::$iden;?>[attach-id]" value="<?php echo $attach_id;?>" id="<?php echo self::$iden;?>-attach-id">
+				<div id="<?= self::$iden;?>-tip"></div>
+				<input type="hidden" name="<?= self::$iden;?>[attach-id]" value="<?= $attach_id;?>" id="<?= self::$iden;?>-attach-id">
 			</td>
 			</tr>
 			</tbody>
@@ -182,7 +182,7 @@ class theme_custom_favicon{
 
 	public static function backend_css(){
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
+		<link href="<?= theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function backend_seajs_alias(array $alias = []){
@@ -193,10 +193,10 @@ class theme_custom_favicon{
 		
 		?>
 		
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?php echo ___('Server error or network is disconnected.');?>';
+		seajs.use('<?= self::$iden;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?= ___('Server error or network is disconnected.');?>';
 			m.init();
 		});
 

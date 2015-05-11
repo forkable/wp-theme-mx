@@ -76,9 +76,9 @@ class theme_custom_homebox{
 			?>
 			<section class="mod main-posts">
 				<h3 class="tabtitle">
-					<a href="<?php echo esc_url(get_category_link($category->term_id));?>" class="link">
-						<span class="icon-play"></span><span class="after-icon"><?php echo esc_html($category->name);?></span>
-						<small class="detail"><?php echo esc_html(___('&raquo; detail'));?></small>
+					<a href="<?= esc_url(get_category_link($category->term_id));?>" class="link">
+						<span class="icon-play"></span><span class="after-icon"><?= esc_html($category->name);?></span>
+						<small class="detail"><?= esc_html(___('&raquo; detail'));?></small>
 					</a>
 					<?php self::keywords_to_html($v['keywords']);?>
 				</h3>
@@ -103,7 +103,7 @@ class theme_custom_homebox{
 					<?php
 				}else{
 					?>
-					<?php echo status_tip('info',___('Not data in this category'));?>
+					<?= status_tip('info',___('Not data in this category'));?>
 					<?php
 				}
 				//wp_reset_query();
@@ -122,17 +122,17 @@ class theme_custom_homebox{
 		foreach($cats as $cat){
 			$checked = !empty($exists_cats) && in_array($cat->term_id,$exists_cats) ? ' checked ' : null;
 			?>
-			<label for="<?php echo self::$iden;?>-cats-<?php echo $placeholder;?>-<?php echo $cat->term_id;?>" class="button <?php echo empty($checked) ? null : 'button-primary';?>">
+			<label for="<?= self::$iden;?>-cats-<?= $placeholder;?>-<?= $cat->term_id;?>" class="button <?= empty($checked) ? null : 'button-primary';?>">
 				<input 
 					type="checkbox" 
-					name="<?php echo self::$iden;?>[<?php echo $placeholder;?>][cats][]"
-					id="<?php echo self::$iden;?>-cats-<?php echo $placeholder;?>-<?php echo $cat->term_id;?>"
-					value="<?php echo $cat->term_id;?>"
-					<?php echo $checked;?>
+					name="<?= self::$iden;?>[<?= $placeholder;?>][cats][]"
+					id="<?= self::$iden;?>-cats-<?= $placeholder;?>-<?= $cat->term_id;?>"
+					value="<?= $cat->term_id;?>"
+					<?= $checked;?>
 				/>
-				<?php echo esc_html($cat->name);?> - <?php echo esc_html(urldecode($cat->slug));?>
+				<?= esc_html($cat->name);?> - <?= esc_html(urldecode($cat->slug));?>
 				-
-				<a href="<?php echo esc_url(get_category_link($cat->term_id));?>" target="_blank"><?php echo ___('link');?></a>
+				<a href="<?= esc_url(get_category_link($cat->term_id));?>" target="_blank"><?= ___('link');?></a>
 			</label>
 			<?php
 		}
@@ -141,7 +141,7 @@ class theme_custom_homebox{
 		$opt = self::get_options();
 		?>
 		<fieldset>
-			<legend><?php echo ___('Theme home box settings');?></legend>
+			<legend><?= ___('Theme home box settings');?></legend>
 			<?php
 			if(is_null_array($opt)){
 				echo self::get_home_box_tpl('1');
@@ -151,12 +151,12 @@ class theme_custom_homebox{
 				}
 			}
 			?>
-			<table class="form-table" id="<?php echo self::$iden;?>-control">
+			<table class="form-table" id="<?= self::$iden;?>-control">
 				<tbody>
 					<tr>
-						<th scope="row"><?php echo ___('Home box control');?></th>
+						<th scope="row"><?= ___('Home box control');?></th>
 						<td>
-							<a id="<?php echo self::$iden;?>-add" href="javascript:;" class="button-primary"><i class="fa fa-plus"></i> <?php echo ___('Add a new home box');?></a>
+							<a id="<?= self::$iden;?>-add" href="javascript:;" class="button-primary"><i class="fa fa-plus"></i> <?= ___('Add a new home box');?></a>
 						</td>
 					</tr>
 				</tbody>
@@ -179,49 +179,49 @@ class theme_custom_homebox{
 		ob_start();
 		?>
 		<table 
-			class="form-table <?php echo self::$iden;?>-item" 
-			id="<?php echo self::$iden;?>-item-<?php echo $placeholder;?>" 
-			data-placeholder="<?php echo $placeholder;?>" 
+			class="form-table <?= self::$iden;?>-item" 
+			id="<?= self::$iden;?>-item-<?= $placeholder;?>" 
+			data-placeholder="<?= $placeholder;?>" 
 		>
 		<tbody>
 		<tr>
-			<th><label for="<?php echo self::$iden;?>-title-<?php echo $placeholder;?>"><?php echo ___('Box title');?></label></th>
+			<th><label for="<?= self::$iden;?>-title-<?= $placeholder;?>"><?= ___('Box title');?></label></th>
 			<td>
 				<input 
 					type="text" 
-					name="<?php echo self::$iden;?>[<?php echo $placeholder;?>][title]" 
-					id="<?php echo self::$iden;?>-title-<?php echo $placeholder;?>" 
+					name="<?= self::$iden;?>[<?= $placeholder;?>][title]" 
+					id="<?= self::$iden;?>-title-<?= $placeholder;?>" 
 					class="widefat" 
-					value="<?php echo esc_attr($title);?>" 
-					placeholder="<?php echo ___('Box title');?>"
+					value="<?= esc_attr($title);?>" 
+					placeholder="<?= ___('Box title');?>"
 				>
 			</td>
 		</tr>
 		<tr>
-			<th><label for="<?php echo self::$iden;?>-link-<?php echo $placeholder;?>"><?php echo ___('Box link');?></label></th>
+			<th><label for="<?= self::$iden;?>-link-<?= $placeholder;?>"><?= ___('Box link');?></label></th>
 			<td>
 				<input 
 					type="url" 
-					name="<?php echo self::$iden;?>[<?php echo $placeholder;?>][link]" 
-					id="<?php echo self::$iden;?>-link-<?php echo $placeholder;?>" 
+					name="<?= self::$iden;?>[<?= $placeholder;?>][link]" 
+					id="<?= self::$iden;?>-link-<?= $placeholder;?>" 
 					class="widefat" 
-					value="<?php echo esc_attr($link);?>" 
-					placeholder="<?php echo ___('Box link (include http://)');?>"
+					value="<?= esc_attr($link);?>" 
+					placeholder="<?= ___('Box link (include http://)');?>"
 				>
 			</td>
 		</tr>
 		<tr>
-			<th><?php echo ___('Categories');?></th>
+			<th><?= ___('Categories');?></th>
 			<td>
 				<?php self::cat_checkbox_tpl($placeholder);?>
 			</td>
 		</tr>
 		<tr>
-			<th><label for="<?php echo self::$iden;?>-<?php echo $placeholder;?>-keywords"><?php echo ___('Keywords and links');?></label></th>
+			<th><label for="<?= self::$iden;?>-<?= $placeholder;?>-keywords"><?= ___('Keywords and links');?></label></th>
 			<td>
-				<textarea name="<?php echo self::$iden;?>[<?php echo $placeholder;?>][keywords]" id="<?php echo self::$iden;?>-<?php echo $placeholder;?>-keywords" cols="30" rows="5" class="widefat" placeholder="<?php echo ___('Eg. Tag1 = http://inn-studio.com');?>"><?php echo esc_textarea($keywords);?></textarea>
-				<span class="description"><?php echo ___('Per keyword/line');?></span>
-				<a href="javascript:;" class="<?php echo self::$iden;?>-del delete" id="<?php echo self::$iden;?>-del-<?php echo $placeholder;?>" data-id="<?php echo $placeholder;?>" data-target="#<?php echo self::$iden;?>-item-<?php echo $placeholder;?>"><?php echo esc_html(___('Delete this item'));?></a>
+				<textarea name="<?= self::$iden;?>[<?= $placeholder;?>][keywords]" id="<?= self::$iden;?>-<?= $placeholder;?>-keywords" cols="30" rows="5" class="widefat" placeholder="<?= ___('Eg. Tag1 = http://inn-studio.com');?>"><?= esc_textarea($keywords);?></textarea>
+				<span class="description"><?= ___('Per keyword/line');?></span>
+				<a href="javascript:;" class="<?= self::$iden;?>-del delete" id="<?= self::$iden;?>-del-<?= $placeholder;?>" data-id="<?= $placeholder;?>" data-target="#<?= self::$iden;?>-item-<?= $placeholder;?>"><?= esc_html(___('Delete this item'));?></a>
 				
 			</td>
 		</tr>
@@ -253,13 +253,13 @@ class theme_custom_homebox{
 	}
 	public static function backend_css(){
 		?>
-		<link href="<?php echo theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
+		<link href="<?= theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function after_backend_tab_init(){
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(_m){
-			_m.config.tpl = <?php echo json_encode(html_compress(self::get_home_box_tpl('%placeholder%')));?>;
+		seajs.use('<?= self::$iden;?>',function(_m){
+			_m.config.tpl = <?= json_encode(html_compress(self::get_home_box_tpl('%placeholder%')));?>;
 			_m.init();
 		});
 		<?php

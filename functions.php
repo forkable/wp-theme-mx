@@ -216,8 +216,8 @@ class theme_functions{
 				$current_class = $current_tab === $k ? 'current' : null;
 				$url = add_query_arg('tab',$k,$current_url);
 				?>
-				<a href="<?php echo esc_url($url);?>" class="item <?php echo $current_class;?>">
-					<span class="icon-<?php echo $v['icon'];?>"></span><span class="after-icon"><?php echo esc_html($v['text']);?></span>
+				<a href="<?= esc_url($url);?>" class="item <?= $current_class;?>">
+					<span class="icon-<?= $v['icon'];?>"></span><span class="after-icon"><?= esc_html($v['text']);?></span>
 				</a>
 				<?php
 			}
@@ -336,22 +336,22 @@ class theme_functions{
 
 		$thumbnail_placeholder = esc_url(theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder));
 		?>
-		<li class="<?php echo implode(' ',$args['classes']);?>">
-			<a class="post-list-bg" href="<?php echo get_permalink();?>" title="<?php echo $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
+		<li class="<?= implode(' ',$args['classes']);?>">
+			<a class="post-list-bg" href="<?= get_permalink();?>" title="<?= $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
 				<div class="thumbnail-container">
-					<img class="placeholder" alt="Placeholder" src="<?php echo $thumbnail_placeholder;?>">
+					<img class="placeholder" alt="Placeholder" src="<?= $thumbnail_placeholder;?>">
 					<?php
 					/**
 					 * lazyload img
 					 */
 					if($args['lazyload']){
 						?>
-						<img class="post-list-img" src="<?php echo $thumbnail_placeholder;?>" data-src="<?php echo $thumbnail_real_src;?>" alt="<?php echo $post_title;?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+						<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
 					<?php }else{ ?>
-						<img class="post-list-img" src="<?php echo $thumbnail_real_src;?>" alt="<?php echo $post_title;?>" width="<?php echo self::$thumbnail_size[1];?>" height="<?php echo self::$thumbnail_size[2];?>"/>
+						<img class="post-list-img" src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
 					<?php } ?>
 				</div>
-				<h3 class="post-list-title"><?php echo $post_title;?></h3>
+				<h3 class="post-list-title"><?= $post_title;?></h3>
 					
 			</a>
 		</li>
@@ -414,17 +414,17 @@ class theme_functions{
 		$meta_type = self::get_meta_type($meta_type);
 		
 		?>
-		<li class="<?php echo $classes;?>">
-			<a href="<?php echo esc_url(get_permalink());?>" title="<?php echo $post_title;?>">
+		<li class="<?= $classes;?>">
+			<a href="<?= esc_url(get_permalink());?>" title="<?= $post_title;?>">
 				<?php
 				if(empty($meta_type)){
 					echo $post_title;
 				}else{
 					?>
-					<span class="post-list-meta" title="<?php echo $meta_type['tx'];?>">
-						<span class="icon-<?php echo $meta_type['icon'];?>"></span><span class="after-icon"><?php echo $meta_type['num'];?></span>
+					<span class="post-list-meta" title="<?= $meta_type['tx'];?>">
+						<span class="icon-<?= $meta_type['icon'];?>"></span><span class="after-icon"><?= $meta_type['num'];?></span>
 					</span>
-					<span class="tx"><?php echo $post_title;?></span>
+					<span class="tx"><?= $post_title;?></span>
 				<?php } ?>
 			</a>
 		</li>
@@ -458,26 +458,26 @@ class theme_functions{
 		$thumbnail_placeholder = esc_url(theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder));
 		?>
 		<li class="list-group-item">
-			<a class="post-list-bg media" href="<?php echo get_permalink();?>" title="<?php echo $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
+			<a class="post-list-bg media" href="<?= get_permalink();?>" title="<?= $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
 				<div class="media-left">
-					<img src="<?php echo $thumbnail_placeholder;?>" alt="<?php echo $post_title;?>" class="media-object placeholder">
-					<img class="post-list-img" src="<?php echo $thumbnail_placeholder;?>" data-src="<?php echo $thumbnail_real_src;?>" alt="<?php echo $post_title;?>"/>
+					<img src="<?= $thumbnail_placeholder;?>" alt="<?= $post_title;?>" class="media-object placeholder">
+					<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>"/>
 				</div>
 				<div class="media-body">
-					<h4 class="media-heading"><?php echo $post_title;?></h4>
+					<h4 class="media-heading"><?= $post_title;?></h4>
 					<div class="extra">
 						<div class="metas row">
 							
-							<?php if(function_exists('the_views')){ ?>
+							<?php if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
 								<div class="view meta col-xs-6">
 									<i class="fa fa-play-circle"></i>
-									<?php the_views();?>
+									<?= theme_post_views::get_views();?>
 								</div>
 							<?php } ?>
 
 							<div class="comments meta col-xs-6">
 								<i class="fa fa-comment"></i>
-								<?php echo (int)$post->comment_count;?>
+								<?= (int)$post->comment_count;?>
 							</div>
 						</div><!-- /.metas -->
 					</div>					
@@ -507,7 +507,7 @@ class theme_functions{
 		<article id="post-<?php $post->ID;?>" <?php post_class($args['classes']);?>>
 			<div class="panel-heading">
 				<?php if(!empty($post_title)){ ?>
-					<h3 class="entry-title panel-title"><?php echo $post_title;?></h3>
+					<h3 class="entry-title panel-title"><?= $post_title;?></h3>
 				<?php } ?>
 
 			</div>
@@ -526,7 +526,7 @@ class theme_functions{
 				 */
 				do_action('after_singular_post_content');
 				?>
-				<?php echo theme_features::get_prev_next_pagination(array(
+				<?= theme_features::get_prev_next_pagination(array(
 					'numbers_class' => array('btn btn-primary')
 				));?>
 
@@ -543,7 +543,7 @@ class theme_functions{
 				if(class_exists('theme_post_share') && theme_post_share::is_enabled()){
 					?>
 					<div class="post-meta post-share">
-						<?php echo theme_post_share::display();?>
+						<?= theme_post_share::display();?>
 					</div>
 					<?php
 				} /** end post-share */
@@ -579,10 +579,10 @@ class theme_functions{
 		<article id="post-<?php $post->ID;?>" <?php post_class($args['classes']);?>>
 			<div class="panel-heading">
 				<div class="media">
-					<div class="media-left"><img class="avatar" src="<?php echo esc_url(get_avatar_url($post->post_author));?>" alt="avatar" width="50" height="50"></div>
+					<div class="media-left"><img class="avatar" src="<?= esc_url(get_avatar_url($post->post_author));?>" alt="avatar" width="50" height="50"></div>
 					<div class="media-body">
 						<?php if(!empty($post_title)){ ?>
-							<h3 class="entry-title panel-title"><?php echo $post_title;?></h3>
+							<h3 class="entry-title panel-title"><?= $post_title;?></h3>
 						<?php } ?>
 						<header class="post-header post-metas clearfix">
 							
@@ -591,39 +591,39 @@ class theme_functions{
 							$cats = get_the_category_list('<i class="split"> / </i> ');
 							if(!empty($cats)){
 								?>
-								<span class="post-meta post-category" title="<?php echo ___('Category');?>">
+								<span class="post-meta post-category" title="<?= ___('Category');?>">
 									<i class="fa fa-folder-open"></i>
-									<?php echo $cats;?>
+									<?= $cats;?>
 								</span>
 							<?php } ?>
 							
 							<!-- time -->
-							<time class="post-meta post-time" datetime="<?php echo get_the_time('Y-m-d H:i:s');?>">
+							<time class="post-meta post-time" datetime="<?= get_the_time('Y-m-d H:i:s');?>">
 								<i class="fa fa-clock-o"></i>
-								<?php echo friendly_date(get_the_time('U'));?>
+								<?= friendly_date(get_the_time('U'));?>
 							</time>
 							<!-- author link -->
 							<?php
 							$author_display_name = get_the_author();
 							?>
-							<a class="post-meta post-author" href="<?php echo theme_cache::get_author_posts_url($post->post_author);?>" title="<?php echo esc_attr(sprintf(___('Views all post by %s'),$author_display_name));?>">
+							<a class="post-meta post-author" href="<?= theme_cache::get_author_posts_url($post->post_author);?>" title="<?= esc_attr(sprintf(___('Views all post by %s'),$author_display_name));?>">
 								<i class="fa fa-user"></i> 
-								<?php echo $author_display_name;?>
+								<?= $author_display_name;?>
 							</a>
 							
 							<!-- views -->
 							<?php if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
-								<span class="post-meta post-views" title="<?php echo ___('Views');?>">
+								<span class="post-meta post-views" title="<?= ___('Views');?>">
 									<i class="fa fa-play-circle"></i>
-									<span class="number" id="post-views-number-<?php echo $post->ID;?>">-</span>
+									<span class="number" id="post-views-number-<?= $post->ID;?>">-</span>
 								</span>
 							<?php } ?>
 
 
 							<!-- permalink -->
-							<a href="<?php echo get_permalink();?>" class="post-meta permalink" title="<?php echo ___('Post link');?>">
+							<a href="<?= get_permalink();?>" class="post-meta permalink" title="<?= ___('Post link');?>">
 								<i class="fa fa-link"></i>
-								<span class="hidden-xs"><?php echo ___('Post link');?></span>
+								<span class="hidden-xs"><?= ___('Post link');?></span>
 							</a>
 
 						</header>
@@ -713,9 +713,9 @@ class theme_functions{
 				$comment_count = (int)get_comments_number();
 				$comment_tx = $comment_count <= 1 ? ___('comment') : ___('comments');
 				?>
-				<a href="#comments" class="post-meta quick-comment comment-count" data-post-id="<?php echo $post->ID;?>">
+				<a href="#comments" class="post-meta quick-comment comment-count" data-post-id="<?= $post->ID;?>">
 					<i class="fa fa-comment"></i>
-					<span class="comment-count-number"><?php echo esc_html($comment_count);?></span> <span class="hidden-xs"><?php echo esc_html($comment_tx);?></span>
+					<span class="comment-count-number"><?= esc_html($comment_count);?></span> <span class="hidden-xs"><?= esc_html($comment_tx);?></span>
 				</a>
 
 				<?php
@@ -725,7 +725,7 @@ class theme_functions{
 				if(class_exists('theme_post_share') && theme_post_share::is_enabled()){
 					?>
 					<div class="post-meta post-share">
-						<?php echo theme_post_share::display();?>
+						<?= theme_post_share::display();?>
 					</div>
 					<?php
 				} /** end post-share */
@@ -749,8 +749,8 @@ class theme_functions{
 			 */
 			ob_start();
 			?>
-			<a href="<?php echo get_tag_link($first_tag->term_id);?>" class="tag" title="<?php echo sprintf(___('Views all posts by %s tag'),esc_attr($first_tag->name));?>">
-				<span class="icon-tags"></span><span class="after-icon"><?php echo esc_html($first_tag->name);?></span>
+			<a href="<?= get_tag_link($first_tag->term_id);?>" class="tag" title="<?= sprintf(___('Views all posts by %s tag'),esc_attr($first_tag->name));?>">
+				<span class="icon-tags"></span><span class="after-icon"><?= esc_html($first_tag->name);?></span>
 			</a>
 			<?php
 			$tags_str = array(ob_get_contents());
@@ -763,8 +763,8 @@ class theme_functions{
 				// }
 				ob_start();
 				?>
-				<a href="<?php echo get_tag_link($tag->term_id);?>" class="tag" title="<?php echo sprintf(___('Views all posts by %s tag'),esc_attr($tag->name));?>">
-					<?php echo esc_html($tag->name);?>
+				<a href="<?= get_tag_link($tag->term_id);?>" class="tag" title="<?= sprintf(___('Views all posts by %s tag'),esc_attr($tag->name));?>">
+					<?= esc_html($tag->name);?>
 				</a>
 				<?php
 				$tags_str[] = ob_get_contents();
@@ -840,25 +840,25 @@ class theme_functions{
 		
 		ob_start();
 		?>
-		<nav class="grid-100 grid-parent <?php echo $class;?>">
+		<nav class="grid-100 grid-parent <?= $class;?>">
 			<ul>
 				<li class="adjacent-post-prev grid-50 tablet-grid-50 mobile-grid-100">
 					<?php if(!$prev_post){ ?>
-						<span class="adjacent-post-not-found button"><?php echo ___('No more post found');?></span>
+						<span class="adjacent-post-not-found button"><?= ___('No more post found');?></span>
 					<?php }else{ ?>
-						<a href="<?php echo get_permalink($prev_post->ID);?>" title="<?php echo esc_attr(sprintf(___('Previous post: %s'),$prev_post->post_title));?>" class="button">
-							<span class="aquo"><?php echo esc_html(___('&laquo;'));?></span>
-							<?php echo esc_html($prev_post->post_title);?>
+						<a href="<?= get_permalink($prev_post->ID);?>" title="<?= esc_attr(sprintf(___('Previous post: %s'),$prev_post->post_title));?>" class="button">
+							<span class="aquo"><?= esc_html(___('&laquo;'));?></span>
+							<?= esc_html($prev_post->post_title);?>
 						</a>
 					<?php } ?>
 				</li>
 				<li class="adjacent-post-next grid-50 tablet-grid-50 mobile-grid-100">
 					<?php if(!$next_post){ ?>
-						<span class="adjacent-post-not-found button"><?php echo ___('No more post found');?></span>
+						<span class="adjacent-post-not-found button"><?= ___('No more post found');?></span>
 					<?php }else{ ?>
-						<a href="<?php echo get_permalink($next_post->ID);?>" title="<?php echo esc_attr(sprintf(___('Next post: %s'),$next_post->post_title));?>"  class="button">
-							<?php echo esc_html($next_post->post_title);?>
-							<span class="aquo"><?php echo esc_html(___('&raquo;'));?></span>
+						<a href="<?= get_permalink($next_post->ID);?>" title="<?= esc_attr(sprintf(___('Next post: %s'),$next_post->post_title));?>"  class="button">
+							<?= esc_html($next_post->post_title);?>
+							<span class="aquo"><?= esc_html(___('&raquo;'));?></span>
 						</a>
 					<?php } ?>
 				</li>
@@ -1055,7 +1055,7 @@ class theme_functions{
 		    ?>
 		    <div class="btn-group" role="group">
 			    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				    <?php echo sprintf(___('Page %d'),$page);?>
+				    <?= sprintf(___('Page %d'),$page);?>
 				    <span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" role="menu">
@@ -1069,16 +1069,16 @@ class theme_functions{
 							continue;
 						?>
 						<li>
-							<a href="<?php echo esc_url( get_pagenum_link($i) );?>">
-								<?php echo sprintf(___('Page %d'),$i);?>
+							<a href="<?= esc_url( get_pagenum_link($i) );?>">
+								<?= sprintf(___('Page %d'),$i);?>
 							</a>
 						</li>
 						<?php
 					}
 					?>
 					<li class="active">
-						<a href="<?php echo esc_url( get_pagenum_link($page) );?>">
-							<?php echo sprintf(___('Page %d'),$page);?>
+						<a href="<?= esc_url( get_pagenum_link($page) );?>">
+							<?= sprintf(___('Page %d'),$page);?>
 						</a>
 					</li>
 					<?php
@@ -1087,8 +1087,8 @@ class theme_functions{
 				        	break;
 			            ?>
 						<li>
-							<a href="<?php echo esc_url( get_pagenum_link($i) );?>">
-								<?php echo sprintf(___('Page %d'),$i);?>
+							<a href="<?= esc_url( get_pagenum_link($i) );?>">
+								<?= sprintf(___('Page %d'),$i);?>
 							</a>
 						</li>
 						<?php
@@ -1204,7 +1204,7 @@ class theme_functions{
 		global $post;
 		?>
 		<div id="post-0"class="post no-results not-found mod">
-			<?php echo status_tip('info','large',___( 'Sorry, I was not able to find what you need, what about look at other content :)')); ?>
+			<?= status_tip('info','large',___( 'Sorry, I was not able to find what you need, what about look at other content :)')); ?>
 		</div><!-- #post-0 -->
 
 	<?php
@@ -1326,7 +1326,7 @@ class theme_functions{
 				$prev_tx =  $prev_type === 'page' ? ___('Preview page') : ___('Preview post');
 				?>
 				<div class="btn-group btn-group-lg" role="group">
-					<a href="<?php echo esc_url($prev_url);?>" class="prev-page btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo $prev_tx;?></a>
+					<a href="<?= esc_url($prev_url);?>" class="prev-page btn btn-default"><i class="fa fa-arrow-left"></i> <?= $prev_tx;?></a>
 				</div>
 				<?php
 			}
@@ -1335,7 +1335,7 @@ class theme_functions{
 				$next_tx =  $prev_type === 'page' ? ___('Next page') : ___('Next post');
 				?>
 				<div class="btn-group btn-group-lg" role="group">
-					<a href="<?php echo esc_url($next_url);?>" class="next-page btn btn-default"><?php echo $next_tx;?> <i class="fa fa-arrow-right"></i></a>
+					<a href="<?= esc_url($next_url);?>" class="next-page btn btn-default"><?= $next_tx;?> <i class="fa fa-arrow-right"></i></a>
 				</div>
 				<?php
 			}
@@ -1392,8 +1392,8 @@ class theme_functions{
 		<?php if($comment->comment_parent == 0){ ?>
 			<div class="media-left">
 				<?php if($author_url){ ?>
-					<a href="<?php echo esc_url($author_url);?>" class="avatar-link" target="_blank" <?php echo $author_nofollow;?> >
-						<?php echo get_avatar($comment,50);?>
+					<a href="<?= esc_url($author_url);?>" class="avatar-link" target="_blank" <?= $author_nofollow;?> >
+						<?= get_avatar($comment,50);?>
 					</a>
 				<?php }else{
 					echo get_avatar($comment,50);
@@ -1406,7 +1406,7 @@ class theme_functions{
 			<div class="comment-content">
 				<?php comment_text();?>
 				<?php if ($comment->comment_approved == '0'){ ?>
-					<div class="comment-awaiting-moderation"><?php echo status_tip('info',___('Your comment is awaiting moderation.')); ?></div>
+					<div class="comment-awaiting-moderation"><?= status_tip('info',___('Your comment is awaiting moderation.')); ?></div>
 				<?php } ?>
 			</div>
 
@@ -1420,8 +1420,8 @@ class theme_functions{
 					?>
 					<?php comment_author_link();?>
 				</span>
-				<time class="comment-meta-data time" datetime="<?php echo get_comment_time('c');?>">
-					<a href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?php echo friendly_date(get_comment_time('U')); ?></a>
+				<time class="comment-meta-data time" datetime="<?= get_comment_time('c');?>">
+					<a href="<?= esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?= friendly_date(get_comment_time('U')); ?></a>
 				</time>
 				<span class="comment-meta-data comment-reply reply">
 					<?php
@@ -1478,7 +1478,7 @@ class theme_functions{
 		
 		<div class="related-posts panel panel-default" role="tabpanel">
 			<div class="panel-heading">
-				<h3 class="panel-title"><i class="fa fa-heart-o"></i> <?php echo ___('Maybe you will like them');?></h3>
+				<h3 class="panel-title"><i class="fa fa-heart-o"></i> <?= ___('Maybe you will like them');?></h3>
 			</div>
 			<div class="panel-body">
 				<?php
@@ -1509,7 +1509,7 @@ class theme_functions{
 					?>
 					</ul>
 				<?php }else{ ?>
-					<div class="page-tip"><?php echo status_tip('info',___('No data.'));?></div>
+					<div class="page-tip"><?= status_tip('info',___('No data.'));?></div>
 				<?php
 				}
 				//wp_reset_query();
@@ -1555,7 +1555,7 @@ class theme_functions{
 			wp_reset_postdata();
 		}else{
 			?>
-			<div class="no-post page-tip"><?php echo status_tip('info',___('No data yet'));?></div>
+			<div class="no-post page-tip"><?= status_tip('info',___('No data yet'));?></div>
 			<?php
 		}
 	}
@@ -1598,7 +1598,7 @@ class theme_functions{
 		
 		if(empty($recomms)){
 			?>
-			<div class="page-tip"><?php echo status_tip('info',___('Please set some recommended posts to display.'));?></div>
+			<div class="page-tip"><?= status_tip('info',___('Please set some recommended posts to display.'));?></div>
 			<?php
 			return false;
 		}
@@ -1662,7 +1662,7 @@ class theme_functions{
 			?>
 			<div class="panel panel-primary">
 				<div class="panel-body">
-					<div class="page-tip"><?php echo status_tip('info',___('Please add some homebox.'));?></div>
+					<div class="page-tip"><?= status_tip('info',___('Please add some homebox.'));?></div>
 				</div>
 			</div>
 			<?php
@@ -1672,7 +1672,7 @@ class theme_functions{
 		global $post;
 		foreach($opt as $k => $v){
 			?>
-<div id="homebox-<?php echo $k;?>" class="homebox panel panel-primary mx-panel">
+<div id="homebox-<?= $k;?>" class="homebox panel panel-primary mx-panel">
 	
 	<div class="panel-heading mx-panel-heading clearfix">
 		<h3 class="panel-title mx-panel-title">
@@ -1682,7 +1682,7 @@ class theme_functions{
 				echo stripcslashes($v['title']);
 			}else{
 				?>
-				<a href="<?php echo esc_url($v['link']);?>"><?php echo stripcslashes($v['title']);?> <small><?php echo ___('&raquo; more');?></small></a>
+				<a href="<?= esc_url($v['link']);?>"><?= stripcslashes($v['title']);?> <small><?= ___('&raquo; more');?></small></a>
 				<?php
 			}
 			?>
@@ -1691,18 +1691,18 @@ class theme_functions{
 			
 			
 			<a 
-				title="<?php echo ___('I feel lucky');?>"
+				title="<?= ___('I feel lucky');?>"
 				href="javascript:;" 
 				class="extra homebox-refresh hide" 
-				data-target="#homebox-<?php echo $k;?> .post-img-lists" 
-				data-box-id="<?php echo $k;?>"
+				data-target="#homebox-<?= $k;?> .post-img-lists" 
+				data-box-id="<?= $k;?>"
 			><i class="fa fa-refresh fa-fw"></i></a>
 			
 			<?php if(!is_null_array($v['keywords'])){ ?>
 				<div class="extra keywords hidden-xs">
 					<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){?>
-						<a class="" href="<?php echo esc_url($kw['url']);?>">
-							<?php echo $kw['name'];?>
+						<a class="" href="<?= esc_url($kw['url']);?>">
+							<?= $kw['name'];?>
 						</a>
 					<?php } ?>
 				</div>
@@ -1753,17 +1753,17 @@ class theme_functions{
 		<h3 id="reply-title" class="panel-title comment-reply-title">
 			<span class="leave-reply">
 				<i class="fa fa-pencil-square-o"></i> 
-				<?php echo ___('Leave a comment');?>
+				<?= ___('Leave a comment');?>
 			</span>
 			<small id="cancel-comment-reply-link" class="none btn btn-xs">
-				<?php echo ___('Cancel reply');?> 
+				<?= ___('Cancel reply');?> 
 				<i class="fa fa-times"></i>
 			</small>
 		</h3>		
 	</div>
 	<div class="panel-body">
 		<div class="page-tip" id="respond-loading-ready">
-			<?php echo status_tip('loading',___('Loading, please wait...'));?>
+			<?= status_tip('loading',___('Loading, please wait...'));?>
 		</div>
 		
 		<p id="respond-must-login" class="alert alert-info hide-on-logged none">
@@ -1781,11 +1781,11 @@ class theme_functions{
 			method="post" 
 			class="comment-form media none"
 		>
-			<input type="hidden" name="comment_post_ID" id="comment_post_ID" value="<?php echo $post->ID;?>">
+			<input type="hidden" name="comment_post_ID" id="comment_post_ID" value="<?= $post->ID;?>">
 			<input type="hidden" name="comment_parent" id="comment_parent" value="0">
 			
 			<div class="media-left media-top hidden-xs">
-				<img id="respond-avatar" src="<?php echo theme_features::get_theme_images_url('frontend/avatar.jpg');?>" alt="Avatar" class="media-object avatar" width="80" height="80">
+				<img id="respond-avatar" src="<?= theme_features::get_theme_images_url('frontend/avatar.jpg');?>" alt="Avatar" class="media-object avatar" width="80" height="80">
 			</div>
 			<div class="media-body">
 				
@@ -1796,8 +1796,8 @@ class theme_functions{
 							id="comment-form-comment" 
 							class="form-control" 
 							rows="2" 
-							placeholder="<?php echo ___('Hi, have something to say?');?>"
-							title="<?php echo ___('Nothing to say?');?>"
+							placeholder="<?= ___('Hi, have something to say?');?>"
+							title="<?= ___('Nothing to say?');?>"
 							required 
 						></textarea>
 						<span class="input-group-btn">
@@ -1826,9 +1826,9 @@ class theme_functions{
 									class="form-control" 
 									name="author" 
 									id="comment-form-author" 
-									placeholder="<?php echo ___('Nickname');?><?php echo $req ? ' * ' : null;?>"
-									<?php echo $req ? ' required ' : null;?>
-									title="<?php echo ___('Whats your nickname?');?>"
+									placeholder="<?= ___('Nickname');?><?= $req ? ' * ' : null;?>"
+									<?= $req ? ' required ' : null;?>
+									title="<?= ___('Whats your nickname?');?>"
 								>
 							</div>
 						</div>
@@ -1844,9 +1844,9 @@ class theme_functions{
 									class="form-control" 
 									name="email" 
 									id="comment-form-email" 
-									placeholder="<?php echo ___('Email');?><?php echo $req ? ' * ' : null;?>"
-									<?php echo $req ? ' required ' : null;?>
-									title="<?php echo ___('Whats your Email?');?>"
+									placeholder="<?= ___('Email');?><?= $req ? ' * ' : null;?>"
+									<?= $req ? ' required ' : null;?>
+									title="<?= ___('Whats your Email?');?>"
 								>
 							</div>
 						</div><!-- /.form-group -->
@@ -1923,18 +1923,22 @@ class theme_functions{
 
 		
 		$display_name = esc_html($user->display_name);
+
+		$avatar_placeholder = theme_features::get_theme_images_url(self::$avatar_placeholder);
+
+		$avatar_url = esc_url(get_avatar_url($user->ID));
 		?>
-		<div class="user-list <?php echo $args['classes'];?>">
-			<a href="<?php echo theme_cache::get_author_posts_url($user->ID)?>" title="<?php echo $display_name;?>">
+		<div class="user-list <?= $args['classes'];?>">
+			<a href="<?= theme_cache::get_author_posts_url($user->ID)?>" title="<?= $display_name;?>">
 				<div class="avatar-container">
-					<img src="<?php echo theme_features::get_theme_images_url(self::$avatar_placeholder);?>" alt="Placeholder" class="placeholder">
-					<img src="<?php echo theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?php echo get_avatar_url($user->ID);?>" alt="<?php echo $display_name;?>" class="avatar">
+					<img src="<?= $avatar_placeholder;?>" alt="<?= $display_name;?>" class="placeholder">
+					<img src="<?= $avatar_placeholder;?>" data-src="<?= $avatar_url;?>" alt="<?= $display_name;?>" class="avatar">
 				</div>
-				<h4 class="author"><?php echo $display_name;?></h4>
+				<h4 class="author"><?= $display_name;?></h4>
 				<?php if($args['extra']){ ?>
 					<div class="extra">
-						<span class="<?php echo $args['extra'];?>" title="<?php echo $args['extra_title'];?>">
-							<?php echo $point_value;?>
+						<span class="<?= $args['extra'];?>" title="<?= $args['extra_title'];?>">
+							<?= $point_value;?>
 						</span>
 					</div>
 				<?php }/** end args extra */ ?>
@@ -1963,9 +1967,9 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 	 * @param int $depth Depth of page. Used for padding.
 	 */
 	public function start_lvl(& $output, $depth = 0, $args = []){
-		$indent = str_repeat("\t", $depth);
-		$output .= "\n$indent<ul role=\"menu\" class=\" dropdown-menu\">\n";
-		}
+		//$indent = str_repeat("\t", $depth);
+		$output .= "<ul role=\"menu\" class=\" dropdown-menu\">";
+	}
 	/**
 	 * 
 	 * @see Walker::start_el()
@@ -1977,7 +1981,7 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 	 * @param object $args 
 	 */
 	public function start_el(& $output, $item, $depth = 0, $args = [], $id = 0){
-		$indent = ($depth) ? str_repeat("\t", $depth) : '';
+		//$indent = ($depth) ? str_repeat("\t", $depth) : '';
 		/**
 		 * Dividers, Headers or Disabled
 		 * =============================
@@ -1988,13 +1992,13 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 		 */
 		
 		if (strcasecmp($item->attr_title, 'divider') == 0 && $depth === 1){
-			$output .= $indent . '<li role="presentation" class="divider">';
+			$output .= '<li role="presentation" class="divider">';
 		}else if (strcasecmp($item->title, 'divider') == 0 && $depth === 1){
-			$output .= $indent . '<li role="presentation" class="divider">';
+			$output .= '<li role="presentation" class="divider">';
 		}else if (strcasecmp($item->attr_title, 'dropdown-header') == 0 && $depth === 1){
-			$output .= $indent . '<li role="presentation" class="dropdown-header">' . $item->title ;
+			$output .= '<li role="presentation" class="dropdown-header">' . $item->title ;
 		}else if (strcasecmp($item->attr_title, 'disabled') == 0){
-			$output .= $indent . '<li role="presentation" class="disabled"><a href="javascript:;">' . $item->title . '</a>';
+			$output .= '<li role="presentation" class="disabled"><a href="javascript:;">' . $item->title . '</a>';
 		}else{
 			$class_names = $value = '';
 			$classes = empty($item->classes) ? [] : (array) $item->classes;
@@ -2022,7 +2026,7 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 			$id = apply_filters('nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args);
 			$id = $id ? ' id="' . $id . '"' : '';
 			
-			$output .= $indent . '<li' . $id . $value . $class_names . '>';
+			$output .= '<li' . $id . $value . $class_names . '>';
 			
 			$atts = [];
 			
@@ -2033,12 +2037,15 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 			$atts['rel'] = ! empty($item->xfn) ? $item->xfn : '';
 
 			$atts['href'] = $item->url;
+
+			
+			//$atts['icon'] = isset($item->awesome) ? $item->awesome : null;
 			
 			// If item has_children add atts to a.
 		if ($args->has_children && $depth === 0){
 			$atts['data-toggle'] = 'dropdown';
 			$atts['class'] = 'dropdown-toggle';
-			$atts['aria-haspopup'] = 'true';
+			//$atts['aria-haspopup'] = 'true';
 		}
 		$atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args);
 		$attributes = '';
@@ -2056,8 +2063,8 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 		 * if there is a value in the attr_title property. If the attr_title
 		 * property is NOT null we apply it as the class name for the glyphicon.
 		 */
-		if (! empty($item->xfn))
-			$item_output .= '<a' . $attributes . '><i class="fa fa-fw fa-' . $item->xfn . '"></i>&nbsp;';
+		if (! empty($item->awesome))
+			$item_output .= '<a' . $attributes . '><i class="fa fa-fw fa-' . $item->awesome . '"></i>&nbsp;';
 		else
 			$item_output .= '<a' . $attributes . '>';
 			
@@ -2137,7 +2144,260 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu{
 			
 		echo $fb_output;
 	}
+	public static function setup_nav_menu_item($menu_item){
+		$menu_item->awesome = get_post_meta($menu_item->ID,'_menu_item_awesome',true);
+		return $menu_item;
+	}
+	public static function update_nav_menu_item($menu_id, $menu_item_db_id){
+		if(!isset($_REQUEST['menu-item-awesome']) || !is_array( $_REQUEST['menu-item-awesome']))
+			return false;
+			
+		$subtitle_value = $_REQUEST['menu-item-awesome'][$menu_item_db_id];
+		update_post_meta($menu_item_db_id,'_menu_item_awesome',$subtitle_value);
+	}
+	public static function edit_nav_menu_walker(){
+		return 'Walker_Nav_Menu_Edit_Custom';
+	}
+	public static function custom_nav_menu_hook(){
+		add_filter('wp_edit_nav_menu_walker',__CLASS__ . '::edit_nav_menu_walker');
+		add_filter('wp_setup_nav_menu_item' ,__CLASS__ . '::setup_nav_menu_item');
+		add_action('wp_update_nav_menu_item',__CLASS__ . '::update_nav_menu_item',10,2);
+	}
 }
+wp_bootstrap_navwalker::custom_nav_menu_hook();
 
- 
-?>
+/**
+ * Create HTML list of nav menu input items.
+ *
+ * @package WordPress
+ * @since 3.0.0
+ * @uses Walker_Nav_Menu
+ */
+class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu {
+	/**
+	 * Starts the list before the elements are added.
+	 *
+	 * @see Walker_Nav_Menu::start_lvl()
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
+	 */
+	public function start_lvl( &$output, $depth = 0, $args = array() ) {}
+
+	/**
+	 * Ends the list of after the elements are added.
+	 *
+	 * @see Walker_Nav_Menu::end_lvl()
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
+	 */
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {}
+
+	/**
+	 * Start the element output.
+	 *
+	 * @see Walker_Nav_Menu::start_el()
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $item   Menu item data object.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   Not used.
+	 * @param int    $id     Not used.
+	 */
+	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+		global $_wp_nav_menu_max_depth;
+		$_wp_nav_menu_max_depth = $depth > $_wp_nav_menu_max_depth ? $depth : $_wp_nav_menu_max_depth;
+
+		ob_start();
+		$item_id = esc_attr( $item->ID );
+		$removed_args = array(
+			'action',
+			'customlink-tab',
+			'edit-menu-item',
+			'menu-item',
+			'page-tab',
+			'_wpnonce',
+		);
+
+		$original_title = '';
+		if ( 'taxonomy' == $item->type ) {
+			$original_title = get_term_field( 'name', $item->object_id, $item->object, 'raw' );
+			if ( is_wp_error( $original_title ) )
+				$original_title = false;
+		} elseif ( 'post_type' == $item->type ) {
+			$original_object = get_post( $item->object_id );
+			$original_title = get_the_title( $original_object->ID );
+		}
+
+		$classes = array(
+			'menu-item menu-item-depth-' . $depth,
+			'menu-item-' . esc_attr( $item->object ),
+			'menu-item-edit-' . ( ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? 'active' : 'inactive'),
+		);
+
+		$title = $item->title;
+
+		if ( ! empty( $item->_invalid ) ) {
+			$classes[] = 'menu-item-invalid';
+			/* translators: %s: title of menu item which is invalid */
+			$title = sprintf( __( '%s (Invalid)' ), $item->title );
+		} elseif ( isset( $item->post_status ) && 'draft' == $item->post_status ) {
+			$classes[] = 'pending';
+			/* translators: %s: title of menu item in draft status */
+			$title = sprintf( __('%s (Pending)'), $item->title );
+		}
+
+		$title = ( ! isset( $item->label ) || '' == $item->label ) ? $title : $item->label;
+
+		$submenu_text = '';
+		if ( 0 == $depth )
+			$submenu_text = 'style="display: none;"';
+
+		?>
+		<li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode(' ', $classes ); ?>">
+			<dl class="menu-item-bar">
+				<dt class="menu-item-handle">
+					<span class="item-title"><span class="menu-item-title"><?php echo esc_html( $title ); ?></span> <span class="is-submenu" <?php echo $submenu_text; ?>><?php _e( 'sub item' ); ?></span></span>
+					<span class="item-controls">
+						<span class="item-type"><?php echo esc_html( $item->type_label ); ?></span>
+						<span class="item-order hide-if-js">
+							<a href="<?php
+								echo wp_nonce_url(
+									add_query_arg(
+										array(
+											'action' => 'move-up-menu-item',
+											'menu-item' => $item_id,
+										),
+										remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
+									),
+									'move-menu_item'
+								);
+							?>" class="item-move-up"><abbr title="<?php esc_attr_e('Move up'); ?>">&#8593;</abbr></a>
+							|
+							<a href="<?php
+								echo wp_nonce_url(
+									add_query_arg(
+										array(
+											'action' => 'move-down-menu-item',
+											'menu-item' => $item_id,
+										),
+										remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
+									),
+									'move-menu_item'
+								);
+							?>" class="item-move-down"><abbr title="<?php esc_attr_e('Move down'); ?>">&#8595;</abbr></a>
+						</span>
+						<a class="item-edit" id="edit-<?php echo $item_id; ?>" title="<?php esc_attr_e('Edit Menu Item'); ?>" href="<?php
+							echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? admin_url( 'nav-menus.php' ) : add_query_arg( 'edit-menu-item', $item_id, remove_query_arg( $removed_args, admin_url( 'nav-menus.php#menu-item-settings-' . $item_id ) ) );
+						?>"><?php _e( 'Edit Menu Item' ); ?></a>
+					</span>
+				</dt>
+			</dl>
+
+			<div class="menu-item-settings" id="menu-item-settings-<?php echo $item_id; ?>">
+				<?php if( 'custom' == $item->type ) : ?>
+					<p class="field-url description description-wide">
+						<label for="edit-menu-item-url-<?php echo $item_id; ?>">
+							<?php _e( 'URL' ); ?><br />
+							<input type="text" id="edit-menu-item-url-<?php echo $item_id; ?>" class="widefat code edit-menu-item-url" name="menu-item-url[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->url ); ?>" />
+						</label>
+					</p>
+				<?php endif; ?>
+				<p class="description description-thin">
+					<label for="edit-menu-item-title-<?php echo $item_id; ?>">
+						<?php _e( 'Navigation Label' ); ?><br />
+						<input type="text" id="edit-menu-item-title-<?php echo $item_id; ?>" class="widefat edit-menu-item-title" name="menu-item-title[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->title ); ?>" />
+					</label>
+				</p>
+				<p class="description description-thin">
+					<label for="edit-menu-item-attr-title-<?php echo $item_id; ?>">
+						<?php _e( 'Title Attribute' ); ?><br />
+						<input type="text" id="edit-menu-item-attr-title-<?php echo $item_id; ?>" class="widefat edit-menu-item-attr-title" name="menu-item-attr-title[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->post_excerpt ); ?>" />
+					</label>
+				</p>
+				<p class="field-link-target description">
+					<label for="edit-menu-item-target-<?php echo $item_id; ?>">
+						<input type="checkbox" id="edit-menu-item-target-<?php echo $item_id; ?>" value="_blank" name="menu-item-target[<?php echo $item_id; ?>]"<?php checked( $item->target, '_blank' ); ?> />
+						<?php _e( 'Open link in a new window/tab' ); ?>
+					</label>
+				</p>
+				<!-- awesome icon -->
+				<p class="description description-thin">
+					<label for="edit-menu-item-awesome-<?php echo $item_id; ?>">
+						<?php __e( 'Awesome icon' ); ?><br />
+						<input type="text" id="edit-menu-item-awesome-<?php echo $item_id; ?>" class="widefat edit-menu-item-awesome" name="menu-item-awesome[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->awesome ); ?>" />
+					</label>
+				</p><!-- /awesome icon -->
+				
+				<p class="field-css-classes description description-thin">
+					<label for="edit-menu-item-classes-<?php echo $item_id; ?>">
+						<?php _e( 'CSS Classes (optional)' ); ?><br />
+						<input type="text" id="edit-menu-item-classes-<?php echo $item_id; ?>" class="widefat code edit-menu-item-classes" name="menu-item-classes[<?php echo $item_id; ?>]" value="<?php echo esc_attr( implode(' ', $item->classes ) ); ?>" />
+					</label>
+				</p>
+				<p class="field-xfn description description-thin">
+					<label for="edit-menu-item-xfn-<?php echo $item_id; ?>">
+						<?php _e( 'Link Relationship (XFN)' ); ?><br />
+						<input type="text" id="edit-menu-item-xfn-<?php echo $item_id; ?>" class="widefat code edit-menu-item-xfn" name="menu-item-xfn[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->xfn ); ?>" />
+					</label>
+				</p>
+				<p class="field-description description description-wide">
+					<label for="edit-menu-item-description-<?php echo $item_id; ?>">
+						<?php _e( 'Description' ); ?><br />
+						<textarea id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="3" cols="20" name="menu-item-description[<?php echo $item_id; ?>]"><?php echo esc_html( $item->description ); // textarea_escaped ?></textarea>
+						<span class="description"><?php _e('The description will be displayed in the menu if the current theme supports it.'); ?></span>
+					</label>
+				</p>
+
+				<p class="field-move hide-if-no-js description description-wide">
+					<label>
+						<span><?php _e( 'Move' ); ?></span>
+						<a href="#" class="menus-move menus-move-up" data-dir="up"><?php _e( 'Up one' ); ?></a>
+						<a href="#" class="menus-move menus-move-down" data-dir="down"><?php _e( 'Down one' ); ?></a>
+						<a href="#" class="menus-move menus-move-left" data-dir="left"></a>
+						<a href="#" class="menus-move menus-move-right" data-dir="right"></a>
+						<a href="#" class="menus-move menus-move-top" data-dir="top"><?php _e( 'To the top' ); ?></a>
+					</label>
+				</p>
+
+				<div class="menu-item-actions description-wide submitbox">
+					<?php if( 'custom' != $item->type && $original_title !== false ) : ?>
+						<p class="link-to-original">
+							<?php printf( __('Original: %s'), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' ); ?>
+						</p>
+					<?php endif; ?>
+					<a class="item-delete submitdelete deletion" id="delete-<?php echo $item_id; ?>" href="<?php
+					echo wp_nonce_url(
+						add_query_arg(
+							array(
+								'action' => 'delete-menu-item',
+								'menu-item' => $item_id,
+							),
+							admin_url( 'nav-menus.php' )
+						),
+						'delete-menu_item_' . $item_id
+					); ?>"><?php _e( 'Remove' ); ?></a> <span class="meta-sep hide-if-no-js"> | </span> <a class="item-cancel submitcancel hide-if-no-js" id="cancel-<?php echo $item_id; ?>" href="<?php echo esc_url( add_query_arg( array( 'edit-menu-item' => $item_id, 'cancel' => time() ), admin_url( 'nav-menus.php' ) ) );
+						?>#menu-item-settings-<?php echo $item_id; ?>"><?php _e('Cancel'); ?></a>
+				</div>
+
+				<input class="menu-item-data-db-id" type="hidden" name="menu-item-db-id[<?php echo $item_id; ?>]" value="<?php echo $item_id; ?>" />
+				<input class="menu-item-data-object-id" type="hidden" name="menu-item-object-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object_id ); ?>" />
+				<input class="menu-item-data-object" type="hidden" name="menu-item-object[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->object ); ?>" />
+				<input class="menu-item-data-parent-id" type="hidden" name="menu-item-parent-id[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->menu_item_parent ); ?>" />
+				<input class="menu-item-data-position" type="hidden" name="menu-item-position[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->menu_order ); ?>" />
+				<input class="menu-item-data-type" type="hidden" name="menu-item-type[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->type ); ?>" />
+			</div><!-- .menu-item-settings-->
+			<ul class="menu-item-transport"></ul>
+		<?php
+		$output .= ob_get_clean();
+	}
+
+} // Walker_Nav_Menu_Edit

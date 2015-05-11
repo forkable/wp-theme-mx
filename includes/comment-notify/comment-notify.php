@@ -29,14 +29,14 @@ class theme_comment_notify {
 		$is_checked = self::is_enabled() ? ' checked ' : null;
 		?>
 		<fieldset>
-			<legend><?php echo ___('Comment reply notifier');?></legend>
+			<legend><?= ___('Comment reply notifier');?></legend>
 			<p class="description">
-				<?php echo ___('It will send a mail to notify the being reply comment author when comment has been reply, if your server supports.');?></p>
+				<?= ___('It will send a mail to notify the being reply comment author when comment has been reply, if your server supports.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="<?php echo self::$iden;?>-on"><?php echo ___('Enable or not?');?></label></th>
-						<td><label for="<?php echo self::$iden;?>-on"><input type="checkbox" name="<?php echo self::$iden;?>[on]" id="<?php echo self::$iden;?>-on" value="1" <?php echo $is_checked;?> /><?php echo ___('Enable');?></label></td>
+						<th scope="row"><label for="<?= self::$iden;?>-on"><?= ___('Enable or not?');?></label></th>
+						<td><label for="<?= self::$iden;?>-on"><input type="checkbox" name="<?= self::$iden;?>[on]" id="<?= self::$iden;?>-on" value="1" <?= $is_checked;?> /><?= ___('Enable');?></label></td>
 					</tr>
 				</tbody>
 			</table>
@@ -68,10 +68,10 @@ class theme_comment_notify {
 		$mail_title = sprintf(___('[%s] Your comment has been approved in "%s".'),get_bloginfo('name'),$post_title);
 		ob_start();
 		?>
-		<p><?php echo sprintf(___('Your comment has been approved in "%s".'),'<a href="' . $post_url . '" target="_blank"><strong>' . $post_title . '</strong></a>');?></p>
-		<p><?php echo esc_html(sprintf(___('Comment content: %s')),get_comment_text($comment->comment_ID));?></p>
-		<p><?php echo sprintf(___('Article URL: %s'),'<a href="' . esc_url($post_url) . '">' . esc_url($post_url) . '</a>');?></p>
-		<p><?php echo sprintf(___('Comment URL: %s'),'<a href="' . esc_url($post_url) . '#comment-' . $comment->comment_ID . '" target="_blank">' . esc_url($post_url) . '#comment-' . $comment->comment_ID . '</a>');?></p>
+		<p><?= sprintf(___('Your comment has been approved in "%s".'),'<a href="' . $post_url . '" target="_blank"><strong>' . $post_title . '</strong></a>');?></p>
+		<p><?= esc_html(sprintf(___('Comment content: %s')),get_comment_text($comment->comment_ID));?></p>
+		<p><?= sprintf(___('Article URL: %s'),'<a href="' . esc_url($post_url) . '">' . esc_url($post_url) . '</a>');?></p>
+		<p><?= sprintf(___('Comment URL: %s'),'<a href="' . esc_url($post_url) . '#comment-' . $comment->comment_ID . '" target="_blank">' . esc_url($post_url) . '#comment-' . $comment->comment_ID . '</a>');?></p>
 		
 		<?php
 		$mail_content = ob_get_contents();
@@ -111,9 +111,9 @@ class theme_comment_notify {
 		$mail_title = sprintf(___('[%s] Your comment has a reply in "%s".'),esc_html(get_bloginfo('name')),esc_html($post_title));
 		ob_start();
 		?>
-		<p><?php echo sprintf(___('Your comment: %s'),get_comment_text($parent_comment->comment_ID));?></p>
-		<p><?php echo sprintf(___('%s\'s reply: %s'),get_comment_author($child_comment->comment_ID),get_comment_text($child_comment->comment_ID));?></p>
-		<p><?php echo sprintf(___('Views the comment: %s'),'<a href="' . esc_url(get_permalink($post_id)) . '#comment-' . $parent_comment->comment_post_ID . '" target="_blank">' . esc_html(get_permalink($post_id)) . '#comment-' . $parent_comment->comment_post_ID . '</a>');?></p>
+		<p><?= sprintf(___('Your comment: %s'),get_comment_text($parent_comment->comment_ID));?></p>
+		<p><?= sprintf(___('%s\'s reply: %s'),get_comment_author($child_comment->comment_ID),get_comment_text($child_comment->comment_ID));?></p>
+		<p><?= sprintf(___('Views the comment: %s'),'<a href="' . esc_url(get_permalink($post_id)) . '#comment-' . $parent_comment->comment_post_ID . '" target="_blank">' . esc_html(get_permalink($post_id)) . '#comment-' . $parent_comment->comment_post_ID . '</a>');?></p>
 		<?php
 		$mail_content = ob_get_contents();
 		ob_end_clean();

@@ -75,15 +75,15 @@ class widget_comments extends WP_Widget{
 					
 					?>
 <li class="list-group-item">
-	<a class="media" href="<?php echo $caches['permalinks'][$comment->comment_post_ID];?>#comment-<?php echo $comment->comment_ID;?>" title="<?php echo esc_attr($caches['post_title'][$comment->comment_post_ID]);?>">
+	<a class="media" href="<?= $caches['permalinks'][$comment->comment_post_ID];?>#comment-<?= $comment->comment_ID;?>" title="<?= esc_attr($caches['post_title'][$comment->comment_post_ID]);?>">
 		<div class="media-left">
-			<img class="avatar media-object" data-src="<?php echo esc_url(get_avatar_url($comment));?>" src="<?php echo $caches['avatar_placeholder'];?>" alt="<?php echo $caches['author_name'][$comment->comment_author];?>" width="<?php echo self::$avatar_size;?>" height="<?php echo self::$avatar_size;?>"/>
+			<img class="avatar media-object" data-src="<?= esc_url(get_avatar_url($comment));?>" src="<?= $caches['avatar_placeholder'];?>" alt="<?= $caches['author_name'][$comment->comment_author];?>" width="<?= self::$avatar_size;?>" height="<?= self::$avatar_size;?>"/>
 		</div>
 		<div class="media-body">
 			<h4 class="media-heading">
-				<span class="author"><?php echo $caches['author_name'][$comment->comment_author];?></span>
-				<time datetime="<?php echo get_comment_time('c');?>">
-					<small><?php echo friendly_date(get_comment_time('U'));?></small>
+				<span class="author"><?= $caches['author_name'][$comment->comment_author];?></span>
+				<time datetime="<?= get_comment_time('c');?>">
+					<small><?= friendly_date(get_comment_time('U'));?></small>
 				</time>
 			</h4>
 			<div class="text"><?php comment_text();?></div>
@@ -96,7 +96,7 @@ class widget_comments extends WP_Widget{
 			$comment = $comment_bak;
 		}else{ ?>
 			<div class="panel-body">
-				<div class="page-tip"><?php echo status_tip('info',___('No any comment yet.'));?></div>
+				<div class="page-tip"><?= status_tip('info',___('No any comment yet.'));?></div>
 			</div>
 		<?php
 		}
@@ -106,19 +106,19 @@ class widget_comments extends WP_Widget{
 		$instance = array_merge(self::get_default_options(),$instance);
 		?>
 		<p>
-			<label for="<?php echo self::get_field_id('title');?>"><?php echo ___('Title (optional)');?></label>
+			<label for="<?= self::get_field_id('title');?>"><?= ___('Title (optional)');?></label>
 			<input 
-				id="<?php echo self::get_field_id('title');?>"
+				id="<?= self::get_field_id('title');?>"
 				class="widefat"
-				name="<?php echo self::get_field_name('title');?>" 
+				name="<?= self::get_field_name('title');?>" 
 				type="text" 
-				value="<?php echo $instance['title'];?>" 
-				placeholder="<?php echo ___('Title (optional)');?>"
+				value="<?= $instance['title'];?>" 
+				placeholder="<?= ___('Title (optional)');?>"
 			/>
 		</p>
 		<p>
-			<label for="<?php echo self::get_field_id('number');?>"><?php echo ___('Number');?></label>
-			<input type="number" name="<?php echo self::get_field_name('number');?>" id="<?php echo self::get_field_id('number');?>" class="widefat" value="<?php echo (int)$instance['number'];?>"/>
+			<label for="<?= self::get_field_id('number');?>"><?= ___('Number');?></label>
+			<input type="number" name="<?= self::get_field_name('number');?>" id="<?= self::get_field_id('number');?>" class="widefat" value="<?= (int)$instance['number'];?>"/>
 		</p>
 		<?php
 	}

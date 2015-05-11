@@ -366,7 +366,7 @@ class custom_post_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?php echo theme_custom_point::get_point_name();?></span>
+			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
 			<?php theme_custom_point::the_point_sign($history['points']);?>
 			
 			<span class="history-text">
@@ -394,7 +394,7 @@ class custom_post_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?php echo theme_custom_point::get_point_name();?></span>
+			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
 			<?php theme_custom_point::the_point_sign($history['points']);?>
 			
 			<span class="history-text">
@@ -747,10 +747,10 @@ class custom_post_point{
 		if(!is_singular('post'))
 			return;
 		?>
-		seajs.use(['<?php echo self::$iden;?>'],function(m){
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?php echo ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
-			m.config.process_url = '<?php echo theme_features::get_process_url([
+		seajs.use(['<?= self::$iden;?>'],function(m){
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?= ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
+			m.config.process_url = '<?= theme_features::get_process_url([
 				'action' => self::$iden,
 				'type' => 'incr'
 			]);?>';
@@ -770,21 +770,21 @@ class custom_post_point{
 		}
 
 		?>
-		<div id="post-point-loading-ready" class="btn btn-info btn-lg"><i class="fa fa-spinner fa-pulse fa-fw"></i> <?php echo ___('Loading, please wait...');?></div>
+		<div id="post-point-loading-ready" class="btn btn-info btn-lg"><i class="fa fa-spinner fa-pulse fa-fw"></i> <?= ___('Loading, please wait...');?></div>
 		
 		<div id="post-point-btn-group" class="btn-group btn-group-lg">
-			<a href="javascript:;" class="post-point-btn btn btn-info" data-post-id="<?php echo $post_id;?>" data-points="<?php echo $default_point_value;?>">
+			<a href="javascript:;" class="post-point-btn btn btn-info" data-post-id="<?= $post_id;?>" data-points="<?= $default_point_value;?>">
 				<?php if(empty($point_img)){ ?>
 					<i class="fa fa-diamond"></i> 
 				<?php }else{ ?>
-					<img src="<?php echo esc_url($point_img);?>" alt="icon">
+					<img src="<?= esc_url($point_img);?>" alt="icon">
 				<?php } ?>
 				
-				<strong class="number" id="post-point-number-<?php echo $post_id;?>"><?php echo self::get_post_points_count($post_id);?></strong>
+				<strong class="number" id="post-point-number-<?= $post_id;?>"><?= self::get_post_points_count($post_id);?></strong>
 
 				<i> / </i>
 				
-				<?php echo sprintf(___('Rate %d %s'),$default_point_value,theme_custom_point::get_point_name());?>
+				<?= sprintf(___('Rate %d %s'),$default_point_value,theme_custom_point::get_point_name());?>
 				
 			</a>
 			
@@ -796,7 +796,7 @@ class custom_post_point{
 					</span>
 					<ul class="dropdown-menu" role="menu">
 						<?php foreach($point_values as $v){ ?>
-							<li><a href="javascript:;" class="post-point-btn" data-post-id="<?php echo $post_id;?>" data-points="<?php echo $v;?>">
+							<li><a href="javascript:;" class="post-point-btn" data-post-id="<?= $post_id;?>" data-points="<?= $v;?>">
 								<?php 
 								echo sprintf(___('Rate %d %s'),
 									$v,

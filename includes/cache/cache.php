@@ -108,37 +108,37 @@ class theme_cache{
 	 */
 	public static function display_backend(){
 		?>
-		<fieldset id="<?php echo self::$iden;?>">
-			<legend><?php echo ___('Theme cache');?></legend>
-			<p class="description"><?php echo ___('Maybe the theme used cache for improve performance, you can clean it when you modify some site contents if you want.');?></p>
+		<fieldset id="<?= self::$iden;?>">
+			<legend><?= ___('Theme cache');?></legend>
+			<p class="description"><?= ___('Maybe the theme used cache for improve performance, you can clean it when you modify some site contents if you want.');?></p>
 			<table class="form-table">
 				<tbody>
 					<?php if(class_exists('Memcache')){ ?>
 					<tr>
-						<th><?php echo ___('Memcache cache');?></th>
+						<th><?= ___('Memcache cache');?></th>
 						<td><p>
 							<?php
 							if(file_exists(WP_CONTENT_DIR . '/object-cache.php')){ ?>
-								<a class="button" href="<?php echo self::get_process_url('disable-cache');?>" onclick="return confirm('<?php echo ___('Are you sure DELETE object-cache.php to disable theme object cache?');?>')">
-									<?php echo ___('Disable theme object cache');?>
+								<a class="button" href="<?= self::get_process_url('disable-cache');?>" onclick="return confirm('<?= ___('Are you sure DELETE object-cache.php to disable theme object cache?');?>')">
+									<?= ___('Disable theme object cache');?>
 								</a>
 								
-								<a class="button" href="<?php echo self::get_process_url('re-enable-cache');?>" onclick="return confirm('<?php echo ___('Are you sure RE-CREATE object-cache.php to re-enable theme object cache?');?>')">
-									<?php echo ___('Re-enable theme object cache');?>
+								<a class="button" href="<?= self::get_process_url('re-enable-cache');?>" onclick="return confirm('<?= ___('Are you sure RE-CREATE object-cache.php to re-enable theme object cache?');?>')">
+									<?= ___('Re-enable theme object cache');?>
 								</a>
 								
 							<?php }else { ?>
-								<a class="button-primary" href="<?php echo self::get_process_url('enable-cache');?>">
-									<?php echo ___('Enable theme object cache');?>
+								<a class="button-primary" href="<?= self::get_process_url('enable-cache');?>">
+									<?= ___('Enable theme object cache');?>
 								</a>
 							<?php } ?>
-							<span class="description"><i class="fa fa-exclamation-circle"></i> <?php echo ___('Save your settings before click.');?></span>
+							<span class="description"><i class="fa fa-exclamation-circle"></i> <?= ___('Save your settings before click.');?></span>
 							
 						</p></td>
 					</tr>
 					<?php } ?>
 					<tr>
-						<th scope="row"><?php echo ___('Control');?></th>
+						<th scope="row"><?= ___('Control');?></th>
 						<td>
 							<?php
 							if(isset($_GET[self::$iden])){
@@ -146,14 +146,14 @@ class theme_cache{
 							}
 							?>
 							<p>
-								<a href="<?php echo self::get_process_url('flush');?>" class="button" onclick="javascript:this.innerHTML='<?php echo ___('Processing, please wait...');?>'"><?php echo ___('Clean all cache');?></a>
+								<a href="<?= self::get_process_url('flush');?>" class="button" onclick="javascript:this.innerHTML='<?= ___('Processing, please wait...');?>'"><?= ___('Clean all cache');?></a>
 								
-								<a href="<?php echo self::get_process_url('widget-sidebars');?>" class="button" onclick="javascript:this.innerHTML='<?php echo ___('Processing, please wait...');?>'"><?php echo ___('Clean widget cache');?></a>
+								<a href="<?= self::get_process_url('widget-sidebars');?>" class="button" onclick="javascript:this.innerHTML='<?= ___('Processing, please wait...');?>'"><?= ___('Clean widget cache');?></a>
 								
-								<a href="<?php echo self::get_process_url('nav-menus');?>" class="button" onclick="javascript:this.innerHTML='<?php echo ___('Processing, please wait...');?>'"><?php echo ___('Clean menu cache');?></a>
+								<a href="<?= self::get_process_url('nav-menus');?>" class="button" onclick="javascript:this.innerHTML='<?= ___('Processing, please wait...');?>'"><?= ___('Clean menu cache');?></a>
 								
 								
-								<span class="description"><i class="fa fa-exclamation-circle"></i> <?php echo ___('Save your settings before clean');?></span>
+								<span class="description"><i class="fa fa-exclamation-circle"></i> <?= ___('Save your settings before clean');?></span>
 								
 							</p>
 						</td>

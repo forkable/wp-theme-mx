@@ -29,14 +29,14 @@ class widget_rank extends WP_Widget{
 		
 		echo $args['before_title'];
 		if(isset($instance['category__in'][0])){ ?>
-			<a class="link" href="<?php echo get_category_link($instance['category__in'][0]);?>" title="<?php echo esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>">
+			<a class="link" href="<?= get_category_link($instance['category__in'][0]);?>" title="<?= esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>">
 				<i class="fa fa-bar-chart"></i> 
-				<?php echo esc_html($instance['title']);?>
+				<?= esc_html($instance['title']);?>
 			</a>
-			<a href="<?php echo get_category_link($instance['category__in'][0]);?>" title="<?php echo esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>" class="more"><?php echo esc_html(___('More &raquo;'));?></a>
+			<a href="<?= get_category_link($instance['category__in'][0]);?>" title="<?= esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>" class="more"><?= esc_html(___('More &raquo;'));?></a>
 		<?php }else{ ?>
 			<i class="fa fa-bar-chart"></i> 
-			<?php echo esc_html($instance['title']);?>
+			<?= esc_html($instance['title']);?>
 		<?php } ?>
 		<?php
 		echo $args['after_title'];
@@ -65,9 +65,9 @@ class widget_rank extends WP_Widget{
 		}
 		if($query->have_posts()){
 			?>
-			<ul class="list-group <?php echo $content_type_class;?> widget-orderby-<?php echo $instance['orderby'];?>">
+			<ul class="list-group <?= $content_type_class;?> widget-orderby-<?= $instance['orderby'];?>">
 			
-			<!-- <ul class="tabbody post-lists <?php echo $content_type_class;?> widget-orderby-<?php echo $instance['orderby'];?>"> -->
+			<!-- <ul class="tabbody post-lists <?= $content_type_class;?> widget-orderby-<?= $instance['orderby'];?>"> -->
 				<?php
 				foreach($query->posts as $post){
 					if($instance['content_type'] === 'tx'){
@@ -83,7 +83,7 @@ class widget_rank extends WP_Widget{
 			</ul>
 		<?php }else{ ?>
 			<div class="page-tip not-found">
-				<?php echo status_tip('info',___('No data yet.'));?>
+				<?= status_tip('info',___('No data yet.'));?>
 			</div>
 		<?php 
 		}
@@ -104,30 +104,30 @@ class widget_rank extends WP_Widget{
 		],$instance);
 		?>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('title'));?>"><?php echo ___('Title (optional)');?></label>
+			<label for="<?= esc_attr(self::get_field_id('title'));?>"><?= ___('Title (optional)');?></label>
 			<input 
-				id="<?php echo esc_attr(self::get_field_id('title'));?>"
+				id="<?= esc_attr(self::get_field_id('title'));?>"
 				class="widefat"
-				name="<?php echo esc_attr(self::get_field_name('title'));?>" 
+				name="<?= esc_attr(self::get_field_name('title'));?>" 
 				type="text" 
-				value="<?php echo esc_attr($instance['title']);?>" 
-				placeholder="<?php echo ___('Title (optional)');?>"
+				value="<?= esc_attr($instance['title']);?>" 
+				placeholder="<?= ___('Title (optional)');?>"
 			/>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('posts_per_page'));?>"><?php echo ___('Post number (required)');?></label>
+			<label for="<?= esc_attr(self::get_field_id('posts_per_page'));?>"><?= ___('Post number (required)');?></label>
 			<input 
-				id="<?php echo esc_attr(self::get_field_id('posts_per_page'));?>"
+				id="<?= esc_attr(self::get_field_id('posts_per_page'));?>"
 				class="widefat"
-				name="<?php echo esc_attr(self::get_field_name('posts_per_page'));?>" 
+				name="<?= esc_attr(self::get_field_name('posts_per_page'));?>" 
 				type="number" 
-				value="<?php echo esc_attr($instance['posts_per_page']);?>" 
-				placeholder="<?php echo ___('Post number (required)');?>"
+				value="<?= esc_attr($instance['posts_per_page']);?>" 
+				placeholder="<?= ___('Post number (required)');?>"
 			/>
 		</p>
 		<p>
-			<?php echo ___('Categories: ');?>
-			<?php echo self::get_cat_checkbox_list(
+			<?= ___('Categories: ');?>
+			<?= self::get_cat_checkbox_list(
 				self::get_field_name('category__in'),
 				self::get_field_id('category__in'),
 				$instance['category__in']
@@ -135,11 +135,11 @@ class widget_rank extends WP_Widget{
 		</p>
 		<!-- date -->
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('date'));?>"><?php echo ___('Date');?></label>
+			<label for="<?= esc_attr(self::get_field_id('date'));?>"><?= ___('Date');?></label>
 			<select
-				name="<?php echo esc_attr(self::get_field_name('date'));?>" 
+				name="<?= esc_attr(self::get_field_name('date'));?>" 
 				class="widefat"				
-				id="<?php echo esc_attr(self::get_field_id('date'));?>"
+				id="<?= esc_attr(self::get_field_id('date'));?>"
 			>
 				<?php
 				$dates = theme_functions::get_rank_data();
@@ -150,11 +150,11 @@ class widget_rank extends WP_Widget{
 			</select>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('content_type'));?>"><?php echo ___('Content type');?></label>
+			<label for="<?= esc_attr(self::get_field_id('content_type'));?>"><?= ___('Content type');?></label>
 			<select 
-				name="<?php echo esc_attr(self::get_field_name('content_type'));?>" 
+				name="<?= esc_attr(self::get_field_name('content_type'));?>" 
 				class="widefat"
-				id="<?php echo esc_attr(self::get_field_id('content_type'));?>"
+				id="<?= esc_attr(self::get_field_id('content_type'));?>"
 			>
 				<?php
 				/** 
@@ -169,13 +169,13 @@ class widget_rank extends WP_Widget{
 			</select>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('orderby'));?>">
-				<?php echo ___('Order by');?>
+			<label for="<?= esc_attr(self::get_field_id('orderby'));?>">
+				<?= ___('Order by');?>
 			</label>
 			<select 
-				name="<?php echo esc_attr(self::get_field_name('orderby'));?>" 
+				name="<?= esc_attr(self::get_field_name('orderby'));?>" 
 				class="widefat"
-				id="<?php echo esc_attr(self::get_field_id('orderby'));?>"
+				id="<?= esc_attr(self::get_field_id('orderby'));?>"
 			>
 				
 				<?php
@@ -241,20 +241,20 @@ class widget_rank extends WP_Widget{
 					$selected_class = null;
 				}
 			?>
-			<label for="<?php echo $id;?>-<?php echo $cat->term_id;?>" class="item button <?php echo $selected_class;?>">
+			<label for="<?= $id;?>-<?= $cat->term_id;?>" class="item button <?= $selected_class;?>">
 				<input 
 					type="checkbox" 
-					id="<?php echo esc_attr($id);?>-<?php echo esc_attr($cat->term_id);?>" 
-					name="<?php echo esc_attr($name);?>[]" 
-					value="<?php echo $cat->term_id;?>"
-					<?php echo $checked;?>
+					id="<?= esc_attr($id);?>-<?= esc_attr($cat->term_id);?>" 
+					name="<?= esc_attr($name);?>[]" 
+					value="<?= $cat->term_id;?>"
+					<?= $checked;?>
 				/>
-					<?php echo esc_html($cat->name);?>
+					<?= esc_html($cat->name);?>
 			</label>
 			<?php 
 			}
 		}else{ ?>
-			<p><?php echo ___('No category, pleass go to add some categories.');?></p>
+			<p><?= ___('No category, pleass go to add some categories.');?></p>
 		<?php }
 		$content = ob_get_contents();
 		ob_end_clean();

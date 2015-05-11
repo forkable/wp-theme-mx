@@ -28,16 +28,16 @@ if(!class_exists('theme_gravatar_fix')){
 			$checked = self::is_enabled() ? ' checked ' : null;
 			?>
 			<fieldset>
-				<legend><?php echo ___('Gravatar fix');?></legend>
-				<p class="description"><?php echo ___('This feature can fix the gravatar image to display in China. Just for Chinese users. If using "Custom default gravatar" please DO NOT enable this feature.');?></p>
+				<legend><?= ___('Gravatar fix');?></legend>
+				<p class="description"><?= ___('This feature can fix the gravatar image to display in China. Just for Chinese users. If using "Custom default gravatar" please DO NOT enable this feature.');?></p>
 				<table class="form-table">
 					<tbody>
 						<tr>
-							<th><label for="<?php echo self::$iden;?>-enabled"><?php echo ___('Enabled or not?');?></label></th>
+							<th><label for="<?= self::$iden;?>-enabled"><?= ___('Enabled or not?');?></label></th>
 							<td>
-								<label for="<?php echo self::$iden;?>-enabled">
-									<input type="checkbox" id="<?php echo self::$iden;?>-enabled" name="<?php echo self::$iden;?>[enabled]" value="1" <?php echo $checked;?> >
-									<?php echo ___('Enabled');?>
+								<label for="<?= self::$iden;?>-enabled">
+									<input type="checkbox" id="<?= self::$iden;?>-enabled" name="<?= self::$iden;?>[enabled]" value="1" <?= $checked;?> >
+									<?= ___('Enabled');?>
 								</label>
 							</td>
 						</tr>

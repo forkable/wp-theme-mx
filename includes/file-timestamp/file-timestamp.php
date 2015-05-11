@@ -39,22 +39,22 @@ class theme_file_timestamp{
 	public static function display_backend(){
 		?>
 		<fieldset>
-			<legend><?php echo ___('File timestamp');?></legend>
-			<p class="description"><?php echo ___('All theme js, css and images static files are output with timestamp, you can refresh these files after theme updates or when you want.');?></p>
+			<legend><?= ___('File timestamp');?></legend>
+			<p class="description"><?= ___('All theme js, css and images static files are output with timestamp, you can refresh these files after theme updates or when you want.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th><?php echo ___('Control');?></th>
+						<th><?= ___('Control');?></th>
 						<td>
 							<?php 
 							if(isset($_GET[self::$iden])){ 
 								echo status_tip('success',___('The file timestamp has been refresh.'));
 							}
 							?>
-							<a href="<?php echo esc_url(theme_features::get_process_url([
+							<a href="<?= esc_url(theme_features::get_process_url([
 								'action' => self::$iden
-							]));?>" class="button button-primary"><?php echo ___('Refresh now');?></a>
-							<span class="description"><i class="fa fa-warning"></i> <?php echo ___('Save your settings before click');?></span>
+							]));?>" class="button button-primary"><?= ___('Refresh now');?></a>
+							<span class="description"><i class="fa fa-warning"></i> <?= ___('Save your settings before click');?></span>
 						</td>
 					</tr>
 				</tbody>

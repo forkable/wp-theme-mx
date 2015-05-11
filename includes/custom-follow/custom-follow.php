@@ -135,10 +135,10 @@ class theme_custom_follow{
 	public static function frontend_seajs_use(){
 		if(is_user_logged_in() || !is_page(self::$page_slug)) return false;
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => theme_quick_sign::$iden));?>';
-			m.config.lang.M00001 = '<?php echo esc_js(___('Loading, please wait...'));?>';
-			m.config.lang.E00001 = '<?php echo esc_js(___('Sorry, server error please try again later.'));?>';
+		seajs.use('<?= self::$iden;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action' => theme_quick_sign::$iden));?>';
+			m.config.lang.M00001 = '<?= esc_js(___('Loading, please wait...'));?>';
+			m.config.lang.E00001 = '<?= esc_js(___('Sorry, server error please try again later.'));?>';
 			
 			m.init();
 		});

@@ -56,26 +56,26 @@ class theme_custom_sign{
 	}
 	public static function display_backend(){
 		?>
-		<fieldset id="<?php echo self::$iden;?>">
-			<legend><?php echo ___('Custom sign settings');?></legend>
-			<p class="description"><?php echo ___('You can custom the sign page here.');?></p>
+		<fieldset id="<?= self::$iden;?>">
+			<legend><?= ___('Custom sign settings');?></legend>
+			<p class="description"><?= ___('You can custom the sign page here.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
 						<th>
-							<?php echo ___('Sign-in avatar URL');?><br>
+							<?= ___('Sign-in avatar URL');?><br>
 							<?php if(!empty(self::get_options('avatar-url'))){ ?>
-								<img src="<?php echo esc_url(self::get_options('avatar-url'));?>" alt="avatar">
+								<img src="<?= esc_url(self::get_options('avatar-url'));?>" alt="avatar">
 							<?php } ?>
 						</th>
 						<td>
-							<input type="url" name="<?php echo self::$iden;?>[avatar-url]" id="<?php echo self::$iden;?>-avatar-url" class="widefat code" value="<?php echo esc_url(self::get_options('avatar-url'));?>">
-							<p class="description"><?php echo ___('Recommend 100x100 px image.');?></p>
+							<input type="url" name="<?= self::$iden;?>[avatar-url]" id="<?= self::$iden;?>-avatar-url" class="widefat code" value="<?= esc_url(self::get_options('avatar-url'));?>">
+							<p class="description"><?= ___('Recommend 100x100 px image.');?></p>
 						</td>
 					</tr>
 					<tr>
-						<th><?php echo ___('Terms of service page URL');?></th>
-						<td><input type="url" name="<?php echo self::$iden;?>[tos-url]" id="<?php echo self::$iden;?>-tos-url" class="widefat code" value="<?php echo esc_url(self::get_options('tos-url'));?>"></td>
+						<th><?= ___('Terms of service page URL');?></th>
+						<td><input type="url" name="<?= self::$iden;?>[tos-url]" id="<?= self::$iden;?>-tos-url" class="widefat code" value="<?= esc_url(self::get_options('tos-url'));?>"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -250,12 +250,12 @@ class theme_custom_sign{
 		if(is_user_logged_in() || !self::is_page()) 
 			return false;
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url([
+		seajs.use('<?= self::$iden;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url([
 				'action' => theme_quick_sign::$iden
 			]);?>';
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?php echo ___('Sorry, server error please try again later.');?>';
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?= ___('Sorry, server error please try again later.');?>';
 			
 			m.init();
 		});

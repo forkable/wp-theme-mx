@@ -32,7 +32,7 @@ class widget_point_rank extends WP_Widget{
 		echo $args['before_widget'];
 		echo $args['before_title'];
 		?>
-		<i class="fa fa-bar-chart"></i> <?php echo $instance['title'];?>
+		<i class="fa fa-bar-chart"></i> <?= $instance['title'];?>
 		<?php 
 		echo $args['after_title'];
 
@@ -49,7 +49,7 @@ class widget_point_rank extends WP_Widget{
 		if(!$users){
 			?>
 			<div class="panel-body">
-				<div class="page-tip"><?php echo status_tip('info',___('No matched user yet.'));?></div>
+				<div class="page-tip"><?= status_tip('info',___('No matched user yet.'));?></div>
 			</div>
 			<?php
 		}else{
@@ -94,36 +94,36 @@ class widget_point_rank extends WP_Widget{
 		],$instance);
 		?>
 		<p>
-			<label for="<?php echo self::get_field_id('title');?>"><?php echo ___('Title (optional)');?></label>
+			<label for="<?= self::get_field_id('title');?>"><?= ___('Title (optional)');?></label>
 			<input 
-				id="<?php echo self::get_field_id('title');?>"
+				id="<?= self::get_field_id('title');?>"
 				class="widefat"
-				name="<?php echo self::get_field_name('title');?>" 
+				name="<?= self::get_field_name('title');?>" 
 				type="text" 
-				value="<?php echo esc_attr($instance['title']);?>" 
-				placeholder="<?php echo ___('Title (optional)');?>"
+				value="<?= esc_attr($instance['title']);?>" 
+				placeholder="<?= ___('Title (optional)');?>"
 			/>
 		</p>
 		<p>
-			<label for="<?php echo self::get_field_id('total_number');?>"><?php echo ___('Total number');?></label>
+			<label for="<?= self::get_field_id('total_number');?>"><?= ___('Total number');?></label>
 			<input 
-				id="<?php echo self::get_field_id('total_number');?>"
+				id="<?= self::get_field_id('total_number');?>"
 				class="widefat"
-				name="<?php echo self::get_field_name('total_number');?>" 
+				name="<?= self::get_field_name('total_number');?>" 
 				type="number" 
-				value="<?php echo esc_attr($instance['total_number']);?>" 
-				placeholder="<?php echo ___('Total number');?>"
+				value="<?= esc_attr($instance['total_number']);?>" 
+				placeholder="<?= ___('Total number');?>"
 			/>
 		</p>
 		<p>
-			<label for="<?php echo self::get_field_id('rand_number');?>"><?php echo ___('Random number');?></label>
+			<label for="<?= self::get_field_id('rand_number');?>"><?= ___('Random number');?></label>
 			<input 
-				id="<?php echo self::get_field_id('rand_number');?>"
+				id="<?= self::get_field_id('rand_number');?>"
 				class="widefat"
-				name="<?php echo self::get_field_name('rand_number');?>" 
+				name="<?= self::get_field_name('rand_number');?>" 
 				type="number" 
-				value="<?php echo esc_attr($instance['rand_number']);?>" 
-				placeholder="<?php echo ___('Random number');?>"
+				value="<?= esc_attr($instance['rand_number']);?>" 
+				placeholder="<?= ___('Random number');?>"
 			/>
 		</p>
 		

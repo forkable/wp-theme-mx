@@ -65,40 +65,40 @@ class theme_dev_mode{
 		$checked_performance = isset($opt['performance']) && $opt['performance'] == 1 ? ' checked ' : null;
 		?>
 		<fieldset>
-			<legend><?php echo ___('Related Options');?></legend>
-			<p class="description"><?php echo ___('For developers to debug the site and it will affect the user experience if enable, please note.');?></p>
+			<legend><?= ___('Related Options');?></legend>
+			<p class="description"><?= ___('For developers to debug the site and it will affect the user experience if enable, please note.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
 						<th scope="row">
-							<label for="<?php echo self::$iden;?>-enabled"><?php echo ___('Developer mode');?></label>
+							<label for="<?= self::$iden;?>-enabled"><?= ___('Developer mode');?></label>
 						</th>
 						<td>
-							<label for="<?php echo self::$iden;?>-enabled"><input id="<?php echo self::$iden;?>-enabled" name="<?php echo self::$iden;?>[enabled]" type="checkbox" value="1" <?php echo $checked;?> /> <?php echo ___('Enabled');?></label>
+							<label for="<?= self::$iden;?>-enabled"><input id="<?= self::$iden;?>-enabled" name="<?= self::$iden;?>[enabled]" type="checkbox" value="1" <?= $checked;?> /> <?= ___('Enabled');?></label>
 
-							<span class="description"><?php echo ___('If enable, your site will work within development mode, or works within high performance product mode.');?></span>
+							<span class="description"><?= ___('If enable, your site will work within development mode, or works within high performance product mode.');?></span>
 
-							<input type="hidden" name="<?php echo self::$iden;?>[old-enabled]" value="<?php echo $checked ? 1 : -1 ;?>">
+							<input type="hidden" name="<?= self::$iden;?>[old-enabled]" value="<?= $checked ? 1 : -1 ;?>">
 						</td>
 					</tr>
 					<tr>
 						<th scope="row">
-							<label for="<?php echo self::$iden;?>-performance"><?php echo ___('Display frontend performance');?></label>
+							<label for="<?= self::$iden;?>-performance"><?= ___('Display frontend performance');?></label>
 						</th>
 						<td>
-							<label for="<?php echo self::$iden;?>-performance"><input id="<?php echo self::$iden;?>-performance" name="<?php echo self::$iden;?>[performance]" type="checkbox" value="1" <?php echo $checked_performance;?> /> <?php echo ___('Enabled');?></label>
-							<span class="description"><?php echo ___('Display theme performance information on frontend from F12 console.');?></span>
+							<label for="<?= self::$iden;?>-performance"><input id="<?= self::$iden;?>-performance" name="<?= self::$iden;?>[performance]" type="checkbox" value="1" <?= $checked_performance;?> /> <?= ___('Enabled');?></label>
+							<span class="description"><?= ___('Display theme performance information on frontend from F12 console.');?></span>
 
 						</td>
 					</tr>
 					
 					<tr>
 						<th scope="row">
-							<label for="<?php echo self::$iden;?>-queries"><?php echo ___('Display database queries detail');?></label>
+							<label for="<?= self::$iden;?>-queries"><?= ___('Display database queries detail');?></label>
 						</th>
 						<td>
-							<label for="<?php echo self::$iden;?>-queries"><input id="<?php echo self::$iden;?>-queries" name="<?php echo self::$iden;?>[queries]" type="checkbox" value="1" <?php echo $checked_queries;?> /> <?php echo ___('Enabled');?></label>
-							<span class="description"><?php echo ___('Display database queries detail on frontend from F12 console.');?></span>
+							<label for="<?= self::$iden;?>-queries"><input id="<?= self::$iden;?>-queries" name="<?= self::$iden;?>[queries]" type="checkbox" value="1" <?= $checked_queries;?> /> <?= ___('Enabled');?></label>
+							<span class="description"><?= ___('Display database queries detail on frontend from F12 console.');?></span>
 
 						</td>
 					</tr>
@@ -110,7 +110,7 @@ class theme_dev_mode{
 	public static function display_backend_options_list(){
 		?>
 		<fieldset>
-			<legend><?php echo ___('Theme options debug');?></legend>
+			<legend><?= ___('Theme options debug');?></legend>
 			<textarea class="code widefat" cols="50" rows="50" ><?php esc_textarea(print_r(theme_options::get_options()));?></textarea>
 		</fieldset>
 		<?php
@@ -209,7 +209,7 @@ class theme_dev_mode{
 		];
 		?>
 		(function(){
-			console.table(<?php echo json_encode($data);?>);
+			console.table(<?= json_encode($data);?>);
 		})();
 		</script>
 		<?php
@@ -219,7 +219,7 @@ class theme_dev_mode{
 		global $wpdb;
 		?>
 		<script>
-		console.table(<?php echo json_encode($wpdb->queries);?>);
+		console.table(<?= json_encode($wpdb->queries);?>);
 		</script>
 		<?php
 	}

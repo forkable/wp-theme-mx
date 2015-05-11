@@ -58,24 +58,24 @@ class theme_post_views{
 		$checked = self::is_enabled() ? ' checked ' : null;
 		?>
 		<fieldset>
-			<legend><?php echo ___('Post views settings');?></legend>
+			<legend><?= ___('Post views settings');?></legend>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-enabled"><?php echo ___('Enable');?></label></th>
+						<th><label for="<?= self::$iden;?>-enabled"><?= ___('Enable');?></label></th>
 						<td>
-							<label for="<?php echo self::$iden;?>-enabled">
-								<input type="checkbox" name="<?php echo self::$iden;?>[enabled]" id="<?php echo self::$iden;?>-enabled" value="1" <?php echo $checked;?>> 
-								<?php echo ___('Enabled');?>
+							<label for="<?= self::$iden;?>-enabled">
+								<input type="checkbox" name="<?= self::$iden;?>[enabled]" id="<?= self::$iden;?>-enabled" value="1" <?= $checked;?>> 
+								<?= ___('Enabled');?>
 							</label>
 						</td>
 					</tr>
 					<?php if(wp_using_ext_object_cache()){ ?>
 						<tr>
-							<th><label for="<?php echo self::$iden;?>-storage-times"><?php echo ___('Max cache storage times');?></label></th>
+							<th><label for="<?= self::$iden;?>-storage-times"><?= ___('Max cache storage times');?></label></th>
 							<td>
-								<input class="short-text" type="number" name="<?php echo self::$iden;?>[storage-times]" id="<?php echo self::$iden;?>-storage-times" value="<?php echo self::get_storage_times();?>" min="1">
-								<span class="description"><?php echo ___('Using cache to improve performance. When the views more than max storage times, views will be save to database.');?></span>
+								<input class="short-text" type="number" name="<?= self::$iden;?>[storage-times]" id="<?= self::$iden;?>-storage-times" value="<?= self::get_storage_times();?>" min="1">
+								<span class="description"><?= ___('Using cache to improve performance. When the views more than max storage times, views will be save to database.');?></span>
 							</td>
 						</tr>
 					<?php } ?>
@@ -250,7 +250,7 @@ class theme_post_views{
 		if(!self::is_singular_post())
 			return;
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
+		seajs.use('<?= self::$iden;?>',function(m){
 			m.init();
 		});
 		<?php

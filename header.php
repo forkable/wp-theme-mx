@@ -41,11 +41,11 @@
  * banner
  */
 if(!theme_features::is_mobile() && has_header_image()){ ?>
-	<a href="<?php echo home_url();?>" class="banner hidden-xs">
+	<a href="<?= home_url();?>" class="banner hidden-xs">
 		<img src="<?php header_image(); ?>" alt="Banner">
 		<?php if(display_header_text()){ ?>
-			<h1 hidden><?php echo get_bloginfo('name');?></h1>
-			<span hidden><?php echo get_bloginfo('description');?></span>
+			<h1 hidden><?= get_bloginfo('name');?></h1>
+			<span hidden><?= get_bloginfo('description');?></span>
 		<?php } ?>
 	</a>
 <?php } ?>
@@ -60,8 +60,8 @@ if(!theme_features::is_mobile() && has_header_image()){ ?>
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	        </button>
-	        <a href="<?php echo home_url();?>" class="navbar-brand">
-				<?php echo get_bloginfo('name');?>
+	        <a href="<?= home_url();?>" class="navbar-brand">
+				<?= get_bloginfo('name');?>
 			</a>
 			<!-- search btn -->
 			<a class="mx-tool mx-search-btn dropdown-toggle" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
@@ -74,7 +74,7 @@ if(!theme_features::is_mobile() && has_header_image()){ ?>
 					<i class="fa fa-user fa-fw"></i>
 				</a>
 			<?php }else{ ?>
-				<a class="mx-tool mx-account-btn dropdown-toggle" href="<?php echo esc_url(wp_login_url(get_current_url()));?>">
+				<a class="mx-tool mx-account-btn dropdown-toggle" href="<?= esc_url(wp_login_url(get_current_url()));?>">
 					<i class="fa fa-user fa-fw"></i>
 				</a>
 			<?php } ?>
@@ -118,7 +118,7 @@ if(!theme_features::is_mobile() && has_header_image()){ ?>
 						foreach($account_navs as $k => $v){
 							$active_class = $k === $active_tab ? ' active ' : null;
 							?>
-							<li class="<?php echo $is_account_page ? $active_class : null;?>"><?php echo $v;?></li>
+							<li class="<?= $is_account_page ? $active_class : null;?>"><?= $v;?></li>
 							<?php
 						}
 					}
@@ -128,9 +128,9 @@ if(!theme_features::is_mobile() && has_header_image()){ ?>
 		<?php } ?>
 
 		<!-- search form -->
-		<form class="mx-form navbar-form navbar-collapse-form collapse" role="search" action="<?php echo esc_url(home_url('/')); ?>" method="get">
+		<form class="mx-form navbar-form navbar-collapse-form collapse" role="search" action="<?= esc_url(home_url('/')); ?>" method="get">
             <div class="input-group">
-                <input name="s" class="form-control input-sm" placeholder="<?php echo ___('Keywords');?>" value="<?php echo esc_attr(get_search_query())?>" type="search">
+                <input name="s" class="form-control input-sm" placeholder="<?= ___('Keywords');?>" value="<?= esc_attr(get_search_query())?>" type="search">
                 <span class="input-group-btn">
                     <button class="btn btn-default btn-sm" type="submit"><i class="fa fa-search fa-fw"></i></button>
                 </span>

@@ -25,33 +25,33 @@ class theme_post_copyright{
 		$is_checked = isset($opt['enabled']) && $opt['enabled'] == 1 ? ' checked ' : null;
 		?>
 		<fieldset>
-			<legend><?php echo ___('Post copyright settings');?></legend>
+			<legend><?= ___('Post copyright settings');?></legend>
 			<p class="description">
-				<?php echo ___('Posts copyright settings maybe protect your word. Here are some keywords that can be used:');?></p>
+				<?= ___('Posts copyright settings maybe protect your word. Here are some keywords that can be used:');?></p>
 			<p class="description">
-				<input type="text" class="small-text text-select" value="%post_title_text%" title="<?php echo ___('Post Title text');?>" readonly="true"/>
-				<input type="text" class="small-text text-select" value="%post_url%" title="<?php echo ___('Post URL');?>" readonly="true"/>
-				<input type="text" class="small-text text-select" value="%blog_name%" title="<?php echo ___('Blog name');?>" readonly="true"/>
-				<input type="text" class="small-text text-select" value="%blog_url%" title="<?php echo ___('Blog URL');?>" readonly="true"/>
+				<input type="text" class="small-text text-select" value="%post_title_text%" title="<?= ___('Post Title text');?>" readonly="true"/>
+				<input type="text" class="small-text text-select" value="%post_url%" title="<?= ___('Post URL');?>" readonly="true"/>
+				<input type="text" class="small-text text-select" value="%blog_name%" title="<?= ___('Blog name');?>" readonly="true"/>
+				<input type="text" class="small-text text-select" value="%blog_url%" title="<?= ___('Blog URL');?>" readonly="true"/>
 			</p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="<?php echo self::$iden;?>-enabled"><?php echo ___('Enable or not?');?></label></th>
-						<td><input type="checkbox" name="<?php echo self::$iden;?>[enabled]" id="<?php echo self::$iden;?>-enabled" value="1" <?php echo $is_checked;?> /><label for="<?php echo self::$iden;?>-enabled"><?php echo ___('Enable');?></label></td>
+						<th scope="row"><label for="<?= self::$iden;?>-enabled"><?= ___('Enable or not?');?></label></th>
+						<td><input type="checkbox" name="<?= self::$iden;?>[enabled]" id="<?= self::$iden;?>-enabled" value="1" <?= $is_checked;?> /><label for="<?= self::$iden;?>-enabled"><?= ___('Enable');?></label></td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="<?php echo self::$iden;?>-code"><?php echo ___('HTML code:');?></label></th>
+						<th scope="row"><label for="<?= self::$iden;?>-code"><?= ___('HTML code:');?></label></th>
 						<td>
-							<textarea id="<?php echo self::$iden;?>-code" name="<?php echo self::$iden;?>[code]" class="widefat code" rows="10"><?php echo $code;?></textarea>
+							<textarea id="<?= self::$iden;?>-code" name="<?= self::$iden;?>[code]" class="widefat code" rows="10"><?= $code;?></textarea>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php echo ___('Restore');?></th>
+						<th scope="row"><?= ___('Restore');?></th>
 						<td>
-							<label for="<?php echo self::$iden;?>-restore">
-								<input type="checkbox" id="<?php echo self::$iden;?>-restore" name="<?php echo self::$iden;?>[restore]" value="1"/>
-								<?php echo ___('Restore the post copyright settings');?>
+							<label for="<?= self::$iden;?>-restore">
+								<input type="checkbox" id="<?= self::$iden;?>-restore" name="<?= self::$iden;?>[restore]" value="1"/>
+								<?= ___('Restore the post copyright settings');?>
 							</label>
 						</td>
 					</tr>

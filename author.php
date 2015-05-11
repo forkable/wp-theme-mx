@@ -11,8 +11,8 @@ if(empty($tab_active) || !isset($tabs[$tab_active]))
 ?>
 <div class="container">
 	<h3 class="crumb-title">
-		<?php echo get_avatar($author);?>
-		<?php echo esc_html(get_the_author_meta('display_name',$author));?> - <?php echo $tabs[$tab_active]['text'];?>
+		<?= get_avatar($author);?>
+		<?= esc_html(get_the_author_meta('display_name',$author));?> - <?= $tabs[$tab_active]['text'];?>
 	</h3>
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -21,10 +21,10 @@ if(empty($tab_active) || !isset($tabs[$tab_active]))
 				foreach($tabs as $k => $v){
 					$class_active = $tab_active === $k ? ' active ' : null;
 					?>
-					<li role="presentation" class="<?php echo $class_active;?>">
-						<a href="<?php echo esc_url($v['url']);?>">
-							<i class="fa fa-<?php echo $v['icon'];?> fa-fw"></i> 
-							<?php echo $v['text'];?>
+					<li role="presentation" class="<?= $class_active;?>">
+						<a href="<?= esc_url($v['url']);?>">
+							<i class="fa fa-<?= $v['icon'];?> fa-fw"></i> 
+							<?= $v['text'];?>
 						</a>
 					</li>
 				<?php } ?>					

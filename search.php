@@ -1,14 +1,14 @@
 <?php get_header();?>
 <div class="container">
-	<?php echo theme_functions::get_crumb();?>
+	<?= theme_functions::get_crumb();?>
 	<div class="row">
 		<div id="main" class="col-md-9 col-sm-12">
 			<div class="panel panel-default mx-panel">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						<a href="<?php echo esc_url(get_search_link(get_search_query()));?>">
+						<a href="<?= esc_url(get_search_link(get_search_query()));?>">
 							<i class="fa fa-search"></i> 
-							<?php echo esc_html(get_search_query());?>
+							<?= esc_html(get_search_query());?>
 						</a>
 					</h3>
 				</div>

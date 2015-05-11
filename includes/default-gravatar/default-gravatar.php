@@ -40,14 +40,14 @@ class default_gravatar{
 	public static function display_backend(){
 		?>
 		<fieldset>
-			<legend><?php echo ___('Custom default gravatar settings');?></legend>
-			<p class="description"><?php echo sprintf(___('You can change the default gravatar image using custom avatar url address. After save settings please click here to %s select the custom gravatar.'),'<a href="' . admin_url('options-discussion.php') . '">' . ___('here') . '</a>');?></p>
+			<legend><?= ___('Custom default gravatar settings');?></legend>
+			<p class="description"><?= sprintf(___('You can change the default gravatar image using custom avatar url address. After save settings please click here to %s select the custom gravatar.'),'<a href="' . admin_url('options-discussion.php') . '">' . ___('here') . '</a>');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-url"><?php echo ___('Custom avatar URL');?></label></th>
+						<th><label for="<?= self::$iden;?>-url"><?= ___('Custom avatar URL');?></label></th>
 						<td>
-							<input class="widefat code" type="url" id="<?php echo self::$iden;?>-url" name="<?php echo self::$iden;?>[url]" value="<?php echo self::get_option('url');?>">
+							<input class="widefat code" type="url" id="<?= self::$iden;?>-url" name="<?= self::$iden;?>[url]" value="<?= self::get_option('url');?>">
 						</td>
 					</tr>
 				</tbody>

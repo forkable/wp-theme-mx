@@ -77,49 +77,49 @@ class theme_custom_post_source{
 		//wp_nonce_field(self::$iden,self::$iden . '-nonce');
 		$default_check = !isset($meta['source']) || $meta['source'] !== 'original' || $meta['source'] !== 'reprint' ? ' checked ' : null;
 		?>
-		<div class="<?php echo self::$iden;?>">
+		<div class="<?= self::$iden;?>">
 			<p>
-				<label for="<?php echo self::$iden;?>-source-original">
+				<label for="<?= self::$iden;?>-source-original">
 					<input 
 						type="radio" 
-						name="<?php echo self::$iden;?>[source]" 
-						id="<?php echo self::$iden;?>-source-original" 
+						name="<?= self::$iden;?>[source]" 
+						id="<?= self::$iden;?>-source-original" 
 						value="original" 
-						<?php echo isset($meta['source']) && $meta['source'] === 'original' ? ' checked ' : null;?>
-						<?php echo $default_check;?>
+						<?= isset($meta['source']) && $meta['source'] === 'original' ? ' checked ' : null;?>
+						<?= $default_check;?>
 					>
-					<?php echo self::get_types('original')['text'];?>
+					<?= self::get_types('original')['text'];?>
 				</label>
 				
-				<label for="<?php echo self::$iden;?>-source-reprint">
+				<label for="<?= self::$iden;?>-source-reprint">
 					<input 
 						type="radio" 
-						name="<?php echo self::$iden;?>[source]" 
-						id="<?php echo self::$iden;?>-source-reprint" 
+						name="<?= self::$iden;?>[source]" 
+						id="<?= self::$iden;?>-source-reprint" 
 						value="reprint" 
-						<?php echo isset($meta['source']) && $meta['source'] === 'reprint' ? ' checked ' : null;?>
+						<?= isset($meta['source']) && $meta['source'] === 'reprint' ? ' checked ' : null;?>
 					>
-					<?php echo self::get_types('reprint')['text'];?>
+					<?= self::get_types('reprint')['text'];?>
 				</label>
 			</p>
 			<p>
 				<input 
 					type="url" 
-					name="<?php echo self::$iden;?>[reprint][url]" 
-					id="<?php echo self::$iden;?>-reprint-url" 
+					name="<?= self::$iden;?>[reprint][url]" 
+					id="<?= self::$iden;?>-reprint-url" 
 					class="widefat code" 
-					title="<?php echo ___('Source URL, for reprint work');?>"
-					placeholder="<?php echo ___('Source URL, for reprint work');?>"
-					value="<?php echo isset($meta['reprint']['url']) ? esc_url($meta['reprint']['url']) : null;?>" 
+					title="<?= ___('Source URL, for reprint work');?>"
+					placeholder="<?= ___('Source URL, for reprint work');?>"
+					value="<?= isset($meta['reprint']['url']) ? esc_url($meta['reprint']['url']) : null;?>" 
 				>
 				<input 
 					type="text" 
-					name="<?php echo self::$iden;?>[reprint][author]" 
-					id="<?php echo self::$iden;?>-reprint-author" 
+					name="<?= self::$iden;?>[reprint][author]" 
+					id="<?= self::$iden;?>-reprint-author" 
 					class="widefat code" 
-					title="<?php echo ___('Author, for reprint work');?>"
-					placeholder="<?php echo ___('Author, for reprint work');?>"
-					value="<?php echo isset($meta['reprint']['author']) ? esc_url($meta['reprint']['author']) : null;?>" 
+					title="<?= ___('Author, for reprint work');?>"
+					placeholder="<?= ___('Author, for reprint work');?>"
+					value="<?= isset($meta['reprint']['author']) ? esc_url($meta['reprint']['author']) : null;?>" 
 				>
 			</p>
 		</div>			
@@ -173,7 +173,7 @@ class theme_custom_post_source{
 						
 					?></li>
 					<li>
-						<?php echo sprintf(
+						<?= sprintf(
 						___('Source: %s, author: %s.'),
 						$reprint_url,
 						$reprint_author);

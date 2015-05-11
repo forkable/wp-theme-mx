@@ -40,7 +40,7 @@ class theme_cache_request {
 	}
 	public static function frontend_seajs_use(){
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
+		seajs.use('<?= self::$iden;?>',function(m){
 		});
 		<?php
 	}

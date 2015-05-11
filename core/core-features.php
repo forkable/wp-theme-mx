@@ -71,7 +71,7 @@ class theme_features{
 		$config['vars'] = apply_filters('frontend_seajs_vars',$config['vars']);
 		$config['map'] = apply_filters('frontend_seajs_map',$config['map']);
 		?>
-		seajs.config(<?php echo json_encode($config);?>);
+		seajs.config(<?= json_encode($config);?>);
 		<?php
 		/** Hook 'frontend_seajs_use' */
 		do_action('frontend_seajs_use');
@@ -1362,12 +1362,12 @@ class theme_features{
 		
 		ob_start();
 		?>
-		<nav class="<?php echo esc_attr($nav_class);?>">
+		<nav class="<?= esc_attr($nav_class);?>">
 			<?php 
 			ob_start(); 
 			?>
-			<a href="<?php echo $prev_page_url;?>" class="page-numbers page-prev <?php echo esc_attr($numbers_class_str);?> <?php echo $first_class;?>">
-				<?php echo esc_html(___('&lsaquo; Previous'));?>
+			<a href="<?= $prev_page_url;?>" class="page-numbers page-prev <?= esc_attr($numbers_class_str);?> <?= $first_class;?>">
+				<?= esc_html(___('&lsaquo; Previous'));?>
 			</a>
 			<?php
 			$prev_page_str = ob_get_contents();
@@ -1379,8 +1379,8 @@ class theme_features{
 			 */
 			echo apply_filters('prev_pagination_link',$prev_page_str,$page,$numpages);
 			?>
-			<div class="page-numbers page-middle <?php echo esc_attr($middle_class);?>">
-				<span class="page-middle-btn"><?php echo $page , ' / ' , $numpages;?></span>
+			<div class="page-numbers page-middle <?= esc_attr($middle_class);?>">
+				<span class="page-middle-btn"><?= $page , ' / ' , $numpages;?></span>
 				<div class="page-middle-numbers">
 				<?php
 				for($i=1;$i<=$numpages;++$i){
@@ -1390,9 +1390,9 @@ class theme_features{
 					 */
 					if($i == $page){
 						?>
-						<span class="numbers current"><?php echo $i;?></span>
+						<span class="numbers current"><?= $i;?></span>
 					<?php }else{ ?>
-						<a href="<?php echo esc_url($url);?>" class="numbers"><?php echo $i;?></a>
+						<a href="<?= esc_url($url);?>" class="numbers"><?= $i;?></a>
 					<?php 
 					}
 				}
@@ -1401,8 +1401,8 @@ class theme_features{
 			</div>
 			
 			<?php ob_start(); ?>
-			<a href="<?php echo $next_page_url;?>" class="page-numbers page-next <?php echo esc_attr($numbers_class_str);?> <?php echo $last_class;?>">
-				<?php echo esc_html(___('Next &rsaquo;'));?>
+			<a href="<?= $next_page_url;?>" class="page-numbers page-next <?= esc_attr($numbers_class_str);?> <?= $last_class;?>">
+				<?= esc_html(___('Next &rsaquo;'));?>
 			</a>
 			<?php
 			$next_page_str = ob_get_contents();
@@ -1624,7 +1624,7 @@ class theme_features{
 		}
 		?>
 		<style id="custom-background-css">
-		body.custom-background { <?php echo trim( $style ); ?> }
+		body.custom-background { <?= trim( $style ); ?> }
 		</style>
 		<?php
 	}
@@ -1818,26 +1818,26 @@ class theme_features{
 					$selected_class = null;
 				}
 			?>
-			<label for="<?php echo $group_id,'-',$ids_name,'-',$cat->term_id;?>" class="tpl-item button <?php echo $selected_class;?>">
+			<label for="<?= $group_id,'-',$ids_name,'-',$cat->term_id;?>" class="tpl-item button <?= $selected_class;?>">
 				<input 
 					type="checkbox" 
-					id="<?php echo $group_id,'-',$ids_name,'-',$cat->term_id;?>" 
-					name="<?php echo $group_id,'[',$ids_name,'][]';?>" 
-					value="<?php echo $cat->term_id;?>"
-					<?php echo $checked;?>
+					id="<?= $group_id,'-',$ids_name,'-',$cat->term_id;?>" 
+					name="<?= $group_id,'[',$ids_name,'][]';?>" 
+					value="<?= $cat->term_id;?>"
+					<?= $checked;?>
 				/>
-					<?php echo esc_html($cat->name);?> 
+					<?= esc_html($cat->name);?> 
 					
-					<a href="<?php echo esc_url(get_category_link($cat->term_id));?>" target="_blank">
+					<a href="<?= esc_url(get_category_link($cat->term_id));?>" target="_blank">
 						<small>
-							<?php echo esc_html(sprintf(___('(%s)'),urldecode($cat->slug)));?>
+							<?= esc_html(sprintf(___('(%s)'),urldecode($cat->slug)));?>
 						</small>
 					</a>
 			</label>
 			<?php 
 			}
 		}else{ ?>
-			<p><?php echo esc_html(___('No category, pleass go to add some categories.'));?></p>
+			<p><?= esc_html(___('No category, pleass go to add some categories.'));?></p>
 		<?php }
 		$caches[$cache_id] = ob_get_contents();
 		ob_end_clean();
@@ -1865,8 +1865,8 @@ class theme_features{
 
 		ob_start();
 		?>
-		<select name="<?php echo $group_id,'[',$page_slug,']';?>" id="<?php echo $group_id,'-',$page_slug;?>">
-			<option value="0"><?php echo esc_attr(___('Select page'));?></option>
+		<select name="<?= $group_id,'[',$page_slug,']';?>" id="<?= $group_id,'-',$page_slug;?>">
+			<option value="0"><?= esc_attr(___('Select page'));?></option>
 			<?php
 			foreach(get_pages() as $page){
 				if($page_id == $page->ID){
@@ -1875,7 +1875,7 @@ class theme_features{
 					$selected = null;
 				}
 				?>
-				<option value="<?php echo esc_attr($page->ID);?>" <?php echo $selected;?>><?php echo esc_attr($page->post_title);?></option>
+				<option value="<?= esc_attr($page->ID);?>" <?= $selected;?>><?= esc_attr($page->post_title);?></option>
 				<?php
 			}
 			?>

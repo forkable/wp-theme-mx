@@ -10,7 +10,7 @@
 	</div>
 	<div class="tags-index">
 		<?php if(!class_exists('theme_page_tags')){ ?>
-			<div class="page-tip"><?php echo status_tip('error',___('Missing initialization files.'));?></div>
+			<div class="page-tip"><?= status_tip('error',___('Missing initialization files.'));?></div>
 		<?php }else{ ?>
 			<?php theme_page_tags::display_frontend();?>
 		<?php } ?>

@@ -315,10 +315,10 @@ class theme_custom_user_settings{
 			case 'password':
 			case 'settings':
 				?>
-				seajs.use('<?php echo self::$iden,'-settings';?>',function(m){
-					m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => self::$iden));?>';
-					m.config.lang.M00001 = '<?php echo esc_js(___('Loading, please wait...'));?>';
-					m.config.lang.E00001 = '<?php echo esc_js(___('Sorry, server error please try again later.'));?>';
+				seajs.use('<?= self::$iden,'-settings';?>',function(m){
+					m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
+					m.config.lang.M00001 = '<?= esc_js(___('Loading, please wait...'));?>';
+					m.config.lang.E00001 = '<?= esc_js(___('Sorry, server error please try again later.'));?>';
 					
 					m.init();
 				});				
@@ -326,10 +326,10 @@ class theme_custom_user_settings{
 				break;
 			case 'avatar':
 				?>
-				seajs.use('<?php echo self::$iden,'-',$tab_active;?>',function(m){
-					m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => self::$iden));?>';
-					m.config.lang.M00001 = '<?php echo esc_js(___('Loading, please wait...'));?>';
-					m.config.lang.E00001 = '<?php echo esc_js(___('Sorry, server error please try again later.'));?>';
+				seajs.use('<?= self::$iden,'-',$tab_active;?>',function(m){
+					m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
+					m.config.lang.M00001 = '<?= esc_js(___('Loading, please wait...'));?>';
+					m.config.lang.E00001 = '<?= esc_js(___('Sorry, server error please try again later.'));?>';
 					
 					m.init();
 				});				

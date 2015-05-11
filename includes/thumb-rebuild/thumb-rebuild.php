@@ -109,7 +109,7 @@ class RegenerateThumbnails {
 ?>
 		<script type="text/javascript">
 			jQuery(document).ready(function($){
-				$('select[name^="action"] option:last-child').before('<option value="bulk_regenerate_thumbnails"><?php echo esc_attr( ___( 'Regenerate Thumbnails') ); ?></option>');
+				$('select[name^="action"] option:last-child').before('<option value="bulk_regenerate_thumbnails"><?= esc_attr( ___( 'Regenerate Thumbnails') ); ?></option>');
 			});
 		</script>
 <?php
@@ -143,7 +143,7 @@ class RegenerateThumbnails {
 <div id="message" class="updated fade" style="display:none"></div>
 
 <div class="wrap regenthumbs">
-	<h2><?php echo ___('Regenerate Thumbnails'); ?></h2>
+	<h2><?= ___('Regenerate Thumbnails'); ?></h2>
 
 <?php
 
@@ -186,15 +186,15 @@ class RegenerateThumbnails {
 ?>
 
 
-	<noscript><p><em><?php echo ___( 'You must enable Javascript in order to proceed!') ?></em></p></noscript>
+	<noscript><p><em><?= ___( 'You must enable Javascript in order to proceed!') ?></em></p></noscript>
 
 	<div id="regenthumbs-bar" style="position:relative;height:25px;">
 		<div id="regenthumbs-bar-percent" style="position:absolute;left:50%;top:50%;width:300px;margin-left:-150px;height:25px;margin-top:-9px;font-weight:bold;text-align:center;"></div>
 	</div>
 
-	<p><input type="button" class="button hide-if-no-js" name="regenthumbs-stop" id="regenthumbs-stop" value="<?php echo ___( 'Abort Resizing Images') ?>" /></p>
+	<p><input type="button" class="button hide-if-no-js" name="regenthumbs-stop" id="regenthumbs-stop" value="<?= ___( 'Abort Resizing Images') ?>" /></p>
 
-	<h3 class="title"><?php echo ___( 'Debugging Information') ?></h3>
+	<h3 class="title"><?= ___( 'Debugging Information') ?></h3>
 
 	<p>
 		<?php printf( ___( 'Total Images: %s'), $count ); ?><br />
@@ -210,7 +210,7 @@ class RegenerateThumbnails {
 	// <![CDATA[
 		jQuery(document).ready(function($){
 			var i;
-			var rt_images = [<?php echo $ids; ?>];
+			var rt_images = [<?= $ids; ?>];
 			var rt_total = rt_images.length;
 			var rt_count = 1;
 			var rt_percent = 0;
@@ -230,7 +230,7 @@ class RegenerateThumbnails {
 			// Stop button
 			$("#regenthumbs-stop").click(function() {
 				rt_continue = false;
-				$('#regenthumbs-stop').val("<?php echo $this->esc_quotes( ___( 'Stopping...') ); ?>");
+				$('#regenthumbs-stop').val("<?= $this->esc_quotes( ___( 'Stopping...') ); ?>");
 			});
 
 			// Clear out the empty list element that's there for HTML validation purposes
@@ -263,9 +263,9 @@ class RegenerateThumbnails {
 				$('#regenthumbs-stop').hide();
 
 				if ( rt_errors > 0 ) {
-					rt_resulttext = '<?php echo $text_failures; ?>';
+					rt_resulttext = '<?= $text_failures; ?>';
 				} else {
-					rt_resulttext = '<?php echo $text_nofailures; ?>';
+					rt_resulttext = '<?= $text_nofailures; ?>';
 				}
 
 				$("#message").html("<p><strong>" + rt_resulttext + "</strong></p>");
@@ -329,13 +329,13 @@ class RegenerateThumbnails {
 
 	<p><?php printf( ___( "You can regenerate specific images (rather than all images) from the <a href='%s'>Media</a> page. Hover over an image's row and click the link to resize just that one image or use the checkboxes and the &quot;Bulk Actions&quot; dropdown to resize multiple images (WordPress 3.1+ only)."), admin_url( 'upload.php' ) ); ?></p>
 
-	<p><?php echo ___( "Thumbnail regeneration is not reversible, but you can just change your thumbnail dimensions back to the old values and click the button again if you don't like the results."); ?></p>
+	<p><?= ___( "Thumbnail regeneration is not reversible, but you can just change your thumbnail dimensions back to the old values and click the button again if you don't like the results."); ?></p>
 
-	<p><?php echo ___( 'To begin, just press the button below.'); ?></p>
+	<p><?= ___( 'To begin, just press the button below.'); ?></p>
 
-	<p><input type="submit" class="button hide-if-no-js" name="regenerate-thumbnails" id="regenerate-thumbnails" value="<?php echo ___( 'Regenerate All Thumbnails') ?>" /></p>
+	<p><input type="submit" class="button hide-if-no-js" name="regenerate-thumbnails" id="regenerate-thumbnails" value="<?= ___( 'Regenerate All Thumbnails') ?>" /></p>
 
-	<noscript><p><em><?php echo ___( 'You must enable Javascript in order to proceed!') ?></em></p></noscript>
+	<noscript><p><em><?= ___( 'You must enable Javascript in order to proceed!') ?></em></p></noscript>
 
 	</form>
 <?php

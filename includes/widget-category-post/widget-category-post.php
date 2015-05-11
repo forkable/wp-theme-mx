@@ -69,10 +69,10 @@ class widget_posts extends WP_Widget{
 						setup_postdata($post);
 						?>
 						<li>
-							<a href="<?php echo esc_url(get_permalink());?>">
-								<span class="title"><?php echo esc_html(get_the_title());?></span>
+							<a href="<?= esc_url(get_permalink());?>">
+								<span class="title"><?= esc_html(get_the_title());?></span>
 								<?php if($show_date === 1){ ?>
-								<small class="date"> - <?php echo esc_html(friendly_date(get_post_time('U', true)));?></small>
+								<small class="date"> - <?= esc_html(friendly_date(get_post_time('U', true)));?></small>
 								<?php } ?>
 							</a>
 						</li>
@@ -80,7 +80,7 @@ class widget_posts extends WP_Widget{
 					}
 				}else{
 					?>
-					<li><?php echo status_tip('info',___('No post in this category'));?></li>
+					<li><?= status_tip('info',___('No post in this category'));?></li>
 					<?php
 				}
 				wp_reset_postdata();
@@ -113,17 +113,17 @@ class widget_posts extends WP_Widget{
 		],$instance);	
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id('title');?>"><?php echo esc_html(___('Title'));?></label>
+			<label for="<?= $this->get_field_id('title');?>"><?= esc_html(___('Title'));?></label>
 			<input 
-				id="<?php echo $this->get_field_id('title');?>" 
+				id="<?= $this->get_field_id('title');?>" 
 				type="text" 
 				class="widefat"
-				name="<?php echo $this->get_field_name('title');?>" 
-				value="<?php echo esc_attr($instance['title']);?>"
+				name="<?= $this->get_field_name('title');?>" 
+				value="<?= esc_attr($instance['title']);?>"
 			/>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id('selected');?>"><?php echo esc_html(___('Category: '));?></label>
+			<label for="<?= $this->get_field_id('selected');?>"><?= esc_html(___('Category: '));?></label>
 			<?php
 			$cat_args = array(
 				'name' => $this->get_field_name('selected'),
@@ -139,10 +139,10 @@ class widget_posts extends WP_Widget{
 			?>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id('show_date');?>"><?php echo esc_html(___('Show date: '));?></label>
+			<label for="<?= $this->get_field_id('show_date');?>"><?= esc_html(___('Show date: '));?></label>
 			<select 
-				name="<?php echo $this->get_field_name('show_date');?>" 
-				id="<?php echo $this->get_field_id('show_date');?>"
+				name="<?= $this->get_field_name('show_date');?>" 
+				id="<?= $this->get_field_id('show_date');?>"
 				class="widefat"
 			>
 				<?php
@@ -150,18 +150,18 @@ class widget_posts extends WP_Widget{
 					return (int)$v === (int)$current_v ? ' selected ' : null;
 				};
 				?>
-				<option value="0" <?php echo $selected(0,(int)$instance['show_date']);?>><?php echo esc_attr(___('Hide'));?></option>
-				<option value="1" <?php echo $selected(1,(int)$instance['show_date']);?>><?php echo esc_attr(___('Show'));?></option>
+				<option value="0" <?= $selected(0,(int)$instance['show_date']);?>><?= esc_attr(___('Hide'));?></option>
+				<option value="1" <?= $selected(1,(int)$instance['show_date']);?>><?= esc_attr(___('Show'));?></option>
 			</select>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id('posts_per_page');?>"><?php echo esc_html(___('Post number'));?></label>
+			<label for="<?= $this->get_field_id('posts_per_page');?>"><?= esc_html(___('Post number'));?></label>
 			<input 
-				id="<?php echo $this->get_field_id('posts_per_page');?>" 
+				id="<?= $this->get_field_id('posts_per_page');?>" 
 				type="number" 
 				class="widefat"
-				name="<?php echo $this->get_field_name('posts_per_page');?>" 
-				value="<?php echo esc_attr((int)$instance['posts_per_page']);?>"
+				name="<?= $this->get_field_name('posts_per_page');?>" 
+				value="<?= esc_attr((int)$instance['posts_per_page']);?>"
 				required
 			/>
 		</p>

@@ -305,23 +305,23 @@ class theme_quick_comment{
 		$comment_count = (int)get_comments_number();
 		$com_hide_class = is_singular() ? null : 'hide';
 		?>
-		<dl id="comment-box-<?php echo $post->ID;?>" class="comment-box mod <?php echo $com_hide_class;?>">
+		<dl id="comment-box-<?= $post->ID;?>" class="comment-box mod <?= $com_hide_class;?>">
 			<dt class="comment-box-title mod-title">
-				<?php echo sprintf(___('Total %d comments'),$comment_count);?>
+				<?= sprintf(___('Total %d comments'),$comment_count);?>
 				<?php if(comments_open()){ ?>
-					<a href="javascript:void(0)" class="add-comment add-comment-top add-comment-<?php echo $post->ID;?>" data-post-id="<?php echo $post->ID;?>"><span class="icon-comment"></span><span class="after-icon"><?php echo ___('Join the comments');?></span></a>
+					<a href="javascript:void(0)" class="add-comment add-comment-top add-comment-<?= $post->ID;?>" data-post-id="<?= $post->ID;?>"><span class="icon-comment"></span><span class="after-icon"><?= ___('Join the comments');?></span></a>
 				<?php } ?>
 				
 			</dt>
 			<dd class="mod-body">
-				<div class="comment-tip"><?php echo status_tip('loading',___('Loading comment list, please wait...'));?></div>
+				<div class="comment-tip"><?= status_tip('loading',___('Loading comment list, please wait...'));?></div>
 				<div class="comments-container"></div>
 				<?php
 				/** 
 				 * check comment open
 				 */
 				if(comments_open()){ ?>
-					<a href="javascript:void(0)" class="add-comment add-comment-bottom btn add-comment-<?php echo $post->ID;?>" data-post-id="<?php echo $post->ID;?>"><span class="icon-comment"></span><span class="after-icon"><?php echo ___('Join the comments');?></span></a>
+					<a href="javascript:void(0)" class="add-comment add-comment-bottom btn add-comment-<?= $post->ID;?>" data-post-id="<?= $post->ID;?>"><span class="icon-comment"></span><span class="after-icon"><?= ___('Join the comments');?></span></a>
 				<?php } ?>
 			</dd>
 		</dl>
@@ -334,23 +334,23 @@ class theme_quick_comment{
 	public static function frontend_seajs_use(){
 		// if(is_singular()) return false;
 		?>
-		seajs.use('<?php echo self::$style_id;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => self::$iden));?>';
+		seajs.use('<?= self::$style_id;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
 			<?php if(is_singular()){ ?>
 				m.config.is_singular = true;
 			<?php } ?>
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.M00002 = '<?php echo ___('Commented successfully, thank you!');?>';
-			m.config.lang.M00003 = '<?php echo ___('Message');?>';
-			m.config.lang.M00004 = '<?php echo ___('No comment yet, you are first commenter.');?>';
-			m.config.lang.M00005 = '<?php echo ___('Comment');?>';
-			m.config.lang.M00006 = '<?php echo ___('Post comment');?>';
-			m.config.lang.M00007 = '<?php echo ___('Nickname');?>';
-			m.config.lang.M00008 = '<?php echo ___('Email');?>';
-			m.config.lang.M00009 = '<?php echo ___('Closing tip after 3s');?>';
-			m.config.lang.M00010 = '<?php echo ___('Reply');?>';
-			m.config.lang.M00011 = '<?php echo ___('Error');?>';
-			m.config.lang.E00001 = '<?php echo ___('Server error or network is disconnected.');?>';
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.M00002 = '<?= ___('Commented successfully, thank you!');?>';
+			m.config.lang.M00003 = '<?= ___('Message');?>';
+			m.config.lang.M00004 = '<?= ___('No comment yet, you are first commenter.');?>';
+			m.config.lang.M00005 = '<?= ___('Comment');?>';
+			m.config.lang.M00006 = '<?= ___('Post comment');?>';
+			m.config.lang.M00007 = '<?= ___('Nickname');?>';
+			m.config.lang.M00008 = '<?= ___('Email');?>';
+			m.config.lang.M00009 = '<?= ___('Closing tip after 3s');?>';
+			m.config.lang.M00010 = '<?= ___('Reply');?>';
+			m.config.lang.M00011 = '<?= ___('Error');?>';
+			m.config.lang.E00001 = '<?= ___('Server error or network is disconnected.');?>';
 			m.init();
 		});
 		<?php

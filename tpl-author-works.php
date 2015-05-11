@@ -13,7 +13,7 @@
 			?>
 		</ul>
 	<?php }else{ ?>
-		<div class="page-tip"><?php echo status_tip('info',___('No post yet.')); ?></div>
+		<div class="page-tip"><?= status_tip('info',___('No post yet.')); ?></div>
 	<?php } ?>
 </div>
 <div class="panel-footer">

@@ -130,7 +130,7 @@ class theme_options{
 		$config['map'] = apply_filters('backend_seajs_map',$config['map']);
 
 		?>
-		seajs.config(<?php echo json_encode($config);?>);
+		seajs.config(<?= json_encode($config);?>);
 		<?php do_action('before_backend_tab_init');?>
 		seajs.use('backend',function(m){
 			m.init({
@@ -140,7 +140,7 @@ class theme_options{
 				custom : function(b,c,i,t){
 					<?php do_action('after_backend_tab_custom');?>
 				},
-				tab_title : '<?php echo wp_get_theme();?> <?php echo ___('theme settings');?>'
+				tab_title : '<?= wp_get_theme();?> <?= ___('theme settings');?>'
 			});
 		});
 		</script>
@@ -163,20 +163,20 @@ class theme_options{
 		<div class="wrap">
 			<?php if(isset($_GET['updated'])){?>
 				<div id="settings-updated">
-					<?php echo status_tip('success',___('Settings have been saved.'));?>
+					<?= status_tip('success',___('Settings have been saved.'));?>
 				</div>
 			<?php } ?>
-			<form id="backend-options-frm" method="post" action="<?php echo theme_features::get_process_url([
+			<form id="backend-options-frm" method="post" action="<?= theme_features::get_process_url([
 				'action' => self::$iden,
 			]);?>">
 				
-				<div class="backend-tab-loading"><?php echo status_tip('loading',___('Loading, please wait...'));?></div>
+				<div class="backend-tab-loading"><?= status_tip('loading',___('Loading, please wait...'));?></div>
 				
 				<dl id="backend-tab" class="backend-tab">
 					<?php do_action('before_base_settings');?>
-					<dt title="<?php echo ___('Theme common settings.');?>">
+					<dt title="<?= ___('Theme common settings.');?>">
 						<i class="fa fa-fw fa-cog"></i>
-						<span class="tx"><?php echo ___('Basic Settings');?></span>
+						<span class="tx"><?= ___('Basic Settings');?></span>
 					</dt>
 					<dd>
 						<!-- the action of base_settings -->
@@ -184,9 +184,9 @@ class theme_options{
 					</dd><!-- BASE SETTINGS -->
 					
 					<?php do_action('before_page_settings');?>
-					<dt title="<?php echo ___('Theme appearance/template settings.');?>">
+					<dt title="<?= ___('Theme appearance/template settings.');?>">
 						<i class="fa fa-fw fa-paint-brush"></i>
-						<span class="tx"><?php echo ___('Page Settings');?></span>
+						<span class="tx"><?= ___('Page Settings');?></span>
 					</dt>
 					<dd>
 						<!-- the action of page_settings -->
@@ -194,9 +194,9 @@ class theme_options{
 					</dd><!-- PAGE SETTINGS -->
 					
 					<?php do_action('before_advanced_settings');?>
-					<dt title="<?php echo ___('Theme special settings, you need to know what are you doing.');?>">
+					<dt title="<?= ___('Theme special settings, you need to know what are you doing.');?>">
 						<i class="fa fa-fw fa-cogs"></i>
-						<span class="tx"><?php echo ___('Advanced Settings');?></span>
+						<span class="tx"><?= ___('Advanced Settings');?></span>
 					</dt>
 					<dd>
 						<!-- the action of advanced_settings -->
@@ -206,7 +206,7 @@ class theme_options{
 					<?php do_action('before_dev_settings');?>
 					<dt>
 						<i class="fa fa-fw fa-code"></i>
-						<span class="tx"><?php echo ___('Developer Mode');?></span>
+						<span class="tx"><?= ___('Developer Mode');?></span>
 					</dt>
 					<dd>
 						<?php do_action('dev_settings');?>
@@ -215,7 +215,7 @@ class theme_options{
 					<?php do_action('before_help_settings');?>
 					<dt>
 						<i class="fa fa-fw fa-question-circle"></i>
-						<span class="tx"><?php echo ___('About &amp; Help');?></span>
+						<span class="tx"><?= ___('About &amp; Help');?></span>
 					</dt>
 					<dd>
 						<?php do_action('help_settings');?>
@@ -224,13 +224,13 @@ class theme_options{
 				</dl>
 		
 				<p>
-					<input type="hidden" name="<?php echo self::$iden;?>[nonce]" value="<?php echo wp_create_nonce(self::$iden);?>">
+					<input type="hidden" name="<?= self::$iden;?>[nonce]" value="<?= wp_create_nonce(self::$iden);?>">
 					
-					<button type="submit" class="button button-primary button-large"><i class="fa fa-check"></i> <?php echo ___('Save all settings');?></button>
+					<button type="submit" class="button button-primary button-large"><i class="fa fa-check"></i> <?= ___('Save all settings');?></button>
 					
-					<label for="options-restore" class="label-options-restore" title="<?php echo ___('Something error with theme? Try to restore. Be careful, theme options will be cleared up!');?>">
-						<input id="options-restore" name="<?php echo self::$iden;?>[restore]" type="checkbox" value="1"/>
-						<?php echo ___('Restore to theme default options');?> <i class="fa fa-question-circle"></i>
+					<label for="options-restore" class="label-options-restore" title="<?= ___('Something error with theme? Try to restore. Be careful, theme options will be cleared up!');?>">
+						<input id="options-restore" name="<?= self::$iden;?>[restore]" type="checkbox" value="1"/>
+						<?= ___('Restore to theme default options');?> <i class="fa fa-question-circle"></i>
 					</label>
 				</p>
 			</form>

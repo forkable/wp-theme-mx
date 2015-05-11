@@ -8,14 +8,14 @@ global $wp_query;
 
 ?>
 
-<div id="comments" class="comment-wrapper panel panel-default <?php echo have_comments() ? null : 'none';?>">
+<div id="comments" class="comment-wrapper panel panel-default <?= have_comments() ? null : 'none';?>">
 	<div class="panel-heading">
 		<h3 class="have-comments-title panel-title">
-			<span id="comment-number-<?php echo $post->ID;?>" class="badge">-</span> 
-			<?php echo ___('Comments');?>
+			<span id="comment-number-<?= $post->ID;?>" class="badge">-</span> 
+			<?= ___('Comments');?>
 
 			<a href="#respond" id="goto-comment" class="btn btn-success btn-xs">
-				<?php echo ___('Respond');?> 
+				<?= ___('Respond');?> 
 				<i class="fa fa-pencil-square-o"></i> 
 				
 			</a>
@@ -29,9 +29,9 @@ global $wp_query;
 		 */
 		if(comments_open()){
 			?>			
-			<ul id="comment-list-<?php echo $post->ID;?>" class="comment-list">
+			<ul id="comment-list-<?= $post->ID;?>" class="comment-list">
 				<li class="comment media">
-					<div class="page-tip"><?php echo status_tip('loading',___('Loading, please wait...'));?></div>
+					<div class="page-tip"><?= status_tip('loading',___('Loading, please wait...'));?></div>
 				</li>
 			</ul>
 			<?php

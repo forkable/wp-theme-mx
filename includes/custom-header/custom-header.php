@@ -65,9 +65,9 @@ class theme_custom_header{
 	}
 	public static function admin_header_image() {
 		?>
-		<div id="banner" style="background-image:url(<?php echo get_header_image();?>)">
+		<div id="banner" style="background-image:url(<?= get_header_image();?>)">
 			<?php if(display_header_text()){ ?>
-				<h2><?php echo get_bloginfo('description');?></h2>
+				<h2><?= get_bloginfo('description');?></h2>
 				</div>
 			<?php } ?>
 		</div>

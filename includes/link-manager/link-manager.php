@@ -25,15 +25,15 @@ class theme_link_manager{
 		$is_checked = self::is_enabled() ? ' checked ' : null;
 		?>
 		<fieldset>
-			<legend><?php echo ___('Link manager');?></legend>
+			<legend><?= ___('Link manager');?></legend>
 			<p class="description">
-				<?php echo ___('Enables the Link manager that existed in WordPress until version 3.5. But in fact it is not recommend to enable, because you can use Menu instead of Link manager.');?>
+				<?= ___('Enables the Link manager that existed in WordPress until version 3.5. But in fact it is not recommend to enable, because you can use Menu instead of Link manager.');?>
 			</p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="link-manager-on"><?php echo ___('Enable or not?');?></label></th>
-						<td><input type="checkbox" name="<?php echo self::$iden;?>[on]" id="<?php echo self::$iden;?>-link-manager-on" value="1" <?php echo $is_checked;?> /><label for="link-manager-on"><?php echo ___('Enable');?></label></td>
+						<th scope="row"><label for="link-manager-on"><?= ___('Enable or not?');?></label></th>
+						<td><input type="checkbox" name="<?= self::$iden;?>[on]" id="<?= self::$iden;?>-link-manager-on" value="1" <?= $is_checked;?> /><label for="link-manager-on"><?= ___('Enable');?></label></td>
 					</tr>
 				</tbody>
 			</table>

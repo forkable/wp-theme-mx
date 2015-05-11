@@ -21,7 +21,7 @@ class theme_dashboards extends theme_custom_dashboard{
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<i class="fa fa-line-chart"></i> 
-				<?php echo ___('My recent reward point actives');?>
+				<?= ___('My recent reward point actives');?>
 			</div>
 			<?php 
 			/**
@@ -33,7 +33,7 @@ class theme_dashboards extends theme_custom_dashboard{
 			if(!$histories){
 				?>
 				<div class="panel-body">
-					<?php echo status_tip('info',___('No data yet.'));?>
+					<?= status_tip('info',___('No data yet.'));?>
 				</div>
 				<?php
 			}else{
@@ -52,7 +52,7 @@ class theme_dashboards extends theme_custom_dashboard{
 		<div class="dashboard-recent-comments-4-my-posts panel panel-default">
 			<div class="panel-heading">
 				<i class="fa fa-comments"></i>
-				<?php echo ___('Recent comments for my posts');?>
+				<?= ___('Recent comments for my posts');?>
 			</div>
 			<?php
 			/**
@@ -68,7 +68,7 @@ class theme_dashboards extends theme_custom_dashboard{
 			if(empty($comments)){
 				?>
 				<div class="panel-body">
-					<?php echo status_tip('info',___('No comment for your post yet'));?>
+					<?= status_tip('info',___('No comment for your post yet'));?>
 				</div>
 				<?php
 			}else{
@@ -86,10 +86,10 @@ class theme_dashboards extends theme_custom_dashboard{
 			if($comment_author_url){
 				?>
 				<a 
-					href="<?php echo esc_url($comment_author_url);?>"
-					<?php echo (int)$comment->user_id === 0 ? 'target="_blank"' : null;?>
+					href="<?= esc_url($comment_author_url);?>"
+					<?= (int)$comment->user_id === 0 ? 'target="_blank"' : null;?>
 				>
-					<?php echo get_avatar($comment,50);?>
+					<?= get_avatar($comment,50);?>
 				</a>
 				<?php 
 			}else{
@@ -132,15 +132,15 @@ class theme_dashboards extends theme_custom_dashboard{
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<i class="fa fa-pie-chart"></i>
-				<?php echo ___('My statistics');?>
+				<?= ___('My statistics');?>
 			</div>
 			<div class="panel-body">
-				<a class="media" href="<?php echo theme_custom_user_settings::get_tabs('history')['url'];?>" title="<?php echo ___('Views my histories');?>">
+				<a class="media" href="<?= theme_custom_user_settings::get_tabs('history')['url'];?>" title="<?= ___('Views my histories');?>">
 					<div class="media-left">
-						<img class="media-object" src="<?php echo theme_custom_point::get_point_img_url();?>" alt="">
+						<img class="media-object" src="<?= theme_custom_point::get_point_img_url();?>" alt="">
 					</div>
 					<div class="media-body">
-						<h4 class="media-heading"><strong class="total-point"><?php echo theme_custom_point::get_point();?> </strong></h4>
+						<h4 class="media-heading"><strong class="total-point"><?= theme_custom_point::get_point();?> </strong></h4>
 					</div>
 				</a>
 				<div class="row">
@@ -190,7 +190,7 @@ class theme_dashboards extends theme_custom_dashboard{
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<i class="fa fa-clock-o"></i>
-				<?php echo ___('My recent posts');?>
+				<?= ___('My recent posts');?>
 			</div>
 			<?php
 			global $post;
@@ -206,7 +206,7 @@ class theme_dashboards extends theme_custom_dashboard{
 					?>
 					<li class="list-group-item">
 						<a href="<?php the_permalink();?>"><?php the_title();?></a>
-						<small><?php echo esc_html(friendly_date((get_the_time('U'))));?></small>
+						<small><?= esc_html(friendly_date((get_the_time('U'))));?></small>
 					</li>
 					<?php
 				}
@@ -216,7 +216,7 @@ class theme_dashboards extends theme_custom_dashboard{
 				<?php
 			}else{
 				?>
-				<div class="panel-body"><?php echo status_tip('info',___('No posts yet'));?></div>
+				<div class="panel-body"><?= status_tip('info',___('No posts yet'));?></div>
 				<?php
 			}
 			

@@ -1,8 +1,8 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">
-			<i class="fa fa-<?php echo theme_custom_dashboard::get_tabs('dashboard')['icon'];?>"></i>
-			<?php echo theme_custom_dashboard::get_tabs('dashboard')['text'];?>
+			<i class="fa fa-<?= theme_custom_dashboard::get_tabs('dashboard')['icon'];?>"></i>
+			<?= theme_custom_dashboard::get_tabs('dashboard')['text'];?>
 		</h3>
 	</div>
 	<div class="panel-body">
@@ -14,7 +14,7 @@
 				
 			);
 			foreach($dashboards as $k => $v){ ?>
-				<div class="account-dashboard account-dashboard-<?php echo $k;?> <?php echo $v;?>">
+				<div class="account-dashboard account-dashboard-<?= $k;?> <?= $v;?>">
 					<?php do_action("account_dashboard_{$k}");?>
 				</div>
 			<?php } ?>

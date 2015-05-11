@@ -44,24 +44,24 @@ class theme_post_thumb{
 		$is_checked = self::is_enabled() ? ' checked ' : null;
 		?>
 		<fieldset>
-			<legend><?php echo ___('Post Thumb Up or Down Settings');?></legend>
-			<p class="description"><?php echo ___('Agree or not? Just thumb up or down! You can set some sentences to show randomly when votes success. Multiple sentences that please use New Line to split them.');?></p>
+			<legend><?= ___('Post Thumb Up or Down Settings');?></legend>
+			<p class="description"><?= ___('Agree or not? Just thumb up or down! You can set some sentences to show randomly when votes success. Multiple sentences that please use New Line to split them.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="<?php echo self::$iden;?>_enable"><?php echo ___('Enable or not?');?></label></th>
-						<td><input type="checkbox" name="<?php echo self::$iden;?>[on]" id="<?php echo self::$iden;?>_enable" value="1"/ <?php echo $is_checked;?> ><label for="<?php echo self::$iden;?>_enable"><?php echo ___('Enable');?></label></td>
+						<th scope="row"><label for="<?= self::$iden;?>_enable"><?= ___('Enable or not?');?></label></th>
+						<td><input type="checkbox" name="<?= self::$iden;?>[on]" id="<?= self::$iden;?>_enable" value="1"/ <?= $is_checked;?> ><label for="<?= self::$iden;?>_enable"><?= ___('Enable');?></label></td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="post_thumb_up"><?php echo ___('Thumb up');?></label></th>
+						<th scope="row"><label for="post_thumb_up"><?= ___('Thumb up');?></label></th>
 						<td>
-							<textarea id="post_thumb_up" name="<?php echo self::$iden;?>[text_up]" class="widefat code" title="<?php echo ___('Thumb up');?>" cols="30" rows="5"><?php echo $post_thumb['text_up'];?></textarea>
+							<textarea id="post_thumb_up" name="<?= self::$iden;?>[text_up]" class="widefat code" title="<?= ___('Thumb up');?>" cols="30" rows="5"><?= $post_thumb['text_up'];?></textarea>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="post_thumb_down"><?php echo ___('Thumb down');?></label></th>
+						<th scope="row"><label for="post_thumb_down"><?= ___('Thumb down');?></label></th>
 						<td>
-							<textarea id="post_thumb_down" name="<?php echo self::$iden;?>[text_down]" class="widefat code" title="<?php echo ___('Thumb down');?>" cols="30" rows="5"><?php echo $post_thumb['text_down'];?></textarea>
+							<textarea id="post_thumb_down" name="<?= self::$iden;?>[text_down]" class="widefat code" title="<?= ___('Thumb down');?>" cols="30" rows="5"><?= $post_thumb['text_down'];?></textarea>
 						</td>
 					</tr>
 				</tbody>
@@ -240,10 +240,10 @@ class theme_post_thumb{
 	public static function js(){
 		if(!self::is_enabled()) return false;
 		?>
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?php echo ___('Server error or network is disconnected.');?>';
+		seajs.use('<?= theme_features::get_theme_includes_js(__DIR__);?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?= ___('Server error or network is disconnected.');?>';
 			m.init();
 		});
 	<?php

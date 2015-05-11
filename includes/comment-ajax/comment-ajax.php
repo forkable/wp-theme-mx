@@ -70,15 +70,15 @@ class theme_comment_ajax{
 		$is_checked = isset($options[self::$iden]['on']) ? ' checked="checked" ' : null;
 		?>
 		<fieldset>
-			<legend><?php echo ___('Comment AJAX Settings');?></legend>
-			<p class="description"><?php echo ___('Visitor submitted comment without refreshing page. Recommended enable to improve the user experience.');?></p>
+			<legend><?= ___('Comment AJAX Settings');?></legend>
+			<p class="description"><?= ___('Visitor submitted comment without refreshing page. Recommended enable to improve the user experience.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="comment_ajax_enable"><?php echo ___('Enable comment AJAX');?></label></th>
+						<th scope="row"><label for="comment_ajax_enable"><?= ___('Enable comment AJAX');?></label></th>
 						<td>
-							<input id="comment_ajax_enable" name="comment_ajax[on]" type="checkbox" value="1" <?php echo $is_checked;?>/>
-							<label for="comment_ajax_enable"><?php echo ___('Enable');?></label>
+							<input id="comment_ajax_enable" name="comment_ajax[on]" type="checkbox" value="1" <?= $is_checked;?>/>
+							<label for="comment_ajax_enable"><?= ___('Enable');?></label>
 							
 						</td>
 					</tr>
@@ -438,25 +438,25 @@ class theme_comment_ajax{
 			return false;
 		global $post;
 			?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.pagi_process_url = '<?php echo theme_features::get_process_url([
+		seajs.use('<?= self::$iden;?>',function(m){
+			m.config.pagi_process_url = '<?= theme_features::get_process_url([
 				'action' => self::$iden,
 				'type' => 'get-comments',
 				'post-id' => $post->ID,
 				'cpage' => 'n',
 			]);?>';
-			m.config.process_url = '<?php echo theme_features::get_process_url([
+			m.config.process_url = '<?= theme_features::get_process_url([
 				'action' => self::$iden,
 			]);?>';
-			m.config.post_id = <?php echo $post->ID;?>;
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.M00002 = '<?php echo ___('Commented successfully, thank you!');?>';
+			m.config.post_id = <?= $post->ID;?>;
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.M00002 = '<?= ___('Commented successfully, thank you!');?>';
 			
 			m.config.lang.M00003 = '<i class="fa fa-arrow-left"></i>';
 			m.config.lang.M00004 = '<i class="fa fa-arrow-right"></i>';
-			m.config.lang.M00005 = '<?php echo ___('{n} page');?>';
+			m.config.lang.M00005 = '<?= ___('{n} page');?>';
 			
-			m.config.lang.E00001 = '<?php echo ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
+			m.config.lang.E00001 = '<?= ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
 			m.init();
 		});
 		<?php

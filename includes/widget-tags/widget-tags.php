@@ -69,11 +69,11 @@ class widget_hot_tags extends WP_Widget{
 				?>
 				<a 
 					class="hot-tag" 
-					href="<?php echo get_tag_link($tag->term_id);?>"
+					href="<?= get_tag_link($tag->term_id);?>"
 					style="
-						font-size:<?php echo str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) ),$unit;?>;
-						color:rgb(<?php echo mt_rand(50,200);?>,<?php echo mt_rand(50,200);?>,<?php echo mt_rand(50,200);?>);"
-				><?php echo esc_html($tag->name);?></a>
+						font-size:<?= str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) ),$unit;?>;
+						color:rgb(<?= mt_rand(50,200);?>,<?= mt_rand(50,200);?>,<?= mt_rand(50,200);?>);"
+				><?= esc_html($tag->name);?></a>
 				<?php
 				$tag_links[] = html_compress(ob_get_contents());
 				ob_end_clean();
@@ -100,7 +100,7 @@ class widget_hot_tags extends WP_Widget{
 		if(!empty($instance['title'])){
 			echo $args['before_title'];
 			?>
-			<span class="icon-tags"></span><span class="after-icon"><?php echo esc_html($instance['title']);?></span>
+			<span class="icon-tags"></span><span class="after-icon"><?= esc_html($instance['title']);?></span>
 			<?php
 			echo $args['after_title'];
 		}
@@ -121,36 +121,36 @@ class widget_hot_tags extends WP_Widget{
 		$sticky_tx = implode(PHP_EOL,(array)$instance['sticky']);
 		?>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('title'));?>"><?php echo esc_html(___('Title (optional)'));?></label>
+			<label for="<?= esc_attr(self::get_field_id('title'));?>"><?= esc_html(___('Title (optional)'));?></label>
 			<input 
-				id="<?php echo esc_attr(self::get_field_id('title'));?>"
+				id="<?= esc_attr(self::get_field_id('title'));?>"
 				class="widefat"
-				name="<?php echo esc_attr(self::get_field_name('title'));?>" 
+				name="<?= esc_attr(self::get_field_name('title'));?>" 
 				type="text" 
-				value="<?php echo esc_attr($instance['title']);?>" 
-				placeholder="<?php echo esc_attr(___('Title (optional)'));?>"
+				value="<?= esc_attr($instance['title']);?>" 
+				placeholder="<?= esc_attr(___('Title (optional)'));?>"
 			/>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('number'));?>"><?php echo esc_html(___('Tags number (required)'));?></label>
+			<label for="<?= esc_attr(self::get_field_id('number'));?>"><?= esc_html(___('Tags number (required)'));?></label>
 			<input 
-				id="<?php echo esc_attr(self::get_field_id('number'));?>" 
+				id="<?= esc_attr(self::get_field_id('number'));?>" 
 				class="widefat"
-				name="<?php echo esc_attr(self::get_field_name('number'));?>" 
+				name="<?= esc_attr(self::get_field_name('number'));?>" 
 				type="number" 
-				value="<?php echo esc_attr($instance['number']);?>" 
-				placeholder="<?php echo esc_attr(___('Tags number (required)'));?>"
+				value="<?= esc_attr($instance['number']);?>" 
+				placeholder="<?= esc_attr(___('Tags number (required)'));?>"
 				required
 			/>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('sticky'));?>"><?php echo esc_html(___('Sticky tags (optional, one tag per line)'));?></label>
+			<label for="<?= esc_attr(self::get_field_id('sticky'));?>"><?= esc_html(___('Sticky tags (optional, one tag per line)'));?></label>
 			<textarea 
-				id="<?php echo esc_attr(self::get_field_id('sticky'));?>" 
+				id="<?= esc_attr(self::get_field_id('sticky'));?>" 
 				class="widefat"
-				name="<?php echo esc_attr(self::get_field_name('sticky'));?>" 
-				placeholder="<?php echo esc_attr(___('Sticky tags (optional, one tag per line)'));?>"
-			><?php echo esc_attr($sticky_tx);?></textarea>
+				name="<?= esc_attr(self::get_field_name('sticky'));?>" 
+				placeholder="<?= esc_attr(___('Sticky tags (optional, one tag per line)'));?>"
+			><?= esc_attr($sticky_tx);?></textarea>
 		</p>
 		<?php
 	}

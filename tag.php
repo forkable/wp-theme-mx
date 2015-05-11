@@ -1,6 +1,6 @@
 <?php get_header();?>
 <div class="container">
-	<?php echo theme_functions::get_crumb();?>
+	<?= theme_functions::get_crumb();?>
 	<div class="row">
 		<div id="main" class="col-md-9 col-sm-12">
 			<div class="panel panel-default mx-panel">

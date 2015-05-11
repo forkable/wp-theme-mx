@@ -26,7 +26,7 @@ function get_option_list($value,$text,$current_value){
 	ob_start();
 	$selected = $value == $current_value ? ' selected ' : null;
 	?>
-	<option value="<?php echo esc_attr($value);?>" <?php echo $selected;?>><?php echo $text;?></option>
+	<option value="<?= esc_attr($value);?>" <?= $selected;?>><?= $text;?></option>
 	<?php
 	$content = ob_get_contents();
 	ob_end_clean();

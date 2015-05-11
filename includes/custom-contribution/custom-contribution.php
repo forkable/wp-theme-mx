@@ -62,18 +62,18 @@ class theme_custom_contribution{
 		$opt = (array)self::get_options();
 		?>
 		<fieldset>
-			<legend><?php echo ___('Contribution settings');?></legend>
+			<legend><?= ___('Contribution settings');?></legend>
 			<table class="form-table">
 				<tr>
-					<th><?php echo ___('Shows categories');?></th>
+					<th><?= ___('Shows categories');?></th>
 					<td>
 						<?php theme_features::cat_checkbox_list(self::$iden,'cats');?>
 					</td>
 				</tr>
 				<tr>
-					<th><label for="<?php echo self::$iden;?>-tags-number"><?php echo ___('Shows tags number');?></label></th>
+					<th><label for="<?= self::$iden;?>-tags-number"><?= ___('Shows tags number');?></label></th>
 					<td>
-						<input class="short-text" type="number" name="<?php echo self::$iden;?>[tags-number]" id="<?php echo self::$iden;?>-tags-number" value="<?php echo isset($opt['tags-number']) ?  $opt['tags-number'] : 6;?>">
+						<input class="short-text" type="number" name="<?= self::$iden;?>[tags-number]" id="<?= self::$iden;?>-tags-number" value="<?= isset($opt['tags-number']) ?  $opt['tags-number'] : 6;?>">
 					</td>
 				</tr>
 
@@ -364,23 +364,23 @@ class theme_custom_contribution{
 		if(!self::is_page()) 
 			return false;
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action' => self::$iden));?>';
+		seajs.use('<?= self::$iden;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
 			m.config.lang = {
-				M00001 : '<?php echo ___('Loading, please wait...');?>',
-				M00002 : '<?php echo ___('Uploading {0}/{1}, please wait...');?>',
-				M00003 : '<?php echo ___('Click to delete');?>',
-				M00004 : '<?php echo ___('{0} files have been uploaded.');?>',
-				M00005 : '<?php echo ___('Source');?>',
-				M00006 : '<?php echo ___('Click to view source');?>',
-				M00007 : '<?php echo ___('Set as cover.');?>',
-				M00008 : '<?php echo ___('Optional: some description');?>',
-				M00009 : '<?php echo ___('Insert');?>',
-				M00010 : '<?php echo ___('Preview');?>',
-				M00011 : '<?php echo ___('Large size');?>',
-				M00012 : '<?php echo ___('Medium size');?>',
-				M00013 : '<?php echo ___('Small size');?>',
-				E00001 : '<?php echo ___('Sorry, server error please try again later.');?>'
+				M00001 : '<?= ___('Loading, please wait...');?>',
+				M00002 : '<?= ___('Uploading {0}/{1}, please wait...');?>',
+				M00003 : '<?= ___('Click to delete');?>',
+				M00004 : '<?= ___('{0} files have been uploaded.');?>',
+				M00005 : '<?= ___('Source');?>',
+				M00006 : '<?= ___('Click to view source');?>',
+				M00007 : '<?= ___('Set as cover.');?>',
+				M00008 : '<?= ___('Optional: some description');?>',
+				M00009 : '<?= ___('Insert');?>',
+				M00010 : '<?= ___('Preview');?>',
+				M00011 : '<?= ___('Large size');?>',
+				M00012 : '<?= ___('Medium size');?>',
+				M00013 : '<?= ___('Small size');?>',
+				E00001 : '<?= ___('Sorry, server error please try again later.');?>'
 			};
 			m.init();
 		});

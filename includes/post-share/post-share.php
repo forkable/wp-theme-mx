@@ -77,36 +77,36 @@ class theme_post_share{
 		$is_checked = self::is_enabled() ? ' checked ' : null;
 		?>
 		<fieldset>
-			<legend><?php echo ___('Posts share settings');?></legend>
+			<legend><?= ___('Posts share settings');?></legend>
 			<p class="description">
-				<?php echo ___('Share your post to everywhere. Here are some keywords that can be used:');?>
+				<?= ___('Share your post to everywhere. Here are some keywords that can be used:');?>
 			</p>
 			<p class="description">
-				<input type="text" class="small-text text-select" value="%post_title_text%" title="<?php echo ___('Post Title text');?>" readonly />
-				<input type="text" class="small-text text-select" value="%post_url%" title="<?php echo ___('Post URL');?>" readonly />
-				<input type="text" class="small-text text-select" value="%blog_name%" title="<?php echo ___('Blog name');?>" readonly />
-				<input type="text" class="small-text text-select" value="%blog_url%" title="<?php echo ___('Blog URL');?>" readonly />
-				<input type="text" class="small-text text-select" value="%img_url%" title="<?php echo ___('The first picture of the post.');?>" readonly />
-				<input type="text" class="small-text text-select" value="%post_excerpt%" title="<?php echo ___('The excerpt of post.');?>" readonly />
-				<input type="text" class="small-text text-select" value="%post_content%" title="<?php echo ___('The content of post.');?>" readonly />
+				<input type="text" class="small-text text-select" value="%post_title_text%" title="<?= ___('Post Title text');?>" readonly />
+				<input type="text" class="small-text text-select" value="%post_url%" title="<?= ___('Post URL');?>" readonly />
+				<input type="text" class="small-text text-select" value="%blog_name%" title="<?= ___('Blog name');?>" readonly />
+				<input type="text" class="small-text text-select" value="%blog_url%" title="<?= ___('Blog URL');?>" readonly />
+				<input type="text" class="small-text text-select" value="%img_url%" title="<?= ___('The first picture of the post.');?>" readonly />
+				<input type="text" class="small-text text-select" value="%post_excerpt%" title="<?= ___('The excerpt of post.');?>" readonly />
+				<input type="text" class="small-text text-select" value="%post_content%" title="<?= ___('The content of post.');?>" readonly />
 			</p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="<?php echo self::$iden;?>_on"><?php echo ___('Enable or not?');?></label></th>
-						<td><input type="checkbox" name="<?php echo self::$iden;?>[on]" id="<?php echo self::$iden;?>_on" value="1" <?php echo $is_checked;?> /><label for="<?php echo self::$iden;?>_on"><?php echo ___('Enable');?></label></td>
+						<th scope="row"><label for="<?= self::$iden;?>_on"><?= ___('Enable or not?');?></label></th>
+						<td><input type="checkbox" name="<?= self::$iden;?>[on]" id="<?= self::$iden;?>_on" value="1" <?= $is_checked;?> /><label for="<?= self::$iden;?>_on"><?= ___('Enable');?></label></td>
 					</tr>
 					<tr>
-						<th scope="row"><?php echo ___('HTML codes');?></th>
-						<td><textarea id="<?php echo self::$iden;?>_code" name="<?php echo self::$iden;?>[code]" class="widefat" cols="30" rows="10"><?php echo stripslashes($opt['code']);?></textarea>
+						<th scope="row"><?= ___('HTML codes');?></th>
+						<td><textarea id="<?= self::$iden;?>_code" name="<?= self::$iden;?>[code]" class="widefat" cols="30" rows="10"><?= stripslashes($opt['code']);?></textarea>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php echo esc_html(___('Restore'));?></th>
+						<th scope="row"><?= esc_html(___('Restore'));?></th>
 						<td>
-							<label for="<?php echo self::$iden;?>_restore">
-								<input type="checkbox" id="<?php echo self::$iden;?>_restore" name="<?php echo self::$iden;?>[restore]" value="1"/>
-								<?php echo ___('Restore the post share settings');?>
+							<label for="<?= self::$iden;?>_restore">
+								<input type="checkbox" id="<?= self::$iden;?>_restore" name="<?= self::$iden;?>[restore]" value="1"/>
+								<?= ___('Restore the post share settings');?>
 							</label>
 						</td>
 					</tr>
@@ -121,15 +121,15 @@ class theme_post_share{
 		ob_start();
 		?>
 <div class="bdshare_t bdsharebuttonbox" data-tag="bd_share" data-bdshare="{
-	'bdText':'%post_title_text% by %author% <?php echo ___('-- from %blog_name%');?>',
+	'bdText':'%post_title_text% by %author% <?= ___('-- from %blog_name%');?>',
 	'bdUrl':'%post_url%',
 	'bdPic':'%img_url%'
 }">
-	<span class="description"><?php echo ___('Share to: ');?></span>
-	<a class="bds_tsina" data-cmd="tsina" title="<?php echo sprintf(___('Share to %s'),___('Sina Weibo'));?>" href="javascript:;"></a>
-	<a class="bds_qzone" data-cmd="qzone" href="javascript:;" title="<?php echo sprintf(___('Share to %s'),___('QQ zone'));?>"></a>
-	<a class="bds_tieba" data-cmd="tieba" title="<?php echo sprintf(___('Share to %s'),___('Tieba'));?>" href="javascript:;"></a>
-	<a class="bds_weixin" data-cmd="weixin" title="<?php echo sprintf(___('Share to %s'),___('Wechat'));?>" href="javascript:;"></a>
+	<span class="description"><?= ___('Share to: ');?></span>
+	<a class="bds_tsina" data-cmd="tsina" title="<?= sprintf(___('Share to %s'),___('Sina Weibo'));?>" href="javascript:;"></a>
+	<a class="bds_qzone" data-cmd="qzone" href="javascript:;" title="<?= sprintf(___('Share to %s'),___('QQ zone'));?>"></a>
+	<a class="bds_tieba" data-cmd="tieba" title="<?= sprintf(___('Share to %s'),___('Tieba'));?>" href="javascript:;"></a>
+	<a class="bds_weixin" data-cmd="weixin" title="<?= sprintf(___('Share to %s'),___('Wechat'));?>" href="javascript:;"></a>
 	<a class="bds_more" data-cmd="more" href="javascript:;"></a>
 </div>				
 <?php
@@ -177,7 +177,7 @@ class theme_post_share{
 		if(!self::is_enabled())
 			return false;
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
+		seajs.use('<?= self::$iden;?>',function(m){
 			m.init();
 		});
 		<?php

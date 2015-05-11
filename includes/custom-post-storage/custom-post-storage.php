@@ -105,25 +105,25 @@ class theme_custom_storage{
 		//wp_nonce_field(self::$iden,self::$iden . '-nonce');
 		foreach(self::get_types() as $k => $v){
 			?>
-			<div class="<?php echo self::$iden;?>-<?php echo $k;?>">
+			<div class="<?= self::$iden;?>-<?= $k;?>">
 				<p><strong>
-					<label for="<?php echo self::$iden;?>-<?php echo $k;?>-url"><?php echo $v['text'];?></label>
+					<label for="<?= self::$iden;?>-<?= $k;?>-url"><?= $v['text'];?></label>
 				</strong></p>
 				<input 
 					type="url" 
-					name="<?php echo self::$iden;?>[<?php echo $k;?>][url]" 
-					id="<?php echo self::$iden;?>-<?php echo $k;?>-url" 
+					name="<?= self::$iden;?>[<?= $k;?>][url]" 
+					id="<?= self::$iden;?>-<?= $k;?>-url" 
 					class="widefat code" 
-					placeholder="<?php echo sprintf(___('%s url'),$v['text']);?>"
-					value="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
+					placeholder="<?= sprintf(___('%s url'),$v['text']);?>"
+					value="<?= isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
 				>
 				<input 
 					type="text" 
-					name="<?php echo self::$iden;?>[<?php echo $k;?>][pwd]" 
-					id="<?php echo self::$iden;?>-<?php echo $k;?>-pwd" 
+					name="<?= self::$iden;?>[<?= $k;?>][pwd]" 
+					id="<?= self::$iden;?>-<?= $k;?>-pwd" 
 					class="widefat code" 
-					placeholder="<?php echo sprintf(___('%s password'),$v['text']);?>"
-					value="<?php echo isset($meta[$k]['pwd']) ? esc_attr($meta[$k]['pwd']) : null;?>" 
+					placeholder="<?= sprintf(___('%s password'),$v['text']);?>"
+					value="<?= isset($meta[$k]['pwd']) ? esc_attr($meta[$k]['pwd']) : null;?>" 
 				>
 			</div>			
 			<?php
@@ -220,14 +220,14 @@ class theme_custom_storage{
 <div class="post-download">
 	<?php foreach(self::get_types() as $k => $v){ ?>
 		<fieldset class="post-download-module">
-			<legend><span class="label label-default"><?php echo $v['text'];?></span></legend>
+			<legend><span class="label label-default"><?= $v['text'];?></span></legend>
 			<div class="fieldset-content">
 				<div class="row">
 					<?php if(isset($meta[$k]['pwd']) && !empty($meta[$k]['pwd'])){ ?>
 						<div class="col-sm-3">
 							<div class="form-group">
-								<div class="btn btn-info btn-lg btn-block" title="<?php echo sprintf(___('%s password'),$v['text']);?>" >
-									<?php echo sprintf(___('Password: %s'),'<strong class="pwd" id="' . self::$iden . '-' . $k . '-pwd">' . esc_html($meta[$k]['pwd']) . '</strong>');?>
+								<div class="btn btn-info btn-lg btn-block" title="<?= sprintf(___('%s password'),$v['text']);?>" >
+									<?= sprintf(___('Password: %s'),'<strong class="pwd" id="' . self::$iden . '-' . $k . '-pwd">' . esc_html($meta[$k]['pwd']) . '</strong>');?>
 								</div>
 							</div>
 						</div>
@@ -236,15 +236,15 @@ class theme_custom_storage{
 							<div class="form-group">
 								<div class="btn-group btn-group-lg btn-block">
 									<a 
-										href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
+										href="<?= isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
 										class="btn btn-success col-xs-9 col-sm-10" 
 										rel="nofollow"
 									>
 											<i class="fa fa-cloud-download"></i> 
-											<?php echo ___('Download now');?>
+											<?= ___('Download now');?>
 										</a>
 									<a 
-										href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
+										href="<?= isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
 										class="btn btn-success col-xs-3 col-sm-2" 
 										target="_blank" 
 										rel="nofollow"
@@ -259,17 +259,17 @@ class theme_custom_storage{
 							<div class="form-group">
 								<div class="btn-group btn-group-lg btn-block">
 									<a 
-										href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
+										href="<?= isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
 										class="btn btn-success col-xs-9 col-sm-11"
 										rel="nofollow"
 									>
 											<i class="fa fa-cloud-download"></i> 
-											<?php echo ___('Download now');?>
+											<?= ___('Download now');?>
 										</a>
 									<a 
-										href="<?php echo isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
+										href="<?= isset($meta[$k]['url']) ? esc_url($meta[$k]['url']) : null;?>" 
 										class="btn btn-success col-xs-3 col-sm-1" target="_blank" 
-										title="<?php echo ___('Open in new window');?>" 
+										title="<?= ___('Open in new window');?>" 
 										rel="nofollow"
 										>
 											<i class="fa fa-external-link"></i>
@@ -300,12 +300,12 @@ class theme_custom_storage{
 		?>
 		<div class="post-storage">
 			<div class="btn-group btn-group-lg btn-block">
-				<a href="<?php echo $download_url;?>" class="download-link btn btn-success col-xs-9 col-sm-11" rel="nofollow" >
+				<a href="<?= $download_url;?>" class="download-link btn btn-success col-xs-9 col-sm-11" rel="nofollow" >
 					<i class="fa fa-cloud-download"></i>
-					<?php echo ___('Download now');?>
+					<?= ___('Download now');?>
 					
 				</a>
-				<a href="<?php echo $download_url;?>" class="download-link btn btn-success col-xs-3 col-sm-1" rel="nofollow" target="_blank" title="<?php echo ___('Open in new window');?>" >
+				<a href="<?= $download_url;?>" class="download-link btn btn-success col-xs-3 col-sm-1" rel="nofollow" target="_blank" title="<?= ___('Open in new window');?>" >
 					<i class="fa fa-external-link fa-fw"></i>
 				</a>
 			</div>

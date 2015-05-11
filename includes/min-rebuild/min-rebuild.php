@@ -29,12 +29,12 @@ class theme_min_rebuild{
 		?>
 		<!-- theme_min_rebuild -->
 		<fieldset>
-			<legend><?php echo ___('Rebuild minify version');?></legend>
-			<p class="description"><?php echo ___('Rebuild the minify version file of JS and CSS. If you have edit JS or CSS file, please run it. May take several minutes.');?></p>
+			<legend><?= ___('Rebuild minify version');?></legend>
+			<p class="description"><?= ___('Rebuild the minify version file of JS and CSS. If you have edit JS or CSS file, please run it. May take several minutes.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><?php echo ___('Control');?></th>
+						<th scope="row"><?= ___('Control');?></th>
 						<td>
 							<?php
 							if(isset($_GET[self::$iden])){
@@ -42,8 +42,8 @@ class theme_min_rebuild{
 							}
 							?>
 							<p>
-								<a href="<?php echo esc_url($process_url);?>" class="button" onclick="javascript:this.innerHTML='<?php echo ___('Rebuilding, please wait...');?>'"><?php echo ___('Start rebuild');?></a>
-								<span class="description"><i class="fa fa-exclamation-circle"></i> <?php echo ___('Save your settings before rebuild');?></span>
+								<a href="<?= esc_url($process_url);?>" class="button" onclick="javascript:this.innerHTML='<?= ___('Rebuilding, please wait...');?>'"><?= ___('Start rebuild');?></a>
+								<span class="description"><i class="fa fa-exclamation-circle"></i> <?= ___('Save your settings before rebuild');?></span>
 							</p>
 						</td>
 					</tr>

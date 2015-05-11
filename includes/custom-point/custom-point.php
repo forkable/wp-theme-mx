@@ -71,78 +71,78 @@ class theme_custom_point{
 		$point_name = isset($opt['point-name']) ? $opt['point-name'] : ___('Cat-paw');
 		?>
 		<fieldset>
-			<legend><?php echo ___('User point settings');?></legend>
-			<p class="description"><?php echo ___('About user point settings.');?></p>
+			<legend><?= ___('User point settings');?></legend>
+			<p class="description"><?= ___('About user point settings.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-point-name"><?php echo ___('Point name');?></label></th>
+						<th><label for="<?= self::$iden;?>-point-name"><?= ___('Point name');?></label></th>
 						<td>
-							<input type="text" name="<?php echo self::$iden;?>[point-name]" class="widefat" id="<?php echo self::$iden;?>-point-name" value="<?php echo esc_attr($point_name);?>">
+							<input type="text" name="<?= self::$iden;?>[point-name]" class="widefat" id="<?= self::$iden;?>-point-name" value="<?= esc_attr($point_name);?>">
 						</td>
 					</tr>
 					<?php foreach(self::get_point_types() as $k => $v){ ?>
 						<tr>
 							<th>
-								<label for="<?php echo self::$iden;?>-<?php echo $k;?>"><?php echo $v['text'];?></label>
+								<label for="<?= self::$iden;?>-<?= $k;?>"><?= $v['text'];?></label>
 							</th>
 							<td>
 								<input 
-									type="<?php echo isset($points[$k]) && is_int($points[$k]) ? 'number' : 'text';?>" 
-									name="<?php echo self::$iden;?>[points][<?php echo $k;?>]" class="short-text" 
-									id="<?php echo self::$iden;?>-<?php echo $k;?>" 
-									value="<?php echo isset($points[$k]) ? $points[$k] : 0;?>"
+									type="<?= isset($points[$k]) && is_int($points[$k]) ? 'number' : 'text';?>" 
+									name="<?= self::$iden;?>[points][<?= $k;?>]" class="short-text" 
+									id="<?= self::$iden;?>-<?= $k;?>" 
+									value="<?= isset($points[$k]) ? $points[$k] : 0;?>"
 								>
 								<?php if(isset(self::get_point_types($k)['des'])){ ?>
-									<span class="description"><?php echo self::get_point_types($k)['des'];?></span>
+									<span class="description"><?= self::get_point_types($k)['des'];?></span>
 								<?php } ?>
 							</td>
 						</tr>
 					<?php } ?>
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-point-des"><?php echo ___('Description on point history page');?></label></th>
+						<th><label for="<?= self::$iden;?>-point-des"><?= ___('Description on point history page');?></label></th>
 						<td>
-							<textarea name="<?php echo self::$iden;?>[point-des]" id="<?php echo self::$iden;?>-des" rows="3" class="widefat code"><?php echo isset($opt['point-des']) ? $opt['point-des'] : null;?></textarea>
+							<textarea name="<?= self::$iden;?>[point-des]" id="<?= self::$iden;?>-des" rows="3" class="widefat code"><?= isset($opt['point-des']) ? $opt['point-des'] : null;?></textarea>
 						</td>
 					</tr>
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-point-img-url"><?php echo ___('Description on point history page');?></label></th>
+						<th><label for="<?= self::$iden;?>-point-img-url"><?= ___('Description on point history page');?></label></th>
 						<td>
-							<input type="url" name="<?php echo self::$iden;?>[point-img-url]" id="<?php echo self::$iden;?>-img-url" class="widefat code" value="<?php echo isset($opt['point-img-url']) ? $opt['point-img-url'] : null;?>">
+							<input type="url" name="<?= self::$iden;?>[point-img-url]" id="<?= self::$iden;?>-img-url" class="widefat code" value="<?= isset($opt['point-img-url']) ? $opt['point-img-url'] : null;?>">
 						</td>
 					</tr>
 				</tbody>
 			</table>
 
-			<h3><?php echo ___('Add/Reduce point for user - special event');?></h3>
+			<h3><?= ___('Add/Reduce point for user - special event');?></h3>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th><?php echo ___('User ID');?></th>
+						<th><?= ___('User ID');?></th>
 						<td>
-							<input class="short-text" type="number" id="<?php echo self::$iden;?>-special-user-id" data-target="<?php echo self::$iden;?>-special-tip-user-id" data-ajax-type="get-points" data-ajax-field="user-id">
-							<span id="<?php echo self::$iden;?>-special-tip-user-id"></span>
+							<input class="short-text" type="number" id="<?= self::$iden;?>-special-user-id" data-target="<?= self::$iden;?>-special-tip-user-id" data-ajax-type="get-points" data-ajax-field="user-id">
+							<span id="<?= self::$iden;?>-special-tip-user-id"></span>
 						</td>
 					</tr>
 					<tr>
-						<th><?php echo ___('How many point to add/reduce');?></th>
+						<th><?= ___('How many point to add/reduce');?></th>
 						<td>
-							<input class="short-text" type="number" id="<?php echo self::$iden;?>-special-point" data-target="<?php echo self::$iden;?>-special-tip-user-point" data-ajax-field="point">
-							<span id="<?php echo self::$iden;?>-special-tip-user-point"></span>
+							<input class="short-text" type="number" id="<?= self::$iden;?>-special-point" data-target="<?= self::$iden;?>-special-tip-user-point" data-ajax-field="point">
+							<span id="<?= self::$iden;?>-special-tip-user-point"></span>
 						</td>
 					</tr>
 					<tr>
-						<th><?php echo ___('Event description');?></th>
+						<th><?= ___('Event description');?></th>
 						<td>
-							<input class="widefat" type="text" id="<?php echo self::$iden;?>-special-event" data-ajax-field="event">
+							<input class="widefat" type="text" id="<?= self::$iden;?>-special-event" data-ajax-field="event">
 						</td>
 					</tr>
 					<tr>
-						<th><?php echo ___('Control');?></th>
+						<th><?= ___('Control');?></th>
 						<td>
-							<a href="javascript:;" class="button button-primary" id="<?php echo self::$iden;?>-special-set" data-target="<?php echo self::$iden;?>-special-tip-set"><?php echo ___('Add/Reduce');?></a>
+							<a href="javascript:;" class="button button-primary" id="<?= self::$iden;?>-special-set" data-target="<?= self::$iden;?>-special-tip-set"><?= ___('Add/Reduce');?></a>
 							
-							<span class="page-tip" id="<?php echo self::$iden;?>-special-tip-set"></span>
+							<span class="page-tip" id="<?= self::$iden;?>-special-tip-set"></span>
 							
 						</td>
 					</tr>
@@ -428,7 +428,7 @@ class theme_custom_point{
 			return false;
 		?>
 		<span class="history-time">
-			<?php echo friendly_date($history['timestamp']); ?>
+			<?= friendly_date($history['timestamp']); ?>
 		</span>
 		<?php
 	}
@@ -437,11 +437,11 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item list-group-item-warning">
-			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<span class="point-name"><?= self::get_point_name();?></span>
 			<?php self::the_point_sign($history['point']);?>
 			
 			<span class="history-text">
-				<?php echo sprintf(___('One special event happened: %s'),$history['event']);?>
+				<?= sprintf(___('One special event happened: %s'),$history['event']);?>
 			</span>
 			
 			<?php self::the_history_time($history);?>
@@ -453,11 +453,11 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<span class="point-name"><?= self::get_point_name();?></span>
 			<?php self::the_point_sign(self::get_point_value('post-delete'));?>
 			
 			<span class="history-text">
-				<?php echo sprintf(___('Your post "%s" has been deleted.'),$history['post-title']);?>
+				<?= sprintf(___('Your post "%s" has been deleted.'),$history['post-title']);?>
 			</span>
 			
 			<?php self::the_history_time($history);?>
@@ -470,11 +470,11 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<span class="point-name"><?= self::get_point_name();?></span>
 			<?php self::the_point_sign(self::get_point_value('signup'));?>
 			
 			<span class="history-text">
-				<?php echo sprintf(___('You registered %s.'),'<a href="' . home_url() . '">' . get_bloginfo('name') . '</a>');?>
+				<?= sprintf(___('You registered %s.'),'<a href="' . home_url() . '">' . get_bloginfo('name') . '</a>');?>
 			</span>
 			
 			<?php self::the_history_time($history);?>
@@ -486,7 +486,7 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<span class="point-name"><?= self::get_point_name();?></span>
 			<?php self::the_point_sign(self::get_point_value('comment-publish'));?>
 			
 			<span class="history-text">
@@ -512,7 +512,7 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<span class="point-name"><?= self::get_point_name();?></span>
 			<?php self::the_point_sign(self::get_point_value('post-publish'));?>
 			
 			<span class="history-text">
@@ -535,7 +535,7 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<span class="point-name"><?= self::get_point_name();?></span>
 			<?php self::the_point_sign(self::get_point_value('post-reply'));?>
 			
 			<span class="history-text">
@@ -568,11 +568,11 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?php echo self::get_point_name();?></span>
+			<span class="point-name"><?= self::get_point_name();?></span>
 			<?php self::the_point_sign(self::get_point_value('signin-daily'));?>
 			
 			<span class="history-text">
-				<?php echo ___('Log-in daily reward.');?>
+				<?= ___('Log-in daily reward.');?>
 			</span>
 			
 			<?php self::the_history_time($history);?>
@@ -592,7 +592,7 @@ class theme_custom_point{
 			$class = 'minus';
 		}
 		?>
-		<span class="point-value <?php echo $class;?>"><?php echo $points;?></span>
+		<span class="point-value <?= $class;?>"><?= $points;?></span>
 		<?php
 	}
 	public static function get_history_list(array $args = []){
@@ -955,10 +955,10 @@ class theme_custom_point{
 	}
 	public static function backend_seajs_use(){
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?php echo ___('Server error or network is disconnected.');?>';
+		seajs.use('<?= self::$iden;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.E00001 = '<?= ___('Server error or network is disconnected.');?>';
 			m.init();
 		});
 		<?php

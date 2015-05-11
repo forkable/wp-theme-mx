@@ -51,22 +51,22 @@ class theme_page_cats{
 		$opt = self::get_options();
 		?>
 		<fieldset>
-			<legend><?php echo ___('Categories index settings');?></legend>
-			<p class="description"><?php echo ___('Display posts number or alphabet slug index on categories index page.')?></p>
+			<legend><?= ___('Categories index settings');?></legend>
+			<p class="description"><?= ___('Display posts number or alphabet slug index on categories index page.')?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th><?php echo ___('Index Categories');?></th>
+						<th><?= ___('Index Categories');?></th>
 						<td>
-							<?php echo theme_features::cat_checkbox_list(self::$iden,'cats');?>
+							<?= theme_features::cat_checkbox_list(self::$iden,'cats');?>
 						</td>
 					</tr>
 					<tr>
-						<th><?php echo ___('Control');?></th>
+						<th><?= ___('Control');?></th>
 						<td>
-							<div id="<?php echo self::$iden;?>-tip-clean-cache"></div>
+							<div id="<?= self::$iden;?>-tip-clean-cache"></div>
 							<p>
-							<a href="javascript:;" class="button" id="<?php echo self::$iden;?>-clean-cache" data-tip-target="<?php echo self::$iden;?>-tip-clean-cache"><i class="fa fa-refresh"></i> <?php echo ___('Flush cache');?></a>
+							<a href="javascript:;" class="button" id="<?= self::$iden;?>-clean-cache" data-tip-target="<?= self::$iden;?>-tip-clean-cache"><i class="fa fa-refresh"></i> <?= ___('Flush cache');?></a>
 							</p>
 						</td>
 					</tr>
@@ -156,7 +156,7 @@ class theme_page_cats{
 		ob_start();
 		$slugs = self::get_slugs();
 		if(is_null_array($slugs)){
-			?><div class="page-tip"><?php echo status_tip('info',___('No cagtegory yet.'));?></div><?php
+			?><div class="page-tip"><?= status_tip('info',___('No cagtegory yet.'));?></div><?php
 			return false;
 		}
 		global $post;
@@ -166,8 +166,8 @@ class theme_page_cats{
 		?>
 			<div class="panel-tags-index panel panel-primary">
 				<div class="panel-heading">
-					<strong><?php echo $k;?></strong>
-					<small> - <?php echo ___('Initial');?></small>
+					<strong><?= $k;?></strong>
+					<small> - <?= ___('Initial');?></small>
 				</div>
 				<div class="panel-body">
 					<ul class="row post-img-lists">
@@ -202,9 +202,9 @@ class theme_page_cats{
 	}
 	public static function backend_seajs_use(){
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>';
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
+		seajs.use('<?= self::$iden;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
 			m.init();
 		});
 		<?php

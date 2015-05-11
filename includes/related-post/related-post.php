@@ -27,22 +27,22 @@ class theme_related_post{
 		
 		$options = theme_options::get_options();
 		?>
-		<h3><?php echo ___('Related Post Settings');?></h3>
-		<p class="description"><?php echo ___('The related posts will be displayed below the post content and some settings in here.');?></p>
+		<h3><?= ___('Related Post Settings');?></h3>
+		<p class="description"><?= ___('The related posts will be displayed below the post content and some settings in here.');?></p>
 		<table class="form-table">
 			<tbody>
 				<tr>
-					<th scope="row"><label for="related_post_title"><?php echo ___('Related post title:');?></label></th>
+					<th scope="row"><label for="related_post_title"><?= ___('Related post title:');?></label></th>
 					<td>
-						<input id="related_post_title" name="related_post_title" type="text" class="regular-text" value="<?php echo $options['related_post_title'];?>" title="<?php echo ___('Related post title');?>" />
-						<span class="description"><?php echo ___('For example: Maybe you will like them');?></span>
+						<input id="related_post_title" name="related_post_title" type="text" class="regular-text" value="<?= $options['related_post_title'];?>" title="<?= ___('Related post title');?>" />
+						<span class="description"><?= ___('For example: Maybe you will like them');?></span>
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><label for="related_post_num"><?php echo ___('How many posts to show:');?></label></th>
+					<th scope="row"><label for="related_post_num"><?= ___('How many posts to show:');?></label></th>
 					<td>
-						<input id="related_post_num" name="related_post_num" type="number" class="regular-text" value="<?php echo $options['related_post_num'];?>" title="<?php echo ___('Related post number');?>" />
-						<span class="description"><?php echo ___('For example: 10');?></span>
+						<input id="related_post_num" name="related_post_num" type="number" class="regular-text" value="<?= $options['related_post_num'];?>" title="<?= ___('Related post number');?>" />
+						<span class="description"><?= ___('For example: 10');?></span>
 					</td>
 				</tr>
 			</tbody>

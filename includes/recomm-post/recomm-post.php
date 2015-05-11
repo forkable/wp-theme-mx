@@ -55,9 +55,9 @@ class theme_recommended_post{
 		$checked = in_array($post->ID,$recomm_posts) ? ' checked ' : null;
 		$btn_class = $checked ? ' button-primary ' : null;
 		?>
-		<label for="recomm-set" class="button widefat <?php echo $btn_class;?>">
-			<input type="checkbox" id="recomm-set" name="<?php echo self::$iden;?>" value="1" <?php echo $checked;?> />
-			<?php echo ___('Set as recommended post');?>
+		<label for="recomm-set" class="button widefat <?= $btn_class;?>">
+			<input type="checkbox" id="recomm-set" name="<?= self::$iden;?>" value="1" <?= $checked;?> />
+			<?= ___('Set as recommended post');?>
 		</label>
 		<?php
 	}
@@ -111,21 +111,21 @@ class theme_recommended_post{
 		$recomm_posts = isset($opt['ids']) ? (array)$opt['ids'] : [];
 		?>
 		<fieldset>
-			<legend><?php echo ___('Recommended posts');?></legend>
-			<p><?php echo ___('Some feature will be use recommended posts.');?></p>
+			<legend><?= ___('Recommended posts');?></legend>
+			<p><?= ___('Some feature will be use recommended posts.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th><?php echo ___('Enabled');?></th>
+						<th><?= ___('Enabled');?></th>
 						<td>
-							<label for="<?php echo self::$iden;?>-enabled">
-								<input type="checkbox" name="<?php echo self::$iden;?>[enabled]" id="<?php echo self::$iden;?>-enabled" <?php echo $checked;?> value="1">
-								<?php echo ___('Enabled');?>
+							<label for="<?= self::$iden;?>-enabled">
+								<input type="checkbox" name="<?= self::$iden;?>[enabled]" id="<?= self::$iden;?>-enabled" <?= $checked;?> value="1">
+								<?= ___('Enabled');?>
 							</label>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php echo ___('Marked posts');?></th>
+						<th scope="row"><?= ___('Marked posts');?></th>
 						<td>
 							<?php
 							if(!empty($recomm_posts)){
@@ -137,9 +137,9 @@ class theme_recommended_post{
 								if($query->have_posts()){
 									foreach($query->posts as $post){
 										?>
-										<label for="recomm-post-<?php echo $post->ID;?>" class="button">
-											<input type="checkbox" id="recomm-post-<?php echo $post->ID;?>" name="<?php echo self::$iden;?>[ids][<?php echo $post->ID;?>]" value="<?php echo $post->ID;?>" checked/>
-											<?php echo esc_html(get_the_title());?>
+										<label for="recomm-post-<?= $post->ID;?>" class="button">
+											<input type="checkbox" id="recomm-post-<?= $post->ID;?>" name="<?= self::$iden;?>[ids][<?= $post->ID;?>]" value="<?= $post->ID;?>" checked/>
+											<?= esc_html(get_the_title());?>
 										</label>
 										<?php
 									}

@@ -54,13 +54,13 @@ class theme_comment_face{
 		$emoticons = (array)self::get_emoticons();
 		?>
 		<fieldset>
-			<legend><?php echo ___('Face settings');?></legend>
+			<legend><?= ___('Face settings');?></legend>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="<?php echo self::$iden;?>-emoticons"><?php echo ___('Theme comment face emoticons (one per line)');?></label></th>
+						<th scope="row"><label for="<?= self::$iden;?>-emoticons"><?= ___('Theme comment face emoticons (one per line)');?></label></th>
 						<td>
-							<textarea name="<?php echo self::$iden;?>[emoticons]" id="<?php echo self::$iden;?>-emoticons" cols="30" rows="10" class="widefat"><?php echo implode(PHP_EOL,$emoticons);?></textarea>
+							<textarea name="<?= self::$iden;?>[emoticons]" id="<?= self::$iden;?>-emoticons" cols="30" rows="10" class="widefat"><?= implode(PHP_EOL,$emoticons);?></textarea>
 						</td>
 					</tr>
 				</tbody>
@@ -101,9 +101,9 @@ class theme_comment_face{
 			theme_cache::set(self::$iden,$faces_cache);
 		}
 		?>
-		seajs.use(['<?php echo esc_js(theme_features::get_theme_includes_js(__DIR__));?>'],function(m){
-			m.config.faces_url = '<?php echo esc_js(theme_features::get_theme_images_url('modules/theme-comment-face/'));?>';
-			m.config.faces = <?php echo json_encode($faces_cache);?>;
+		seajs.use(['<?= esc_js(theme_features::get_theme_includes_js(__DIR__));?>'],function(m){
+			m.config.faces_url = '<?= esc_js(theme_features::get_theme_images_url('modules/theme-comment-face/'));?>';
+			m.config.faces = <?= json_encode($faces_cache);?>;
 			m.init();
 		});
 		<?php

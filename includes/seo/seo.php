@@ -40,22 +40,22 @@ class theme_seo_plus{
 		?>
 		<!-- SEO meta -->
 		<fieldset>
-			<legend><?php echo ___('SEO settings');?></legend>
-			<p class="description"><?php echo sprintf(___('Fill in the appropriate keywords, can improve search engine friendliness. Use different key words in English comma (%s) to separate.'),self::$keywords_split);?></p>
+			<legend><?= ___('SEO settings');?></legend>
+			<p class="description"><?= sprintf(___('Fill in the appropriate keywords, can improve search engine friendliness. Use different key words in English comma (%s) to separate.'),self::$keywords_split);?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="seo_plus_description"><?php echo ___('Site description');?></label></th>
+						<th scope="row"><label for="seo_plus_description"><?= ___('Site description');?></label></th>
 						<td>
-							<input id="seo_plus_description" name="<?php echo self::$iden;?>[description]" class="widefat" type="text" value="<?php echo esc_attr(self::get_options('description'));?>"/>
-							<p class="description"><?php echo ___('Recommend to control that less than 100 words.');?></p>
+							<input id="seo_plus_description" name="<?= self::$iden;?>[description]" class="widefat" type="text" value="<?= esc_attr(self::get_options('description'));?>"/>
+							<p class="description"><?= ___('Recommend to control that less than 100 words.');?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="seo_plus_keywords"><?php echo ___('Site keywords');?></label></th>
+						<th scope="row"><label for="seo_plus_keywords"><?= ___('Site keywords');?></label></th>
 						<td>
-							<input id="seo_plus_keywords" name="<?php echo self::$iden;?>[keywords]" class="widefat" type="text" value="<?php echo esc_attr(self::get_options('keywords'));?>"/>
-							<p class="description"><?php echo sprintf(___('For example: graphic design%s 3D design ...'),self::$keywords_split);?></p>
+							<input id="seo_plus_keywords" name="<?= self::$iden;?>[keywords]" class="widefat" type="text" value="<?= esc_attr(self::get_options('keywords'));?>"/>
+							<p class="description"><?= sprintf(___('For example: graphic design%s 3D design ...'),self::$keywords_split);?></p>
 						</td>
 					</tr>
 				</tbody>

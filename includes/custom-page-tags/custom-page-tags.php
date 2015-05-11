@@ -54,22 +54,22 @@ class theme_page_tags{
 		$opt = self::get_options();
 		?>
 		<fieldset>
-			<legend><?php echo ___('Tags index settings');?></legend>
-			<p class="description"><?php echo ___('Display posts chinese pinyin title index on tags index page.')?></p>
+			<legend><?= ___('Tags index settings');?></legend>
+			<p class="description"><?= ___('Display posts chinese pinyin title index on tags index page.')?></p>
 			<table class="form-table">
 				<tbody>
 				<tr>
-					<th><?php echo ___('Whitelist - users ');?></th>
+					<th><?= ___('Whitelist - users ');?></th>
 					<td>
-						<textarea name="<?php echo self::$iden;?>[whitelist][user-ids]" id="<?php echo self::$iden;?>-whitelist-user-ids" rows="3" class="widefat code"><?php echo isset($opt['whitelist']['user-ids']) ? esc_textarea($opt['whitelist']['user-ids']) : null;?></textarea>
-						<p class="description"><?php echo ___('User ID, multiple users separated by ,(commas). E.g. 1,2,3,4');?></p>
+						<textarea name="<?= self::$iden;?>[whitelist][user-ids]" id="<?= self::$iden;?>-whitelist-user-ids" rows="3" class="widefat code"><?= isset($opt['whitelist']['user-ids']) ? esc_textarea($opt['whitelist']['user-ids']) : null;?></textarea>
+						<p class="description"><?= ___('User ID, multiple users separated by ,(commas). E.g. 1,2,3,4');?></p>
 					</td>
 				</tr>
 				<tr>
-					<th><?php echo ___('Control');?></th>
+					<th><?= ___('Control');?></th>
 					<td>
-						<div id="<?php echo self::$iden;?>-tip-clean-cache"></div>
-						<p><a href="javascript:;" class="button" id="<?php echo self::$iden;?>-clean-cache" data-tip-target="<?php echo self::$iden;?>-tip-clean-cache"><i class="fa fa-refresh"></i> <?php echo ___('Flush cache');?></a></p>
+						<div id="<?= self::$iden;?>-tip-clean-cache"></div>
+						<p><a href="javascript:;" class="button" id="<?= self::$iden;?>-clean-cache" data-tip-target="<?= self::$iden;?>-tip-clean-cache"><i class="fa fa-refresh"></i> <?= ___('Flush cache');?></a></p>
 					</td>
 				</tr>
 				</tbody>
@@ -332,7 +332,7 @@ class theme_page_tags{
 		$tags = self::get_tags();
 		//print_r(self::$tags_to_posts);exit;
 		if(is_null_array($tags)){
-			?><div class="page-tip"><?php echo status_tip('info',___('No tag yet.'));?></div><?php
+			?><div class="page-tip"><?= status_tip('info',___('No tag yet.'));?></div><?php
 			return false;
 		}
 
@@ -340,14 +340,14 @@ class theme_page_tags{
 			?>
 			<div class="panel-tags-index panel panel-primary">
 				<div class="panel-heading">
-					<strong><?php echo $k;?></strong>
-					<small> - <?php echo ___('Pinyin initial');?></small>
+					<strong><?= $k;?></strong>
+					<small> - <?= ___('Pinyin initial');?></small>
 				</div>
 				<div class="panel-body">
 					<?php foreach($v as $tag){ ?>
-						<h3 class="tags-title"><a href="<?php echo esc_url(get_tag_link($tag->term_id));?>">
-							<?php echo self::$tags_to_posts[$tag->term_id]['name'];?>
-							<small>(<?php echo count(self::$tags_to_posts[$tag->term_id]);?>)</small>
+						<h3 class="tags-title"><a href="<?= esc_url(get_tag_link($tag->term_id));?>">
+							<?= self::$tags_to_posts[$tag->term_id]['name'];?>
+							<small>(<?= count(self::$tags_to_posts[$tag->term_id]);?>)</small>
 						</a></h3>
 						<ul class="row">
 							<?php foreach(self::$tags_to_posts[$tag->term_id]['posts'] as $k => $v){ 
@@ -357,11 +357,11 @@ class theme_page_tags{
 								<li class="col-sm-6 tag-list">
 									<a 
 										class="tag-link" 
-										href="<?php echo $v['permalink'];?>" 
-										title="<?php echo $v['title'];?>" 
+										href="<?= $v['permalink'];?>" 
+										title="<?= $v['title'];?>" 
 										target="_blank" 
-										data-thumbnail-url="<?php echo $thumbnail_url;?>"
-									><?php echo $v['title'];?></a>
+										data-thumbnail-url="<?= $thumbnail_url;?>"
+									><?= $v['title'];?></a>
 									<div class="extra-thumbnail"></div>
 								</li>
 							<?php } ?>
@@ -383,12 +383,12 @@ class theme_page_tags{
 	}
 	public static function backend_seajs_use(){
 		?>
-		seajs.use('<?php echo self::$iden;?>',function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url(array(
+		seajs.use('<?= self::$iden;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array(
 				'action'=>self::$iden,
 				'type' => 'clean-cache',
 			));?>';
-			m.config.lang.M00001 = '<?php echo ___('Loading, please wait...');?>';
+			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
 			m.init();
 		});
 		<?php
@@ -411,13 +411,13 @@ class theme_page_tags{
 			return false;
 
 		?>
-		seajs.use(['<?php echo self::$iden;?>'],function(m){
-			m.config.process_url = '<?php echo theme_features::get_process_url([
+		seajs.use(['<?= self::$iden;?>'],function(m){
+			m.config.process_url = '<?= theme_features::get_process_url([
 				'action' => self::$iden,
 				'type' => 'get-thumbnail-url',
 			]);?>';
-			m.config.lang.M00001 = '<?php echo ___('Preview image is loading...');?>';
-			m.config.lang.E00001 = '<?php echo ___('ERROR: can not load the preview image.');?>';
+			m.config.lang.M00001 = '<?= ___('Preview image is loading...');?>';
+			m.config.lang.E00001 = '<?= ___('ERROR: can not load the preview image.');?>';
 			m.init();
 		});
 		<?php

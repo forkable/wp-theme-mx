@@ -28,8 +28,8 @@ class widget_adbox extends WP_Widget{
 		extract($args);
 		echo $before_widget;
 		?>
-		<div class="adbox <?php echo $classes;?>">
-			<?php echo stripslashes($instance['code']);?>
+		<div class="adbox <?= $classes;?>">
+			<?= stripslashes($instance['code']);?>
 		</div>
 		<?php
 		echo $after_widget;
@@ -42,26 +42,26 @@ class widget_adbox extends WP_Widget{
 		],$instance);
 		?>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('type'));?>"><?php echo ___('Type');?></label>
+			<label for="<?= esc_attr(self::get_field_id('type'));?>"><?= ___('Type');?></label>
 			<select 
-				name="<?php echo esc_attr(self::get_field_name('type'));?>" 
+				name="<?= esc_attr(self::get_field_name('type'));?>" 
 				class="widefat"
-				id="<?php echo esc_attr(self::get_field_id('type'));?>"
+				id="<?= esc_attr(self::get_field_id('type'));?>"
 			>
-				<?php echo get_option_list('all',___('All'),$instance['type']);?>
-				<?php echo get_option_list('desktop',___('Desktop'),$instance['type']);?>
-				<?php echo get_option_list('mobile',___('Mobile'),$instance['type']);?>
+				<?= get_option_list('all',___('All'),$instance['type']);?>
+				<?= get_option_list('desktop',___('Desktop'),$instance['type']);?>
+				<?= get_option_list('mobile',___('Mobile'),$instance['type']);?>
 			</select>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('code'));?>"><?php echo ___('Code');?></label>
+			<label for="<?= esc_attr(self::get_field_id('code'));?>"><?= ___('Code');?></label>
 			<textarea 
-				name="<?php echo esc_attr(self::get_field_name('code'));?>" 
-				id="<?php echo esc_attr(self::get_field_id('code'));?>" 
+				name="<?= esc_attr(self::get_field_name('code'));?>" 
+				id="<?= esc_attr(self::get_field_id('code'));?>" 
 				cols="30" 
 				rows="10" 
 				class="widefat"
-			><?php echo stripslashes($instance['code']);?></textarea>
+			><?= stripslashes($instance['code']);?></textarea>
 			
 		</p>
 		<?php

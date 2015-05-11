@@ -46,20 +46,20 @@ class maintenance_mode{
 		?>
 		<!-- maintenance_mode -->
 		<fieldset>
-			<legend><?php echo ___('Maintenance Mode');?></legend>
-			<p class="description"><?php echo esc_html(___('If your site needs to test privately, maybe fill a URL in the redirect area that the the visitors will see the redirect page but yourself, otherwise left blank.'));?></p>
-			<p class="description"><strong><?php echo ___('Attention: if theme has frontend log-in page, please DO NOT use maintenance mode, or you can not log-in to background.');?></strong></p>
+			<legend><?= ___('Maintenance Mode');?></legend>
+			<p class="description"><?= esc_html(___('If your site needs to test privately, maybe fill a URL in the redirect area that the the visitors will see the redirect page but yourself, otherwise left blank.'));?></p>
+			<p class="description"><strong><?= ___('Attention: if theme has frontend log-in page, please DO NOT use maintenance mode, or you can not log-in to background.');?></strong></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="<?php echo self::$iden;?>-url"><?php echo ___('Redirect URL (include http://):');?></label></th>
+						<th scope="row"><label for="<?= self::$iden;?>-url"><?= ___('Redirect URL (include http://):');?></label></th>
 						<td>
-							<input type="url" id="<?php echo self::$iden;?>-url" name="<?php echo self::$iden;?>[url]" class="widefat" value="<?php echo $url;?>"/>
+							<input type="url" id="<?= self::$iden;?>-url" name="<?= self::$iden;?>[url]" class="widefat" value="<?= $url;?>"/>
 							
 							<p class="description">
-								<?php echo ___('Optional template URL: ');?>
+								<?= ___('Optional template URL: ');?>
 							
-								<input type="url" class="widfat text-select" value="<?php echo theme_features::get_process_url(array('action'=>self::$iden));?>" readonly />
+								<input type="url" class="widfat text-select" value="<?= theme_features::get_process_url(array('action'=>self::$iden));?>" readonly />
 							</p>
 						</td>
 					</tr>

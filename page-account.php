@@ -13,13 +13,13 @@ if(!$active_tab)
 			<div class="navbar navbar-default" role="navigation">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".account-navbar-collapse">
-						<span class="sr-only"><?php echo ___('Account menu');?></span>
+						<span class="sr-only"><?= ___('Account menu');?></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
 					<span class="navbar-brand">
-						<?php echo ___('Account menu');?> 
+						<?= ___('Account menu');?> 
 						<span class="hidden-xs"><i class="fa fa-caret-down"></i></span>
 					</span>
 				</div>
@@ -32,7 +32,7 @@ if(!$active_tab)
 							foreach($account_navs as $k => $v){
 								$active_class = $k === $active_tab ? ' active ' : null;
 								?>
-								<li class="<?php echo $active_class;?>"><?php echo $v;?></li>
+								<li class="<?= $active_class;?>"><?= $v;?></li>
 								<?php
 							}
 						}

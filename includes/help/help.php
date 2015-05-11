@@ -27,61 +27,61 @@ class theme_help{
 		$theme_meta = isset($theme_meta_origin['oem']) ? $theme_meta_origin['oem'] : $theme_meta_origin;
 		?>
 <fieldset>
-	<legend><?php echo ___('Theme Information');?></legend>
+	<legend><?= ___('Theme Information');?></legend>
 	<table class="form-table">
 		<tbody>
 			<tr>
-				<th scope="row"><?php echo ___('Theme name');?></th>
-				<td><?php echo $theme_meta['name'];?></td>
+				<th scope="row"><?= ___('Theme name');?></th>
+				<td><?= $theme_meta['name'];?></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php echo ___('Theme version');?></th>
-				<td><?php echo $theme_data->display('Version');?></td>
+				<th scope="row"><?= ___('Theme version');?></th>
+				<td><?= $theme_data->display('Version');?></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php echo ___('Theme edition');?></th>
-				<td><?php echo $theme_meta_origin['edition'];?></td>
+				<th scope="row"><?= ___('Theme edition');?></th>
+				<td><?= $theme_meta_origin['edition'];?></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php echo ___('Theme description');?></th>
-				<td><p><?php echo $theme_meta['des'];?></p></td>
+				<th scope="row"><?= ___('Theme description');?></th>
+				<td><p><?= $theme_meta['des'];?></p></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php echo ___('Theme URI');?></th>
-				<td><a href="<?php echo esc_url($theme_meta['theme_url'])?>" target="_blank"><?php echo esc_url($theme_meta['theme_url'])?></a></td>
+				<th scope="row"><?= ___('Theme URI');?></th>
+				<td><a href="<?= esc_url($theme_meta['theme_url'])?>" target="_blank"><?= esc_url($theme_meta['theme_url'])?></a></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php echo ___('Theme author');?></th>
-				<td><?php echo esc_html($theme_meta['author'])?></td>
+				<th scope="row"><?= ___('Theme author');?></th>
+				<td><?= esc_html($theme_meta['author'])?></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php echo ___('Author site');?></th>
-				<td><a href="<?php echo esc_url($theme_meta['author_url'])?>" target="_blank"><?php echo esc_url($theme_meta['author_url'])?></a></td>
+				<th scope="row"><?= ___('Author site');?></th>
+				<td><a href="<?= esc_url($theme_meta['author_url'])?>" target="_blank"><?= esc_url($theme_meta['author_url'])?></a></td>
 			</tr>
 			<tr>
-				<th scope="row"><?php echo esc_html(___('Feedback and technical support'));?></th>
+				<th scope="row"><?= esc_html(___('Feedback and technical support'));?></th>
 				<td>
 				
 					<?php if(isset($theme_meta['email'])){ ?>
-						<p><?php echo esc_html(___('E-Mail'));?> <a href="mailto:<?php echo $theme_meta['email'];?>"><?php echo esc_html($theme_meta['email']);?></a></p>
+						<p><?= esc_html(___('E-Mail'));?> <a href="mailto:<?= $theme_meta['email'];?>"><?= esc_html($theme_meta['email']);?></a></p>
 					<?php } ?>
 					
 					<?php if(isset($theme_meta['qq'])){ ?>
-						<p><?php echo esc_html(___('QQ'));?>
+						<p><?= esc_html(___('QQ'));?>
 							<?php if(isset($theme_meta['qq']['link'])){ ?>
-								<a target="_blank" href="<?php echo esc_url($theme_meta['qq']['link']);?>"><?php echo $theme_meta['qq']['number'];?></a>
+								<a target="_blank" href="<?= esc_url($theme_meta['qq']['link']);?>"><?= $theme_meta['qq']['number'];?></a>
 							<?php }else{ ?>
-								<?php echo $theme_meta['qq']['number'];?>
+								<?= $theme_meta['qq']['number'];?>
 							<?php } ?>
 						</p>
 					<?php } ?>
 					
 					<?php if(isset($theme_meta['qq_group'])){ ?>
-						<p><?php echo esc_html(___('QQ group'));?>
+						<p><?= esc_html(___('QQ group'));?>
 							<?php if(isset($theme_meta['qq_group']['link'])){ ?>
-								<a target="_blank" href="<?php echo esc_url($theme_meta['qq_group']['link']);?>"><?php echo $theme_meta['qq_group']['number'];?></a>
+								<a target="_blank" href="<?= esc_url($theme_meta['qq_group']['link']);?>"><?= $theme_meta['qq_group']['number'];?></a>
 							<?php }else{ ?>
-								<?php echo $theme_meta['qq_group']['number'];?>
+								<?= $theme_meta['qq_group']['number'];?>
 							<?php } ?>
 						</p>
 					<?php } ?>
@@ -89,22 +89,22 @@ class theme_help{
 			</tr>
 			<?php if(!$is_oem){ ?>
 				<tr>
-					<th scope="row"><?php echo ___('Donate');?></th>
+					<th scope="row"><?= ___('Donate');?></th>
 					<td>
 						<p>
-							<a id="paypal_donate" href="javascript:;" title="<?php echo ___('Donation by Paypal');?>">
-								<img src="http://ww2.sinaimg.cn/large/686ee05djw1ella1kv74cj202o011wea.jpg" alt="<?php echo ___('Donation by Paypal');?>" width="96" height="37"/>
+							<a id="paypal_donate" href="javascript:;" title="<?= ___('Donation by Paypal');?>">
+								<img src="http://ww2.sinaimg.cn/large/686ee05djw1ella1kv74cj202o011wea.jpg" alt="<?= ___('Donation by Paypal');?>" width="96" height="37"/>
 							</a>
-							<a id="alipay_donate" target="_blank" href="http://ww3.sinaimg.cn/large/686ee05djw1eihtkzlg6mj216y16ydll.jpg" title="<?php echo ___('Donation by Alipay');?>">
-								<img width="96" height="37" src="http://ww1.sinaimg.cn/large/686ee05djw1ellabpq9euj202o011dfm.jpg" alt="<?php echo ___('Donation by Alipay');?>"/>
+							<a id="alipay_donate" target="_blank" href="http://ww3.sinaimg.cn/large/686ee05djw1eihtkzlg6mj216y16ydll.jpg" title="<?= ___('Donation by Alipay');?>">
+								<img width="96" height="37" src="http://ww1.sinaimg.cn/large/686ee05djw1ellabpq9euj202o011dfm.jpg" alt="<?= ___('Donation by Alipay');?>"/>
 							</a>
 						</p>
 					</td>
 				</tr>
 			<?php }else{ ?>
 			<tr>
-				<th scope="row"><?php echo ___('Theme core');?></th>
-				<td><a href="<?php echo esc_url($theme_meta['core']['url'])?>" target="_blank"><?php echo esc_html($theme_meta['core']['name'])?></a></td>
+				<th scope="row"><?= ___('Theme core');?></th>
+				<td><a href="<?= esc_url($theme_meta['core']['url'])?>" target="_blank"><?= esc_html($theme_meta['core']['name'])?></a></td>
 			</tr>
 			<?php } ?>
 
@@ -117,13 +117,13 @@ class theme_help{
 	public static function js(){
 		
 		?>
-		seajs.use('<?php echo theme_features::get_theme_includes_js(__DIR__);?>',function(m){
+		seajs.use('<?= theme_features::get_theme_includes_js(__DIR__);?>',function(m){
 			/** alipay */
-			m.alipay.config.lang.M00001 = '<?php echo esc_js(sprintf(___('Donate to INN STUDIO (%s)'),theme_features::get_theme_info('name')));?>';
-			m.alipay.config.lang.M00002 = '<?php echo esc_js(___('Message for INN STUDIO:'));?>';
+			m.alipay.config.lang.M00001 = '<?= esc_js(sprintf(___('Donate to INN STUDIO (%s)'),theme_features::get_theme_info('name')));?>';
+			m.alipay.config.lang.M00002 = '<?= esc_js(___('Message for INN STUDIO:'));?>';
 			
 			/** paypal */
-			m.paypal.config.lang.M00001 = '<?php echo esc_js(sprintf(___('Donate to INN STUDIO (%s)'),theme_features::get_theme_info('name')));?>';
+			m.paypal.config.lang.M00001 = '<?= esc_js(sprintf(___('Donate to INN STUDIO (%s)'),theme_features::get_theme_info('name')));?>';
 			
 
 			m.init();

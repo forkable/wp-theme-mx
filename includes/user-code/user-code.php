@@ -27,22 +27,22 @@ class theme_user_code{
 		$opt = self::get_options();
 		?>
 		<fieldset>
-			<legend><?php echo ___('User custom code settings');?></legend>
-			<p class="description"><?php echo ___('You can write some HTML code for your frontend page. Including javascript or css code.');?></p>
+			<legend><?= ___('User custom code settings');?></legend>
+			<p class="description"><?= ___('You can write some HTML code for your frontend page. Including javascript or css code.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-header"><?php echo ___('Header code');?></label></th>
+						<th><label for="<?= self::$iden;?>-header"><?= ___('Header code');?></label></th>
 						<td>
-							<textarea name="<?php echo self::$iden;?>[header]" id="<?php echo self::$iden;?>-header" class="widefat code" rows="10"><?php echo isset($opt['header']) ? stripslashes($opt['header']) : null;?></textarea>
-							<p class="description"><?php echo esc_html(___('This code will be put between <header> and </header>.'));?></p>
+							<textarea name="<?= self::$iden;?>[header]" id="<?= self::$iden;?>-header" class="widefat code" rows="10"><?= isset($opt['header']) ? stripslashes($opt['header']) : null;?></textarea>
+							<p class="description"><?= esc_html(___('This code will be put between <header> and </header>.'));?></p>
 						</td>
 					</tr>
 					<tr>
-						<th><label for="<?php echo self::$iden;?>-footer"><?php echo ___('Footer code');?></label></th>
+						<th><label for="<?= self::$iden;?>-footer"><?= ___('Footer code');?></label></th>
 						<td>
-							<textarea name="<?php echo self::$iden;?>[footer]" id="<?php echo self::$iden;?>-footer" class="widefat code" rows="10"><?php echo isset($opt['footer']) ? stripslashes($opt['footer']) : null;?></textarea>
-							<p class="description"><?php echo ___('This code will be display on frontend page footer. You can put some statistics code in here.');?></p>
+							<textarea name="<?= self::$iden;?>[footer]" id="<?= self::$iden;?>-footer" class="widefat code" rows="10"><?= isset($opt['footer']) ? stripslashes($opt['footer']) : null;?></textarea>
+							<p class="description"><?= ___('This code will be display on frontend page footer. You can put some statistics code in here.');?></p>
 						</td>
 					</tr>
 				</tbody>
