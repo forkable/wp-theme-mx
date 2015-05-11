@@ -111,7 +111,7 @@ class theme_dev_mode{
 		?>
 		<fieldset>
 			<legend><?= ___('Theme options debug');?></legend>
-			<textarea class="code widefat" cols="50" rows="50" ><?php esc_textarea(print_r(theme_options::get_options()));?></textarea>
+			<textarea class="code widefat" cols="50" rows="50" readonly ><?php esc_textarea(print_r(theme_options::get_options()));?></textarea>
 		</fieldset>
 		<?php
 	}

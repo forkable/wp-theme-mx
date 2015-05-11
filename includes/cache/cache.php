@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme-cache
 Feature URI:	http://inn-studio.com
-Version:		2.1.3
+Version:		2.1.4
 Description:	theme-cache
 Author:			INN STUDIO
 Author URI:		http://inn-studio.com
@@ -22,7 +22,7 @@ class theme_cache{
 	public static function init(){
 		self::$cache_key = md5(AUTH_KEY . theme_functions::$iden);
 		
-		add_action('dev_settings',__CLASS__ . '::display_backend');
+		add_action('advanced_settings',__CLASS__ . '::display_backend');
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 		/**
 		 * When delete menu
@@ -178,6 +178,9 @@ class theme_cache{
 	 */
 	public static function process(){
 		$type = isset($_GET['type']) ? $_GET['type'] : null;
+		if(!current_user_can('manage_options'))
+			die();
+			
 		switch($type){
 			case 'flush':
 				self::cleanup();

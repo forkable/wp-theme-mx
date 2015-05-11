@@ -15,7 +15,7 @@ add_filter('theme_includes',function($fns){
 class theme_min_rebuild{
 	private static $iden = 'theme_min_rebuild';
 	public static function init(){
-		add_action('dev_settings',				__CLASS__ . '::admin',90);
+		add_action('advanced_settings',			__CLASS__ . '::admin');
 		add_action('wp_ajax_'. self::$iden,		__CLASS__ . '::process');		
 	}
 	/**

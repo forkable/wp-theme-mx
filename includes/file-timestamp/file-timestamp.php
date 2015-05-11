@@ -8,6 +8,8 @@ add_filter('theme_includes',function($fns){
 });
 class theme_file_timestamp{
 	public static $iden = 'theme_file_timestamp';
+	private static $timestamp;
+	
 	public static function init(){
 		add_action('advanced_settings' , __CLASS__ . '::display_backend');
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
@@ -24,17 +26,17 @@ class theme_file_timestamp{
 	}
 
 	public static function get_timestamp(){
-		$cache = null;
-		if($cache === null)
-			$cache = theme_options::get_options(self::$iden);
-
-		if(!$cache)
-			$cache = theme_features::get_theme_info('version');
+		if(!self::$timestamp)
+			self::$timestamp = theme_options::get_options(self::$iden);
 			
-		return $cache;
+		return self::$timestamp;
 	}
-	public static function set_timestamp($value){
-		theme_options::set_options(self::$iden,$value);
+	public static function set_timestamp($value = null){
+		if(!$value)
+			$value = $_SERVER['REQUEST_TIME'];
+
+		self::$timestamp = $value;
+		theme_options::set_options(self::$iden,self::$timestamp);
 	}
 	public static function display_backend(){
 		?>

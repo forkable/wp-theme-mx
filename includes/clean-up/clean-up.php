@@ -14,8 +14,8 @@ add_filter('theme_includes',function($fns){
 class theme_clean_up{
 	private static $iden = 'theme_clean_up';
 	public static function init(){
-		add_action('advanced_settings',		__CLASS__ . '::display_backend');
-		add_action('wp_ajax_theme_clean_up',__CLASS__ . '::process');
+		add_action('advanced_settings',		__CLASS__ . '::display_backend',20);
+		add_action('wp_ajax_' . self::$iden ,__CLASS__ . '::process');
 		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use');
 		add_action('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 	}
@@ -102,7 +102,10 @@ class theme_clean_up{
 		$output = [];
 		
 		$type = isset($_GET['type']) ? $_GET['type'] : null;
-		
+
+		if(!current_user_can('manage_options'))
+			die();
+			
 		timer_start();
 		global $wpdb;
 		switch($type){

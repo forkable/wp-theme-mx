@@ -1729,7 +1729,7 @@ class theme_features{
 		 */
 		$ov = self::get_old_theme_info('version');
 		$nv = self::get_theme_info('version');
-		if(version_compare($ov,$nv) !== 0){
+		if($ov !== $nv){
 			ini_set('max_input_nesting_level','10000');
 			ini_set('max_execution_time','300'); 
 			
@@ -1742,7 +1742,7 @@ class theme_features{
 			
 			self::set_theme_info();
 			
-			theme_file_timestamp::set_timestamp(self::get_theme_info('version'));
+			theme_file_timestamp::set_timestamp();
 			
 		}
 		
