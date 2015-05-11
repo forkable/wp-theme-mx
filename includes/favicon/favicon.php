@@ -99,7 +99,7 @@ class theme_custom_favicon{
 		echo $icons;
 	}
 	public static function process(){
-		$output = array();
+		$output = [];
 		
 		/** 
 		 * if not image

@@ -1,6 +1,6 @@
 <?php
 /** 
- * version 1.0.3
+ * version 1.0.4
  */
 
 add_action('widgets_init','widget_rank::register_widget' );
@@ -10,10 +10,10 @@ class widget_rank extends WP_Widget{
 		$this->alt_option_name = self::$iden;
 		parent::__construct(
 			self::$iden,
-			___('Posts rank <small>(Custom)</small>'),
+			___('Posts rank <small>(custom)</small>'),
 			array(
 				'classname' => self::$iden,
-				'description'=> ___('Posts rank'),
+				'description'=> ___('Posts ranking'),
 			)
 		);
 	}
@@ -87,19 +87,11 @@ class widget_rank extends WP_Widget{
 			</div>
 		<?php 
 		}
-		//wp_reset_query();
 	}
 	function widget($args,$instance){
-		// var_dump($instance);
-		extract($args);
-		/** 
-		 * theme cache
-		 */
-		// $cache_id = md5(serialize($args) .serialize($instance) . get_current_url());
-		echo $before_widget;
+		echo $args['before_widget'];
 		self::frontend_display($args,$instance);
-		echo $after_widget;
-		
+		echo $args['after_widget'];
 	}
 	
 	function form($instance = []){
@@ -112,29 +104,29 @@ class widget_rank extends WP_Widget{
 		],$instance);
 		?>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('title'));?>"><?php echo esc_html(___('Title (optional)'));?></label>
+			<label for="<?php echo esc_attr(self::get_field_id('title'));?>"><?php echo ___('Title (optional)');?></label>
 			<input 
 				id="<?php echo esc_attr(self::get_field_id('title'));?>"
 				class="widefat"
 				name="<?php echo esc_attr(self::get_field_name('title'));?>" 
 				type="text" 
 				value="<?php echo esc_attr($instance['title']);?>" 
-				placeholder="<?php echo esc_attr(___('Title (optional)'));?>"
+				placeholder="<?php echo ___('Title (optional)');?>"
 			/>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('posts_per_page'));?>"><?php echo esc_html(___('Post number (required)'));?></label>
+			<label for="<?php echo esc_attr(self::get_field_id('posts_per_page'));?>"><?php echo ___('Post number (required)');?></label>
 			<input 
 				id="<?php echo esc_attr(self::get_field_id('posts_per_page'));?>"
 				class="widefat"
 				name="<?php echo esc_attr(self::get_field_name('posts_per_page'));?>" 
 				type="number" 
 				value="<?php echo esc_attr($instance['posts_per_page']);?>" 
-				placeholder="<?php echo esc_attr(___('Post number (required)'));?>"
+				placeholder="<?php echo ___('Post number (required)');?>"
 			/>
 		</p>
 		<p>
-			<?php echo esc_html(___('Categories: '));?>
+			<?php echo ___('Categories: ');?>
 			<?php echo self::get_cat_checkbox_list(
 				self::get_field_name('category__in'),
 				self::get_field_id('category__in'),
@@ -143,7 +135,7 @@ class widget_rank extends WP_Widget{
 		</p>
 		<!-- date -->
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('date'));?>"><?php echo esc_html(___('Date'));?></label>
+			<label for="<?php echo esc_attr(self::get_field_id('date'));?>"><?php echo ___('Date');?></label>
 			<select
 				name="<?php echo esc_attr(self::get_field_name('date'));?>" 
 				class="widefat"				
@@ -158,7 +150,7 @@ class widget_rank extends WP_Widget{
 			</select>
 		</p>
 		<p>
-			<label for="<?php echo esc_attr(self::get_field_id('content_type'));?>"><?php echo esc_html(___('Content type'));?></label>
+			<label for="<?php echo esc_attr(self::get_field_id('content_type'));?>"><?php echo ___('Content type');?></label>
 			<select 
 				name="<?php echo esc_attr(self::get_field_name('content_type'));?>" 
 				class="widefat"
@@ -178,7 +170,7 @@ class widget_rank extends WP_Widget{
 		</p>
 		<p>
 			<label for="<?php echo esc_attr(self::get_field_id('orderby'));?>">
-				<?php echo esc_html(___('Order by'));?>
+				<?php echo ___('Order by');?>
 			</label>
 			<select 
 				name="<?php echo esc_attr(self::get_field_name('orderby'));?>" 
@@ -262,16 +254,14 @@ class widget_rank extends WP_Widget{
 			<?php 
 			}
 		}else{ ?>
-			<p><?php echo esc_html(___('No category, pleass go to add some categories.'));?></p>
+			<p><?php echo ___('No category, pleass go to add some categories.');?></p>
 		<?php }
 		$content = ob_get_contents();
 		ob_end_clean();
 		return $content;
 	}
 	function update($new_instance,$old_instance){
-		$instance = array_merge($old_instance,$new_instance);
-		
-		return $instance;
+		return array_merge($old_instance,$new_instance);
 	}
 	public static function register_widget(){
 		register_widget(self::$iden);

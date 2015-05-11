@@ -172,16 +172,20 @@ class theme_custom_user_settings{
 				}
 
 				$wp_uplaod_dir = wp_upload_dir();
+
+				$current_user_id = get_current_user_id();
 				
-				$filename = get_current_user_id() . '.jpg';
+				$filename = $current_user_id . '.jpg';
 
 				$filesub_url = '/avatar/' . $filename;
+
+				$timestamp = '?v=' . $_SERVER['REQUEST_TIME'];
 				
 				mk_dir($wp_uplaod_dir['basedir'] . '/avatar');
 				
 				$filepath = $wp_uplaod_dir['basedir'] . $filesub_url;
 								
-				$fileurl = $wp_uplaod_dir['baseurl'] . $filesub_url;
+				$fileurl = $wp_uplaod_dir['baseurl'] . $filesub_url . $timestamp;
 				
 				$file_contents = file_put_contents($filepath,base64_decode($base64[1]));
 				
@@ -196,7 +200,7 @@ class theme_custom_user_settings{
 					 */
 					$avatar_meta_key = class_exists('theme_custom_avatar') ? theme_custom_avatar::$user_meta_key['avatar'] : 'avatar';
 					
-					update_user_meta(get_current_user_id(),$avatar_meta_key,$filesub_url);
+					update_user_meta($current_user_id,$avatar_meta_key,$filesub_url . $timestamp);
 					
 					$output['status'] = 'success';
 					$output['avatar-url'] = $fileurl;

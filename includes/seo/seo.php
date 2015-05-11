@@ -77,7 +77,7 @@ class theme_seo_plus{
 		 */
 		if(is_home()){
 			if(!empty(self::get_options('description'))){
-				$descriptions[] = apply_filters('meta_description_home',$opt['description']);
+				$descriptions[] = apply_filters('meta_description_home',self::get_options('description'));
 			}else{
 				$descriptions[] = apply_filters('meta_description_home',get_bloginfo('description'));
 			}

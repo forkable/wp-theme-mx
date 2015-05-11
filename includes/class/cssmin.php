@@ -67,8 +67,8 @@ class CSSmin
             $this->do_raise_php_limits();
         }
 
-        $this->comments = array();
-        $this->preserved_tokens = array();
+        $this->comments = [];
+        $this->preserved_tokens = [];
 
         $start_index = 0;
         $length = strlen($css);
@@ -100,7 +100,7 @@ class CSSmin
         // returning NULL and $css would be empty.
         $charset = '';
         $charset_regexp = '/(@charset)( [^;]+;)/i';
-        $css_chunks = array();
+        $css_chunks = [];
         $css_chunk_length = 5000; // aprox size, not exact
         $start_index = 0;
         $i = $css_chunk_length; // save initial iterations
@@ -428,7 +428,7 @@ class CSSmin
         // Leave data urls alone to increase parse performance.
         $max_index = strlen($css) - 1;
         $append_index = $index = $last_index = $offset = 0;
-        $sb = array();
+        $sb = [];
         $pattern = '/url\(\s*(["\']?)data\:/i';
 
         // Since we need to account for non-base64 data urls, we need to handle
@@ -506,7 +506,7 @@ class CSSmin
         // Look for hex colors inside { ... } (to avoid IDs) and which don't have a =, or a " in front of them (to avoid filters)
         $pattern = '/(\=\s*?["\']?)?#([0-9a-f])([0-9a-f])([0-9a-f])([0-9a-f])([0-9a-f])([0-9a-f])(\}|[^0-9a-f{][^{]*?\})/iS';
         $_index = $index = $last_index = $offset = 0;
-        $sb = array();
+        $sb = [];
         // See: http://ajaxmin.codeplex.com/wikipage?title=CSS%20Colors
         $short_safe = array(
             '#808080' => 'gray',

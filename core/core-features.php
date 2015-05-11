@@ -1333,7 +1333,7 @@ class theme_features{
 		$defaults = array(
 			'nav_class' => 'pagination-pn',
 			'add_fragment' => 'post-' . $post->ID,
-			'numbers_class' => array(),
+			'numbers_class' => [],
 			'middle_class' => '',
 		);
 		$r = array_merge($defaults,$args);
@@ -1804,7 +1804,7 @@ class theme_features{
 			'hide_empty' => false,
 			'exclude' => 1
 		));
-		$cat_ids = isset($opt[$ids_name]) ? (array)$opt[$ids_name] : array();
+		$cat_ids = isset($opt[$ids_name]) ? (array)$opt[$ids_name] : [];
 
 		ob_start();
 		

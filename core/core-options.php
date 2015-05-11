@@ -105,7 +105,7 @@ class theme_options{
 		?><script id="seajsnode" src="https://cdnjs.cloudflare.com/ajax/libs/seajs/3.0.1/sea.js"></script>
 		<script>
 		<?php
-		$config = array();
+		$config = [];
 		$config['base'] = theme_features::get_theme_js();
 		$config['paths'] = array(
 			'theme_js' => theme_features::get_theme_js(),

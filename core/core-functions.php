@@ -43,7 +43,7 @@ function get_option_list($value,$text,$current_value){
  * @author KM@INN STUDIO
  */
 function mult_search_array($key,$value,$array){ 
-	$results = array(); 
+	$results = []; 
 	if (is_array($array)){ 
 		if (isset($array[$key]) && $array[$key] == $value) 
 		$results[] = $array; 
@@ -583,7 +583,7 @@ function authcode($string, $operation = 'decode', $key = 'innstudio', $expiry = 
     $result = null;
     $box = range(0, 255);
 
-    $rndkey = array();
+    $rndkey = [];
     for($i = 0; $i <= 255; $i++) {
         $rndkey[$i] = ord($cryptkey[$i % $key_length]);
     }
