@@ -294,7 +294,6 @@ define(function(require, exports, module){
 				content = '<a class="img-link" href="' + args.full.url + '" target="_blank" title="' + config.lang.M00006 + '">' + 
 						'<img src="' + args.thumbnail.url + '" alt="' + M00010 +'" >' +
 					'</a>' +
-					'<span class="img-del" title="' + config.lang.M00003 + '">X</span>' +
 					'<div class="btn-group btn-block">' +
 						'<a href="javascript:;" class="btn btn-primary col-xs-10 ctb-insert-btn" id="ctb-insert-' + args.attach_id + '" data-size="medium"><i class="fa fa-plug"></i> ' + config.lang.M00009 + '</a>' +
 						'<span class="btn btn-primary dropdown-toggle col-xs-2" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></span><ul class="dropdown-menu" role="menu"><li><a href="javascript:;" class="ctb-insert-btn" data-size="large">' + config.lang.M00011 + '</a></li>' +
@@ -308,10 +307,10 @@ define(function(require, exports, module){
 			$tpl.innerHTML = content;
 			$tpl.style.display = 'none';
 			
-			var $del = $tpl.querySelector('.img-del');
-			$del.addEventListener('click',function(){
-				$tpl.parentNode.removeChild($tpl);
-			},false);
+			//var $del = $tpl.querySelector('.img-del');
+			//$del.addEventListener('click',function(){
+			//	$tpl.parentNode.removeChild($tpl);
+			//},false);
 			/**
 			 * set as cover
 			 */
@@ -325,10 +324,17 @@ define(function(require, exports, module){
 			var $insert_btn = $tpl.querySelectorAll('.ctb-insert-btn');
 			for(var i = 0, len = $insert_btn.length; i < len; i++){
 				$insert_btn[i].addEventListener('click',function(){
-					send_to_editor('<p><a href="' + args.full.url + '" title="' + config.lang.M00006 + '" target="_blank" >' + 
-						'<img src="' + args[this.getAttribute('data-size')].url + '" alt="' + M00010 + '" >' +
-					'</a></p>');
+					send_to_editor(send_content(args.full.url,args[this.getAttribute('data-size')].url));
 				},false);
+			}
+			/** auto send to editor */
+			send_to_editor(send_content(args.full.url,args.medium.url));
+
+			
+			function send_content(full_url,img_url){
+				return '<p><a href="' + full_url + '" title="' + config.lang.M00006 + '" target="_blank" >' + 
+					'<img src="' + img_url + '" alt="' + M00010 + '" >' +
+				'</a></p>';
 			}
 
 			return $tpl;

@@ -139,7 +139,6 @@ class theme_dev_mode{
 			 * Dev mode ON => OFF, do minify
 			 */
 			if($old_enable == 1 && !isset($_POST[self::$iden]['enabled'])){
-				
 				@ini_set('max_input_nesting_level','9999');
 				@ini_set('max_execution_time','300'); 
 				

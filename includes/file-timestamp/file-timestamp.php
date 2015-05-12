@@ -13,6 +13,7 @@ class theme_file_timestamp{
 	public static function init(){
 		add_action('advanced_settings' , __CLASS__ . '::display_backend');
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
+		add_filter('theme_options_save' , __CLASS__ . '::options_save');
 	}
 
 	public static function process(){
@@ -25,6 +26,12 @@ class theme_file_timestamp{
 		die();
 	}
 
+	public static function options_save(array $opts = []){
+		if(isset($_POST[self::$iden])){
+			$opts[self::$iden] = $_POST[self::$iden];
+		}
+		return $opts;
+	}
 	public static function get_timestamp(){
 		if(!self::$timestamp)
 			self::$timestamp = theme_options::get_options(self::$iden);
@@ -57,6 +64,8 @@ class theme_file_timestamp{
 								'action' => self::$iden
 							]));?>" class="button button-primary"><?= ___('Refresh now');?></a>
 							<span class="description"><i class="fa fa-warning"></i> <?= ___('Save your settings before click');?></span>
+
+							<input type="hidden" name="<?= self::$iden;?>" value="<?= self::get_timestamp();?>">
 						</td>
 					</tr>
 				</tbody>

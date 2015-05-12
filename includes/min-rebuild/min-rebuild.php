@@ -63,11 +63,14 @@ class theme_min_rebuild{
 		@ini_set('max_execution_time','300'); 
 		
 		remove_dir(get_stylesheet_directory() . theme_features::$basedir_js_min);
-		remove_dir(get_stylesheet_directory() . theme_features::$basedir_css_min);
-		
 		theme_features::minify_force(get_stylesheet_directory() . theme_features::$basedir_js_src);
+		
+		remove_dir(get_stylesheet_directory() . theme_features::$basedir_css_min);
 		theme_features::minify_force(get_stylesheet_directory() . theme_features::$basedir_css_src);
+		
 		theme_features::minify_force(get_stylesheet_directory() . theme_features::$basedir_includes);
+
+		theme_file_timestamp::set_timestamp();
 		
 		wp_redirect(add_query_arg(self::$iden,1,theme_options::get_url()));
 		

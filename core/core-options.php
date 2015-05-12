@@ -44,15 +44,15 @@ class theme_options{
 	 * 
 	 */
 	public static function get_options($key = null){
-		static $i = 0;
-		$i++;
-		//var_dump($i);
+
+		if(empty(self::$opts)){
 		/** Default options hook */
-		self::$opts = array_merge(
-			apply_filters('theme_options_default',[]),
-			(array)get_theme_mod(self::$iden)
-		);
-		//var_dump(self::$opts);exit;
+			self::$opts = array_merge(
+				apply_filters('theme_options_default',[]),
+				(array)get_theme_mod(self::$iden)
+			);
+		}
+
 		if($key){
 			return isset(self::$opts[$key]) ? self::$opts[$key] : null;
 		}else{

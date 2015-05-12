@@ -25,6 +25,7 @@ class theme_asset_enqueue{
 			'frontend-seajs' => [
 				'deps' => [],
 				'src' => 'https://cdnjs.cloudflare.com/ajax/libs/seajs/3.0.1/sea.js',
+				'version' => null,
 			],
 			'jquery' => [
 				'deps' => [],

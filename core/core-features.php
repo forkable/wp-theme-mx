@@ -156,20 +156,7 @@ class theme_features{
 		$caches[$cache_id] = $theme->get($key);
 		return $caches[$cache_id];
 	}
-	/**
-	 * get_old_theme_version
-	 *
-	 * @return string
-	 * @version 1.0.3
-	 * @author KM@INN STUDIO
-	 */
-	public static function get_old_theme_info($key = null){
-		$theme = get_transient(theme_functions::$iden . 'theme_info');
-		if(!$theme) return false;
-		if(!$key) return $theme;
-		$key = ucfirst($key);
-		return $theme->get($key);
-	}
+
 	/**
 	 * set_theme_version
 	 *
@@ -1720,30 +1707,26 @@ class theme_features{
 	 * auto_minify
 	 *
 	 * @return 
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 * @author KM@INN STUDIO
 	 */
 	public static function auto_minify(){
 		/** 
 		 * js and css files version
 		 */
-		$ov = self::get_old_theme_info('version');
-		$nv = self::get_theme_info('version');
-		if($ov !== $nv){
-			ini_set('max_input_nesting_level','10000');
-			ini_set('max_execution_time','300'); 
+		if(theme_file_timestamp::get_timestamp() < filemtime(theme_features::get_stylesheet_directory() . '/style.css')){
+			@ini_set('max_input_nesting_level','10000');
+			@ini_set('max_execution_time','300'); 
 			
 			remove_dir(self::get_stylesheet_directory() . self::$basedir_js_min);
-			remove_dir(self::get_stylesheet_directory() . self::$basedir_css_min);
-
 			self::minify_force(self::get_stylesheet_directory() . self::$basedir_js_src);
+			
+			remove_dir(self::get_stylesheet_directory() . self::$basedir_css_min);
 			self::minify_force(self::get_stylesheet_directory() . self::$basedir_css_src);
+			
 			self::minify_force(self::get_stylesheet_directory() . self::$basedir_includes);
 			
-			self::set_theme_info();
-			
 			theme_file_timestamp::set_timestamp();
-			
 		}
 		
 	}
