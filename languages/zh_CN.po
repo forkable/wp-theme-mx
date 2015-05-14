@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-11 18:54+0800\n"
-"PO-Revision-Date: 2015-05-11 18:58+0800\n"
+"POT-Creation-Date: 2015-05-13 09:46+0800\n"
+"PO-Revision-Date: 2015-05-13 09:49+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -26,10 +26,10 @@ msgstr "评论"
 msgid "Respond"
 msgstr "添加评论"
 
-#: comments.php:34 core/core-options.php:173 functions.php:1766
+#: comments.php:34 core/core-options.php:176 functions.php:1766
 #: includes/_post-thumb/post-thumb.php:245
 #: includes/_quick-comment/quick-comment.php:342
-#: includes/clean-up/clean-up.php:224
+#: includes/clean-up/clean-up.php:227
 #: includes/comment-ajax/comment-ajax.php:452
 #: includes/custom-contribution/custom-contribution.php:370
 #: includes/custom-follow/custom-follow.php:140
@@ -47,46 +47,46 @@ msgstr "添加评论"
 msgid "Loading, please wait..."
 msgstr "加载中，请稍候…"
 
-#: core/core-features.php:773
+#: core/core-features.php:760
 msgid "Sorry, referer is invalid."
 msgstr "抱歉，无效的来路。"
 
-#: core/core-features.php:798
+#: core/core-features.php:785
 msgid "Sorry, security code is invalid."
 msgstr "抱歉，无效的安全码。"
 
-#: core/core-features.php:1370 core/core-features.php:1436
+#: core/core-features.php:1357 core/core-features.php:1423
 msgid "&lsaquo; Previous"
 msgstr "&lsaquo;  上一页"
 
-#: core/core-features.php:1405 core/core-features.php:1437
+#: core/core-features.php:1392 core/core-features.php:1424
 msgid "Next &rsaquo;"
 msgstr "下一页 &rsaquo;"
 
-#: core/core-features.php:1435
+#: core/core-features.php:1422
 msgid "&laquo; First"
 msgstr "&laquo; 首页"
 
-#: core/core-features.php:1438
+#: core/core-features.php:1425
 msgid "Last &raquo;"
 msgstr "尾页 &raquo;"
 
-#: core/core-features.php:1776
+#: core/core-features.php:1759
 #: includes/widget-category-post/widget-category-post.php:131
 msgid "Select category"
 msgstr "选择目录"
 
-#: core/core-features.php:1833
+#: core/core-features.php:1816
 #, php-format
 msgid "(%s)"
 msgstr "（%s）"
 
-#: core/core-features.php:1840 includes/custom-slidebox/custom-slidebox.php:65
+#: core/core-features.php:1823 includes/custom-slidebox/custom-slidebox.php:65
 #: includes/widget-rank/widget-rank.php:257
 msgid "No category, pleass go to add some categories."
 msgstr "暂无分类目录，请去添加一些分类。"
 
-#: core/core-features.php:1869
+#: core/core-features.php:1852
 msgid "Select page"
 msgstr "选择页面"
 
@@ -134,62 +134,62 @@ msgstr "m月d日"
 msgid "M j, Y"
 msgstr "Y年m月d日"
 
-#: core/core-options.php:143
+#: core/core-options.php:146
 msgid "theme settings"
 msgstr "主题设置"
 
-#: core/core-options.php:166
+#: core/core-options.php:169
 msgid "Settings have been saved."
 msgstr "设置已保存。"
 
-#: core/core-options.php:177
+#: core/core-options.php:180
 msgid "Theme common settings."
 msgstr "主题通用的设置。"
 
-#: core/core-options.php:179
+#: core/core-options.php:182
 msgid "Basic Settings"
 msgstr "基本设置"
 
-#: core/core-options.php:187
+#: core/core-options.php:190
 msgid "Theme appearance/template settings."
 msgstr "主题的外观/模板设置。"
 
-#: core/core-options.php:189
+#: core/core-options.php:192
 msgid "Page Settings"
 msgstr "页面设置"
 
-#: core/core-options.php:197
+#: core/core-options.php:200
 msgid "Theme special settings, you need to know what are you doing."
 msgstr "主题独有的设置，您需要知道自己正在做什么。"
 
-#: core/core-options.php:199
+#: core/core-options.php:202
 msgid "Advanced Settings"
 msgstr "高级设置"
 
-#: core/core-options.php:209
+#: core/core-options.php:212
 msgid "Developer Mode"
 msgstr "开发者模式"
 
-#: core/core-options.php:218
+#: core/core-options.php:221
 msgid "About &amp; Help"
 msgstr "关于 &amp; 帮助"
 
-#: core/core-options.php:229
+#: core/core-options.php:232
 msgid "Save all settings"
 msgstr "保存所有设置"
 
-#: core/core-options.php:231
+#: core/core-options.php:234
 msgid ""
 "Something error with theme? Try to restore. Be careful, theme options will "
 "be cleared up!"
 msgstr "主题发生了错误？试试还原数据。注意，主题选项将会被清空！"
 
-#: core/core-options.php:233
+#: core/core-options.php:236
 msgid "Restore to theme default options"
 msgstr "还原主题选项"
 
-#: core/core-options.php:325 core/core-options.php:326
-#: core/core-options.php:349
+#: core/core-options.php:328 core/core-options.php:329
+#: core/core-options.php:352
 msgid "Theme settings"
 msgstr "主题设置"
 
@@ -202,14 +202,23 @@ msgstr "请放一些小工具到底部栏目"
 msgid "&copy; %s %s."
 msgstr ""
 
-#: footer.php:20
+#: footer.php:21
 #, php-format
 msgid "Theme %s by %s."
 msgstr "Theme %s by %s."
 
-#: footer.php:20 functions.php:38
+#: footer.php:21
+msgid "Top WordPress developer"
+msgstr ""
+
+#: footer.php:21 functions.php:38
 msgid "INN STUDIO"
 msgstr "INN STUDIO"
+
+#: footer.php:23
+#, php-format
+msgid "CDN by %s"
+msgstr ""
 
 #: functions.php:35
 msgid "MX"
@@ -627,7 +636,7 @@ msgstr "我不喜欢"
 
 #: includes/_post-thumb/post-thumb.php:246
 #: includes/_quick-comment/quick-comment.php:353
-#: includes/clean-up/clean-up.php:225
+#: includes/clean-up/clean-up.php:228
 #: includes/custom-point/custom-point.php:961
 #: includes/custom-slidebox/custom-slidebox.php:343
 #: includes/favicon/favicon.php:199 includes/quick-sign/quick-sign.php:398
@@ -858,7 +867,7 @@ msgstr "点击之前保存设置。"
 #: includes/custom-page-tags/custom-page-tags.php:69
 #: includes/custom-point/custom-point.php:141
 #: includes/custom-slidebox/custom-slidebox.php:223
-#: includes/file-timestamp/file-timestamp.php:47
+#: includes/file-timestamp/file-timestamp.php:56
 #: includes/min-rebuild/min-rebuild.php:37
 msgid "Control"
 msgstr "操作"
@@ -950,11 +959,11 @@ msgstr "立即优化"
 msgid "Optimizate Now"
 msgstr "立即优化"
 
-#: includes/clean-up/clean-up.php:202
+#: includes/clean-up/clean-up.php:205
 msgid "No param"
 msgstr "无参数"
 
-#: includes/clean-up/clean-up.php:212
+#: includes/clean-up/clean-up.php:215
 #, php-format
 msgid "Database updated in %s s."
 msgstr "数据库已在 %s 秒内更新。"
@@ -2087,32 +2096,32 @@ msgstr "在前台从 F12 控制台中显示数据库查询明细。"
 msgid "Theme options debug"
 msgstr "主题选项调试"
 
-#: includes/dev-mode/dev-mode.php:176 tpl-author-profile.php:42
+#: includes/dev-mode/dev-mode.php:175 tpl-author-profile.php:42
 #: tpl-page-account-settings.php:64
 msgid "Description"
 msgstr "描述"
 
-#: includes/dev-mode/dev-mode.php:177
+#: includes/dev-mode/dev-mode.php:176
 msgid "Time (second)"
 msgstr "时间（秒）"
 
-#: includes/dev-mode/dev-mode.php:178
+#: includes/dev-mode/dev-mode.php:177
 msgid "Query"
 msgstr "查询数"
 
-#: includes/dev-mode/dev-mode.php:179
+#: includes/dev-mode/dev-mode.php:178
 msgid "Memory (MB)"
 msgstr "内存（兆）"
 
-#: includes/dev-mode/dev-mode.php:186
+#: includes/dev-mode/dev-mode.php:185
 msgid "Theme Performance"
 msgstr "主题性能"
 
-#: includes/dev-mode/dev-mode.php:195
+#: includes/dev-mode/dev-mode.php:194
 msgid "Basic Performance"
 msgstr "基本性能"
 
-#: includes/dev-mode/dev-mode.php:204
+#: includes/dev-mode/dev-mode.php:203
 msgid "Final Performance"
 msgstr "最终性能"
 
@@ -2135,15 +2144,15 @@ msgstr "图片 URL"
 msgid "Image URL (include http://)"
 msgstr "图片 URL（包括 http://）"
 
-#: includes/file-timestamp/file-timestamp.php:18
+#: includes/file-timestamp/file-timestamp.php:21
 msgid "You have not permission."
 msgstr "你有没有权限。"
 
-#: includes/file-timestamp/file-timestamp.php:42
+#: includes/file-timestamp/file-timestamp.php:51
 msgid "File timestamp"
 msgstr "文件时间戳"
 
-#: includes/file-timestamp/file-timestamp.php:43
+#: includes/file-timestamp/file-timestamp.php:52
 msgid ""
 "All theme js, css and images static files are output with timestamp, you can "
 "refresh these files after theme updates or when you want."
@@ -2151,15 +2160,15 @@ msgstr ""
 "所有主题JS、CSS和图像等静态文件输出时候会带上时间戳，在主题更新后它们将会自动"
 "被刷新，或者在您需要的时候可以手动刷新。"
 
-#: includes/file-timestamp/file-timestamp.php:51
+#: includes/file-timestamp/file-timestamp.php:60
 msgid "The file timestamp has been refresh."
 msgstr "文件时间戳已被成功刷新。"
 
-#: includes/file-timestamp/file-timestamp.php:56
+#: includes/file-timestamp/file-timestamp.php:65
 msgid "Refresh now"
 msgstr "立即刷新"
 
-#: includes/file-timestamp/file-timestamp.php:57
+#: includes/file-timestamp/file-timestamp.php:66
 msgid "Save your settings before click"
 msgstr "点击前请保存您的设置。"
 

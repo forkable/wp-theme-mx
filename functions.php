@@ -1367,8 +1367,7 @@ class theme_functions{
 			'lazy' => true,
 		);
 		$args = array_merge($defaults,$args);
-		// extract($r,EXTR_SKIP);
-		// var_dump($args);
+
 		switch ( $comment->comment_type ){
 			default :
 				$classes = array('media');
@@ -1386,8 +1385,8 @@ class theme_functions{
 					$author_nofollow = null;
 				}
 				?>
-<li <?php comment_class($classes);?> id="comment-<?php comment_ID();?>">
-	<div id="comment-body-<?php comment_ID(); ?>" class="comment-body">
+<li <?php comment_class($classes);?> id="comment-<?= $comment->comment_ID;?>">
+	<div id="comment-body-<?= $comment->comment_ID; ?>" class="comment-body">
 	
 		<?php if($comment->comment_parent == 0){ ?>
 			<div class="media-left">
@@ -1425,17 +1424,24 @@ class theme_functions{
 				</time>
 				<span class="comment-meta-data comment-reply reply">
 					<?php
-					$reply_link = get_comment_reply_link(
-						array_merge($args,[
-							'add_below'		=> 'comment-body', 
-							'depth' 		=> $depth,
-							'reply_text' 	=> ___('Reply'),
-							'max_depth' 	=> $args['max_depth'],
-						]),
-						$comment,
-						$comment->comment_post_ID
-					);
-					echo preg_replace('/(href=)[^\s]+/','$1"javascript:;"',$reply_link);
+					if(!is_user_logged_in()){
+						static $reply_link;
+						if(!$reply_link)
+							$reply_link = '<a rel="nofollow" class="comment-reply-login quick-login-btn" href="' . wp_login_url(get_permalink($comment->comment_post_ID)) . '">' . ___('Reply') . '</a>';
+						echo $reply_link;
+					}else{
+						$reply_link = get_comment_reply_link(
+							array_merge($args,[
+								'add_below'		=> 'comment-body', 
+								'depth' 		=> $depth,
+								'reply_text' 	=> ___('Reply'),
+								'max_depth' 	=> $args['max_depth'],
+							]),
+							$comment,
+							$comment->comment_post_ID
+						);
+						echo preg_replace('/(href=)[^\s]+/','$1"javascript:;"',$reply_link);
+					}
 					?>
 				</span><!-- .reply -->
 			</h4>
@@ -1445,9 +1451,7 @@ class theme_functions{
 		<?php
 		}
 	}
-	public static function filter_comment_reply_link($str){
-		return str_replace('comment-reply-','btn btn-primary btn-xs comment-reply-',$str);
-	}
+
 	public static function the_related_posts_plus(array $args = []){
 		global $post;
 

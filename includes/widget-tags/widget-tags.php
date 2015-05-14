@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.1
+ * @version 1.0.2
  */
 add_action('widgets_init','widget_hot_tags::register_widget' );
 class widget_hot_tags extends WP_Widget{
@@ -9,17 +9,17 @@ class widget_hot_tags extends WP_Widget{
 		$this->alt_option_name = self::$iden;
 		parent::__construct(
 			self::$iden,
-			___('Popular tags <small>(Custom)</small>'),
+			___('Popular tags <small>(custom)</small>'),
 			array(
 				'classname' => self::$iden,
 				'description'=> ___('Show the most popular tags.'),
 			)
 		);
 	}
-	public static function frontend_display($args = null,$instance = null){
+	public static function frontend_display($args = [],$instance = []){
 		$cache_id = md5(serialize($instance));
 		
-		$cache = theme_cache::get($cache_id);
+		$cache = wp_cache_get($cache_id);
 
 		if($cache){
 			echo $cache;
@@ -73,7 +73,7 @@ class widget_hot_tags extends WP_Widget{
 					style="
 						font-size:<?= str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) ),$unit;?>;
 						color:rgb(<?= mt_rand(50,200);?>,<?= mt_rand(50,200);?>,<?= mt_rand(50,200);?>);"
-				><?= esc_html($tag->name);?></a>
+				><?= esc_html($tag->name);?></a> 
 				<?php
 				$tag_links[] = html_compress(ob_get_contents());
 				ob_end_clean();
@@ -82,11 +82,11 @@ class widget_hot_tags extends WP_Widget{
 		$tags =  array_merge($tag_links,$sticky_links);
 		if(!empty($tags)){
 			shuffle($tags);
-			$cache = implode('',$tags);
+			$cache = implode(' ',$tags);
 		}else{
 			$cache = status_tip('info',___('No data yet.'));
 		}
-		theme_cache::set($cache_id,$cache);
+		wp_cache_set($cache_id,$cache);
 		echo $cache;
 	}
 	function widget($args = [], $instance = []){

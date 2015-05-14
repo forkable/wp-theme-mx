@@ -336,7 +336,9 @@ class theme_comment_ajax{
 		$wp_query = new WP_Query([
 			'p' => $post_id
 		]);
-
+		
+		foreach($wp_query->posts as $post){}
+			
 		$comments = self::get_comments([
 			'post_id' => $post_id,
 		]);
