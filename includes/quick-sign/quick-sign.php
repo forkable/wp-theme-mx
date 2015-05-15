@@ -50,9 +50,9 @@ class theme_quick_sign{
 		$output = [];
 		
 		$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : null;
-		$user = isset($_POST['user']) ? $_POST['user'] : false;
+		$user = isset($_POST['user']) && is_array($_POST['user']) ? $_POST['user'] : false;
 		$email = (isset($user['email']) && is_email($user['email'])) ? $user['email'] : null;
-		$pwd = isset($user['pwd']) ? $user['pwd'] : null;
+		$pwd = isset($user['pwd']) && is_string($user['pwd']) ? $user['pwd'] : null;
 		
 		switch($type){
 			/** 
@@ -74,30 +74,52 @@ class theme_quick_sign{
 			 * register
 			 */
 			case 'register':
-				$at_least_len = 2;
-				if(!isset($user['nickname']) || mb_strlen($user['nickname']) < $at_least_len){
+				$name_at_least_len = 2;
+				$pwd_at_least_len = 3;
+				/**
+				 * nickname
+				 */
+				if(!isset($user['nickname']) || !is_string($user['nickname']) || mb_strlen($user['nickname']) < $name_at_least_len){
 					$output['status'] = 'error';
 					$output['code'] = 'invalid_nickname';
-					$output['msg'] = sprintf(___('Sorry, you nick name is invalid, at least %d characters in length, please try again.'),$at_least_len);
+					$output['msg'] = sprintf(___('Sorry, you nick name is invalid, at least %d characters in length, please try again.'),$name_at_least_len);
 					die(theme_features::json_format($output));
-				}else{
-					$output = self::user_register(array(
-						'email' => $email,
-						'pwd' => $pwd,
-						'nickname' => $user['nickname'],
-						'remember' => true,
-					));
-					if($output['status'] === 'success'){
-						// $output['redirect'] = 
-						$output['msg'] = ___('Register successfully, page is refreshing, please wait...');
-					}
 				}
+				/**
+				 * pwd
+				 */
+				if(mb_strlen($pwd) < $pwd_at_least_len){
+					$output['status'] = 'error';
+					$output['code'] = 'invalid_pwd';
+					$output['msg'] = sprintf(___('Sorry, you password is invalid, at least %d characters in length, please try again.'),$pwd_at_least_len);
+					die(theme_features::json_format($output));
+				}
+				/**
+				 * email 
+				 */
+				if(!$email){
+					$output['status'] = 'error';
+					$output['code'] = 'invalid_email';
+					$output['msg'] = ___('Sorry, your email address is invalid, please check it and try again.');
+					die(theme_features::json_format($output));
+				}
+				$output = self::user_register(array(
+					'email' => $email,
+					'pwd' => $pwd,
+					'nickname' => $user['nickname'],
+					'remember' => true,
+				));
+				if($output['status'] === 'success'){
+					// $output['redirect'] = 
+					$output['msg'] = ___('Register successfully, page is refreshing, please wait...');
+				}
+
 				break;
 			/** 
 			 * lost-password
 			 */
 			case 'recover':
-				if(!is_email($email)){
+				if(!$email){
 					$output['status'] = 'error';
 					$output['code'] = 'invalid_email';
 					$output['msg'] = ___('Sorry, your email address is invalid, please check it and try again.');
@@ -141,13 +163,6 @@ class theme_quick_sign{
 				$title = ___('You are applying to retrieve your password.');
 				
 
-				// $phpmailer = new theme_phpmailer();
-				// $phpmailer->FromName = ___('Notification');
-				// $wp_mail = $phpmailer->send(
-					// $user->user_email,
-					// $title,
-					// $content
-				// );
 				add_filter( 'wp_mail_content_type',__CLASS__ . '::set_html_content_type');
 				$wp_mail = wp_mail(
 					$user->user_email,

@@ -11,6 +11,7 @@ define(function(require, exports, module){
 		file_tip_id : 		'ctb-file-tip',
 		files_id : 			'ctb-files',
 
+		default_size : 'large',
 		process_url : '',
 		
 		lang : {
@@ -307,10 +308,7 @@ define(function(require, exports, module){
 			$tpl.innerHTML = content;
 			$tpl.style.display = 'none';
 			
-			//var $del = $tpl.querySelector('.img-del');
-			//$del.addEventListener('click',function(){
-			//	$tpl.parentNode.removeChild($tpl);
-			//},false);
+
 			/**
 			 * set as cover
 			 */
@@ -328,7 +326,7 @@ define(function(require, exports, module){
 				},false);
 			}
 			/** auto send to editor */
-			send_to_editor(send_content(args.full.url,args.medium.url));
+			send_to_editor(send_content(args.full.url,args[config.default_size].url));
 
 			
 			function send_content(full_url,img_url){
@@ -371,72 +369,12 @@ define(function(require, exports, module){
 	}
 
 	function fm_validate($fm){
-		$fm.addEventListener('submit',function(){
-			var fm_data = new FormData(),
-				$submit = $fm.querySelector('[type=submit]'),
-				submit_ori_tx = $submit.textContent,
-				submit_loading_tx = $submit.getAttribute('data-loading-text'),
-				inputs = $fm.querySelectorAll('[name]');
-			for(var i = 0, len = inputs.length; i<len; i++){
-				/**
-				 * radio checked
-				 */
-				if(inputs[i].getAttribute('type') === 'radio' && !inputs[i].checked)
-					continue;
-				/**
-				 * checkbox
-				 */
-				if(inputs[i].getAttribute('type') === 'checkbox' && !inputs[i].checked)
-					continue;
-					
-				fm_data.append([inputs[i].name],inputs[i].value);
-			}
-			//console.log(fm_data);
-
-			/**
-			 * sending tip
-			 */
-			tools.ajax_loading_tip('loading',config.lang.M00001);
-			$submit.textContent = submit_loading_tx;
-			$submit.setAttribute('disabled',true);
-			
-			var xhr = new XMLHttpRequest();
-			xhr.open('POST',config.process_url + '&' + tools.param({
-				'theme-nonce' : js_request['theme-nonce'],
-				type : 'post'
-			}));
-			xhr.send(fm_data);
-			xhr.onload = function(){
-				if(xhr.status >= 200 && xhr.status < 400){
-					var data;
-					try{data = JSON.parse(xhr.responseText)}catch(e){data = xhr.responseText}
-					
-					if(data && data.status){
-						if(data.status === 'error'){
-							//if(data.code ===)
-							$submit.removeAttribute('disabled');
-						}
-						tools.ajax_loading_tip(data.status,data.msg);
-						$submit.textContent = submit_ori_tx;
-					}else{
-						tools.ajax_loading_tip('error',data);
-						$submit.textContent = submit_ori_tx;
-						$submit.removeAttribute('disabled');
-					}
-				}else{
-					tools.ajax_loading_tip('error',config.lang.E00001);
-					$submit.textContent = submit_ori_tx;
-					$submit.removeAttribute('disabled');
-				}
-			};
-			xhr.onerror = function(){
-				tools.ajax_loading_tip('error',config.lang.E00001);
-				$submit.textContent = submit_ori_tx;
-				$submit.removeAttribute('disabled');
-			}
-			
-			
-		});
+		var m = new tools.validate();
+			m.process_url = config.process_url;
+			m.loading_tx = config.lang.M00001;
+			m.error_tx = config.lang.E00001;
+			m.$fm = $fm;
+			m.init();
 		
 	}
 

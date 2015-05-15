@@ -3,28 +3,27 @@
 /**
  * tags
  */
-$tags_args = array(
+$tags_args = [
 	'orderby' => 'count',
 	'order' => 'desc',
 	'hide_empty' => 0,
 	'number' => theme_custom_contribution::get_options('tags-number') ? theme_custom_contribution::get_options('tags-number') : 16,
-);
+];
 if(class_exists('theme_custom_contribution')){
 	$tags_ids = theme_custom_contribution::get_options('tags');
 	if(empty($tag_ids)){
 		$tags = get_tags($tags_args);
 	}else{
-		$tags = get_tags(array(
+		$tags = get_tags([
 			'include' => implode($tags_ids),
 			'orderby' => 'count',
 			'order' => 'desc',
 			'hide_empty' => 0,
-		));
+		]);
 	}
 }else{
 	$tags = get_tags($tags_args);
 }
-//var_dump($cap = get_user_meta(get_current_user_id(),'wp_capabilities', true));
 ?>
 <div class="panel panel-default">
 	<div class="panel-heading">
@@ -203,15 +202,6 @@ if(class_exists('theme_custom_contribution')){
 								</div>
 							<?php } ?>
 						</div>
-						<!-- <div id="custom-tag-added-container"></div>
-						<div id="custom-tag-add-container">
-							<div class="input-group">
-								<input type="text" id="custom-tag-new" class="form-control" placeholder="<?= ___('Custom tag');?>" size="10">
-								<span class="input-group-btn">
-									<a id="custom-tag-add-btn" href="javascript:;" class="btn btn-info"><i class="fa fa-plus" data-tpl=""></i> <?= ___('Add');?></a>
-								</span>
-							</div>
-						</div> -->
 					</div>
 				</div>
 			</div>
@@ -258,10 +248,12 @@ if(class_exists('theme_custom_contribution')){
 				<div class="col-sm-offset-2 col-sm-10">
 					<div class="page-tip submit-tip"></div>
 					
-					<button type="submit" class="btn btn-lg btn-success btn-block submit" data-loading-text="<?= ___('Loading, please wait...');?>">
+					<button type="submit" class="btn btn-lg btn-success btn-block submit" data-loading-text="<?= ___('Sending, please wait...');?>">
 						<i class="fa fa-check"></i>
 						<?= ___('Submit');?>
 					</button>
+
+					<input type="hidden" name="type" value="post">
 				</div>
 			</div>
 		</form>

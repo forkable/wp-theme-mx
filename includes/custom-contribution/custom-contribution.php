@@ -366,6 +366,7 @@ class theme_custom_contribution{
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
+			m.config.default_size = '<?= self::$thumbnail_size;?>';
 			m.config.lang = {
 				M00001 : '<?= ___('Loading, please wait...');?>',
 				M00002 : '<?= ___('Uploading {0}/{1}, please wait...');?>',

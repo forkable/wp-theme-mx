@@ -23,7 +23,7 @@ class number_user_nicename{
 	}
 	public static function user_register($user_id){
 		$std_nicename = $user_id + 100000;
-		if(get_user_by('ID',$user_id)->user_nicename == $std_nicename)
+		if(get_user_by('id',$user_id)->user_nicename == $std_nicename)
 			return;
 		wp_update_user([
 			'ID' => $user_id,

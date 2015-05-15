@@ -104,31 +104,24 @@ define(function(require, exports, module){
 	 * @author KM@INN STUDIO
 	 */
 	exports.validate = function(){
-		require('modules/jquery.validate');
-		require('modules/jquery.validate.lang.{locale}');
+		var js_request = require('theme-cache-request');
 		/** config */
-		this.process_url = '';
-		this.loading_tx = 'Loading, please wait...';
-		this.error_tx = 'Sorry, server error please try again later.';
-		this.$fm = '';
-		this.rules = {};
-		this.done = function(data){};
+		this.process_url = false;
+		this.loading_tx = false;
+		this.error_tx = 'Sorry, the server is busy, please try again later.';
+		this.$fm = false;
+
+		this.done_close = false;
+
+		this.done = function(){};
 		this.before = function(){};
 		this.always = function(){};
+		this.fail = function(){};
 		
 		var that = this,
 			cache = {};
 		this.init = function(){
-			that.$fm.validate({
-				rules : that.rules,
-				submitHandler : function(fm){
-					that.$fm = jQuery(fm);
-					if(!cache.$tip){
-						cache.$tip = that.$fm.find('.submit-tip').hide();
-					}
-					ajax.init();
-				}
-			});
+			that.$fm.addEventListener('submit',ajax.init,false);
 		};
 		
 		var ajax = {
@@ -136,58 +129,59 @@ define(function(require, exports, module){
 				that.before();/** callback before */
 				
 				if(!cache.$submit){
-					cache.$submit = that.$fm.find('.submit');
-					cache.submit_ori_tx = cache.$submit.text();
-					cache.submit_loading_tx = cache.$submit.data('loading-text');
+					cache.$submit = that.$fm.querySelector('.submit');
+					cache.submit_ori_tx = cache.$submit.innerHTML;
+					cache.submit_loading_tx = that.loading_tx ? that.loading_tx : cache.$submit.getAttribute('data-loading-text');
 				}
-				cache.$submit.text(cache.submit_loading_tx).attr('disabled',true);
+				cache.$submit.innerHTML = cache.submit_loading_tx;
 				
+				cache.$submit.setAttribute('disabled',true);
 				exports.ajax_loading_tip('loading',cache.submit_loading_tx);
-				
-				jQuery.ajax({
-					url : that.process_url,
-					type : 'post',
-					data : that.$fm.serialize(),
-					dataType : 'json'
-				}).done(function(data){
-					if(data && data.status === 'success'){
-						exports.ajax_loading_tip(data.status,data.msg);
-						if(data.redirect){
-							setTimeout(function(){
-								location.href = data.redirect;
-							},1000);
-						}else if(exports.$_GET['return']){
-							setTimeout(function(){
-								location.href = exports.$_GET['return'];
-							},1000);
+
+				var xhr = new XMLHttpRequest(),
+					fd = new FormData(that.$fm);
+				fd.append('theme-nonce',js_request['theme-nonce']);
+				xhr.open('POST',that.process_url);
+				xhr.send(fd);
+				xhr.onload = function(){
+					if(xhr.status >= 200 && xhr.status < 400){
+						var data;
+						try{data = JSON.parse(xhr.responseText)}catch(e){data = xhr.responseText}
+						
+						if(data && data.status){
+							if(data.status === 'success'){
+								if(that.done_close){
+									exports.ajax_loading_tip(data.status,data.msg,that.done_close);
+								}else{
+									exports.ajax_loading_tip(data.status,data.msg);
+								}
+							}else if(data.status === 'error'){
+								exports.ajax_loading_tip(data.status,data.msg);
+								if(data.code && data.code.indexOf('pwd') !== -1){
+									that.$fm.querySelector('input[type=password]').select();
+								}else if(data.code && data.code.indexOf('email') !== -1){
+									that.$fm.querySelector('input[type=email]').select();
+								}
+								cache.$submit.removeAttribute('disabled');
+							}
+							cache.$submit.innerHTML = cache.submit_ori_tx;
+							that.done(data);
+						}else{
+							exports.ajax_loading_tip('error',that.error_tx);
+							cache.$submit.removeAttribute('disabled');
+							cache.$submit.innerHTML = cache.submit_ori_tx;
+							that.fail(data);
 						}
-					}else if(data && data.status === 'error'){
-						cache.$submit.removeAttr('disabled');
-						exports.ajax_loading_tip(data.status,data.msg);
-						/**
-						 * email_pwd_not_match
-						 */
-						if(data.code && data.code.indexOf('pwd') > 0){
-							that.$fm.find('input:password').eq(0).focus().select();
-						}else if(data.code && data.code.indexOf('email')  > 0){
-							that.$fm.find('input[type=email]').eq(0).focus().select();
-						}else if(data.code && data.code.indexOf('server') < 0){
-							that.$fm.find(':required').eq(0).focus().select();
-						}
-					}else{
-						cache.$submit.removeAttr('disabled');
-						exports.ajax_loading_tip('error',that.error_tx);
+					that.always(data);
 					}
-					cache.$submit.text(cache.submit_ori_tx);
-					/** callback done */
-					that.done(data);
-				}).fail(function(){
+				};/** onload */
+
+				xhr.onerror = function(){
 					exports.ajax_loading_tip('error',that.error_tx);
-					cache.$submit.text(cache.submit_ori_tx).removeAttr('disabled');
-				}).always(function(){
-					/** callback always */
-					that.always();
-				});
+					cache.$submit.removeAttribute('disabled');
+					cache.$submit.innerHTML = cache.submit_ori_tx;
+					that.fail();
+				}
 			}
 		};
 		return this;
@@ -238,13 +232,13 @@ define(function(require, exports, module){
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	exports.auto_focus = function($frm,attr){
-		if(!$frm) 
+	exports.auto_focus = function($fm,attr){
+		if(!$fm) 
 			return false;
 		if(!attr)
 			attr = '[required]';
 
-		for(var i = 0, $inputs = $frm.querySelectorAll(attr), len = $inputs.length; i < len; i++){
+		for(var i = 0, $inputs = $fm.querySelectorAll(attr), len = $inputs.length; i < len; i++){
 			if($inputs[i].value.trim() == ''){
 				$inputs[i].focus();
 				return false;

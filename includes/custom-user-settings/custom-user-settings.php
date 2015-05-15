@@ -95,7 +95,6 @@ class theme_custom_user_settings{
 					'nickname' => $nickname,
 					'description' => $des,
 					'display_name' => $nickname,
-					//'user_nicename' => 100000+get_current_user_id(),
 				));
 
 				if(is_wp_error($user_id)){
