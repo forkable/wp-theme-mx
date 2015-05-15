@@ -385,7 +385,18 @@ define(function(require, exports, module){
 				_cache.$must_logged.style.display = 'block';
 				return false;
 			}
-			
+			/**
+			 * ctrl + enter to submit
+			 */
+			if(_cache.$comment_ta){
+				
+				_cache.$comment_ta.addEventListener('keydown',function(e){
+					if (e.keyCode == 13 && e.ctrlKey) {
+						_cache.$submit_btn.click();
+						return false;
+					}
+				},false);
+			}
 			/**
 			 * user logged
 			 */
@@ -429,28 +440,21 @@ define(function(require, exports, module){
 					}
 				}
 			}
-			/**
-			 * set form data
-			 */
-			var ajax_data = {},
-				$controls = _cache.$fm.querySelectorAll('[name]');
-			Array.prototype.forEach.call($controls,function($el,i){
-				ajax_data[$el.getAttribute('name')] = $el.value;
-			});
-			ajax_data['theme-nonce'] = js_request['theme-nonce'];
+
 			/**
 			 * ajax send
 			 */
 			tools.ajax_loading_tip('loading',config.lang.M00001);
 			_cache.$submit_btn.setAttribute('disabled',true);
-			ajax(ajax_data);
+			ajax();
 			return false;
 		}
-		function ajax(ajax_data){
-			var xhr = new XMLHttpRequest();
+		function ajax(){
+			var xhr = new XMLHttpRequest(),
+				fd = new FormData(_cache.$fm);
+			fd.append('theme-nonce',js_request['theme-nonce']);
 			xhr.open('POST',config.process_url);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-			xhr.send(tools.param(ajax_data));
+			xhr.send(fd);
 			xhr.onload = function(){
 				if(xhr.status >= 200 && xhr.status < 400){
 					var data;
@@ -475,16 +479,16 @@ define(function(require, exports, module){
 					}else if(data && data.status === 'error'){
 						tools.ajax_loading_tip(data.status,data.msg);
 					}else{
-						tools.ajax_loading_tip(data.status,config.lang.E00001);
+						tools.ajax_loading_tip('error',config.lang.E00001);
 					}
 				}else{
-					tools.ajax_loading_tip(data.status,config.lang.E00001);
+					tools.ajax_loading_tip('error',config.lang.E00001);
 				}
 				/** enable submit btn */
 				_cache.$submit_btn.removeAttribute('disabled');
 			};
 			xhr.onerror = function(){
-				tools.ajax_loading_tip(data.status,config.lang.E00001);
+				tools.ajax_loading_tip('error',config.lang.E00001);
 				_cache.$submit_btn.removeAttribute('disabled');
 			}
 			
