@@ -1,13 +1,13 @@
 <?php
 /** 
- * @version 1.0.1
+ * @version 1.0.0
  */
 add_filter('theme_includes',function($fns){
-	$fns[] = 'theme_custom_contribution::init';
+	$fns[] = 'theme_custom_collection::init';
 	return $fns;
 });
-class theme_custom_contribution{
-	public static $iden = 'theme_custom_contribution';
+class theme_custom_collection{
+	public static $iden = 'theme_custom_collection';
 	public static $page_slug = 'account';
 	public static $file_exts = array('png','jpg','gif');
 	public static $thumbnail_size = 'large';
@@ -51,24 +51,21 @@ class theme_custom_contribution{
 		if(!in_array('tab',$vars)) $vars[] = 'tab';
 		return $vars;
 	}
-	public static function filter_nav_contribution($navs){
-		$navs['contribution'] = '<a href="' . esc_url(self::get_tabs('contribution')['url']) . '">
-			<i class="fa fa-' . self::get_tabs('contribution')['icon'] . ' fa-fw"></i> 
-			' . self::get_tabs('contribution')['text'] . '
+	public static function filter_nav_collection($navs){
+		$navs['collection'] = '<a href="' . esc_url(self::get_tabs('collection')['url']) . '">
+			<i class="fa fa-' . self::get_tabs('collection')['icon'] . ' fa-fw"></i> 
+			' . self::get_tabs('collection')['text'] . '
 		</a>';
 		return $navs;
-	}
-	public static function get_des(){
-		return self::get_options('description');
 	}
 	public static function display_backend(){
 		$opt = (array)self::get_options();
 		?>
 		<fieldset>
-			<legend><?= ___('Contribution settings');?></legend>
+			<legend><?= ___('Collection settings');?></legend>
 			<table class="form-table">
 				<tr>
-					<th><?= ___('Shows categories');?></th>
+					<th><?= ___('Which categories will be added after submit?');?></th>
 					<td>
 						<?php theme_features::cat_checkbox_list(self::$iden,'cats');?>
 					</td>
@@ -80,14 +77,44 @@ class theme_custom_contribution{
 					</td>
 				</tr>
 				<tr>
-					<th><label for="<?= self::$iden;?>-description"><?= esc_html(___('You can write some description for contribution page header. Please use tag <p> to wrap your HTML codes.'));?></label></th>
+					<th><label for="<?= self::$iden;?>-description"><?=esc_html(___('You can write some description for collection page header. Please use tag <p> to wrap your HTML codes.'));?></label></th>
 					<td>
-						<textarea name="<?= self::$iden;?>[description]" id="<?= self::$iden;?>-description" class="widefat" rows="5"><?= htmlspecialchars(self::get_des());?></textarea>
+						<textarea name="<?= self::$iden;?>[description]" id="<?= self::$iden;?>-description" class="widefat" rows="5"><?= self::get_des();?></textarea>
 					</td>
 				</tr>
 			</table>
 		</fieldset>
 		<?php
+	}
+	public static function get_tpl($placeholder){
+		ob_start();
+		?>
+<div class="clt-list" id="clt-list-<?= $placeholder; ?>" data-id="<?= $placeholder;?>">
+	<div class="media">
+		<div class="media-left clt-area-preview">
+			<img src="<?= theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" alt="Placeholder" class="media-object placeholder">
+			<div class="clt-preview-container"></div>
+		</div>
+		<div class="media-body clt-area-tx">
+			<p>
+			<input type="number" class="form-control post-id" id="clt-post-id-<?= $placeholder ;?>" name="clt[post-ids][<?= $placeholder;?>]" placeholder="<?= ___('Post ID, e.g. 4015.');?>" title="<?= ___('Please write the post ID number, e.g. 4015.');?>" required >
+			</p>
+			<p>
+			<input type="text" name="clt[post-title][<?= $placeholder;?>]" id="clt-post-title-<?= $placeholder;?>" class="form-control clt-post-title" placeholder="<?= ___('The recommended post title');?>" title="<?= ___('Please write the recommended post title.');?>" required >
+			</p>
+		</div>
+	</div><!-- /.media -->
+	<textarea name="clt[post-content][<?= $placeholder;?>]" id="clt-post-content-<?= $placeholder;?>" rows="4" class="form-control clt-post-content" placeholder="<?= ___('Why recommend the post? Talking about your point.');?>" title="<?= ___('Why recommend the post? Talking about your point.');?>" required ></textarea>
+	
+	<a href="javascript:;" class="clt-del btn btn-danger btn-xs"><i class="fa fa-times-circle"></i> <?= ___('Delete this item');?></a>
+</div>
+
+
+		<?php
+		$content = ob_get_contents();
+		ob_end_clean();
+
+		return $content;
 	}
 	public static function options_save($opts){
 		if(!isset($_POST[self::$iden]))
@@ -97,7 +124,8 @@ class theme_custom_contribution{
 		return $opts;
 	}
 	public static function options_default($opts){
-		$opts[self::$iden]['tags-number'] = 6;
+		$opts[self::$iden]['posts-min-number'] = 5;
+		$opts[self::$iden]['posts-max-number'] = 10;
 		return $opts;
 	}
 	public static function get_options($key = null){
@@ -120,14 +148,20 @@ class theme_custom_contribution{
 		$caches[self::$iden] = esc_url(get_permalink($page->ID));
 		return $caches[self::$iden];
 	}
+	public static function get_des(){
+		return stripslashes(self::get_options('description'));
+	}
+	public static function get_posts_number($type){
+		return (int)self::get_options('posts-'. $type . '-number');
+	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();
 		$tabs = array(
-			'contribution' => array(
-				'text' => ___('Post contribution'),
-				'icon' => 'paint-brush',
-				'url' => esc_url(add_query_arg('tab','contribution',$baseurl)),
-				'filter_priority' => 20,
+			'collection' => array(
+				'text' => ___('New collection'),
+				'icon' => 'leanpub',
+				'url' => esc_url(add_query_arg('tab','collection',$baseurl)),
+				'filter_priority' => 25,
 			),
 		);
 		if($key){
@@ -227,7 +261,7 @@ class theme_custom_contribution{
 				if(is_null_array($ctb)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_ctb_param';
-					$output['msg'] = ___('Invaild contribution param.');
+					$output['msg'] = ___('Invaild collection param.');
 					die(theme_features::json_format($output));
 				}
 				/**
@@ -375,6 +409,7 @@ class theme_custom_contribution{
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
 			m.config.default_size = '<?= self::$thumbnail_size;?>';
+			m.config.tpl = <?= json_encode(html_compress(theme_custom_collection::get_tpl('%placeholder%')));?>;
 			m.config.lang = {
 				M00001 : '<?= ___('Loading, please wait...');?>',
 				M00002 : '<?= ___('Uploading {0}/{1}, please wait...');?>',
