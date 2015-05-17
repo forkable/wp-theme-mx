@@ -14,7 +14,7 @@ class theme_asset_enqueue{
 		add_action( 'wp_enqueue_scripts', __CLASS__  . '::seajs_enqueue_scripts' ,1);
 		add_action( 'wp_enqueue_scripts', __CLASS__  . '::frontend_enqueue_css' ,1);
 	}
-	public static function is_cdn_enabled(){
+	public static function is_url_enabled(){
 		
 	}
 	/**
@@ -24,17 +24,17 @@ class theme_asset_enqueue{
 		$js = [
 			'frontend-seajs' => [
 				'deps' => [],
-				'src' => 'https://cdnjs.cloudflare.com/ajax/libs/seajs/3.0.1/sea.js',
+				'url' => 'https://cdnjs.cloudflare.com/ajax/libs/seajs/3.0.1/sea.js',
 				'version' => null,
 			],
-			'jquery' => [
-				'deps' => [],
-				'cdn' => 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js',
-				'version' => null,
-			],
+			//'jquery-core' => [
+			//	'deps' => [],
+			//	'url' => 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js',
+			//	'version' => null,
+			//],
 			//'bootstrap' => [
 			//	'deps' => ['jquery'],
-			//	'cdn' => 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js',
+			//	'url' => 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js',
 			//	'version' => null,
 			//],
 			
@@ -43,12 +43,13 @@ class theme_asset_enqueue{
 		/**
 		 * first deregister
 		 */
-		self::frontend_deregister_js();
+		//self::frontend_deregister_js();
+		self::frontend_register_js();
 		
 		foreach($js as $k => $v){
 			wp_enqueue_script(
 				$k,
-				isset($v['src']) ? $v['src'] : $v['cdn'],
+				$v['url'],
 				isset($v['deps']) ? $v['deps'] : [],
 				self::get_version($v),
 				true
@@ -57,16 +58,35 @@ class theme_asset_enqueue{
 		}
 		
 	}
+	public static function frontend_register_js(){
+		$js = [
+			'jquery-core' => [
+				'url' => 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js',
+				'version' => null,
+			],
+		];
+		foreach($js as $k => $v){
+			wp_register_script(
+				$k,
+				$v['url'],
+				isset($v['deps']) ? $v['deps'] : [],
+				self::get_version($v),
+				true
+			);
+		}
+		
+	}
 	public static function frontend_deregister_js(){
 		$js = [
-			'jquery'
+			'jquery',
+			'jquery-core'
 		];
 		foreach($js as $v){
 			wp_deregister_script( $v );
 		}
 	}
 	private static function get_version($v){
-		return array_key_exists('version', $v) ? $v['version'] : theme_features::get_theme_info('version');
+		return array_key_exists('version', $v) ? $v['version'] : theme_file_timestamp::get_timestamp();
 	}
 	/**
 	 * CSS
@@ -75,16 +95,16 @@ class theme_asset_enqueue{
 		$css = [
 			'frontend' => [
 				'deps' => ['bootstrap','awesome'],
-				'src' =>  theme_features::get_theme_css('frontend/style',false,false),
+				'url' =>  theme_features::get_theme_css('frontend/style',false,false),
 			],
 			'bootstrap' => [
 				'deps' => [],
-				'cdn' => 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css',
+				'url' => 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css',
 				'version' => null,
 			],
 			'awesome' => [
 				'deps' => [],
-				'cdn' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css',
+				'url' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css',
 				'version' => null,
 			],
 			
@@ -92,10 +112,9 @@ class theme_asset_enqueue{
 
 		foreach($css as $k => $v){
 
-			
 			wp_enqueue_style(
 				$k,
-				isset($v['src']) ? $v['src'] : $v['cdn'],
+				$v['url'],
 				isset($v['deps']) ? $v['deps'] : [],
 				self::get_version($v)
 			);

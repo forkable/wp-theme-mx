@@ -35,6 +35,8 @@ define(function(require, exports, module){
 		});
  		window._bd_share_config = _bd_share_config;
 		document.getElementsByTagName('head')[0].appendChild($js);
-		$js.src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~ (-new Date() / 36e5);		
+		setTimeout(function(){
+			$js.src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~ (-new Date() / 36e5);		
+		},5000);
 	}
 });

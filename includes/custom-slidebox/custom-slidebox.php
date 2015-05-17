@@ -17,12 +17,16 @@ class theme_custom_slidebox{
 	public static $image_size = array(554,320,true);
 	public static function init(){
 		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use'); 
-		add_action('backend_css',__CLASS__ . '::backend_css'); 
 		add_action('page_settings',__CLASS__ . '::display_backend');
-		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
 		add_action('wp_ajax_' . self::$iden,__CLASS__ . '::process');
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
 
+		/**
+		 * frontend
+		 */
+		add_action('frontend_seajs_alias',__CLASS__ . '::frontend_seajs_alias');
+		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
+		add_action('backend_css',__CLASS__ . '::backend_css'); 
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 	}
 	public static function options_save($options){
@@ -256,6 +260,8 @@ class theme_custom_slidebox{
 		<div class="overflow">
 			<div class="inner">
 				<?php
+				$img_placeholder = theme_features::get_theme_includes_image(__DIR__,'placeholder.png');
+				
 				foreach($boxes as $k => $v){
 					$rel_nofollow = isset($v['rel']['nofollow']) ? ' rel="nofollow" ' : null;
 					$target_blank = isset($v['target']['blank']) ? ' target="blank" ' : null;
@@ -267,7 +273,8 @@ class theme_custom_slidebox{
 						<?= $rel_nofollow;?>
 						<?= $target_blank;?>
 					>
-						<img src="<?= esc_url($v['img-url']);?>" alt="<?= $v['title'];?>">
+						<img src="<?= $img_placeholder;?>" alt="<?= $v['title'];?>" class="placeholder">
+						<img src="<?= esc_url($v['img-url']);?>" alt="<?= $v['title'];?>" class="post-thumbnail">
 
 						<h2>
 		                    <?= $v['title'];?>
@@ -311,19 +318,26 @@ class theme_custom_slidebox{
 		<link href="<?= theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
+	public static function frontend_seajs_alias(array $alias = []){
+		if(!is_home())
+			return $alias;
+			
+		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+
+		return $alias;
+	}
 	public static function frontend_seajs_use(){
-		if(!is_home()) 
-			return;
+		if(!is_home())
+			return false;
 		?>
-		seajs.use('<?= theme_features::get_theme_includes_js(__DIR__);?>',function(m){
+		seajs.use('<?= self::$iden;?>',function(m){
 			m.init();
 		});
 		<?php
 	}
 	public static function frontend_css(){
-		if(!is_home()) 
+		if(!is_home())
 			return false;
-			
 		wp_enqueue_style(
 			self::$iden,
 			theme_features::get_theme_includes_css(__DIR__),
@@ -333,9 +347,7 @@ class theme_custom_slidebox{
 
 	}
 	public static function backend_seajs_use(){
-		
 		?>
-		
 		seajs.use('<?= theme_features::get_theme_includes_js(__DIR__,'backend.js');?>',function(m){
 			m.config.tpl = <?= json_encode(html_compress(self::get_box_tpl('%placeholder%')));?>;
 			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';

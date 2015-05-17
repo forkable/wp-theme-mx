@@ -153,9 +153,15 @@ class theme_post_share{
 		}
 		return $opts;
 	}
+	public static function is_singular(){
+		static $cache = null;
+		if($cache === null)
+			$cache = is_singular();
+
+		return $cache;
+	}
 	public static function frontend_css(){
-		$opt = self::get_options();
-		if(!self::is_enabled())
+		if(!is_singular())
 			return false;
 			
 		wp_enqueue_style(
@@ -166,15 +172,14 @@ class theme_post_share{
 		);
 	}
 	public static function frontend_seajs_alias($alias){
-		$opt = self::get_options();
-		if(!self::is_enabled())
+		if(!is_singular())
 			return $alias;
+			
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	} 
 	public static function frontend_seajs_use(){
-		$opt = self::get_options();
-		if(!self::is_enabled())
+		if(!is_singular())
 			return false;
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){

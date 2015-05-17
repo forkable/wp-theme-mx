@@ -67,7 +67,7 @@ class theme_comment_ajax{
 	}
 	public static function backend_options_display(){
 		$options = theme_options::get_options();
-		$is_checked = isset($options[self::$iden]['on']) ? ' checked="checked" ' : null;
+		$is_checked = self::is_enabled() ? ' checked="checked" ' : null;
 		?>
 		<fieldset>
 			<legend><?= ___('Comment AJAX Settings');?></legend>

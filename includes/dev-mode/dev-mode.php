@@ -157,7 +157,6 @@ class theme_dev_mode{
 
 	public static function hook_footer_performance(){
 		?>
-		<script>
 		<?php
 		self::$data['end-time'] =  microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
 		self::$data['end-query'] = get_num_queries();
@@ -207,9 +206,8 @@ class theme_dev_mode{
 			],
 		];
 		?>
-		(function(){
-			console.table(<?= json_encode($data);?>);
-		})();
+		<script>
+		try{console.table(<?= json_encode($data);?>)}catch(e){}
 		</script>
 		<?php
 
@@ -218,7 +216,7 @@ class theme_dev_mode{
 		global $wpdb;
 		?>
 		<script>
-		console.table(<?= json_encode($wpdb->queries);?>);
+		try{console.table(<?= json_encode($wpdb->queries);?>)}catch(e){}
 		</script>
 		<?php
 	}

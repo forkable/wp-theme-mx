@@ -10,6 +10,7 @@ define(function(require, exports, module){
 	var js_request 	= require('theme-cache-request'),
 		tools 		= require('modules/tools');
 
+
 	exports.config = {
 		iden : 'theme_comment_ajax',
 		process_url : '',
@@ -30,6 +31,7 @@ define(function(require, exports, module){
 		config = exports.config;
 	
 	exports.init = function(){
+		alert('ajax-comment');
 		tools.ready(function(){
 			/**
 			 * set comment count
@@ -42,6 +44,8 @@ define(function(require, exports, module){
 				
 			
 			window.addComment = addComment;
+
+			
 			exports.list.init();
 			/**
 			 * pagination
@@ -68,7 +72,7 @@ define(function(require, exports, module){
 	};
 	exports.count = {
 		set : function(n){
-			cache.$count = document.getElementById('comment-number-' + config.post_id);
+			cache.$count = I('comment-number-' + config.post_id);
 			if(!cache.$count)
 				return false;
 
@@ -95,11 +99,11 @@ define(function(require, exports, module){
 			xhr.onload = function(){
 				if(xhr.status >= 200 && xhr.status < 400){
 					var data;
-					try{data = JSON.parse(xhr.responseText);}catch(e){}
+					try{data = JSON.parse(xhr.responseText);}catch(e){data = xhr.responseText}
 					if(data && data.status){
 						_list.done(data);
 					}else{
-						_list.fail(xhr.responseText);
+						_list.fail(data);
 					}
 					_list.always(data);
 				}
@@ -153,7 +157,7 @@ define(function(require, exports, module){
 			_cache.$container.appendChild(create());
 			//console.log(_that.cpage);
 			set_cache(_that.cpage,cache.$comment_list_container.innerHTML);
-		}
+		};
 		function set_cache(cpage,comments){
 			//console.log('set ' +cpage);
 			if(!_cache.comments)
@@ -497,7 +501,7 @@ define(function(require, exports, module){
 			_cache.$goto =I('goto-comment');
 			_cache.$comment = I('comment-form-comment');
 			if(!_cache.$goto || !_cache.$comment)
-				return;
+				return false;
 				
 			_cache.$goto.style.display = 'block';
 			_cache.$goto.onclick = function(){

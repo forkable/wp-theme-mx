@@ -2,7 +2,7 @@
 /**
  * theme recommended post
  *
- * @version 2.0.3
+ * @version 2.0.4
  * @author KM@INN STUDIO
  */
 add_filter('theme_includes',function($fns){
@@ -86,7 +86,7 @@ class theme_recommended_post{
 
 		$opt = (array)self::get_options();
 		
-		if(!is_array($opt['ids']))
+		if(!isset($opt['ids']))
 			$opt['ids'] = [];
 		/**
 		 * set to recomm
@@ -105,14 +105,16 @@ class theme_recommended_post{
 	public static function get_ids(){
 		return self::get_options('ids');
 	}
+	public static function is_enabled(){
+		return self::get_options('enabled') == 1 ? true : false;
+	}
 	public static function display_backend(){
-		$opt = self::get_options();
-		$checked = isset($opt['enabled']) && $opt['enabled'] == 1 ? ' checked ' : null;
-		$recomm_posts = isset($opt['ids']) ? (array)$opt['ids'] : [];
+		$checked = self::is_enabled() ? ' checked ' : null;
+		$recomm_posts = self::get_ids();
 		?>
 		<fieldset>
 			<legend><?= ___('Recommended posts');?></legend>
-			<p><?= ___('Some feature will be use recommended posts.');?></p>
+			<p><?= ___('Recommended posts will display on home page if enabled.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
@@ -130,17 +132,19 @@ class theme_recommended_post{
 							<?php
 							if(!empty($recomm_posts)){
 								global $post;
-								$query = new WP_Query(array(
-									'posts_per_page' =>-1,
+								$query = new WP_Query([
+									'posts_per_page' => -1,
 									'post__in' => $recomm_posts
-								));
+								]);
 								if($query->have_posts()){
 									foreach($query->posts as $post){
 										?>
-										<label for="recomm-post-<?= $post->ID;?>" class="button">
-											<input type="checkbox" id="recomm-post-<?= $post->ID;?>" name="<?= self::$iden;?>[ids][<?= $post->ID;?>]" value="<?= $post->ID;?>" checked/>
-											<?= esc_html(get_the_title());?>
-										</label>
+<label for="<?= self::$iden;?>-<?= $post->ID;?>" class="button">
+	<input type="checkbox" id="<?= self::$iden;?>-<?= $post->ID;?>" name="<?= self::$iden;?>[ids][<?= $post->ID;?>]" value="<?= $post->ID;?>" checked >
+	<?= esc_html(get_the_title($post->ID));?>
+	-
+	<a href="<?= esc_url(get_edit_post_link($post->ID));?>" target="_blank" title="<?= ___('Open in open window');?>"><i class="fa fa-external-link"></i></a>
+</label>
 										<?php
 									}
 									wp_reset_postdata();
@@ -157,9 +161,6 @@ class theme_recommended_post{
 			</table>
 		</fieldset>
 		<?php
-	}
-	public static function is_enabled(){
-		return self::get_options('enabled') == 1 ? true : false;
 	}
 	public static function options_save($options){
 		if(isset($_POST[self::$iden])){

@@ -11,7 +11,7 @@ define(function(require, exports, module){
 			for(var k in js_request['views']){
 				var $view = document.getElementById('post-views-number-' + k);
 				if($view)
-					$view.innerHTML = parseInt(js_request['views'][k]);
+					$view.innerHTML = js_request['views'][k];
 			}
 		}
 	}

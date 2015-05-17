@@ -52,14 +52,14 @@ if(!theme_features::is_mobile() && has_header_image()){ ?>
 
 <div class="main-nav navbar navbar-default">
 	<div class="container">
-	<div class="container-fluid">
+	<!-- <div class="container-fluid"> -->
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".menu-header">
+			<a href="javascript:;" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".menu-header">
 	            <span class="sr-only"></span>
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
-	        </button>
+	        </a>
 	        <a href="<?= home_url();?>" class="navbar-brand">
 				<?= get_bloginfo('name');?>
 			</a>
@@ -137,6 +137,6 @@ if(!theme_features::is_mobile() && has_header_image()){ ?>
             </div>
         </form>		
         
-	</div><!-- /.container-fluid -->
+	<!-- </div> --><!-- /.container-fluid -->
 	</div>
 </div><!-- /.main-nav -->

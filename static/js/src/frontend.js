@@ -1,14 +1,10 @@
 define(function(require, exports, module){
-
 	'use strict';
-	$.support.transition = false;
-	var tools = require('modules/tools');
-	require('modules/bootstrap-without-jq');
+
+	require.async(['modules/lazyload','modules/bootstrap-without-jq'],function(_a,_b){});
 	
-	/**
-	 * lazyload
-	 */
-	require('modules/lazyload');
+	var tools = require('modules/tools');
+	
 	
 	exports.config = {
 		is_home : false

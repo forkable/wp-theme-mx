@@ -9,7 +9,6 @@ add_filter('theme_includes',function($fns){
 class theme_cache_request {
 	public static $iden = 'theme-cache-request';
 	public static function init(){
-		//add_action('frontend_seajs_use',			__CLASS__ . '::frontend_seajs_use');
 		add_action('wp_ajax_' . self::$iden,		__CLASS__ . '::process');
 		add_action('wp_ajax_nopriv_' . self::$iden,	__CLASS__ . '::process');
 		add_filter('frontend_seajs_alias',			__CLASS__ . '::frontend_seajs_alias');
@@ -22,7 +21,7 @@ class theme_cache_request {
 		/**
 		 * dev mode
 		 */
-		if(class_exists('theme_dev_mode') && theme_dev_mode::is_enabled()){
+		if(class_exists('theme_dev_mode') && theme_dev_mode::get_options('queries')){
 			global $wpdb;
 			$output['debug'] = [
 				'queries' => $wpdb->queries,

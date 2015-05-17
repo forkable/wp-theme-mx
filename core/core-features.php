@@ -521,7 +521,7 @@ class theme_features{
 	 * @param string $DIR
 	 * @param string $filename
 	 * @return string
-	 * @version 1.0.1
+	 * @version 1.0.3
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_theme_includes_image($DIR,$filename){
@@ -537,10 +537,10 @@ class theme_features{
 			'file_basename' => $filename,
 		];
 
-		$url = self::get_template_directory_uri() . '/' . $args['type'] . '/' . $args['basedir'] . $args['file_basename'];
+		$url = self::get_template_directory_uri() . '/' . $args['type'] . '/' . $args['basedir'] . $args['file_basename'] . '?v=' . theme_file_timestamp::get_timestamp();
 
-		$caches[$cache_id] = $url;
-		return $url;
+		$caches[$cache_id] = esc_url($url);
+		return $caches[$cache_id];
 	}
 	/**
 	 * get_theme_extension_url_core

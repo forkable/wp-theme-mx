@@ -13,14 +13,14 @@ if(is_user_logged_in()){
 		?>
 		<a href="<?= theme_cache::get_author_posts_url($current_user_id);?>" class="btn btn-default meta user-avatar" title="<?= ___('My profile');?>">
 			<?= get_avatar($current_user_id);?>
-			<span class="tx"><?= wp_get_current_user()->display_name;?></span>
+			<span class="tx"><?= esc_html(get_the_author_meta('display_name',$current_user_id));?></span>
 		</a>
 		
 		<!-- my point -->
 		<?php if(class_exists('theme_custom_point')){ ?>
 			<a href="<?= theme_custom_user_settings::get_tabs('history')['url'];?>" class="meta tool-point btn btn-default" title="<?= ___('My points');?>">
 				<?php if(theme_custom_point::get_point_img_url()){ ?>
-					<img src="<?= esc_url(theme_custom_point::get_point_img_url());?>" alt="" width="15" height="15">
+					<img src="<?= theme_custom_point::get_point_img_url();?>" alt="" width="15" height="15">
 				<?php }else{ ?>
 					<i class="fa fa-diamond fa-fw"></i> 
 				<?php } ?>
@@ -82,7 +82,7 @@ if(is_user_logged_in()){
 
 		
 		<!-- logout -->
-		<a href="<?= wp_logout_url(get_current_url());?>" class="meta tool-logout btn btn-default" title="<?= ___('Log-out');?>">
+		<a href="<?= esc_url(wp_logout_url(get_current_url()));?>" class="meta tool-logout btn btn-default" title="<?= ___('Log-out');?>">
 			<i class="fa fa-power-off fa-fw"></i> 
 		</a>
 	</div>
@@ -98,12 +98,11 @@ if(is_user_logged_in()){
 			<?= ___('Login');?>
 		</a>
 		<div class="btn-group btn-group-xs">
-			<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+			<a href="javascript:;" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 				<span class="caret"></span>
-				<span class="sr-only">Toggle Dropdown</span>
-			</button>
+				<span class="sr-only"></span>
+			</a>
 			<ul class="dropdown-menu" role="menu">
-				
 				<?php
 				/**
 				 * open sign

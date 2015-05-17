@@ -152,12 +152,11 @@ class theme_custom_point{
 		<?php
 	}
 	public static function get_point_img_url(){
-		static $caches;
-		if(isset($caches['url']))
-			return $caches['url'];
+		static $cache = null;
+		if($cache === null)
+			$cache = esc_url(self::get_options('point-img-url'));
 
-		$caches['url'] = esc_url(self::get_options('point-img-url'));
-		return $caches['url'];
+		return $cache;
 	}
 	public static function incr_user_points($user_id,$points){
 		$old_points = (int)get_user_meta($user_id,self::$user_meta_key['point'],true);

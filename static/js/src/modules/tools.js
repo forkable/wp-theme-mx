@@ -1,6 +1,8 @@
 define(function(require, exports, module){
 	'use strict';
 	
+	var js_request = require('theme-cache-request');
+
 	exports.parseHTML = function(str) {
 		var tmp = document.implementation.createHTMLDocument();
 		tmp.body.innerHTML = str;
@@ -95,7 +97,7 @@ define(function(require, exports, module){
 		}
 	};
 	
-	exports.$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? jQuery('html') : jQuery('body');
+	exports.$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? document.querySelector('html') : document.querySelector('body');
 	/**
 	 * validate
 	 *
@@ -104,7 +106,6 @@ define(function(require, exports, module){
 	 * @author KM@INN STUDIO
 	 */
 	exports.validate = function(){
-		var js_request = require('theme-cache-request');
 		/** config */
 		this.process_url = false;
 		this.loading_tx = false;
@@ -211,11 +212,10 @@ define(function(require, exports, module){
 	/**
 	 * in_screen
 	 *
-	 * @param object jQuery(selector)
 	 * @return bool
 	 * @link https://msdn.microsoft.com/en-us/library/ie/ms534303%28v=vs.85%29.aspx
 	 */
-	exports.in_screen = function(s){
+	exports.in_screen = function(oObject){
 		var oParent = oObject.offsetParent,
 			iOffsetTop = oObject.offsetTop,
 			iClientHeight = oParent.clientHeight;
@@ -225,10 +225,7 @@ define(function(require, exports, module){
 
 	/**
 	 * auto_focus
-	 * 
-	 * 
-	 * @return jQuery(obj) $this the focus element of jq
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 * @author KM@INN STUDIO
 	 * 
 	 */
@@ -244,57 +241,6 @@ define(function(require, exports, module){
 				return false;
 			}
 		}
-	};
-	/**
-	 * frm_is_valid($this) 检测表单值为空
-	 * 
-	 * @params $this the form $ object
-	 * @return object 
-	 * @return object.is_invalid bool The value is null or false
-	 * @return object.$this jQuery($this) This current object
-	 * @version 1.0.1
-	 * @author KM@INN STUDIO
-	 * 
-	 */
-	exports.frm_is_valid = function($fm){
-		var _this = this,
-			return_data = {
-				$this : false,
-				is_invalid : false
-			};
-		fm.find("[required]").each(function(i){
-			var $this = jQuery(this);
-			if(!(jQuery.trim($this.val())) && !return_data.is_invalid){
-				warning_effect(100,5,function(){
-					$this.css({'border-color':'red'});
-				},function(){
-					$this.css({'border-color':''});
-				});
-				$this.val('');
-				$this.focus();
-				return_data.is_invalid = true;
-				return_data.$this = $this;
-			}
-		});
-		
-		function warning_effect(timeout,times,callback1,callback2){
-			var timeout = timeout ? timeout : 150,
-				times = times ? times : 5,
-				i = 0;
-			var si = setInterval(function(){
-				/* call the callback1 */
-				if(i === 0 || (i % 2 == 0)){
-					callback1();
-				}else{
-					callback2();
-				}
-				if(i >= times){
-					clearInterval(si);
-				}
-				i++;
-			},timeout);
-		}
-		return return_data;
 	};
 	/**
 	 * Check the value is email or not

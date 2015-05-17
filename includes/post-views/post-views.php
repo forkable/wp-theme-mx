@@ -248,7 +248,7 @@ class theme_post_views{
 	}
 	public static function frontend_seajs_use(){
 		if(!self::is_singular_post())
-			return;
+			return false;
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.init();
