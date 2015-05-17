@@ -59,7 +59,7 @@ class theme_custom_contribution{
 		return $navs;
 	}
 	public static function get_des(){
-		return self::get_options('description');
+		return stripslashes(self::get_options('description'));
 	}
 	public static function display_backend(){
 		$opt = (array)self::get_options();
@@ -82,7 +82,7 @@ class theme_custom_contribution{
 				<tr>
 					<th><label for="<?= self::$iden;?>-description"><?= esc_html(___('You can write some description for contribution page header. Please use tag <p> to wrap your HTML codes.'));?></label></th>
 					<td>
-						<textarea name="<?= self::$iden;?>[description]" id="<?= self::$iden;?>-description" class="widefat" rows="5"><?= htmlspecialchars(self::get_des());?></textarea>
+						<textarea name="<?= self::$iden;?>[description]" id="<?= self::$iden;?>-description" class="widefat" rows="5"><?= self::get_des();?></textarea>
 					</td>
 				</tr>
 			</table>

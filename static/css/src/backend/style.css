@@ -100,6 +100,8 @@ fieldset{
 
 	}
 @media screen and (-webkit-min-device-pixel-ratio:0){fieldset legend{border-top-width:2px;}}
+
+fieldset.active,
 fieldset:hover{
 	background:rgb(245,245,245);
 	background:linear-gradient(rgb(245,245,245),rgb(250,251,253));
@@ -108,7 +110,8 @@ fieldset:hover{
 	background:-o-linear-gradient(rgb(245,245,245), rgb(250,251,253));
 	background:-webkit-gradient(linear,from(rgb(245,245,245)),to(rgb(250,251,253)));
 }
-	fieldset:hover > legend{
+	fieldset:hover > legend,
+	fieldset.active > legend{
 		color:#D54E21;
 	}
 h3{
@@ -190,7 +193,6 @@ h3{
 			background:rgb(250,251,253);
 		}
 
-
 .tabnav-container{
 	display: none;
 	background:rgb(250,251,253);
@@ -223,7 +225,7 @@ h3{
 }
 	.tabnav:after{clear: both;content:'.';display: block;overflow:hidden;visibility:hidden;font-size:0;line-height:0;width:0;height:0;}
 	.tabnav li{
-		padding: 10px 20px;
+		padding: 5px 20px;
 		text-decoration: none;
 		text-overflow: ellipsis;
 		white-space: nowrap;

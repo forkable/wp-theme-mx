@@ -44,14 +44,15 @@ class theme_options{
 	 * 
 	 */
 	public static function get_options($key = null){
-
-		if(empty(self::$opts)){
+		static $mod = null;
+		if($mod === null)
+			$mod = (array)get_theme_mod(self::$iden);
+			
 		/** Default options hook */
-			self::$opts = array_merge(
-				apply_filters('theme_options_default',[]),
-				(array)get_theme_mod(self::$iden)
-			);
-		}
+		self::$opts = array_merge(
+			apply_filters('theme_options_default',[]),
+			$mod
+		);
 
 		if($key){
 			return isset(self::$opts[$key]) ? self::$opts[$key] : null;

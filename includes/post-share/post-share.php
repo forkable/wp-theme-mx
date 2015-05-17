@@ -2,7 +2,7 @@
 /*
 Feature Name:	Post Share
 Feature URI:	http://www.inn-studio.com
-Version:		2.0.0
+Version:		2.0.1
 Description:	
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -117,7 +117,7 @@ class theme_post_share{
 	
 	}
 	
-	public static function options_default($opts){
+	public static function options_default(array $opts = []){
 		ob_start();
 		?>
 <div class="bdshare_t bdsharebuttonbox" data-tag="bd_share" data-bdshare="{
@@ -147,11 +147,11 @@ class theme_post_share{
 		$opt = self::get_options();
 		return isset($opt['on']) && $opt['on'] == 1;
 	}
-	public static function options_save($options){
+	public static function options_save(array $opts = []){
 		if(isset($_POST[self::$iden]) && !isset($_POST[self::$iden]['restore'])){
-			$opt = $_POST[self::$iden];
+			$opts[self::$iden] = $_POST[self::$iden];
 		}
-		return $options;
+		return $opts;
 	}
 	public static function frontend_css(){
 		$opt = self::get_options();

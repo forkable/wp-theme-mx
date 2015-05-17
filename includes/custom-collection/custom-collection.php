@@ -73,7 +73,19 @@ class theme_custom_collection{
 				<tr>
 					<th><label for="<?= self::$iden;?>-tags-number"><?= ___('Shows tags number');?></label></th>
 					<td>
-						<input class="short-text" type="number" name="<?= self::$iden;?>[tags-number]" id="<?= self::$iden;?>-tags-number" value="<?= isset($opt['tags-number']) ?  $opt['tags-number'] : 6;?>">
+						<input class="short-text" type="number" name="<?= self::$iden;?>[tags-number]" id="<?= self::$iden;?>-tags-number" value="<?= isset($opt['tags-number']) ?  (int)$opt['tags-number'] : 6;?>">
+					</td>
+				</tr>
+				<tr>
+					<th><label for="<?= self::$iden;?>-posts-min-number"><?= ___('Post boxes min number');?></label></th>
+					<td>
+						<input class="short-text" type="number" name="<?= self::$iden;?>[posts-min-number]" id="<?= self::$iden;?>-posts-min-number" value="<?= isset($opt['posts-min-number']) ?  (int)$opt['posts-min-number'] : 5;?>">
+					</td>
+				</tr>
+				<tr>
+					<th><label for="<?= self::$iden;?>-posts-max-number"><?= ___('Post boxes max number');?></label></th>
+					<td>
+						<input class="short-text" type="number" name="<?= self::$iden;?>[posts-max-number]" id="<?= self::$iden;?>-posts-max-number" value="<?= isset($opt['posts-max-number']) ?  (int)$opt['posts-max-number'] : 10;?>">
 					</td>
 				</tr>
 				<tr>
@@ -108,8 +120,6 @@ class theme_custom_collection{
 	
 	<a href="javascript:;" class="clt-del btn btn-danger btn-xs"><i class="fa fa-times-circle"></i> <?= ___('Delete this item');?></a>
 </div>
-
-
 		<?php
 		$content = ob_get_contents();
 		ob_end_clean();

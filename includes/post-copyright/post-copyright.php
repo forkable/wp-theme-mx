@@ -92,7 +92,7 @@ class theme_post_copyright{
 	 */
 	public static function options_save($opts){
 		if(isset($_POST[self::$iden]) && !isset($_POST[self::$iden]['restore'])){
-			$opt = isset($_POST[self::$iden]) ? $_POST[self::$iden] : null;
+			$opts[self::$iden] = $_POST[self::$iden];
 		}
 		return $opts;
 	}
