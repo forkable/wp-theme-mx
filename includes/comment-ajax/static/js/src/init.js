@@ -31,7 +31,6 @@ define(function(require, exports, module){
 		config = exports.config;
 	
 	exports.init = function(){
-		alert('ajax-comment');
 		tools.ready(function(){
 			/**
 			 * set comment count
@@ -39,9 +38,10 @@ define(function(require, exports, module){
 			exports.count.set();
 			
 			cache.$comment_list_container = I('comment-list-' + config.post_id);
+			cache.$comments = I('comments');
 			if(!cache.$comment_list_container)
 				return false;
-				
+			
 			
 			window.addComment = addComment;
 
@@ -196,7 +196,7 @@ define(function(require, exports, module){
 		function create_prev(){
 			var prev_class = _that.cpage <= 1 ? 'disabled' : '',
 				attrs = {
-					'class' : 'prev btn btn-default ' + prev_class,
+					'class' : 'prev btn btn-success ' + prev_class,
 					'href' : 'javascript:;'
 				};
 			_cache.$prev = document.createElement('a');
@@ -226,7 +226,7 @@ define(function(require, exports, module){
 		function create_next(){
 			var next_class = _that.cpage > _that.pages - 1 ? 'disabled' : '',
 				attrs = {
-					'class' : 'next btn btn-default ' + next_class,
+					'class' : 'next btn btn-success ' + next_class,
 					'href' : 'javascript:;'
 				};
 			_cache.$next = document.createElement('a');
@@ -265,7 +265,7 @@ define(function(require, exports, module){
 			/**
 			 * restore form
 			 */
-			if(document.getElementById('comments').querySelector('#respond'))
+			if(cache.$comments.querySelector('#respond'))
 				addComment.cancelMove();
 
 			/** set cpage */
@@ -336,6 +336,7 @@ define(function(require, exports, module){
 		/** scroll to comment list container offset top */
 		function scroll_to_list(){
 			location.hash = 'comments';
+			//window.scrollTo(0,cache.$comment_list_container.offsetTop);
 			//var y = cache.$comment_list_container.getBoundingClientRect().top + document.documentElement.scrollTop;
 			//window.scrollTo(0,y - 40);
 		}

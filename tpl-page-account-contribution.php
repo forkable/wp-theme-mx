@@ -33,6 +33,7 @@ if(class_exists('theme_custom_contribution')){
 		</h3>
 	</div>
 	<div class="panel-body">
+		<?= theme_custom_contribution::get_des();?>
 		<form action="javascript:;" id="fm-ctb" class="form-horizontal">
 			<div class="form-group">
 				<label for="ctb-title" class="col-sm-2 control-label">

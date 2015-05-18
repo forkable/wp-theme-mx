@@ -59,58 +59,7 @@ class theme_custom_homebox{
 		}
 	}
 	public static function display_frontend($args = null){
-		$boxes = self::get_options();
-		//var_dump($boxes);
-		if(empty($boxes)) return false;
-		global $post;
-		$defaults = array(
-			'dt_title' => null,
-			'posts_per_page' => 10,
-			'classes' => [],
-		);
-		$r = array_merge($defaults,$args);
-		extract($r,EXTR_SKIP);
 		
-		foreach($boxes as $k => $v){
-			$category = get_category($v['cat']);
-			?>
-			<section class="mod main-posts">
-				<h3 class="tabtitle">
-					<a href="<?= esc_url(get_category_link($category->term_id));?>" class="link">
-						<span class="icon-play"></span><span class="after-icon"><?= esc_html($category->name);?></span>
-						<small class="detail"><?= esc_html(___('&raquo; detail'));?></small>
-					</a>
-					<?php self::keywords_to_html($v['keywords']);?>
-				</h3>
-				<?php
-				$query = theme_functions::get_posts_query(array(
-					'orderby' => 'lastest',
-					'posts_per_page' => 10,
-					'category__in' => array($v['cat']),
-				));
-				if($query->have_posts()){
-					?>
-					<ul class="post-img-lists">
-						<?php
-						foreach($query->posts as $post){
-							theme_functions::archive_img_content(array(
-								'classes' => array('grid-20 tablet-grid-20 mobile-grid-50'),
-							));
-						}
-						wp_reset_postdata();
-						?>
-					</ul>
-					<?php
-				}else{
-					?>
-					<?= status_tip('info',___('Not data in this category'));?>
-					<?php
-				}
-				//wp_reset_query();
-				?>
-			</section>
-			<?php
-		}
 	}
 	private static function cat_checkbox_tpl($placeholder){
 		$opt = self::get_options();

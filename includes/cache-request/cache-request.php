@@ -12,6 +12,7 @@ class theme_cache_request {
 		add_action('wp_ajax_' . self::$iden,		__CLASS__ . '::process');
 		add_action('wp_ajax_nopriv_' . self::$iden,	__CLASS__ . '::process');
 		add_filter('frontend_seajs_alias',			__CLASS__ . '::frontend_seajs_alias');
+		add_filter('backend_seajs_alias',			__CLASS__ . '::frontend_seajs_alias');
 	}
 	public static function process(){
 		theme_features::check_referer();

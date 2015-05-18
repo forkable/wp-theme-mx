@@ -18,8 +18,9 @@ class theme_post_views{
 		'views' => 'theme_post_views',
 		'times' => 'theme_post_views_times'
 	);
-	private static $expire = 3600;/** 29 days */
-
+	private static $expire = 2505600;/** 29 days */
+	private static $cookie_expire = 60;/** 1 min */
+	private static $cookie = null;
 	public static $opt;
 	public static function init(){
 
@@ -214,17 +215,30 @@ class theme_post_views{
 		];
 		return $output;
 	}
-	public static function is_viewed($post_id){
-		if(!isset($_SESSION))
-			session_start();
-		$group_id = self::$iden  . '-viewed';
-		$cache_id = session_id() . $post_id;
-		if(!wp_cache_get($cache_id,$group_id)){
-			wp_cache_set($cache_id,1,$group_id,3600);
-			return false;
-		}else{
+	public static function get_viewed_ids(){
+		if(self::$cookie === null)
+			self::$cookie = isset($_COOKIE[self::$iden]) ? json_decode($_COOKIE[self::$iden],true) : false;
+
+		return self::$cookie;
+	}
+	public static function set_viewed_ids($post_id){
+		$expire = time() + self::$cookie_expire;
+		self::$cookie = self::get_viewed_ids();
+		if(empty(self::$cookie)){
+			self::$cookie = [$post_id];
+			setcookie(self::$iden,json_encode([$post_id]),$expire);
 			return true;
+		}else{
+			if(!in_array($post_id,self::$cookie)){
+				self::$cookie[] = $post_id;
+				setcookie(self::$iden,json_encode(self::$cookie),$expire);
+				return true;
+			}
+			return false;
 		}
+	}
+	public static function is_viewed($post_id){
+		return !self::set_viewed_ids($post_id);
 	}
 	private static function is_singular_post(){
 		static $cache = null;

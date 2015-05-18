@@ -1,8 +1,13 @@
+/**
+ * @version 1.0.0
+ */
 define(function(require, exports, module){
+	'use strict';
 	var tools = require('modules/tools');
+
 	exports.init = function(){
 		tools.ready(bdjs);
-	}
+	};
 	function bdjs(){
 		var _bd_share_config = {
 				common: {

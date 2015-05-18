@@ -1692,20 +1692,18 @@ class theme_functions{
 			?>
 		</h3>
 		<div class="mx-panel-heading-extra">
-			
-			
-			<a 
+			<!-- <a 
 				title="<?= ___('I feel lucky');?>"
 				href="javascript:;" 
 				class="extra homebox-refresh hide" 
 				data-target="#homebox-<?= $k;?> .post-img-lists" 
 				data-box-id="<?= $k;?>"
-			><i class="fa fa-refresh fa-fw"></i></a>
+			><i class="fa fa-refresh fa-fw"></i></a> -->
 			
 			<?php if(!is_null_array($v['keywords'])){ ?>
 				<div class="extra keywords hidden-xs">
 					<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){?>
-						<a class="" href="<?= esc_url($kw['url']);?>">
+						<a href="<?= esc_url($kw['url']);?>">
 							<?= $kw['name'];?>
 						</a>
 					<?php } ?>
@@ -1720,7 +1718,7 @@ class theme_functions{
 		<ul class="row mx-card-body post-img-lists">
 			<?php
 			$query = new WP_Query([
-				'category__in' => $v['cats'],
+				'category__in' => isset($v['cats']) ? $v['cats'] : [],
 				'posts_per_page' => 8,
 				'ignore_sticky_posts' => false,
 			]);

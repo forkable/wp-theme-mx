@@ -24,7 +24,8 @@ class theme_asset_enqueue{
 		$js = [
 			'frontend-seajs' => [
 				'deps' => [],
-				'url' => 'https://cdnjs.cloudflare.com/ajax/libs/seajs/3.0.1/sea.js',
+				//'url' => 'https://cdnjs.cloudflare.com/ajax/libs/seajs/3.0.1/sea.js',
+				'url' => 'https://cdnjs.cloudflare.com/ajax/libs/seajs/2.3.0/sea.js',
 				'version' => null,
 			],
 			//'jquery-core' => [
@@ -43,7 +44,7 @@ class theme_asset_enqueue{
 		/**
 		 * first deregister
 		 */
-		//self::frontend_deregister_js();
+		self::frontend_deregister_js();
 		self::frontend_register_js();
 		
 		foreach($js as $k => $v){
@@ -78,7 +79,7 @@ class theme_asset_enqueue{
 	}
 	public static function frontend_deregister_js(){
 		$js = [
-			'jquery',
+			//'jquery',
 			'jquery-core'
 		];
 		foreach($js as $v){

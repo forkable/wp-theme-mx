@@ -29,6 +29,8 @@ class theme_custom_user_settings{
 			$nav_fn = 'filter_nav_' . $k; 
 			add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
 		}
+		add_action( 'wp_enqueue_scripts', __CLASS__ . '::wp_enqueue_script');
+		
 
 	}
 
@@ -291,7 +293,16 @@ class theme_custom_user_settings{
 		</a>';
 		return $navs;
 	}
+	public static function wp_enqueue_script(){
+		if(!self::is_page())
+			return false;
 
+		$tabs = self::get_tabs();
+		$tab_active = get_query_var('tab');
+		if($tab_active === 'avatar'){
+			wp_enqueue_script('jquery-core');
+		}
+	}
 	public static function frontend_seajs_alias($alias){
 		if(!self::is_page()) 
 			return $alias;
@@ -305,7 +316,8 @@ class theme_custom_user_settings{
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(!self::is_page()) return false;
+		if(!self::is_page()) 
+			return false;
 		
 		$tabs = self::get_tabs();
 		$tab_active = get_query_var('tab');
@@ -316,8 +328,8 @@ class theme_custom_user_settings{
 				?>
 				seajs.use('<?= self::$iden,'-settings';?>',function(m){
 					m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
-					m.config.lang.M00001 = '<?= esc_js(___('Loading, please wait...'));?>';
-					m.config.lang.E00001 = '<?= esc_js(___('Sorry, server error please try again later.'));?>';
+					m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+					m.config.lang.E00001 = '<?= ___('Sorry, server error please try again later.');?>';
 					
 					m.init();
 				});				
@@ -327,8 +339,8 @@ class theme_custom_user_settings{
 				?>
 				seajs.use('<?= self::$iden,'-',$tab_active;?>',function(m){
 					m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
-					m.config.lang.M00001 = '<?= esc_js(___('Loading, please wait...'));?>';
-					m.config.lang.E00001 = '<?= esc_js(___('Sorry, server error please try again later.'));?>';
+					m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
+					m.config.lang.E00001 = '<?= ___('Sorry, server error please try again later.');?>';
 					
 					m.init();
 				});				

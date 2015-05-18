@@ -1,8 +1,7 @@
 define(function(require, exports, module){
 	'use strict';
-
-	var tools = require('modules/tools'),
-		js_request = require('theme-cache-request');
+	var js_request = require('theme-cache-request'),
+		tools = require('modules/tools');
 
 	exports.config = {
 		process_url : '',
@@ -66,7 +65,7 @@ define(function(require, exports, module){
 		};
 		xhr.onerror = function(){
 			tools.ajax_loading_tip('error',config.lang.E00001);
-		}
+		};
 
 		function always(){
 			caches.$btn_group.style.display = '';

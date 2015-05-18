@@ -736,15 +736,22 @@ class custom_post_point{
 
 		return true;
 	}
-	public static function frontend_seajs_alias(array $alias =[]){
-		if(!is_singular('post'))
+	public static function is_singular_post(){
+		static $cache = null;
+		if($cache === null)
+			$cache = is_singular('post');
+
+		return $cache;
+	}
+	public static function frontend_seajs_alias(array $alias = []){
+		if(!self::is_singular_post())
 			return $alias;
 			
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(!is_singular('post'))
+		if(!self::is_singular_post())
 			return;
 		?>
 		seajs.use(['<?= self::$iden;?>'],function(m){

@@ -9,9 +9,9 @@ define(function(require, exports, module){
 		return tmp.body.children;
 	};
 
-	exports.scrollTop = function(scrollY) {
+	exports.scrollTop = function(y) {
 		function loop(){
-			if(document.documentElement.scrollTop > scrollY){
+			if(document.documentElement.scrollTop > y){
 				setTimeout(function(){
 					window.scrollTo(0,document.documentElement.scrollTop - 10);
 					loop();
@@ -81,12 +81,12 @@ define(function(require, exports, module){
 		function set_close_time(t){
 			$close.innerHTML = '<span class="number">' + t + '</span>';
 		}
-	}
+	};
 	exports.param = function(obj){
 		return Object.keys(obj).map(function(key){ 
 			return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]); 
 		}).join('&');
-	}
+	};
 	
 	exports.ready = function(fn){
 		if (document.readyState != 'loading'){
@@ -186,7 +186,7 @@ define(function(require, exports, module){
 			}
 		};
 		return this;
-	}
+	};
 
 	
 	/** 
@@ -331,7 +331,7 @@ define(function(require, exports, module){
 
 			var tpl = '<' + wrapper + ' class="tip-status tip-status-' + size + ' tip-status-' + type + '"><i class="fa fa-' + icon + '"></i> ' + content + '</' + wrapper + '>';
 			return tpl;
-	}
+	};
 
 	/** 
 	 * cookie

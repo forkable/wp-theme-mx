@@ -29,9 +29,9 @@ class theme_post_share{
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 	}
 	public static function get_options($key = null){
-		static $caches;
+		static $caches = [];
 		if(!$caches)
-			$caches = theme_options::get_options(self::$iden);
+			$caches = (array)theme_options::get_options(self::$iden);
 		if($key){
 			return isset($caches[$key]) ? $caches[$key] : null;
 		}
@@ -144,8 +144,7 @@ class theme_post_share{
 		return $opts;
 	}
 	public static function is_enabled(){
-		$opt = self::get_options();
-		return isset($opt['on']) && $opt['on'] == 1;
+		return self::get_options('on') == 1 ? true : false;
 	}
 	public static function options_save(array $opts = []){
 		if(isset($_POST[self::$iden]) && !isset($_POST[self::$iden]['restore'])){
@@ -161,7 +160,7 @@ class theme_post_share{
 		return $cache;
 	}
 	public static function frontend_css(){
-		if(!is_singular())
+		if(!self::is_singular())
 			return false;
 			
 		wp_enqueue_style(
@@ -171,15 +170,15 @@ class theme_post_share{
 			theme_file_timestamp::get_timestamp()
 		);
 	}
-	public static function frontend_seajs_alias($alias){
-		if(!is_singular())
+	public static function frontend_seajs_alias(array $alias = []){
+		if(!self::is_singular())
 			return $alias;
 			
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	} 
 	public static function frontend_seajs_use(){
-		if(!is_singular())
+		if(!self::is_singular())
 			return false;
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){

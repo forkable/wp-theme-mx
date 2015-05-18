@@ -18,14 +18,14 @@ class theme_import_settings{
 		add_action('wp_ajax_' . self::$iden,	__CLASS__ . '::process');
 		add_action('after_backend_tab_init',	__CLASS__ . '::backend_seajs_use'); 
 		add_filter('backend_seajs_alias' , 		__CLASS__ . '::backend_seajs_alias');
-		add_action('backend_css',				__CLASS__ . '::style'); 
+		add_action('backend_css',				__CLASS__ . '::backend_css'); 
 		add_action('advanced_settings',			__CLASS__ . '::display_backend',99);		
 	}
 	public static function display_backend(){
 		
 		?>
 		<fieldset>
-			<legend><?= ___('Import & Export Theme Settings');?></legend>
+			<legend><?= ___('Import &amp; export theme settings');?></legend>
 			<p class="description">
 				<?= ___('You can select the settings file to upload and restore settings if you have the *.txt file. If you want to export the settings backup, please click the export button.');?>
 			</p>
@@ -34,17 +34,25 @@ class theme_import_settings{
 					<tr>
 						<th scope="row"><?= ___('Import');?></th>
 						<td>
-							<div id="tis_tip"></div>
-							<div id="tis_upload_area">
-								<a href="javascript:;" id="tis_upload" class="button"><?= ___('Select a setting file to restore');?></a>
-								<input id="tis_file" type="file"/>
+							<div id="<?= self::$iden;?>-tip"></div>
+							<div id="<?= self::$iden;?>-upload-area">
+								<a href="javascript:;" id="<?= self::$iden;?>-import" class="button">
+									<i class="fa fa-history"></i> 
+									<?= ___('Select a setting file to restore');?>
+									<input id="<?= self::$iden;?>-file" type="file" accept="text/plain"/>
+								</a>
+								
 							</div>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><?= ___('Export');?></th>
 						<td>
-							<a href="<?= theme_features::get_process_url(array('action'=>self;:$iden));?>" id="tis_export" class="button"><?= ___('Start export settings file');?></a>
+							<a href="<?= theme_features::get_process_url([
+								'action' => self::$iden,
+								'type' => 'export',
+								'theme-nonce' => wp_create_nonce('theme-nonce'),
+							]);?>" id="<?= self::$iden;?>-export" class="button"><i class="fa fa-cloud-download"></i> <?= ___('Start export settings file');?></a>
 						</td>
 					</tr>
 				</tbody>
@@ -62,50 +70,57 @@ class theme_import_settings{
 	 * 
 	 */
 	public static function process(){
-		if(current_user_can('manage_options'))
-			return false;
+
+		theme_features::check_referer();
+		theme_features::check_nonce();
+		
+		if(!current_user_can('manage_options'))
+			die();
 			
 		$output = [];
 		
-		$type = isset($_GET['type']) && is_string($_GET['type']) ? $_GET['type'] : null;
+		$type = isset($_REQUEST['type']) && is_string($_REQUEST['type']) ? $_REQUEST['type'] : null;
 
 		switch($type){
-			case 'upload':
-				$contents = isset($_POST['content']) ? @unserialize(base64_decode($_POST['content'])) : null;
+			case 'import':
+				$contents = isset($_POST['b64']) && is_string($_POST['b64']) ? @unserialize(authcode($_POST['b64'])) : null;
 				if(is_array($contents) && !empty($contents)){
 					set_theme_mod(theme_options::$iden,$contents);
 					$output['status'] = 'success';
-					$output['msg'] = ___('Settings has been restored, refreshing page, please wait... ');
+					$output['msg'] = ___('Settings has been restored, refreshing page, please wait...');
 				/**
 				 * invalid contents
 				 */
 				}else{
 					$output['status'] = 'error';
-					$output['msg'] = ___('Invalid content. ');
+					$output['msg'] = ___('Invalid content.');
 				}
 				break;
-			case 'download':
-				$options = theme_options::get_options();
-				$contents = base64_encode(serialize($options));
+			/**
+			 * export
+			 */
+			case 'export':
+				$contents = authcode(serialize(theme_options::get_options()),'encode');
 				/**
 				 * write content to a tmp file
 				 */
-				$tmp = tempnam('/tmp','tis');
-				$handle = fopen($tmp,"w");
-				fwrite($handle,$contents);
-				fclose($handle);
+				$tmp = tmpfile();
+				$filepath = stream_get_meta_data($tmp)['uri'];
+				file_put_contents($filepath,$contents);
 				/**
 				 * output file download
 				 */
 				header('Content-type: application/txt');
-				$download_fn = str_ireplace('http://','',home_url());
-				$download_fn = str_ireplace('https://','',$download_fn);
-				$download_fn = str_ireplace('/','-',$download_fn);
-				$download_fn = $download_fn . '.' . date('Ydm') . '.txt';
+				
+				$download_fn = ___('Backup') ;
+				$download_fn .= '-' . get_bloginfo('name');
+				$download_fn .= '-' . date('Ymd') . '.txt';
+				
 				header('Content-Disposition: attachment; filename=" ' . $download_fn . '"');
-				readfile($tmp); 
-				unlink($tmp);
-				exit;
+				
+				readfile($filepath); 
+
+				die();
 				$output['status'] = 'success';
 				$output['msg'] = ___('Settings has been restored, refreshing page, please wait... ');
 				break;
@@ -122,9 +137,9 @@ class theme_import_settings{
 	 * @author KM@INN STUDIO
 	 * 
 	 */
-	public static function style(){
+	public static function backend_css(){
 		?>
-		<link href="<?= theme_features::get_theme_includes_css(__DIR__,'bakcend',true);?>" rel="stylesheet"  media="all"/>
+		<link href="<?= theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
 		<?php
 	}
 	public static function backend_seajs_alias(array $alias = []){

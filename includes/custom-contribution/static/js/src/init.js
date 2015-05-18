@@ -174,23 +174,20 @@ define(function(require, exports, module){
 			fd.append('img',file);
 			
 			xhr.open('post',config.process_url);
-			xhr.onload = complete_callback;
-			xhr.onreadystatechange = function(){
-				if (xhr && xhr.readyState === 4) {
-					status = xhr.status;
-					if (status >= 200 && status < 300 || status === 304) {
-						
-					}else{
-						error_callback();
-					}
+			xhr.onload = function(){
+				if (xhr.status >= 200 && xhr.status < 400) {
+					complete_callback(xhr.responseText);
+				}else{
+					error_callback(xhr.responseText);
 				}
 				xhr = null;
-			}
+			};
+			
+			
 			xhr.upload.onprogress = function(e){
 				if (e.lengthComputable) {
 					var percent = e.loaded / e.total * 100;		
 					cache.$file_progress_bar.style.width = percent + '%';
-					
 				}
 			}
 			xhr.send(fd);
@@ -211,13 +208,8 @@ define(function(require, exports, module){
 			var t = config.lang.M00002.format(i,count);
 			uploading_tip('loading',t);
 		}
-		function complete_callback(){
-			var data = this.responseText;
-			try{
-				data = JSON.parse(this.responseText);
-			}catch(error){
-				data = false;
-			}
+		function complete_callback(data){
+			try{data = JSON.parse(data)}catch(error){}
 			cache.file_index++;
 			/** 
 			 * success
