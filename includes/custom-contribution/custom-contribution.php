@@ -143,11 +143,11 @@ class theme_custom_contribution{
 		$caches[self::$iden] = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 		return $caches[self::$iden];
 	}
-	private static function wp_get_attachment_image_src(...$args){
+	private static function wp_get_attachment_image_src(){
 		static $caches = [];
-		$cache_id = md5(serialize($args));
+		$cache_id = md5(serialize(func_get_args()));
 		if(!isset($caches[$cache_id]))
-			$caches[$cache_id] = call_user_func_array('wp_get_attachment_image_src',$args);
+			$caches[$cache_id] = call_user_func_array('wp_get_attachment_image_src',func_get_args());
 
 		return $caches[$cache_id];
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.2
+ * @version 1.0.3
  */
 add_action('widgets_init','widget_hot_tags::register_widget' );
 class widget_hot_tags extends WP_Widget{
@@ -73,7 +73,7 @@ class widget_hot_tags extends WP_Widget{
 					style="
 						font-size:<?= str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) ),$unit;?>;
 						color:rgb(<?= mt_rand(50,200);?>,<?= mt_rand(50,200);?>,<?= mt_rand(50,200);?>);"
-				><?= esc_html($tag->name);?></a> 
+				><?= esc_html($tag->name);?></a>&nbsp;
 				<?php
 				$tag_links[] = html_compress(ob_get_contents());
 				ob_end_clean();
@@ -100,7 +100,15 @@ class widget_hot_tags extends WP_Widget{
 		if(!empty($instance['title'])){
 			echo $args['before_title'];
 			?>
-			<span class="icon-tags"></span><span class="after-icon"><?= esc_html($instance['title']);?></span>
+			<i class="fa fa-tags"></i> <?= $instance['title'];?>
+			<?php
+			/**
+			 * if have theme page tags, mark as more
+			 */
+			if(class_exists('theme_page_tags') && theme_page_tags::get_url()){
+				?><a title="<?= ___('Views tags index');?>" href="<?= theme_page_tags::get_url();?>" class="more"><?= ___('More &raquo;');?></a>
+			<?php } ?>
+			
 			<?php
 			echo $args['after_title'];
 		}

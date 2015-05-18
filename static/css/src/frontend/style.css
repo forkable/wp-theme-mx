@@ -483,7 +483,19 @@ img{
 			width: 100px;
 			height: auto;
 		}
-		
+/**
+ * .widget_hot_tags
+ */
+.widget_hot_tags .more{
+	position: absolute;
+	right: 10px;
+}
+.widget_hot_tags a:hover,
+.widget_hot_tags a:active{
+	background: #eee;
+	text-shadow: 0 1px 0 #fff;
+}
+
 .widget_rank .media-heading{
 	font-size: 13px;
 	line-height: 1.5;

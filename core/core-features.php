@@ -670,7 +670,7 @@ class theme_features{
 	 * @version 1.0.3
 	 * @author KM@INN STUDIO
 	 */
-	public static function get_theme_images_url($file_basename = null,$mtime = false){
+	public static function get_theme_images_url($file_basename = null,$mtime = true){
 		static $caches = [];
 		
 		$cache_id = $file_basename.$mtime;

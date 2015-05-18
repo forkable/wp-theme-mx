@@ -94,8 +94,28 @@ class theme_page_tags{
 		
 		die(theme_features::json_format($output));
 	}
+	public static function get_page(){
+		static $cache = null;
+		if($cache === null)
+			$cache = theme_cache::get_page_by_path(self::$page_slug);
+
+		return $cache;
+	}
+	public static function get_url(){
+		static $cache = null;
+		if($cache === null){
+			if(is_object(self::get_page())){
+				$cache = esc_url(get_permalink(self::get_page()->ID));
+			}else{
+				$cache = false;
+			}
+		}
+
+		return $cache;	
+	}
 	public static function page_create(){
-		if(!current_user_can('manage_options')) return false;
+		if(!current_user_can('manage_options')) 
+			return false;
 		
 		$page_slugs = array(
 			self::$page_slug => array(

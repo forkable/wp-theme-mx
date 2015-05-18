@@ -80,11 +80,11 @@ if(class_exists('theme_custom_collection')){
 			</div>
 			<!-- collection posts -->
 			<div class="form-group">
-				<label for="clt-post-id-0" class="col-sm-2 control-label">
-					<i class="fa fa-th-list"></i>
-					<?= ___('Collection posts');?>
-				</label>
-				<div class="col-sm-10">
+				<div class="col-xs-12">
+					<label for="clt-post-id-0">
+						<i class="fa fa-th-list"></i>
+						<?= ___('Collection posts');?>
+					</label>
 					<?php 
 					for($i = 0, $len = theme_custom_collection::get_posts_number('min'); $i < $len; ++$i){
 						echo theme_custom_collection::get_tpl($i);
@@ -95,12 +95,11 @@ if(class_exists('theme_custom_collection')){
 
 			<!-- add more posts -->
 			<div class="form-group">
-				<label class="col-sm-2 control-label" for="clt-add-post">
-					<i class="fa fa-plus"></i>
-					<?= ___('Add more posts');?>
-				</label>
-				<div class="col-sm-10">
-					<a href="javascript:;" id="clt-add-post" class="btn btn-success btn-block"><i class="fa fa-plus"></i> <?= ___('Add new post');?></a>
+				<div class="col-xs-12">
+					<div class="btn-group btn-group-justified">
+						<a href="javascript:;" id="clt-preview" class="btn btn-success"><i class="fa fa-desktop"></i> <?= ___('Preview the collection');?></a>
+						<a href="javascript:;" id="clt-add-post" class="btn btn-success"><i class="fa fa-plus"></i> <?= ___('Add new post');?></a>
+					</div>
 				</div>
 			</div>
 			
