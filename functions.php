@@ -780,7 +780,7 @@ class theme_functions{
 	 * get_thumbnail_src
 	 *
 	 * @return 
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_thumbnail_src($post_id = null,$size = 'thumbnail',$placeholder = null){
@@ -788,23 +788,23 @@ class theme_functions{
 		if(!$placeholder)
 			$placeholder = self::$thumbnail_placeholder;
 			
-		global $post;
 		if(!$size)
 			$size = self::$thumbnail_size[0];
 
 		if(!$post_id)
+			global $post;
 			$post_id = $post->ID;
 
 		$src = null;
 		
-		if(has_post_thumbnail()){
+		if(has_post_thumbnail($post_id)){
 			$src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id),$size)[0];
 		}
 		
 		if(!$src){
 			$src = theme_features::get_theme_images_url($placeholder);
 		}
-		return $src;
+		return esc_url($src);
 	}
 	/**
 	 * get_content

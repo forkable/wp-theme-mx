@@ -76,6 +76,33 @@
 	color:#428BCA;
 	font-weight: bold;
 }
+/**
+ * input group
+ */
+.input-group-input{
+	display: table-cell;
+}
+.input-group-input:first-child > .form-control, 
+.input-group-input:first-child > .input-group{
+	margin-right: -1px;
+}
+.input-group-input:last-child > .form-control, 
+.input-group-input:last-child > .input-group{
+	margin-left: -1px;
+}
+.input-group-addon, 
+.input-group-input{
+	width: 1%;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+.input-group-input{
+    position: relative;
+    font-size: 0px;
+    white-space: nowrap;
+}
+.input-group 
+
 
 .btn{
 	font-weight: normal;

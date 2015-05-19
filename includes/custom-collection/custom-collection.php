@@ -12,9 +12,7 @@ class theme_custom_collection{
 	public static $file_exts = array('png','jpg','gif');
 	public static $thumbnail_size = 'large';
 	public static $pages = [];
-	public static $post_meta_key = array(
-		'bdyun' => '_theme_ctb_bdyun'
-	);
+
 	public static function init(){
 		add_filter('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
 	
@@ -102,23 +100,24 @@ class theme_custom_collection{
 		ob_start();
 		?>
 <div class="clt-list" id="clt-list-<?= $placeholder; ?>" data-id="<?= $placeholder;?>">
-	<div class="media">
-		<div class="media-left clt-area-preview">
+	<div class="row">
+		<div class="col-xs-12 col-sm-5 col-md-3 col-lg-2 clt-area-preview">
 			<img src="<?= theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" alt="Placeholder" class="media-object placeholder">
 			<div class="clt-preview-container"></div>
+			<a href="javascript:;" class="clt-del btn btn-xs btn-danger btn-block"><i class="fa fa-trash"></i> <?= ___('Delete this item');?></a>
+
 		</div>
-		<div class="media-body clt-area-tx">
-			<p>
-			<input type="number" class="form-control post-id" id="clt-post-id-<?= $placeholder ;?>" name="clt[post-ids][<?= $placeholder;?>]" placeholder="<?= ___('Post ID, e.g. 4015.');?>" title="<?= ___('Please write the post ID number, e.g. 4015.');?>" required >
-			</p>
-			<p>
-			<input type="text" name="clt[post-title][<?= $placeholder;?>]" id="clt-post-title-<?= $placeholder;?>" class="form-control clt-post-title" placeholder="<?= ___('The recommended post title');?>" title="<?= ___('Please write the recommended post title.');?>" required >
-			</p>
+		<div class="col-xs-12 col-sm-7 col-md-9 col-lg-10 clt-area-tx">
+			<div class="input-group">
+				<span class="input-group-input">
+					<input type="number" class="form-control clt-post-id" id="clt-post-id-<?= $placeholder ;?>" name="clt[post-ids][<?= $placeholder;?>]" placeholder="<?= ___('Post ID');?>" title="<?= ___('Please write the post ID number, e.g. 4015.');?>" required >
+				</span>
+				<input type="text" name="clt[post-title][<?= $placeholder;?>]" id="clt-post-title-<?= $placeholder;?>" class="form-control clt-post-title" placeholder="<?= ___('The recommended post title');?>" title="<?= ___('Please write the recommended post title.');?>" required >
+			</div>
+			<textarea name="clt[post-content][<?= $placeholder;?>]" id="clt-post-content-<?= $placeholder;?>" rows="4" class="form-control clt-post-content" placeholder="<?= ___('Why recommend the post? Talking about your point.');?>" title="<?= ___('Why recommend the post? Talking about your point.');?>" required ></textarea>
 		</div>
 	</div><!-- /.media -->
-	<textarea name="clt[post-content][<?= $placeholder;?>]" id="clt-post-content-<?= $placeholder;?>" rows="4" class="form-control clt-post-content" placeholder="<?= ___('Why recommend the post? Talking about your point.');?>" title="<?= ___('Why recommend the post? Talking about your point.');?>" required ></textarea>
 	
-	<a href="javascript:;" class="clt-del btn btn-danger btn-xs"><i class="fa fa-times-circle"></i> <?= ___('Delete this item');?></a>
 </div>
 		<?php
 		$content = ob_get_contents();
@@ -402,6 +401,37 @@ class theme_custom_collection{
 					
 				}
 				break;
+			/**
+			 * get_post
+			 */
+			case 'get-post':
+			
+				$post_id = isset($_REQUEST['post-id']) && is_numeric($_REQUEST['post-id']) ? (int)$_REQUEST['post-id'] : null;
+				if(!$post_id){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_post_id';
+					$output['msg'] = ___('Sorry, the post id is invaild.');
+					die(theme_features::json_format($output));
+				}
+				global $post;
+				$post = get_post($post_id);
+				if(!$post){
+					$output['status'] = 'error';
+					$output['code'] = 'post_not_exist';
+					$output['msg'] = ___('Sorry, the post do not exist, please type another post ID.');
+					die(theme_features::json_format($output));
+				}
+
+				$output = [
+					'status' 	=> 'success',
+					'msg' 		=> ___('Finished get the post data.'),
+					'thumbnail' => theme_functions::get_thumbnail_src($post_id),
+					'title' 	=> esc_html(get_the_title($post_id)),
+					'excerpt' 	=> esc_html(get_the_excerpt($post_id)),
+				];
+				
+				wp_reset_postdata();
+				break;
 		}
 
 		die(theme_features::json_format($output));
@@ -418,23 +448,12 @@ class theme_custom_collection{
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
-			m.config.default_size = '<?= self::$thumbnail_size;?>';
 			m.config.tpl = <?= json_encode(html_compress(theme_custom_collection::get_tpl('%placeholder%')));?>;
 			m.config.lang = {
-				M00001 : '<?= ___('Loading, please wait...');?>',
-				M00002 : '<?= ___('Uploading {0}/{1}, please wait...');?>',
-				M00003 : '<?= ___('Click to delete');?>',
-				M00004 : '<?= ___('{0} files have been uploaded.');?>',
-				M00005 : '<?= ___('Source');?>',
-				M00006 : '<?= ___('Click to view source');?>',
-				M00007 : '<?= ___('Set as cover.');?>',
-				M00008 : '<?= ___('Optional: some description');?>',
-				M00009 : '<?= ___('Insert');?>',
-				M00010 : '<?= ___('Preview');?>',
-				M00011 : '<?= ___('Large size');?>',
-				M00012 : '<?= ___('Medium size');?>',
-				M00013 : '<?= ___('Small size');?>',
-				E00001 : '<?= ___('Sorry, server error please try again later.');?>'
+				M01 : '<?= ___('Loading, please wait...');?>',
+				M02 : '<?= ___('A item has been deleted.');?>',
+				M03 : '<?= ___('Uploading {0}/{1}, please wait...');?>',
+				E01 : '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>'
 			};
 			m.init();
 		});
@@ -451,5 +470,4 @@ class theme_custom_collection{
 			theme_file_timestamp::get_timestamp()
 		);
 	}
-
 }
