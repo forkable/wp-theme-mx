@@ -96,15 +96,23 @@ class theme_custom_collection{
 		</fieldset>
 		<?php
 	}
-	public static function get_tpl($placeholder){
+	public static function get_list_tpl($post_id,array $args = []){
+		if(!is_numeric($post_id)){
+			$args = [
+				'title' => '%title%',
+			];
+		}
+	}
+	public static function get_inputs_tpl($placeholder){
+		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		ob_start();
 		?>
 <div class="clt-list" id="clt-list-<?= $placeholder; ?>" data-id="<?= $placeholder;?>">
 	<div class="row">
 		<div class="col-xs-12 col-sm-5 col-md-3 col-lg-2 clt-area-preview">
-			<img src="<?= theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" alt="Placeholder" class="media-object placeholder">
-			<div class="clt-preview-container"></div>
-			<a href="javascript:;" class="clt-del btn btn-xs btn-danger btn-block"><i class="fa fa-trash"></i> <?= ___('Delete this item');?></a>
+			<img src="<?= $thumbnail_placeholder;?>" alt="Placeholder" class="media-object placeholder">
+			<div class="clt-preview-container" id="clt-preview-container-<?= $placeholder;?>"><img src="<?= $thumbnail_placeholder;?>" title="<?= ___('Post preview');?>" alt="" class="clt-preview"></div>
+			<a href="javascript:;" class="clt-del"><i class="fa fa-trash"></i> <?= ___('Delete this item');?></a>
 
 		</div>
 		<div class="col-xs-12 col-sm-7 col-md-9 col-lg-10 clt-area-tx">
@@ -414,20 +422,28 @@ class theme_custom_collection{
 					die(theme_features::json_format($output));
 				}
 				global $post;
-				$post = get_post($post_id);
-				if(!$post){
+				$query = new WP_Query([
+					'p' => $post_id
+				]);
+				if(!$query->have_posts()){
 					$output['status'] = 'error';
 					$output['code'] = 'post_not_exist';
 					$output['msg'] = ___('Sorry, the post do not exist, please type another post ID.');
 					die(theme_features::json_format($output));
 				}
-
+				$post = $query->posts[0];
 				$output = [
 					'status' 	=> 'success',
 					'msg' 		=> ___('Finished get the post data.'),
-					'thumbnail' => theme_functions::get_thumbnail_src($post_id),
+					'thumbnail' => [
+						'url' => theme_functions::get_thumbnail_src($post_id),
+						'size' => [
+							theme_functions::$thumbnail_size[1],
+							theme_functions::$thumbnail_size[2],
+						]
+					],
 					'title' 	=> esc_html(get_the_title($post_id)),
-					'excerpt' 	=> esc_html(get_the_excerpt($post_id)),
+					'excerpt' 	=> str_sub(strip_tags($post->post_content),200),
 				];
 				
 				wp_reset_postdata();
@@ -448,11 +464,12 @@ class theme_custom_collection{
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
-			m.config.tpl = <?= json_encode(html_compress(theme_custom_collection::get_tpl('%placeholder%')));?>;
+			m.config.tpl = <?= json_encode(html_compress(theme_custom_collection::get_inputs_tpl('%placeholder%')));?>;
 			m.config.lang = {
 				M01 : '<?= ___('Loading, please wait...');?>',
 				M02 : '<?= ___('A item has been deleted.');?>',
-				M03 : '<?= ___('Uploading {0}/{1}, please wait...');?>',
+				M03 : '<?= ___('Getting post data, please wait...');?>',
+				M04 : '<?= ___('Uploading {0}/{1}, please wait...');?>',
 				E01 : '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>'
 			};
 			m.init();

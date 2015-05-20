@@ -19,13 +19,14 @@
 .list-group-item{
 	padding: 10px 20px;
 }
-.row{
-	margin-left: -10px;
-	margin-right: -10px;
-}
+.row,
+.form-horizontal .form-group,
 .container-fluid > .navbar-collapse, .container-fluid > .navbar-header, .container > .navbar-collapse, .container > .navbar-header {
     margin-left: -10px;
     margin-right: -10px;
+}
+.form-group{
+	margin-bottom: 20px;
 }
 .navbar-form,
 .navbar-left,
@@ -38,16 +39,14 @@
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus,
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus,
-.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus{
-	background: #428BCA;
-	color:#fff;
-}
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:focus, 
 .dropdown-menu > li > a:hover,
 .navbar-default .navbar-nav .dropdown:hover > a{
 	background: #428BCA;
 	color:#fff;
 }
+
 .media-left .media-object,
 .media-left img{
 	max-width: none;
@@ -1065,8 +1064,12 @@ label.error{
 	.singluar-post .post-content{
 		padding-top: 0;
 		margin-bottom: 10px;
+		font-size: 110%;
 		line-height: 1.5;
 	}
+		.singluar-post .post-content p{
+			text-align: justify;
+		}
 	.singluar-post .post-footer{
 		color: #999;
 		border-top: 1px solid rgba(0,0,0,.05);
@@ -1298,21 +1301,29 @@ label.error{
 /** 
  * type
  */
-#ajax-loading-container.success,
-#ajax-loading-container.green{background:#defcd5}
+#ajax-loading-container{
+	-webkit-transition:all .5s;
+	-moz-transition:all .5s;
+	transition:all .5s;
+}
+	#ajax-loading-container.close{
+		opacity: 0;
+	}
+	#ajax-loading-container.success,
+	#ajax-loading-container.green{background:#defcd5}
 
-#ajax-loading-container.error,
-#ajax-loading-container.ban{background:#f1d7d7}
+	#ajax-loading-container.error,
+	#ajax-loading-container.ban{background:#f1d7d7}
 
-#ajax-loading-container.warning{background:#f6f3d5}
+	#ajax-loading-container.warning{background:#f6f3d5}
 
-#ajax-loading-container.help,
-#ajax-loading-container.blue,
-#ajax-loading-container.info{background:#e6f4f9}
-#ajax-loading-container.question{background:#FBEC88}
+	#ajax-loading-container.help,
+	#ajax-loading-container.blue,
+	#ajax-loading-container.info{background:#e6f4f9}
+	#ajax-loading-container.question{background:#FBEC88}
 
-#ajax-loading-container.spinner,
-#ajax-loading-container.loading{background:#FBEC88}
+	#ajax-loading-container.spinner,
+	#ajax-loading-container.loading{background:#FBEC88}
 
 	#ajax-loading-container .btn-close{
 		position: absolute;

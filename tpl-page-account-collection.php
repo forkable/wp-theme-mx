@@ -109,7 +109,11 @@ if(class_exists('theme_custom_collection')){
 					</div>
 				</div>
 			</div>
-			
+			<!-- preview -->
+
+					<div class="clt-preview-container">
+						a
+					</div>
 			<!-- tags -->
 			<div class="form-group">
 				<div class="col-sm-2 control-label">

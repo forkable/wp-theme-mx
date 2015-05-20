@@ -17,7 +17,9 @@ class theme_functions{
 	public static $iden = 'mx';
 	public static $theme_edition = 1;
 	public static $theme_date = '2015-02-01 00:00';
-	public static $thumbnail_size = array('thumbnail',320,200);
+	public static $thumbnail_size = ['thumbnail',320,200,true];
+	public static $medium_size = ['medium',600,600,false];
+	public static $large_size = ['large',1024,1024,false];
 	public static $comment_avatar_size = 60;
 	public static $thumbnail_placeholder = 'frontend/thumbnail.png';
 	public static $avatar_placeholder = 'frontend/avatar.jpg';
@@ -73,7 +75,12 @@ class theme_functions{
 		add_filter('use_default_gallery_style','__return_false');
 		add_theme_support('html5',['comment-list','comment-form','search-form']);
 
-		add_image_size(self::$thumbnail_size[0],self::$thumbnail_size[1],self::$thumbnail_size[2],true);
+		add_image_size(self::$thumbnail_size[0],self::$thumbnail_size[1],self::$thumbnail_size[2],self::$thumbnail_size[3]);
+		
+		add_image_size(self::$medium_size[0],self::$medium_size[1],self::$medium_size[2],self::$medium_size[3]);
+		
+		add_image_size(self::$large_size[0],self::$large_size[1],self::$large_size[2],self::$large_size[3]);
+		
 		//set_post_thumbnail_size(self::$thumbnail_size[1],self::$thumbnail_size[2]);
 		
 		add_theme_support('title-tag');
@@ -784,6 +791,7 @@ class theme_functions{
 	 * @author KM@INN STUDIO
 	 */
 	public static function get_thumbnail_src($post_id = null,$size = 'thumbnail',$placeholder = null){
+		global $post;
 		
 		if(!$placeholder)
 			$placeholder = self::$thumbnail_placeholder;
@@ -792,7 +800,6 @@ class theme_functions{
 			$size = self::$thumbnail_size[0];
 
 		if(!$post_id)
-			global $post;
 			$post_id = $post->ID;
 
 		$src = null;

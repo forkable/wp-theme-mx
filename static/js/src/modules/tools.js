@@ -35,7 +35,8 @@ define(function(require, exports, module){
 			$t_container = I('ajax-loading-container'),
 			$t = I('ajax-loading'),
 			$close = I('ajax-loading-close'),
-			si;
+			si,
+			action_close_st;
 		
 		if(!$t_container){
 			$close = document.createElement('i');
@@ -53,7 +54,7 @@ define(function(require, exports, module){
 			document.body.appendChild($t_container);
 			
 			$close.addEventListener('click',function(){
-				$t_container.style.display = 'none';
+				action_close();
 				clearInterval(si);
 			});
 		}
@@ -64,7 +65,7 @@ define(function(require, exports, module){
 				timeout--;
 				set_close_time(timeout);
 				if(timeout <= 0){
-					$t_container.style.display = 'none';
+					action_close();
 					set_close_time('');
 					clearInterval(si);
 					return;
@@ -72,14 +73,22 @@ define(function(require, exports, module){
 			},1000);
 		}
 		if(s !== 'hide'){
+			if(action_close_st)
+				clearTimeout(action_close_st);
 			$t.innerHTML = exports.status_tip(t,s);
 			$t_container.setAttribute('class',t);
 			$t_container.style.display = 'block';
 		}else{
-			$t_container.style.display = 'none';
+			action_close();
 		}
 		function set_close_time(t){
 			$close.innerHTML = '<span class="number">' + t + '</span>';
+		}
+		function action_close(){
+			$t_container.classList.add('close');
+			action_close_st = setTimeout(function(){
+				$t_container.style.display = 'none';
+			},300);
 		}
 	};
 	exports.param = function(obj){
