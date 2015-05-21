@@ -22,6 +22,7 @@ define(function(require, exports, module){
 		config = exports.config;
 		
 	exports.init = function(){
+		alert('a');
 		list();
 		preview();
 	}
@@ -42,6 +43,8 @@ define(function(require, exports, module){
 	}
 	function preview(){
 		var $preview = I('clt-preview');
+		cache.$preview_container = I('clt-preview-container');
+		
 		if(!$preview)
 			return false;
 		function action_click(){
@@ -62,28 +65,52 @@ define(function(require, exports, module){
 		}, false);
 		
 		function show_preview(){
-			var $lists = document.querySelectorAll('.clt-list');
+			var $lists = document.querySelectorAll('.clt-list'),
+				xhr = new XMLHttpRequest(),
+				fd = new FormData();
+			xhr.open('POST',config.process_url);
 			for(var i = 0, len = $lists.length; i < len; i++){
-				$lists[i].
+				var id = $lists[i].getAttribute('data-id'),
+					$imgs = $lists[i].querySelectorAll('img');
+				/** title */
+				fd.append('posts[' + id + '][title]',I('clt-post-title-' + id).value);
+				/** content */
+				fd.append('posts[' + id + '][content]',I('clt-post-content-' + id).value);
+				/** post id */
+				fd.append('posts[' + id + '][id]',I('clt-post-id-' + id).value);
+				/** thumbnail */
+				fd.append('posts[' + id + '][thumbnail]',$imgs[$imgs.length - 1].src);
+			}
+			fd.append('theme-nonce',js_request['theme-nonce']);
+			fd.append('type','preview');
+			xhr.send(fd);
+			xhr.onload = function(){
+				if(xhr.status >= 200 && xhr.status < 400){
+					var data;
+					try{data = JSON.parse(xhr.responseText)}catch(e){data = xhr.responseText}
+					preview_done(data);
+				}else{
+					preview_faild(xhr.responseText);
+				}
+			};
+			xhr.onerror = function(){
+				preview_faild(xhr.responseText);
+			};
+		}
+		function preview_done(data){
+			if(data && data.status === 'success'){
+				cache.$preview_container.innerHTML = data.html;
+				tools.ajax_loading_tip(data.status,data.msg);
+			}else if(data && data.status === 'error'){
+				tools.ajax_loading_tip(data.status,data.msg);
+			}else{
+				preview_faild();
 			}
 		}
-		function get_tpl($list){
-			var $imgs = $list.querySelectorAll('img'),
-				img = '';
-			if($imgs.length > 0){
-				/** get the last img */
-				var $img = $imgs[$imgs.length - 1],
-					$tmp = document.createElement('div');
-				$tmp.appendChild($img);
-				img = $tmp.innerHTML;
-			}
-			
-			return '<div class="collection-list row">' +
-	'<a class="col-xs-12 col-sm-5 col-md-3 col-lg-2">' +
-		img
-	'</a>' + 
-'</div>';
+		function preview_faild(data){
+			tools.ajax_loading_tip('error',data);
 		}
+
 	}
 	function list(){
 		var _cache = {},

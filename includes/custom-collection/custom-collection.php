@@ -97,13 +97,34 @@ class theme_custom_collection{
 		<?php
 	}
 	public static function get_list_tpl($post_id,array $args = []){
-		if(!is_numeric($post_id)){
-			$args = [
-				'title' => '%title%',
-			];
+		$args = array_merge([
+			'url' => '%url%',
+			'title' => '%title%',
+			'thumbnail' => '%thumbnail%',
+			'content' => '%content%',
+		],$args);
+		if(is_numeric($post_id)){
+			$args['url'] = esc_url(get_the_permalink($post_id));
 		}
+		$args['title'] = esc_html($args['title']);
+		$args['content'] = fliter_script(strip_tags($args['content'],'<b><strong><del><span><img>'));
+		ob_start();
+?>
+<a href="<?= $args['url'];?>" class="collection-list row">
+	<div class="col-xs-12 col-sm-5 col-md-3 col-lg-2">
+		<img src="<?= esc_url($args['thumbnail']);?>" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>" alt="<?= $args['title'];?>">
+	</div>
+	<div class="col-xs-12 col-sm-7 col-md-9 col-lg-10">
+		<h4><?= $args['title'];?></h4>
+		<p><?= $args['content'];?></p>
+	</div>
+</a>
+		<?php
+		$content = ob_get_contents();
+		ob_end_clean();
+		return $content;
 	}
-	public static function get_inputs_tpl($placeholder){
+	public static function get_input_tpl($placeholder){
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		ob_start();
 		?>
@@ -118,7 +139,7 @@ class theme_custom_collection{
 		<div class="col-xs-12 col-sm-7 col-md-9 col-lg-10 clt-area-tx">
 			<div class="input-group">
 				<span class="input-group-input">
-					<input type="number" class="form-control clt-post-id" id="clt-post-id-<?= $placeholder ;?>" name="clt[post-ids][<?= $placeholder;?>]" placeholder="<?= ___('Post ID');?>" title="<?= ___('Please write the post ID number, e.g. 4015.');?>" required >
+					<input type="number" class="form-control clt-post-id" id="clt-post-id-<?= $placeholder ;?>" name="clt[post-ids][<?= $placeholder;?>]" placeholder="<?= ___('Post ID');?>" title="<?= ___('Please write the post ID number, e.g. 4015.');?>" min="1" required >
 				</span>
 				<input type="text" name="clt[post-title][<?= $placeholder;?>]" id="clt-post-title-<?= $placeholder;?>" class="form-control clt-post-title" placeholder="<?= ___('The recommended post title');?>" title="<?= ___('Please write the recommended post title.');?>" required >
 			</div>
@@ -447,6 +468,103 @@ class theme_custom_collection{
 				];
 				
 				wp_reset_postdata();
+				break;
+			/**
+			 * preview
+			 */
+			case 'preview':
+				$posts = isset($_POST['posts']) && is_array($_POST['posts']) ? $_POST['posts'] : null;
+				if(!$posts){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_posts';
+					$output['msg'] = ___('Sorry, posts can not be empty.');
+					die(theme_features::json_format($output));
+				}
+				/**
+				 * check posts count number
+				 */
+				$count = count($posts);
+				if($count < self::get_posts_number('min')){
+					$output['status'] = 'error';
+					$output['code'] = 'not_enough_posts';
+					$output['msg'] = ___('Sorry, your posts are not enough, please add more posts.');
+					die(theme_features::json_format($output));
+				}
+				if($count > self::get_posts_number('max')){
+					$output['status'] = 'error';
+					$output['code'] = 'too_many_posts';
+					$output['msg'] = ___('Sorry, your post are too many, please reduce some posts and try again.');
+					die(theme_features::json_format($output));
+				}
+
+				/**
+				 * template
+				 */
+				$tpl = '';
+				/**
+				 * check each posts value
+				 */
+				foreach($posts as $k => $v){
+					/** post id */
+					$post_id = isset($v['id']) && is_string($v['id']) ? trim($v['id']) : null;
+					if(empty($post_id)){
+						$output['status'] = 'error';
+						$output['code'] = 'invaild_post_content';
+						$output['list-id'] = $k;
+						$output['msg'] = ___('Sorry, the post id is invaild, please try again.');
+						die(theme_features::json_format($output));
+					}
+					/** title */
+					$title = isset($v['title']) && is_string($v['title']) ? trim($v['title']) : null;
+					if(empty($title)){
+						$output['status'] = 'error';
+						$output['code'] = 'invaild_post_title';
+						$output['list-id'] = $k;
+						$output['msg'] = ___('Sorry, the post title is invaild, please try again.');
+						die(theme_features::json_format($output));
+					}
+					/** content */
+					$content = isset($v['content']) && is_string($v['content']) ? trim($v['content']) : null;
+					if(empty($content)){
+						$output['status'] = 'error';
+						$output['code'] = 'invaild_post_content';
+						$output['list-id'] = $k;
+						$output['msg'] = ___('Sorry, the post content is invaild, please try again.');
+						die(theme_features::json_format($output));
+					}
+					/** thumbmail */
+					$thumbnail = isset($v['thumbnail']) && is_string($v['thumbnail']) ? esc_url($v['thumbnail']) : null;
+					if(empty($thumbnail)){
+						$output['status'] = 'error';
+						$output['code'] = 'invaild_post_thumbnail';
+						$output['list-id'] = $k;
+						$output['msg'] = ___('Sorry, the post thumbnail is invaild, please try again.');
+						die(theme_features::json_format($output));
+					}
+					/** check post exists */
+					$url = esc_url(get_the_permalink($v['id']));
+					if(empty($url)){
+						$output['status'] = 'error';
+						$output['code'] = 'post_not_exist';
+						$output['list-id'] = $k;
+						$output['msg'] = ___('Sorry, the post do not exist, please try again.');
+						die(theme_features::json_format($output));
+					}
+					/**
+					 * create template
+					 */
+					$tpl .= self::get_list_tpl($post_id,[
+						'url' => $url,
+						'thumbnail' => $thumbnail,
+						'title' => $title,
+						'content' => $content,
+					]);
+				}
+				$output = [
+					'status' => 'success',
+					'msg' => ___('Preview success.'),
+					'tpl' => $tpl,
+				];
 				break;
 		}
 

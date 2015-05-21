@@ -93,7 +93,7 @@ if(class_exists('theme_custom_collection')){
 					<div id="clt-posts-container">
 						<?php 
 						for($i = 0, $len = theme_custom_collection::get_posts_number('min'); $i < $len; ++$i){
-							echo theme_custom_collection::get_tpl($i);
+							echo theme_custom_collection::get_input_tpl($i);
 						} 
 						?>
 					</div>
