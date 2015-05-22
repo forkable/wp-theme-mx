@@ -189,7 +189,7 @@ define(function(require, exports, module){
 					var percent = e.loaded / e.total * 100;		
 					cache.$file_progress_bar.style.width = percent + '%';
 				}
-			}
+			};
 			xhr.send(fd);
 		}
 		function beforesend_callback(){

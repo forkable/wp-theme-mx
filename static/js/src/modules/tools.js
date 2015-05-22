@@ -61,7 +61,8 @@ define(function(require, exports, module){
 
 		if(timeout > 0){
 			set_close_time(timeout);
-			var si = setInterval(function(){
+			clearInterval(si)
+			si = setInterval(function(){
 				timeout--;
 				set_close_time(timeout);
 				if(timeout <= 0){
@@ -85,6 +86,7 @@ define(function(require, exports, module){
 			$close.innerHTML = '<span class="number">' + t + '</span>';
 		}
 		function action_close(){
+			clearTimeout(action_close_st);
 			$t_container.classList.add('close');
 			action_close_st = setTimeout(function(){
 				$t_container.style.display = 'none';

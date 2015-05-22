@@ -57,6 +57,7 @@ if(class_exists('theme_custom_collection')){
 				<label for="clt-file" class="col-sm-2 control-label">
 					<i class="fa fa-image"></i>
 					<?= ___('Upload a cover');?>
+					<img src="<?= theme_features::get_theme_images_url(theme_function::$thumbnail_placeholder);?>" alt="<?= ___('Cover');?>" title="<?= ___('Cover');?>" class="clt-cover" id="clt-cover" width="<?= theme_function::$thumbnail_size[1];?>" height="<?= theme_function::$thumbnail_size[2];?>">
 				</label>
 				<div class="col-sm-10">
 					<div id="clt-file-area">
@@ -104,16 +105,13 @@ if(class_exists('theme_custom_collection')){
 			<div class="form-group">
 				<div class="col-xs-12">
 					<div class="btn-group btn-group-justified">
-						<a href="javascript:;" id="clt-preview" class="btn btn-success"><i class="fa fa-desktop"></i> <?= ___('Preview the collection');?></a>
+						<a href="javascript:;" id="clt-preview" class="btn btn-success"><i class="fa fa-arrow-down"></i> <?= ___('Preview the collection');?></a>
 						<a href="javascript:;" id="clt-add-post" class="btn btn-success"><i class="fa fa-plus"></i> <?= ___('Add new post');?></a>
 					</div>
 				</div>
 			</div>
 			<!-- preview -->
-
-					<div class="clt-preview-container">
-						a
-					</div>
+				<div id="clt-preview-container"></div>
 			<!-- tags -->
 			<div class="form-group">
 				<div class="col-sm-2 control-label">
