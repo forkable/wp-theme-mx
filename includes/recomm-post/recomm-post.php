@@ -138,6 +138,7 @@ class theme_recommended_post{
 								]);
 								if($query->have_posts()){
 									foreach($query->posts as $post){
+										setup_postdata($post);
 										?>
 <label for="<?= self::$iden;?>-<?= $post->ID;?>" class="button">
 	<input type="checkbox" id="<?= self::$iden;?>-<?= $post->ID;?>" name="<?= self::$iden;?>[ids][<?= $post->ID;?>]" value="<?= $post->ID;?>" checked >

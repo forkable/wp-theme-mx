@@ -96,35 +96,41 @@ class theme_custom_collection{
 		</fieldset>
 		<?php
 	}
-	public static function get_list_tpl($post_id,array $args = []){
+	public static function get_list_tpl(array $args = []){
 		$args = array_merge([
-			'hash' => null,
+			'post_id' => null,
+			'hash' => '%hash%',
 			'url' => '%url%',
 			'title' => '%title%',
 			'thumbnail' => '%thumbnail%',
 			'content' => '%content%',
 			'preview' => true,
 		],$args);
-		if(is_numeric($post_id)){
-			$args['url'] = esc_url(get_the_permalink($post_id));
+		
+		if($args['preview'] === false){
+			$args['url'] = get_the_permalink($args['post_id']);
 		}
-		$args['title'] = esc_html($args['title']);
+		$args['title'] = $args['title'];
 		$args['content'] = fliter_script(strip_tags($args['content'],'<b><strong><del><span><img>'));
 
 		$target = $args['preview'] === true ? ' target="_blank" ' : null;
 		$href = $args['preview'] === true ? '#clt-list-' . $args['hash'] : $args['url'];
+
 		ob_start();
 ?>
-<a href="<?= $href;?>" class="collection-list row" >
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-		<div class="thumbnail-container">
-			<img src="<?= theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>" alt="<?= $args['title'];?>" class="placeholder">
-			<img src="<?= esc_url($args['thumbnail']);?>" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>" alt="<?= $args['title'];?>" class="collection-thumbnail">
+
+<a class="list-group-item" href="<?= $href;?>">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+			<div class="collection-list-thumbnail-container">
+				<img src="<?= theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>" alt="<?= $args['title'];?>" class="placeholder">
+				<img src="<?= $args['thumbnail'];?>" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>" alt="<?= $args['title'];?>" class="collection-list-thumbnail">
+			</div>
 		</div>
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-		<h4><?= $args['title'];?></h4>
-		<p><?= $args['content'];?></p>
+		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+			<h4 class="list-group-item-heading"><?= $args['title'];?></h4>
+			<p class="list-group-item-text"><?= $args['content'];?></p>
+		</div>
 	</div>
 </a>
 		<?php
@@ -138,22 +144,23 @@ class theme_custom_collection{
 		?>
 <div class="clt-list row" id="clt-list-<?= $placeholder; ?>" data-id="<?= $placeholder;?>">
 	<div class="col-xs-12 col-sm-5 col-md-3 col-lg-2">
-		<div class="clt-thumbnail-container">
+		<div class="clt-list-thumbnail-container">
 			<img src="<?= $thumbnail_placeholder;?>" alt="Placeholder" class="media-object placeholder">
-			<div id="clt-thumbnail-preview-container-<?= $placeholder;?>" class="clt-thumbnail-preview-container">
-				<img src="<?= $thumbnail_placeholder;?>" title="<?= ___('Post preview');?>" alt="" class="clt-thumbnail-preview">
+			<div id="clt-list-thumbnail-preview-container-<?= $placeholder;?>" class="clt-list-thumbnail-preview-container">
+				<img id="clt-list-thumbnail-<?= $placeholder;?>" src="<?= $thumbnail_placeholder;?>" title="<?= ___('Post preview');?>" alt="" class="clt-list-thumbnail-preview">
+				<input type="hidden" id="clt-list-thumbnail-url-<?= $placeholder ;?>" name="clt[posts][thumbnail-url][<?= $placeholder ;?>]" value="<?= $thumbnail_placeholder;?>">
 			</div>
 		</div>
-		<a href="javascript:;" class="clt-del btn btn-xs btn-danger btn-block"><i class="fa fa-trash"></i> <?= ___('Delete this item');?></a>
+		<a href="javascript:;" id="clt-list-del-<?= $placeholder;?>" class="clt-list-del btn btn-xs btn-danger btn-block"><i class="fa fa-trash"></i> <?= ___('Delete this item');?></a>
 	</div>
-	<div class="col-xs-12 col-sm-7 col-md-9 col-lg-10 clt-area-tx">
+	<div class="col-xs-12 col-sm-7 col-md-9 col-lg-10 clt-list-area-tx">
 		<div class="input-group">
 			<span class="input-group-input">
-				<input type="number" class="form-control clt-post-id" id="clt-post-id-<?= $placeholder ;?>" name="clt[post-ids][<?= $placeholder;?>]" placeholder="<?= ___('Post ID');?>" title="<?= ___('Please write the post ID number, e.g. 4015.');?>" min="1" required >
+				<input type="number" class="form-control clt-list-post-id" id="clt-list-post-id-<?= $placeholder ;?>" name="clt[posts][post-ids][<?= $placeholder;?>]" placeholder="<?= ___('Post ID');?>" title="<?= ___('Please write the post ID number, e.g. 4015.');?>" min="1" required >
 			</span>
-			<input type="text" name="clt[post-title][<?= $placeholder;?>]" id="clt-post-title-<?= $placeholder;?>" class="form-control clt-post-title" placeholder="<?= ___('The recommended post title');?>" title="<?= ___('Please write the recommended post title.');?>" required >
+			<input type="text" name="clt[posts][post-title][<?= $placeholder;?>]" id="clt-list-post-title-<?= $placeholder;?>" class="form-control clt-list-post-title" placeholder="<?= ___('The recommended post title');?>" title="<?= ___('Please write the recommended post title.');?>" required >
 		</div>
-		<textarea name="clt[post-content][<?= $placeholder;?>]" id="clt-post-content-<?= $placeholder;?>" rows="4" class="form-control clt-post-content" placeholder="<?= ___('Why recommend the post? Talking about your point.');?>" title="<?= ___('Why recommend the post? Talking about your point.');?>" required ></textarea>
+		<textarea name="clt[posts][post-content][<?= $placeholder;?>]" id="clt-list-post-content-<?= $placeholder;?>" rows="4" class="form-control clt-list-post-content" placeholder="<?= ___('Why recommend the post? Talking about your point.');?>" title="<?= ___('Why recommend the post? Talking about your point.');?>" required ></textarea>
 	</div>
 </div>
 		<?php
@@ -282,8 +289,11 @@ class theme_custom_collection{
 					die(theme_features::json_format($output));
 				}
 				break;
+			/**
+			 * post
+			 */
 			case 'post':
-				$clt = isset($_POST['ctb']) && is_array($_POST['ctb']) ? $_POST['ctb'] : null;
+				$clt = isset($_POST['clt']) && is_array($_POST['clt']) ? $_POST['clt'] : null;
 				if(is_null_array($clt)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_ctb_param';
@@ -291,41 +301,41 @@ class theme_custom_collection{
 					die(theme_features::json_format($output));
 				}
 				/**
+				 * get posts
+				 */
+				$posts = isset($_POST['posts']) && is_array($_POST['posts']) ? $_POST['posts'] : null;
+				if(empty($posts)){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_posts';
+					$output['msg'] = ___('Sorry, posts can not be empty.');
+					die(theme_features::json_format($output));
+				}
+				/**
 				 * post title
 				 */
-				$post_title = isset($clt['post-title']) && is_string($clt['post-title']) ? trim($clt['post-title']) : null;
-				if(!$post_title){
+				$post_title = isset($clt['title']) && is_string($clt['title']) ? esc_html(trim($clt['title'])) : null;
+				if(empty($post_title)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_post_title';
 					$output['msg'] = ___('Please write the post title.');
 					die(theme_features::json_format($output));
 				}
-				/**
-				 * post content
-				 */
-				$post_content = isset($clt['post-content']) && is_string($clt['post-content']) ? trim($clt['post-content']) : null;
-				if(!$post_content){
-					$output['status'] = 'error';
-					$output['code'] = 'invaild_post_content';
-					$output['msg'] = ___('Please write the post content.');
-					die(theme_features::json_format($output));
-				}
+				
 				/**
 				 * check thumbnail cover
 				 */
 				$thumbnail_id = isset($clt['thumbnail-id']) && is_numeric($clt['thumbnail-id']) ? (int)$clt['thumbnail-id'] : null;
-				if(!$thumbnail_id){
+				if(empty($thumbnail_id)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_thumbnail_id';
 					$output['msg'] = ___('Please set an image as post thumbnail');
 					die(theme_features::json_format($output));
 				}
-				
+
 				/**
-				 * get all cats
+				 * get posts template
 				 */
-				$all_cats = [];
-				theme_features::get_all_cats_by_child($cat_id,$all_cats);
+				$post_content = self::get_preview($posts);
 				/**
 				 * tags
 				 */
@@ -339,7 +349,7 @@ class theme_custom_collection{
 				/**
 				 * post status
 				 */
-				if(current_user_can('publish_posts')){
+				if(current_user_can('editor') || current_user_can('administrator') || current_user_can('super_admin')){
 					$post_status = 'publish';
 				}else{
 					$post_status = 'pending';
@@ -384,7 +394,7 @@ class theme_custom_collection{
 					 */
 					if($post_status === 'pending'){
 						$output['status'] = 'success';
-						$output['msg'] = ___('Your post submitted successful, it will be published after approve in a while.');
+						$output['msg'] = ___('Your post submitted successful, it will be published after approve in a while. Thank you very much!');
 						die(theme_features::json_format($output));
 					}else{
 						$output['status'] = 'success';
@@ -410,7 +420,7 @@ class theme_custom_collection{
 				}
 				break;
 			/**
-			 * get_post
+			 * get post
 			 */
 			case 'get-post':
 			
@@ -421,6 +431,8 @@ class theme_custom_collection{
 					$output['msg'] = ___('Sorry, the post id is invaild.');
 					die(theme_features::json_format($output));
 				}
+
+				
 				global $post;
 				$query = new WP_Query([
 					'p' => $post_id
@@ -448,108 +460,98 @@ class theme_custom_collection{
 				
 				wp_reset_postdata();
 				break;
-			/**
-			 * preview
-			 */
-			case 'preview':
-				$posts = isset($_POST['posts']) && is_array($_POST['posts']) ? $_POST['posts'] : null;
-				if(!$posts){
-					$output['status'] = 'error';
-					$output['code'] = 'invaild_posts';
-					$output['msg'] = ___('Sorry, posts can not be empty.');
-					die(theme_features::json_format($output));
-				}
-				/**
-				 * check posts count number
-				 */
-				$count = count($posts);
-				if($count < self::get_posts_number('min')){
-					$output['status'] = 'error';
-					$output['code'] = 'not_enough_posts';
-					$output['msg'] = ___('Sorry, your posts are not enough, please add more posts.');
-					die(theme_features::json_format($output));
-				}
-				if($count > self::get_posts_number('max')){
-					$output['status'] = 'error';
-					$output['code'] = 'too_many_posts';
-					$output['msg'] = ___('Sorry, your post are too many, please reduce some posts and try again.');
-					die(theme_features::json_format($output));
-				}
 
-				/**
-				 * template
-				 */
-				$tpl = '';
-				/**
-				 * check each posts value
-				 */
-				foreach($posts as $k => $v){
-					/** post id */
-					$post_id = isset($v['id']) && is_string($v['id']) ? trim($v['id']) : null;
-					if(empty($post_id)){
-						$output['status'] = 'error';
-						$output['code'] = 'invaild_post_content';
-						$output['list-id'] = $k;
-						$output['msg'] = ___('Sorry, the post id is invaild, please try again.');
-						die(theme_features::json_format($output));
-					}
-					/** title */
-					$title = isset($v['title']) && is_string($v['title']) ? trim($v['title']) : null;
-					if(empty($title)){
-						$output['status'] = 'error';
-						$output['code'] = 'invaild_post_title';
-						$output['list-id'] = $k;
-						$output['msg'] = ___('Sorry, the post title is invaild, please try again.');
-						die(theme_features::json_format($output));
-					}
-					/** content */
-					$content = isset($v['content']) && is_string($v['content']) ? trim($v['content']) : null;
-					if(empty($content)){
-						$output['status'] = 'error';
-						$output['code'] = 'invaild_post_content';
-						$output['list-id'] = $k;
-						$output['msg'] = ___('Sorry, the post content is invaild, please try again.');
-						die(theme_features::json_format($output));
-					}
-					/** thumbmail */
-					$thumbnail = isset($v['thumbnail']) && is_string($v['thumbnail']) ? esc_url($v['thumbnail']) : null;
-					if(empty($thumbnail)){
-						$output['status'] = 'error';
-						$output['code'] = 'invaild_post_thumbnail';
-						$output['list-id'] = $k;
-						$output['msg'] = ___('Sorry, the post thumbnail is invaild, please try again.');
-						die(theme_features::json_format($output));
-					}
-					/** check post exists */
-					$url = esc_url(get_the_permalink($v['id']));
-					if(empty($url)){
-						$output['status'] = 'error';
-						$output['code'] = 'post_not_exist';
-						$output['list-id'] = $k;
-						$output['msg'] = ___('Sorry, the post do not exist, please try again.');
-						die(theme_features::json_format($output));
-					}
-					/**
-					 * create template
-					 */
-					$tpl .= self::get_list_tpl($post_id,[
-						'preview' => true,
-						'hash' => $k,
-						'url' => $url,
-						'thumbnail' => $thumbnail,
-						'title' => $title,
-						'content' => $content,
-					]);
-				}
-				$output = [
-					'status' => 'success',
-					'msg' => ___('Preview success.'),
-					'tpl' => $tpl,
-				];
-				break;
 		}
 
 		die(theme_features::json_format($output));
+	}
+	private static function get_preview(array $posts = []){
+		
+		/**
+		 * check posts count number
+		 */
+		$count = count($posts);
+		if($count < self::get_posts_number('min')){
+			$output['status'] = 'error';
+			$output['code'] = 'not_enough_posts';
+			$output['msg'] = ___('Sorry, your posts are not enough, please add more posts.');
+			die(theme_features::json_format($output));
+		}
+		if($count > self::get_posts_number('max')){
+			$output['status'] = 'error';
+			$output['code'] = 'too_many_posts';
+			$output['msg'] = ___('Sorry, your post are too many, please reduce some posts and try again.');
+			die(theme_features::json_format($output));
+		}
+
+		/**
+		 * template
+		 */
+		$tpl = '';
+		/**
+		 * check each posts value
+		 */
+		foreach($posts as $k => $v){
+			/** post id */
+			$post_id = isset($v['id']) && is_string($v['id']) ? trim($v['id']) : null;
+			if(empty($post_id)){
+				$output['status'] = 'error';
+				$output['code'] = 'invaild_post_content';
+				$output['list-id'] = $k;
+				$output['msg'] = ___('Sorry, the post id is invaild, please try again.');
+				die(theme_features::json_format($output));
+			}
+			/** title */
+			$title = isset($v['title']) && is_string($v['title']) ? strip_tags(trim($v['title'])) : null;
+			if(empty($title)){
+				$output['status'] = 'error';
+				$output['code'] = 'invaild_post_title';
+				$output['list-id'] = $k;
+				$output['msg'] = ___('Sorry, the post title is invaild, please try again.');
+				die(theme_features::json_format($output));
+			}
+			/** content */
+			$content = isset($v['content']) && is_string($v['content']) ? trim($v['content']) : null;
+			if(empty($content)){
+				$output['status'] = 'error';
+				$output['code'] = 'invaild_post_content';
+				$output['list-id'] = $k;
+				$output['msg'] = ___('Sorry, the post content is invaild, please try again.');
+				die(theme_features::json_format($output));
+			}
+			/** thumbmail */
+			$thumbnail = isset($v['thumbnail']) && is_string($v['thumbnail']) ? esc_url(trim($v['thumbnail'])) : null;
+			if(empty($thumbnail)){
+				$output['status'] = 'error';
+				$output['code'] = 'invaild_post_thumbnail';
+				$output['list-id'] = $k;
+				$output['msg'] = ___('Sorry, the post thumbnail is invaild, please try again.');
+				die(theme_features::json_format($output));
+			}
+			/** check post exists */
+			$url = esc_url(get_the_permalink($v['id']));
+			if(empty($url)){
+				$output['status'] = 'error';
+				$output['code'] = 'post_not_exist';
+				$output['list-id'] = $k;
+				$output['msg'] = ___('Sorry, the post do not exist, please try again.');
+				die(theme_features::json_format($output));
+			}
+			/**
+			 * create template
+			 */
+			$tpl .= self::get_list_tpl([
+				'post_id' => $post_id,
+				'preview' => false,
+				'hash' => $k,
+				'url' => $url,
+				'thumbnail' => $thumbnail,
+				'title' => $title,
+				'content' => $content,
+			]);
+		}
+
+		return $tpl;
 	}
 	public static function frontend_seajs_alias($alias){
 		if(self::is_page()){
@@ -565,7 +567,10 @@ class theme_custom_collection{
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
 			m.config.min_posts = <?= self::get_posts_number('min');?>;
 			m.config.max_posts = <?= self::get_posts_number('max');?>;
-			m.config.tpl = <?= json_encode(html_compress(theme_custom_collection::get_input_tpl('%placeholder%')));?>;
+			m.config.tpl_input = <?= json_encode(html_compress(theme_custom_collection::get_input_tpl('%placeholder%')));?>;
+			m.config.tpl_preview = <?= json_encode(html_compress(theme_custom_collection::get_list_tpl([
+				'preview' => true,
+			])));?>;
 			m.config.lang.M01 = '<?= ___('Loading, please wait...');?>';
 			m.config.lang.M02 = '<?= ___('A item has been deleted.');?>';
 			m.config.lang.M03 = '<?= ___('Getting post data, please wait...');?>';

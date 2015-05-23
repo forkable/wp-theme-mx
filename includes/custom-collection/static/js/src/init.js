@@ -5,7 +5,8 @@ define(function(require, exports, module){
 
 	exports.config = {
 		process_url : '',
-		tpl : '',
+		tpl_input : '',
+		tpl_preview : '',
 		min_posts : 5,
 		max_posts : 10,
 		lang : {
@@ -23,8 +24,10 @@ define(function(require, exports, module){
 		config = exports.config;
 		
 	exports.init = function(){
+		upload();
 		list();
 		preview();
+		post();
 	}
 	function get_posts_count(){
 		return document.querySelectorAll('.clt-list').length;
@@ -51,12 +54,10 @@ define(function(require, exports, module){
 			
 			return false;
 		}, false);
-		
+
 		function show_preview(){
 			var $lists = document.querySelectorAll('.clt-list'),
-				xhr = new XMLHttpRequest(),
-				fd = new FormData();
-			xhr.open('POST',config.process_url);
+				tpl = '';
 			/**
 			 * loop lists
 			 */
@@ -76,50 +77,36 @@ define(function(require, exports, module){
 					}
 				}
 				var id = $lists[i].getAttribute('data-id'),
-					$imgs = $lists[i].querySelectorAll('img');
-				/** title */
-				fd.append('posts[' + id + '][title]',I('clt-post-title-' + id).value);
-				/** content */
-				fd.append('posts[' + id + '][content]',I('clt-post-content-' + id).value);
-				/** post id */
-				fd.append('posts[' + id + '][id]',I('clt-post-id-' + id).value);
-				/** thumbnail */
-				fd.append('posts[' + id + '][thumbnail]',$imgs[$imgs.length - 1].src);
+					$imgs = $lists[i].querySelectorAll('img'),
+					thumbnail_url = $imgs[$imgs.length - 1].src;
+
+				/**
+				 * create tpl
+				 */
+				tpl += tools.replace_array(
+					config.tpl_preview,
+					[
+						'%hash%',
+						'%title%',
+						'%thumbnail%',
+						'%content%'
+					],
+					[
+						id,
+						I('clt-list-post-title-' + id).value,
+						thumbnail_url,
+						I('clt-list-post-content-' + id).value
+					]
+				);
+				//console.log(config.tpl_preview);
 			}
-			/**
-			 * show ajax tip
-			 */
-			tools.ajax_loading_tip('loading',config.lang.M04);
-			
-			fd.append('theme-nonce',js_request['theme-nonce']);
-			fd.append('type','preview');
-			xhr.send(fd);
-			xhr.onload = function(){
-				if(xhr.status >= 200 && xhr.status < 400){
-					var data;
-					try{data = JSON.parse(xhr.responseText)}catch(e){data = xhr.responseText}
-					preview_done(data);
-				}else{
-					preview_faild(xhr.responseText);
-				}
-			};
-			xhr.onerror = function(){
-				preview_faild(xhr.responseText);
-			};
+			//console.log(tpl);
+			preview_done(tpl);
+
 		}
-		function preview_done(data){
-			if(data && data.status === 'success'){
-				cache.$preview_container.innerHTML = data.tpl;
-				tools.ajax_loading_tip(data.status,data.msg,3);
-				location.hash = '#' + cache.$preview_container.id;
-			}else if(data && data.status === 'error'){
-				tools.ajax_loading_tip(data.status,data.msg);
-			}else{
-				preview_faild();
-			}
-		}
-		function preview_faild(data){
-			tools.ajax_loading_tip('error',data);
+		function preview_done(tpl){
+			cache.$preview_container.innerHTML = tpl;
+			//location.hash = '#' + cache.$preview_container.id;
 		}
 
 	}
@@ -131,7 +118,7 @@ define(function(require, exports, module){
 			return false;
 			
 		_cache.$add = I('clt-add-post');
-		_cache.$container = I('clt-posts-container');
+		_cache.$container = I('clt-lists-container');
 		
 			
 		/**
@@ -159,7 +146,7 @@ define(function(require, exports, module){
 					$tmp = document.createElement('div'),
 					$new_list;
 					
-				$tmp.innerHTML = get_tpl(rand);
+				$tmp.innerHTML = get_input_tpl(rand);
 				$new_list = $tmp.firstChild;
 
 				$new_list.classList.add('delete');
@@ -175,26 +162,30 @@ define(function(require, exports, module){
 			};
 			_cache.$add.addEventListener('click', helper, false);
 		}
-		function get_tpl(placeholder){
-			return config.tpl.replace(/%placeholder%/g,placeholder);
+		function get_input_tpl(placeholder){
+			return config.tpl_input.replace(/%placeholder%/g,placeholder);
 		}
+
+		
 		/**
 		 * bind list
 		 */
 		function bind_list($list){
 			if(!$list)
 				return false;
+
+			var placeholder = $list.getAttribute('data-id');
 			
 			/** bind delete action */
-			del($list);
+			del(placeholder);
 			
 			/** bind post id input blur action */
-			show_post($list);
+			show_post(placeholder);
 			
 			/**
 			 * delete action
 			 */
-			function del($list){
+			function del(placeholder){
 				var helper = function(){
 					
 					/** not enough posts */
@@ -208,21 +199,20 @@ define(function(require, exports, module){
 					},500);
 					return false;
 				};
-				$list.querySelector('.clt-del').addEventListener('click', helper, false);;
+				I('clt-list-del-' + placeholder).addEventListener('click', helper, false);;
 			}
 
 			/**
 			 * get post data action
 			 */
-			function show_post($list){
+			function show_post(placeholder){
 				post_id_blur();
 				function post_id_blur(){
-					var $post_id = $list.querySelector('.clt-post-id'),
+					var $post_id = I('clt-list-post-id-' + placeholder),
 						helper = function(evt){
 							evt.preventDefault();
 							
-							var post_id = this.value,
-								placeholder = $list.getAttribute('data-id');
+							var post_id = this.value;
 							if(post_id.trim() === '')
 								return false;
 
@@ -322,31 +312,47 @@ define(function(require, exports, module){
 				 * set post data to html
 				 */
 				function set_post_data(post_id,placeholder){
-					var $title = I('clt-post-title-' + placeholder),
-						$content = I('clt-post-content-' + placeholder),
-						$thumbnail = I('clt-thumbnail-preview-container-' + placeholder).querySelector('img');
+					var $content = I('clt-list-post-content-' + placeholder),
+						$thumbnail = I('clt-list-thumbnail-' + placeholder),
+						$thumbnail_url = I('clt-list-thumbnail-url-' + placeholder);
+					
 					if(cache.posts[post_id].title)
-						$title.value = cache.posts[post_id].title;
+						I('clt-list-post-title-' + placeholder).value = cache.posts[post_id].title;
 
 					if(cache.posts[post_id].excerpt && $content.value.trim() === '')
 						$content.value = cache.posts[post_id].excerpt;
 						
-					if(cache.posts[post_id].thumbnail)
+					if(cache.posts[post_id].thumbnail){
 						$thumbnail.src = cache.posts[post_id].thumbnail.url;
-				}
-			}
-		}
-	}
+						$thumbnail_url.value = cache.posts[post_id].thumbnail.url;
+					}
+				}/** end set_post_data */
+			}/** end show_post */
+		}/** end bind_list */
+	}/** end list */
+	function post(){
+		var _cache = {};
+		_cache.$fm = I('fm-clt');
 
+		if(!_cache.$fm)
+			return false;
+
+		
+	}
 	function upload(){
 		var $file = I('clt-file'),
 			$progress_bar = I('clt-file-progress'),
 			$complete = I('clt-file-completion'),
 			$files = I('clt-files'),
-			$cover = I('clt-cover'),
 			_cache = {};
+
+		_cache.$cover = I('clt-cover');
 		_cache.$progress = I('clt-file-progress');
 		_cache.$tip = I('clt-file-tip');
+		_cache.$progress_bar = I('clt-file-progress-bar');
+		_cache.$progress_tx = I('clt-file-progress-tx');
+		_cache.$thumbnail_id = I('clt-thumbnail-id');
+		_cache.$file_area = I('clt-file-area');
 
 		if(!$file)
 			return false;
@@ -370,7 +376,7 @@ define(function(require, exports, module){
 		function submission(file){
 
 			/** loading tip */
-			$file_progress_bar.style.width = '10%';
+			_cache.$progress_bar.style.width = '10%';
 			progress_tip('loading',config.lang.M01);
 			
 			var fd = new FormData(),
@@ -384,7 +390,7 @@ define(function(require, exports, module){
 			xhr.upload.onprogress = function(e){
 				if (e.lengthComputable) {
 					var percent = e.loaded / e.total * 100;		
-					$file_progress_bar.style.width = percent + '%';
+					_cache.$progress_bar.style.width = percent + '%';
 				}
 			};
 			xhr.onload = function(){
@@ -392,12 +398,13 @@ define(function(require, exports, module){
 					var data;
 					try{data = JSON.parse(xhr.responseText)}catch(err){data = xhr.responseText}
 					if(data && data.status === 'success'){
-						$cover.src = data.url;
-						tools.ajax_loading_tip(data.status,data.msg);
-					}else if(data && data.status === 'error'){
+						_cache.$cover.src = data.thumbnail.url;
+						_cache.$thumbnail_id.value = data['attach-id'];
 						tools.ajax_loading_tip(data.status,data.msg,3);
+					}else if(data && data.status === 'error'){
+						tools.ajax_loading_tip(data.status,data.msg);
 					}else{
-						tools.ajax_loading_tip(data.status,data);
+						tools.ajax_loading_tip('error',data);
 					}
 				}else{
 					tools.ajax_loading_tip('error',config.lang.E01);
@@ -411,8 +418,12 @@ define(function(require, exports, module){
 		function progress_tip(t,s){
 			if(t === 'hide'){
 				_cache.$progress.style.display = 'none';
+				_cache.$file_area.style.display = 'block';
 				return false;
 			}
+			_cache.$file_area.style.display = 'none'
+			_cache.$progress.style.display = 'block';
+			_cache.$progress_bar.style.width = '10%';
 			_cache.$progress_tx.innerHTML = tools.status_tip(t,s);
 				
 		}

@@ -176,14 +176,12 @@ class theme_page_cats{
 							'nopaging' => true,
 							'post__in' => $post_ids,
 						));
-						//while($query->have_posts()){
-							foreach($query->posts as $post){
-							//$query->the_post();
+						foreach($query->posts as $post){
+							setup_postdata($post);
 							theme_functions::archive_img_content(array(
 								'classes' => array('col-xs-6 col-sm-4 col-md-3 col-lg-2'),
 							));
 						}
-						//wp_reset_query();
 						wp_reset_postdata();
 						?>
 					</ul>

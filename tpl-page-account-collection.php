@@ -57,12 +57,13 @@ if(class_exists('theme_custom_collection')){
 				<label for="clt-file" class="col-sm-2 control-label">
 					<i class="fa fa-image"></i>
 					<?= ___('Upload a cover');?>
-					<img src="<?= theme_features::get_theme_images_url(theme_function::$thumbnail_placeholder);?>" alt="<?= ___('Cover');?>" title="<?= ___('Cover');?>" class="clt-cover" id="clt-cover" width="<?= theme_function::$thumbnail_size[1];?>" height="<?= theme_function::$thumbnail_size[2];?>">
 				</label>
 				<div class="col-sm-10">
 					<div id="clt-file-area">
-						<div class="" id="clt-file-btn">
-							<i class="fa fa-image"></i>
+						<img src="<?= theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);?>" alt="<?= ___('Cover');?>" title="<?= ___('Cover');?>" class="clt-cover" id="clt-cover" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>">
+						
+						<div id="clt-file-btn">
+							<i class="fa fa-plus"></i>
 							<?= ___('Select or Drag images');?>
 							<input type="file" id="clt-file" >
 						</div>
@@ -91,7 +92,7 @@ if(class_exists('theme_custom_collection')){
 							theme_custom_collection::get_posts_number('max')
 						); ?>
 					</label>
-					<div id="clt-posts-container">
+					<div id="clt-lists-container">
 						<?php 
 						for($i = 0, $len = theme_custom_collection::get_posts_number('min'); $i < $len; ++$i){
 							echo theme_custom_collection::get_input_tpl($i);
@@ -111,7 +112,7 @@ if(class_exists('theme_custom_collection')){
 				</div>
 			</div>
 			<!-- preview -->
-				<div id="clt-preview-container"></div>
+				<div id="clt-preview-container" class="collection-list list-group"></div>
 			<!-- tags -->
 			<div class="form-group">
 				<div class="col-sm-2 control-label">
@@ -168,7 +169,7 @@ if(class_exists('theme_custom_collection')){
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<div class="page-tip submit-tip"></div>
-					
+					<input type="hidden" id="clt-thumbnail-id" name="clt[thumbnail-id]" value="0">
 					<button type="submit" class="btn btn-lg btn-success btn-block submit" data-loading-text="<?= ___('Sending, please wait...');?>">
 						<i class="fa fa-check"></i>
 						<?= ___('Submit');?>

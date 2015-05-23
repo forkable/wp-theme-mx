@@ -210,6 +210,20 @@ define(function(require, exports, module){
 		}
 		exports.$_GET[decode(arguments[1])] = decode(arguments[2]);
 	});
+	/**
+	 * replace array
+	 * @param string str The string ready replace
+	 * @param string find Search string
+	 * @param string replace Replace string
+	 */
+	exports.replace_array = function(str,find,replace){
+		var regex;
+		for (var i = 0, len = find.length; i < len; i++) {
+			regex = new RegExp(find[i], 'g');
+			str = str.replace(regex, replace[i]);
+		}
+		return str;
+	}
 	/** 
 	 * String.prototype.format
 	 */

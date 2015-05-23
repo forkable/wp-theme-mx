@@ -70,6 +70,7 @@ class widget_rank extends WP_Widget{
 			<!-- <ul class="tabbody post-lists <?= $content_type_class;?> widget-orderby-<?= $instance['orderby'];?>"> -->
 				<?php
 				foreach($query->posts as $post){
+					setup_postdata($post);
 					if($instance['content_type'] === 'tx'){
 						theme_functions::widget_rank_tx_content(array(
 							'meta_type' => $instance['orderby'],

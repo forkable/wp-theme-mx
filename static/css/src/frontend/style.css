@@ -515,6 +515,7 @@ img{
 .widget_hot_tags .more{
 	position: absolute;
 	right: 10px;
+	top: 10px;
 }
 .widget_hot_tags a:hover,
 .widget_hot_tags a:active{

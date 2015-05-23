@@ -452,7 +452,6 @@ class theme_functions{
 		);
 		$args = array_merge($defaults,$args);
 
-		global $post;
 		$args['classes'][] = 'post-list post-img-list';
 		$post_title = esc_html(get_the_title());
 
@@ -462,7 +461,7 @@ class theme_functions{
 
 		$thumbnail_real_src = esc_url(theme_functions::get_thumbnail_src($post->ID));
 
-		$thumbnail_placeholder = esc_url(theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder));
+		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
 		<li class="list-group-item">
 			<a class="post-list-bg media" href="<?= get_permalink();?>" title="<?= $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
@@ -1514,6 +1513,7 @@ class theme_functions{
 					<ul class="row post-img-lists">
 						<?php
 						foreach($query->posts as $post){
+							setup_postdata($post);
 							self::archive_img_content($content_args);
 						}
 						wp_reset_postdata();
@@ -1631,6 +1631,7 @@ class theme_functions{
 			<ul class="home-recomm row post-img-lists">
 				<?php
 				foreach($query->posts as $post){
+					setup_postdata($post);
 					self::archive_img_content(array(
 						'classes' => array('col-sm-4'),
 						'lazyload' => false,
@@ -1731,7 +1732,7 @@ class theme_functions{
 			]);
 			if($query->have_posts()){
 				foreach($query->posts as $post){
-					//$query->the_post();
+					setup_postdata($post);
 					self::archive_img_content(array(
 						'classes' => array('col-xs-6 col-sm-3')
 					));

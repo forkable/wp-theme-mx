@@ -70,6 +70,9 @@
 			left: 0;
 			width: 10%;
 			height: 2px;
+			-webkit-transition:all .5s;
+			-moz-transition:all .5s;
+			transition:all .5s;
 		}
 			#ctb-file-progress-bar:after{
 				width: 10px;

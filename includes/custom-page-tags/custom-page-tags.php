@@ -240,7 +240,8 @@ class theme_page_tags{
 			include __DIR__ . '/inc/Pinyin/Pinyin.php';
 			$double_pinyins = array('zh','ch','sh');
 			//while(self::$user_query->have_posts()){
-				foreach(self::$user_query->posts as $post){
+			foreach(self::$user_query->posts as $post){
+				setup_postdata($post);
 				//self::$user_query->the_post();
 				$tags = get_the_tags();
 				/** skip empty tags */
