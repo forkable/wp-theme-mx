@@ -17,9 +17,8 @@ function custom_tag(){this.added_container_id='custom-tag-added-container';this.
 function upload(){cache.$file.addEventListener('change',file_select,false);cache.$file.addEventListener('drop',file_select,false);function file_select(e){e.stopPropagation();e.preventDefault();cache.files=e.target.files.length?e.target.files:e.originalEvent.dataTransfer.files;cache.file_count=cache.files.length;cache.file=cache.files[0];cache.file_index=0;file_upload(cache.files[0]);}
 function file_upload(file){var reader=new FileReader();reader.onload=function(e){submission(file);};reader.readAsDataURL(file);}
 function submission(file){beforesend_callback();var fd=new FormData(),xhr=new XMLHttpRequest();fd.append('type','upload');fd.append('theme-nonce',js_request['theme-nonce']);fd.append('img',file);xhr.open('post',config.process_url);xhr.onload=function(){if(xhr.status>=200&&xhr.status<400){complete_callback(xhr.responseText);}else{error_callback(xhr.responseText);}
-xhr=null;};xhr.upload.onprogress=function(e){if(e.lengthComputable){var percent=e.loaded/e.total*100;cache.$file_progress_bar.style.width=percent+'%';}}
-xhr.send(fd);}
-function beforesend_callback(){var tx=config.lang.M00002.format(cache.file_index+1,cache.file_count);cache.$file_progress_bar.style.width=0;uploading_tip('loading',tx);}
+xhr=null;};xhr.upload.onprogress=function(e){if(e.lengthComputable){var percent=e.loaded/e.total*100;cache.$file_progress_bar.style.width=percent+'%';}};xhr.send(fd);}
+function beforesend_callback(){var tx=config.lang.M00002.format(cache.file_index+1,cache.file_count);cache.$file_progress_bar.style.width='10%';uploading_tip('loading',tx);}
 function error_callback(msg){msg=msg?msg:config.lang.E00001;uploading_tip('error',msg);}
 function upload_started(i,file,count){var t=config.lang.M00002.format(i,count);uploading_tip('loading',t);}
 function complete_callback(data){try{data=JSON.parse(data)}catch(error){}

@@ -52,6 +52,23 @@ if(class_exists('theme_custom_collection')){
 					>
 				</div>
 			</div>
+			<!-- post-content -->
+			<div class="form-group">
+				<label for="clt-content" class="col-sm-2 control-label">
+					<?= ___('Collection description');?>
+				</label>
+				<div class="col-sm-10">
+					<textarea 
+						rows="5"
+						name="clt[post-content]"
+						class="form-control" 
+						id="clt-content" 
+						placeholder="<?= ___('Explain why you recommend this collection. (require)');?>" 
+						title="<?= ___('Collection description must to write');?>" 
+						required 
+					></textarea>
+				</div>
+			</div>
 			<!-- upload image -->
 			<div class="form-group">
 				<label for="clt-file" class="col-sm-2 control-label">
@@ -83,7 +100,7 @@ if(class_exists('theme_custom_collection')){
 			<!-- collection posts -->
 			<div class="form-group">
 				<div class="col-xs-12">
-					<label for="clt-post-id-0">
+					<label for="clt-list-post-id-0">
 						<i class="fa fa-th-list"></i>
 						<?= ___('Collection posts');?>
 						<?= sprintf(
@@ -112,7 +129,7 @@ if(class_exists('theme_custom_collection')){
 				</div>
 			</div>
 			<!-- preview -->
-				<div id="clt-preview-container" class="collection-list list-group"></div>
+			<div id="clt-preview-container" class="collection-list list-group"></div>
 			<!-- tags -->
 			<div class="form-group">
 				<div class="col-sm-2 control-label">

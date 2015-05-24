@@ -657,7 +657,7 @@ class theme_functions{
 				do_action('after_singular_post_content');
 				?>
 				
-				<?php self::the_post_pagination();?>
+				<?php //self::the_post_pagination();?>
 				
 
 
@@ -1303,7 +1303,7 @@ class theme_functions{
 		<nav class="prev-next-pagination btn-group btn-group-justified">
 			<?php
 			$prev_next_pagination = self::smart_page_pagination();
-
+//var_dump($prev_next_pagination);
 			$prev_url = null;
 			$next_url = null;
 
@@ -1337,8 +1337,8 @@ class theme_functions{
 				<?php
 			}
 			if($next_url){
-				$next_btn = $prev_type === 'page' ? 'btn-success' : 'btn-primary';
-				$next_tx =  $prev_type === 'page' ? ___('Next page') : ___('Next post');
+				$next_btn = $next_type === 'page' ? 'btn-success' : 'btn-primary';
+				$next_tx =  $next_type === 'page' ? ___('Next page') : ___('Next post');
 				?>
 				<div class="btn-group btn-group-lg" role="group">
 					<a href="<?= esc_url($next_url);?>" class="next-page btn btn-default"><?= $next_tx;?> <i class="fa fa-arrow-right"></i></a>

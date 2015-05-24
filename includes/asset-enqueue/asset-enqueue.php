@@ -25,7 +25,8 @@ class theme_asset_enqueue{
 			'frontend-seajs' => [
 				'deps' => [],
 				//'url' => 'https://cdnjs.cloudflare.com/ajax/libs/seajs/3.0.1/sea.js',
-				'url' => 'https://cdnjs.cloudflare.com/ajax/libs/seajs/2.3.0/sea.js',
+				//'url' => 'https://cdnjs.cloudflare.com/ajax/libs/seajs/2.3.0/sea.js',
+				'url' => theme_features::get_theme_js('seajs/sea'),
 				'version' => null,
 			],
 			//'jquery-core' => [
@@ -100,7 +101,8 @@ class theme_asset_enqueue{
 			],
 			'bootstrap' => [
 				'deps' => [],
-				'url' => 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css',
+				//'url' => 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css',
+				'url' => theme_features::get_theme_css('modules/bootstrap',null),
 				'version' => null,
 			],
 			'awesome' => [

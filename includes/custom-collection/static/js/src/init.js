@@ -337,7 +337,11 @@ define(function(require, exports, module){
 		if(!_cache.$fm)
 			return false;
 
-		
+		var sm = new tools.validate();
+		sm.$fm = _cache.$fm;
+		sm.process_url = config.process_url;
+		sm.error_tx = config.lang.E01;
+		sm.init();
 	}
 	function upload(){
 		var $file = I('clt-file'),
@@ -376,7 +380,6 @@ define(function(require, exports, module){
 		function submission(file){
 
 			/** loading tip */
-			_cache.$progress_bar.style.width = '10%';
 			progress_tip('loading',config.lang.M01);
 			
 			var fd = new FormData(),

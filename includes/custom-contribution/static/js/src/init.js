@@ -194,7 +194,7 @@ define(function(require, exports, module){
 		}
 		function beforesend_callback(){
 			var tx = config.lang.M00002.format(cache.file_index + 1,cache.file_count);
-			cache.$file_progress_bar.style.width = 0;
+			cache.$file_progress_bar.style.width = '10%';
 			uploading_tip('loading',tx);
 		}
 		function error_callback(msg){

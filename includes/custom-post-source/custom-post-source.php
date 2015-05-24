@@ -119,7 +119,7 @@ class theme_custom_post_source{
 					class="widefat code" 
 					title="<?= ___('Author, for reprint work');?>"
 					placeholder="<?= ___('Author, for reprint work');?>"
-					value="<?= isset($meta['reprint']['author']) ? esc_url($meta['reprint']['author']) : null;?>" 
+					value="<?= isset($meta['reprint']['author']) ? esc_attr($meta['reprint']['author']) : null;?>" 
 				>
 			</p>
 		</div>			
