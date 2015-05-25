@@ -391,14 +391,17 @@ class theme_custom_collection{
 					 */
 					if($post_status === 'pending'){
 						$output['status'] = 'success';
-						$output['msg'] = ___('Your collection submitted successful, it will be published after approve in a while. Thank you very much!');
+						$output['msg'] = sprintf(
+							___('Your collection submitted successful, it will be published after approve in a while. Thank you very much! How about %s again?'),
+							'<a href="' . self::get_tabs('collection')['url'] . '">' . ___('write a new collection') . '</a>'
+						);
 						die(theme_features::json_format($output));
 					}else{
 						$output['status'] = 'success';
 						$output['msg'] = sprintf(
 							___('Congratulation! Your post has been published. You can %s or %s.'),
 							'<a href="' . esc_url(get_permalink($post_id)) . '" title="' . esc_attr(get_the_title($post_id)) . '">' . ___('View it now') . '</a>',
-							'<a href="' . self::get_tabs('collection')['url'] . '">' . ___('countinue to write a new post') . '</a>'
+							'<a href="' . self::get_tabs('collection')['url'] . '">' . ___('countinue to write a new collection') . '</a>'
 						);
 
 						/**
@@ -420,8 +423,7 @@ class theme_custom_collection{
 			 * get post
 			 */
 			case 'get-post':
-			
-				$post_id = isset($_REQUEST['post-id']) && is_numeric($_REQUEST['post-id']) ? (int)$_REQUEST['post-id'] : null;
+				$post_id = isset($_REQUEST['post-id']) && is_numeric($_REQUEST['post-id']) ? $_REQUEST['post-id'] : null;
 				if(!$post_id){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_post_id';
@@ -431,16 +433,14 @@ class theme_custom_collection{
 
 				
 				global $post;
-				$query = new WP_Query([
-					'p' => $post_id
-				]);
-				if(!$query->have_posts()){
+				$post = get_post($post_id);
+				if(!$post){
 					$output['status'] = 'error';
 					$output['code'] = 'post_not_exist';
 					$output['msg'] = ___('Sorry, the post do not exist, please type another post ID.');
+				//echo(json_encode($output));
 					die(theme_features::json_format($output));
 				}
-				$post = $query->posts[0];
 				setup_postdata($post);
 				$output = [
 					'status' 	=> 'success',
@@ -456,6 +456,7 @@ class theme_custom_collection{
 					'excerpt' 	=> str_sub(strip_tags(trim($post->post_content)),120),
 				];
 				wp_reset_postdata();
+				die(theme_features::json_format($output));
 				break;
 
 		}

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-24 18:14+0800\n"
-"PO-Revision-Date: 2015-05-24 18:26+0800\n"
+"PO-Revision-Date: 2015-05-25 14:48+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -1190,7 +1190,7 @@ msgstr "抱歉，文章 ID 编号无效。"
 
 #: includes/custom-collection/custom-collection.php:440
 msgid "Sorry, the post do not exist, please type another post ID."
-msgstr "抱歉，该文章不存在，请输入另一个文章 ID 编号。"
+msgstr "抱歉，该文章不存在，请输入另一个文章的 ID 编号。"
 
 #: includes/custom-collection/custom-collection.php:447
 msgid "Finished get the post data."

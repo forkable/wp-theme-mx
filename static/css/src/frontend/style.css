@@ -1418,6 +1418,9 @@ label.error{
 /**
  * .collection-list
  */
+.collection-list{
+	margin: 20px -20px;
+}
 .collection-list a{
 	position: relative;
 	display: block;
@@ -1428,6 +1431,9 @@ label.error{
 	}
 	.collection-list .list-group-item{
 		padding: 0;
+		border-right: none;
+		border-left: none;
+		border-radius: 0;
 	}
 	.collection-list .list-group-item:after{
 		content:'1';
@@ -1456,6 +1462,7 @@ label.error{
 	.collection-list .list-group-item-text{
 		color:#666;
 		margin-bottom: 20px;
+		line-height: 1.5;
 	}
 	.collection-list-thumbnail-container{
 		display: block;

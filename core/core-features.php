@@ -716,7 +716,7 @@ class theme_features{
 			return false;
 		/** Reduce the size but will inccrease the CPU load */
 		$output = json_encode(array_multiwalk($output,'html_compress'));
-		//$output = json_encode($output);
+
 		/**
 		 * If the remote call, return the jsonp format
 		 */
@@ -759,7 +759,7 @@ class theme_features{
 				'code' => 'invalid_referer',
 				'msg' => ___('Sorry, referer is invalid.')
 			);
-			die(theme_features::json_format($output));
+			die(self::json_format($output));
 		}
 	}
 	public static function create_nonce($key = 'theme-nonce'){
@@ -784,7 +784,7 @@ class theme_features{
 				'code' => 'invalid_security_code',
 				'msg' => ___('Sorry, security code is invalid.')
 			);
-			die(theme_features::json_format($output));
+			die(self::json_format($output));
 		}
 	}
 	/**

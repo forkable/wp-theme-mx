@@ -80,8 +80,13 @@ class theme_functions{
 		add_image_size(self::$medium_size[0],self::$medium_size[1],self::$medium_size[2],self::$medium_size[3]);
 		
 		add_image_size(self::$large_size[0],self::$large_size[1],self::$large_size[2],self::$large_size[3]);
-		
-		//set_post_thumbnail_size(self::$thumbnail_size[1],self::$thumbnail_size[2]);
+
+		/**
+		 * jpeg_quality
+		 */
+		add_filter('jpeg_quality',function($args){
+			return 75;
+		});
 		
 		add_theme_support('title-tag');
 		/** 
@@ -1682,6 +1687,7 @@ class theme_functions{
 		}
 
 		global $post;
+		static $i = 0;
 		foreach($opt as $k => $v){
 			?>
 <div id="homebox-<?= $k;?>" class="homebox panel panel-primary mx-panel">
@@ -1700,13 +1706,6 @@ class theme_functions{
 			?>
 		</h3>
 		<div class="mx-panel-heading-extra">
-			<!-- <a 
-				title="<?= ___('I feel lucky');?>"
-				href="javascript:;" 
-				class="extra homebox-refresh hide" 
-				data-target="#homebox-<?= $k;?> .post-img-lists" 
-				data-box-id="<?= $k;?>"
-			><i class="fa fa-refresh fa-fw"></i></a> -->
 			
 			<?php if(!is_null_array($v['keywords'])){ ?>
 				<div class="extra keywords hidden-xs">
@@ -1734,7 +1733,8 @@ class theme_functions{
 				foreach($query->posts as $post){
 					setup_postdata($post);
 					self::archive_img_content(array(
-						'classes' => array('col-xs-6 col-sm-3')
+						'classes' => array('col-xs-6 col-sm-3'),
+						'lazyload' => $i < 1 ? false : true,
 					));
 				}
 				wp_reset_postdata();
@@ -1745,7 +1745,8 @@ class theme_functions{
 		</ul>
 	</div>
 </div>
-	<?php
+		<?php
+			++$i;
 		} /** end foreach */
 
 		$cache = html_compress(ob_get_contents());

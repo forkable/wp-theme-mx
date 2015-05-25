@@ -179,10 +179,7 @@
 #fm-ctb .checkbox-select{
 	font-size: 1.3em;
 }
-	.ctb-tag .label .fa{
-		display: none;
-	}
-	.ctb-tag input:checked ~ .label{
+	.ctb-tag input:checked + .label{
 		background: #4cae4c;
 		color: #fff;
 	}
