@@ -92,7 +92,8 @@ define(function(require, exports, module){
 				xhr = new XMLHttpRequest(),
 				param = tools.param({
 					'type' : 'get-comments',
-					'post-id' : config.post_id
+					'post-id' : config.post_id,
+					'theme-nonce' : js_request['theme-nonce']
 				});
 			xhr.open('GET',config.pagi_process_url + '&' + param);
 			xhr.send();
@@ -288,7 +289,7 @@ define(function(require, exports, module){
 			tools.ajax_loading_tip('loading',_that.lang.loading);
 			
 			var xhr = new XMLHttpRequest();
-			xhr.open('GET',get_process_url());
+			xhr.open('GET',get_process_url() + '&theme-nonce=' + js_request['theme-nonce']);
 			xhr.send();
 			xhr.onload = function(){
 				if(xhr.status >= 200 && xhr.status < 400){
@@ -465,7 +466,10 @@ define(function(require, exports, module){
 					var data;
 					try{data = JSON.parse(xhr.responseText);}catch(e){data = xhr.responseText}
 					if(data && data.status === 'success'){
+						/** do not use srcset */
+						data.comment = data.comment.replace('srcset','data-srcset');
 						var $new_comment = tools.parseHTML(data.comment)[0];
+						$new_comment.classList.add('new');
 						/**
 						 * if children respond
 						 */
@@ -479,6 +483,25 @@ define(function(require, exports, module){
 						}
 						/** clear comment textarea */
 						_cache.$comment_ta.value = '';
+						
+						/** hide comment loading */
+						var $comment_loading = cache.$comments.querySelector('.comment-loading');
+						if($comment_loading)
+							$comment_loading.parentNode.removeChild($comment_loading);
+						/** set comment number */
+						var $badge = I('comment-number-' + data.post_id);
+						if($badge){
+							if(isNaN($badge.innerHTML)){
+								$badge.innerHTML = 1;
+							}else{
+								$badge.innerHTML++;
+							}
+						}
+						/**
+						 * show $comments
+						 */
+						cache.$comments.style.display = 'block';
+						
 						/** show success tip */
 						tools.ajax_loading_tip(data.status,data.msg,3);
 					}else if(data && data.status === 'error'){
@@ -514,12 +537,6 @@ define(function(require, exports, module){
 		
 	}
 
-
-
-
-
-
-	
 	
 	/**
 	 * form comment-reply.js

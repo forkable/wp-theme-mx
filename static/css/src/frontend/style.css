@@ -688,10 +688,15 @@ label.error{
 	padding: 0;
 	margin: -20px -20px 0;
 }
-	.comment-list .comment{
-	}
 	.comment-list .comment:hover{
 		background: rgba(0,0,0,.05)
+	}
+	.comment-list .comment.is-me{
+		background: #FBEC88;
+	}
+	.comment-list .comment.is-post-author{
+		background: #D9EDF7;
+		border-bottom: 1px solid #9ACFEA;
 	}
 	.comment-list .media{
 		margin: 0;

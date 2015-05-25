@@ -2,7 +2,7 @@
 /*
 Feature Name:	Comment AJAX
 Feature URI:	http://www.inn-studio.com
-Version:		2.0.6
+Version:		2.0.7
 Description:	Use AJAX when browse/add/reply comment. (Recommended enable)
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -15,10 +15,11 @@ class theme_comment_ajax{
 	public static $iden = 'theme_comment_ajax';
 	public static function init(){
 		
-		//add_filter('theme_options_default',			__CLASS__ . '::backend_options_default');
-		// add_filter('theme_options_save',			__CLASS__ . '::backend_options_save');
+		add_filter('theme_options_default',			__CLASS__ . '::options_default');
+		
+		add_filter('theme_options_save',			__CLASS__ . '::options_save');
 
-		// add_action('page_settings',					__CLASS__ . '::backend_options_display');
+		add_action('page_settings',					__CLASS__ . '::display_backend');
 		
 		add_action('wp_footer',						__CLASS__ . '::thread_comments_js');
 		
@@ -53,32 +54,49 @@ class theme_comment_ajax{
 	 * @author KM@INN STUDIO
 	 */
 	private static function is_enabled(){
-		// $opt = theme_options::get_options(self::$iden);
-		// return isset($opt['on']) ? true : false;
-		return true;
+		return self::get_options('enabled') == 1 ? true : false;
 	}
-	public static function backend_options_default($options){
-		$options[self::$iden]['on'] = 1;
-		return $options;
+	public static function options_default(array $opts = []){
+		$opts[self::$iden]['enabled'] = 1;
+		return $opts;
 	}
-	public static function backend_options_save($options){
-		$options[self::$iden] = isset($_POST[self::$iden]) ? $_POST[self::$iden] : false;
-		return $options;
+	public static function options_save(array $opts = []){
+		if(isset($_POST[self::$iden])){
+			$opts[self::$iden] = $_POST[self::$iden];
+			/**
+			 * if disable
+			 */
+			if(!isset($_POST[self::$iden]['enabled'])){
+				$opts[self::$iden]['enabled'] = -1;
+			}
+			
+		}
+		return $opts;
 	}
-	public static function backend_options_display(){
-		$options = theme_options::get_options();
+	public static function get_options($key = null){
+		static $cache = null;
+		if($cache === null)
+			$cache = theme_options::get_options(self::$iden);
+
+		if($key){
+			return isset($cache[$key]) ? $cache[$key] : false;
+		}else{
+			return $cache;
+		}
+	}
+	public static function display_backend(){
 		$is_checked = self::is_enabled() ? ' checked="checked" ' : null;
 		?>
 		<fieldset>
-			<legend><?= ___('Comment AJAX Settings');?></legend>
-			<p class="description"><?= ___('Visitor submitted comment without refreshing page. Recommended enable to improve the user experience.');?></p>
+			<legend><?= ___('Comment AJAX settings');?></legend>
+			<p class="description"><?= ___('Submitted comment without refreshing page. Recommended enable to improve the user experience.');?></p>
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th scope="row"><label for="comment_ajax_enable"><?= ___('Enable comment AJAX');?></label></th>
+						<th scope="row"><label for="<?= self::$iden;?>-enabled"><?= ___('Enable comment AJAX');?></label></th>
 						<td>
-							<input id="comment_ajax_enable" name="comment_ajax[on]" type="checkbox" value="1" <?= $is_checked;?>/>
-							<label for="comment_ajax_enable"><?= ___('Enable');?></label>
+							<input id="<?= self::$iden;?>-enabled" name="<?= self::$iden;?>[enabled]" type="checkbox" value="1" <?= $is_checked;?>/>
+							<label for="<?= self::$iden;?>-enabled"><?= ___('Enable');?></label>
 							
 						</td>
 					</tr>
@@ -88,14 +106,16 @@ class theme_comment_ajax{
 
 		<?php
 	}
-	public static function block_frontend_comment($comment_post_ID){
-		if(basename($_SERVER['PHP_SELF']) === 'wp-comments-post.php')
-			die(___('Blocked comment from frontend.'));
+	public static function block_frontend_comment(){
+		if(self::is_enabled()){
+			if(basename($_SERVER['PHP_SELF']) === 'wp-comments-post.php')
+				die(___('Blocked comment from frontend.'));
+		}
 	}
 	public static function process(){
 
 		theme_features::check_referer();
-		//theme_features::check_nonce();
+		theme_features::check_nonce();
 	
 		$output = [];
 		
@@ -114,11 +134,15 @@ class theme_comment_ajax{
 			/**
 			 * Define comment values
 			 */
-			$comment_author			= isset($_POST['author'])			? trim(strip_tags($_POST['author'])): null;
-			$comment_author_email	= isset($_POST['email'])			? trim($_POST['email']): null;
-			$comment_author_url		= isset($_POST['url'])				? trim($_POST['url']): null;
-			$comment_content		= isset($_POST['comment'])			? trim($_POST['comment']): null;
-			$comment_parent			= isset($_POST['comment_parent'])	? (int)$_POST['comment_parent']: null;
+			$comment_author = isset($_POST['author']) && is_string($_POST['author'])? trim(strip_tags($_POST['author'])): null;
+			
+			$comment_author_email = isset($_POST['email']) && is_string($comment_author_email) ? trim($_POST['email']): null;
+			
+			$comment_author_url = isset($_POST['url']) && is_string($_POST['url']) ? trim($_POST['url']): null;
+			
+			$comment_content = isset($_POST['comment']) && is_string($_POST['comment']) ? trim($_POST['comment']): null;
+			
+			$comment_parent = isset($_POST['comment_parent']) && is_numeric($_POST['comment_parent']) ? $_POST['comment_parent'] : null;
 			
 			$output['status'] = 'success';
 			/**
@@ -137,7 +161,7 @@ class theme_comment_ajax{
 				$comment_author			= wp_slash( $user->display_name );
 				$comment_author_email	= wp_slash( $user->user_email );
 				$comment_author_url		= wp_slash( $user->user_url );
-				$user_id				= wp_slash( $user->ID );
+				$user_id				= $user->ID ;
 				if(current_user_can('unfiltered_html')){
 					if ( ! isset( $_POST['_wp_unfiltered_html_comment'] )
 						|| ! wp_verify_nonce( $_POST['_wp_unfiltered_html_comment'], 'unfiltered-html-comment_' . $comment_post_ID )
@@ -230,7 +254,7 @@ class theme_comment_ajax{
 			 * Check if no error
 			 */
 			if($output['status'] === 'success'){
-				$content = html_compress(wp_list_comments([
+				$content = (wp_list_comments([
 					'type' => 'comment',
 					'callback'=>'theme_functions::theme_comment',
 					'echo' => false,
@@ -254,18 +278,18 @@ class theme_comment_ajax{
 		/**
 		 * type
 		 */
-		$type = isset($_GET['type']) && is_string($_GET['type']) ? isset($_GET['type']) : null;
+		$type = isset($_GET['type']) && is_string($_GET['type']) ? $_GET['type'] : null;
 		switch($type){
 			case 'get-comments':
 				/**
 				 * comments page
 				 */
-				$cpage = isset($_GET['cpage']) && is_string($_GET['cpage']) ? (int)$_GET['cpage'] : null;
+				$cpage = isset($_GET['cpage']) && is_numeric($_GET['cpage']) ? $_GET['cpage'] : null;
 				
 				/**
 				 * post id
 				 */
-				$post_id = isset($_GET['post-id']) && is_string($_GET['post-id']) ? (int)$_GET['post-id'] : null;
+				$post_id = isset($_GET['post-id']) && is_numeric($_GET['post-id']) ? $_GET['post-id'] : null;
 				if(!$post_id){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_post_id';
@@ -277,31 +301,16 @@ class theme_comment_ajax{
 				/**
 				 * check post exists
 				 */
-				$query = new WP_Query([
-					'p' => $post_id
-				]);
-				if(!$query-have_posts()){
+				$post = get_post($post_id);
+
+				if(!$post){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_post';
 					$output['msg'] = ___('Post is not exist.');
 					die(theme_features::json_format($output));
 				}
-				//$comments = self::get_comments([
-				//	'post_id' => $post_id,
-				//]);
-				//	var_dump(have_comments());exit;
-				//while(have_posts()){
-				//	the_post();
-				//var_dump($wp_query);exit;
-					
-					
-				//}
+				setup_postdata($post);
 				$comments_str = self::get_comments_list($post_id,$cpage);
-				//$comments_str = self::get_comments([
-				//	'page' => $cpage,
-					//'reverse_top_level' => get_option('comment_order') === 'asc' ? false : true,
-					//'reverse_children' => get_option('comment_order') === 'asc' ? false : true,
-				//]);
 				
 				$output['status'] = 'success';
 				$output['msg'] = ___('Data sent.');
@@ -322,7 +331,7 @@ class theme_comment_ajax{
 			
 		}
 
-		die(theme_features::json_format($output,true));
+		die(theme_features::json_format($output));
 	}
 	public static function get_comments_list($post_id,$cpaged = 0){
 		static $caches = [];
@@ -336,8 +345,9 @@ class theme_comment_ajax{
 		$wp_query = new WP_Query([
 			'p' => $post_id
 		]);
+		$post = $wp_query->posts[0];
 		
-		foreach($wp_query->posts as $post){}
+		setup_postdata($post);
 			
 		$comments = self::get_comments([
 			'post_id' => $post_id,
@@ -369,10 +379,6 @@ class theme_comment_ajax{
 	 * pre_comment_on_post
 	 */
 	public static function pre_comment_on_post($comment_post_ID){
-		/** 
-		 * check nonce
-		 */
-		theme_features::check_nonce();
 		
 		$comment_post_ID = isset($_POST['comment_post_ID']) ? (int) $_POST['comment_post_ID'] : 0;
 		$post = get_post($comment_post_ID);
@@ -429,14 +435,21 @@ class theme_comment_ajax{
 			die(theme_features::json_format($output));
 		}
 	}
+	private static function is_singular(){
+		static $cache = null;
+		if($cache === null)
+			$cache = is_singular();
+
+		return $cache;
+	}
 	public static function frontend_seajs_alias(array $alias = []){
-		if(self::is_enabled() && is_singular()){
+		if(self::is_enabled() && self::is_singular()){
 			$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		}
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(!self::is_enabled() || !is_singular())
+		if(!self::is_enabled() || !self::is_singular())
 			return false;
 		global $post;
 			?>
@@ -500,13 +513,13 @@ class theme_comment_ajax{
 						
 						$user_name = $commenter['comment_author'];
 						$user_url = $commenter['comment_author_url'];
-						$avatar_url = get_img_source(get_avatar($commenter['comment_author_email']));
+						$avatar_url = get_avatar_url($commenter['comment_author_email']);
 					}else{
 						global $current_user;
 						get_currentuserinfo();
 						$user_name = $current_user->display_name;
 						$user_url = get_author_posts_url($current_user->ID);
-						$avatar_url =  get_img_source(get_avatar($current_user->ID));
+						$avatar_url =  get_avatar_url($current_user->ID);
 					}
 					$output[self::$iden] = [
 						'comments' => self::get_comments_list($post_id,$cpage),
@@ -515,9 +528,9 @@ class theme_comment_ajax{
 						'cpage' => $cpage,
 						'logged' => $is_logged,
 						'registration' => theme_features::get_option('comment_registration'),
-						'user-name' => $user_name,
-						'user-url' => $user_url,
-						'avatar-url' => $avatar_url,
+						'user-name' => esc_html($user_name),
+						'user-url' => esc_url($user_url),
+						'avatar-url' => esc_url($avatar_url),
 					];
 					break;
 			}

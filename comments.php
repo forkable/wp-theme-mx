@@ -5,10 +5,11 @@ if(post_password_required())
 global $wp_query;
 
 
-
+$have_comments = have_comments();
+$comments_open = comments_open();
 ?>
 
-<div id="comments" class="comment-wrapper panel panel-default <?= have_comments() ? null : 'none';?>">
+<div id="comments" class="comment-wrapper panel panel-default <?= $have_comments ? null : 'none';?>">
 	<div class="panel-heading">
 		<h3 class="have-comments-title panel-title">
 			<span id="comment-number-<?= $post->ID;?>" class="badge">-</span> 
@@ -27,10 +28,10 @@ global $wp_query;
 		/** 
 		 * if comment open
 		 */
-		if(comments_open()){
+		if($comments_open){
 			?>			
 			<ul id="comment-list-<?= $post->ID;?>" class="comment-list">
-				<li class="comment media">
+				<li class="comment media comment-loading">
 					<div class="page-tip"><?= status_tip('loading',___('Loading, please wait...'));?></div>
 				</li>
 			</ul>
@@ -40,7 +41,7 @@ global $wp_query;
 	</div><!-- /.panel-body -->
 	
 	<?php 
-	if(have_comments() && comments_open() && theme_features::get_comment_pages_count($wp_query->comments) > 1){ 
+	if($have_comments && $comments_open && theme_features::get_comment_pages_count($wp_query->comments) > 1){ 
 		?>
 		<div class="panel-footer">
 			<div id="comment-pagination-container"></div>

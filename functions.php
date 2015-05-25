@@ -1373,18 +1373,40 @@ class theme_functions{
 	 * 
 	 */
 	public static function theme_comment( $comment, $args, $depth ) {
+		global $post;
+		
 		$GLOBALS['comment'] = $comment;
-		$defaults = array(
-			'lazy' => true,
-		);
-		$args = array_merge($defaults,$args);
 
 		switch ( $comment->comment_type ){
 			default :
-				$classes = array('media');
-				if(!empty( $args['has_children'])) $classes[] = 'parent';
-				if($comment->comment_approved == '0') $classes[] = 'moderation';
+				$classes = ['media'];
+				
+				if(!empty( $args['has_children'])) 
+					$classes[] = 'parent';
+					
+				if($comment->comment_approved == '0') 
+					$classes[] = 'moderation';
 
+				/**
+				 * post author checker
+				 */
+				if($comment->user_id == $post->post_author){
+					$is_post_author = true;
+					$classes[] = 'is-post-author';
+				}else{
+					$is_post_author = false;
+				}
+
+				/**
+				 * check is my comment
+				 */
+				static $get_current_user_id = null;
+				if($get_current_user_id === null)
+					$get_current_user_id = get_current_user_id();
+
+				if($get_current_user_id == $comment->user_id)
+					$classes[] = 'is-me';
+				
 
 				/**
 				 * author url

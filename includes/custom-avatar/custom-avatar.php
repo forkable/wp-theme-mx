@@ -59,7 +59,7 @@ class theme_custom_avatar{
 		/**
 		 * if is /12/2015/xx.jpg format, add upload baseurl
 		 */
-		if(strpos($meta,'http') === false){
+		if(strpos($meta,'http') === false || strpos($meta,'//') === false){
 			static $baseurl;
 			if(!$baseurl)
 				$baseurl = wp_upload_dir()['baseurl'];
