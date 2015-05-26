@@ -730,13 +730,7 @@ class theme_features{
 		return $die ? die($output) : $output;
 
 	}
-	public static function is_mobile(){
-		static $cache = null;
-		if($cache === null)
-			$cache = (bool)wp_is_mobile();
 
-		return $cache;
-	}
 	/**
 	 * check_referer
 	 *

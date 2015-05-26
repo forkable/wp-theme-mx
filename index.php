@@ -1,24 +1,10 @@
-<?php
-/**
- * set home page cache without user logged
- */
-if(!is_user_logged_in()){
-	$cache = wp_cache_get('home-visitor');
-	if($cache){
-		echo $cache;
-		return;
-	}
-	ob_start();
-}
-
-?>
 <?php get_header();?>
 <div class="container">
 	<?php
 	/**
 	 * slidebox
 	 */
-	if(!theme_features::is_mobile()){
+	if(!wp_is_mobile()){
 		?>
 		<div class="panel panel-default hidden-xs">
 			<div class="mx-card-body row neck">
@@ -57,12 +43,3 @@ if(!is_user_logged_in()){
 	
 </div>
 <?php get_footer();?>
-
-<?php
-if(!is_user_logged_in()){
-	$content = html_compress(ob_get_contents());
-	ob_end_clean();
-	wp_cache_set('home-visitor',$content,null,900);
-	echo $content;
-}
-?>

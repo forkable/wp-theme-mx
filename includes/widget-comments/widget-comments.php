@@ -86,7 +86,7 @@ class widget_comments extends WP_Widget{
 					<small><?= friendly_date(get_comment_time('U'));?></small>
 				</time>
 			</h4>
-			<div class="text"><?php comment_text();?></div>
+			<div class="text"><?= esc_html(strip_tags(get_comment_text()));?></div>
 		</div>
 	</a>
 </li>

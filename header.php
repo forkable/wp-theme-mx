@@ -11,7 +11,7 @@
 </head>
 <body <?php body_class(); ?>>
 
-<?php if(!theme_features::is_mobile()){ ?>
+<?php if(!wp_is_mobile()){ ?>
 	<div class="top-bar navbar navbar-default hidden-xs">	
 		<div class="container">
 			<?php
@@ -40,7 +40,7 @@
 /** 
  * banner
  */
-if(!theme_features::is_mobile() && has_header_image()){ ?>
+if(!wp_is_mobile() && has_header_image()){ ?>
 	<a href="<?= home_url();?>" class="banner hidden-xs">
 		<img src="<?php header_image(); ?>" alt="Banner">
 		<?php if(display_header_text()){ ?>
