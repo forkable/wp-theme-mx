@@ -8,7 +8,9 @@
 				'type' => 'unread'
 			));
 			if($unread !== 0){
-				echo "<span class='badge'>{$unread}</span>";
+				?>
+				<span class='badge'><?= $unread;?></span>
+				<?php
 			}
 			?>
 		</h3>
@@ -89,7 +91,7 @@ $comment = theme_notification::get_comment($v['comment-id']);
 			<?php
 			echo sprintf(
 				___('Your post %1$s has a comment by %2$s.'),
-				'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '">' . esc_html(get_the_title($comment->comment_post_ID)) . '</a>',
+				'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '#comment-' . $comment->comment_ID . '">' . esc_html(get_the_title($comment->comment_post_ID)) . '</a>',
 				get_comment_author_link()
 			);
 			?>
@@ -118,7 +120,7 @@ $parent_comment = theme_notification::get_comment($comment->comment_parent);
 		echo sprintf(
 			___('Your comment has a reply by %1$s in %2$s.'),
 			get_comment_author_link(),
-			'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '">
+			'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '#comment-' . $comment->comment_ID . '">
 				' . esc_html(get_the_title($comment->comment_post_ID)) . '
 			</a>'
 		);

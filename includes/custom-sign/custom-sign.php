@@ -128,7 +128,7 @@ class theme_custom_sign{
 	 * @param string $redirect Redirect url when login success
 	 * @return mix/array
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_tabs($key = null,$redirect = null){
 		static $baseurl;

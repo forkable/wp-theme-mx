@@ -260,7 +260,7 @@ class theme_cache{
 	 * @param string $group Cache group
 	 * @return bool
 	 * @version 2.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function delete($key,$group = ''){
 		$key = self::build_key($key,$group);
@@ -277,7 +277,7 @@ class theme_cache{
 	 * @param string $group Cache group
 	 * @return int $expire Cache expire time (s)
 	 * @version 2.0.4
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function set($key,$data,$group = null,$expire = 3600){
 		if(theme_dev_mode::is_enabled())
@@ -298,7 +298,7 @@ class theme_cache{
 	 * @param bool $force True to get cache forced
 	 * @return mixed
 	 * @version 2.0.2
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get($key,$group = null,$force = false){
 		/**
@@ -320,7 +320,7 @@ class theme_cache{
 	 * @param int $expire Cache expire time
 	 * @return mixed
 	 * @version 2.0.1
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_comments($args,$expire = 3600){
 		$cache_group_id = 'comments';
@@ -341,7 +341,7 @@ class theme_cache{
 	 * @param int $expire Cache expire time
 	 * @return mixed
 	 * @version 2.0.1
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_queries($args,$expire = 3600){
 		$cache_group_id = 'queries';
@@ -396,7 +396,7 @@ class theme_cache{
 	 * @param int Cache expire time
 	 * @return string
 	 * @version 2.0.2
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function dynamic_sidebar($id,$expire = 3600){
 		
@@ -422,7 +422,7 @@ class theme_cache{
 	 * @param int Cache expire time
 	 * @return string
 	 * @version 2.0.2
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function wp_nav_menu($args,$expire = 3600){
 		$cache_group_id = 'nav-menus';

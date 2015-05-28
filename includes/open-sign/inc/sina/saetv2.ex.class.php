@@ -4,7 +4,7 @@ namespace theme_open_sign\inc\sina;
  * PHP SDK for weibo.com (using OAuth2)
  * 
  * @author Elmer Zhang <freeboy6716@gmail.com>
- * @author Km.Van <kmvan.com@gmail.com>
+ * @author INN STUDIO <inn-studio.com>
  */
 /**
  * @ignore

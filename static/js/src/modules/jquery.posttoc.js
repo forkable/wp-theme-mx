@@ -4,7 +4,7 @@ define(function(require, exports, module){
 	 * post_toc
 	 * 
 	 * @version 1.0.3
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	exports.config = {
 		post_content_id : '.singular .post .post-content',

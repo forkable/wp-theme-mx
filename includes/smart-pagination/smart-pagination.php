@@ -4,7 +4,7 @@
  * theme_smart_pagination
  *
  * @version 1.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 class theme_smart_pagination{
 	

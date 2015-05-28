@@ -66,7 +66,7 @@ class theme_import_settings{
 	 * 
 	 * @return 
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function process(){
@@ -134,7 +134,7 @@ class theme_import_settings{
 	 * 
 	 * @return string HTML
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function backend_css(){

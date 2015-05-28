@@ -104,7 +104,7 @@ class theme_post_views{
 	 * 
 	 * @return 
 	 * @version 1.0.2
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	private static function update_views_using_cache($post_id,$force = false){
@@ -156,7 +156,7 @@ class theme_post_views{
 	 * @params int $post_id
 	 * @return int the views
 	 * @version 2.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_views($post_id = null){

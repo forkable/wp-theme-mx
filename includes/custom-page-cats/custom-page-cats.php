@@ -3,7 +3,7 @@
  * theme_page_cats
  *
  * @version 1.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_page_cats::init';

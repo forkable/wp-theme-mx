@@ -2,7 +2,7 @@
  * theme-comment-ajax
  *
  * @version 3.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 define(function(require, exports, module){
 	'use strict';

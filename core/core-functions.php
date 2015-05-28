@@ -20,7 +20,7 @@ function fliter_script($value) {
  * @param string $current_value Current option value
  * @return string
  * @version 1.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function get_option_list($value,$text,$current_value){
 	ob_start();
@@ -40,7 +40,7 @@ function get_option_list($value,$text,$current_value){
  * @param string
  * @return array
  * @version 1.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function mult_search_array($key,$value,$array){ 
 	$results = []; 
@@ -59,7 +59,7 @@ function mult_search_array($key,$value,$array){
  * @param string
  * @return bool
  * @version 1.0.1
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function check_referer($referer = null){
 	static $home_url = null;
@@ -82,7 +82,7 @@ function check_referer($referer = null){
  * @param string function name
  * @return array
  * @version 1.0.1
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function array_multiwalk($a,$fn){
 	if(!$a || !$fn) return false;
@@ -102,7 +102,7 @@ function array_multiwalk($a,$fn){
  * @param array
  * @return bool
  * @version 1.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function is_null_array($arr = null){
 	if(is_array($arr)){  
@@ -127,7 +127,7 @@ function is_null_array($arr = null){
  * @param int $filemode
  * @return bool
  * @version 1.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function chmodr($path = null, $filemode = 0777) { 
 	if(!is_dir($path)) return chmod($path,$filemode); 
@@ -158,7 +158,7 @@ function chmodr($path = null, $filemode = 0777) {
  * @param string $target
  * @return bool
  * @version 1.0.2
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  * 
  */
 function mk_dir($target = null){
@@ -186,7 +186,7 @@ function mk_dir($target = null){
   * @param string $path
   * @return 
   * @version 1.0.2
-  * @author KM@INN STUDIO
+  * @author INN STUDIO <inn-studio.com>
   * 
   */
 function remove_dir($path = null){
@@ -308,7 +308,7 @@ function __n($single,$plural,$number,$domain = null){
  * @param string $domain Optional. Text domain. Unique identifier for retrieving translated 
  * @return string Translated context string without pipe.
  * @version 1.0.1
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function __ex($text,$context,$domain = null){
 	if(!$domain)
@@ -323,7 +323,7 @@ function __ex($text,$context,$domain = null){
  * @param string $domain Optional. Text domain. Unique identifier for retrieving translated 
  * @return string Translated context string without pipe.
  * @version 1.0.1
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function __x($text,$context,$domain = null){
 	if(!$domain)
@@ -338,7 +338,7 @@ function __x($text,$context,$domain = null){
  * @param string $domain your translate tdomain
  * @return string display
  * @version 1.1.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  * 
  */
 function __e($text,$domain = null){
@@ -353,7 +353,7 @@ function __e($text,$domain = null){
  * @param string $text your translate text
  * @param string $domain your translate domain
  * @version 1.1.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  * 
  */
 function ___($text,$domain = null){
@@ -370,7 +370,7 @@ function ___($text,$domain = null){
  * @example status_tip('error','big','content');
  * @example status_tip('error','big','content','span');
  * @version 2.0.1
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function status_tip(){
 	$args = func_get_args();
@@ -440,7 +440,7 @@ function status_tip(){
  * @param string $url The remote file
  * @return int The file size, false if file is not exist
  * @version 1.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  * 
  */
 function get_remote_size($url = null){  
@@ -504,7 +504,7 @@ function multidimensional_search($parents, $searched) {
  * @return string The clear html code
  * @version 1.0.2
  * @author higrid.net
- * @author KM@INN STUDIO 20131211
+ * @author INN STUDIO <inn-studio.com>
  * 
  */
 function html_compress($html = null){
@@ -619,7 +619,7 @@ function authcode($string, $operation = 'decode', $key = 'innstudio', $expiry = 
  *
  * @return string
  * @version 2.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function get_client_ip(){
 	return preg_replace( '/[^0-9a-fA-F:., ]/', '',$_SERVER['REMOTE_ADDR'] );
@@ -628,7 +628,7 @@ function get_client_ip(){
  * delete file
  *
  * @version 1.0.0
- * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+ * @author INN STUDIO <inn-studio.com>
  */
 function delete_files($file_path){
 	if(!file_exists($file_path)) 
@@ -644,7 +644,7 @@ function delete_files($file_path){
  * @param int $time_limit
  * @return bool
  * @version 1.0.0
- * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+ * @author INN STUDIO <inn-studio.com>
  */
  function download_file($url,$dir = null,$name = null,$time_limit = 300){
 	set_time_limit($time_limit);
@@ -677,7 +677,7 @@ function delete_files($file_path){
  * @param string $format Date format
  * @return string
  * @version 1.0.0
- * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+ * @author INN STUDIO <inn-studio.com>
  */
 function get_filemtime($filepath,$format = 'YmdHis'){
 	if(!is_file($filepath))
@@ -690,7 +690,7 @@ function get_filemtime($filepath,$format = 'YmdHis'){
  * @param string
  * @return string
  * @version 1.1.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function get_img_source($str,$all = false){
 	$pattern = '/<img[^>]+src\s*=\s*[\"\']\s*([^\"\']+)/i';
@@ -708,7 +708,7 @@ function get_img_source($str,$all = false){
  * @param string $time Format timestamp
  * @return string
  * @version 1.0.1
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function friendly_date($time = null){
 	$text = null;
@@ -773,7 +773,7 @@ function friendly_date($time = null){
  *
  * @return string
  * @version 1.0.2
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function get_current_url(){
 	$url = $_SERVER['SERVER_PORT'] == 443 ? 'https://' : 'http://';
@@ -789,7 +789,7 @@ function get_current_url(){
  * @param string
  * @return string
  * @version 1.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function str_sub($str,$len = null,$extra = '...'){
 	if(!trim($str)) return;
@@ -812,7 +812,7 @@ function str_sub($str,$len = null,$extra = '...'){
  * @param int $middle_str
  * @return string
  * @version 1.0.1
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 function url_sub($url,$before_len = 30,$after_len = 20,$extra_len = 10,$middle_str = ' ... '){
 	$url_len = mb_strlen($url);

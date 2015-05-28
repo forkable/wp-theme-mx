@@ -3,7 +3,7 @@
  * theme custom header
  *
  * @version 1.0.1
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_header::init';

@@ -120,7 +120,7 @@ class theme_seo_plus{
 	 * @return string
 	 * @example 
 	 * @version 1.0.1
-	 * @author KM (kmvan.com@gmail.com)
+	 * @author INN STUDIO <inn-studio.com>
 	 * @copyright Copyright (c) 2011-2013 INN STUDIO. (http://www.inn-studio.com)
 	 **/
 	public static function get_site_keywords(){

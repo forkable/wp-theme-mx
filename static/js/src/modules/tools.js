@@ -26,7 +26,7 @@ define(function(require, exports, module){
 	 * @param string s Message
 	 * @param int Timeout to hide(second)
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	exports.ajax_loading_tip = function(t,s,timeout){
 		var I = function(e){
@@ -114,7 +114,7 @@ define(function(require, exports, module){
 	 *
 	 * @return object
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	exports.validate = function(){
 		/** config */
@@ -251,7 +251,7 @@ define(function(require, exports, module){
 	/**
 	 * auto_focus
 	 * @version 1.0.2
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	exports.auto_focus = function($fm,attr){
@@ -274,7 +274,7 @@ define(function(require, exports, module){
 	 * @params string c the email address
 	 * @return bool true An email address if true
 	 * @version 1.0.1
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	exports.is_email = function(e){
@@ -287,7 +287,7 @@ define(function(require, exports, module){
 	 * @param mixed
 	 * @return string
 	 * @version 1.1.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	exports.status_tip = function(){
 		var defaults = ['type','size','content','wrapper'],
@@ -368,7 +368,7 @@ define(function(require, exports, module){
 		 * @params string
 		 * @return string
 		 * @version 1.0.0
-		 * @author KM@INN STUDIO
+		 * @author INN STUDIO <inn-studio.com>
 		 */
 		get : function(c_name){
 			var i,x,y,ARRcookies=document.cookie.split(';');
@@ -387,7 +387,7 @@ define(function(require, exports, module){
 		 * @params int the expires days
 		 * @return n/a
 		 * @version 1.0.0
-		 * @author KM@INN STUDIO
+		 * @author INN STUDIO <inn-studio.com>
 		 */
 		set : function(c_name,value,exdays){
 			var exdate = new Date();

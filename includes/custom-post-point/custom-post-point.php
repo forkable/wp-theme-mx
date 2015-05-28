@@ -67,7 +67,7 @@ class custom_post_point{
 	 * @param array $args
 	 * @return array
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_most_point_posts(array $args = []){
 		$defaults = [
@@ -124,7 +124,7 @@ class custom_post_point{
 	 * @param int $post_id
 	 * @return int
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_post_points_count($post_id){
 		static $caches = [];
@@ -169,7 +169,7 @@ class custom_post_point{
 	 * @param int $post_id
 	 * @return array Users
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_post_raters($post_id){
 		if(!is_numeric($post_id))
@@ -188,7 +188,7 @@ class custom_post_point{
 	 * @param array $query_args
 	 * @return array
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_user_posts($user_id,array $query_args = []){
 		static $caches;
@@ -462,7 +462,7 @@ class custom_post_point{
 	 * @param int $points
 	 * @return bool/int
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function incr_post_points_count($post_id,$points){
 		if(!is_numeric($post_id) || (int)$post_id === 0)
@@ -492,7 +492,7 @@ class custom_post_point{
 	 * @param int $post_id
 	 * @return bool/int
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function incr_post_raters_count($post_id){
 		if(!is_numeric($post_id) || !(int)$post_id)
@@ -511,7 +511,7 @@ class custom_post_point{
 	 * @param int $post_id
 	 * @return bool/int
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function decr_post_raters_count($post_id){
 		if(!is_numeric($post_id) || !(int)$post_id)
@@ -535,7 +535,7 @@ class custom_post_point{
 	 * @param int points
 	 * @return bool/array True is success, array is error
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function incr_post_raters($post_id,$rater_id,$points){
 			
@@ -611,7 +611,7 @@ class custom_post_point{
 	 * @param int $points $points
 	 * @return 
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function incr_rater_posts($post_id,$rater_id,$points){
 		if(!is_numeric($post_id) || (int)$post_id === 0)
@@ -670,7 +670,7 @@ class custom_post_point{
 	 *
 	 * @return 
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function decr_post_raters($post_id,$rater_id){
 		if(!is_numeric($post_id) || (int)$post_id === 0)

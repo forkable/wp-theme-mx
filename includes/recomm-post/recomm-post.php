@@ -3,7 +3,7 @@
  * theme recommended post
  *
  * @version 2.0.4
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_recommended_post::init';

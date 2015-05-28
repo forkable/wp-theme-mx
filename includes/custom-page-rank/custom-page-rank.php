@@ -3,7 +3,7 @@
  * theme_page_rank
  *
  * @version 1.0.0
- * @author KM@INN STUDIO
+ * @author INN STUDIO <inn-studio.com>
  */
 //add_filter('theme_includes',function($fns){
 //	$fns[] = 'theme_page_rank::init';
@@ -167,8 +167,20 @@ class theme_page_rank{
 				'url' => add_query_arg([
 					'type' => 'user'
 				],$base_url),
-			]
+				'filter' => [
+					'me' => ___('My rank'),
+					'url' => add_query_arg([
+						'type' => 'user',
+						'filter' => 'me',
+					],$base_url),
+				]
+			],
 		];/** end types */
+	}
+	public static function get_posts(array $args = []){
+		$defaults = [
+			
+		];
 	}
 	public static function display_frontend(){
 		

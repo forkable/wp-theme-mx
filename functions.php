@@ -176,7 +176,7 @@ class theme_functions{
 	 * @param string
 	 * @return array|string|false
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_tab_type($key = null){
 		$typies = array(
@@ -204,7 +204,7 @@ class theme_functions{
 	 *
 	 * @return 
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function the_order_nav($args = null){
 		$current_tab = get_query_var('tab');
@@ -325,7 +325,7 @@ class theme_functions{
 	 *
 	 * @return
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function archive_img_content(array $args = []){
 		$defaults = array(
@@ -375,7 +375,7 @@ class theme_functions{
 	 * @param string $type
 	 * @return array
 	 * @version 1.0.1
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_meta_type($type){
 		global $post;
@@ -792,7 +792,7 @@ class theme_functions{
 	 *
 	 * @return 
 	 * @version 1.0.2
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_thumbnail_src($post_id = null,$size = 'thumbnail',$placeholder = null){
 		global $post;
@@ -822,7 +822,7 @@ class theme_functions{
 	 *
 	 * @return string
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	private static function get_content(){
 		global $post;
@@ -836,7 +836,7 @@ class theme_functions{
 	 * @param string
 	 * @return string
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_adjacent_posts($class = 'adjacent-posts'){
 		global $post;
@@ -887,7 +887,7 @@ class theme_functions{
      * 
      * @return string The html code
      * @version 2.0.6
-     * @author KM@INN STUDIO
+     * @author INN STUDIO <inn-studio.com>
      * 
      */
     public static function get_crumb(array $args = []){
@@ -1001,7 +1001,7 @@ class theme_functions{
 	 * @param string The class of molude
 	 * @return string
 	 * @version 1.0.1
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_post_pagination( $class = 'posts-pagination') {
@@ -1133,7 +1133,7 @@ class theme_functions{
 	 * @param bool $below The position where show.
 	 * @return string
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_comment_pagination(array $args = []) {
@@ -1606,7 +1606,7 @@ class theme_functions{
 	 * 
 	 * @return 
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_page_pagenavi(){
@@ -1897,7 +1897,7 @@ class theme_functions{
 	 * @param array $args
 	 * @return 
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function the_user_list(array $args = []){
 		$defaults = [

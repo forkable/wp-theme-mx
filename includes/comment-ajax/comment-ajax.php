@@ -51,7 +51,7 @@ class theme_comment_ajax{
 	 *
 	 * @return bool
 	 * @version 1.0.1
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	private static function is_enabled(){
 		return self::get_options('enabled') == 1 ? true : false;
@@ -343,8 +343,10 @@ class theme_comment_ajax{
 		global $wp_query,$post;
 
 		$wp_query = new WP_Query([
-			'p' => $post_id
+			'p' => $post_id,
+			'post_type' => ['post','page'],
 		]);
+
 		$post = $wp_query->posts[0];
 		
 		setup_postdata($post);

@@ -67,7 +67,7 @@ class theme_custom_favicon{
 				if(!$url)
 					continue;
 				?>
-				<link rel="<?= $k;?>" href="<?= esc_url($url);?>" size="<?= "{$size}x{$size}";?>">
+				<link rel="<?= $k;?>" href="<?= esc_url($url);?>" sizes="<?= "{$size}x{$size}";?>">
 				<?php
 			}
 		}
@@ -166,9 +166,9 @@ class theme_custom_favicon{
 			<th><?= ___('Image URL');?></th>
 			<td>
 				<div id="<?= self::$iden;?>-area">
-					<input type="url" name="<?= self::$iden;?>[url]" id="<?= self::$iden;?>-url" class="code url" value="<?= esc_url($url);?>" placeholder="<?= esc_attr(___('Image URL (include http://)'));?>"/>
+					<input type="url" name="<?= self::$iden;?>[url]" id="<?= self::$iden;?>-url" class="code url" value="<?= esc_url($url);?>" placeholder="<?= esc_attr(___('Image URL (include http://)'));?>" readonly />
 					
-					<a href="javascript:void(0);" class="button-primary" id="<?= self::$iden;?>-upload"><?= esc_html(___('Upload image'));?><input type="file" id="<?= self::$iden;?>-file"/></a>
+					<a href="javascript:void(0);" class="button-primary" id="<?= self::$iden;?>-upload"><?= ___('Upload image');?><input type="file" id="<?= self::$iden;?>-file"/></a>
 				</div>
 				<div id="<?= self::$iden;?>-tip"></div>
 				<input type="hidden" name="<?= self::$iden;?>[attach-id]" value="<?= $attach_id;?>" id="<?= self::$iden;?>-attach-id">

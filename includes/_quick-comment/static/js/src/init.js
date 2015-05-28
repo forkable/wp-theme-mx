@@ -478,7 +478,7 @@ define(function(require, exports, module){
 		 * @param string s The status content
 		 * @return null
 		 * @version 1.0.0
-		 * @author KM@INN STUDIO
+		 * @author INN STUDIO <inn-studio.com>
 		 */
 		tip : function(t,s){
 			exports.cache.$respond_tip = exports.cache.$respond.find('#respond-tip');

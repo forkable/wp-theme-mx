@@ -29,7 +29,7 @@ class widget_posts extends WP_Widget{
 	 * @param array
 	 * @return 
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function display_frontend($args = null){
 		

@@ -3,7 +3,7 @@
  * theme-custom-avatar
  *
  * @version 1.0.0
- * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+ * @author INN STUDIO <inn-studio.com>
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_avatar::init';

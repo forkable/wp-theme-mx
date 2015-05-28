@@ -193,7 +193,7 @@ class theme_quick_comment{
 	 * @param stdClass|int $comment Commen obj or comment id
 	 * @return stdClass Comment obj
 	 * @version 1.0.1
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_comment($comment){
 		if(is_int($comment)) $comment = get_comment($comment);

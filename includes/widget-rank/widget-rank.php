@@ -222,7 +222,7 @@ class widget_rank extends WP_Widget{
 	 * @param 
 	 * @return 
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	private static function get_cat_checkbox_list($name,$id,$selected_cat_ids = []){
 		$cats = get_categories(array(

@@ -65,7 +65,7 @@ define(function(require, exports, module){
 	 * 
 	 * @return 
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	function send_to_editor(h) {
 		var ed, mce = typeof(tinymce) != 'undefined', qt = typeof(QTags) != 'undefined';
@@ -337,7 +337,7 @@ define(function(require, exports, module){
 		 * @param string text The content of tip
 		 * @return 
 		 * @version 1.0.1
-		 * @author KM@INN STUDIO
+		 * @author INN STUDIO <inn-studio.com>
 		 */
 		function uploading_tip(status,text){
 			/** 

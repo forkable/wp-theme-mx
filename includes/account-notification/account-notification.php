@@ -232,7 +232,7 @@ class theme_notification{
 	 * @param bool $rand True/get event id
 	 * @return string
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	private static function get_timestamp($rand = false){
 		static $cache = null;
@@ -254,7 +254,7 @@ class theme_notification{
 	 * @param int $point
 	 * @param string $event Event description
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_noti_special_event($mid, $object_id, $meta_key, $_meta_value){
 		
@@ -283,7 +283,7 @@ class theme_notification{
 	 * HOOK - When a comment becomes spam/disapprove to approve status, noti to post author
 	 *
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_noti_transition_comment_status_comment_publish($new_status, $old_status, $comment){
 		/**
@@ -325,7 +325,7 @@ class theme_notification{
 	 * @param int $comment_id Comment ID
 	 * @param string $comment_approved 0|1|spam
 	 * @version 1.0.0
-	 * @author Km.Van inn-studio.com <kmvan.com@gmail.com>
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_noti_wp_new_comment_comment_publish($comment_id,$comment_approved){
 		/**

@@ -1,7 +1,7 @@
 <?php
 /**
  * @version 1.0.0
- * @author KM <kmvan.com@gmail.com>
+ * @author INN STUDIO <inn-studio.com>
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_author_profile::init';

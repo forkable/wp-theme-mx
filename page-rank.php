@@ -4,6 +4,9 @@
  */
 
 get_header();
+
+
+//$active_tab = 
 ?>
 <div class="container">
 	<div class="panel panel-default panel-rank">

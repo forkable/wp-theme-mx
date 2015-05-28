@@ -28,7 +28,7 @@ class theme_post_thumb{
 	 *
 	 * @return bool
 	 * @version 1.0.1
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function is_enabled(){
 		$opt = theme_options::get_options(self::$iden);
@@ -166,7 +166,7 @@ class theme_post_thumb{
 	 * @param string $args['extra_tx']
 	 * @return string the html string of thumb content
 	 * @version 1.0.0
-	 * @author KM@INN STUDIO
+	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_thumb_content($args = null){
