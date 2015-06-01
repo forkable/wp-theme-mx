@@ -1,0 +1,29 @@
+.panel-rank .list-group{
+	position: relative;
+	overflow: hidden;
+}
+
+.panel-rank .list-group-item{
+	float: left;
+	width: 50%;
+}
+.panel-rank .list-group .media-left{
+	position: relative;
+	overflow: hidden;
+	border-radius: 2px;
+}
+.panel-rank .list-group .list-group-item:hover .meta{
+	color:#666;
+}
+.panel-rank .list-group .placeholder{
+	opacity: 0;
+	width: 150px;
+	height: auto;
+}
+.panel-rank .list-group .post-list-img{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 150px;
+	height: auto;
+}

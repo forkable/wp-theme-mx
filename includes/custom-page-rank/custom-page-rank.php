@@ -5,10 +5,10 @@
  * @version 1.0.0
  * @author INN STUDIO <inn-studio.com>
  */
-//add_filter('theme_includes',function($fns){
-//	$fns[] = 'theme_page_rank::init';
-//	return $fns;
-//});
+add_filter('theme_includes',function($fns){
+	$fns[] = 'theme_page_rank::init';
+	return $fns;
+});
 class theme_page_rank{
 	
 	public static $iden = 'theme_page_rank';
@@ -27,7 +27,7 @@ class theme_page_rank{
 
 		//add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use'); 
 
-
+		add_action( 'wp_enqueue_scripts', __CLASS__  . '::frontend_enqueue_css');
 		
 	}
 	public static function get_options($key = null){
@@ -111,79 +111,142 @@ class theme_page_rank{
 		}
 
 	}
-	public static function get_tabs($key = null){
+	public static function is_page(){
+		static $cache = null;
+		if($cache === null)
+			$cache = is_page(self::$page_slug);
 
-		$base_url = get_permalink(theme_cache::get_page_by_path(self::$iden)->ID);
-		$types = [
-			'recommend' => [
-				'tx' => ___('Recommend'),
-				'icon' => 'star',
-				'url' => add_query_arg([
-					'type' => 'recommend'
-				],$base_url),
-			],
-			
-			'latest' => [
-				'tx' => ___('Latest'),
-				'icon' => 'refresh',
-				'url' => add_query_arg([
-					'type' => 'latest'
-				],$base_url),
-			],
-			
-			'popular' => [
-				'tx' => ___('Popular'),
-				'icon' => 'bar-chart',
-				'url' => add_query_arg([
-					'type' => 'popular'
-				],$base_url),
-				'filter' => [
-					'day' => [
-						'tx' => ___('Daily popular'),
-						'url' => add_query_arg([
-							'type' => 'popular',
-							'filter' => 'day',
-						],$base_url),
-					],
-					'week' => [
-						'tx' => ___('Weekly popular'),
-						'url' => add_query_arg([
-							'type' => 'popular',
-							'filter' => 'week',
-						],$base_url),
-					],
-					'month' => [
-						'tx' => ___('Monthly popular'),
-						'url' => add_query_arg([
-							'type' => 'popular',
-							'filter' => 'month',
-						],$base_url),
-					],
-				],/** end filter */
-			],/** end popular */
-			'user' => [
-				'tx' => ___('User rank'),
-				'icon' => 'users',
-				'url' => add_query_arg([
-					'type' => 'user'
-				],$base_url),
-				'filter' => [
-					'me' => ___('My rank'),
-					'url' => add_query_arg([
-						'type' => 'user',
-						'filter' => 'me',
-					],$base_url),
-				]
-			],
-		];/** end types */
+		return $cache;
 	}
-	public static function get_posts(array $args = []){
+	public static function get_tabs($key = null){
+		static $base_url = null , $tabs = null;
+		if($base_url === null)
+			$base_url = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
+
+		if($tabs === null)
+			$tabs = [
+				'recommend' => [
+					'tx' => ___('Recommend'),
+					'icon' => 'star',
+					'url' => esc_url(add_query_arg([
+						'tab' => 'recommend'
+					],$base_url)),
+				],
+				
+				'latest' => [
+					'tx' => ___('Latest'),
+					'icon' => 'refresh',
+					'url' => esc_url(add_query_arg([
+						'tab' => 'latest'
+					],$base_url)),
+				],
+				
+				'popular' => [
+					'tx' => ___('Popular'),
+					'icon' => 'bar-chart',
+					'url' => esc_url(add_query_arg([
+						'tab' => 'popular'
+					],$base_url)),
+					'filter' => [
+						'day' => [
+							'tx' => ___('Daily popular'),
+							'url' => esc_url(add_query_arg([
+								'tab' => 'popular',
+								'filter' => 'day',
+							],$base_url)),
+						],
+						'week' => [
+							'tx' => ___('Weekly popular'),
+							'url' => add_query_arg([
+								'tab' => 'popular',
+								'filter' => 'week',
+							],$base_url),
+						],
+						'month' => [
+							'tx' => ___('Monthly popular'),
+							'url' => esc_url(add_query_arg([
+								'tab' => 'popular',
+								'filter' => 'month',
+							],$base_url)),
+						],
+					],/** end filter */
+				],/** end popular */
+				'user' => [
+					'tx' => ___('Users'),
+					'icon' => 'users',
+					'url' => esc_url(add_query_arg([
+						'tab' => 'user'
+					],$base_url)),
+					'filter' => [
+						'me' => [
+							'tx' => ___('Me'),
+							'url' => esc_url(add_query_arg([
+								'tab' => 'user',
+								'filter' => 'me',
+							],$base_url)),
+						],/** end me */
+					],/** end filter */
+				],/** end user */
+			];/** end types */
+			
+		if($key)
+			return isset($tabs[$key]) ? $tabs[$key] : false;
+			
+		return $tabs;
+	}
+	public static function the_recommend_posts(array $args = []){
+		$cache = theme_cache::get('recommend','page-rank');
+		if(!empty($cache)){
+			echo $cache;
+			return $cache;
+		}
+		global $post;
 		$defaults = [
+			'post__in' => theme_recommended_post::get_ids(),
 			
 		];
+		$args = array_merge($defaults,$args);
+
+		$query = new WP_Query($args);
+		
+		ob_start();
+		if($query->have_posts()){
+			?>
+			<div class="list-group">
+				<?php
+				foreach($query->posts as $post){
+					setup_postdata($post);
+					theme_functions::widget_rank_img_content([
+						'excerpt' => true,
+					]);
+				}
+				?>
+			</div>
+			<?php
+			wp_reset_postdata();
+		}else{
+			
+		}
+		$cache = html_compress(ob_get_contents());
+		ob_end_clean();
+
+		theme_cache::set('recommend',$cache,'page-rank',3600*12);
+		echo $cache;
+		return $cache;
 	}
 	public static function display_frontend(){
 		
+	}
+	public static function frontend_enqueue_css(){
+		if(!self::is_page())
+			return false;
+			
+		wp_enqueue_style(
+			self::$iden,
+			theme_features::get_theme_includes_css(__DIR__,'style'),
+			'frontend',
+			theme_file_timestamp::get_timestamp()
+		);
 	}
 	public static function backend_seajs_alias($alias){
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__,'backend');

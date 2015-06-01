@@ -452,12 +452,12 @@ class theme_functions{
 		global $post;
 		
 		$defaults = array(
-			'classes' => [],
+			'classes' => '',
 			'lazyload' => true,
+			'excerpt' => false,
 		);
 		$args = array_merge($defaults,$args);
 
-		$args['classes'][] = 'post-list post-img-list';
 		$post_title = esc_html(get_the_title());
 
 		$excerpt = get_the_excerpt();
@@ -468,7 +468,7 @@ class theme_functions{
 
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
-		<li class="list-group-item">
+		<li class="list-group-item <?= $args['classes'];?>">
 			<a class="post-list-bg media" href="<?= get_permalink();?>" title="<?= $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
 				<div class="media-left">
 					<img src="<?= $thumbnail_placeholder;?>" alt="<?= $post_title;?>" class="media-object placeholder">
@@ -476,6 +476,14 @@ class theme_functions{
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading"><?= $post_title;?></h4>
+					<?php
+					/**
+					 * output excerpt
+					 */
+					if($args['excerpt'] === true){
+						echo $excerpt;
+					}
+					?>
 					<div class="extra">
 						<div class="metas row">
 							

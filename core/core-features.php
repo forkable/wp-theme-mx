@@ -1697,18 +1697,25 @@ class theme_features{
 		$wp_admin_bar->remove_node('feedback');
 		$wp_admin_bar->remove_node('view-site');
 	}
+	public static function get_theme_mtime(){
+		static $cache = null;
+		if($cache === null)
+			$cache = filemtime(theme_features::get_stylesheet_directory() . '/style.css');
+
+		return $cache;
+	}
 	/**
 	 * auto_minify
 	 *
 	 * @return 
-	 * @version 1.0.2
+	 * @version 1.0.3
 	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function auto_minify(){
 		/** 
 		 * js and css files version
 		 */
-		if(theme_file_timestamp::get_timestamp() < filemtime(theme_features::get_stylesheet_directory() . '/style.css')){
+		if(theme_file_timestamp::get_timestamp() < self::get_theme_mtime()){
 			@ini_set('max_input_nesting_level','10000');
 			@ini_set('max_execution_time','300'); 
 			

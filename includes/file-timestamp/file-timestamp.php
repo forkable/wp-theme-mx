@@ -11,11 +11,13 @@ class theme_file_timestamp{
 	private static $timestamp;
 	
 	public static function init(){
+		
+		self::get_timestamp();
+		
 		add_action('advanced_settings' , __CLASS__ . '::display_backend');
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 		add_filter('theme_options_save' , __CLASS__ . '::options_save');
 	}
-
 	public static function process(){
 		if(!current_user_can('manage_options'))
 			die(___('You have not permission.'));
@@ -35,9 +37,9 @@ class theme_file_timestamp{
 	public static function get_timestamp(){
 		if(!self::$timestamp)
 			self::$timestamp = theme_options::get_options(self::$iden);
-			
+
 		if(!self::$timestamp)
-			self::$timestamp = theme_features::get_theme_info('version');
+			self::$timestamp = theme_features::get_theme_mtime();
 			
 		return self::$timestamp;
 	}
