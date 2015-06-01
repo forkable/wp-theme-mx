@@ -1,1 +1,1 @@
-<?php get_template_part('category'); ?>
+<?php include __DIR__ '/category.php'; ?>

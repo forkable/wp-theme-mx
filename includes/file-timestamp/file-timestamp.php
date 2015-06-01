@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.0
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_file_timestamp::init';
@@ -35,6 +35,9 @@ class theme_file_timestamp{
 	public static function get_timestamp(){
 		if(!self::$timestamp)
 			self::$timestamp = theme_options::get_options(self::$iden);
+			
+		if(!self::$timestamp)
+			self::$timestamp = theme_features::get_theme_info('version');
 			
 		return self::$timestamp;
 	}

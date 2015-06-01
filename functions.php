@@ -351,7 +351,7 @@ class theme_functions{
 		<li class="<?= implode(' ',$args['classes']);?>">
 			<a class="post-list-bg" href="<?= get_permalink();?>" title="<?= $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
 				<div class="thumbnail-container">
-					<img class="placeholder" alt="Placeholder" src="<?= $thumbnail_placeholder;?>">
+					<img class="placeholder" alt="Placeholder" src="<?= $thumbnail_placeholder;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
 					<?php
 					/**
 					 * lazyload img
