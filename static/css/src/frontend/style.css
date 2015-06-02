@@ -1489,13 +1489,9 @@ label.error{
 		background: #f8f8f8;
 	}
 	.collection-list .list-group-item:hover{
-		z-index: 1;
-		color: #fff;
-		background-color: #337ab7;
-		border-color: #337ab7;
+		background-color: #eee;
 	}
 		.collection-list .list-group-item:hover span{
-			color: #fff;
 		}
 /**
  * .header-nav-account-menu

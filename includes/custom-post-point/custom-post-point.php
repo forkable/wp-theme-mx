@@ -21,17 +21,23 @@ class custom_post_point{
 	public static function init(){
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 		add_action('wp_ajax_nopriv_' . self::$iden, __CLASS__ . '::process');
+		
+		add_action('wp_ajax_backend_' . self::$iden, __CLASS__ . '::process_backend');
+
 
 		add_action('before_delete_post',__CLASS__ . '::sync_delete_post');
 
 		add_filter('frontend_seajs_alias',__CLASS__ . '::frontend_seajs_alias');
 		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
 
-		add_filter('custom-point-options-default',__CLASS__ . '::filter_custom_point_options_default');
+		add_filter('custom_point_options_default',__CLASS__ . '::filter_custom_point_options_default');
 
-		add_filter('custom-point-types',__CLASS__ . '::filter_custom_point_types');
+		add_filter('custom_point_types',__CLASS__ . '::filter_custom_point_types');
 
-
+		/**
+		 * backend options
+		 */
+		add_action('theme_custom_point_backend' , __CLASS__ . '::theme_custom_point_backend');
 		/**
 		 * list history hooks
 		 */
@@ -60,7 +66,84 @@ class custom_post_point{
 		}
 		
 	}
-	//public static function decr_user_point_count()
+	public static function process_backend(){
+		theme_features::check_referer();
+		theme_features::check_nonce();
+		
+		if(!current_user_can('manage_options'))
+			return false;
+			
+		$type = isset($_GET['type']) && is_string($_GET['type']) ? $_GET['type'] : false;
+		
+		switch($type){
+			case 'recalculate':
+				global $post;
+				$query = new WP_Query([
+					'nopaging' => true,
+					'meta_key' => self::$post_meta_key['count_points'],
+				]);
+				if($query->have_posts()){
+					foreach($query->posts as $post){
+						setup_postdata($post);
+						/** get points from db */
+						$old_points = get_post_meta($post->ID,self::$post_meta_key['count_points'],true);
+						$new_points = self::get_post_points_count_from_users($post->ID);
+
+						/**
+						 * skip if equal
+						 */
+						if($old_points == $new_points)
+							continue;
+
+						/**
+						 * update new points
+						 */
+						update_post_meta($post->ID,self::$post_meta_key['count_points'],$new_points);
+					}
+				}
+				header('location: ' . theme_options::get_url() . '&' . self::$iden);
+				die();
+				
+				break;
+			default:
+				die(theme_features::json_format([
+					'status' => 'error',
+					'code' => 'invaild_type',
+					'msg' => ___('Sorry, type param is invaild.'),
+				]));
+		}
+	}
+	public static function theme_custom_point_backend(){
+		?>
+		<h3><?= ___('Recalculate');?></h3><h1></h1>
+		<table class="form-table">
+			<tbody>
+				<tr>
+					<th><?= ___('Recalculate all posts point');?></th>
+					<td>
+						<?php
+						if(isset($_GET[self::$iden])){
+							echo status_tip('success',___('Operation completed.'));
+						}
+						?>
+						<a href="<?= theme_features::get_process_url([
+							'action' => 'backend_' . self::$iden,
+							'type' => 'recalculate',
+							'theme-nonce' => theme_features::create_nonce(),
+						]);?>" class="button">
+							<i class="fa fa-refresh"></i> 
+							<?= ___('Recalculate now');?>
+						</a>
+						<span class="description">
+							<i class="fa fa-exclamation-circle"></i> 
+							<?= ___('Please save your settings before operate. This operation requires a lot of server resources.');?>
+						</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<?php
+	}
 	/**
 	 * 随机在总量中获取被投币最多的文章排行（最受欢迎的文章）
 	 *
@@ -124,20 +207,14 @@ class custom_post_point{
 	 * @param int $post_id
 	 * @return int
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_post_points_count($post_id){
 		static $caches = [];
 		if(isset($caches[$post_id]))
 			return $caches[$post_id];
 
-		$users = (array)self::get_post_meta($post_id,self::$post_meta_key['users']);
+		$caches[$post_id] = self::get_post_meta($post_id,self::$post_meta_key['count_points'],true);
 
-		$caches[$post_id] = 0;
-		foreach($users as $v){
-			$caches[$post_id] += $v;
-		}
-		
 		return $caches[$post_id];
 	}
 	public static function get_post_raters_count($post_id){
@@ -145,12 +222,9 @@ class custom_post_point{
 		if(isset($caches[$post_id]))
 			return $caches[$post_id];
 
-		$users = (array)self::get_post_meta($post_id,self::$post_meta_key['users']);
+		$caches[$post_id] = (array)self::get_post_meta($post_id,self::$post_meta_key['users']);
 
-		$caches[$post_id] = 0;
-		foreach($users as $v){
-			$caches[$post_id] += $v;
-		}
+		$caches[$post_id] = count($caches[$post_id]);
 		
 		return $caches[$post_id];
 	}
@@ -169,17 +243,33 @@ class custom_post_point{
 	 * @param int $post_id
 	 * @return array Users
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_post_raters($post_id){
 		if(!is_numeric($post_id))
 			return false;
 			
-		static $caches;
+		static $caches = [];
 		if(isset($caches[$post_id]))
 			return $caches[$post_id];
+			
 		$caches[$post_id] = (array)self::get_post_meta($post_id,self::$post_meta_key['users']);
 		return $caches[$post_id];
+	}
+	/**
+	 * 通过计算文章投币用户数量来获取文章积分
+	 */
+	public static function get_post_points_count_from_users($post_id){
+		$users = self::get_post_raters($post_id);
+
+		if(!$users)
+			return false;
+
+		$points = 0;
+		foreach($users as $user_point){
+			$points += $user_point;
+		}
+
+		return $points;
 	}
 	/**
 	 * 获取用户投币过的文章
@@ -188,7 +278,6 @@ class custom_post_point{
 	 * @param array $query_args
 	 * @return array
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_user_posts($user_id,array $query_args = []){
 		static $caches;
@@ -302,7 +391,7 @@ class custom_post_point{
 					/**
 					 * incr post points
 					 */
-					$points_count = self::incr_post_points_count($post_id,$rater_id,$points);
+					$points_count = self::incr_post_points_count($post_id,$points);
 					if(!$points_count){
 						$output['status'] = 'error';
 						$output['code'] = 'error_incr_points_count';
@@ -462,7 +551,6 @@ class custom_post_point{
 	 * @param int $points
 	 * @return bool/int
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function incr_post_points_count($post_id,$points){
 		if(!is_numeric($post_id) || (int)$post_id === 0)
@@ -492,7 +580,6 @@ class custom_post_point{
 	 * @param int $post_id
 	 * @return bool/int
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function incr_post_raters_count($post_id){
 		if(!is_numeric($post_id) || !(int)$post_id)

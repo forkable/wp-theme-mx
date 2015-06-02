@@ -22,7 +22,10 @@ class theme_custom_account{
 
 	}
 	public static function filter_query_vars($vars){
-		if(!in_array('tab',$vars)) $vars[] = 'tab';
+		if(self::is_page()){
+			if(!in_array('tab',$vars)) 
+				$vars[] = 'tab';
+		}
 		return $vars;
 	}
 	public static function template_redirect(){

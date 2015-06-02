@@ -1,11 +1,43 @@
 .panel-rank .list-group{
 	position: relative;
+}
+.panel-rank .list-group-item:nth-child(2n){
+	background: #F2F2F2;
+}
+	.panel-rank .list-group-item:hover{
+		background: #eee;
+	}
+.panel-rank .list-group-item{
+	display: block;
+	padding: 20px 20px 0;
+	color: #666;
+}
+.panel-rank .thumbnail-container{
+	position: relative;
+	margin-bottom: 20px;
 	overflow: hidden;
 }
+.panel-rank .index{
+	position: absolute;
+	right: 20px;
+	top: 0;
+	font-size: 2em;
+	font-weight: bold;
+	color: #d9534f;
+	opacity: .5;
+}
 
-.panel-rank .list-group-item{
-	float: left;
-	width: 50%;
+.panel-rank .media-heading{
+	margin-bottom: 10px;
+	color: #d9534f;
+	line-height: 1.5;
+}
+	.panel-rank .list-group-item:hover .media-heading{
+	}
+.panel-rank .excerpt{
+	font-size: 1.1em;
+	line-height: 1.5;
+	margin-bottom: 10px;
 }
 .panel-rank .list-group .media-left{
 	position: relative;
@@ -17,13 +49,20 @@
 }
 .panel-rank .list-group .placeholder{
 	opacity: 0;
-	width: 150px;
-	height: auto;
+	width: 100%;
 }
 .panel-rank .list-group .post-list-img{
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 150px;
-	height: auto;
+	width: 100%;
+}
+
+.panel-rank .extra{
+	margin-bottom: 20px;
+}
+
+
+.tab-filter{
+	margin-bottom: 20px;
 }

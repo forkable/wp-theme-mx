@@ -28,6 +28,8 @@ class theme_page_rank{
 		//add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use'); 
 
 		add_action( 'wp_enqueue_scripts', __CLASS__  . '::frontend_enqueue_css');
+
+		add_filter('query_vars',			__CLASS__ . '::filter_query_vars');
 		
 	}
 	public static function get_options($key = null){
@@ -118,6 +120,16 @@ class theme_page_rank{
 
 		return $cache;
 	}
+	public static function filter_query_vars($vars = []){
+		if(self::is_page()){
+			if(!in_array('filter'))
+				$vars[] = 'filter';
+				
+			if(!in_array('tab'))
+				$vars[] = 'tab';
+		}
+		return $vars;
+	}
 	public static function get_tabs($key = null){
 		static $base_url = null , $tabs = null;
 		if($base_url === null)
@@ -194,16 +206,17 @@ class theme_page_rank{
 			
 		return $tabs;
 	}
-	public static function the_recommend_posts(array $args = []){
-		$cache = theme_cache::get('recommend','page-rank');
+	
+	public static function the_latest_posts(array $args = []){
+		$cache = theme_cache::get('latest','page-rank');
 		if(!empty($cache)){
 			echo $cache;
 			return $cache;
 		}
 		global $post;
 		$defaults = [
-			'post__in' => theme_recommended_post::get_ids(),
-			
+			'posts_per_page ' => 100,
+			'paged' => 1,
 		];
 		$args = array_merge($defaults,$args);
 
@@ -214,11 +227,99 @@ class theme_page_rank{
 			?>
 			<div class="list-group">
 				<?php
+				$i = 1;
 				foreach($query->posts as $post){
 					setup_postdata($post);
-					theme_functions::widget_rank_img_content([
-						'excerpt' => true,
+					self::rank_img_content([
+						'index' => $i,
 					]);
+					++$i;
+				}
+				?>
+			</div>
+			<?php
+			wp_reset_postdata();
+		}else{
+			
+		}
+		$cache = html_compress(ob_get_contents());
+		ob_end_clean();
+
+		theme_cache::set('latest',$cache,'page-rank',3600);
+		echo $cache;
+		return $cache;
+	}
+	public static function the_popular_posts(array $args = []){
+		return;
+		$cache = theme_cache::get('latest','page-rank');
+		if(!empty($cache)){
+			echo $cache;
+			return $cache;
+		}
+		global $post;
+		$defaults = [
+			'posts_per_page ' => 100,
+			'paged' => 1,
+		];
+		$args = array_merge($defaults,$args);
+
+		$query = new WP_Query($args);
+		
+		ob_start();
+		if($query->have_posts()){
+			?>
+			<div class="list-group">
+				<?php
+				$i = 1;
+				foreach($query->posts as $post){
+					setup_postdata($post);
+					self::rank_img_content([
+						'index' => $i,
+					]);
+					++$i;
+				}
+				?>
+			</div>
+			<?php
+			wp_reset_postdata();
+		}else{
+			
+		}
+		$cache = html_compress(ob_get_contents());
+		ob_end_clean();
+
+		theme_cache::set('latest',$cache,'page-rank',3600);
+		echo $cache;
+		return $cache;
+	}
+	public static function the_recommend_posts(array $args = []){
+		$cache = theme_cache::get('recommend','page-rank');
+		if(!empty($cache)){
+			echo $cache;
+			return $cache;
+		}
+		global $post;
+		$defaults = [
+			'posts_per_page ' => 100,
+			'paged' => 1,
+			'post__in' => theme_recommended_post::get_ids(),
+		];
+		$args = array_merge($defaults,$args);
+
+		$query = new WP_Query($args);
+		
+		ob_start();
+		if($query->have_posts()){
+			?>
+			<div class="list-group">
+				<?php
+				$i = 1;
+				foreach($query->posts as $post){
+					setup_postdata($post);
+					self::rank_img_content([
+						'index' => $i,
+					]);
+					++$i;
 				}
 				?>
 			</div>
@@ -233,6 +334,105 @@ class theme_page_rank{
 		theme_cache::set('recommend',$cache,'page-rank',3600*12);
 		echo $cache;
 		return $cache;
+	}
+	public static function rank_img_content($args = []){
+		global $post;
+		
+		$defaults = array(
+			'classes' => '',
+			'lazyload' => true,
+			'excerpt' => true,
+			'index' => false,
+		);
+		$args = array_merge($defaults,$args);
+
+		$post_title = esc_html(get_the_title());
+
+		$excerpt = get_the_excerpt();
+		if(!empty($excerpt))
+			$excerpt = esc_html($excerpt);
+
+		$thumbnail_real_src = esc_url(theme_functions::get_thumbnail_src($post->ID));
+
+		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
+		?>
+		<a class="list-group-item <?= $args['classes'];?>" href="<?= esc_url(get_permalink());?>" title="<?= $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+					<div class="thumbnail-container">
+						<img src="<?= $thumbnail_placeholder;?>" alt="<?= $post_title;?>" class="media-object placeholder">
+						<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>"/>
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+					<h4 class="media-heading"><?= $post_title;?></h4>
+					<?php
+					/**
+					 * output excerpt
+					 
+					 */
+					if($args['excerpt'] === true && !wp_is_mobile()){
+						?>
+						<div class="excerpt hidden-xs"><?= str_sub(strip_tags(get_the_content(),'<del><b><strong><i><em>'),200);?></div>
+					<?php } ?>
+					<div class="extra">
+						<div class="metas row">
+							<!-- author -->
+							<div class="author meta col-xs-6 col-sm-2">
+								<i class="fa fa-user"></i> 
+								<?= esc_html(get_the_author_meta('display_name',$post->post_author));?>
+							</div>
+							
+							<!-- category -->
+							<div class="category meta col-xs-6 col-sm-2">
+								<i class="fa fa-folder-open"></i> 
+								<?php
+								$cats = array_map(function($v){
+									return $v->name;
+								},get_the_category($post->ID));
+								echo implode(' / ',$cats);
+								?>
+							</div>
+
+							<!-- views -->
+							<?php if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
+								<div class="view meta col-xs-6 col-sm-2">
+									<i class="fa fa-play-circle"></i> 
+									<?= theme_post_views::get_views();?>
+								</div>
+							<?php } ?>
+
+							<?php if(!wp_is_mobile()){ ?>
+								<div class="comments meta col-xs-6 col-sm-2 hidden-xs">
+									<i class="fa fa-comment"></i>
+									<?= (int)$post->comment_count;?>
+								</div>
+							<?php } ?>
+							
+							<?php
+							/**
+							 * point
+							 */
+							if(class_exists('custom_post_point')){
+								?>
+								<div class="point meta col-xs-6 col-sm-2">
+									<i class="fa fa-paw"></i>
+									<?= (int)custom_post_point::get_post_points_count($post->ID);?>
+								</div>
+								<?php
+							}
+							?>
+
+
+						</div><!-- /.metas -->
+					</div>
+					<?php if($args['index']){ ?>
+						<i class="index"><?= $args['index'];?></i>
+					<?php } ?>					
+				</div>
+			</div>
+		</a>
+		<?php
 	}
 	public static function display_frontend(){
 		
@@ -262,3 +462,164 @@ class theme_page_rank{
 		<?php
 	}
 }
+/**
+ * Class Name: custom_page_rank_wp_bootstrap_navwalker
+ * GitHub URI: https://github.com/twittem/wp-bootstrap-navwalker
+ * Description: A custom WordPress nav walker class to implement the Bootstrap 3 navigation style in a custom theme using the WordPress built in menu manager.
+ * Version: 2.0.4
+ * Author: Edward McIntyre -
+ * 
+ * @twittem License: GPL-2.0+
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ */
+class custom_page_rank_wp_bootstrap_navwalker extends Walker_Nav_Menu{
+	/**
+	 * 
+	 * @see Walker::start_lvl()
+	 * @since 3.0.0
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param int $depth Depth of page. Used for padding.
+	 */
+	public function start_lvl(& $output, $depth = 0, $args = []){
+		//$indent = str_repeat("\t", $depth);
+		$output .= "<ul role=\"menu\" class=\" dropdown-menu\">";
+	}
+	/**
+	 * 
+	 * @see Walker::start_el()
+	 * @since 3.0.0
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $item Menu item data object.
+	 * @param int $depth Depth of menu item. Used for padding.
+	 * @param int $current_page Menu item ID.
+	 * @param object $args 
+	 */
+	public function start_el(& $output, $item, $depth = 0, $args = [], $id = 0){
+		//$indent = ($depth) ? str_repeat("\t", $depth) : '';
+		/**
+		 * Dividers, Headers or Disabled
+		 * =============================
+		 * Determine whether the item is a Divider, Header, Disabled or regular
+		 * menu item. To prevent errors we use the strcasecmp() function to so a
+		 * comparison that is not case sensitive. The strcasecmp() function returns
+		 * a 0 if the strings are equal.
+		 */
+		
+		if (strcasecmp($item->attr_title, 'divider') == 0 && $depth === 1){
+			$output .= '<li role="presentation" class="divider">';
+		}else if (strcasecmp($item->title, 'divider') == 0 && $depth === 1){
+			$output .= '<li role="presentation" class="divider">';
+		}else if (strcasecmp($item->attr_title, 'dropdown-header') == 0 && $depth === 1){
+			$output .= '<li role="presentation" class="dropdown-header">' . $item->title ;
+		}else if (strcasecmp($item->attr_title, 'disabled') == 0){
+			$output .= '<li role="presentation" class="disabled"><a href="javascript:;">' . $item->title . '</a>';
+		}else{
+			$class_names = $value = '';
+			$classes = empty($item->classes) ? [] : (array) $item->classes;
+			$classes[] = 'menu-item-' . $item->ID;
+			$class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+		if ($args->has_children)
+			$class_names .= ' dropdown';
+			
+		/**
+		 * current
+		 */
+		$curr_class = ['current-menu-item','current-post-ancestor','current-menu-parent'];
+		$is_curr = false;
+		foreach($classes as $v){
+			if(strpos($v,'current') !== false){
+				$is_curr = true;
+				break;
+			}
+		}
+		if ($is_curr)
+			$class_names .= ' active';
+			
+			$class_names = $class_names ? ' class="' . $class_names . '"' : '';
+			
+			$id = apply_filters('nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args);
+			$id = $id ? ' id="' . $id . '"' : '';
+			
+			$output .= '<li' . $id . $value . $class_names . '>';
+			
+			$atts = [];
+			
+			$atts['title'] = ! empty($item->title) ? strip_tags($item->title) : '';
+			
+			$atts['target'] = ! empty($item->target) ? $item->target : '';
+			
+			$atts['rel'] = ! empty($item->xfn) ? $item->xfn : '';
+
+			$atts['href'] = $item->url;
+
+			
+			//$atts['icon'] = isset($item->awesome) ? $item->awesome : null;
+			
+			// If item has_children add atts to a.
+		if ($args->has_children && $depth === 0){
+			$atts['data-toggle'] = 'dropdown';
+			$atts['class'] = 'dropdown-toggle';
+			//$atts['aria-haspopup'] = 'true';
+		}
+		$atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args);
+		$attributes = '';
+		foreach ($atts as $attr => $value){
+			if (! empty($value)){
+				$value = ('href' === $attr) ? esc_url($value) : $value;
+				$attributes .= ' ' . $attr . '="' . $value . '"';
+				}
+			}
+		$item_output = $args->before;
+		/**
+		 * Glyphicons
+		 * ===========
+		 * Since the the menu item is NOT a Divider or Header we check the see
+		 * if there is a value in the attr_title property. If the attr_title
+		 * property is NOT null we apply it as the class name for the glyphicon.
+		 */
+		if (! empty($item->awesome))
+			$item_output .= '<a' . $attributes . '><i class="fa fa-fw fa-' . $item->awesome . '"></i>&nbsp;';
+		else
+			$item_output .= '<a' . $attributes . '>';
+			
+		$item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+		
+		$item_output .= ($args->has_children && 0 === $depth) ? ' <span class="caret"></span></a>' : '</a>';
+		
+		$item_output .= $args->after;
+		
+		$output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+		}
+	}
+	/**
+	 * Traverse elements to create list from elements.
+	 * 
+	 * Display one element if the element doesn't have any children otherwise,
+	 * display the element and its children. Will only traverse up to the max
+	 * depth and no ignore elements under that depth.
+	 * 
+	 * This method shouldn't be called directly, use the walk() method instead.
+	 * 
+	 * @see Walker::start_el()
+	 * @since 2.5.0
+	 * @param object $element Data object
+	 * @param array $children_elements List of elements to continue traversing.
+	 * @param int $max_depth Max depth to traverse.
+	 * @param int $depth Depth of current element.
+	 * @param array $args 
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @return null Null on failure with no changes to parameters.
+	 */
+	public function display_element($element, & $children_elements, $max_depth, $depth, $args, & $output){
+		if (! $element)
+			return;
+			
+		$id_field = $this->db_fields['id'];
+		// Display this element.
+		if (is_object($args[0]))
+			$args[0]->has_children = ! empty($children_elements[ $element->$id_field ]);
+			
+		parent::display_element($element, $children_elements, $max_depth, $depth, $args, $output);
+		}
+}
+//custom_page_rank_wp_bootstrap_navwalker::custom_nav_menu_hook();

@@ -140,7 +140,10 @@ class theme_custom_point{
 					<tr>
 						<th><?= ___('Control');?></th>
 						<td>
-							<a href="javascript:;" class="button button-primary" id="<?= self::$iden;?>-special-set" data-target="<?= self::$iden;?>-special-tip-set"><?= ___('Add/Reduce');?></a>
+							<a href="javascript:;" class="button button-primary" id="<?= self::$iden;?>-special-set" data-target="<?= self::$iden;?>-special-tip-set">
+								<i class="fa fa-pencil-square-o"></i> 
+								<?= ___('Add/Reduce');?>
+							</a>
 							
 							<span class="page-tip" id="<?= self::$iden;?>-special-tip-set"></span>
 							
@@ -148,6 +151,7 @@ class theme_custom_point{
 					</tr>
 				</tbody>
 			</table>
+			<?php do_action(self::$iden . '_backend');?>
 		</fieldset>
 		<?php
 	}
@@ -327,7 +331,7 @@ class theme_custom_point{
 			'point-des2' => ___('Point can exchange many things.'),
 			'point-img-url' => 'http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif',
 		);
-		$opts[self::$iden] = apply_filters('custom-point-options-default',$opts[self::$iden]);
+		$opts[self::$iden] = apply_filters('custom_point_options_default',$opts[self::$iden]);
 		
 		return $opts;
 	}
