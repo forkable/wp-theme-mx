@@ -140,7 +140,7 @@ class theme_dashboards extends theme_custom_dashboard{
 						<img class="media-object" src="<?= theme_custom_point::get_point_img_url();?>" alt="">
 					</div>
 					<div class="media-body">
-						<h4 class="media-heading"><strong class="total-point"><?= theme_custom_point::get_point();?> </strong></h4>
+						<h4 class="media-heading"><strong class="total-point"><?= theme_custom_point::get_point($current_user_id);?> </strong></h4>
 					</div>
 				</a>
 				<div class="row">

@@ -257,8 +257,9 @@ class theme_page_rank{
 		
 		if(!isset($filter_tabs[$active_filter_tab]))
 			$active_filter_tab = 'day';
-			
-		$cache = theme_cache::get($active_filter_tab,'page-rank');
+
+		$cache_id = 'popular-' . $active_filter_tab; 
+		$cache = theme_cache::get($cache_id,'page-rank');
 		if(!empty($cache)){
 			return $cache;
 		}
@@ -272,10 +273,27 @@ class theme_page_rank{
 					'after'  => '1 ' . $active_filter_tab . ' ago',
 				]
 			],
-			'orderby' => 'meta_value_num',
 		];
 		$args = array_merge($defaults,$args);
-
+		/**
+		 * orderby points
+		 */
+		if(class_exists('custom_post_point')){
+			$args['meta_key']  = custom_post_point::$post_meta_key['count_points'];
+			$args['orderby'] = 'meta_value_num';
+		/**
+		 * orderby views
+		 */
+		}else if(class_exists('theme_post_views')){
+			$args['meta_key']  = theme_post_views::$post_meta_key;
+			$args['orderby'] = 'meta_value_num';
+		/**
+		 * orderby comment count
+		 */
+		}else{
+			$args['orderby'] = 'comment_count';
+		}
+		
 		$query = new WP_Query($args);
 		
 		ob_start();
@@ -300,7 +318,7 @@ class theme_page_rank{
 		$cache = html_compress(ob_get_contents());
 		ob_end_clean();
 
-		theme_cache::set($active_filter_tab,$cache,'page-rank',3600);
+		theme_cache::set($cache_id,$cache,'page-rank',3600);
 		return $cache;
 	}
 	public static function the_recommend_posts(array $args = []){
@@ -389,7 +407,7 @@ class theme_page_rank{
 					 */
 					if($args['excerpt'] === true && !wp_is_mobile()){
 						?>
-						<div class="excerpt hidden-xs"><?= str_sub(strip_tags(get_the_content(),'<del><b><strong><i><em>'),200);?></div>
+						<div class="excerpt hidden-xs"><?= str_sub(strip_tags(get_the_content()),200);?></div>
 					<?php } ?>
 					<div class="extra">
 						<div class="metas row">

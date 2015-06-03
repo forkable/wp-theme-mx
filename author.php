@@ -16,7 +16,7 @@ if(empty($tab_active) || !isset($tabs[$tab_active]))
 	</h3>
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<ul class="nav nav-pills nav-justified">
+			<ul class="nav nav-pills">
 				<?php 
 				foreach($tabs as $k => $v){
 					$class_active = $tab_active === $k ? ' active ' : null;
