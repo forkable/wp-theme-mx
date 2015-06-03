@@ -152,6 +152,22 @@ class theme_custom_point{
 				</tbody>
 			</table>
 			<?php do_action(self::$iden . '_backend');?>
+			<h3><?= ___('Restore point options');?></h3>
+			<p class="description"><?= ___('You can restore the point options when you want.');?></p>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th><?= ___('Restore');?></th>
+						<td>
+							<label for="<?= self::$iden;?>-restore">
+								<input type="checkbox" name="<?= self::$iden;?>[restore]" id="<?= self::$iden;?>-restore" value="1"> 
+								<?= ___('Restore');?>
+							</label> 
+							<span class="description"><?= ___('Check the box and save all settings to restore point options.');?></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</fieldset>
 		<?php
 	}
@@ -307,7 +323,7 @@ class theme_custom_point{
 					'text' => ___('When aff sign-up')
 				],
 			];
-			$caches = apply_filters('custom-point-types',$caches);
+			$caches = apply_filters('custom_point_types',$caches);
 		}
 		if(empty($key)) 
 			return $caches;
@@ -315,8 +331,8 @@ class theme_custom_point{
 		return isset($caches[$key]) ? $caches[$key] : null;
 	}
 	public static function options_default(array $opts = []){
-		$opts[self::$iden] = array(
-			'points' => array(
+		$opts[self::$iden] = [
+			'points' => [
 				'signup'			=> 20, /** 初始 */
 				'signin-daily'		=> 2, /** 日登 */
 				'comment-publish'	=> 1, /** 发表新评论 */
@@ -326,19 +342,20 @@ class theme_custom_point{
 				'post-delete'		=> -5,/** 文章被删除 */
 				'post-per-hundred-view' => 5, /** 文章每百查看 */
 				'aff-signup'		=> 5, /** 推广注册 */
-			),
+			],
 			'point-name' 			=> ___('Cat-paw'), /** 名称 */
-			'point-des2' => ___('Point can exchange many things.'),
+			'point-des' => ___('Point can exchange many things.'),
 			'point-img-url' => 'http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif',
-		);
-		$opts[self::$iden] = apply_filters('custom_point_options_default',$opts[self::$iden]);
+		];
 		
-		return $opts;
+		return apply_filters('custom_point_options_default',$opts[self::$iden]);
 	}
 	public static function options_save(array $opts = []){
-		if(isset($_POST[self::$iden]))
-			$opts[self::$iden] = $_POST[self::$iden];
-		
+		if(isset($_POST[self::$iden])){
+			if(!isset($_POST[self::$iden]['restore'])){
+				$opts[self::$iden] = $_POST[self::$iden];
+			}
+		}
 		return $opts;
 	}
 	public static function get_point_name(){
@@ -373,14 +390,11 @@ class theme_custom_point{
 	 * @return int
 	 * @author INN STUDIO <inn-studio.com>
 	 */
-	public static function get_point($user_id = null,$force = false){
-		static $caches;
+	public static function get_point($user_id,$force = false){
+		static $caches = [];
 		if(isset($caches[$user_id]) && !$force)
 			return $caches[$user_id];
-			
-		if(!$user_id) 
-			$user_id = get_current_user_id();
-			
+
 		$point = (int)get_user_meta($user_id,self::$user_meta_key['point'],true);
 
 		$caches[$user_id] = $point;
@@ -899,7 +913,7 @@ class theme_custom_point{
 			return false;
 			
 		$old_point = self::get_point($post->post_author);
-		update_user_meta($post->post_author,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['post-reply']);
+		update_user_meta($post->post_author,self::$user_meta_key['point'],$old_point + (int)self::get_point_value('post-reply'));
 	}
 	/**
 	 * HOOK add history for post author when publish post

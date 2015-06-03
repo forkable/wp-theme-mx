@@ -10,22 +10,67 @@ get_currentuserinfo();
 		</h3>
 	</div>
 	<div class="panel-body">
+		<?php
+		/**
+		 * consume points to modify settings
+		 */
+		$disabled = null;
+		if(class_exists('theme_custom_point')){
+			$consume_points = theme_custom_point::get_point_value('save-settings');
+			$user_points = theme_custom_point::get_point($current_user->ID);
+			if($consume_points != 0){
+				?>
+				<div class="page-tip">
+					<?php
+					/**
+					 * not enough points, can not modify
+					 */
+					if($consume_points > $user_points){
+						$disabled = 'disabled';
+						echo status_tip(
+							'info',
+							sprintf(
+								___('You have %1$d %2$s, You need to collect %3$d %2%s to modify the settings.'),
+								$user_points,
+								theme_custom_point::get_point_name(),
+								abs($consume_points) - abs($user_points)
+							)
+						);
+					}else{
+						echo status_tip(
+							'info',
+							sprintf(
+								___('You have %1$d %2$s, modify settings will consume %3$d %2$s.'),
+								$user_points,
+								theme_custom_point::get_point_name(),
+								abs($consume_points)
+							)
+						);
+					}
+					?>
+				</div>
+				<?php
+			}
+		}
+		?>
+		
 <form id="fm-my-settings" class="user-form form-horizontal" method="post" action="javascript:;">
 	<!-- avatar -->
 	<div class="form-group">
 		<div class="control-label col-sm-2">
 			<?php 
-			$avatar = get_avatar(get_current_user_id(),100);
+			$avatar = get_avatar($current_user->ID,100);
 			?>
 			<a href="<?= esc_url(get_img_source($avatar));?>" target="_blank" title="<?= ___('Views source image');?>"><?= $avatar;?></a>
 		</div>
 		<div class="col-sm-10">
 			<div class="form-control-static">
 				<p><?= ___('My avatar');?></p>
-				<p><a href="<?= esc_url(theme_custom_user_settings::get_tabs('avatar')['url']);?>" class="btn btn-success btn-xs"><?= ___('Change avatar');?> <i class="fa fa-external-link"></i></a></p>
+				<p><a href="<?= theme_custom_user_settings::get_tabs('avatar')['url'];?>" class="btn btn-success btn-xs"><?= ___('Change avatar');?> <i class="fa fa-external-link"></i></a></p>
 			</div>
 		</div>
 	</div>
+	<fieldset <?= $disabled;?>>
 	<!-- uid -->
 	<div class="form-group">
 		<div class="control-label col-sm-2">
@@ -34,7 +79,7 @@ get_currentuserinfo();
 			</abbr>
 		</div>
 		<div class="col-sm-10"><p class="form-control-static"><strong>
-			<a href="<?= esc_url(theme_cache::get_author_posts_url(get_current_user_id()));?>"><?= $current_user->user_nicename;?></a>
+			<a href="<?= esc_url(theme_cache::get_author_posts_url($current_user->ID));?>"><?= $current_user->user_nicename;?></a>
 			</strong></p></div>
 	</div>
 	<!-- nickname -->
@@ -78,6 +123,7 @@ get_currentuserinfo();
 			</button>
 		</div>
 	</div>
+	</fieldset>
 </form>
 	</div>
 </div>

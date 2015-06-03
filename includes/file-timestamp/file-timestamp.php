@@ -10,10 +10,7 @@ class theme_file_timestamp{
 	public static $iden = 'theme_file_timestamp';
 	private static $timestamp;
 	
-	public static function init(){
-		
-		self::get_timestamp();
-		
+	public static function init(){		
 		add_action('advanced_settings' , __CLASS__ . '::display_backend');
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 		add_filter('theme_options_save' , __CLASS__ . '::options_save');

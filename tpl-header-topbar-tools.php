@@ -24,7 +24,7 @@ if(is_user_logged_in()){
 				<?php }else{ ?>
 					<i class="fa fa-diamond fa-fw"></i> 
 				<?php } ?>
-				<?= theme_custom_point::get_point();?>
+				<?= theme_custom_point::get_point($current_user_id);?>
 			</a>
 		<?php } ?>
 		

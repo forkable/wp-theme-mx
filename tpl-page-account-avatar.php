@@ -1,3 +1,7 @@
+<?php
+global $current_user;
+get_currentuserinfo();
+?>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">
@@ -6,7 +10,51 @@
 		</h3>
 	</div>
 	<div class="panel-body">
+		<?php
+		/**
+		 * consume points to modify avatar
+		 */
+		$disabled = null;
+		if(class_exists('theme_custom_point')){
+			$consume_points = theme_custom_point::get_point_value('save-avatar');
+			$user_points = theme_custom_point::get_point($current_user->ID);
+			if($consume_points != 0){
+				?>
+				<div class="page-tip">
+					<?php
+					/**
+					 * not enough points, can not modify
+					 */
+					if($consume_points > $user_points){
+						$disabled = 'disabled';
+						echo status_tip(
+							'info',
+							sprintf(
+								___('You have %1$d %2$s, You need to collect %3$d %2%s to modify the avatar.'),
+								$user_points,
+								theme_custom_point::get_point_name(),
+								abs($consume_points) - abs($user_points)
+							)
+						);
+					}else{
+						echo status_tip(
+							'info',
+							sprintf(
+								___('You have %1$d %2$s, modify avatar will consume %3$d %2$s.'),
+								$user_points,
+								theme_custom_point::get_point_name(),
+								abs($consume_points)
+							)
+						);
+					}
+					?>
+				</div>
+				<?php
+			}
+		}
+		?>
 <form id="fm-change-avatar" class="user-form form-horizontal" method="post" action="javascript:;">
+	<fieldset <?= $disabled;?>>
 	<!-- current avatar -->
 	<div class="form-group">
 		<div class="control-label col-sm-2">
@@ -14,7 +62,7 @@
 		</div>
 		<div class="col-sm-10">
 			<div class="current-avatar">
-				<?= get_avatar(get_current_user_id(),100);?>
+				<?= get_avatar($current_user->ID,100);?>
 			</div>
 		</div>
 	</div>
@@ -50,7 +98,7 @@
 		</div>
 	</div>
 	<!-- submit -->
-
+	</fieldset>
 </form>
 	</div>
 </div>

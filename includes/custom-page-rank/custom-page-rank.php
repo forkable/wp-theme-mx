@@ -121,13 +121,12 @@ class theme_page_rank{
 		return $cache;
 	}
 	public static function filter_query_vars($vars = []){
-		if(self::is_page()){
-			if(!in_array('filter'))
-				$vars[] = 'filter';
-				
-			if(!in_array('tab'))
-				$vars[] = 'tab';
-		}
+		if(!in_array('filter',$vars))
+			$vars[] = 'filter';
+			
+		if(!in_array('tab',$vars))
+			$vars[] = 'tab';
+			
 		return $vars;
 	}
 	public static function get_tabs($key = null){
@@ -145,21 +144,13 @@ class theme_page_rank{
 					],$base_url)),
 				],
 				
-				'latest' => [
-					'tx' => ___('Latest'),
-					'icon' => 'refresh',
-					'url' => esc_url(add_query_arg([
-						'tab' => 'latest'
-					],$base_url)),
-				],
-				
 				'popular' => [
 					'tx' => ___('Popular'),
 					'icon' => 'bar-chart',
 					'url' => esc_url(add_query_arg([
 						'tab' => 'popular'
 					],$base_url)),
-					'filter' => [
+					'filters' => [
 						'day' => [
 							'tx' => ___('Daily popular'),
 							'url' => esc_url(add_query_arg([
@@ -183,11 +174,20 @@ class theme_page_rank{
 						],
 					],/** end filter */
 				],/** end popular */
-				'user' => [
+				'latest' => [
+					'tx' => ___('Latest'),
+					'icon' => 'refresh',
+					'url' => esc_url(add_query_arg([
+						'tab' => 'latest'
+					],$base_url)),
+				],
+				
+
+				'users' => [
 					'tx' => ___('Users'),
 					'icon' => 'users',
 					'url' => esc_url(add_query_arg([
-						'tab' => 'user'
+						'tab' => 'users'
 					],$base_url)),
 					'filter' => [
 						'me' => [
@@ -197,8 +197,8 @@ class theme_page_rank{
 								'filter' => 'me',
 							],$base_url)),
 						],/** end me */
-					],/** end filter */
-				],/** end user */
+					],/** end filters */
+				],/** end users */
 			];/** end types */
 			
 		if($key)
@@ -206,7 +206,9 @@ class theme_page_rank{
 			
 		return $tabs;
 	}
-	
+	public static function the_users_rank(){
+		
+	}
 	public static function the_latest_posts(array $args = []){
 		$cache = theme_cache::get('latest','page-rank');
 		if(!empty($cache)){
@@ -249,17 +251,28 @@ class theme_page_rank{
 		echo $cache;
 		return $cache;
 	}
-	public static function the_popular_posts(array $args = []){
-		return;
-		$cache = theme_cache::get('latest','page-rank');
+	public static function get_popular_posts(array $args = []){
+		$active_filter_tab = get_query_var('filter');
+		$filter_tabs = self::get_tabs('popular')['filters'];
+		
+		if(!isset($filter_tabs[$active_filter_tab]))
+			$active_filter_tab = 'day';
+			
+		$cache = theme_cache::get($active_filter_tab,'page-rank');
 		if(!empty($cache)){
-			echo $cache;
 			return $cache;
 		}
 		global $post;
 		$defaults = [
 			'posts_per_page ' => 100,
 			'paged' => 1,
+			'date_query' => [
+				[
+					'column' => 'post_date_gmt',
+					'after'  => '1 ' . $active_filter_tab . ' ago',
+				]
+			],
+			'orderby' => 'meta_value_num',
 		];
 		$args = array_merge($defaults,$args);
 
@@ -275,6 +288,7 @@ class theme_page_rank{
 					setup_postdata($post);
 					self::rank_img_content([
 						'index' => $i,
+						'lazyload' => $i <= 5 ? false : true,
 					]);
 					++$i;
 				}
@@ -282,14 +296,11 @@ class theme_page_rank{
 			</div>
 			<?php
 			wp_reset_postdata();
-		}else{
-			
 		}
 		$cache = html_compress(ob_get_contents());
 		ob_end_clean();
 
-		theme_cache::set('latest',$cache,'page-rank',3600);
-		echo $cache;
+		theme_cache::set($active_filter_tab,$cache,'page-rank',3600);
 		return $cache;
 	}
 	public static function the_recommend_posts(array $args = []){
@@ -318,6 +329,7 @@ class theme_page_rank{
 					setup_postdata($post);
 					self::rank_img_content([
 						'index' => $i,
+						'lazyload' => $i <= 5 ? false : true,
 					]);
 					++$i;
 				}
@@ -331,7 +343,7 @@ class theme_page_rank{
 		$cache = html_compress(ob_get_contents());
 		ob_end_clean();
 
-		theme_cache::set('recommend',$cache,'page-rank',3600*12);
+		theme_cache::set('recommend',$cache,'page-rank',3600);
 		echo $cache;
 		return $cache;
 	}
@@ -361,7 +373,11 @@ class theme_page_rank{
 				<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
 					<div class="thumbnail-container">
 						<img src="<?= $thumbnail_placeholder;?>" alt="<?= $post_title;?>" class="media-object placeholder">
-						<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>"/>
+						<?php if($args['lazyload'] === true){ ?>
+							<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>"/>
+						<?php }else{ ?>
+							<img class="post-list-img" src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>"/>
+						<?php } ?>
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
