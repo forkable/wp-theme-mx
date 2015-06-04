@@ -659,7 +659,7 @@ class theme_custom_point{
 		if(!$post)
 			return false;
 			
-		if($post->post_type == 'post')
+		if($post->post_type !== 'post')
 			return false;
 			
 		$meta = array(
@@ -921,7 +921,10 @@ class theme_custom_point{
 	public static function add_action_publish_post_history_post_publish($new_status, $old_status, $post){
 		if($old_status == 'publish' || $new_status != 'publish')
 			return false;
-
+		
+		if($post->post_type !== 'post')
+			return false;
+			
 		/**
 		 * add history for post author
 		 */
