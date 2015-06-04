@@ -62,11 +62,7 @@ class theme_custom_storage{
 			);
 		}
 	}
-	public static function get_post_meta($post_id = null){
-		if(!$post_id){
-			global $post;
-			$post_id = $post->ID;
-		}
+	public static function get_post_meta($post_id){
 		static $caches = [];
 		if(isset($caches[$post_id]))
 			return $caches[$post_id];
