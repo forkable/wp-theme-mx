@@ -388,7 +388,6 @@ class theme_custom_point{
 	 * @param bool $force Force to get point value without cache.
 	 * @version 1.0.1
 	 * @return int
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_point($user_id,$force = false){
 		static $caches = [];
@@ -409,7 +408,6 @@ class theme_custom_point{
 	 * @param int $posts_per_page
 	 * @version 1.0.0
 	 * @return array
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_history($args = []){
 		$defaults = array(
@@ -652,7 +650,6 @@ class theme_custom_point{
 	 * HOOK - Add post-delete history to user meta
 	 *
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_history_post_delete($post_id){
 		$post = get_post($post_id);
@@ -679,7 +676,6 @@ class theme_custom_point{
 	 * HOOK - Add sign-up history to user meta
 	 *
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_history_signup($user_id){
 		$meta = array(
@@ -699,7 +695,6 @@ class theme_custom_point{
 	 * @param int $point
 	 * @param string $event Event description
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_history_special_event($user_id,$point,$event = null){
 		$point = (int)$point;
@@ -737,7 +732,6 @@ class theme_custom_point{
 	 * HOOK - Signin daily for user meta
 	 *
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_history_signin_daily(){
 		$user_id = get_current_user_id();
@@ -819,7 +813,6 @@ class theme_custom_point{
 	 * @param int $comment_id Comment ID
 	 * @param string $comment_approved 0|1|spam
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_history_wp_new_comment_comment_publish($comment_id,$comment_approved){
 		/**
@@ -852,7 +845,6 @@ class theme_custom_point{
 	 * @param 
 	 * @return 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_history_core_comment_publish($comment_id){
 
@@ -882,7 +874,6 @@ class theme_custom_point{
 	 *
 	 * @param int $comment_id Comment ID
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_history_core_post_reply($comment_id){
 		
@@ -936,7 +927,6 @@ class theme_custom_point{
 	 * @param int Post id
 	 * @param object Post
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function action_add_history_core_post_publish($post_id,$post){
 		

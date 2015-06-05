@@ -1,0 +1,17 @@
+.edit-head-thumbnail{
+	width: 100px;
+}
+.edit-post-thumbnail img{
+	max-width: 80px;
+}
+.edit-post-title{
+}
+.edit-table tr:hover{
+	background: #eee;
+}
+	.edit-table thead {
+		background: #eee;
+	}
+.edit-table tr:nth-child(2n){
+	background: #f8f8f8;
+}

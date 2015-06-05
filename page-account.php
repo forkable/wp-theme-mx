@@ -43,7 +43,7 @@ if(!$active_tab)
 		</div>
 		<div class="col-sm-9 col-lg-10">
 			<div id="account-content">
-				<?php include __DIR__ . "/tpl-page-account-{$active_tab}.php";?>
+				<?php include __DIR__ . '/tpl/page-account-' . $active_tab . '.php';?>
 			</div>
 		</div>
 	</div><!-- /.row -->

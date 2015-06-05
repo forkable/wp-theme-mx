@@ -29,7 +29,7 @@
             );
 			?>
 			<div class="top-bar-tools">
-				<?php include __DIR__ . '/tpl-header-topbar-tools.php';?>
+				<?php include __DIR__ . '/tpl/header-topbar-tools.php';?>
 			</div>
 		</div><!-- /.container -->
 	</div><!-- /.top-bar -->	

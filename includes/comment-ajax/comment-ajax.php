@@ -51,7 +51,6 @@ class theme_comment_ajax{
 	 *
 	 * @return bool
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	private static function is_enabled(){
 		return self::get_options('enabled') == 1 ? true : false;

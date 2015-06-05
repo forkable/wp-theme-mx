@@ -181,7 +181,6 @@ class theme_functions{
 	 * @param string
 	 * @return array|string|false
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_tab_type($key = null){
 		$typies = array(
@@ -209,7 +208,6 @@ class theme_functions{
 	 *
 	 * @return 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function the_order_nav($args = null){
 		$current_tab = get_query_var('tab');
@@ -330,7 +328,6 @@ class theme_functions{
 	 *
 	 * @return
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function archive_img_content(array $args = []){
 		$defaults = array(
@@ -380,7 +377,6 @@ class theme_functions{
 	 * @param string $type
 	 * @return array
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_meta_type($type){
 		global $post;
@@ -599,11 +595,19 @@ class theme_functions{
 		$args['classes'][] = 'singluar-post panel panel-default';
 
 		$post_title = esc_html(get_the_title());
+
+		$author_display_name = esc_html(get_the_author());
+
+		$author_url = esc_url(theme_cache::get_author_posts_url($post->post_author));
 		?>
 		<article id="post-<?php $post->ID;?>" <?php post_class($args['classes']);?>>
 			<div class="panel-heading">
 				<div class="media">
-					<div class="media-left"><img class="avatar" src="<?= esc_url(get_avatar_url($post->post_author));?>" alt="avatar" width="50" height="50"></div>
+					<div class="media-left">
+						<a class="post-meta post-author" href="<?= $author_url;?>" title="<?= sprintf(___('Views all post by %s'),$author_display_name);?>">
+							<img class="avatar" src="<?= esc_url(get_avatar_url($post->post_author));?>" alt="<?= ___('Author avatar');?>" width="50" height="50">
+						</a>
+					</div>
 					<div class="media-body">
 						<?php if(!empty($post_title)){ ?>
 							<h3 class="entry-title panel-title"><?= $post_title;?></h3>
@@ -622,15 +626,12 @@ class theme_functions{
 							<?php } ?>
 							
 							<!-- time -->
-							<time class="post-meta post-time" datetime="<?= get_the_time('Y-m-d H:i:s');?>">
+							<time class="post-meta post-time" datetime="<?= get_the_time('Y-m-d H:i:s');?>" title="<?= get_the_time(___('M j, Y'));?>">
 								<i class="fa fa-clock-o"></i>
 								<?= friendly_date(get_the_time('U'));?>
 							</time>
 							<!-- author link -->
-							<?php
-							$author_display_name = get_the_author();
-							?>
-							<a class="post-meta post-author" href="<?= theme_cache::get_author_posts_url($post->post_author);?>" title="<?= esc_attr(sprintf(___('Views all post by %s'),$author_display_name));?>">
+							<a class="post-meta post-author" href="<?= $author_url;?>" title="<?= sprintf(___('Views all post by %s'),$author_display_name);?>">
 								<i class="fa fa-user"></i> 
 								<?= $author_display_name;?>
 							</a>
@@ -642,13 +643,6 @@ class theme_functions{
 									<span class="number" id="post-views-number-<?= $post->ID;?>">-</span>
 								</span>
 							<?php } ?>
-
-
-							<!-- permalink -->
-							<a href="<?= get_permalink();?>" class="post-meta permalink" title="<?= ___('Post link');?>">
-								<i class="fa fa-link"></i>
-								<span class="hidden-xs"><?= ___('Post link');?></span>
-							</a>
 
 						</header>
 					</div><!-- /.media-body -->
@@ -805,7 +799,6 @@ class theme_functions{
 	 *
 	 * @return 
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_thumbnail_src($post_id = null,$size = 'thumbnail',$placeholder = null){
 		global $post;
@@ -835,7 +828,6 @@ class theme_functions{
 	 *
 	 * @return string
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	private static function get_content(){
 		global $post;
@@ -849,7 +841,6 @@ class theme_functions{
 	 * @param string
 	 * @return string
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_adjacent_posts($class = 'adjacent-posts'){
 		global $post;
@@ -900,7 +891,6 @@ class theme_functions{
      * 
      * @return string The html code
      * @version 2.0.6
-     * @author INN STUDIO <inn-studio.com>
      * 
      */
     public static function get_crumb(array $args = []){
@@ -1014,7 +1004,6 @@ class theme_functions{
 	 * @param string The class of molude
 	 * @return string
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_post_pagination( $class = 'posts-pagination') {
@@ -1146,7 +1135,6 @@ class theme_functions{
 	 * @param bool $below The position where show.
 	 * @return string
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_comment_pagination(array $args = []) {
@@ -1631,7 +1619,6 @@ class theme_functions{
 	 * 
 	 * @return 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_page_pagenavi(){
@@ -1922,7 +1909,6 @@ class theme_functions{
 	 * @param array $args
 	 * @return 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function the_user_list(array $args = []){
 		$defaults = [

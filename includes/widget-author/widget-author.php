@@ -4,7 +4,6 @@
  * theme-widget-author
  *
  * @version 1.0.0
- * @author INN STUDIO <inn-studio.com>
  */
 add_action('widgets_init','theme_widget_author::register_widget' );
 class theme_widget_author extends WP_Widget{

@@ -122,7 +122,6 @@ class theme_dev_mode{
 	 * @params array
 	 * @return array
 	 * @version 2.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function options_save(array $options = []){

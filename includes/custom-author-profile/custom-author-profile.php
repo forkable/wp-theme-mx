@@ -1,7 +1,6 @@
 <?php
 /**
  * @version 1.0.0
- * @author INN STUDIO <inn-studio.com>
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_author_profile::init';

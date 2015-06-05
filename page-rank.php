@@ -33,7 +33,7 @@ if(!theme_page_rank::get_tabs($active_tab))
 			</ul>
 		</div>
 		<?php
-		$include_filepath = __DIR__ . '/tpl-page-rank-' . $active_tab . '.php';
+		$include_filepath = __DIR__ . '/tpl/page-rank-' . $active_tab . '.php';
 		if(is_file($include_filepath)){
 			include $include_filepath;
 		}else{

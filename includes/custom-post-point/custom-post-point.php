@@ -150,7 +150,6 @@ class custom_post_point{
 	 * @param array $args
 	 * @return array
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_most_point_posts(array $args = []){
 		$defaults = [
@@ -598,7 +597,6 @@ class custom_post_point{
 	 * @param int $post_id
 	 * @return bool/int
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function decr_post_raters_count($post_id){
 		if(!is_numeric($post_id) || !(int)$post_id)
@@ -622,7 +620,6 @@ class custom_post_point{
 	 * @param int points
 	 * @return bool/array True is success, array is error
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function incr_post_raters($post_id,$rater_id,$points){
 			
@@ -698,7 +695,6 @@ class custom_post_point{
 	 * @param int $points $points
 	 * @return 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function incr_rater_posts($post_id,$rater_id,$points){
 		if(!is_numeric($post_id) || (int)$post_id === 0)
@@ -757,7 +753,6 @@ class custom_post_point{
 	 *
 	 * @return 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function decr_post_raters($post_id,$rater_id){
 		if(!is_numeric($post_id) || (int)$post_id === 0)

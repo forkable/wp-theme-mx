@@ -3,7 +3,6 @@
  * theme_page_rank
  *
  * @version 1.0.0
- * @author INN STUDIO <inn-studio.com>
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_page_rank::init';
@@ -107,9 +106,7 @@ class theme_page_rank{
 			'comment_status'	=> 'closed',
 		);
 		foreach($page_slugs as $k => $v){
-			$page = theme_cache::get_page_by_path($k);
-			if(!$page)
-				$page_id = wp_insert_post(array_merge($defaults,$v));
+			theme_cache::get_page_by_path($k) || wp_insert_post(array_merge($defaults,$v));
 		}
 
 	}

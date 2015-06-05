@@ -128,7 +128,6 @@ class theme_custom_sign{
 	 * @param string $redirect Redirect url when login success
 	 * @return mix/array
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_tabs($key = null,$redirect = null){
 		static $baseurl;
@@ -173,12 +172,11 @@ class theme_custom_sign{
 		}
 	}
 	public static function is_page(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache = is_page(self::$page_slug);
 			
-		$caches[self::$iden] = is_page(self::$page_slug);
-		return $caches[self::$iden];
+		return $cache;
 	}
 	public static function template_redirect(){
 		if(self::is_page() && is_user_logged_in()){
@@ -188,7 +186,8 @@ class theme_custom_sign{
 		}
 	}
 	public static function page_create(){
-		if(!current_user_can('manage_options')) return false;
+		if(!current_user_can('manage_options')) 
+			return false;
 		
 		$page_slugs = array(
 			self::$page_slug => array(
@@ -208,11 +207,7 @@ class theme_custom_sign{
 			'comment_status'	=> 'closed',
 		);
 		foreach($page_slugs as $k => $v){
-			$page = theme_cache::get_page_by_path($k);
-			if(!$page){
-				$r = array_merge($defaults,$v);
-				$page_id = wp_insert_post($r);
-			}
+			theme_cache::get_page_by_path($k) || wp_insert_post(array_merge($defaults,$v));
 		}
 	}
 	public static function wp_title($title, $sep){

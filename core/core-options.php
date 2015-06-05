@@ -4,7 +4,6 @@
  * the theme options and show admin control planel
  * 
  * @version 5.0.1
- * @author INN STUDIO <inn-studio.com>
  * 
  */
 theme_options::init();
@@ -16,7 +15,6 @@ class theme_options{
 	 * 
 	 * @return 
 	 * @version 2.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function init(){
 		
@@ -40,7 +38,6 @@ class theme_options{
 	 * @return array
 	 * @version 2.0.0
 	 * @since 3.1.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_options($key = null){
@@ -159,7 +156,6 @@ class theme_options{
 	 * 
 	 * @return string html string for options
 	 * @version 3.1.7
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function display_backend(){
@@ -245,7 +241,6 @@ class theme_options{
 	 * Save Options
 	 * 
 	 * @version 2.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	private static function options_save(){
@@ -269,7 +264,6 @@ class theme_options{
 	 * @param mixd
 	 * @return array options
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function set_options($key,$data){
 		self::$opts = self::get_options();		
@@ -283,7 +277,6 @@ class theme_options{
 	 * @param string
 	 * @return 
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function delete_options($key){
 		self::$opts = self::get_options();
@@ -299,7 +292,6 @@ class theme_options{
 	 * 
 	 * @return bool
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	private static function is_options_page(){
 		if(!self::current_user_can('manage_options'))
@@ -318,7 +310,6 @@ class theme_options{
 	 * 
 	 * @return n/a
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function add_page(){
@@ -339,7 +330,6 @@ class theme_options{
 	 * 
 	 * @return 
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function add_bar(){

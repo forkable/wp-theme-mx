@@ -50,7 +50,7 @@ class theme_custom_collection{
 		return $vars;
 	}
 	public static function filter_nav_collection($navs){
-		$navs['collection'] = '<a href="' . esc_url(self::get_tabs('collection')['url']) . '">
+		$navs['collection'] = '<a href="' . self::get_tabs('collection')['url'] . '">
 			<i class="fa fa-' . self::get_tabs('collection')['icon'] . ' fa-fw"></i> 
 			' . self::get_tabs('collection')['text'] . '
 		</a>';
@@ -228,12 +228,11 @@ class theme_custom_collection{
 		return $tabs;
 	}
 	public static function is_page(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 			
-		$caches[self::$iden] = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
-		return $caches[self::$iden];
+		return $cache;
 	}
 	private static function wp_get_attachment_image_src(...$args){
 		static $caches = [];

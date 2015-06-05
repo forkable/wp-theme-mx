@@ -136,12 +136,11 @@ class theme_custom_contribution{
 		return $tabs;
 	}
 	public static function is_page(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 			
-		$caches[self::$iden] = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
-		return $caches[self::$iden];
+		return $cache;
 	}
 	private static function wp_get_attachment_image_src(){
 		static $caches = [];

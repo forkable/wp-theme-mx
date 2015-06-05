@@ -7,7 +7,6 @@
  *
  * @package KMTF
  * @version 5.0.1
- * @author INN STUDIO <inn-studio.com>
  * @date 2015-04-13
  */
 theme_features::init();
@@ -39,7 +38,6 @@ class theme_features{
 	 * @return 
 	 * @example 
 	 * @version 1.1.4
-	 * @author INN STUDIO <inn-studio.com>
 	 * @copyright Copyright (c) 2011-2013 INN STUDIO. (http://www.inn-studio.com)
 	 **/
 	public static function theme_js(){
@@ -85,7 +83,6 @@ class theme_features{
 	 * @param string
 	 * @return 
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function minify_force($file_or_dir){
 		/** 
@@ -136,7 +133,6 @@ class theme_features{
 	 * @return string
 	 * @version 1.0.3
 	 * @see http://codex.wordpress.org/Function_Reference/wp_get_theme
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_info($key = null,$stylesheet = null, $theme_root = null){
 		static $caches = [],$theme = null;
@@ -162,7 +158,6 @@ class theme_features{
 	 *
 	 * @return n/a
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function set_theme_info(){
 		$theme = self::get_theme_info();
@@ -227,7 +222,6 @@ class theme_features{
 	 * @param string 
 	 * @return n/a
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function minify($file_path = null,$file_path_min){
 		if(!file_exists($file_path)) return false;
@@ -396,7 +390,6 @@ class theme_features{
 		 ]
 	 * @return 
 	 * @version 2.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_extension_url(array $args = []){
 		$defaults = [
@@ -460,7 +453,6 @@ class theme_features{
 	 * @param bool $mtime
 	 * @return string
 	 * @version 2.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_includes_js($DIR = null,$filename = 'init',$url_only = true){
 		static $caches = [];
@@ -493,7 +485,6 @@ class theme_features{
 	 * @param bool $mtime
 	 * @return string
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_includes_css($DIR = null,$filename = 'style',$url_only = true, $mtime = false){
 		
@@ -522,7 +513,6 @@ class theme_features{
 	 * @param string $filename
 	 * @return string
 	 * @version 1.0.3
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_includes_image($DIR,$filename){
 		static $caches = [];
@@ -549,7 +539,6 @@ class theme_features{
 	 * @param bool $mtime
 	 * @return string
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_extension_url_core($args = null){
 		/**
@@ -649,7 +638,6 @@ class theme_features{
 	 * @param bool $mtime
 	 * @return string
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_includes_url($DIR = null,$file_basename = null,$mtime = false){
 	
@@ -668,7 +656,6 @@ class theme_features{
 	 * @param bool $mtime
 	 * @return string
 	 * @version 1.0.3
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_images_url($file_basename = null,$mtime = true){
 		static $caches = [];
@@ -689,7 +676,6 @@ class theme_features{
 	 * @param array $param The url args
 	 * @return string The process file url
 	 * @version 1.2.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_process_url(array $param = []){
@@ -709,7 +695,6 @@ class theme_features{
 	 * @param object
 	 * @return string
 	 * @version 1.0.3
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function json_format(array $output = [],$die = false,$jsonp = false){
 		if(empty($output)) 
@@ -737,7 +722,6 @@ class theme_features{
 	 * @param string
 	 * @return bool
 	 * @version 1.1.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function check_referer($referer = null){
 		static $home_url = null;
@@ -768,7 +752,6 @@ class theme_features{
 	 *
 	 * @return 
 	 * @version 1.3.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function check_nonce($action = 'theme-nonce',$key = 'theme-nonce'){
 		$nonce = isset($_REQUEST[$action]) ? $_REQUEST[$action] : null;
@@ -787,7 +770,6 @@ class theme_features{
 	 * @param int|object $user The user stdClass object or user ID
 	 * @return string
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_avatar($user,$size = 80,$default = null,$alt = null){
 		$cache_id = md5(serialize(func_get_args()));
@@ -818,7 +800,6 @@ class theme_features{
 	 * @param 
 	 * @return 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_url($file_basename = null,$mtime = false){
 		
@@ -842,7 +823,6 @@ class theme_features{
 	 * @param string $file_basename
 	 * @return string $file_path
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_path($file_basename = null){
 		static $caches;
@@ -862,7 +842,6 @@ class theme_features{
 	 * @param string $file_basename
 	 * @return string $file_path
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_theme_includes_path($file_basename = null){
 		static $caches;
@@ -923,7 +902,6 @@ class theme_features{
 	 * @param string $extra The more string
 	 * @return string
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_post_excerpt($len = 120,$extra = '...'){
 		static $caches = [];
@@ -993,7 +971,6 @@ class theme_features{
 	 * 
 	 * @return stdClass
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_current_tag_obj(){
 		if(is_tag()){
@@ -1012,7 +989,6 @@ class theme_features{
 	 * 
 	 * @return string
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_current_tag_name(){
 		if(is_tag()){
@@ -1026,7 +1002,6 @@ class theme_features{
 	 * 
 	 * @return string
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_current_tag_slug(){
 		if(is_tag()){
@@ -1040,7 +1015,6 @@ class theme_features{
 	 * 
 	 * @return int
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_current_tag_count(){
 		if(is_tag()){
@@ -1054,7 +1028,6 @@ class theme_features{
 	 * 
 	 * @return int
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_current_tag_id(){
 		if(is_tag()){
@@ -1071,7 +1044,6 @@ class theme_features{
 	 * 
 	 * @return string The current category name(not slug)
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_current_cat_name(){
@@ -1085,7 +1057,6 @@ class theme_features{
 	 * 
 	 * @return string The current category slug
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_current_cat_slug(){
@@ -1099,7 +1070,6 @@ class theme_features{
 	 * 
 	 * @return int The current category id
 	 * @version 1.1.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_current_cat_id(){
@@ -1124,7 +1094,6 @@ class theme_features{
 	 * @param int (optional) $current_cat_id The category id
 	 * @return int The root of category id
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_cat_root_id($current_cat_id = null){
@@ -1153,7 +1122,6 @@ class theme_features{
 	 * @param int (optional) $current_cat_id
 	 * @return string  The category slug
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_cat_root_slug($current_cat_id = null){
@@ -1168,7 +1136,6 @@ class theme_features{
 	 * @param string $cat_slug
 	 * @return 
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_cat_id_by_slug($cat_slug = null) {
@@ -1184,7 +1151,6 @@ class theme_features{
 	 * 
 	 * @return string The category slug
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_cat_slug_by_id($cat_id = null){
@@ -1201,7 +1167,6 @@ class theme_features{
 	 * 
 	 * @return int The page id
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_current_page_id(){
@@ -1218,7 +1183,6 @@ class theme_features{
 	 * @param string page slug
 	 * @return string url
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_page_url_by_slug($slug){
 		static $caches = [];
@@ -1235,7 +1199,6 @@ class theme_features{
 	 * 
 	 * @return int The page id
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_page_id_by_slug($slug){
@@ -1259,7 +1222,6 @@ class theme_features{
 	 * @param string $file_name The file name
 	 * @return string The file path
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function get_wp_themes_local_dir($file_name = null){
@@ -1278,7 +1240,6 @@ class theme_features{
 	 * @param int $page
 	 * @return string The link page url
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_link_page_url($page = 1,$add_fragment = null){
 		global $wp_rewrite,$post;
@@ -1302,7 +1263,6 @@ class theme_features{
 	 * @param array
 	 * @return string
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_prev_next_pagination($args = null){
 		global $page,$numpages,$post;
@@ -1404,7 +1364,6 @@ class theme_features{
 	 * @param array $args
 	 * @return string 
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_pagination($args = null){
 		global $page, $numpages, $multipage, $more, $pagenow;
@@ -1471,7 +1430,6 @@ class theme_features{
 	 * 或调用一次后，引用函数调用。
 	 * @since 3.2
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * @param string $comorder Optional. 使用自定义参数，asc为正序，desc为倒序。
 	 * @param string $display_child Optional. 是否显示子评论。
 	 * @return false|跳过子评论。否则显示楼层数。
@@ -1532,7 +1490,6 @@ class theme_features{
 	 * @param int user_id id
 	 * @return 
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_user_comments_count($user_id){
 		$cache_id = 'user_comments_count-' . $user_id;
@@ -1616,7 +1573,6 @@ class theme_features{
 	 * 
 	 * @return 
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	private static function load_includes(){
@@ -1648,7 +1604,6 @@ class theme_features{
 	 * 
 	 * @return n/a
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function after_setup_theme(){
 		/**
@@ -1709,7 +1664,6 @@ class theme_features{
 	 *
 	 * @return 
 	 * @version 1.0.3
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function auto_minify(){
 		/** 
@@ -1739,7 +1693,6 @@ class theme_features{
 	 * @param bool $child
 	 * @return string
 	 * @version 1.1.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function cat_option_list($group_id,$cat_id,$child = false){
 		static $caches = [];
@@ -1774,7 +1727,6 @@ class theme_features{
 	 * @param string $ids_name
 	 * @return string
 	 * @version 1.1.2
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function cat_checkbox_list($group_id,$ids_name){
 		static $caches = [];
@@ -1835,7 +1787,6 @@ class theme_features{
 	 * @param string $page_slug
 	 * @return
 	 * @version 1.1.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function page_option_list($group_id,$page_slug){
 		static $caches = [];
@@ -1876,7 +1827,6 @@ class theme_features{
 	 * @param string $key The post format
 	 * @return string Post format icon(s)
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_post_format_icon($key = null){
 		$icons = array(
@@ -1904,7 +1854,6 @@ class theme_features{
 	 * @param string $key
 	 * @return mixed 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_option($key){
 		static $caches = [];
@@ -1920,7 +1869,6 @@ class theme_features{
 	 * @param array $comments 
 	 * @return int Max comment pages number
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_comment_pages_count($comments){
 		static $count = null;
@@ -1939,7 +1887,6 @@ class theme_features{
 	 * @param array &$all_cat_id All cats id
 	 * @return 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	public static function get_all_cats_by_child($cat_id, array & $all_cat_id){
 		$cat = get_category($cat_id);

@@ -3,7 +3,6 @@
  * theme_page_tags
  *
  * @version 1.0.0
- * @author INN STUDIO <inn-studio.com>
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_page_tags::init';
@@ -135,11 +134,7 @@ class theme_page_tags{
 			'comment_status'	=> 'closed',
 		);
 		foreach($page_slugs as $k => $v){
-			$page = theme_cache::get_page_by_path($k);
-			if(!$page){
-				$r = array_merge($defaults,$v);
-				$page_id = wp_insert_post($r);
-			}
+			theme_cache::get_page_by_path($k) || wp_insert_post(array_merge($defaults,$v));
 		}
 
 	}

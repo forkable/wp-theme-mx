@@ -70,7 +70,6 @@ class theme_post_copyright{
 	 * 
 	 * @return array
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	public static function options_default($opts){

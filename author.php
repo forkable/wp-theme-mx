@@ -30,7 +30,7 @@ if(empty($tab_active) || !isset($tabs[$tab_active]))
 				<?php } ?>					
 			</ul>
 		</div>
-		<?php include __DIR__ . "/tpl-author-{$tab_active}.php";?>
+		<?php include __DIR__ . '/tpl/author-' . $tab_active . '.php';?>
 	</div>
 </div>
 <?php get_footer();?>

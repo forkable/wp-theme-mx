@@ -138,7 +138,8 @@ class theme_custom_storage{
 		die(theme_features::json_format($output));
 	}
 	public static function page_create(){
-		if(!current_user_can('manage_options')) return false;
+		if(!current_user_can('manage_options')) 
+			return false;
 		
 		$page_slugs = array(
 			self::$page_slug => array(
@@ -158,19 +159,15 @@ class theme_custom_storage{
 			'comment_status'	=> 'closed',
 		);
 		foreach($page_slugs as $k => $v){
-			$page = theme_cache::get_page_by_path($k);
-			if(!$page){
-				$r = array_merge($defaults,$v);
-				$page_id = wp_insert_post($r);
-			}
+			theme_cache::get_page_by_path($k) || wp_insert_post(array_merge($defaults,$v));
 		}
 	}
 	public static function get_url(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-		$caches[self::$iden] = esc_url(get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID));
-		return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache =  esc_url(get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID));
+
+		return $cache;
 	}
 	public static function get_download_page_url($post_id = null){
 		if($post_id === null){

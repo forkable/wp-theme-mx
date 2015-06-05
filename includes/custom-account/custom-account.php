@@ -28,12 +28,13 @@ class theme_custom_account{
 		return $vars;
 	}
 	public static function template_redirect(){
-		if(!is_page(self::$page_slug))
-			return;
-			
+
+		if(!self::is_page())
+			return false;
+
 		if(is_user_logged_in()){
 			$account_navs = apply_filters('account_navs',[]);
-			
+
 			if(!isset($account_navs[get_query_var('tab')]))
 				wp_redirect(add_query_arg('tab','dashboard',self::get_url()));
 			
@@ -44,23 +45,22 @@ class theme_custom_account{
 
 	}
 	public static function get_url(){
-		static $url;
-		if($url)
-			return $url;
-		
-		$url = get_permalink(get_page_by_path(self::$page_slug));
+		static $url = null;
+		if($url === null)
+			$url = esc_url(get_permalink(get_page_by_path(self::$page_slug)));
+			
 		return $url;
 	}
 	public static function is_page(){
-		static $caches;
-		if(isset($caches[self::$page_slug]))
-			return $caches[self::$page_slug];
+		static $cache = null;
+		if($cache === null)
+			$cache = is_page(self::$page_slug);
 
-		$caches[self::$page_slug] = is_page(self::$page_slug);
-		return $caches[self::$page_slug];
+		return $cache;
 	}
 	public static function page_create(){
-		if(!current_user_can('manage_options')) return false;
+		if(!current_user_can('manage_options')) 
+			return false;
 		
 		$page_slugs = array(
 			self::$page_slug => array(
@@ -80,11 +80,7 @@ class theme_custom_account{
 			'comment_status'	=> 'closed',
 		);
 		foreach($page_slugs as $k => $v){
-			$page = theme_cache::get_page_by_path($k);
-			if(!$page){
-				$r = array_merge($defaults,$v);
-				$page_id = wp_insert_post($r);
-			}
+			theme_cache::get_page_by_path($k) || wp_insert_post(array_merge($defaults,$v));
 		}
 	}
 	public static function frontend_css(){

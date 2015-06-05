@@ -210,21 +210,26 @@ function post_form($psot_id = null){
 					if($edit){
 						$post_tags = get_the_tags($post->ID);
 						if($post_tags){
-							//array_unshift($tags,
+							foreach($post_tags as $v){
+								$v->selected = true;
+								array_unshift($tags,$v);
+							}
 						}
 					}
 					foreach($tags as $tag){
+						$tag_name = esc_html($tag->name);
 						?>
 						<label class="ctb-tag" for="ctb-tags-<?= $tag->term_id;?>">
 							<input 
 								type="checkbox" 
 								id="ctb-tags-<?= $tag->term_id;?>" 
 								name="ctb[tags][]" 
-								value="<?= esc_attr($tag->name);?>"
-								hidden
+								value="<?= $tag_name;?>"
+								hidden 
+								<?= isset($tag->selected) ? 'checked' : null;?>
 							>
 							<span class="label label-default">
-								<?= esc_html($tag->name);?>
+								<?= $tag_name;?>
 							</span>
 						</label>
 						
@@ -256,7 +261,15 @@ function post_form($psot_id = null){
 		</div>
 
 		<!-- source -->
-		<?php if(class_exists('theme_custom_post_source')){ ?>
+		<?php 
+		if(class_exists('theme_custom_post_source')){
+			if($edit){
+				$post_source_meta = theme_custom_post_source::get_post_meta($post->ID);
+			}else{
+				$post_source_meta = null;
+			}
+			
+			?>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">
 					<i class="fa fa-truck"></i>
@@ -264,11 +277,25 @@ function post_form($psot_id = null){
 				</div>
 				<div class="col-sm-10">
 					<label class="radio-inline" for="<?= theme_custom_post_source::$iden;?>-source-original">
-						<input type="radio" name="<?= theme_custom_post_source::$iden;?>[source]" id="<?= theme_custom_post_source::$iden;?>-source-original" value="original" class="<?= theme_custom_post_source::$iden;?>-source-radio" checked >
+						<input 
+							type="radio" 
+							name="<?= theme_custom_post_source::$iden;?>[source]" 
+							id="<?= theme_custom_post_source::$iden;?>-source-original" 
+							value="original" 
+							class="<?= theme_custom_post_source::$iden;?>-source-radio" 
+							<?= isset($post_source_meta['source']) && $post_source_meta['source'] === 'original' ? 'checked' : null;?>
+						>
 						<?= ___('Original');?>
 					</label>
 					<label class="radio-inline" for="<?= theme_custom_post_source::$iden;?>-source-reprint">
-						<input type="radio" name="<?= theme_custom_post_source::$iden;?>[source]" id="<?= theme_custom_post_source::$iden;?>-source-reprint" value="reprint" class="<?= theme_custom_post_source::$iden;?>-source-radio" >
+						<input 
+							type="radio" 
+							name="<?= theme_custom_post_source::$iden;?>[source]" 
+							id="<?= theme_custom_post_source::$iden;?>-source-reprint" 
+							value="reprint" 
+							class="<?= theme_custom_post_source::$iden;?>-source-radio" 
+							<?= isset($post_source_meta['source']) && $post_source_meta['source'] === 'reprint' ? 'checked' : null;?>
+						>
 						<?= ___('Reprint');?>
 					</label>
 					<div class="row" id="reprint-group">
@@ -277,7 +304,15 @@ function post_form($psot_id = null){
 								<label class="input-group-addon" for="<?= theme_custom_post_source::$iden;?>-reprint-url">
 									<i class="fa fa-link"></i>
 								</label>
-								<input type="url" class="form-control" name="<?= theme_custom_post_source::$iden;?>[reprint][url]" id="<?= theme_custom_post_source::$iden;?>-reprint-url" placeholder="<?= ___('The source of work URL, includes http://');?>" title="<?= ___('The source of work URL, includes http://');?>">
+								<input 
+									type="url" 
+									class="form-control" 
+									name="<?= theme_custom_post_source::$iden;?>[reprint][url]" 
+									id="<?= theme_custom_post_source::$iden;?>-reprint-url" 
+									placeholder="<?= ___('The source of work URL, includes http://');?>" 
+									title="<?= ___('The source of work URL, includes http://');?>"
+									value="<?= isset($post_source_meta['reprint']['url']) ? esc_url($post_source_meta['reprint']['url']) : null;?>"
+								>
 							</div>
 						</div>
 						<div class="col-sm-5">
@@ -285,7 +320,15 @@ function post_form($psot_id = null){
 								<label class="input-group-addon" for="<?= theme_custom_post_source::$iden;?>-reprint-author">
 									<i class="fa fa-user"></i>
 								</label>
-								<input type="text" class="form-control" name="<?= theme_custom_post_source::$iden;?>[reprint][author]" id="<?= theme_custom_post_source::$iden;?>-reprint-author" placeholder="<?= ___('Author');?>" title="<?= ___('Author');?>">
+								<input 
+									type="text" 
+									class="form-control" 
+									name="<?= theme_custom_post_source::$iden;?>[reprint][author]" 
+									id="<?= theme_custom_post_source::$iden;?>-reprint-author" 
+									placeholder="<?= ___('Author');?>" 
+									title="<?= ___('Author');?>"
+									value="<?= isset($post_source_meta['reprint']['author']) ? esc_attr($post_source_meta['reprint']['author']) : null;?>"
+								>
 							</div>
 						</div>
 					</div>
@@ -295,13 +338,12 @@ function post_form($psot_id = null){
 		<!-- submit -->
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				<div class="page-tip submit-tip"></div>
 				
 				<button type="submit" class="btn btn-lg btn-success btn-block submit" data-loading-text="<?= ___('Sending, please wait...');?>">
-					<i class="fa fa-check"></i>
-					<?= ___('Submit');?>
+					<i class="fa fa-check"></i> 
+					<?= $edit ? ___('Update') : ___('Submit');?>
 				</button>
-
+				<input type="hidden" name="post-id" value="<?= $edit ? $post->ID : 0;?>">
 				<input type="hidden" name="type" value="post">
 			</div>
 		</div>

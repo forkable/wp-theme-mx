@@ -467,7 +467,6 @@ class QC extends Oauth{
      *
      * @return string
      * @version 1.0.0
-     * @author INN STUDIO <inn-studio.com>
      */
 	public function get_expires_in(){
         return $this->recorder->read("expires_in");
@@ -477,7 +476,6 @@ class QC extends Oauth{
      *
      * @return string
      * @version 1.0.0
-     * @author INN STUDIO <inn-studio.com>
      */
 	public function get_refresh_token(){
         return $this->recorder->read("refresh_token");
