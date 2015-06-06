@@ -6,7 +6,7 @@
  * @return 
  * @version 1.0.0
  */
-function post_form($psot_id = null){
+function post_form($post_id = null){
 
 	$edit = false;
 	$post_title = null;
@@ -22,15 +22,33 @@ function post_form($psot_id = null){
 		 * check post exists
 		 */
 		global $post;
-		$post = get_post($post_id);
+		$post = self::get_post($post_id);
+		if(!$post){
+			?>
+			<div class="page-tip"><?= status_tip('error',___('Sorry, the post does not exist.'));?></div>
+			<?php
+			return false;
+			wp_reset_postdata();
+		}
 		/**
 		 * check author
 		 */
-		if(!$post || $post->post_author == get_current_user_id()){
+		if($post->post_author != get_current_user_id()){
 			?>
-			<div class="page-tip"><?= status_tip('error',___('Sorry, the post do not exist or you are not the post author.'));?></div>
+			<div class="page-tip"><?= status_tip('error',___('Sorry, you are not the post author, can not edit it.'));?></div>
 			<?php
 			return false;
+			wp_reset_postdata();
+		}
+		/**
+		 * check edit lock status
+		 */
+		$lock_user_id = wp_check_post_lock($post_id);
+		if($lock_user_id){
+			?>
+			<div class="page-tip"><?= status_tip('error',sprintf(___('Sorry, you can not edit this post now, because editor is editing. Please wait a minute...'));?></div>
+			<?php
+			return false
 		}
 		/**
 		 * check storage
@@ -134,8 +152,7 @@ function post_form($psot_id = null){
 	value="<?php
 	if($edit){
 		$post_storage_meta = theme_custom_storage::get_post_meta($post->ID);
-		if()
-		echo isset($post_storage_meta[$k]['url']) : esc_url($post_storage_meta[$k]['url']) : null;
+		echo isset($post_storage_meta[$k]['url']) ? esc_url($post_storage_meta[$k]['url']) : null;
 	}
 	?>"
 >
@@ -154,7 +171,7 @@ function post_form($psot_id = null){
 	title="<?= sprintf(___('%s password'),$v['text']);?>"
 	value="<?php
 	if($edit){
-		echo isset($post_storage_meta[$k]['pwd']) : esc_url($post_storage_meta[$k]['pwd']) : null;
+		echo isset($post_storage_meta[$k]['pwd']) ? esc_url($post_storage_meta[$k]['pwd']) : null;
 	}
 	?>"
 >
@@ -199,6 +216,25 @@ function post_form($psot_id = null){
 			</div>
 		</div>
 		<!-- tags -->
+		<?php
+		$tags_args = [
+			'orderby' => 'count',
+			'order' => 'desc',
+			'hide_empty' => 0,
+			'number' => theme_custom_contribution::get_options('tags-number') ? theme_custom_contribution::get_options('tags-number') : 16,
+		];
+		$tags_ids = theme_custom_contribution::get_options('tags');
+		if(empty($tag_ids)){
+			$tags = get_tags($tags_args);
+		}else{
+			$tags = get_tags([
+				'include' => implode($tags_ids),
+				'orderby' => 'count',
+				'order' => 'desc',
+				'hide_empty' => 0,
+			]);
+		}
+		?>
 		<div class="form-group">
 			<div class="col-sm-2 control-label">
 				<i class="fa fa-tags"></i>
@@ -350,40 +386,24 @@ function post_form($psot_id = null){
 	</form>
 	<?php
 }
-/**
- * tags
- */
-$tags_args = [
-	'orderby' => 'count',
-	'order' => 'desc',
-	'hide_empty' => 0,
-	'number' => theme_custom_contribution::get_options('tags-number') ? theme_custom_contribution::get_options('tags-number') : 16,
-];
-if(class_exists('theme_custom_contribution')){
-	$tags_ids = theme_custom_contribution::get_options('tags');
-	if(empty($tag_ids)){
-		$tags = get_tags($tags_args);
-	}else{
-		$tags = get_tags([
-			'include' => implode($tags_ids),
-			'orderby' => 'count',
-			'order' => 'desc',
-			'hide_empty' => 0,
-		]);
-	}
-}else{
-	$tags = get_tags($tags_args);
-}
+
 ?>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">
-			<i class="fa fa-<?= theme_custom_contribution::get_tabs('contribution')['icon'];?>"></i> 
-			<?= theme_custom_contribution::get_tabs('contribution')['text'];?>
+			<i class="fa fa-<?= theme_custom_contribution::get_tabs('post')['icon'];?>"></i> 
+			<?= theme_custom_contribution::get_tabs('post')['text'];?>
 		</h3>
 	</div>
 	<div class="panel-body">
 		<?= theme_custom_contribution::get_des();?>
-
+		<?php
+		if(isset($_GET['post']) && is_numeric($_GET['post'])){
+			post_form($_GET['post']);
+		}else{
+			post_form();
+		}
+		wp_reset_postdata();
+		?>
 	</div>
 </div>

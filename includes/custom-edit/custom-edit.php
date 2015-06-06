@@ -26,11 +26,11 @@ class theme_custom_edit{
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 
 		
-		//foreach(self::get_tabs() as $k => $v){
-		//	$nav_fn = 'filter_nav_' . $k; 
-		//	add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
-		//}
-		add_filter('account_navs',__CLASS__ . "::filter_nav_edit", 22);
+		foreach(self::get_tabs() as $k => $v){
+			$nav_fn = 'filter_nav_' . $k; 
+			add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
+		}
+		//add_filter('account_navs',__CLASS__ . "::filter_nav_edit", 22);
 		
 		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
 
@@ -74,12 +74,6 @@ class theme_custom_edit{
 				'url' => esc_url(add_query_arg('tab','edit',$baseurl)),
 				'filter_priority' => 22,
 			],
-			'post' => [
-				'text' => ___('Edit post'),
-				'icon' => 'pencil-square-o',
-				'url' => esc_url(add_query_arg('tab','post',$baseurl)),
-				'filter_priority' => 23,
-			]
 		];
 		if($key){
 			return isset($tabs[$key]) ? $tabs[$key] : false;
@@ -97,7 +91,7 @@ class theme_custom_edit{
 		}
 		$action .= 'post=' . $post_id;
 
-		return self::get_tabs('post')['url'] . $action;
+		return theme_custom_contribution::get_tabs('post')['url'] . $action;
 	}
 	public static function get_query(){
 		

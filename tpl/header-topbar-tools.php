@@ -30,7 +30,7 @@ if(is_user_logged_in()){
 		
 		<!-- ctb -->
 		<?php if(class_exists('theme_custom_contribution')){ ?>
-			<a href="<?= theme_custom_contribution::get_tabs('contribution')['url'];?>" class="btn btn-default meta tool-contribution" title="<?= ___('Contribution');?>">
+			<a href="<?= theme_custom_contribution::get_tabs('post')['url'];?>" class="btn btn-default meta tool-contribution" title="<?= ___('post');?>">
 				<i class="fa fa-paint-brush fa-fw"></i>
 			</a>
 		<?php } ?>

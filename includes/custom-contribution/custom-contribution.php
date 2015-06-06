@@ -51,10 +51,10 @@ class theme_custom_contribution{
 		if(!in_array('tab',$vars)) $vars[] = 'tab';
 		return $vars;
 	}
-	public static function filter_nav_contribution($navs){
-		$navs['contribution'] = '<a href="' . esc_url(self::get_tabs('contribution')['url']) . '">
-			<i class="fa fa-' . self::get_tabs('contribution')['icon'] . ' fa-fw"></i> 
-			' . self::get_tabs('contribution')['text'] . '
+	public static function filter_nav_post($navs){
+		$navs['post'] = '<a href="' . esc_url(self::get_tabs('post')['url']) . '">
+			<i class="fa fa-' . self::get_tabs('post')['icon'] . ' fa-fw"></i> 
+			' . self::get_tabs('post')['text'] . '
 		</a>';
 		return $navs;
 	}
@@ -80,7 +80,7 @@ class theme_custom_contribution{
 					</td>
 				</tr>
 				<tr>
-					<th><label for="<?= self::$iden;?>-description"><?= esc_html(___('You can write some description for contribution page header. Please use tag <p> to wrap your HTML codes.'));?></label></th>
+					<th><label for="<?= self::$iden;?>-description"><?= ___('You can write some description for contribution page header. Please use tag <p> to wrap your HTML codes.');?></label></th>
 					<td>
 						<textarea name="<?= self::$iden;?>[description]" id="<?= self::$iden;?>-description" class="widefat" rows="5"><?= self::get_des();?></textarea>
 					</td>
@@ -101,9 +101,9 @@ class theme_custom_contribution{
 		return $opts;
 	}
 	public static function get_options($key = null){
-		static $caches = [];
-		if(empty($caches))
-			$caches = theme_options::get_options(self::$iden);
+		static $caches = null;
+		if($caches === null)
+			$caches = (array)theme_options::get_options(self::$iden);
 			
 		if(empty($key)){
 			return $caches;
@@ -123,10 +123,10 @@ class theme_custom_contribution{
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();
 		$tabs = array(
-			'contribution' => array(
-				'text' => ___('Post contribution'),
+			'post' => array(
+				'text' => isset($_GET['post']) ? ___('Edit post') : ___('Post contribution'),
 				'icon' => 'paint-brush',
-				'url' => esc_url(add_query_arg('tab','contribution',$baseurl)),
+				'url' => esc_url(add_query_arg('tab','post',$baseurl)),
 				'filter_priority' => 20,
 			),
 		);
@@ -221,8 +221,50 @@ class theme_custom_contribution{
 					die(theme_features::json_format($output));
 				}
 				break;
+			/**
+			 * post
+			 */
 			case 'post':
 				$ctb = isset($_POST['ctb']) && is_array($_POST['ctb']) ? $_POST['ctb'] : null;
+				
+				$edit_post_id = isset($_POST['psot-id']) && is_numeric($_POST['post-id']) ? (int)$_POST['post-id'] : 0;
+				/**
+				 * check edit
+				 */
+				if($edit_post_id != 0){
+					/**
+					 * check post exists
+					 */
+					$post = self::get_post($edit_post_id);
+					if(!$post){
+						die(theme_features::json_format([
+							'status' => 'error',
+							'code' => 'post_not_exist',
+							'msg' => ___('Sorry, the post does not exist.'),
+						]));
+					}
+					/**
+					 * check post author is myself
+					 */
+					if($post->post_author != get_current_user_id()){
+						die(theme_features::json_format([
+							'status' => 'error',
+							'code' => 'post_not_exist',
+							'msg' => ___('Sorry, you are not the post author, can not edit it.'),
+						]));
+					}
+					/**
+					 * check post edit lock status
+					 */
+					$lock_user_id = wp_check_post_lock($edit_post_id);
+					if($lock_user_id){
+						die(theme_features::json_format([
+							'status' => 'error',
+							'code' => 'post_not_exist',
+							'msg' => ___('Sorry, the post does not exist.'),
+						]));
+					}
+				}
 				if(is_null_array($ctb)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_ctb_param';
@@ -287,79 +329,146 @@ class theme_custom_contribution{
 				/**
 				 * post status
 				 */
+				
 				if(current_user_can('publish_posts')){
 					$post_status = 'publish';
 				}else{
 					$post_status = 'pending';
 				} 
+				/*****************************
+				 * PASS ALL, WRITE TO DB
+				 *****************************/
 				/**
-				 * insert
+				 * update post
 				 */
-				$post_id = wp_insert_post(array(
-					'post_title' => $post_title,
-					'post_content' => fliter_script($post_content),
-					'post_status' => $post_status,
-					'post_author' => get_current_user_id(),
-					'post_category' => $all_cats,
-					'tags_input' => $tags,
-				),true);
-				if(is_wp_error($post_id)){
-					$output['status'] = 'error';
-					$output['code'] = $post_id->get_error_code();
-					$output['msg'] = $post_id->get_error_message();
+				if($edit_post_id != 0){
+					/**
+					 * update post
+					 */
+					$post_id = wp_update_post([
+						'ID' => $edit_post_id,
+						'post_content' => fliter_script($post_content),
+						'post_category' => $all_cats,
+						'tags_input' => $tags,
+					],true);
+				/**
+				 * insert post
+				 */
 				}else{
+					$post_id = wp_insert_post(array(
+						'post_title' => $post_title,
+						'post_content' => fliter_script($post_content),
+						'post_status' => $post_status,
+						'post_author' => get_current_user_id(),
+						'post_category' => $all_cats,
+						'tags_input' => $tags,
+					),true);
 					/**
-					 * set thumbnail and post parent
+					 * check error
 					 */
-					$attach_ids = isset($ctb['attach-ids']) && is_array($ctb['attach-ids']) ? array_map('intval',$ctb['attach-ids']) : null;
-					if(!is_null_array($attach_ids)){
-						/** set post thumbnail */
-						set_post_thumbnail($post_id,$thumbnail_id);
-						
-						/** set attachment post parent */
-						foreach($attach_ids as $attach_id){
-							$post = get_post($attach_id);
-							if(!$post || $post->post_type !== 'attachment')
-								continue;
-							wp_update_post([
-								'ID' => $attach_id,
-								'post_parent' => $post_id,
-							]);
-						}
-					}
-					/**
-					 * pending status
-					 */
-					if($post_status === 'pending'){
-						$output['status'] = 'success';
-						$output['msg'] = ___('Your post submitted successful, it will be published after approve in a while.');
-						die(theme_features::json_format($output));
+					if(is_wp_error($post_id)){
+						$output['status'] = 'error';
+						$output['code'] = $post_id->get_error_code();
+						$output['msg'] = $post_id->get_error_message();
 					}else{
-						$output['status'] = 'success';
-						$output['msg'] = sprintf(
-							___('Congratulation! Your post has been published. You can %s or %s.'),
-							'<a href="' . esc_url(get_permalink($post_id)) . '" title="' . esc_attr(get_the_title($post_id)) . '">' . ___('View it now') . '</a>',
-							'<a href="javascript:location.href=location.href;">' . ___('countinue to write a new post') . '</a>'
-						);
-
 						/**
-						 * add point
+						 * set thumbnail and post parent
 						 */
-						if(class_exists('theme_custom_point')){
-							$post_publish_point = theme_custom_point::get_point_value('post-publish');
-							$output['point'] = array(
-								'value' => $post_publish_point,
-								'detail' => ___('Post published'),
-							);
+						$attach_ids = isset($ctb['attach-ids']) && is_array($ctb['attach-ids']) ? array_map('intval',$ctb['attach-ids']) : null;
+						if(!is_null_array($attach_ids)){
+							/** set post thumbnail */
+							set_post_thumbnail($post_id,$thumbnail_id);
+							
+							/** set attachment post parent */
+							foreach($attach_ids as $attach_id){
+								$post = self::get_post($attach_id);
+								if(!$post || $post->post_type !== 'attachment')
+									continue;
+								wp_update_post([
+									'ID' => $attach_id,
+									'post_parent' => $post_id,
+								]);
+							}
 						}
-						die(theme_features::json_format($output));
-					}
+						/**
+						 * pending status
+						 */
+						if($post_status === 'pending'){
+							$output['status'] = 'success';
+							$output['msg'] = ___('Your post submitted successful, it will be published after approve in a while.');
+							die(theme_features::json_format($output));
+						}else{
+							$output['status'] = 'success';
+							$output['msg'] = sprintf(
+								___('Congratulation! Your post has been published. You can %s or %s.'),
+								'<a href="' . esc_url(get_permalink($post_id)) . '" title="' . esc_attr(get_the_title($post_id)) . '">' . ___('View it now') . '</a>',
+								'<a href="javascript:location.href=location.href;">' . ___('countinue to write a new post') . '</a>'
+							);
+
+							/**
+							 * add point
+							 */
+							if(class_exists('theme_custom_point')){
+								$post_publish_point = theme_custom_point::get_point_value('post-publish');
+								$output['point'] = array(
+									'value' => $post_publish_point,
+									'detail' => ___('Post published'),
+								);
+							}
+							die(theme_features::json_format($output));
+						}				}
+
 					
 				}
+				break;
+			/**
+			 * edit
+			 */
+			case 'edit':
+	
 				break;
 		}
 
 		die(theme_features::json_format($output));
+	}
+	public static function get_thumbnail_data($attach_id){
+		$output = [];
+		$output['thumbnail'] = [
+			'url' => 
+			self::wp_get_attachment_image_src($attach_id,'thumbnail')[0],
+			'width' => self::wp_get_attachment_image_src($attach_id,'thumbnail')[1],
+			'height' => self::wp_get_attachment_image_src($attach_id,'thumbnail')[2],
+		];
+		$output['medium'] = [
+			'url' => 
+			self::wp_get_attachment_image_src($attach_id,'medium')[0],
+			'width' => self::wp_get_attachment_image_src($attach_id,'medium')[1],
+			'height' => self::wp_get_attachment_image_src($attach_id,'medium')[2],
+		];
+		$output['large'] = [
+			'url' => 
+			self::wp_get_attachment_image_src($attach_id,'large')[0],
+			'width' => self::wp_get_attachment_image_src($attach_id,'large')[1],
+			'height' => self::wp_get_attachment_image_src($attach_id,'large')[2],
+		];
+		$output['full'] = [
+			'url' => 
+			self::wp_get_attachment_image_src($attach_id,'full')[0],
+			'width' => self::wp_get_attachment_image_src($attach_id,'full')[1],
+			'height' => self::wp_get_attachment_image_src($attach_id,'full')[2],
+		];
+		
+		$output['attach-id'] = $attach_id;
+	}
+	public static function is_edit(){
+		return isset($_GET['post']) &&  is_numeric($_GET['post']);
+	}
+	public static function get_post($post_id){
+		static $caches = [];
+		if(!isset($caches[$post_id]))
+			$caches[$post_id] = get_post($post_id);
+
+		return $caches[$post_id];
 	}
 	public static function frontend_seajs_alias($alias){
 		if(self::is_page()){
@@ -390,6 +499,7 @@ class theme_custom_contribution{
 				M00013 : '<?= ___('Small size');?>',
 				E00001 : '<?= ___('Sorry, server error please try again later.');?>'
 			};
+			m.config.edit = <?= self::is_edit();?>;
 			m.init();
 		});
 		<?php

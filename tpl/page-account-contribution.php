@@ -28,8 +28,8 @@ if(class_exists('theme_custom_contribution')){
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">
-			<i class="fa fa-<?= theme_custom_contribution::get_tabs('contribution')['icon'];?>"></i> 
-			<?= theme_custom_contribution::get_tabs('contribution')['text'];?>
+			<i class="fa fa-<?= theme_custom_contribution::get_tabs('post')['icon'];?>"></i> 
+			<?= theme_custom_contribution::get_tabs('post')['text'];?>
 		</h3>
 	</div>
 	<div class="panel-body">
