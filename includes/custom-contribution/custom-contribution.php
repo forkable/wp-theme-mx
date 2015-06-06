@@ -142,9 +142,9 @@ class theme_custom_contribution{
 			
 		return $cache;
 	}
-	private static function wp_get_attachment_image_src(){
+	private static function wp_get_attachment_image_src($attachment_id, $size = 'thumbnail'){
 		static $caches = [];
-		$cache_id = md5(serialize(func_get_args()));
+		$cache_id = $attachment_id . $size;
 		if(!isset($caches[$cache_id]))
 			$caches[$cache_id] = call_user_func_array('wp_get_attachment_image_src',func_get_args());
 
@@ -190,32 +190,8 @@ class theme_custom_contribution{
 					$output['msg'] = $attach_id->get_error_message();
 					die(theme_features::json_format($output));
 				}else{
+					$output = self::get_thumbnail_data($attach_id,$output);
 					$output['status'] = 'success';
-					$output['thumbnail'] = [
-						'url' => 
-						self::wp_get_attachment_image_src($attach_id,'thumbnail')[0],
-						'width' => self::wp_get_attachment_image_src($attach_id,'thumbnail')[1],
-						'height' => self::wp_get_attachment_image_src($attach_id,'thumbnail')[2],
-					];
-					$output['medium'] = [
-						'url' => 
-						self::wp_get_attachment_image_src($attach_id,'medium')[0],
-						'width' => self::wp_get_attachment_image_src($attach_id,'medium')[1],
-						'height' => self::wp_get_attachment_image_src($attach_id,'medium')[2],
-					];
-					$output['large'] = [
-						'url' => 
-						self::wp_get_attachment_image_src($attach_id,'large')[0],
-						'width' => self::wp_get_attachment_image_src($attach_id,'large')[1],
-						'height' => self::wp_get_attachment_image_src($attach_id,'large')[2],
-					];
-					$output['full'] = [
-						'url' => 
-						self::wp_get_attachment_image_src($attach_id,'full')[0],
-						'width' => self::wp_get_attachment_image_src($attach_id,'full')[1],
-						'height' => self::wp_get_attachment_image_src($attach_id,'full')[2],
-					];
-					
 					$output['attach-id'] = $attach_id;
 					$output['msg'] = ___('Upload success.');
 					die(theme_features::json_format($output));
@@ -431,37 +407,56 @@ class theme_custom_contribution{
 
 		die(theme_features::json_format($output));
 	}
-	public static function get_thumbnail_data($attach_id){
-		$output = [];
-		$output['thumbnail'] = [
-			'url' => 
-			self::wp_get_attachment_image_src($attach_id,'thumbnail')[0],
-			'width' => self::wp_get_attachment_image_src($attach_id,'thumbnail')[1],
-			'height' => self::wp_get_attachment_image_src($attach_id,'thumbnail')[2],
-		];
-		$output['medium'] = [
-			'url' => 
-			self::wp_get_attachment_image_src($attach_id,'medium')[0],
-			'width' => self::wp_get_attachment_image_src($attach_id,'medium')[1],
-			'height' => self::wp_get_attachment_image_src($attach_id,'medium')[2],
-		];
-		$output['large'] = [
-			'url' => 
-			self::wp_get_attachment_image_src($attach_id,'large')[0],
-			'width' => self::wp_get_attachment_image_src($attach_id,'large')[1],
-			'height' => self::wp_get_attachment_image_src($attach_id,'large')[2],
-		];
-		$output['full'] = [
-			'url' => 
-			self::wp_get_attachment_image_src($attach_id,'full')[0],
-			'width' => self::wp_get_attachment_image_src($attach_id,'full')[1],
-			'height' => self::wp_get_attachment_image_src($attach_id,'full')[2],
-		];
-		
-		$output['attach-id'] = $attach_id;
+	/**
+	 * Get thumbnail data
+	 *
+	 * @param int $attach_id
+	 * @param array $output
+	 * @return array
+	 * @version 1.0.0
+	 */
+	public static function get_thumbnail_data($attach_id, array $output = []){
+		foreach([ 'thumbnail' ,'medium','large','full' ] as $size){
+			$output[$size] = [
+				'url' => 
+				self::wp_get_attachment_image_src($attach_id,$size)[0],
+				'width' => self::wp_get_attachment_image_src($attach_id,$size)[1],
+				'height' => self::wp_get_attachment_image_src($attach_id,$size)[2],
+			];
+		}
+		return $output;
 	}
+	public static function wp_check_post_lock( $post_id ) {
+	    if(function_exists('wp_check_post_lock'))
+	    	return wp_check_post_lock($post_id);
+ 
+        if ( !$lock = get_post_meta($post_id, '_edit_lock', true ) )
+        return false;
+ 
+	    $lock = explode( ':', $lock );
+	    $time = $lock[0];
+	    $user = isset( $lock[1] ) ? $lock[1] : get_post_meta( $post_id, '_edit_last', true );
+	 
+	    /** This filter is documented in wp-admin/includes/ajax-actions.php */
+	    $time_window = apply_filters( 'wp_check_post_lock_window', 150 );
+	 
+	    if ( $time && $time > time() - $time_window && $user != get_current_user_id() )
+	        return $user;
+	    return false;
+    }
 	public static function is_edit(){
-		return isset($_GET['post']) &&  is_numeric($_GET['post']);
+		return isset($_GET['post']) && is_numeric($_GET['post']) ? (int)$_GET['post'] : false;
+	}
+	public static function get_post_attachs($post_id){
+		$post = self::get_post($post_id);
+		if(!$post)
+			return false;
+
+		return get_children([
+			'post_parent' => $post_id,
+			'post_mime_type' => 'image',
+			'posts_per_page' => -1,
+		]);
 	}
 	public static function get_post($post_id){
 		static $caches = [];
@@ -499,7 +494,21 @@ class theme_custom_contribution{
 				M00013 : '<?= ___('Small size');?>',
 				E00001 : '<?= ___('Sorry, server error please try again later.');?>'
 			};
-			m.config.edit = <?= self::is_edit();?>;
+			<?php
+			if(self::is_edit()){
+				$thumbnail_id = get_post_thumbnail_id(self::is_edit());
+				$attachs = [];
+				foreach(self::get_post_attachs(self::is_edit()) as $v){
+					$attachs[$v->ID] = self::get_thumbnail_data($v->ID);
+				}
+				asort($attachs);
+				?>
+				m.config.edit = 1;
+				m.config.thumbnail_id = <?= $thumbnail_id;?>;
+				m.config.attachs = <?= json_encode($attachs);?>;
+				<?php
+			}
+			?>
 			m.init();
 		});
 		<?php

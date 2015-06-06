@@ -22,7 +22,7 @@ function post_form($post_id = null){
 		 * check post exists
 		 */
 		global $post;
-		$post = self::get_post($post_id);
+		$post = theme_custom_contribution::get_post($post_id);
 		if(!$post){
 			?>
 			<div class="page-tip"><?= status_tip('error',___('Sorry, the post does not exist.'));?></div>
@@ -43,12 +43,12 @@ function post_form($post_id = null){
 		/**
 		 * check edit lock status
 		 */
-		$lock_user_id = wp_check_post_lock($post_id);
+		$lock_user_id = theme_custom_contribution::wp_check_post_lock($post_id);
 		if($lock_user_id){
 			?>
-			<div class="page-tip"><?= status_tip('error',sprintf(___('Sorry, you can not edit this post now, because editor is editing. Please wait a minute...'));?></div>
+			<div class="page-tip"><?= status_tip('error',___('Sorry, you can not edit this post now, because editor is editing. Please wait a minute...'));?></div>
 			<?php
-			return false
+			return false;
 		}
 		/**
 		 * check storage
@@ -216,25 +216,6 @@ function post_form($post_id = null){
 			</div>
 		</div>
 		<!-- tags -->
-		<?php
-		$tags_args = [
-			'orderby' => 'count',
-			'order' => 'desc',
-			'hide_empty' => 0,
-			'number' => theme_custom_contribution::get_options('tags-number') ? theme_custom_contribution::get_options('tags-number') : 16,
-		];
-		$tags_ids = theme_custom_contribution::get_options('tags');
-		if(empty($tag_ids)){
-			$tags = get_tags($tags_args);
-		}else{
-			$tags = get_tags([
-				'include' => implode($tags_ids),
-				'orderby' => 'count',
-				'order' => 'desc',
-				'hide_empty' => 0,
-			]);
-		}
-		?>
 		<div class="form-group">
 			<div class="col-sm-2 control-label">
 				<i class="fa fa-tags"></i>
@@ -243,7 +224,28 @@ function post_form($post_id = null){
 			<div class="col-sm-10">
 				<div class="checkbox-select">
 					<?php
+					$tags_args = [
+						'orderby' => 'count',
+						'order' => 'desc',
+						'hide_empty' => 0,
+						'number' => theme_custom_contribution::get_options('tags-number') ? theme_custom_contribution::get_options('tags-number') : 16,
+					];
+					$tags_ids = theme_custom_contribution::get_options('tags');
+					if(empty($tag_ids)){
+						$tags = get_tags($tags_args);
+					}else{
+						$tags = get_tags([
+							'include' => implode($tags_ids),
+							'orderby' => 'count',
+							'order' => 'desc',
+							'hide_empty' => 0,
+						]);
+					}
+					/**
+					 * edit
+					 */
 					if($edit){
+						$exist_tags = [];
 						$post_tags = get_the_tags($post->ID);
 						if($post_tags){
 							foreach($post_tags as $v){
@@ -253,6 +255,13 @@ function post_form($post_id = null){
 						}
 					}
 					foreach($tags as $tag){
+						if($edit){
+							if(isset($exist_tags[$tag->term_id])){
+								continue;
+							}else{
+								$exist_tags[$tag->term_id] = 1;
+							}
+						}
 						$tag_name = esc_html($tag->name);
 						?>
 						<label class="ctb-tag" for="ctb-tags-<?= $tag->term_id;?>">
