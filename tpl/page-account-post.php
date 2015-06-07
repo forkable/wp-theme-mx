@@ -23,7 +23,10 @@ function post_form($post_id = null){
 		 */
 		global $post;
 		$post = theme_custom_contribution::get_post($post_id);
-		if(!$post){
+		if(!$post || 
+			!theme_custom_contribution::in_edit_post_status($post->post_status) ||
+			$post->post_type !== 'post'
+		){
 			?>
 			<div class="page-tip"><?= status_tip('error',___('Sorry, the post does not exist.'));?></div>
 			<?php

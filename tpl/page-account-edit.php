@@ -38,7 +38,7 @@
 						<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>"/>
 					</td>
 					<td class="edit-post-title">
-						<p><strong><a href="<?php the_permalink();?>" title="<?= ___('Click to edit');?>"><?= $post_title;?></a></strong></p>
+						<h4><strong><a href="<?php the_permalink();?>" title="<?= ___('Click to edit');?>"><?= $post_title;?></a></strong></h4>
 						<div class="edit-post-action btn-group btn-group-xs">
 							<a href="<?= esc_url(get_edit_post_link($post->ID));?>" class="btn btn-primary edit-post-action-edit">
 								<i class="fa fa-pencil-square-o"></i> 

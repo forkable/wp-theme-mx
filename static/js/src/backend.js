@@ -19,7 +19,6 @@ define(function(require, exports, module){
 	 * 
 	 * 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	exports.select_text = {

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-05 20:31+0800\n"
-"PO-Revision-Date: 2015-06-05 20:31+0800\n"
+"POT-Creation-Date: 2015-06-07 20:44+0800\n"
+"PO-Revision-Date: 2015-06-07 20:46+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -36,7 +36,7 @@ msgstr "添加评论"
 #: includes/clean-up/clean-up.php:227
 #: includes/comment-ajax/comment-ajax.php:468
 #: includes/custom-collection/custom-collection.php:571
-#: includes/custom-contribution/custom-contribution.php:378
+#: includes/custom-contribution/custom-contribution.php:500
 #: includes/custom-follow/custom-follow.php:140
 #: includes/custom-page-cats/custom-page-cats.php:201
 #: includes/custom-page-rank/custom-page-rank.php:490
@@ -329,7 +329,7 @@ msgid "Author avatar"
 msgstr "作者头像"
 
 #: functions.php:622 tpl/page-account-contribution.php:144
-#: tpl/page-account-post.php:172
+#: tpl/page-account-post.php:192
 msgid "Category"
 msgstr "分类"
 
@@ -734,6 +734,9 @@ msgstr "抱歉，您必须登陆后才能发表评论。"
 
 #: includes/_quick-comment/quick-comment.php:256
 #: includes/comment-ajax/comment-ajax.php:393
+#: includes/custom-contribution/custom-contribution.php:219
+#: includes/custom-contribution/custom-contribution.php:240
+#: tpl/page-account-post.php:31
 msgid "Sorry, the post does not exist."
 msgstr "抱歉，文章不存在。"
 
@@ -1116,7 +1119,7 @@ msgid "Invaild file type."
 msgstr "无效的文件类型。"
 
 #: includes/custom-collection/custom-collection.php:292
-#: includes/custom-contribution/custom-contribution.php:220
+#: includes/custom-contribution/custom-contribution.php:196
 #: includes/custom-slidebox/custom-slidebox.php:128
 #: includes/favicon/favicon.php:147
 msgid "Upload success."
@@ -1131,12 +1134,12 @@ msgid "Sorry, posts can not be empty."
 msgstr "抱歉，文章不能为空。"
 
 #: includes/custom-collection/custom-collection.php:324
-#: includes/custom-contribution/custom-contribution.php:239
+#: includes/custom-contribution/custom-contribution.php:257
 msgid "Please write the post title."
 msgstr "请填写文章标题。"
 
 #: includes/custom-collection/custom-collection.php:335
-#: includes/custom-contribution/custom-contribution.php:259
+#: includes/custom-contribution/custom-contribution.php:277
 msgid "Please set an image as post thumbnail"
 msgstr "请选择一张图片作为封面"
 
@@ -1156,13 +1159,13 @@ msgid "write a new collection"
 msgstr "再来一发"
 
 #: includes/custom-collection/custom-collection.php:401
-#: includes/custom-contribution/custom-contribution.php:340
+#: includes/custom-contribution/custom-contribution.php:394
 #, php-format
 msgid "Congratulation! Your post has been published. You can %s or %s."
 msgstr "恭喜！您的文章已发表成功。现在您可以 %s 或 %s。"
 
 #: includes/custom-collection/custom-collection.php:402
-#: includes/custom-contribution/custom-contribution.php:341
+#: includes/custom-contribution/custom-contribution.php:395
 msgid "View it now"
 msgstr "立即查看它"
 
@@ -1171,7 +1174,7 @@ msgid "countinue to write a new collection"
 msgstr "继续写一篇新专刊"
 
 #: includes/custom-collection/custom-collection.php:413
-#: includes/custom-contribution/custom-contribution.php:352
+#: includes/custom-contribution/custom-contribution.php:406
 msgid "Post published"
 msgstr "文章发表"
 
@@ -1264,81 +1267,99 @@ msgstr ""
 "代码。"
 
 #: includes/custom-contribution/custom-contribution.php:127
+msgid "Edit post"
+msgstr "编辑文章"
+
+#: includes/custom-contribution/custom-contribution.php:127
 msgid "Post contribution"
 msgstr "文章投稿"
 
 #: includes/custom-contribution/custom-contribution.php:229
+#: tpl/page-account-post.php:41
+msgid "Sorry, you are not the post author, can not edit it."
+msgstr "抱歉，你不是该作品的作者，无法编辑。"
+
+#: includes/custom-contribution/custom-contribution.php:247
 msgid "Invaild contribution param."
 msgstr "无效的投稿参数。"
 
-#: includes/custom-contribution/custom-contribution.php:249
+#: includes/custom-contribution/custom-contribution.php:267
 msgid "Please write the post content."
 msgstr "文章内容必须填写哦"
 
-#: includes/custom-contribution/custom-contribution.php:269
+#: includes/custom-contribution/custom-contribution.php:287
 msgid "Please select a category."
 msgstr "请选择一个类别。"
 
-#: includes/custom-contribution/custom-contribution.php:335
+#: includes/custom-contribution/custom-contribution.php:389
 msgid ""
 "Your post submitted successful, it will be published after approve in a "
 "while."
 msgstr "你的文章提交成功，一会儿审核通过后将会发表，感谢您的参与！"
 
-#: includes/custom-contribution/custom-contribution.php:342
+#: includes/custom-contribution/custom-contribution.php:396
 msgid "countinue to write a new post"
 msgstr "继续写一篇"
 
-#: includes/custom-contribution/custom-contribution.php:379
+#: includes/custom-contribution/custom-contribution.php:413
+#: includes/custom-contribution/custom-contribution.php:415
+msgid "Your post has updated successful."
+msgstr "你的作品已成功更新。"
+
+#: includes/custom-contribution/custom-contribution.php:413
+msgid "Views it now"
+msgstr "立即查看它"
+
+#: includes/custom-contribution/custom-contribution.php:501
 msgid "Uploading {0}/{1}, please wait..."
 msgstr "正在上传 {0}/{1}，请稍候…"
 
-#: includes/custom-contribution/custom-contribution.php:380
+#: includes/custom-contribution/custom-contribution.php:502
 msgid "Click to delete"
 msgstr "点击删除此张图片"
 
-#: includes/custom-contribution/custom-contribution.php:381
+#: includes/custom-contribution/custom-contribution.php:503
 msgid "{0} files have been uploaded."
 msgstr "{0} 个文件上传成功，嘻嘻…"
 
-#: includes/custom-contribution/custom-contribution.php:382
-#: tpl/page-account-contribution.php:215 tpl/page-account-post.php:276
+#: includes/custom-contribution/custom-contribution.php:504
+#: tpl/page-account-contribution.php:215 tpl/page-account-post.php:324
 msgid "Source"
 msgstr "来源"
 
-#: includes/custom-contribution/custom-contribution.php:383
+#: includes/custom-contribution/custom-contribution.php:505
 msgid "Click to view source"
 msgstr "点击查看原图"
 
-#: includes/custom-contribution/custom-contribution.php:384
+#: includes/custom-contribution/custom-contribution.php:506
 msgid "Set as cover."
 msgstr "设为封面"
 
-#: includes/custom-contribution/custom-contribution.php:385
+#: includes/custom-contribution/custom-contribution.php:507
 msgid "Optional: some description"
 msgstr "[在此处写下一些描述]"
 
-#: includes/custom-contribution/custom-contribution.php:386
+#: includes/custom-contribution/custom-contribution.php:508
 msgid "Insert"
 msgstr "插入"
 
-#: includes/custom-contribution/custom-contribution.php:387
+#: includes/custom-contribution/custom-contribution.php:509
 msgid "Preview"
 msgstr "预览图"
 
-#: includes/custom-contribution/custom-contribution.php:388
+#: includes/custom-contribution/custom-contribution.php:510
 msgid "Large size"
 msgstr "大尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:389
+#: includes/custom-contribution/custom-contribution.php:511
 msgid "Medium size"
 msgstr "中尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:390
+#: includes/custom-contribution/custom-contribution.php:512
 msgid "Small size"
 msgstr "小尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:391
+#: includes/custom-contribution/custom-contribution.php:513
 #: includes/custom-follow/custom-follow.php:141
 #: includes/custom-sign/custom-sign.php:253
 #: includes/custom-user-settings/custom-user-settings.php:475
@@ -1356,7 +1377,7 @@ msgstr "我最近的积分动态"
 
 #: includes/custom-dashboard/dashboards.php:36
 #: includes/widget-rank/widget-rank.php:87
-#: includes/widget-tags/widget-tags.php:87 tpl/page-account-edit.php:56
+#: includes/widget-tags/widget-tags.php:87 tpl/page-account-edit.php:91
 #: tpl/page-rank-popular.php:22
 msgid "No data yet."
 msgstr "此类别暂无资料"
@@ -1410,7 +1431,7 @@ msgstr "我最近的文章"
 msgid "No posts yet"
 msgstr "还没有文章"
 
-#: includes/custom-edit/custom-edit.php:70
+#: includes/custom-edit/custom-edit.php:72
 msgid "My posts"
 msgstr "我的作品"
 
@@ -1455,7 +1476,7 @@ msgstr "盒子链接"
 msgid "Box link (include http://)"
 msgstr "盒子地址（包括 http://）"
 
-#: includes/custom-homebox/custom-homebox.php:163 tpl/page-account-edit.php:17
+#: includes/custom-homebox/custom-homebox.php:163 tpl/page-account-edit.php:19
 msgid "Categories"
 msgstr "分类"
 
@@ -1947,12 +1968,12 @@ msgid "Toggle Dropdown"
 msgstr "下拉菜单"
 
 #: includes/custom-post-source/custom-post-source.php:21
-#: tpl/page-account-contribution.php:220 tpl/page-account-post.php:288
+#: tpl/page-account-contribution.php:220 tpl/page-account-post.php:336
 msgid "Original"
 msgstr "原创"
 
 #: includes/custom-post-source/custom-post-source.php:24
-#: tpl/page-account-contribution.php:224 tpl/page-account-post.php:299
+#: tpl/page-account-contribution.php:224 tpl/page-account-post.php:347
 msgid "Reprint"
 msgstr "转载"
 
@@ -2013,7 +2034,7 @@ msgstr "文件存储"
 
 #: includes/custom-post-storage/custom-post-storage.php:113
 #: tpl/page-account-contribution.php:115 tpl/page-account-contribution.php:117
-#: tpl/page-account-post.php:131 tpl/page-account-post.php:133
+#: tpl/page-account-post.php:152 tpl/page-account-post.php:154
 #, php-format
 msgid "%s url"
 msgstr "%s url"
@@ -2021,7 +2042,7 @@ msgstr "%s url"
 #: includes/custom-post-storage/custom-post-storage.php:121
 #: includes/custom-post-storage/custom-post-storage.php:222
 #: tpl/page-account-contribution.php:129 tpl/page-account-contribution.php:131
-#: tpl/page-account-post.php:152 tpl/page-account-post.php:154
+#: tpl/page-account-post.php:172 tpl/page-account-post.php:174
 #, php-format
 msgid "%s password"
 msgstr "%s 密码"
@@ -2134,7 +2155,7 @@ msgstr "图片地址"
 
 #: includes/custom-slidebox/custom-slidebox.php:179
 #: includes/favicon/favicon.php:171 tpl/page-account-contribution.php:75
-#: tpl/page-account-post.php:91
+#: tpl/page-account-post.php:112
 msgid "Upload image"
 msgstr "上传图片"
 
@@ -3368,7 +3389,7 @@ msgid "More &raquo;"
 msgstr "更多 &raquo;"
 
 #: includes/widget-category-post/widget-category-post.php:115
-#: tpl/page-account-edit.php:16
+#: tpl/page-account-edit.php:18
 msgid "Title"
 msgstr "标题"
 
@@ -3440,7 +3461,7 @@ msgstr "文章数量（必填）"
 msgid "Categories: "
 msgstr "分类目录："
 
-#: includes/widget-rank/widget-rank.php:139 tpl/page-account-edit.php:19
+#: includes/widget-rank/widget-rank.php:139 tpl/page-account-edit.php:21
 msgid "Date"
 msgstr "日期"
 
@@ -3670,8 +3691,8 @@ msgid "My points"
 msgstr "我的积分"
 
 #: tpl/header-topbar-tools.php:33
-msgid "Contribution"
-msgstr "投稿"
+msgid "New post"
+msgstr "新建作品"
 
 #: tpl/header-topbar-tools.php:45
 msgid "Notification"
@@ -3752,7 +3773,7 @@ msgid "Cover"
 msgstr "封面"
 
 #: tpl/page-account-collection.php:84 tpl/page-account-contribution.php:81
-#: tpl/page-account-post.php:97
+#: tpl/page-account-post.php:118
 msgid "Select or Drag images"
 msgstr "选择或拖放图片"
 
@@ -3774,76 +3795,96 @@ msgid "Add new post"
 msgstr "添加新文章"
 
 #: tpl/page-account-collection.php:137 tpl/page-account-contribution.php:163
-#: tpl/page-account-post.php:205
+#: tpl/page-account-post.php:225
 msgid "Pop. tags"
 msgstr "热门标签"
 
 #: tpl/page-account-collection.php:166 tpl/page-account-contribution.php:192
-#: tpl/page-account-post.php:245
+#: tpl/page-account-post.php:293
 msgid "Custom tags"
 msgstr "自定义标签"
 
 #: tpl/page-account-collection.php:175 tpl/page-account-contribution.php:201
-#: tpl/page-account-post.php:254
+#: tpl/page-account-post.php:302
 #, php-format
 msgid "tag %d"
 msgstr "标签 %d"
 
 #: tpl/page-account-collection.php:190 tpl/page-account-contribution.php:252
-#: tpl/page-account-post.php:342
+#: tpl/page-account-post.php:390
 msgid "Sending, please wait..."
 msgstr "数据发送中，请稍候…"
 
 #: tpl/page-account-collection.php:192 tpl/page-account-contribution.php:254
-#: tpl/page-account-post.php:344
+#: tpl/page-account-post.php:392
 msgid "Submit"
 msgstr "提交"
 
-#: tpl/page-account-contribution.php:40 tpl/page-account-post.php:51
+#: tpl/page-account-contribution.php:40 tpl/page-account-post.php:72
 msgid "Post title"
 msgstr "文章标题"
 
-#: tpl/page-account-contribution.php:48 tpl/page-account-post.php:59
+#: tpl/page-account-contribution.php:48 tpl/page-account-post.php:80
 msgid "Post title (require)"
 msgstr "文章标题（必填）"
 
-#: tpl/page-account-contribution.php:49 tpl/page-account-post.php:60
+#: tpl/page-account-contribution.php:49 tpl/page-account-post.php:81
 msgid "Post title must to write"
 msgstr "文章标题必须填写哦"
 
-#: tpl/page-account-contribution.php:58 tpl/page-account-post.php:70
+#: tpl/page-account-contribution.php:58 tpl/page-account-post.php:91
 msgid "Post content"
 msgstr "文章内容"
 
-#: tpl/page-account-contribution.php:102 tpl/page-account-post.php:118
+#: tpl/page-account-contribution.php:102 tpl/page-account-post.php:139
 msgid "Storage link"
 msgstr "网盘链接"
 
-#: tpl/page-account-contribution.php:152 tpl/page-account-post.php:194
+#: tpl/page-account-contribution.php:152 tpl/page-account-post.php:214
 msgid "Select a category"
 msgstr "选择一个分类"
 
-#: tpl/page-account-contribution.php:232 tpl/page-account-post.php:312
-#: tpl/page-account-post.php:313
+#: tpl/page-account-contribution.php:232 tpl/page-account-post.php:360
+#: tpl/page-account-post.php:361
 msgid "The source of work URL, includes http://"
 msgstr "作品的来源地址，包括 http://"
 
-#: tpl/page-account-contribution.php:240 tpl/page-account-post.php:328
-#: tpl/page-account-post.php:329
+#: tpl/page-account-contribution.php:240 tpl/page-account-post.php:376
+#: tpl/page-account-post.php:377
 msgid "Author"
 msgstr "作者"
 
-#: tpl/page-account-edit.php:18
+#: tpl/page-account-edit.php:17
+msgid "Thumbnail"
+msgstr "封面图"
+
+#: tpl/page-account-edit.php:20
 msgid "Tags"
 msgstr "Tag 标签"
 
-#: tpl/page-account-edit.php:29
+#: tpl/page-account-edit.php:41
 msgid "Click to edit"
-msgstr ""
+msgstr "点击编辑"
 
-#: tpl/page-account-edit.php:34
+#: tpl/page-account-edit.php:45
+msgid "Edit"
+msgstr "编辑"
+
+#: tpl/page-account-edit.php:49
+msgid "View"
+msgstr "查看"
+
+#: tpl/page-account-edit.php:56
 msgid "Views more posts in the category"
 msgstr "查看该目录的更多文章"
+
+#: tpl/page-account-edit.php:70
+msgid "Published"
+msgstr "已发布"
+
+#: tpl/page-account-edit.php:73
+msgid "Pending"
+msgstr "待审核"
 
 #: tpl/page-account-history.php:26
 msgid "Your have not any history yet."
@@ -3901,11 +3942,13 @@ msgstr "重新输入新密码"
 msgid "Update password"
 msgstr "更新密码"
 
-#: tpl/page-account-post.php:31
-msgid "Sorry, the post do not exist or you are not the post author."
-msgstr "抱歉，文章不存在或你不是该文章的作者。"
+#: tpl/page-account-post.php:52
+msgid ""
+"Sorry, you can not edit this post now, because editor is editing. Please "
+"wait a minute..."
+msgstr "对不起，你现在不能编辑这篇文章，因为编辑正在编辑它。请稍候一会……"
 
-#: tpl/page-account-post.php:344
+#: tpl/page-account-post.php:392
 msgid "Update"
 msgstr "更新"
 
@@ -3954,6 +3997,12 @@ msgstr "向每个人介绍自己"
 #: tpl/page-account-settings.php:122
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "Contribution"
+#~ msgstr "投稿"
+
+#~ msgid "Sorry, the post do not exist or you are not the post author."
+#~ msgstr "抱歉，文章不存在或你不是该文章的作者。"
 
 #~ msgid "Post link"
 #~ msgstr "文章链接"
@@ -4282,9 +4331,6 @@ msgstr "保存我的设置"
 #~ msgid "This article is reprint work. Source: %s, author: %s."
 #~ msgstr "本作品为搬运，来源：%s，作为：%s。"
 
-#~ msgid "Edit post"
-#~ msgstr "编辑文章"
-
 #~ msgid "Post Copyright Settings"
 #~ msgstr "文章版权设置"
 
@@ -4505,9 +4551,6 @@ msgstr "保存我的设置"
 
 #~ msgid "Member"
 #~ msgstr "会员"
-
-#~ msgid "Edit"
-#~ msgstr "编辑"
 
 #~ msgid "Invalid nickname."
 #~ msgstr "无效的昵称。"

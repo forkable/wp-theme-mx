@@ -5,7 +5,6 @@ define(function(require, exports, module){
 	 * 
 	 * 
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	module.exports = {

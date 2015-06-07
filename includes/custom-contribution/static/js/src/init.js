@@ -11,6 +11,10 @@ define(function(require, exports, module){
 		file_tip_id : 		'ctb-file-tip',
 		files_id : 			'ctb-files',
 
+		edit : false,
+		thumbnail_id : false,
+		attachs : false,
+		
 		default_size : 'large',
 		process_url : '',
 		
@@ -36,7 +40,6 @@ define(function(require, exports, module){
 	exports.init = function(){
 		tools.ready(function(){
 			exports.bind();
-			toggle_reprint_group();
 		});
 	}
 	function I(e){
@@ -53,11 +56,16 @@ define(function(require, exports, module){
 		cache.$file_progress_bar = 	I('ctb-file-progress-bar');
 		cache.$file_progress_tx = 	I('ctb-file-progress-tx');
 
-		if(!cache.$fm) return false;
-		upload();
-		//checkbox_select(cache.$fm);
-		fm_validate(cache.$fm);
+		if(!cache.$fm) 
+			return false;
+			
+		load_thumbnails();
 		
+		upload();
+
+		fm_validate(cache.$fm);	
+		
+		toggle_reprint_group();
 		
 	}
 	/**
@@ -65,7 +73,6 @@ define(function(require, exports, module){
 	 * 
 	 * @return 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 */
 	function send_to_editor(h) {
 		var ed, mce = typeof(tinymce) != 'undefined', qt = typeof(QTags) != 'undefined';
@@ -109,26 +116,12 @@ define(function(require, exports, module){
 
 		try{tb_remove();}catch(e){};
 	}
-	function custom_tag(){
-		this.added_container_id = 'custom-tag-added-container';
-		this.add_container_id = 'custom-tag-add-container';
-		this.add_new_id = 'custom-tag-new';
-		this.add_btn_id = 'custom-tag-add-btn';
-
-
-		function get_tpl(tx){
-			var $tpl = document.createElement('span'),
-				$remove = document.createElement('span');
-			$tpl.textContent = tx;
-			$tpl.setAttribute('class','label label-success');
+	function load_thumbnails(){
+		if( !config.edit || !config.attachs )
+			return false;
 			
-			$remove.classList.add('remove');
-			$remove.innerHTML = '<i class="fa fa-minus-circle"></i>';
-			$remove.addEventListener('click', function (e) {
-				$tpl.parentNode.removeChild($tpl);
-			}, false);
-			
-			return $tpl;
+		for(var i in config.attachs){
+			append_tpl(config.attachs[i]);
 		}
 	}
 	/**
@@ -138,227 +131,224 @@ define(function(require, exports, module){
 	function upload(){
 		cache.$file.addEventListener('change',file_select,false);
 		cache.$file.addEventListener('drop',file_select,false);
-		
-		/**
-		 * file_select
-		 */
-		function file_select(e){
-			e.stopPropagation();
-			e.preventDefault();
-			cache.files = e.target.files.length ? e.target.files : e.originalEvent.dataTransfer.files;
-			cache.file_count = cache.files.length;
-			cache.file = cache.files[0];
-			cache.file_index = 0;
-			file_upload(cache.files[0]);
-		}
-		/**
-		 * file_upload
-		 */
-		function file_upload(file){
-			var	reader = new FileReader();
-			reader.onload = function (e) {
-				submission(file);
-			};
-			reader.readAsDataURL(file);
-		}
-		/**
-		 * submission
-		 */
-		function submission(file){
-			beforesend_callback();
-			var fd = new FormData(),
-				xhr = new XMLHttpRequest();
-
-			fd.append('type','upload');
-			fd.append('theme-nonce',js_request['theme-nonce']);
-			fd.append('img',file);
-			
-			xhr.open('post',config.process_url);
-			xhr.onload = function(){
-				if (xhr.status >= 200 && xhr.status < 400) {
-					complete_callback(xhr.responseText);
-				}else{
-					error_callback(xhr.responseText);
-				}
-				xhr = null;
-			};
-			
-			
-			xhr.upload.onprogress = function(e){
-				if (e.lengthComputable) {
-					var percent = e.loaded / e.total * 100;		
-					cache.$file_progress_bar.style.width = percent + '%';
-				}
-			};
-			xhr.send(fd);
-		}
-		function beforesend_callback(){
-			var tx = config.lang.M00002.format(cache.file_index + 1,cache.file_count);
-			cache.$file_progress_bar.style.width = '10%';
-			uploading_tip('loading',tx);
-		}
-		function error_callback(msg){
-			msg = msg ? msg : config.lang.E00001;
-			uploading_tip('error',msg);
-		}
-		/** 
-		 * upload_started
-		 */
-		function upload_started(i,file,count){
-			var t = config.lang.M00002.format(i,count);
-			uploading_tip('loading',t);
-		}
-		function complete_callback(data){
-			try{data = JSON.parse(data)}catch(error){}
-			cache.file_index++;
-			/** 
-			 * success
-			 */
-			if(data && data.status === 'success'){
-				var args = {
-						thumbnail : data.thumbnail,
-						medium : data.medium,
-						large : data.large,
-						full : data.full,
-						attach_id : data['attach-id']
-					},
-					$tpl = get_tpl(args);
-				cache.$files.style.display = 'block';
-				cache.$files.appendChild($tpl);
-				$tpl.style.display = 'block';
-				/** 
-				 * check all thing has finished, if finished
-				 */
-				if(cache.file_count === cache.file_index){
-					var tx = config.lang.M00004.format(cache.file_index,cache.file_count);
-					uploading_tip('success',tx);
-					cache.$file.value = '';
-				/**
-				 * upload next file
-				 */
-				}else{
-					file_upload(cache.files[cache.file_index]);
-				}
-			/** 
-			 * no success
-			 */
-			}else{
-				/** 
-				 * notify current file is error
-				 */
-				if(cache.file_index > 0){
-					//error_file_tip(cache.files[cache.file_index - 1]);
-				}
-				/** 
-				 * if have next file, continue to upload next file
-				 */
-				if(cache.file_count > cache.file_index){
-					file_upload(cache.files[cache.file_index]);
-				/** 
-				 * have not next file, all complete
-				 */
-				}else{
-					cache.is_uploading = false;
-					if(data && data.status === 'error'){
-						error_callback(data.msg);
-					}else{
-						error_callback(config.lang.E00001);
-						console.error(data);
-					}
-					/** 
-					 * reset file input
-					 */
-					cache.$file.value = '';
-
-				}
-			}
-		}
-		/**
-		 * args = {
-			original,
-			thumbnail,
-			mi
-			attach_id
-		 }
-		 */
-		function get_tpl(args){
-			var $tpl = document.createElement('div'),
-				M00010 = I('ctb-title').value == '' ? config.lang.M00010 : I('ctb-title').value,
-				content = '<a class="img-link" href="' + args.full.url + '" target="_blank" title="' + config.lang.M00006 + '">' + 
-						'<img src="' + args.thumbnail.url + '" alt="' + M00010 +'" >' +
-					'</a>' +
-					'<div class="btn-group btn-block">' +
-						'<a href="javascript:;" class="btn btn-primary col-xs-10 ctb-insert-btn" id="ctb-insert-' + args.attach_id + '" data-size="medium"><i class="fa fa-plug"></i> ' + config.lang.M00009 + '</a>' +
-						'<span class="btn btn-primary dropdown-toggle col-xs-2" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only"></span></span><ul class="dropdown-menu" role="menu"><li><a href="javascript:;" class="ctb-insert-btn" data-size="large">' + config.lang.M00011 + '</a></li>' +
-					'</div>' +
-					'<input type="radio" name="ctb[thumbnail-id]" id="img-thumbnail-' + args.attach_id + '" value="' + args.attach_id + '" hidden class="img-thumbnail-checkbox" required >' +
-					'<label for="img-thumbnail-' + args.attach_id + '" class="ctb-set-cover-btn">' + config.lang.M00007 + '</label>' +
-					'<input type="hidden" name="ctb[attach-ids][]" value="' + args.attach_id + '" >';
-					
-			$tpl.id = 'img-' + args.attach_id;
-			$tpl.setAttribute('class','thumbnail-tpl col-xs-6 col-sm-3 col-md-2');
-			$tpl.innerHTML = content;
-			$tpl.style.display = 'none';
-			
-
-			/**
-			 * set as cover
-			 */
-			if(!cache.first_cover){
-				$tpl.querySelector('.img-thumbnail-checkbox').checked = true;
-				cache.first_cover = true;
-			}
-			/**
-			 * insert
-			 */
-			var $insert_btn = $tpl.querySelectorAll('.ctb-insert-btn');
-			for(var i = 0, len = $insert_btn.length; i < len; i++){
-				$insert_btn[i].addEventListener('click',function(){
-					send_to_editor(send_content(args.full.url,args[this.getAttribute('data-size')].url));
-				},false);
-			}
-			/** auto send to editor */
-			send_to_editor(send_content(args.full.url,args[config.default_size].url));
-
-			
-			function send_content(full_url,img_url){
-				return '<p><a href="' + full_url + '" title="' + config.lang.M00006 + '" target="_blank" >' + 
-					'<img src="' + img_url + '" alt="' + M00010 + '" >' +
-				'</a></p>';
-			}
-
-			return $tpl;
-		}
-		
-		/**
-		 * The tip when pic is uploading
-		 *
-		 * @param string status 'loading','success' ,'error'
-		 * @param string text The content of tip
-		 * @return 
-		 * @version 1.0.1
-		 * @author INN STUDIO <inn-studio.com>
-		 */
-		function uploading_tip(status,text){
-			/** 
-			 * uploading status
-			 */
-			if(!status || status === 'loading'){
-				cache.$file_progress_tx.innerHTML = tools.status_tip('loading',text);
-				cache.$file_progress.style.display = 'block';
-				cache.$file_area.style.display = 'none';
-				cache.$file_completion_tip.style.display = 'none';
-			/** 
-			 * success status
-			 */
-			}else{
-				cache.$file_completion_tip.innerHTML = tools.status_tip(status,text)
-				cache.$file_completion_tip.style.display = 'block';
-				cache.$file_progress.style.display = 'none';
-				cache.$file_area.style.display = 'block';
-			}
-		}
 	}
+	/**
+	 * file_select
+	 */
+	function file_select(e){
+		e.stopPropagation();
+		e.preventDefault();
+		cache.files = e.target.files.length ? e.target.files : e.originalEvent.dataTransfer.files;
+		cache.file_count = cache.files.length;
+		cache.file = cache.files[0];
+		cache.file_index = 0;
+		file_upload(cache.files[0]);
+	}
+	/**
+	 * file_upload
+	 */
+	function file_upload(file){
+		var	reader = new FileReader();
+		reader.onload = function (e) {
+			file_submission(file);
+		};
+		reader.readAsDataURL(file);
+	}
+	/**
+	 * file_submission
+	 */
+	function file_submission(file){
+		file_beforesend_callback();
+		var fd = new FormData(),
+			xhr = new XMLHttpRequest();
+
+		fd.append('type','upload');
+		fd.append('theme-nonce',js_request['theme-nonce']);
+		fd.append('img',file);
+		
+		xhr.open('post',config.process_url);
+		xhr.onload = function(){
+			if (xhr.status >= 200 && xhr.status < 400) {
+				file_complete_callback(xhr.responseText);
+			}else{
+				file_error_callback(xhr.responseText);
+			}
+			xhr = null;
+		};
+		
+		
+		xhr.upload.onprogress = function(e){
+			if (e.lengthComputable) {
+				var percent = e.loaded / e.total * 100;		
+				cache.$file_progress_bar.style.width = percent + '%';
+			}
+		};
+		xhr.send(fd);
+	}
+	function file_beforesend_callback(){
+		var tx = config.lang.M00002.format(cache.file_index + 1,cache.file_count);
+		cache.$file_progress_bar.style.width = '10%';
+		uploading_tip('loading',tx);
+	}
+	function file_error_callback(msg){
+		msg = msg ? msg : config.lang.E00001;
+		uploading_tip('error',msg);
+	}
+	/** 
+	 * upload_started
+	 */
+	function upload_started(i,file,count){
+		var t = config.lang.M00002.format(i,count);
+		uploading_tip('loading',t);
+	}
+	function file_complete_callback(data){
+		try{data = JSON.parse(data)}catch(error){}
+		cache.file_index++;
+		/** 
+		 * success
+		 */
+		if(data && data.status === 'success'){
+			append_tpl(data);
+			/** send to editor */
+			send_to_editor(send_content(data.full.url,data[config.default_size].url));
+		
+			/** 
+			 * check all thing has finished, if finished
+			 */
+			if(cache.file_count === cache.file_index){
+				var tx = config.lang.M00004.format(cache.file_index,cache.file_count);
+				uploading_tip('success',tx);
+				cache.$file.value = '';
+			/**
+			 * upload next file
+			 */
+			}else{
+				file_upload(cache.files[cache.file_index]);
+			}
+		/** 
+		 * no success
+		 */
+		}else{
+			/** 
+			 * notify current file is error
+			 */
+			if(cache.file_index > 0){
+				//error_file_tip(cache.files[cache.file_index - 1]);
+			}
+			/** 
+			 * if have next file, continue to upload next file
+			 */
+			if(cache.file_count > cache.file_index){
+				file_upload(cache.files[cache.file_index]);
+			/** 
+			 * have not next file, all complete
+			 */
+			}else{
+				cache.is_uploading = false;
+				if(data && data.status === 'error'){
+					file_error_callback(data.msg);
+				}else{
+					file_error_callback(config.lang.E00001);
+					console.error(data);
+				}
+				/** 
+				 * reset file input
+				 */
+				cache.$file.value = '';
+
+			}
+		}
+	}/** end file_complete_callback */
+	
+	function append_tpl(data){
+		var $tpl = get_tpl(data);
+			
+		cache.$files.style.display = 'block';
+		cache.$files.appendChild($tpl);
+		$tpl.style.display = 'block';
+	}
+	/**
+	 * args = {
+		original,
+		thumbnail,
+		medium
+		attach-id
+	 }
+	 */
+	function get_tpl(args){
+		if(!cache.$post_title)
+			cache.$post_title = I('ctb-title');
+			
+		var $tpl = document.createElement('div'),
+			M00010 = cache.$post_title == '' ? config.lang.M00010 : cache.$post_title.value,
+			content = '<a class="img-link" href="' + args.full.url + '" target="_blank" title="' + config.lang.M00006 + '">' + 
+					'<img src="' + args.thumbnail.url + '" alt="' + M00010 +'" >' +
+				'</a>' +
+				'<div class="btn-group btn-block">' +
+					'<a href="javascript:;" class="btn btn-primary col-xs-10 ctb-insert-btn" id="ctb-insert-' + args['attach-id'] + '" data-size="large"><i class="fa fa-plug"></i> ' + config.lang.M00009 + '</a>' +
+				'</div>' +
+				'<input type="radio" name="ctb[thumbnail-id]" id="img-thumbnail-' + args['attach-id'] + '" value="' + args['attach-id'] + '" hidden class="img-thumbnail-checkbox" required >' +
+				'<label for="img-thumbnail-' + args['attach-id'] + '" class="ctb-set-cover-btn">' + config.lang.M00007 + '</label>' +
+				'<input type="hidden" name="ctb[attach-ids][]" value="' + args['attach-id'] + '" >';
+				
+		$tpl.id = 'img-' + args['attach-id'];
+		$tpl.setAttribute('class','thumbnail-tpl col-xs-6 col-sm-3 col-md-2');
+		$tpl.innerHTML = content;
+		$tpl.style.display = 'none';
+		
+		/**
+		 * set as cover
+		 */
+		if(!cache.first_cover){
+			$tpl.querySelector('.img-thumbnail-checkbox').checked = true;
+			cache.first_cover = true;
+		}
+		/**
+		 * insert
+		 */
+		var $insert_btn = $tpl.querySelectorAll('.ctb-insert-btn'),
+			send_content_helper = function(){
+				send_to_editor(send_content(args.full.url,args[this.getAttribute('data-size')].url));
+			};
+		for(var i = 0, len = $insert_btn.length; i < len; i++){
+			$insert_btn[i].addEventListener('click',send_content_help,false);
+		}
+
+		return $tpl;
+	}
+	function send_content(full_url,img_url){
+		var title = cache.$post_title == '' ? config.lang.M00010 : cache.$post_title.value;
+		return '<p><a href="' + full_url + '" title="' + title + '" target="_blank" >' + 
+			'<img src="' + img_url + '" alt="' + title + '" >' +
+		'</a></p>';
+	}	
+	/**
+	 * The tip when pic is uploading
+	 *
+	 * @param string status 'loading','success' ,'error'
+	 * @param string text The content of tip
+	 * @return 
+	 * @version 1.0.1
+	 */
+	function uploading_tip(status,text){
+		/** 
+		 * uploading status
+		 */
+		if(!status || status === 'loading'){
+			cache.$file_progress_tx.innerHTML = tools.status_tip('loading',text);
+			cache.$file_progress.style.display = 'block';
+			cache.$file_area.style.display = 'none';
+			cache.$file_completion_tip.style.display = 'none';
+		/** 
+		 * success status
+		 */
+		}else{
+			cache.$file_completion_tip.innerHTML = tools.status_tip(status,text)
+			cache.$file_completion_tip.style.display = 'block';
+			cache.$file_progress.style.display = 'none';
+			cache.$file_area.style.display = 'block';
+		}
+	}/** end uploading_tip */
 
 	function fm_validate($fm){
 		var m = new tools.validate();
@@ -366,30 +356,34 @@ define(function(require, exports, module){
 			m.loading_tx = config.lang.M00001;
 			m.error_tx = config.lang.E00001;
 			m.$fm = $fm;
+			m.done = function(data){
+				if(config.edit){
+					$fm.querySelector('.submit').removeAttribute('disabled');
+				}
+			};
 			m.init();
 		
 	}
 
 	function toggle_reprint_group(){
-		var $reprint_group = I('reprint-group');
-		var $radios = document.querySelectorAll('.theme_custom_post_source-source-radio');
-		
-		for(var i = 0, len = $radios.length; i<len; i++){
-			//console.log(i);
+		var $reprint_group = I('reprint-group'),
+			$radios = document.querySelectorAll('.theme_custom_post_source-source-radio'),
+			action = function($radio){
+				if($radio.id === 'theme_custom_post_source-source-reprint' && $radio.checked){
+					$reprint_group.style.display = 'block';
+					var $input = $reprint_group.querySelector('input');
+					if($input.value.trim() === '')
+						$input.focus();
+				}else{
+					$reprint_group.style.display = 'none';
+				}
+			},
+			help = function(){
+				action(this)
+			};
+		for(var i = 0, len = $radios.length; i < len; i++){
 			action($radios[i]);
-			$radios[i].addEventListener('change',function(){
-				action(this);
-			});
-		}
-
-		function action($radio){
-			//console.log($radio);
-			if($radio.id === 'theme_custom_post_source-source-reprint' && $radio.checked){
-				$reprint_group.style.display = 'block';
-				$reprint_group.querySelector('input').focus();
-			}else{
-				$reprint_group.style.display = 'none';
-			}
+			$radios[i].addEventListener('change', help, false);
 		}
 	}
 });

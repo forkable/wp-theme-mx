@@ -2,7 +2,6 @@
  * post_thumb
  * 
  * @version 1.0.3
- * @author INN STUDIO <inn-studio.com>
  */
 define(function(require, exports, module){
 	'use strict';
@@ -13,7 +12,6 @@ define(function(require, exports, module){
 	 * @return 
 	 * @example 
 	 * @version 1.0.0
-	 * @author INN STUDIO <inn-studio.com>
 	 * @copyright Copyright (c) 2011-2013 INN STUDIO. (http://www.inn-studio.com)
 	 **/
 	exports.init = function(){
@@ -25,7 +23,6 @@ define(function(require, exports, module){
 	 * config for post_thumb
 	 * 
 	 * @version 1.0.1
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	exports.config = {
@@ -51,7 +48,6 @@ define(function(require, exports, module){
 	 * Binding the <a> tag
 	 * 
 	 * @version 1.0.2
-	 * @author INN STUDIO <inn-studio.com>
 	 * 
 	 */
 	exports.bind = function(){
