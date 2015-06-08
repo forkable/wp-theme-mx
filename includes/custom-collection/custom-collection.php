@@ -365,7 +365,7 @@ class theme_custom_collection{
 				/**
 				 * post status
 				 */
-				if(current_user_can('editor') || current_user_can('administrator') || current_user_can('super_admin')){
+				if(current_user_can('moderate_comments')){
 					$post_status = 'publish';
 				}else{
 					$post_status = 'pending';

@@ -21,7 +21,6 @@ class theme_custom_edit{
 		
 		
 		//add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
-		add_filter('get_edit_post_link' , __CLASS__ . '::filter_get_edit_post_link', 10 , 3);
 		
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 
@@ -80,18 +79,14 @@ class theme_custom_edit{
 		}
 		return $tabs;
 	}
-	public static function filter_get_edit_post_link($url,$post_id,$context){
-		if(current_user_can('editor'))
-			return $url;
+	public static function get_edit_post_link($post_id){
+		static $caches = [];
+		if(isset($caches[$post_id]))
+			return $caches[$post_id];
+			
+		$caches[$post_id] = esc_url(theme_custom_contribution::get_tabs('post')['url'] . '&post=' . $post_id);
 
-		if($context === 'display'){
-			$action = '&amp;';
-		}else{
-			$action = '&';
-		}
-		$action .= 'post=' . $post_id;
-
-		return theme_custom_contribution::get_tabs('post')['url'] . $action;
+		return $caches[$post_id];
 	}
 	public static function get_query(){
 		global $paged;

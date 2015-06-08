@@ -29,9 +29,18 @@ if(is_user_logged_in()){
 		<?php
 		global $post;
 		if(is_singular('post') && $post->post_author == $current_user_id){
-			?>
-			<a href="<?= get_edit_post_link($post->ID);?>" class="btn btn-default meta tool-post-edit" title="<?= ___('Edit post');?>"><i class="fa fa-pencil-square-o fa-fw"></i></a>
-		<?php } ?>
+			if(class_exists('theme_custom_edit')){
+				$edit_post_link = theme_custom_edit::get_edit_post_link($post->ID);
+			}else{
+				$edit_post_link = get_edit_post_link($post->ID);
+			}
+			if(!empty($edit_post_link)){
+				?>
+				<a href="<?= $edit_post_link;?>" class="btn btn-default meta tool-post-edit" title="<?= ___('Edit post');?>"><i class="fa fa-pencil-square-o fa-fw"></i></a>
+			<?php 
+			}
+		}
+		?>
 				
 		<!-- ctb -->
 		<?php if(class_exists('theme_custom_contribution')){ ?>
