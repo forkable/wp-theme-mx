@@ -734,7 +734,7 @@ function friendly_date($timestamp){
 		 * dislay date
 		 */
 		default:
-			$text = date(___('M j, Y'), $time); //一年以前
+			$text = date(___('M j, Y'), $timestamp);
 	}
 	return $text;
 }

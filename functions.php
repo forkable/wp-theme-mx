@@ -733,7 +733,7 @@ class theme_functions{
 				?>
 				<a href="#comments" class="post-meta quick-comment comment-count" data-post-id="<?= $post->ID;?>">
 					<i class="fa fa-comment"></i>
-					<span class="comment-count-number"><?= esc_html($comment_count);?></span> <span class="hidden-xs"><?= esc_html($comment_tx);?></span>
+					<span class="comment-count-number"><?= $comment_count;?></span> <span class="hidden-xs"><?= esc_html($comment_tx);?></span>
 				</a>
 
 				<?php
@@ -1450,8 +1450,9 @@ class theme_functions{
 						echo get_avatar($comment,50);
 						echo '&nbsp;';
 					}
+					comment_author_link();
+					
 					?>
-					<?php comment_author_link();?>
 				</span>
 				<time class="comment-meta-data time" datetime="<?= get_comment_time('c');?>">
 					<a href="<?= esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?= friendly_date(get_comment_time('U')); ?></a>

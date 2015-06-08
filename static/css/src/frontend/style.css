@@ -695,9 +695,8 @@ label.error{
 	.comment-list .comment.is-me{
 		background: #FBEC88;
 	}
-	.comment-list .comment.is-post-author{
-		background: #D9EDF7;
-		border-bottom: 1px solid #9ACFEA;
+	.comment-list .comment.is-post-author .author{
+		font-weight: bold;
 	}
 	.comment-list .media{
 		margin: 0;
@@ -851,7 +850,7 @@ label.error{
 	height: 30px;
 	border-top: none;
 	margin-bottom: 0;
-				
+	box-shadow: 0 1px 3px rgba(0,0,0,.3);
 }
 .top-bar:after{
 	position: absolute;

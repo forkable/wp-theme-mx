@@ -505,8 +505,12 @@ define(function(require, exports, module){
 						tools.ajax_loading_tip(data.status,data.msg,3);
 					}else if(data && data.status === 'error'){
 						tools.ajax_loading_tip(data.status,data.msg);
+						/** focus */
+						_cache.$comment_ta.focus();
 					}else{
-						tools.ajax_loading_tip('error',config.lang.E00001);
+						tools.ajax_loading_tip('error',data);
+						/** focus, select */
+						_cache.$comment_ta.select();
 					}
 				}else{
 					tools.ajax_loading_tip('error',config.lang.E00001);

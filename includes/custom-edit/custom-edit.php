@@ -81,8 +81,8 @@ class theme_custom_edit{
 		return $tabs;
 	}
 	public static function filter_get_edit_post_link($url,$post_id,$context){
-		//if(current_user_can('editor'))
-			//return $url;
+		if(current_user_can('editor'))
+			return $url;
 
 		if($context === 'display'){
 			$action = '&amp;';
