@@ -30,8 +30,23 @@ function post_form($post_id = null){
 			?>
 			<div class="page-tip"><?= status_tip('error',___('Sorry, the post does not exist.'));?></div>
 			<?php
-			return false;
 			wp_reset_postdata();
+			return false;
+		}
+		/**
+		 * check post category in collection category
+		 */
+		if(class_exists('theme_custom_collection') && !empty(theme_custom_collection::get_cat_ids())){
+			foreach(get_the_category() as $v){
+				if(in_array($v->term_id,theme_custom_collection::get_cat_ids())){
+					?>
+					<div class="page-tip"><?= status_tip('error',___('Sorry, collection edits feature is not supported currently.'));?></div>
+					<?php
+					wp_reset_postdata();
+					return false;
+				}
+				break;
+			}
 		}
 		/**
 		 * check author
@@ -43,6 +58,8 @@ function post_form($post_id = null){
 			return false;
 			wp_reset_postdata();
 		}
+		setup_postdata($post);
+		
 		/**
 		 * check edit lock status
 		 */
@@ -66,6 +83,9 @@ function post_form($post_id = null){
 	}
 
 	?>
+	
+	<?= theme_custom_contribution::get_des();?>
+	
 	<form action="javascript:;" id="fm-ctb" class="form-horizontal">
 		<div class="form-group">
 			<label for="ctb-title" class="col-sm-2 control-label">
@@ -331,7 +351,7 @@ function post_form($post_id = null){
 							id="<?= theme_custom_post_source::$iden;?>-source-original" 
 							value="original" 
 							class="<?= theme_custom_post_source::$iden;?>-source-radio" 
-							<?= isset($post_source_meta['source']) && $post_source_meta['source'] === 'original' ? 'checked' : null;?>
+							<?= !isset($post_source_meta['source']) || $post_source_meta['source'] === 'original' ? 'checked' : null;?>
 						>
 						<?= ___('Original');?>
 					</label>
@@ -397,6 +417,7 @@ function post_form($post_id = null){
 		</div>
 	</form>
 	<?php
+	wp_reset_postdata();
 }
 
 ?>
@@ -408,14 +429,12 @@ function post_form($post_id = null){
 		</h3>
 	</div>
 	<div class="panel-body">
-		<?= theme_custom_contribution::get_des();?>
 		<?php
 		if(isset($_GET['post']) && is_numeric($_GET['post'])){
 			post_form($_GET['post']);
 		}else{
 			post_form();
 		}
-		wp_reset_postdata();
 		?>
 	</div>
 </div>

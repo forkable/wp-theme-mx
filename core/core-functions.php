@@ -691,8 +691,14 @@ function get_img_source($str,$all = false){
  */
 function friendly_date($timestamp){
 	$text = null;
+	
 	/** time difference */
-	$t = $_SERVER['REQUEST_TIME'] - $timestamp;
+	static $current_time = null;
+	if($current_time === null)
+		$current_time = current_time( 'timestamp' );
+		
+	$t = $current_time - $timestamp;
+
 	switch($t){
 		/**
 		 * in 1 minu, just now

@@ -16,12 +16,9 @@
 		<div class="page-tip"><?= status_tip('info',___('No post yet.')); ?></div>
 	<?php } ?>
 </div>
-<div class="panel-footer">
-	<div class="area-pagination">
-		<?php 
-		//echo theme_functions::get_post_pagination(
-			//'posts-pagination posts-pagination-bottom pagination');
-		echo theme_functions::pagination();
-		?>
+<?php if($GLOBALS['wp_query']->max_num_pages > 1){ ?>
+	<div class="panel-footer">
+		<?= theme_functions::pagination();?>
 	</div>
+<?php } ?>
 </div>

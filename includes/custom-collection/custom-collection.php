@@ -56,6 +56,9 @@ class theme_custom_collection{
 		</a>';
 		return $navs;
 	}
+	public static function get_cat_ids(){
+		return self::get_options('cats');
+	}
 	public static function display_backend(){
 		$opt = (array)self::get_options();
 		?>

@@ -3,14 +3,11 @@
  * if user logged
  */
 if(is_user_logged_in()){
+	$current_user_id = get_current_user_id();
 	?>
 	<div class="btn-group btn-group-xs">
 		
-		
 		<!-- my profile -->
-		<?php
-		$current_user_id = get_current_user_id();
-		?>
 		<a href="<?= theme_cache::get_author_posts_url($current_user_id);?>" class="btn btn-default meta user-avatar" title="<?= ___('My profile');?>">
 			<?= get_avatar($current_user_id);?>
 			<span class="tx"><?= esc_html(get_the_author_meta('display_name',$current_user_id));?></span>
@@ -28,6 +25,14 @@ if(is_user_logged_in()){
 			</a>
 		<?php } ?>
 		
+		<!-- post edit -->
+		<?php
+		global $post;
+		if(is_singular('post') && $post->post_author == $current_user_id){
+			?>
+			<a href="<?= get_edit_post_link($post->ID);?>" class="btn btn-default meta tool-post-edit" title="<?= ___('Edit post');?>"><i class="fa fa-pencil-square-o fa-fw"></i></a>
+		<?php } ?>
+				
 		<!-- ctb -->
 		<?php if(class_exists('theme_custom_contribution')){ ?>
 			<a href="<?= theme_custom_contribution::get_tabs('post')['url'];?>" class="btn btn-default meta tool-contribution" title="<?= ___('New post');?>">
@@ -35,6 +40,11 @@ if(is_user_logged_in()){
 			</a>
 		<?php } ?>
 
+		<!-- my posts -->
+		<?php if(class_exists('theme_custom_edit')) { ?>
+			<a href="<?= theme_custom_edit::get_tabs('edit')['url'];?>" class="btn btn-default meta tool-my-posts" title="<?= theme_custom_edit::get_tabs('edit')['text'];?>"><i class="fa fa-<?= theme_custom_edit::get_tabs('edit')['icon'];?> fa-fw"></i></a>
+		<?php } ?>
+		
 		<!-- notification -->
 		<?php 
 		if(class_exists('theme_notification')){

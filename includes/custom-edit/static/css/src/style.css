@@ -11,6 +11,9 @@
 .edit-post-action{
 	visibility: hidden;
 }
+.edit-table tr:nth-child(2n){
+	background: #f8f8f8;
+}
 .edit-table tr:hover{
 	background: #eee;
 }
@@ -20,6 +23,4 @@
 	.edit-table thead {
 		background: #eee;
 	}
-.edit-table tr:nth-child(2n){
-	background: #f8f8f8;
-}
+

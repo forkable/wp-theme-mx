@@ -32,9 +32,17 @@
 		display: block;
 		border-top: 1px solid rgba(0,0,0,.05);
 	}
+	#account-navbar .navbar li.active a{
+		background: #428BCA;
+		color: #fff;
+	}
 	#account-navbar .navbar li a {
 		padding-top: 12px;
 		padding-bottom: 12px;
+	}
+	#account-navbar li a:hover {
+		background: #eee;
+		color: #333;
 	}
 
 }

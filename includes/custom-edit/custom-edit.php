@@ -70,7 +70,7 @@ class theme_custom_edit{
 		$tabs = [
 			'edit' => [
 				'text' => ___('My posts'),
-				'icon' => 'thumb-tack',
+				'icon' => 'lightbulb-o',
 				'url' => esc_url(add_query_arg('tab','edit',$baseurl)),
 				'filter_priority' => 22,
 			],
@@ -94,10 +94,11 @@ class theme_custom_edit{
 		return theme_custom_contribution::get_tabs('post')['url'] . $action;
 	}
 	public static function get_query(){
-		
+		global $paged;
 		return new WP_Query([
 			'author' => get_current_user_id(),
 			'posts_per_page' => 20,
+			'paged' => (int)$paged,
 		]);
 		
 	}

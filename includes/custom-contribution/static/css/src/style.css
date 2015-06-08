@@ -116,6 +116,12 @@
 			color: #fff;
 			border-color: #428bca;
 		}
+		.ctb-set-cover-btn i{
+			display: none;
+		}
+		#ctb-files .thumbnail-tpl .img-thumbnail-checkbox:checked + .ctb-set-cover-btn i{
+			display: inline-block;
+		}
 		.ctb-img-des{
 			width: 100%;
 			resize: none;

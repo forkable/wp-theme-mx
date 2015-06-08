@@ -284,11 +284,9 @@ define(function(require, exports, module){
 			content = '<a class="img-link" href="' + args.full.url + '" target="_blank" title="' + config.lang.M00006 + '">' + 
 					'<img src="' + args.thumbnail.url + '" alt="' + M00010 +'" >' +
 				'</a>' +
-				'<div class="btn-group btn-block">' +
-					'<a href="javascript:;" class="btn btn-primary col-xs-10 ctb-insert-btn" id="ctb-insert-' + args['attach-id'] + '" data-size="large"><i class="fa fa-plug"></i> ' + config.lang.M00009 + '</a>' +
-				'</div>' +
+				'<a href="javascript:;" class="btn btn-primary btn-block ctb-insert-btn" id="ctb-insert-' + args['attach-id'] + '" data-size="large"><i class="fa fa-plug"></i> ' + config.lang.M00009 + '</a>' +
 				'<input type="radio" name="ctb[thumbnail-id]" id="img-thumbnail-' + args['attach-id'] + '" value="' + args['attach-id'] + '" hidden class="img-thumbnail-checkbox" required >' +
-				'<label for="img-thumbnail-' + args['attach-id'] + '" class="ctb-set-cover-btn">' + config.lang.M00007 + '</label>' +
+				'<label for="img-thumbnail-' + args['attach-id'] + '" class="ctb-set-cover-btn"><i class="fa fa-star"></i> ' + config.lang.M00007 + '</label>' +
 				'<input type="hidden" name="ctb[attach-ids][]" value="' + args['attach-id'] + '" >';
 				
 		$tpl.id = 'img-' + args['attach-id'];
@@ -311,7 +309,7 @@ define(function(require, exports, module){
 				send_to_editor(send_content(args.full.url,args[this.getAttribute('data-size')].url));
 			};
 		for(var i = 0, len = $insert_btn.length; i < len; i++){
-			$insert_btn[i].addEventListener('click',send_content_help,false);
+			$insert_btn[i].addEventListener('click',send_content_helper,false);
 		}
 
 		return $tpl;

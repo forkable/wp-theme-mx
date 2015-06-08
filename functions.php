@@ -1067,7 +1067,7 @@ class theme_functions{
 	    if ( $count > 1 ) {
 		    ?>
 		    <div class="btn-group" role="group">
-			    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+			    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 				    <?= sprintf(___('Page %d'),$page);?>
 				    <span class="caret"></span>
 				</button>

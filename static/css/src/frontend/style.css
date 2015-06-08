@@ -112,6 +112,7 @@ label{
 .panel{
 	margin-bottom: 20px;
 	position: relative;
+	box-shadow: 0 1px 3px rgba(0,0,0,.1);
 }
 	.panel:after{
 		position: absolute;
@@ -169,7 +170,7 @@ a:active{
 }
 a:focus,
 a:active{
-	/*transform: translate(0px, 1px);*/
+	transform: translate(0px, 1px);
 }
 .hide,.none{display: none;}
 img{
