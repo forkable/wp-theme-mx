@@ -1401,13 +1401,14 @@ class theme_functions{
 				/**
 				 * check is my comment
 				 */
-				static $get_current_user_id = null;
-				if($get_current_user_id === null)
-					$get_current_user_id = get_current_user_id();
+				if($comment->user_id != 0){
+					static $get_current_user_id = null;
+					if($get_current_user_id === null)
+						$get_current_user_id = get_current_user_id();
 
-				if($get_current_user_id == $comment->user_id)
-					$classes[] = 'is-me';
-				
+					if($get_current_user_id == $comment->user_id)
+						$classes[] = 'is-me';
+				}
 
 				/**
 				 * author url
