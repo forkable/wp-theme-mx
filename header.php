@@ -12,7 +12,7 @@
 <body <?php body_class(); ?>>
 
 <?php if(!wp_is_mobile()){ ?>
-	<div class="top-bar navbar navbar-default hidden-xs">	
+	<div class="top-bar navbar navbar-inverse hidden-xs">	
 		<div class="container">
 			<?php
 			/** 
@@ -41,16 +41,18 @@
  * banner
  */
 if(!wp_is_mobile() && has_header_image()){ ?>
-	<a href="<?= home_url();?>" class="banner hidden-xs">
-		<img src="<?php header_image(); ?>" alt="Banner">
+<a class="banner hidden-xs" href="<?= home_url();?>">
+	<div class="container">
+		<img src="<?php header_image(); ?>" alt="<?= get_bloginfo('name');?>">
 		<?php if(display_header_text()){ ?>
 			<h1 hidden><?= get_bloginfo('name');?></h1>
 			<span hidden><?= get_bloginfo('description');?></span>
 		<?php } ?>
-	</a>
+	</div>
+</a>
 <?php } ?>
 
-<div class="main-nav navbar navbar-default">
+<div class="main-nav navbar navbar-inverse">
 	<div class="container">
 	<!-- <div class="container-fluid"> -->
 		<div class="navbar-header">
