@@ -37,6 +37,8 @@ class theme_custom_contribution{
 		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
 
 		add_action('page_settings',			__CLASS__ . '::display_backend');
+
+
 	}
 	public static function wp_title($title, $sep){
 		if(!self::is_page()) 
@@ -480,6 +482,7 @@ class theme_custom_contribution{
 		$cache = $post && self::in_edit_post_status($post->post_status) && $post->post_type === 'post' ? $post_id : false;
 		return $cache;
 	}
+	
 	public static function get_post_attachs($post_id){
 		$post = self::get_post($post_id);
 		if(!$post)
