@@ -42,6 +42,10 @@ class theme_custom_homebox{
 		$keyword_arr = explode(PHP_EOL,$keywords);
 		foreach($keyword_arr as $k => $v){
 			$kw_arr = explode('=',$v);
+			
+			if(!isset($kw_arr[0]) || !isset($kw_arr[1]))
+				continue;
+				
 			$output_kws[$k]['name'] = trim($kw_arr[0]);
 			$output_kws[$k]['url'] = trim($kw_arr[1]);
 		}

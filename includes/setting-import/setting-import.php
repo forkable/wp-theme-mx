@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme_import_settings
 Feature URI:	http://www.inn-studio.com
-Version:		3.0.0
+Version:		3.0.1
 Description:	theme_import_settings
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -39,7 +39,7 @@ class theme_import_settings{
 								<a href="javascript:;" id="<?= self::$iden;?>-import" class="button">
 									<i class="fa fa-history"></i> 
 									<?= ___('Select a setting file to restore');?>
-									<input id="<?= self::$iden;?>-file" type="file" accept="text/plain"/>
+									<input id="<?= self::$iden;?>-file" type="file" />
 								</a>
 								
 							</div>
@@ -82,7 +82,8 @@ class theme_import_settings{
 
 		switch($type){
 			case 'import':
-				$contents = isset($_POST['b64']) && is_string($_POST['b64']) ? @unserialize(authcode($_POST['b64'])) : null;
+				$contents = isset($_POST['b64']) && is_string($_POST['b64']) ? json_decode(base64_decode(trim($_POST['b64'])),true) : null;
+
 				if(is_array($contents) && !empty($contents)){
 					set_theme_mod(theme_options::$iden,$contents);
 					$output['status'] = 'success';
@@ -99,7 +100,7 @@ class theme_import_settings{
 			 * export
 			 */
 			case 'export':
-				$contents = authcode(serialize(theme_options::get_options()),'encode');
+				$contents = base64_encode(json_encode(theme_options::get_options()));
 				/**
 				 * write content to a tmp file
 				 */
@@ -109,20 +110,22 @@ class theme_import_settings{
 				/**
 				 * output file download
 				 */
-				header('Content-type: application/txt');
+				header('Content-Description: File Transfer');
+				header('Content-Type: application/octet-stream');
+				header('Expires: 0');
+				header('Cache-Control: must-revalidate');
+				header('Pragma: public');
+				header('Content-Length: ' . filesize($filepath));
 				
 				$download_fn = ___('Backup') ;
 				$download_fn .= '-' . get_bloginfo('name');
-				$download_fn .= '-' . date('Ymd') . '.txt';
+				$download_fn .= '-' . date('Ymd-His') . '.bk';
 				
 				header('Content-Disposition: attachment; filename=" ' . $download_fn . '"');
 				
 				readfile($filepath); 
 
 				die();
-				$output['status'] = 'success';
-				$output['msg'] = ___('Settings has been restored, refreshing page, please wait... ');
-				break;
 		}
 
 		die(theme_features::json_format($output));
