@@ -39,7 +39,7 @@ class theme_custom_homebox{
 		 * split per line
 		 */
 		$output_kws = [];
-		$keyword_arr = explode(PHP_EOL,$keywords);
+		$keyword_arr = explode("\n",$keywords);
 		foreach($keyword_arr as $k => $v){
 			$kw_arr = explode('=',$v);
 			
@@ -52,19 +52,17 @@ class theme_custom_homebox{
 		return $output_kws;
 	}
 	public static function get_options($key = null){
-		$caches = [];
-		if(!isset($caches[self::$iden]))
-			$caches[self::$iden] = theme_options::get_options(self::$iden);
+		static $caches = null;
+		if($caches === null)
+			$caches = (array)theme_options::get_options(self::$iden);
 
 		if($key){
-			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
+			return isset($caches[$key]) ? $caches[$key] : null;
 		}else{
-			return $caches[self::$iden];
+			return $caches;
 		}
 	}
-	public static function display_frontend($args = null){
-		
-	}
+
 	private static function cat_checkbox_tpl($placeholder){
 		$opt = self::get_options();
 		$exists_cats = isset($opt[$placeholder]['cats']) ? (array)$opt[$placeholder]['cats'] : [];

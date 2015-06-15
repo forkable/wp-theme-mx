@@ -328,6 +328,7 @@ class theme_page_rank{
 		$defaults = [
 			'posts_per_page ' => 100,
 			'paged' => 1,
+			'orderby' => 'rand',
 			'post__in' => theme_recommended_post::get_ids(),
 		];
 		$args = array_merge($defaults,$args);

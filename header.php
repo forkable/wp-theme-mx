@@ -56,13 +56,13 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 	<div class="container">
 	<!-- <div class="container-fluid"> -->
 		<div class="navbar-header">
-			<a href="javascript:;" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".menu-header">
+			<a href="javascript:;" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".menu-mobile">
 	            <span class="sr-only"></span>
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	        </a>
-	        <a href="<?= home_url();?>" class="navbar-brand">
+	        <a href="<?= home_url();?>" class="navbar-brand visible-xs-block">
 				<?= get_bloginfo('name');?>
 			</a>
 			<!-- search btn -->
@@ -77,7 +77,8 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 				</a>
 			<?php }else{ ?>
 				<a class="mx-tool mx-account-btn dropdown-toggle" href="<?= esc_url(wp_login_url(get_current_url()));?>">
-					<i class="fa fa-user fa-fw"></i>
+					<i class="fa fa-user fa-fw"></i> 
+					<?= ___('Login');?>
 				</a>
 			<?php } ?>
 		</div>
@@ -85,15 +86,30 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 		/** 
 		 * menu menu-header
 		 */
-		theme_cache::wp_nav_menu(array(
-	        'theme_location'    => 'menu-header',
-	        'container'         => 'nav',
-	        'container_class'   => 'menu-header navbar-left navbar-collapse collapse',
-	        'menu_class'        => 'menu nav navbar-nav',
-	        'menu_id' 			=> 'menu-header',
-	        'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
-	        'walker'            => new wp_bootstrap_navwalker
-	   	));
+		if(!wp_is_mobile()){
+			theme_cache::wp_nav_menu(array(
+		        'theme_location'    => 'menu-header',
+		        'container'         => 'nav',
+		        'container_class'   => 'menu-header navbar-left navbar-collapse collapse',
+		        'menu_class'        => 'menu nav navbar-nav',
+		        'menu_id' 			=> 'menu-header',
+		        'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+		        'walker'            => new wp_bootstrap_navwalker
+		   	));
+	   	}else{
+			/** 
+			 * menu menu-header
+			 */
+			theme_cache::wp_nav_menu(array(
+		        'theme_location'    => 'menu-mobile',
+		        'container'         => 'nav',
+		        'container_class'   => 'menu-header menu-mobile navbar-left navbar-collapse collapse',
+		        'menu_class'        => 'menu nav navbar-nav',
+		        'menu_id' 			=> 'menu-mobile',
+		        'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+		        'walker'            => new wp_bootstrap_navwalker
+		   	));
+	   	}
 		?>
 
 		<!-- search btn -->

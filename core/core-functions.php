@@ -759,15 +759,12 @@ function get_current_url(){
  * @return string
  * @version 1.0.0
  */
-function str_sub($str,$len = null,$extra = '...'){
-	if(!trim($str)) return;
-	if(!$len || mb_strlen(trim($str)) <= $len){
+function str_sub($str, $len = 120, $extra = '&hellip;'){
+	
+	if(mb_strlen(trim($str)) <= $len)
 		return $str;
-	}else{
-		$str = mb_substr($str,0,$len);
-		$str .= $extra;
-	}
-	return $str;
+		
+	return mb_substr($str, 0, $len) . $extra;
 }
 
 /**

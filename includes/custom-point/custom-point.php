@@ -66,7 +66,6 @@ class theme_custom_point{
 
 	public static function display_backend(){
 		$opt = self::get_options();
-
 		$points = $opt['points'];
 		$point_name = isset($opt['point-name']) ? $opt['point-name'] : ___('Cat-paw');
 		?>
@@ -348,7 +347,8 @@ class theme_custom_point{
 			'point-img-url' => 'http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif',
 		];
 		
-		return apply_filters('custom_point_options_default',$opts[self::$iden]);
+		$opts[self::$iden] = apply_filters('custom_point_options_default',$opts[self::$iden]);
+		return $opts;
 	}
 	public static function options_save(array $opts = []){
 		if(isset($_POST[self::$iden])){

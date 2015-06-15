@@ -61,6 +61,7 @@ class theme_functions{
 		register_nav_menus(
 			array(
 				'menu-header' 			=> ___('Header menu'),
+				'menu-mobile' 			=> ___('Mobile menu'),
 				'menu-top-bar' 			=> ___('Top bar menu'),
 			)
 		);	
@@ -1745,7 +1746,16 @@ class theme_functions{
 			
 			<?php if(!is_null_array($v['keywords'])){ ?>
 				<div class="extra keywords hidden-xs">
-					<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){?>
+					<?php 
+					$i = 0;
+					foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){
+						if($i !== 0){
+							?>
+							<i class="split">&sdot;</i>
+							<?php
+						}
+						++$i;
+						?>
 						<a href="<?= esc_url($kw['url']);?>">
 							<?= $kw['name'];?>
 						</a>

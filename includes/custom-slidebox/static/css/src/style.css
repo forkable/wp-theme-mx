@@ -148,3 +148,29 @@
 	-o-transition-timing-function: cubic-bezier(.770, .000, .175, 1.000); 
 	transition-timing-function: cubic-bezier(.770, .000, .175, 1.000); /* easeInOutQuart */
 }
+
+@media (min-width: 768px){
+	.slides .overflow,
+	.slides a{
+		height: 405px;
+	}
+}
+@media (min-width: 992px) {
+	.slides .overflow,
+	.slides a{
+		height: 282px;
+	}
+}
+@media (min-width: 1200px) {
+	.slides .overflow,
+	.slides a{
+		height: 320px;
+	}
+}
+@media (min-width: 1300px){
+	.slides .overflow,
+	.slides a{
+		height: 350px;
+		max-height: 350px;
+	}
+}

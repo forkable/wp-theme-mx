@@ -63,7 +63,8 @@ class theme_asset_enqueue{
 	public static function frontend_register_js(){
 		$js = [
 			'jquery-core' => [
-				'url' => 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js',
+				//'url' => 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js',
+				'url' => 'http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js',
 				'version' => null,
 			],
 		];
@@ -107,7 +108,8 @@ class theme_asset_enqueue{
 			],
 			'awesome' => [
 				'deps' => [],
-				'url' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css',
+				//'url' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css',
+				'url' => 'http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css',
 				'version' => null,
 			],
 			

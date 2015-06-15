@@ -69,6 +69,7 @@ class widget_comments extends WP_Widget{
 					if(!isset($caches['post_title'][$comment->comment_post_ID]))
 						$caches['post_title'][$comment->comment_post_ID] = get_the_title($comment->comment_post_ID);
 
+					/** avatar placeholder */
 					if(!isset($caches['avatar_placeholder']))
 						$caches['avatar_placeholder'] = esc_url(theme_features::get_theme_images_url(theme_functions::$avatar_placeholder));
 
@@ -86,7 +87,7 @@ class widget_comments extends WP_Widget{
 					<small><?= friendly_date(get_comment_time('U'));?></small>
 				</time>
 			</h4>
-			<div class="text"><?= esc_html(get_comment_excerpt($comment->comment_ID));?></div>
+			<div class="text"><?= str_sub(strip_tags(get_comment_text($comment->comment_ID)),35);?></div>
 		</div>
 	</a>
 </li>
