@@ -403,7 +403,7 @@ class theme_page_rank{
 					 * output excerpt
 					 
 					 */
-					if($args['excerpt'] === true && !wp_is_mobile()){
+					if($args['excerpt'] === true){
 						?>
 						<div class="excerpt hidden-xs"><?= str_sub(strip_tags(get_the_content()),200);?></div>
 					<?php } ?>
