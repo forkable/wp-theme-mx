@@ -15,10 +15,6 @@
 		margin: 0;
 	}
 .post-download-module .pwd{
-	/*margin-bottom: 10px;*/
 	text-align: center;
-	-webkit-user-select: all;
-	-moz-user-select: all;
-	-ms-user-select: all;
-	user-select: all;
+	font-weight: bold;
 }

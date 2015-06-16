@@ -213,15 +213,17 @@ class theme_custom_storage{
 <div class="post-download">
 	<?php foreach(self::get_types() as $k => $v){ ?>
 		<fieldset class="post-download-module">
-			<legend><span class="label label-default"><?= $v['text'];?></span></legend>
+			<legend><span class="label label-success"><?= $v['text'];?></span></legend>
 			<div class="fieldset-content">
 				<div class="row">
 					<?php if(isset($meta[$k]['pwd']) && !empty($meta[$k]['pwd'])){ ?>
 						<div class="col-sm-3">
 							<div class="form-group">
-								<div class="btn btn-info btn-lg btn-block" title="<?= sprintf(___('%s password'),$v['text']);?>" >
-									<?= sprintf(___('Password: %s'),'<strong class="pwd" id="' . self::$iden . '-' . $k . '-pwd">' . esc_html($meta[$k]['pwd']) . '</strong>');?>
+								<div class="input-group input-group-lg">
+									<label for="<?= self::$iden,'-',$k;?>-pwd" class="input-group-addon" id="basic-addon1"><i class="fa fa-key"></i> <?= ___('Password');?></label>
+									<input type="text" id="<?= self::$iden,'-',$k;?>-pwd" class="form-control pwd" value="<?= esc_html($meta[$k]['pwd']);?>" size="5" onclick="this.select();" readonly>
 								</div>
+								
 							</div>
 						</div>
 			

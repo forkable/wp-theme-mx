@@ -860,7 +860,7 @@ class custom_post_point{
 		}
 
 		?>
-		<div id="post-point-loading-ready" class="btn btn-info btn-lg"><i class="fa fa-spinner fa-pulse fa-fw"></i> <?= ___('Loading, please wait...');?></div>
+		<div id="post-point-loading-ready" class="btn btn-primary btn-lg"><i class="fa fa-spinner fa-pulse fa-fw"></i> <?= ___('Loading, please wait...');?></div>
 		
 		<div id="post-point-btn-group" class="btn-group btn-group-lg">
 			<a href="javascript:;" class="post-point-btn btn btn-primary" data-post-id="<?= $post_id;?>" data-points="<?= $default_point_value;?>">
