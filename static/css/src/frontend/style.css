@@ -167,7 +167,6 @@ label{
 .panel{
 	position: relative;
 	margin-bottom: 20px;
-	overflow: hidden;
 }
 .panel-heading{
 	padding: 10px 20px;
@@ -212,45 +211,6 @@ img{
 	height: auto;
 	border-radius: 2px;
 }
-#footer{
-	position: relative;
-	margin-top: 20px;
-	padding-top: 30px;
-	background: rgba(255,255,255,.3);
-	margin-bottom: 0;
-	padding-bottom: 20px;
-	
-}
-	#footer:after{
-		position: absolute;
-		background: url(../../../images/min/frontend/rainbow.png);
-		top: 0;
-		width: 100%;
-		height: 2px;
-		content:'';
-		border-radius: 4px;
-	}
-	#footer .widget{
-		background: #fff;
-		border-radius: 4px;
-		margin-bottom: 10px;
-	}
-		#footer .panel:after{
-			display: none;
-		}
-	#footer .copyright,
-	#footer .copyright a{
-		color:#b2b2b2;
-		text-shadow: 0 1px 0 #fff;
-	}
-	#footer .copyright a{
-		border-bottom: 1px dotted #b2b2b2;
-	}
-	#footer .copyright a:hover,
-	#footer .copyright a:active{
-		color: #666;
-		border-bottom-color: #666;
-	}
 /**
  * layer ======================================================
  */
@@ -1571,6 +1531,36 @@ label.error{
 		opacity: 1;
 		background: #d9534f;
 		box-shadow: 0 0 3px rgba(0,0,0,.3);
+	}
+/**
+ * footer
+ */
+#footer{
+	position: relative;
+	margin-top: 20px;
+	padding-top: 30px;
+	background: #0288D1;
+	padding-bottom: 20px;
+	box-shadow: 0 5px 5px rgba(0,0,0,.1) inset;
+}
+
+	#footer .widget{
+		overflow: hidden;
+	}
+		#footer .panel:after{
+			display: none;
+		}
+	#footer .copyright,
+	#footer .copyright a{
+		color:#fff;
+		text-shadow: 0 1px 1px rgba(0,0,0,.5);
+	}
+	#footer .copyright a{
+		border-bottom: 1px dotted #fff;
+	}
+	#footer .copyright a:hover,
+	#footer .copyright a:active{
+		border-bottom-style: solid;
 	}
 /**
  * .pager

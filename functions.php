@@ -163,9 +163,9 @@ class theme_functions{
 				'name'				=> $v['name'],
 				'id'				=> $v['id'],
 				'description'		=> $v['description'],
-				'before_widget'		=> isset($v['before_widget']) ? $v['before_widget'] : '<aside id="%1$s"><div class="panel panel-default mx-panel widget %2$s">',
+				'before_widget'		=> isset($v['before_widget']) ? $v['before_widget'] : '<aside id="%1$s"><div class="panel panel-default widget %2$s">',
 				'after_widget'		=> isset($v['after_widget']) ? $v['after_widget'] : '</div></aside>',
-				'before_title'		=> isset($v['before_title']) ? $v['before_title'] : '<div class="panel-heading panel-heading-default mx-panel-heading clearfix"><h3 class="widget-title panel-title">',
+				'before_title'		=> isset($v['before_title']) ? $v['before_title'] : '<div class="panel-heading panel-heading-default"><h3 class="widget-title panel-title">',
 				'after_title'		=> isset($v['after_title']) ? $v['after_widget'] : '</h3></div>',
 			));
 		}

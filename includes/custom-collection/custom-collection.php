@@ -458,12 +458,10 @@ class theme_custom_collection{
 						]
 					],
 					'title' 	=> esc_html(get_the_title($post_id)),
-					'excerpt' 	=> str_sub(strip_tags(trim($post->post_content)),120),
+					'excerpt' 	=> str_sub(strip_tags(trim($post->post_content)),120,'...'),
 				];
 				wp_reset_postdata();
 				die(theme_features::json_format($output));
-				break;
-
 		}
 
 		die(theme_features::json_format($output));
