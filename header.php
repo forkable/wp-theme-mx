@@ -21,7 +21,7 @@
            theme_cache::wp_nav_menu( array(
                 'theme_location'    => 'menu-top-bar',
                 'container'         => 'nav',
-                'container_class'   => 'nav navbar-nav navbar-left',
+                'container_class'   => 'top-bar-nav',
                 'menu_class'        => 'nav navbar-nav',
                 'menu_id' 			=> 'menu-top-bar',
                 'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',

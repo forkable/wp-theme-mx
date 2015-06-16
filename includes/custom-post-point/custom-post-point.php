@@ -863,7 +863,7 @@ class custom_post_point{
 		<div id="post-point-loading-ready" class="btn btn-info btn-lg"><i class="fa fa-spinner fa-pulse fa-fw"></i> <?= ___('Loading, please wait...');?></div>
 		
 		<div id="post-point-btn-group" class="btn-group btn-group-lg">
-			<a href="javascript:;" class="post-point-btn btn btn-info" data-post-id="<?= $post_id;?>" data-points="<?= $default_point_value;?>">
+			<a href="javascript:;" class="post-point-btn btn btn-primary" data-post-id="<?= $post_id;?>" data-points="<?= $default_point_value;?>">
 				<?php if(empty($point_img)){ ?>
 					<i class="fa fa-diamond"></i> 
 				<?php }else{ ?>
@@ -880,7 +880,7 @@ class custom_post_point{
 			
 			<?php if($count_point_values > 1){ ?>
 				<div class="btn-group btn-group-lg">
-					<span class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false" role="group">
+					<span class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" role="group">
 						<span class="caret"></span>
 						<span class="sr-only"><?php ___('Toggle Dropdown');?></span>
 					</span>

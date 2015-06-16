@@ -1821,7 +1821,7 @@ class theme_functions{
 			<?= status_tip('loading',___('Loading, please wait...'));?>
 		</div>
 		
-		<p id="respond-must-login" class="alert alert-info hide-on-logged none">
+		<p id="respond-must-login" class="well hide-on-logged none">
 			<?php 
 			echo sprintf(
 				___('You must be %s to post a comment.'),
