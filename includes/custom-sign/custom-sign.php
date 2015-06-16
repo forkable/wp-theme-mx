@@ -27,6 +27,8 @@ class theme_custom_sign{
 		add_filter('register_url', 			__CLASS__ . '::filter_wp_registration_url');
 		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
 
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
+		
 		/**
 		 * backend
 		 */
@@ -256,5 +258,15 @@ class theme_custom_sign{
 		});
 		<?php
 	}
+	public static function frontend_css(){
+		if(!self::is_page()) 
+			return false;
 
+		wp_enqueue_style(
+			self::$iden,
+			theme_features::get_theme_includes_css(__DIR__),
+			'frontend',
+			theme_file_timestamp::get_timestamp()
+		);
+	}
 }

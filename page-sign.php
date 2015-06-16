@@ -21,7 +21,7 @@ $open_sign_html = function(){
 	?>
 	<div class="open-login btn-group btn-group-justified" role="group">
 		<div class="btn-group" role="group">
-			<a href="<?= esc_url(theme_open_sign::get_login_url('qq'));?>" class="btn btn-info">
+			<a href="<?= esc_url(theme_open_sign::get_login_url('qq'));?>" class="btn btn-primary">
 				<i class="fa fa-qq fa-fw"></i> 
 				<?= ___('Login from QQ');?>
 			</a>
@@ -95,13 +95,13 @@ $open_sign_html = function(){
 </div><!-- /.panel -->
 <div class="form-group row">
 	<div class="col-sm-6">
-		<a class="btn" href="<?= esc_url(theme_custom_sign::get_tabs('login')['url']);?>#main">
+		<a class="btn btn-default" href="<?= esc_url(theme_custom_sign::get_tabs('login')['url']);?>#main">
 			<i class="fa fa-<?= theme_custom_sign::get_tabs('login')['icon'];?> fa-fw"></i>
 			<?= ___('I have account');?>
 		</a>
 	</div>
 	<div class="col-sm-6">
-		<a class="btn" href="<?= esc_url(theme_custom_sign::get_tabs('recover')['url']);?>#main">
+		<a class="btn btn-default" href="<?= esc_url(theme_custom_sign::get_tabs('recover')['url']);?>#main">
 			<i class="fa fa-<?= theme_custom_sign::get_tabs('recover')['icon'];?> fa-fw"></i>
 			<?= ___('Forgot password?');?>
 		</a>
@@ -210,13 +210,13 @@ $open_sign_html();
 </div><!-- /.panel -->
 <div class="form-group row">
 	<div class="col-sm-6">
-		<a class="btn" href="<?= esc_url(theme_custom_sign::get_tabs('register')['url']);?>#main">
+		<a class="btn btn-default" href="<?= esc_url(theme_custom_sign::get_tabs('register')['url']);?>#main">
 			<i class="fa fa-<?= theme_custom_sign::get_tabs('register')['icon'];?> fa-fw"></i>
 			<?= ___('Register new account');?>
 		</a>
 	</div>
 	<div class="col-sm-6">
-		<a class="btn" href="<?= esc_url(theme_custom_sign::get_tabs('recover')['url']);?>#main">
+		<a class="btn btn-default" href="<?= esc_url(theme_custom_sign::get_tabs('recover')['url']);?>#main">
 			<i class="fa fa-<?= theme_custom_sign::get_tabs('recover')['icon'];?> fa-fw"></i>
 			<?= ___('Forgot password?');?>
 		</a>

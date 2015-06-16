@@ -76,23 +76,6 @@
 		margin-top: 10px;
 		margin-bottom: 20px;
 	}
-
-	.clt-list-post-id{
-		width: 100px !important;
-		border-radius: 4px 0 0 0 !important;
-	}
-	.clt-list-post-title{
-		border-radius: 0 4px 0 0 !important;
-	}
-	.clt-list-post-content{
-		position: relative;
-		border-radius: 0 0 4px 4px !important;
-		margin-top: -1px;
-	}
-		.clt-list-post-content:focus{
-			z-index: 10;
-		}
-
 		
 	.collection-list .list-group-item-text{
 		font-size: 1.2em;

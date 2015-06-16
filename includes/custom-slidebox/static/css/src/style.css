@@ -2,7 +2,7 @@
 	position: relative;
 	overflow: hidden;
 }
-.slide-checkbox{
+html .slide-checkbox{
 	position: absolute;
 	opacity: 0;
 }

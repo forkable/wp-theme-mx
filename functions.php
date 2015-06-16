@@ -1742,23 +1742,21 @@ class theme_functions{
 			}
 			?>
 		</h3>
-		<div class="mx-panel-heading-extra">
+		<div class="extra">
 			
 			<?php if(!is_null_array($v['keywords'])){ ?>
-				<div class="extra keywords hidden-xs">
+				<div class="keywords hidden-xs">
 					<?php 
 					$i = 0;
 					foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){
 						if($i !== 0){
 							?>
-							<i class="split">&sdot;</i>
+							<i class="split"> &sdot; </i>
 							<?php
 						}
 						++$i;
 						?>
-						<a href="<?= esc_url($kw['url']);?>">
-							<?= $kw['name'];?>
-						</a>
+						<a href="<?= esc_url($kw['url']);?>"><?= $kw['name'];?></a>
 					<?php } ?>
 				</div>
 			<?php } ?>

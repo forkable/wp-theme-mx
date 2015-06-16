@@ -77,7 +77,6 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 				</a>
 			<?php }else{ ?>
 				<a class="mx-tool mx-account-btn dropdown-toggle" href="<?= esc_url(wp_login_url(get_current_url()));?>">
-					<i class="fa fa-user fa-fw"></i> 
 					<?= ___('Login');?>
 				</a>
 			<?php } ?>

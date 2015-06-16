@@ -160,12 +160,15 @@ class theme_custom_collection{
 		<a href="javascript:;" id="clt-list-del-<?= $placeholder;?>" class="clt-list-del btn btn-xs btn-danger btn-block"><i class="fa fa-trash"></i> <?= ___('Delete this item');?></a>
 	</div>
 	<div class="col-xs-12 col-sm-7 col-md-9 col-lg-10 clt-list-area-tx">
-		<div class="input-group">
-			<span class="input-group-input">
+		<div class="row">
+			<div class="col-xs-2">
 				<input type="number" class="form-control clt-list-post-id" id="clt-list-post-id-<?= $placeholder ;?>" name="clt[posts][<?= $placeholder;?>][post-id]" placeholder="<?= ___('Post ID');?>" title="<?= ___('Please write the post ID number, e.g. 4015.');?>" min="1" required >
-			</span>
-			<input type="text" name="clt[posts][<?= $placeholder;?>][post-title]" id="clt-list-post-title-<?= $placeholder;?>" class="form-control clt-list-post-title" placeholder="<?= ___('The recommended post title');?>" title="<?= ___('Please write the recommended post title.');?>" required >
+			</div>
+			<div class="col-xs-10">
+				<input type="text" name="clt[posts][<?= $placeholder;?>][post-title]" id="clt-list-post-title-<?= $placeholder;?>" class="form-control clt-list-post-title" placeholder="<?= ___('The recommended post title');?>" title="<?= ___('Please write the recommended post title.');?>" required >
+			</div>
 		</div>
+
 		<textarea name="clt[posts][<?= $placeholder;?>][post-content]" id="clt-list-post-content-<?= $placeholder;?>" rows="4" class="form-control clt-list-post-content" placeholder="<?= ___('Why recommend the post? Talking about your point.');?>" title="<?= ___('Why recommend the post? Talking about your point.');?>" required ></textarea>
 	</div>
 </div>
