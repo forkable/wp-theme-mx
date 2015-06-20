@@ -867,7 +867,7 @@ class custom_post_point{
 				<?php if(empty($point_img)){ ?>
 					<i class="fa fa-diamond"></i> 
 				<?php }else{ ?>
-					<img src="<?= esc_url($point_img);?>" alt="icon">
+					<img src="<?= $point_img;?>" alt="icon">
 				<?php } ?>
 				
 				<strong class="number" id="post-point-number-<?= $post_id;?>"><?= self::get_post_points_count($post_id);?></strong>

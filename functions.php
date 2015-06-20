@@ -601,7 +601,7 @@ class theme_functions{
 
 		$author_url = esc_url(theme_cache::get_author_posts_url($post->post_author));
 		?>
-		<article id="post-<?php $post->ID;?>" <?php post_class($args['classes']);?>>
+		<article id="post-<?= $post->ID;?>" <?php post_class($args['classes']);?>>
 			<div class="panel-heading">
 				<div class="media">
 					<div class="media-left">
