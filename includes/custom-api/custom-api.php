@@ -28,10 +28,9 @@ class theme_custom_api{
 			 * get categories
 			 */
 			case 'get_categories':
-				$cats = array_map(function($cat){
-					return (array)$cat;
-				}, self::get_cats() );
-				die(theme_features::json_format($cats));
+				$output['status'] = 'success';
+				$output['categories'] = self::get_cats();
+				die(theme_features::json_format($output));
 			/**
 			 * get posts
 			 */
@@ -40,18 +39,25 @@ class theme_custom_api{
 				/**
 				 * $posts_per_page, max 50 count, default: 20
 				 */
-				$posts_per_page = isset($_GET['count']) && is_numeric($_GET['count']) ? $_GET['count'] : 20;
+				$posts_per_page = isset($_GET['posts_per_page']) && is_numeric($_GET['posts_per_page']) ? $_GET['posts_per_page'] : 20;
+				
 				if($posts_per_page > 50)
 					$posts_per_page = 50;
+
+				if($posts_per_page <= 0){
+					$posts_per_page = 1;
+				}
+				$query_args['posts_per_page'] = $posts_per_page;
 				/**
 				 * $paged, default: 1
 				 */
-				$paged = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+				$paged = isset($_GET['paged']) && is_numeric($_GET['paged']) ? $_GET['paged'] : 1;
+				$query_args['paged'] = $paged;
 				/**
 				 * ignore_sticky, default: false
 				 */
-				$ignore_sticky = isset($_GET['ignore_sticky']) ? (bool)$_GET['$ignore_sticky'] : false;
-
+				$ignore_sticky_posts = isset($_GET['ignore_sticky_posts']) ? (bool)$_GET['ignore_sticky_posts'] : false;
+				$query_args['ignore_sticky_posts'] = $ignore_sticky_posts;
 				/**
 				 * cat,e.g. 1
 				 */
@@ -82,16 +88,20 @@ class theme_custom_api{
 				if(isset($_GET['category__not_in']) && is_array($_GET['category__not_in'])){
 					$query_args['category__not_in'] = $_GET['category__not_in'];
 				}
+
+				/**
+				 * get cache
+				 */
 				
-				$query_args['posts_per_page'] = $posts_per_page;
-				$query_args['paged'] = $paged;
-				
+				/**
+				 * create query
+				 */
 				global $post;
 				$query = new WP_Query($query_args);
 				if($query->have_posts()){
 					while($query->have_posts()){
 						$query->the_post();
-						$output[] = self::get_postdata();
+						$output['posts'][] = self::get_postdata();
 					}
 					wp_reset_postdata();
 				}else{
@@ -99,6 +109,36 @@ class theme_custom_api{
 					$output['code'] = 'no_content';
 					$output['msg'] = ___('Sorry, no content found.');
 				}
+				$output['status'] = 'success';
+				die(theme_features::json_format($output));
+			/**
+			 * get post
+			 */
+			case 'get_post':
+				$post_id = isset($_GET['post_id']) && is_numeric($_GET['post_id']) ? $_GET['post_id'] : null;
+				/**
+				 * check post id
+				 */
+				if(!$post_id){
+					$output['status'] = 'error';
+					$output['code'] = 'invaild_post_id';
+					$output['msg'] = ___('Sorry, post ID is invaild.');
+					die(theme_features::json_format($output));
+				}
+				global $post;
+				$post = get_post($post_id);
+
+				/**
+				 * check post exists
+				 */
+				if(!$post || $post->post_type !== 'post'){
+					$output['status'] = 'error';
+					$output['code'] = 'post_not_exist';
+					$output['msg'] = ___('Sorry, the post do not exist.');
+					die(theme_features::json_format($output));
+				}
+				$output['status'] = 'success';
+				$output['post'] = self::get_postdata($post);
 				die(theme_features::json_format($output));
 			default:
 				$output['status'] = 'error';
@@ -113,14 +153,20 @@ class theme_custom_api{
 		$output = (array)$post;
 		$output['post_excerpt'] = get_the_excerpt();
 		$output['post_categories'] = array_map(function($cat){
-			return (array)$cat;
+			return self::get_cat_data($cat);
 		}, get_the_category() );
+		/**
+		 * post url
+		 */
+		$output['url'] = get_permalink($post->ID);
 		/**
 		 * thumbnail
 		 */
-		if(has_post_thumbnail()){
-			//$output['post_thumbnail']
+		$sizes = ['thumbnail', 'medium' ];
+		foreach($sizes as $size){
+			$output['thumbnail'][$size] = theme_functions::get_thumbnail_src($post->ID,$size);
 		}
+		
 		return $output;
 	}
 	public static function get_options($key = null){
@@ -136,15 +182,26 @@ class theme_custom_api{
 	public static function display_backend(){
 		
 	}
+	public static function get_cat_data($cat){
+		$cat = (array)$cat;
+		$cat['url'] = get_category_link($cat['term_id']);
+		return $cat;
+	}
 	public static function get_cats(){
 		$ids = self::get_options('cats');
 		if(!$ids){
-			return get_categories();
+			$cats = get_categories();
 		}else{
-			return get_categories([
+			$cats = get_categories([
 				'include' => (array)$ids,
 			]);
 		}
+		if( !empty($cats) ){
+			return array_map(function($cat){
+				return self::get_cat_data($cat);
+			},$cats);
+		}
+		return false;
 	}
 }
 ?>

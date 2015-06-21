@@ -283,7 +283,7 @@ class theme_comment_ajax{
 				/**
 				 * comments page
 				 */
-				$cpage = isset($_GET['cpage']) && is_numeric($_GET['cpage']) ? $_GET['cpage'] : null;
+				$cpage = isset($_GET['cpage']) && is_numeric($_GET['cpage']) ? $_GET['cpage'] : 1;
 				
 				/**
 				 * post id
@@ -302,7 +302,7 @@ class theme_comment_ajax{
 				 */
 				$post = get_post($post_id);
 
-				if(!$post){
+				if(!$post || ($post->post_type !== 'post' && $post->post_type !== 'page')){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_post';
 					$output['msg'] = ___('Post is not exist.');
@@ -310,6 +310,7 @@ class theme_comment_ajax{
 				}
 				setup_postdata($post);
 				$comments_str = self::get_comments_list($post_id,$cpage);
+				//var_dump($comments_str);
 				
 				$output['status'] = 'success';
 				$output['msg'] = ___('Data sent.');
@@ -333,11 +334,6 @@ class theme_comment_ajax{
 		die(theme_features::json_format($output));
 	}
 	public static function get_comments_list($post_id,$cpaged = 0){
-		static $caches = [];
-		$cache_id = md5(serialize(func_get_args()));
-		
-		if(isset($caches[$cache_id]))
-			return $caches[$cache_id];
 
 		global $wp_query,$post;
 
@@ -354,10 +350,14 @@ class theme_comment_ajax{
 			'post_id' => $post_id,
 		]);
 		if(!$comments){
-			$caches[$cache_id] = false;
 			return false;
 		}
-		$caches[$cache_id] = wp_list_comments(array(
+		/**
+		 * set cpage
+		 */
+		$wp_query->query_vars['cpage'] = $cpaged;
+		
+		$comment_list = wp_list_comments(array(
 			'type' => 'comment',
 			'callback'=>'theme_functions::theme_comment',
 			'reverse_top_level' => theme_features::get_option('comment_order') === 'asc' ? true : false,
@@ -365,8 +365,10 @@ class theme_comment_ajax{
 			'page' => $cpaged,
 			'echo' => false,
 		),$comments);
-		wp_reset_query();
-		return $caches[$cache_id];
+		//var_dump($comment_list);exit;
+		
+		//wp_reset_query();
+		return $comment_list;
 	}
 	private static function get_comments(array $args = []){
 		static $caches = [];
@@ -483,6 +485,7 @@ class theme_comment_ajax{
 			$output[self::$iden] = [
 				'type' => 'get-comments',
 				'post-id' => $post->ID,
+				'cpage' => get_query_var('cpage'),
 			];
 		}
 		return $output;
@@ -506,8 +509,15 @@ class theme_comment_ajax{
 					$pages = theme_features::get_comment_pages_count(self::get_comments([
 						'post_id' => $post->ID,
 					]));
-					$cpage = theme_features::get_option('default_comments_page') == 'newest' ? $pages : 1;
-
+					/**
+					 * cpage
+					 */
+					if(isset($get['capge']) && is_numeric($get['capge'])){
+						$cpage = (int)$get['capge'];
+					}else{
+						$cpage = theme_features::get_option('default_comments_page') == 'newest' ? $pages : 1;
+					}
+					
 					$is_logged = is_user_logged_in();
 					if(!$is_logged){
 						$commenter = wp_get_current_commenter();

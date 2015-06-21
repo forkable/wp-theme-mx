@@ -24,8 +24,8 @@
                 'container_class'   => 'top-bar-nav',
                 'menu_class'        => 'nav navbar-nav',
                 'menu_id' 			=> 'menu-top-bar',
-                'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
-                'walker'            => new wp_bootstrap_navwalker())
+                'fallback_cb'       => 'custom_navwalker::fallback',
+                'walker'            => new custom_navwalker())
             );
 			?>
 			<div class="top-bar-tools">
@@ -92,8 +92,8 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 		        'container_class'   => 'menu-header navbar-left navbar-collapse collapse',
 		        'menu_class'        => 'menu nav navbar-nav',
 		        'menu_id' 			=> 'menu-header',
-		        'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
-		        'walker'            => new wp_bootstrap_navwalker
+		        'fallback_cb'       => 'custom_navwalker::fallback',
+		        'walker'            => new custom_navwalker
 		   	));
 	   	}else{
 			/** 
@@ -105,8 +105,8 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 		        'container_class'   => 'menu-header menu-mobile navbar-left navbar-collapse collapse',
 		        'menu_class'        => 'menu nav navbar-nav',
 		        'menu_id' 			=> 'menu-mobile',
-		        'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
-		        'walker'            => new wp_bootstrap_navwalker
+		        'fallback_cb'       => 'custom_navwalker::fallback',
+		        'walker'            => new custom_navwalker
 		   	));
 	   	}
 		?>
