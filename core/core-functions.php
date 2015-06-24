@@ -483,7 +483,7 @@ function multidimensional_search($parents, $searched) {
 } 
 
 /**
- * html_compress
+ * html_minify
  * 
  * 
  * @param string The html code
@@ -492,26 +492,18 @@ function multidimensional_search($parents, $searched) {
  * @author higrid.net
  * 
  */
-function html_compress($html = null){
-	if(!$html) return false;
-	$chunks = preg_split( '/(<pre.*?\/pre>)/ms', $html, -1, PREG_SPLIT_DELIM_CAPTURE );
-	$html = null;
-	foreach ( $chunks as $c ){
-		if ( strpos( $c, '<pre' ) !== 0 ){
-			// remove html comments
-			$c = preg_replace( '/<!--[^!]*-->/', ' ', $c );
-			//[higrid.net] remove new lines & tabs
-			$c = preg_replace( '/[\\n\\r\\t]+/', ' ', $c );
-			// [higrid.net] remove extra whitespace
-			$c = preg_replace( '/\\s{2,}/', ' ', $c );
-			// [higrid.net] remove inter-tag whitespace
-			$c = preg_replace( '/>\\s</', '><', $c );
-			// [higrid.net] remove CSS & JS comments
-			$c = preg_replace( '/\\/\\*.*?\\*\\//i', '', $c );
-		}
-		$html .= $c;
-	}
-	return $html;
+function html_minify($html){
+	return preg_replace(
+		[
+			'/ {2,}/',
+			'/<!--.*?-->|\t|(?:\r?\n[ \t]*)+/s'
+		],
+		[
+			' ',
+			''
+		],
+		$html
+	);
 }
 /**
  * Refer to url address

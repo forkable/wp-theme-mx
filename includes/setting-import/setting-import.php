@@ -36,11 +36,11 @@ class theme_import_settings{
 						<td>
 							<div id="<?= self::$iden;?>-tip"></div>
 							<div id="<?= self::$iden;?>-upload-area">
-								<a href="javascript:;" id="<?= self::$iden;?>-import" class="button">
+								<span id="<?= self::$iden;?>-import" class="button">
 									<i class="fa fa-history"></i> 
 									<?= ___('Select a setting file to restore');?>
 									<input id="<?= self::$iden;?>-file" type="file" />
-								</a>
+								</span>
 								
 							</div>
 						</td>
@@ -48,11 +48,11 @@ class theme_import_settings{
 					<tr>
 						<th scope="row"><?= ___('Export');?></th>
 						<td>
-							<a href="<?= theme_features::get_process_url([
+							<a href="<?= esc_url(theme_features::get_process_url([
 								'action' => self::$iden,
 								'type' => 'export',
 								'theme-nonce' => wp_create_nonce('theme-nonce'),
-							]);?>" id="<?= self::$iden;?>-export" class="button"><i class="fa fa-cloud-download"></i> <?= ___('Start export settings file');?></a>
+							]));?>" id="<?= self::$iden;?>-export" class="button"><i class="fa fa-cloud-download"></i> <?= ___('Start export settings file');?></a>
 						</td>
 					</tr>
 				</tbody>

@@ -241,7 +241,7 @@ class theme_page_rank{
 		}else{
 			
 		}
-		$cache = html_compress(ob_get_contents());
+		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
 
 		theme_cache::set('latest',$cache,'page-rank',3600);
@@ -312,7 +312,7 @@ class theme_page_rank{
 			<?php
 			wp_reset_postdata();
 		}
-		$cache = html_compress(ob_get_contents());
+		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
 
 		theme_cache::set($cache_id,$cache,'page-rank',3600);
@@ -356,7 +356,7 @@ class theme_page_rank{
 		}else{
 			
 		}
-		$cache = html_compress(ob_get_contents());
+		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
 
 		theme_cache::set('recommend',$cache,'page-rank',3600);

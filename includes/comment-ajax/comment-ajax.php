@@ -113,7 +113,7 @@ class theme_comment_ajax{
 	}
 	public static function process(){
 
-		theme_features::check_referer();
+		//theme_features::check_referer();
 		theme_features::check_nonce();
 	
 		$output = [];
@@ -325,7 +325,9 @@ class theme_comment_ajax{
 					]);
 				}
 				$output['comments'] = $comments_str;
-			
+				$output['debug'] = [
+					'cpage' => $cpage
+				];
 				break;
 			
 			
@@ -333,7 +335,7 @@ class theme_comment_ajax{
 
 		die(theme_features::json_format($output));
 	}
-	public static function get_comments_list($post_id,$cpaged = 0){
+	public static function get_comments_list($post_id, &$cpage = 1){
 
 		global $wp_query,$post;
 
@@ -341,42 +343,40 @@ class theme_comment_ajax{
 			'p' => $post_id,
 			'post_type' => ['post','page'],
 		]);
-
 		$post = $wp_query->posts[0];
 		
-		setup_postdata($post);
-			
 		$comments = self::get_comments([
 			'post_id' => $post_id,
 		]);
-		if(!$comments){
+		
+		if(!$comments)
 			return false;
-		}
+
+		$wp_query->comments = $comments;
 		/**
 		 * set cpage
 		 */
-		$wp_query->query_vars['cpage'] = $cpaged;
-		
+		$max_pages = theme_features::get_comment_pages_count($wp_query->comments);
+
+		if( $cpage > $max_pages)
+			$cpage = $max_pages;
+			
+		if( $cpage == 0 )
+			$cpage = 1;
+
+		set_query_var('cpage', $cpage);
+
 		$comment_list = wp_list_comments(array(
-			'type' => 'comment',
 			'callback'=>'theme_functions::theme_comment',
-			'reverse_top_level' => theme_features::get_option('comment_order') === 'asc' ? true : false,
-			'reverse_children' => theme_features::get_option('comment_order') === 'asc' ? true : false,
-			'page' => $cpaged,
+			'page' => $cpage,
 			'echo' => false,
 		),$comments);
-		//var_dump($comment_list);exit;
-		
-		//wp_reset_query();
-		return $comment_list;
+
+		return html_minify($comment_list);
 	}
 	private static function get_comments(array $args = []){
-		static $caches = [];
-		$cache_id = md5(serialize(func_get_args()));
-		if(isset($caches[$cache_id]))
-			return $caches[$cache_id];
-		$caches[$cache_id] = get_comments($args);
-		return $caches[$cache_id];
+		$args['order'] = 'asc';
+		return get_comments($args);
 	}
 	/** 
 	 * pre_comment_on_post

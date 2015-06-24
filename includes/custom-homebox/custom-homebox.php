@@ -210,7 +210,7 @@ class theme_custom_homebox{
 	public static function after_backend_tab_init(){
 		?>
 		seajs.use('<?= self::$iden;?>',function(_m){
-			_m.config.tpl = <?= json_encode(html_compress(self::get_home_box_tpl('%placeholder%')));?>;
+			_m.config.tpl = <?= json_encode(html_minify(self::get_home_box_tpl('%placeholder%')));?>;
 			_m.init();
 		});
 		<?php

@@ -58,14 +58,14 @@ class theme_clean_up{
 								href="javascript:;"
 								class="button <?= self::$iden;?>-btn" 
 								data-action="redundant-comments"
-								data-tip-target="<?= self::$iden;?>-tip-redundant-comments""
+								data-tip-target="<?= self::$iden;?>-tip-redundant-comments"
 							><?= ___('Delete moderated &amp; spam &amp; trash comments');?></a></p>
 							<div id="<?= self::$iden;?>-tip-redundant-comments"></div>
 							<p><a 
 								href="javascript:;"
 								class="button <?= self::$iden;?>-btn" 
 								data-action="orphan-commentmeta"
-								data-tip-target="<?= self::$iden;?>-tip-orphan-commentmeta""
+								data-tip-target="<?= self::$iden;?>-tip-orphan-commentmeta"
 							><?= ___('Delete orphan comment meta');?></a></p>
 							<div id="<?= self::$iden;?>-tip-orphan-commentmeta"></div>
 						</td>

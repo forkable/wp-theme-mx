@@ -27,7 +27,7 @@ tools.ajax_loading_tip('loading',_that.lang.loading);var xhr=new XMLHttpRequest(
 if(data&&data.status==='success'){cache.$comment_list_container.innerHTML=data.comments;set_cache(_that.cpage,data.comments);tools.ajax_loading_tip('hide');done_next();done_prev();}else if(data&&data.status==='error'){tools.ajax_loading_tip(data.status,data.msg);}else{tools.ajax_loading_tip('error',data);}}
 _that.always();xhr=null;};xhr.onerror=function(){tools.ajax_loading_tip('error',_that.lang.error);};}
 function set_cpage(){if(_that.cpage>=target_page){_that.cpage--;}else{_that.cpage++;}}
-function scroll_to_list(){location.hash='comments';}}
+function scroll_to_list(){location.hash='#none';location.hash='#comments';}}
 exports.respond=function(){var _cache={},_config={logged:js_request[config.iden].logged,registration:js_request[config.iden].registration,prefix_comment_body_id:'comment-body-'},_that=this;this.init=function(){goto_click();fm_init();};function fm_init(){_cache.$respond=I('respond');_cache.$fm=I('commentform');_cache.$must_logged=I('respond-must-login');_cache.$loading_ready=I('respond-loading-ready');_cache.$avatar=I('respond-avatar');_cache.$area_visitor=I('area-respond-visitor');_cache.$comment_parent=I('comment_parent');_cache.$comment_ta=I('comment-form-comment');if(!_cache.$respond||!_cache.$fm)
 return false;_cache.$submit_btn=_cache.$fm.querySelector('.submit');if(_cache.$loading_ready)
 _cache.$loading_ready.parentNode.removeChild(_cache.$loading_ready);if(_config.registration&&!_config.logged){_cache.$must_logged.style.display='block';return false;}

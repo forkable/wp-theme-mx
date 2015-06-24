@@ -20,7 +20,8 @@ class theme_post_share{
 		add_action('page_settings',__CLASS__ . '::backend_display');
 
 		
-		if(!self::is_enabled()) return false;
+		if(!self::is_enabled()) 
+			return false;
 
 		add_filter('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
 				
@@ -47,8 +48,8 @@ class theme_post_share{
 			'blog_name' => esc_attr(get_bloginfo('name')),
 			'blog_url' => esc_url(home_url()),
 			'img_url' => esc_url($img_url),
-			'post_excerpt' => esc_attr(mb_substr(html_compress(strip_tags(get_the_excerpt())),0,120)),
-			'post_content' => esc_attr(mb_substr(html_compress(strip_tags(get_the_content())),0,120)),
+			'post_excerpt' => esc_attr(mb_substr(html_minify(strip_tags(get_the_excerpt())),0,120)),
+			'post_content' => esc_attr(mb_substr(html_minify(strip_tags(get_the_content())),0,120)),
 			'author' => esc_attr(get_the_author_meta('display_name',$post->post_author)),
 		);
 		$output_keywords = array_merge($defaults,$args);

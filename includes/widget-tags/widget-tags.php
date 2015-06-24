@@ -75,7 +75,7 @@ class widget_hot_tags extends WP_Widget{
 						color:rgb(<?= mt_rand(50,200);?>,<?= mt_rand(50,200);?>,<?= mt_rand(50,200);?>);"
 				><?= esc_html($tag->name);?></a>&nbsp;
 				<?php
-				$tag_links[] = html_compress(ob_get_contents());
+				$tag_links[] = html_minify(ob_get_contents());
 				ob_end_clean();
 			}
 		}

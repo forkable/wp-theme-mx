@@ -293,7 +293,7 @@ class theme_custom_slidebox{
 	<div class="active"><?= self::get_labels($boxes);?></div>
 </div><!-- /#slidebox-container -->
 		<?php
-		$cache = html_compress(ob_get_contents());
+		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
 		wp_cache_set($cache_id,$cache);
 		echo $cache;
@@ -349,7 +349,7 @@ class theme_custom_slidebox{
 	public static function backend_seajs_use(){
 		?>
 		seajs.use('<?= theme_features::get_theme_includes_js(__DIR__,'backend.js');?>',function(m){
-			m.config.tpl = <?= json_encode(html_compress(self::get_box_tpl('%placeholder%')));?>;
+			m.config.tpl = <?= json_encode(html_minify(self::get_box_tpl('%placeholder%')));?>;
 			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';
 			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
 			m.config.lang.E00001 = '<?= ___('Server error or network is disconnected.');?>';

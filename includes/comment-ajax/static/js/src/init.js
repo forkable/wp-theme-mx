@@ -336,10 +336,8 @@ define(function(require, exports, module){
 		}
 		/** scroll to comment list container offset top */
 		function scroll_to_list(){
-			location.hash = 'comments';
-			//window.scrollTo(0,cache.$comment_list_container.offsetTop);
-			//var y = cache.$comment_list_container.getBoundingClientRect().top + document.documentElement.scrollTop;
-			//window.scrollTo(0,y - 40);
+			location.hash = '#none';
+			location.hash = '#comments';
 		}
 	}
 

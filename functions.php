@@ -1355,7 +1355,7 @@ class theme_functions{
 			?>
 		</nav>
 		<?php
-		$cache = html_compress(ob_get_contents());
+		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
 
 		wp_cache_set($cache_id,$cache,$cache_group,3600);
@@ -1793,7 +1793,7 @@ class theme_functions{
 			++$i;
 		} /** end foreach */
 
-		$cache = html_compress(ob_get_contents());
+		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
 		
 		theme_custom_homebox::set_cache($cache);

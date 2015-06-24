@@ -386,7 +386,7 @@ class theme_page_tags{
 
 			<?php
 		}
-		$cache = html_compress(ob_get_contents());
+		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
 		wp_cache_set($cache_id,$cache,self::$iden,86400);/** 24 hours */
 		echo $cache;

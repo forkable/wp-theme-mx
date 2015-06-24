@@ -30,7 +30,8 @@ class theme_cache_request {
 				'memory' => sprintf('%01.3f',memory_get_usage()/1024/1024),
 			];
 		}
-		die('define(' . theme_features::json_format($output) . ');');
+		header('Content-Type: application/javascript');
+		die('define(' . json_encode($output) . ');');
 	}
 	public static function frontend_seajs_alias(array $alias = []){
 		$datas = apply_filters('js_cache_request',[]);

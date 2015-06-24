@@ -552,7 +552,7 @@ class theme_custom_collection{
 			]);
 		}
 
-		return '<div class="collection-list list-group">' . html_compress($tpl) . '</div>';
+		return '<div class="collection-list list-group">' . html_minify($tpl) . '</div>';
 	}
 	public static function frontend_seajs_alias($alias){
 		if(self::is_page()){

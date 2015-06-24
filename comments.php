@@ -1,21 +1,19 @@
 <?php
-if(post_password_required()) 
+if( post_password_required() || !comments_open() ) 
 	return;
-
-global $wp_query;
-
-
+	
 $have_comments = have_comments();
-$comments_open = comments_open();
+
 ?>
 
 <div id="comments" class="comment-wrapper panel panel-default <?= $have_comments ? null : 'none';?>">
 	<div class="panel-heading">
 		<h3 class="have-comments-title panel-title">
-			<span id="comment-number-<?= $post->ID;?>" class="badge">-</span> 
+			<i class="fa fa-comments"></i> 
+			<span id="comment-number-<?= $post->ID;?>">-</span> 
 			<?= ___('Comments');?>
 
-			<a href="#respond" id="goto-comment" class="btn btn-success btn-xs">
+			<a href="#respond" id="goto-comment" >
 				<?= ___('Respond');?> 
 				<i class="fa fa-pencil-square-o"></i> 
 				
@@ -23,25 +21,16 @@ $comments_open = comments_open();
 		</h3>
 	</div>
 
-	<div class="panel-body">
-		<?php
-		/** 
-		 * if comment open
-		 */
-		if($comments_open){
-			?>			
-			<ul id="comment-list-<?= $post->ID;?>" class="comment-list">
-				<li class="comment media comment-loading">
-					<div class="page-tip"><?= status_tip('loading',___('Loading, please wait...'));?></div>
-				</li>
-			</ul>
-			<?php
-		}
-		?>
+	<div class="panel-body">			
+		<ul id="comment-list-<?= $post->ID;?>" class="comment-list">
+			<li class="comment media comment-loading">
+				<div class="page-tip"><?= status_tip('loading',___('Loading, please wait...'));?></div>
+			</li>
+		</ul>
 	</div><!-- /.panel-body -->
 	
 	<?php 
-	if($have_comments && $comments_open && theme_features::get_comment_pages_count($wp_query->comments) > 1){ 
+	if(theme_features::get_comment_pages_count($wp_query->comments) > 1){ 
 		?>
 		<div class="panel-footer">
 			<div id="comment-pagination-container"></div>
