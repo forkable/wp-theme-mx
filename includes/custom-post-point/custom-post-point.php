@@ -115,7 +115,7 @@ class custom_post_point{
 	}
 	public static function theme_custom_point_backend(){
 		?>
-		<h3><?= ___('Recalculate');?></h3><h1></h1>
+		<h3><?= ___('Recalculate');?></h3>
 		<table class="form-table">
 			<tbody>
 				<tr>
@@ -322,8 +322,9 @@ class custom_post_point{
 		$values = explode(',',theme_custom_point::get_point_value('post-swap'));
 		
 		$cache = array_map(function($v){
-			if(is_string($v))
-				return (int)$v;
+			$v = trim($v);
+			if(is_numeric($v))
+				return $v;
 		},$values);
 		
 		return $cache;
@@ -508,11 +509,11 @@ class custom_post_point{
 		<?php
 	}
 	
-	public static function get_timestamp(){
-		static $t = null;
-		if($t === null)
-			$t = current_time('timestamp');
-		return $t;
+	private static function get_timestamp(){
+		static $cache = null;
+		if($cache === null)
+			$cache = current_time('timestamp');
+		return $cache;
 	}
 	public static function add_history_for_rater($post_id,$rater_id,$points){
 
