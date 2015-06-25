@@ -645,7 +645,15 @@ class theme_custom_point{
 		}
 		return $output;
 	}
-	
+	/**
+	 * update user points
+	 *
+	 * @param int $user_id User ID
+	 * @param int $points New points
+	 */
+	public static function update_user_points($user_id,$points){
+		update_user_meta($user_id,self::$user_meta_key['point'],$points);
+	}
 	/**
 	 * HOOK - Add post-delete history to user meta
 	 *

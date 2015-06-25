@@ -1,6 +1,6 @@
 <?php
 /** 
- * @version 1.0.0
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_collection::init';
@@ -11,7 +11,7 @@ class theme_custom_collection{
 	public static $page_slug = 'account';
 	public static $file_exts = array('png','jpg','gif');
 	public static $thumbnail_size = 'large';
-	public static $pages = [];
+
 
 	public static function init(){
 		add_filter('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
@@ -204,13 +204,12 @@ class theme_custom_collection{
 		}
 	}
 	public static function get_url(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-			
-		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$caches[self::$iden] = esc_url(get_permalink($page->ID));
-		return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null){
+			$page = theme_cache::get_page_by_path(self::$page_slug);
+			$cache = esc_url(get_permalink($page->ID));
+		}
+		return $cache;
 	}
 	public static function get_des(){
 		return stripslashes(self::get_options('description'));
@@ -265,6 +264,7 @@ class theme_custom_collection{
 				 */
 				$filename = isset($_FILES['img']['name']) ? $_FILES['img']['name'] : null;
 				$file_ext = $filename ? array_slice(explode('.',$filename),-1,1)[0] : null;
+				$file_ext = strtolower($file_ext);
 				if(!in_array($file_ext,self::$file_exts)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_file_type';
