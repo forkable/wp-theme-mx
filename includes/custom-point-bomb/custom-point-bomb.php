@@ -12,6 +12,7 @@ class theme_custom_point_bomb{
 	public static $page_slug = 'account';
 	
 	public static function init(){
+		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 		
 		foreach(self::get_tabs() as $k => $v){
 			$nav_fn = 'filter_nav_' . $k; 
@@ -76,7 +77,7 @@ class theme_custom_point_bomb{
 			
 		$tabs = array(
 			'bomb' => array(
-				'text' => ___('Bomb!'),
+				'text' => ___('Bomb world'),
 				'icon' => 'bomb',
 				'url' => esc_url(add_query_arg('tab','bomb',$baseurl)),
 				'filter_priority' => 33,
@@ -178,6 +179,42 @@ class theme_custom_point_bomb{
 			
 		return $percent;
 	}
+	public static function check_login(){
+		if(!self::get_current_user_id())
+			die(theme_features::json_format([
+				'status' => 'error',
+				'code' => 'need_login',
+				'msg' => sprintf(
+					___('Sorry, please %s.'),
+					'<a href="' . esc_url(add_query_arg('redirect',self::get_tabs('bomb')['url'])) . '">' . ___('log-in') . '</a>'
+				),
+			]));
+		return self::get_current_user_id();
+	}
+	public static function check_target( &$target_id ){
+		if(!$target_id){
+			die(theme_features::json_format([
+				'status' => 'error',
+				'code' => 'invaild_target_user_id',
+				'msg' => ___('Sorry, the target user ID is invaild.'),
+			]));
+		}
+		/**
+		 * check target user
+		 */
+		if(class_exists('number_user_nicename'))
+			$target_id -= number_user_nicename::$prefix_number;
+		
+		$target = get_user_by('id',$target_id);
+		if(!$target){
+			die(theme_features::json_format([
+				'status' => 'error',
+				'code' => 'target_user_not_exist',
+				'msg' => ___('Sorry, the target user do not exist.'),
+			]));
+		}
+		return $target;
+	}
 	public static function process(){
 		theme_features::check_referer();
 		theme_features::check_nonce();
@@ -185,41 +222,36 @@ class theme_custom_point_bomb{
 
 		$type = isset($_REQUEST['type']) && is_string($_REQUEST['type']) ? $_REQUEST['type'] : null;
 
+		$target_id = isset($_REQUEST['target']) && is_numeric($_REQUEST['target']) ? $_REQUEST['target'] : null;
+		
 		switch($type){
+			case 'get-target':
+				/**
+				 * get target
+				 */
+				$target = self::check_target($target_id);
+				
+				$output = [
+					'status' => 'success',
+					'points' => theme_custom_point::get_point($target_id),
+					'avatar' => get_avatar_url($target_id),
+					'name' => esc_html($target->display_name),
+					'msg' => ___('Target locked, bomb is ready.'),
+				];
+
+				die(theme_features::json_format($output));
+			/**
+			 * bomb
+			 */
 			case 'bomb':
-				$current_user_id = self::get_current_user_id();
-				if(!$current_user_id){
-					die(theme_features::json_format([
-						'status' => 'error',
-						'code' => 'need_login',
-						'msg' => sprintf(
-							___('Sorry, please %s.'),
-							'<a href="' . esc_url(add_query_arg('redirect',self::get_tabs('bomb')['url'])) . '">' . ___('log-in') . '</a>'
-						),
-					]));
-				}
 				/**
-				 * check target user id
+				 * check login
 				 */
-				$target_id = isset($_REQUEST['target']) && is_numeric($_REQUEST['target']) ? $_REQUEST['target'] : null;
-				if(!$target_id){
-					die(theme_features::json_format([
-						'status' => 'error',
-						'code' => 'invaild_target_user_id',
-						'msg' => ___('Sorry, the target user ID is invaild.'),
-					]));
-				}
+				$current_user_id = self::check_login();
 				/**
-				 * check target user
+				 * get target
 				 */
-				$target = get_user_by('id',$target_id);
-				if(!$target){
-					die(theme_features::json_format([
-						'status' => 'error',
-						'code' => 'target_user_not_exist',
-						'msg' => ___('Sorry, the target user do not exist.'),
-					]));
-				}
+				$target = self::check_target($target_id);
 				/**
 				 * check points
 				 */
@@ -240,6 +272,17 @@ class theme_custom_point_bomb{
 						'status' => 'error',
 						'code' => 'target_points_not_enough',
 						'msg' => ___('Sorry, the target points is not enough to bear your bomb.'),
+					]));
+				}
+				/**
+				 * check attacker points
+				 */
+				$attacker_points = theme_custom_point::get_point($attacker_id);
+				if($points > $attacker_points){
+					die(theme_features::json_format([
+						'status' => 'error',
+						'code' => 'attacker_points_not_enough',
+						'msg' => ___('Sorry, your points is not enough to bomb target.'),
 					]));
 				}
 				/**
@@ -283,47 +326,47 @@ class theme_custom_point_bomb{
 				 */
 				if( $hit ){
 					
-					die(theme_features::json_format([
-						'status' => 'success',
-						'msg' => sprintf(
-							___('Bombing successfully! Your bomb hit %1$s, you got +%2$d %3$s and remaining %4$d %3$s. Target lost -%5$d %3$s and remaining %6$d %3$s.'),
+					$output['msg'] = sprintf(
+						___('Bombing successfully! Your bomb hit %1$s, you got +%2$d %3$s and remaining %4$d %3$s. Target lost -%5$d %3$s and remaining %6$d %3$s.'),
 
-							$target_name,
-							
-							'<strong class="plus">' . $attacker_extra_points . '</strong>',/** %2$d */
-							
-							theme_custom_point::get_point_name(),/** %3$s */
-							
-							$new_attacker_points,/** %4$d */
-							
-							$target_extra_points,/** %5$d */
-							
-							$new_target_points /** %6$d */
-						),
-					]));
+						$target_name,
+						
+						'<strong class="plus">' . $attacker_extra_points . '</strong>',/** %2$d */
+						
+						theme_custom_point::get_point_name(),/** %3$s */
+						
+						$new_attacker_points,/** %4$d */
+						
+						$target_extra_points,/** %5$d */
+						
+						$new_target_points /** %6$d */
+					);
+					
 				/**
 				 * miss target
 				 */
 				}else{
-					die(theme_features::json_format([
-						'status' => 'success',
-						'msg' => sprintf(
-							___('Unlucky! %1$s miss your attack, you lost -%2$d %3$s and remaining %4$d %3$s. Target picked up +%5$d %3$s and remaining %6$d %3$s.'),
-							
-							$target_name,
-							
-							'<strong class="plus">' . $target_extra_points . '</strong>',/** %2$d */
-							
-							theme_custom_point::get_point_name(),/** %3$s */
-							
-							$new_attacker_points,/** %4$d */
-							
-							$attacker_extra_points,/** %5$d */
-							
-							$new_target_points /** %6$d */
-						),
-					]));
+					$output['msg'] = sprintf(
+						___('Unlucky! %1$s miss your attack, you lost -%2$d %3$s and remaining %4$d %3$s. Target picked up +%5$d %3$s and remaining %6$d %3$s.'),
+						
+						$target_name,
+						
+						'<strong class="plus">' . $target_extra_points . '</strong>',/** %2$d */
+						
+						theme_custom_point::get_point_name(),/** %3$s */
+						
+						$new_attacker_points,/** %4$d */
+						
+						$attacker_extra_points,/** %5$d */
+						
+						$new_target_points /** %6$d */
+					);
 				}
+				
+				$output['status'] = 'success';
+				
+				die(theme_features::json_format($output));
+						
 			default:
 				die(theme_features::json_format([
 					'status' => 'error',

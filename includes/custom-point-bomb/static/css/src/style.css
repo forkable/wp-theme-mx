@@ -1,0 +1,31 @@
+#fm-bomb{
+	display: none;
+}
+.attack-sign{
+	padding-top: 20px;
+	
+}
+.bomb-area{
+	text-align: center;
+}
+.bomb-area-attacker{
+	
+}
+
+.bomb-area span{
+	display: block;
+}
+#bomb-target{
+	text-align: center;
+}
+.bomb-area-points{
+	text-align: center;
+}
+.bomb-area-points h4{
+	font-size: 16px;
+}
+.bomb-area-points label{
+	display: block;
+	padding: 5px 0;
+	font-size: 15px;
+}

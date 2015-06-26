@@ -61,7 +61,7 @@ define(function(require, exports, module){
 			}else{
 				tools.ajax_loading_tip('error',config.lang.E00001);
 			}
-			always(data);
+			always();
 		};
 		xhr.onerror = function(){
 			tools.ajax_loading_tip('error',config.lang.E00001);

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.0
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_api::init';
@@ -99,8 +99,7 @@ class theme_custom_api{
 				global $post;
 				$query = new WP_Query($query_args);
 				if($query->have_posts()){
-					while($query->have_posts()){
-						$query->the_post();
+					foreach($query->posts as $post){
 						$output['posts'][] = self::get_postdata();
 					}
 					wp_reset_postdata();
@@ -149,8 +148,16 @@ class theme_custom_api{
 	}
 	public static function get_postdata(){
 		global $post;
-		
 		$output = (array)$post;
+		/**
+		 * get post content
+		 */
+		setup_postdata($post);
+		ob_start();
+		the_content();
+		$output['post_content'] = ob_get_contents();
+		ob_end_clean();
+		
 		$output['post_excerpt'] = get_the_excerpt();
 		$output['post_categories'] = array_map(function($cat){
 			return self::get_cat_data($cat);
@@ -165,6 +172,12 @@ class theme_custom_api{
 		$sizes = ['thumbnail', 'medium' ];
 		foreach($sizes as $size){
 			$output['thumbnail'][$size] = theme_functions::get_thumbnail_src($post->ID,$size);
+		}
+		/**
+		 * storage
+		 */
+		if(class_exists('theme_custom_storage')){
+			$output['download_page'] = theme_custom_storage::get_download_page_url($post->ID);
 		}
 		
 		return $output;
