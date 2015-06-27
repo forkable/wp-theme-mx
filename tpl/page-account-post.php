@@ -194,7 +194,7 @@ function post_form($post_id = null){
 	title="<?= sprintf(___('%s password'),$v['text']);?>"
 	value="<?php
 	if($edit){
-		echo isset($post_storage_meta[$k]['pwd']) ? esc_url($post_storage_meta[$k]['pwd']) : null;
+		echo isset($post_storage_meta[$k]['pwd']) ? esc_html($post_storage_meta[$k]['pwd']) : null;
 	}
 	?>"
 >

@@ -7,9 +7,9 @@ define(function(require, exports, module){
 		process_url : '',
 		lang : {
 			M01 : 'Target locking...',
-			M02 : 'Bomb...',
+			M02 : 'Bombing, please wait...',
 			
-			E01 : 'Server error.'
+			E01 : 'Sorry, some server error occurred, the operation can not be completed, please try again later.'
 		}
 	}
 
@@ -92,22 +92,27 @@ define(function(require, exports, module){
 					var data;
 					try{data = JSON.parse(xhr.responseText)}catch(e){data = xhr.responseText}
 					
-					if(data && data.status){
-						if(data.status === 'error')
-							cache.$target.select();
-						
+					if(data && data.status === 'success'){
 						/** set cache */
 						that.set_target_cache(target_id,{
 							name : data.name,
 							points : data.points,
 							avatar : data.avatar
 						});
+						
 						/** set to html */
 						that.set_target(target_id);
+						
 						/** tip */
-						tools.ajax_loading_tip(data.status,data.msg,5);
-
+						tools.ajax_loading_tip(data.status,data.msg);
+						
 						cache.$submit.removeAttribute('disabled');
+					}else if(data && data.status === 'error'){
+						cache.$target.select();
+						
+						/** tip */
+						tools.ajax_loading_tip(data.status,data.msg);
+
 					}else{
 						tools.ajax_loading_tip('error',data);
 						cache.$target.select();
@@ -163,6 +168,7 @@ define(function(require, exports, module){
 			}
 			
 			$label.classList.add('label-success');
+			cache.points = parseInt($radio.value);
 			
 		}
 		for( var i = 0, len = cache.$points.length; i < len; i++ ){
@@ -174,15 +180,70 @@ define(function(require, exports, module){
 	function fm_submit(e){
 		e.preventDefault();
 		/** tip */
-		tools.ajax_loading_tip('loading',)
+		tools.ajax_loading_tip('loading',config.lang.M02);
+		cache.$submit.setAttribute('disabled',true);
+		
 		var xhr = new XMLHttpRequest(),
 			fd = new FormData(cache.$fm);
+			
 		fd.append('theme-nonce',js_request['theme-nonce']);
 		xhr.open('POST',config.process_url);
 		xhr.send(fd);
 		xhr.onload = function(){
+			var data;
+			try{data = JSON.parse(xhr.responseText)}catch(e){data = xhr.responseText}
 			
-		}
+			if(data && data.status === 'success'){
+				/** get attack and target points */
+				var old_attacker_points = parseInt(cache.$attacker_points.textContent.trim()),
+					old_target_points = parseInt(cache.$target_points.textContent.trim());
+				/**
+				 * hit
+				 */
+				if(data.hit){
+					tools.ajax_loading_tip(data.status,data.msg);
+					/** attacker points */
+					cache.$attacker_points.innerHTML = old_attacker_points + '<span class="text-success">+' + cache.points + '</span>';
+					setTimeout(function(){
+						cache.$attacker_points.innerHTML = old_attacker_points + cache.points;
+					}, 3000);
+					/** target points */
+					cache.$target_points.innerHTML = old_target_points + '<span class="text-danger">-' + cache.points + '</span>';
+					setTimeout(function(){
+						cache.$target_points.innerHTML = old_target_points - cache.points;
+					}, 3000);
+				/**
+				 * miss
+				 */
+				}else{
+					tools.ajax_loading_tip('warning',data.msg);
+					/** attacker points */
+					var half_points = Math.round(cache.points / 2);
+					
+					cache.$attacker_points.innerHTML = old_attacker_points + '<span class="text-danger">-' + cache.points + '</span>';
+					setTimeout(function(){
+						cache.$attacker_points.innerHTML = old_attacker_points - cache.points;
+					}, 3000);
+					
+					/** target points */
+					cache.$target_points.innerHTML = old_target_points + '<span class="text-success">+' + half_points + '</span>';
+					setTimeout(function(){
+						cache.$target_points.innerHTML = old_target_points + half_points;
+					}, 3000);
+				}
+				
+				
+			}else if(data && data.status === 'error'){
+				tools.ajax_loading_tip(data.status,data.msg);
+			}else{
+				tools.ajax_loading_tip('error',config.lang.E01);
+			}
+			cache.$submit.removeAttribute('disabled');
+		};
+		xhr.onerror = function(){
+			tools.ajax_loading_tip('error',config.lang.E01);
+			cache.$submit.removeAttribute('disabled');
+		};
 	}
 	
 	function I(s){

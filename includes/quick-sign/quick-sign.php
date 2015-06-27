@@ -364,11 +364,6 @@ class theme_quick_sign{
 				$output['msg'] = $user_id->get_error_message();
 				
 			}else{
-				/** rename nicename */
-				//wp_update_user(array(
-				//	'ID' => $user_id,
-				//	'user_nicename' => 100000 + $user_id
-				//));
 				/** 
 				 * go to login
 				 */

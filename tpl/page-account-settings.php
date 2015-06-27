@@ -16,8 +16,9 @@ get_currentuserinfo();
 		 */
 		$disabled = null;
 		if(class_exists('theme_custom_point')){
-			$consume_points = theme_custom_point::get_point_value('save-settings');
+			$consume_points = abs(theme_custom_point::get_point_value('save-settings'));
 			$user_points = theme_custom_point::get_point($current_user->ID);
+
 			if($consume_points != 0){
 				?>
 				<div class="page-tip">
@@ -25,25 +26,25 @@ get_currentuserinfo();
 					/**
 					 * not enough points, can not modify
 					 */
-					if($consume_points > $user_points){
+					if($user_points - $consume_points < 0){
 						$disabled = 'disabled';
 						echo status_tip(
 							'info',
 							sprintf(
-								___('You have %1$d %2$s, You need to collect %3$d %2%s to modify the settings.'),
-								$user_points,
+								___('You have %1$s %2$s, You need to collect %3$s %2$s to modify the settings.'),
+								'<strong>' . $user_points . '</strong>',
 								theme_custom_point::get_point_name(),
-								abs($consume_points) - abs($user_points)
+								'<strong>' . ($consume_points - $user_points) . '</strong>'
 							)
 						);
 					}else{
 						echo status_tip(
 							'info',
 							sprintf(
-								___('You have %1$d %2$s, modify settings will consume %3$d %2$s.'),
-								$user_points,
+								___('You have %1$s %2$s, modify settings will consume %3$s %2$s.'),
+								'<strong>' . $user_points . '</strong>',
 								theme_custom_point::get_point_name(),
-								abs($consume_points)
+								'<strong>' . $consume_points . '</strong>'
 							)
 						);
 					}
@@ -61,7 +62,7 @@ get_currentuserinfo();
 			<?php 
 			$avatar = get_avatar($current_user->ID,100);
 			?>
-			<a href="<?= esc_url(get_img_source($avatar));?>" target="_blank" title="<?= ___('Views source image');?>"><?= $avatar;?></a>
+			<a href="<?= get_avatar_url($current_user->ID);?>" target="_blank" title="<?= ___('Views source image');?>"><?= $avatar;?></a>
 		</div>
 		<div class="col-sm-10">
 			<div class="form-control-static">
@@ -79,7 +80,7 @@ get_currentuserinfo();
 			</abbr>
 		</div>
 		<div class="col-sm-10"><p class="form-control-static"><strong>
-			<a href="<?= esc_url(theme_cache::get_author_posts_url($current_user->ID));?>"><?= $current_user->user_nicename;?></a>
+			<a href="<?= esc_url(get_author_posts_url($current_user->ID));?>"><?= $current_user->user_nicename;?></a>
 			</strong></p></div>
 	</div>
 	<!-- nickname -->

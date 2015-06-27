@@ -181,7 +181,7 @@ class theme_custom_sign{
 		return $cache;
 	}
 	public static function template_redirect(){
-		if(self::is_page() && is_user_logged_in()){
+		if(self::is_page() && self::is_user_logged_in()){
 			$redirect = get_query_var('redirect');
 			$redirect ? wp_redirect($redirect) : wp_redirect(home_url());
 			die();
@@ -213,7 +213,7 @@ class theme_custom_sign{
 		}
 	}
 	public static function wp_title($title, $sep){
-		if(is_user_logged_in() || !self::is_page()) 
+		if(self::is_user_logged_in() || !self::is_page()) 
 			return $title;
 			
 		$tab_active = get_query_var('tab');
@@ -236,15 +236,21 @@ class theme_custom_sign{
 
 		die(theme_features::json_format($output));
 	}
+	private static function is_user_logged_in(){
+		static $cache = null;
+		if($cache === null)
+			$cache = is_user_logged_in();
+		return $cache;
+	}
 	public static function frontend_seajs_alias($alias){
-		if(is_user_logged_in() || !self::is_page())
+		if(self::is_user_logged_in() || !self::is_page())
 			return $alias;
 
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(is_user_logged_in() || !self::is_page()) 
+		if(self::is_user_logged_in() || !self::is_page()) 
 			return false;
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){

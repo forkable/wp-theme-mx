@@ -6,7 +6,7 @@ get_currentuserinfo();
 	<div class="panel-heading">
 		<h3 class="panel-title">
 			<i class="fa fa-<?= theme_custom_user_settings::get_tabs(get_query_var('tab'))['icon'];?>"></i>
-			<?= ___('My reward point histories');?>
+			<?= ___('Edit my avatar');?>
 		</h3>
 	</div>
 	<div class="panel-body">
@@ -16,7 +16,7 @@ get_currentuserinfo();
 		 */
 		$disabled = null;
 		if(class_exists('theme_custom_point')){
-			$consume_points = theme_custom_point::get_point_value('save-avatar');
+			$consume_points = abs(theme_custom_point::get_point_value('save-avatar'));
 			$user_points = theme_custom_point::get_point($current_user->ID);
 			if($consume_points != 0){
 				?>
@@ -30,20 +30,20 @@ get_currentuserinfo();
 						echo status_tip(
 							'info',
 							sprintf(
-								___('You have %1$d %2$s, You need to collect %3$d %2%s to modify the avatar.'),
-								$user_points,
+								___('You have %1$s %2$s, You need to collect %3$s %2$s to modify the avatar.'),
+								'<strong>' . $user_points . '</strong>',
 								theme_custom_point::get_point_name(),
-								abs($consume_points) - abs($user_points)
+								'<strong>' . ($consume_points - $user_points) . '</strong>'
 							)
 						);
 					}else{
 						echo status_tip(
 							'info',
 							sprintf(
-								___('You have %1$d %2$s, modify avatar will consume %3$d %2$s.'),
-								$user_points,
+								___('You have %1$s %2$s, modify avatar will consume %3$s %2$s.'),
+								'<strong>' . $user_points . '</strong>',
 								theme_custom_point::get_point_name(),
-								abs($consume_points)
+								'<strong>' . $consume_points . '</strong>'
 							)
 						);
 					}

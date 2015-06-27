@@ -96,14 +96,14 @@ class theme_options{
 		if(!self::is_options_page())
 			return false;
 		?>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
 		<?php
 		echo theme_features::get_theme_css('backend/style','normal');
 		/**
 		 * add admin_css hook 
 		 */
 		do_action('backend_css');
-		?><script id="seajsnode" src="https://cdnjs.cloudflare.com/ajax/libs/seajs/3.0.1/sea.js"></script>
+		?><script id="seajsnode" src="<?= theme_features::get_theme_js('seajs/sea');?>"></script>
 		<script>
 		<?php
 		$config = [];

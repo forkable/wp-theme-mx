@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.0
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'default_gravatar::init';
@@ -22,20 +22,17 @@ class default_gravatar{
 		return $opts;
 	}
 	public static function new_default_gravatar($default_urls){
-		//var_dump(self::get_url());
 		if(!empty(self::get_url())){
 			$default_urls[self::get_url()] = ___('Custom default gravatar');
 		}
 		return $default_urls;
 	}
 	public static function get_url(){
-		static $caches = [];
-		if(isset($caches['url']))
-			return $caches['url'];
-			
-		$caches['url'] = !empty(self::get_option('url')) ? self::get_option('url') : null;
+		static $cache = null;
+		if($cache === null)
+			$cache = !empty(self::get_option('url')) ? self::get_option('url') : false;
 
-		return $caches['url'];
+		return $cache;
 	}
 	public static function display_backend(){
 		?>
@@ -47,7 +44,7 @@ class default_gravatar{
 					<tr>
 						<th><label for="<?= self::$iden;?>-url"><?= ___('Custom avatar URL');?></label></th>
 						<td>
-							<input class="widefat code" type="url" id="<?= self::$iden;?>-url" name="<?= self::$iden;?>[url]" value="<?= self::get_option('url');?>">
+							<input class="widefat code" type="url" id="<?= self::$iden;?>-url" name="<?= self::$iden;?>[url]" value="<?= self::get_options('url');?>">
 						</td>
 					</tr>
 				</tbody>
@@ -55,14 +52,13 @@ class default_gravatar{
 		</fieldset>
 		<?php
 	}
-	public static function get_option($key = null){
-		static $caches;
-		if(!is_array($caches))			
+	public static function get_options($key = null){
+		static $caches = null;
+		if($caches === null)			
 			$caches = (array)theme_options::get_options(self::$iden);
 			
-		if($key){
+		if($key)
 			return isset($caches[$key]) ? $caches[$key] : null;
-		}
 		return $caches;
 	}
 }

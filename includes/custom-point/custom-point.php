@@ -65,9 +65,7 @@ class theme_custom_point{
 	}
 
 	public static function display_backend(){
-		$opt = self::get_options();
-		$points = $opt['points'];
-		$point_name = isset($opt['point-name']) ? $opt['point-name'] : ___('Cat-paw');
+		$points = self::get_options('points');
 		?>
 		<fieldset>
 			<legend><?= ___('User point settings');?></legend>
@@ -77,37 +75,43 @@ class theme_custom_point{
 					<tr>
 						<th><label for="<?= self::$iden;?>-point-name"><?= ___('Point name');?></label></th>
 						<td>
-							<input type="text" name="<?= self::$iden;?>[point-name]" class="widefat" id="<?= self::$iden;?>-point-name" value="<?= esc_attr($point_name);?>">
+							<input type="text" name="<?= self::$iden;?>[point-name]" class="widefat" id="<?= self::$iden;?>-point-name" value="<?= esc_attr(self::get_point_name());?>">
 						</td>
 					</tr>
-					<?php foreach(self::get_point_types() as $k => $v){ ?>
-						<tr>
-							<th>
-								<label for="<?= self::$iden;?>-<?= $k;?>"><?= $v['text'];?></label>
-							</th>
-							<td>
-								<input 
-									type="<?= isset($points[$k]) && is_int($points[$k]) ? 'number' : 'text';?>" 
-									name="<?= self::$iden;?>[points][<?= $k;?>]" class="short-text" 
-									id="<?= self::$iden;?>-<?= $k;?>" 
-									value="<?= isset($points[$k]) ? $points[$k] : 0;?>"
-								>
-								<?php if(isset(self::get_point_types($k)['des'])){ ?>
-									<span class="description"><?= self::get_point_types($k)['des'];?></span>
-								<?php } ?>
-							</td>
-						</tr>
+					<?php foreach(self::get_point_types() as $k => $type){ ?>
+<tr>
+	<th>
+		<label for="<?= self::$iden;?>-<?= $k;?>"><?= $type['text'];?></label>
+	</th>
+	<td>
+		<input 
+			type="<?= isset($type['type']) ? $type['type'] : 'text';?>" 
+			name="<?= self::$iden;?>[points][<?= $k;?>]" class="short-text" 
+			id="<?= self::$iden;?>-<?= $k;?>" 
+			value="<?= isset($points[$k]) ? $points[$k] : self::get_point_value_default($k);?>"
+		>
+		<?php if(isset($type['des'])){ ?>
+			<span class="description"><?= $type['des'];?></span>
+		<?php } ?>
+	</td>
+</tr>
 					<?php } ?>
 					<tr>
 						<th><label for="<?= self::$iden;?>-point-des"><?= ___('Description on point history page');?></label></th>
 						<td>
-							<textarea name="<?= self::$iden;?>[point-des]" id="<?= self::$iden;?>-des" rows="3" class="widefat code"><?= isset($opt['point-des']) ? $opt['point-des'] : null;?></textarea>
+							<textarea name="<?= self::$iden;?>[point-des]" id="<?= self::$iden;?>-des" rows="3" class="widefat code"><?= self::get_point_des();?></textarea>
 						</td>
 					</tr>
 					<tr>
-						<th><label for="<?= self::$iden;?>-point-img-url"><?= ___('Description on point history page');?></label></th>
+						<th><label for="<?= self::$iden;?>-point-img-url">
+							<?= ___('Point image url');?>
+							<?php if(self::get_point_img_url() !== ''){ ?>
+								<br>
+								<img src="<?= self::get_point_img_url();?>" alt="" width="50" height="50">
+							<?php } ?>
+						</label></th>
 						<td>
-							<input type="url" name="<?= self::$iden;?>[point-img-url]" id="<?= self::$iden;?>-img-url" class="widefat code" value="<?= isset($opt['point-img-url']) ? $opt['point-img-url'] : null;?>">
+							<input type="url" name="<?= self::$iden;?>[point-img-url]" id="<?= self::$iden;?>-img-url" class="widefat code" value="<?= self::get_point_img_url();?>">
 						</td>
 					</tr>
 				</tbody>
@@ -292,63 +296,84 @@ class theme_custom_point{
 	public static function get_point_types($key = null){
 		static $caches = null;
 		if($caches === null){
-			
 			$caches = [
 				'signup' => [
-					'text' => ___('When sign-up')
+					'text' => ___('When sign-up'),
+					'type' => 'number',
 				],
 				'signin-daily' => [
-					'text' => ___('When sign-in daily')
+					'text' => ___('When sign-in daily'),
+					'type' => 'number',
 				],
 				'comment-publish' => [
-					'text' => ___('When publish comment')
+					'text' => ___('When publish comment'),
+					'type' => 'number',
 				],
 				'comment-delete' => [
-					'text' => ___('When delete comment')
+					'text' => ___('When delete comment'),
+					'type' => 'number',
 				],
 				'post-publish' => [
-					'text' => ___('When publish post')
+					'text' => ___('When publish post'),
+					'type' => 'number',
 				],
 				'post-reply' => [
-					'text' => ___('When reply post')
+					'text' => ___('When reply post'),
+					'type' => 'number',
 				],
 				'post-delete' => [
-					'text' => ___('When delete post')
+					'text' => ___('When delete post'),
+					'type' => 'number',
 				],
 				'post-per-hundred-view'	=> [
-					'text' => ___('When post per hundred view ')
+					'text' => ___('When post per hundred view '),
+					'type' => 'number',
 				],
 				'aff-signup' => [
-					'text' => ___('When aff sign-up')
+					'text' => ___('When aff sign-up'),
+					'type' => 'number',
 				],
 			];
 			$caches = apply_filters('custom_point_types',$caches);
 		}
-		if(empty($key)) 
-			return $caches;
-		
-		return isset($caches[$key]) ? $caches[$key] : null;
+		if($key) 
+			return isset($caches[$key]) ? $caches[$key] : false;
+		return $caches;
 	}
 	public static function options_default(array $opts = []){
 		$opts[self::$iden] = [
-			'points' => [
-				'signup'			=> 20, /** 初始 */
-				'signin-daily'		=> 2, /** 日登 */
-				'comment-publish'	=> 1, /** 发表新评论 */
-				'comment-delete'  	=> -3, /** 删除评论 */
-				'post-publish' 		=> 3, /** 发表新文章 */
-				'post-reply' 		=> 1, /** 文章被回复 */
-				'post-delete'		=> -5,/** 文章被删除 */
-				'post-per-hundred-view' => 5, /** 文章每百查看 */
-				'aff-signup'		=> 5, /** 推广注册 */
-			],
-			'point-name' 			=> ___('Cat-paw'), /** 名称 */
-			'point-des' => ___('Point can exchange many things.'),
+			'points' 		=> self::get_point_value_default(),
+			'point-name' 	=> ___('Cat-paw'), /** 名称 */
+			'point-des' 	=> ___('Point can exchange many things.'),
 			'point-img-url' => 'http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif',
 		];
 		
 		$opts[self::$iden] = apply_filters('custom_point_options_default',$opts[self::$iden]);
 		return $opts;
+	}
+	/**
+	 * get default point value
+	 *
+	 * @param string $key 
+	 * @return array|int
+	 * @version 1.0.0
+	 */
+	public static function get_point_value_default($key = null){
+		$values = [
+			'signup'				=> 20, /** 初始 */
+			'signin-daily'			=> 2, /** 日登 */
+			'comment-publish'		=> 1, /** 发表新评论 */
+			'comment-delete'  		=> -3, /** 删除评论 */
+			'post-publish' 			=> 3, /** 发表新文章 */
+			'post-reply' 			=> 1, /** 文章被回复 */
+			'post-delete'			=> -5,/** 文章被删除 */
+			'post-per-hundred-view' => 5, /** 文章每百查看 */
+			'aff-signup'			=> 5, /** 推广注册 */
+		];
+		$values = apply_filters('custom_point_value_default',$values);
+		if($key)
+			return isset($values[$key]) ? $values[$key] : false;
+		return $values;
 	}
 	public static function options_save(array $opts = []){
 		if(isset($_POST[self::$iden])){
@@ -358,9 +383,15 @@ class theme_custom_point{
 		}
 		return $opts;
 	}
+	/**
+	 * get point name
+	 */
 	public static function get_point_name(){
 		return self::get_options('point-name') ? self::get_options('point-name') : ___('Cat-paw');
 	}
+	/**
+	 * get point description
+	 */
 	public static function get_point_des(){
 		return self::get_options('point-des');
 	}
@@ -374,12 +405,15 @@ class theme_custom_point{
 		}
 		return $caches;
 	}
+	/**
+	 * get point value number
+	 */
 	public static function get_point_value($type){
 		static $caches;
 		if(!$caches)
 			$caches = self::get_options('points');
 
-		return isset($caches[$type]) ? $caches[$type] : false;
+		return isset($caches[$type]) ? $caches[$type] : self::get_point_value_default($type);
 	}
 	/**
 	 * Get user point

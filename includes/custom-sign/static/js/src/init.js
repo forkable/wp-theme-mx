@@ -15,7 +15,8 @@ define(function(require, exports, module){
 		}
 	
 	};
-	exports.cache = {};
+	var config = exports.config,
+		cache = {};
 	
 	exports.init = function(){
 		tools.ready(function(){
@@ -29,22 +30,22 @@ define(function(require, exports, module){
 	 */
 	exports.reset = {
 		init : function(){
-			exports.cache.$fm_reset = I(exports.config.fm_reset_id);
-			if(!exports.cache.$fm_reset)
+			cache.$fm_reset = I(config.fm_reset_id);
+			if(!cache.$fm_reset)
 				return false;
-			tools.auto_focus(exports.cache.$fm_reset);
+			tools.auto_focus(cache.$fm_reset);
 			var m = new tools.validate();
-				m.process_url = exports.config.process_url;
+				m.process_url = config.process_url;
 				m.done = function(data){
 					if(data && data.status === 'success'){
 						setTimeout(function(){
-							location.href = location.href;
+							location.reload();
 						},2000);
 					}
 				};
-				m.loading_tx = exports.config.lang.M00001;
-				m.error_tx = exports.config.lang.E00001;
-				m.$fm = exports.cache.$fm_reset;
+				m.loading_tx = config.lang.M00001;
+				m.error_tx = config.lang.E00001;
+				m.$fm = cache.$fm_reset;
 				m.init();
 		}
 	};
@@ -53,50 +54,50 @@ define(function(require, exports, module){
 	 */
 	exports.recover = {
 		init : function(){
-			exports.cache.$fm_recover = I(exports.config.fm_recover_id);
+			cache.$fm_recover = I(config.fm_recover_id);
 				
-			if(!exports.cache.$fm_recover)
+			if(!cache.$fm_recover)
 				return false;
 			
-			tools.auto_focus(exports.cache.$fm_recover);
+			tools.auto_focus(cache.$fm_recover);
 			var m = new tools.validate();
-				m.process_url = exports.config.process_url;
-				m.loading_tx = exports.config.lang.M00001;
-				m.error_tx = exports.config.lang.E00001;
-				m.$fm = exports.cache.$fm_recover;
+				m.process_url = config.process_url;
+				m.loading_tx = config.lang.M00001;
+				m.error_tx = config.lang.E00001;
+				m.$fm = cache.$fm_recover;
 				m.init();
 		}
 	};
 	exports.sign = {
 		init : function(){
-			exports.cache.$fm_login = I(exports.config.fm_login_id);
-			if(exports.cache.$fm_login){
-				tools.auto_focus(exports.cache.$fm_login);
+			cache.$fm_login = I(config.fm_login_id);
+			if(cache.$fm_login){
+				tools.auto_focus(cache.$fm_login);
 				var m = new tools.validate();
-					m.process_url = exports.config.process_url;
+					m.process_url = config.process_url;
 					m.done = function(data){
 						if(data && data.status === 'success'){
-							location.href = location.href;
+							location.reload();
 						}
 					};
-					m.loading_tx = exports.config.lang.M00001;
-					m.error_tx = exports.config.lang.E00001;
-					m.$fm = exports.cache.$fm_login;
+					m.loading_tx = config.lang.M00001;
+					m.error_tx = config.lang.E00001;
+					m.$fm = cache.$fm_login;
 					m.init();
 			}else{
-				exports.cache.$fm_reg = I(exports.config.fm_reg_id);
-				if(exports.cache.$fm_reg){
-					tools.auto_focus(exports.cache.$fm_reg);
+				cache.$fm_reg = I(config.fm_reg_id);
+				if(cache.$fm_reg){
+					tools.auto_focus(cache.$fm_reg);
 					var m = new tools.validate();
-						m.process_url = exports.config.process_url;
+						m.process_url = config.process_url;
 						m.done = function(data){
 							if(data && data.status === 'success'){
-								location.href = location.href;
+								location.reload();
 							}
 						};
-						m.loading_tx = exports.config.lang.M00001;
-						m.error_tx = exports.config.lang.E00001;
-						m.$fm = exports.cache.$fm_reg;
+						m.loading_tx = config.lang.M00001;
+						m.error_tx = config.lang.E00001;
+						m.$fm = cache.$fm_reg;
 						m.init();
 				}
 			}

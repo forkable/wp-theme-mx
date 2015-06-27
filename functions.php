@@ -606,7 +606,7 @@ class theme_functions{
 				<div class="media">
 					<div class="media-left">
 						<a class="post-meta post-author" href="<?= $author_url;?>" title="<?= sprintf(___('Views all post by %s'),$author_display_name);?>">
-							<img class="avatar" src="<?= esc_url(get_avatar_url($post->post_author));?>" alt="<?= ___('Author avatar');?>" width="50" height="50">
+							<img class="avatar" src="<?= get_avatar_url($post->post_author);?>" alt="<?= ___('Author avatar');?>" width="50" height="50">
 						</a>
 					</div>
 					<div class="media-body">
@@ -1967,7 +1967,7 @@ class theme_functions{
 
 		$avatar_placeholder = theme_features::get_theme_images_url(self::$avatar_placeholder);
 
-		$avatar_url = esc_url(get_avatar_url($user->ID));
+		$avatar_url = get_avatar_url($user->ID);
 		?>
 		<div class="user-list <?= $args['classes'];?>">
 			<a href="<?= theme_cache::get_author_posts_url($user->ID)?>" title="<?= $display_name;?>">

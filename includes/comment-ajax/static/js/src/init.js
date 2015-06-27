@@ -16,12 +16,12 @@ define(function(require, exports, module){
 		pagi_process_url : '',
 		post_id : '',
 		lang : {
-			M00001 : 'Loading, please wait...', 
-			M00002 : 'Commented successfully, thank you!',
-			M00003 : 'Previous',
-			M00004 : 'Next',
-			M00005 : '{n} page',
-			E00001 : 'Sorry, some server error occurred, the operation can not be completed, please try again later.'
+			M01 : 'Loading, please wait...', 
+			M02 : 'Commented successfully, thank you!',
+			M03 : 'Previous',
+			M04 : 'Next',
+			M05 : '{n} page',
+			E01 : 'Sorry, some server error occurred, the operation can not be completed, please try again later.'
 		}
 		
 	
@@ -52,11 +52,11 @@ define(function(require, exports, module){
 			 */
 			var pagi = new exports.pagination();
 
-			pagi.lang.loading = config.lang.M00001;
-			pagi.lang.error = config.lang.E00001;
-			pagi.lang.prev = config.lang.M00003;
-			pagi.lang.next = config.lang.M00004;
-			pagi.lang.midd = config.lang.M00005;
+			pagi.lang.loading = config.lang.M01;
+			pagi.lang.error = config.lang.E01;
+			pagi.lang.prev = config.lang.M03;
+			pagi.lang.next = config.lang.M04;
+			pagi.lang.midd = config.lang.M05;
 			
 			pagi.pages = js_request[config.iden].pages;
 			pagi.cpage = js_request[config.iden].cpage;
@@ -448,7 +448,7 @@ define(function(require, exports, module){
 			/**
 			 * ajax send
 			 */
-			tools.ajax_loading_tip('loading',config.lang.M00001);
+			tools.ajax_loading_tip('loading',config.lang.M01);
 			_cache.$submit_btn.setAttribute('disabled',true);
 			ajax();
 			return false;
@@ -512,13 +512,13 @@ define(function(require, exports, module){
 						_cache.$comment_ta.select();
 					}
 				}else{
-					tools.ajax_loading_tip('error',config.lang.E00001);
+					tools.ajax_loading_tip('error',config.lang.E01);
 				}
 				/** enable submit btn */
 				_cache.$submit_btn.removeAttribute('disabled');
 			};
 			xhr.onerror = function(){
-				tools.ajax_loading_tip('error',config.lang.E00001);
+				tools.ajax_loading_tip('error',config.lang.E01);
 				_cache.$submit_btn.removeAttribute('disabled');
 			}
 			

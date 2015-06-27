@@ -43,6 +43,19 @@ class theme_notification{
 		 * add noti for special event
 		 */
 		add_action('added_user_meta',	__CLASS__ . '::action_add_noti_special_event',10,4);
+
+		/**
+		 * list notis
+		 */
+		$list_notis = [
+			'list_noti_special_event',
+			'list_noti_post_reply',
+			'list_noti_comment_reply',
+			'list_noti_follow'
+		];
+		foreach($list_notis as $v){
+			add_action('list_noti' , __CLASS__ . '::' . $v);
+		}
 		/**
 		 * clean unread notis
 		 */
@@ -225,6 +238,130 @@ class theme_notification{
 		$caches[$cache_id] = $metas;
 		unset($metas);
 		return $caches[$cache_id];
+	}
+	/**
+	 * list special-event
+	 */
+	public static function list_noti_special_event($noti){
+		if($noti['type'] !== 'special-event')
+			return false;
+		?>
+		<div class="media">
+			<div class="media-left">
+				<i class="fa fa-bullhorn"></i>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">
+					<?= ___('Special event');?>
+					<?php
+					if($noti['point'] > 0){
+						$tip_type = 'success';
+						$sign = '+';
+					}else{
+						$tip_type = 'danger';
+						$sign = '';
+					}
+					?>
+					<span class="label label-<?= $tip_type;?>">
+					<?= theme_custom_point::get_point_name();?>
+					<?= $sign,$noti['point'];?></label>
+				</h4>
+				<div class="excerpt"><p><?= $noti['event'];?></p></div>
+			</div>
+		</div>
+		<?php
+	}
+	/**
+	 * list post-reply
+	 */
+	public static function list_noti_post_reply($noti){
+		if($noti['type'] !== 'post-reply')
+			return false;
+			
+		$comment = theme_notification::get_comment($noti['comment-id']);
+		?>
+		<div class="media">
+			<div class="media-left">
+				<a href="<?php comment_author_url($noti['comment-id']);?>">
+				<img src="<?= get_avatar_url($comment->user_id);?>" class="avatar media-object" alt="avatar" width="60" height="60">
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">
+					<?php
+					echo sprintf(
+						___('Your post %1$s has a comment by %2$s.'),
+						'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '#comment-' . $comment->comment_ID . '">' . esc_html(get_the_title($comment->comment_post_ID)) . '</a>',
+						get_comment_author_link($noti['comment-id'])
+					);
+					?>
+				</h4>
+				<div class="excerpt"><?php comment_text($noti['comment-id']);?></div>
+			</div><!-- /.media-body -->
+		</div><!-- /.media -->
+		<?php
+	}
+	/**
+	 * list comment-reply
+	 */
+	public static function list_noti_comment_reply($noti){
+		if($noti['type'] !== 'comment-reply')
+			return false;
+			
+		$comment = theme_notification::get_comment($noti['comment-id']);
+		//$parent_comment = theme_notification::get_comment($comment->comment_parent);
+		?>
+		<div class="media">
+			<div class="media-left">
+				<a href="<?= comment_author_url($noti['comment-id']);?>">
+					<img src="<?= theme_features::get_theme_images_url('frontend/avatar.jpg');?>" data-src="<?= get_avatar_url($comment->user_id);?>" class="avatar media-object" alt="avatar" width="60" height="60">
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">
+				<?php
+				echo sprintf(
+					___('Your comment has a reply by %1$s in %2$s.'),
+					get_comment_author_link($noti['comment-id']),
+					'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '#comment-' . $noti['comment-id'] . '">
+						' . esc_html(get_the_title($comment->comment_post_ID)) . '
+					</a>'
+				);
+				?>
+				</h4>
+				<div class="excerpt"><?php comment_text($noti['comment-id']);?></div>
+			</div><!-- /.media-body -->
+		</div><!-- /.media -->
+		<?php
+	}
+	/**
+	 * list follow
+	 */
+	public static function list_noti_follow($noti){
+		if($noti['type'] !== 'follow')
+			return false;
+			
+		$follower_id = $v['follower-id'];
+		?>
+		<div class="media">
+			<div class="media-left">
+				<a href="<?php comment_author_url();?>">
+					<img src="<?= esc_url(get_avatar_url($follower_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">
+				<?php
+				echo sprintf(
+					___('%s is following you.'),
+					esc_url(get_comment_author_link())
+				);
+				?>
+				</h4>
+			</div><!-- /.media-body -->
+		</div><!-- /.media -->
+
+		<?php
 	}
 	/**
 	 * Get timestamp

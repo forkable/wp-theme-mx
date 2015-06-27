@@ -30,7 +30,7 @@ class custom_post_point{
 		add_filter('frontend_seajs_alias',__CLASS__ . '::frontend_seajs_alias');
 		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
 
-		add_filter('custom_point_options_default',__CLASS__ . '::filter_custom_point_options_default');
+		add_filter('custom_point_value_default',__CLASS__ . '::filter_custom_point_value_default');
 
 		add_filter('custom_point_types',__CLASS__ . '::filter_custom_point_types');
 
@@ -305,13 +305,17 @@ class custom_post_point{
 	public static function filter_custom_point_types(array $types = []){
 		$types['post-swap'] = [
 			'text' => ___('When post point swap'),
+			'type' => 'text',
 			'des' => ___('Use commas to separate multiple point, first as the default.'),
 		];
 		return $types;
 	}
-	public static function filter_custom_point_options_default(array $opts = []){
-		$opts['points']['post-swap'] = '1,3,5';
+	public static function filter_custom_point_value_default(array $opts = []){
+		$opts['post-swap'] = self::get_point_values_default(true);
 		return $opts;
+	}
+	public static function get_point_values_default($text = false){
+		return $text === true ? '3,1,5' : [3,1,5];
 	}
 	public static function get_point_values(){
 		static $cache = null;
@@ -319,14 +323,16 @@ class custom_post_point{
 		if($cache !== null)
 			return $cache;
 			
-		$values = explode(',',theme_custom_point::get_point_value('post-swap'));
-		
-		$cache = array_map(function($v){
-			$v = trim($v);
-			if(is_numeric($v))
-				return $v;
-		},$values);
-		
+		$values = explode(',',(array)theme_custom_point::get_point_value('post-swap'));
+		if(!is_null_array($values)){
+			$cache = array_map(function($v){
+				$v = trim($v);
+				if(is_numeric($v))
+					return $v;
+			},$values);
+		}else{
+			$cache = self::get_point_values_default();
+		}
 		return $cache;
 	}
 	public static function process(){

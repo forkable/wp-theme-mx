@@ -467,14 +467,14 @@ class theme_comment_ajax{
 				'action' => self::$iden,
 			]);?>';
 			m.config.post_id = <?= $post->ID;?>;
-			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
-			m.config.lang.M00002 = '<?= ___('Commented successfully, thank you!');?>';
+			m.config.lang.M01 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.M02 = '<?= ___('Commented successfully, thank you!');?>';
 			
-			m.config.lang.M00003 = '<i class="fa fa-arrow-left"></i>';
-			m.config.lang.M00004 = '<i class="fa fa-arrow-right"></i>';
-			m.config.lang.M00005 = '<?= ___('{n} page');?>';
+			m.config.lang.M03 = '<i class="fa fa-arrow-left"></i>';
+			m.config.lang.M04 = '<i class="fa fa-arrow-right"></i>';
+			m.config.lang.M05 = '<?= ___('{n} page');?>';
 			
-			m.config.lang.E00001 = '<?= ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
+			m.config.lang.E01 = '<?= ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
 			m.init();
 		});
 		<?php
@@ -541,7 +541,7 @@ class theme_comment_ajax{
 						'registration' => theme_features::get_option('comment_registration'),
 						'user-name' => esc_html($user_name),
 						'user-url' => esc_url($user_url),
-						'avatar-url' => esc_url($avatar_url),
+						'avatar-url' => $avatar_url,
 					];
 					break;
 			}

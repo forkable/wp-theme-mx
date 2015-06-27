@@ -28,9 +28,26 @@ class theme_custom_point_bomb{
 		add_filter('frontend_seajs_alias',__CLASS__ . '::frontend_seajs_alias');
 		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
 
-		add_filter('custom_point_options_default',__CLASS__ . '::filter_custom_point_options_default');
+		add_filter('custom_point_value_default',__CLASS__ . '::filter_custom_point_value_default');
 
 		add_filter('custom_point_types',__CLASS__ . '::filter_custom_point_types');
+
+		/**
+		 * list history
+		 */
+		foreach([
+			'list_history_for_attacker',
+			'list_history_for_target'
+		] as $v)
+			add_action('list_point_histroy',__CLASS__ . '::' . $v);
+
+		/**
+		 * noti event
+		 */
+		foreach([
+			'list_noti_be_bomb'
+		] as $v)
+			add_action('list_noti',__CLASS__ . '::' . $v);
 	}
 	public static function wp_title($title, $sep){
 		if(!self::is_page()) 
@@ -91,17 +108,26 @@ class theme_custom_point_bomb{
 	public static function filter_custom_point_types(array $types = []){
 		$types['bomb-percent'] = [
 			'text' => ___('Victory percentage'),
+			'type' => 'number',
 			'des' => ___('User bombs other user points victory percentage. The unit is the percentage.'),
 		];
 		$types['bomb'] = [
 			'text' => ___('When user bomb points'),
+			'type' => 'text',
 			'des' => ___('Use commas to separate multiple point, first as the default.'),
 		];
 		return $types;
 	}
-	public static function filter_custom_point_options_default(array $opts = []){
-		$opts['points']['bomb'] = '10,50,100';
+	public static function filter_custom_point_value_default(array $opts = []){
+		$opts['bomb-percent'] = self::get_victory_percent_default();
+		$opts['bomb'] = self::get_points_default(true);
 		return $opts;
+	}
+	public static function get_victory_percent_default(){
+		return 30;
+	}
+	public static function get_points_default($text = false){
+		return $text === true ? '5,10,50,100' : [10,20,50,100];
 	}
 	public static function get_point_values(){
 		static $cache = null;
@@ -109,14 +135,17 @@ class theme_custom_point_bomb{
 		if($cache !== null)
 			return $cache;
 			
-		$values = explode(',',theme_custom_point::get_point_value('pk'));
-		
-		$cache = array_map(function($v){
-			$v = trim($v);
-			if(is_numeric($v))
-				return $v;
-		},$values);
-		
+		$values = explode(',',theme_custom_point::get_point_value('bomb'));
+
+		if(!is_null_array($values)){
+			$cache = array_map(function($v){
+				$v = trim($v);
+				if(is_numeric($v))
+					return $v;
+			},$values);
+		}else{
+			$cache = self::get_points_default();
+		}
 		return $cache;
 	}
 	public static function get_options($key = null){
@@ -171,6 +200,9 @@ class theme_custom_point_bomb{
 	}
 	public static function get_victory_percent(){
 		$percent = (int)theme_custom_point::get_point_value('bomb-percent');
+		if(!$percent)
+			$percent = self::get_victory_percent_default();
+			
 		if($percent > 100)
 			$percent = 100;
 		
@@ -213,13 +245,24 @@ class theme_custom_point_bomb{
 				'msg' => ___('Sorry, the target user do not exist.'),
 			]));
 		}
+
+		/**
+		 * check target is myself
+		 */
+		if(self::get_current_user_id() == $target_id){
+			die(theme_features::json_format([
+				'status' => 'error',
+				'code' => 'target_is_myself',
+				'msg' => ___('Sorry, you can not attack yourself.'),
+			]));
+		}
 		return $target;
 	}
 	public static function process(){
 		theme_features::check_referer();
 		theme_features::check_nonce();
 		$output = [];
-
+		
 		$type = isset($_REQUEST['type']) && is_string($_REQUEST['type']) ? $_REQUEST['type'] : null;
 
 		$target_id = isset($_REQUEST['target']) && is_numeric($_REQUEST['target']) ? $_REQUEST['target'] : null;
@@ -234,7 +277,7 @@ class theme_custom_point_bomb{
 				$output = [
 					'status' => 'success',
 					'points' => theme_custom_point::get_point($target_id),
-					'avatar' => get_avatar_url($target_id),
+					'avatar' => str_replace('&#038;','&',get_avatar_url($target_id)),
 					'name' => esc_html($target->display_name),
 					'msg' => ___('Target locked, bomb is ready.'),
 				];
@@ -261,6 +304,7 @@ class theme_custom_point_bomb{
 						'status' => 'error',
 						'code' => 'invaild_point_value',
 						'msg' => ___('Sorry, the point value is invaild.'),
+						'points' => self::get_point_values(),
 					]));
 				}
 				/**
@@ -271,18 +315,19 @@ class theme_custom_point_bomb{
 					die(theme_features::json_format([
 						'status' => 'error',
 						'code' => 'target_points_not_enough',
-						'msg' => ___('Sorry, the target points is not enough to bear your bomb.'),
+						'msg' => sprintf(___('Sorry, the target %s is not enough to bear your bomb.'),theme_custom_point::get_point_name()),
 					]));
 				}
 				/**
 				 * check attacker points
 				 */
+				$attacker_id = self::get_current_user_id();
 				$attacker_points = theme_custom_point::get_point($attacker_id);
 				if($points > $attacker_points){
 					die(theme_features::json_format([
 						'status' => 'error',
 						'code' => 'attacker_points_not_enough',
-						'msg' => ___('Sorry, your points is not enough to bomb target.'),
+						'msg' => sprintf(___('Sorry, your %s is not enough to bomb target.'),theme_custom_point::get_point_name()),
 					]));
 				}
 				/**
@@ -300,26 +345,25 @@ class theme_custom_point_bomb{
 				self::add_history_for_attacker($current_user_id,$target_id,$points,$hit);
 
 				self::add_noti_for_target($current_user_id,$target_id,$points,$hit);
-
 				/**
 				 * new target points
 				 */
 				$target_extra_points = self::get_extra_points_for_target($hit,$points);
-				$new_target_points += $target_extra_points;
+				$new_target_points = $target_points + $target_extra_points;
 				
 				/**
 				 * new attacker points
 				 */
 				$attacker_extra_points = self::get_extra_points_for_attacker($hit,$points);
-				$new_attacker_points += $attacker_extra_points;
+				$new_attacker_points = $attacker_points + $attacker_extra_points;
 				
 				/** update attacker points */
-				theme_custom_point::update_user_points( $attacker_id, $new_attacker_points);
+				theme_custom_point::update_user_points($attacker_id, $new_attacker_points);
 				
 				/** update target points */
-				theme_custom_point::update_user_points( $target_id, $new_target_points);
+				theme_custom_point::update_user_points($target_id, $new_target_points);
 
-				$target_name = '<a href="' . esc_url(get_author_posts_url($target_id)) . '" target="_blank" class="author"><img src="' . esc_url(get_avatar_url($target_id)) . '" width="16" height="16" alt="avatar"> ' . esc_html($target->display_name) . '</a>';
+				$target_name = '<a href="' . esc_url(get_author_posts_url($target_id)) . '" target="_blank" class="author">' . esc_html($target->display_name) . '</a>';
 							
 				/**
 				 * hit target
@@ -327,19 +371,15 @@ class theme_custom_point_bomb{
 				if( $hit ){
 					
 					$output['msg'] = sprintf(
-						___('Bombing successfully! Your bomb hit %1$s, you got +%2$d %3$s and remaining %4$d %3$s. Target lost -%5$d %3$s and remaining %6$d %3$s.'),
+						___('Bombing successfully! Your bomb hit %1$s, you got %2$s %3$s. Target remaining %4$s %3$s.'),
 
 						$target_name,
 						
-						'<strong class="plus">' . $attacker_extra_points . '</strong>',/** %2$d */
+						'<strong class="plus">+' . $attacker_extra_points . '</strong>',/** %2$s */
 						
 						theme_custom_point::get_point_name(),/** %3$s */
 						
-						$new_attacker_points,/** %4$d */
-						
-						$target_extra_points,/** %5$d */
-						
-						$new_target_points /** %6$d */
+						$new_target_points /** %4$s */
 					);
 					
 				/**
@@ -347,22 +387,19 @@ class theme_custom_point_bomb{
 				 */
 				}else{
 					$output['msg'] = sprintf(
-						___('Unlucky! %1$s miss your attack, you lost -%2$d %3$s and remaining %4$d %3$s. Target picked up +%5$d %3$s and remaining %6$d %3$s.'),
+						___('Unlucky! %1$s miss your attack, you lost %2$s %3$s and remaining %4$s %3$s.'),
 						
 						$target_name,
 						
-						'<strong class="plus">' . $target_extra_points . '</strong>',/** %2$d */
+						'<strong class="mins">' . $attacker_extra_points . '</strong>',/** %2$s */
 						
 						theme_custom_point::get_point_name(),/** %3$s */
 						
-						$new_attacker_points,/** %4$d */
+						$new_attacker_points /** %4$s */
 						
-						$attacker_extra_points,/** %5$d */
-						
-						$new_target_points /** %6$d */
 					);
 				}
-				
+				$output['hit'] = $hit;
 				$output['status'] = 'success';
 				
 				die(theme_features::json_format($output));
@@ -388,11 +425,11 @@ class theme_custom_point_bomb{
 			$cache = current_time('timestamp');
 		return $cache;
 	}
-	private static function get_extra_points_for_target($hit,$point){
+	private static function get_extra_points_for_target($hit,$points){
 		return $hit ? 0 - $points : round($points / 2);
 	}
-	private static function get_extra_points_for_attacker($hit,$point){
-		return $hit ? $points : 0 - $point;
+	private static function get_extra_points_for_attacker($hit,$points){
+		return $hit ? $points : 0 - $points;
 	}
 	public static function add_history_for_target($attacker_id,$target_id,$points,$hit){
 
@@ -417,7 +454,7 @@ class theme_custom_point_bomb{
 			'points' => self::get_extra_points_for_attacker($hit,$points),
 		];
 		
-		add_user_meta($target_id,theme_custom_point::$user_meta_key['history'],$meta);
+		add_user_meta($attacker_id,theme_custom_point::$user_meta_key['history'],$meta);
 		
 	}
 	public static function add_noti_for_target($attacker_id,$target_id,$points,$hit){
@@ -442,7 +479,163 @@ class theme_custom_point_bomb{
 			'points' 	=> self::get_extra_points_for_attacker($hit,$points),
 		];
 		
-		add_user_meta($target_id,theme_notification::$user_meta_key['key'],$meta);
+		add_user_meta($attacker_id,theme_notification::$user_meta_key['key'],$meta);
+	}
+	public static function list_history_for_attacker($history){
+		if($history['type'] !== 'bomb')
+			return false;
+
+		$target_name = esc_html(get_the_author_meta('display_name',$history['target-id']));
+		?>
+		<li class="list-group-item">
+			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
+			<?php theme_custom_point::the_point_sign($history['points']);?>
+			
+			<span class="history-text">
+				<?php
+				if($history['hit']){
+					echo sprintf(
+						___('You bombed %1$s and hit! You got %2$s %3$s.'),
+						
+						'<a href="' . esc_url(get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar">' . $target_name  . '</a>',
+						
+						'<strong>+' . abs($history['points']) . '</strong>',
+						
+						theme_custom_point::get_point_name()
+					);
+				}else{
+					echo sprintf(
+						___('You bombed %1$s but miss! You lost %2$s %3$s.'),
+						
+						'<a href="' . esc_url(get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar">' . $target_name  . '</a>',
+						
+						'<strong>' . (0 - abs($history['points'])) . '</strong>',
+						
+						theme_custom_point::get_point_name()
+					);
+				}
+				?>
+			</span>
+			
+			<?php theme_custom_point::the_history_time($history);?>
+		</li>
+		<?php
+	}
+	public static function list_history_for_target($history){
+		if($history['type'] !== 'be-bomb')
+			return false;
+
+		$attacker_name = esc_html(get_the_author_meta('display_name',$history['attacker-id']));
+		
+		$attacker_name = '<a href="' . esc_url(get_author_posts_url($history['attacker-id'])) . '" attacker="_blank"><img src="' . get_avatar_url($history['attacker-id']) . '" alt="' . $attacker_name . '" width="16" height="16" class="avatar">' . $attacker_name  . '</a>';
+		
+		?>
+		<li class="list-group-item">
+			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
+			<?php theme_custom_point::the_point_sign($history['points']);?>
+			
+			<span class="history-text">
+				<?php
+				if($history['hit']){
+					echo sprintf(
+						___('%1$s bombed you and hit. You lost %2$s %3$s.'),
+						
+						$attacker_name,
+						
+						'<strong>' . ( 0 - abs($history['points'])) . '</strong>',
+						
+						theme_custom_point::get_point_name()
+					);
+				}else{
+					echo sprintf(
+						___('%1$s bombed you but miss. You got %2$s %3$s.'),
+						
+						$attacker_name,
+						
+						'<strong>+' . abs($history['points']) . '</strong>',
+						
+						theme_custom_point::get_point_name()
+					);
+				}
+				?>
+			</span>
+			
+			<?php theme_custom_point::the_history_time($history);?>
+		</li>
+		<?php
+	}
+	/**
+	 * list noti be-bomb
+	 */
+	public static function list_noti_be_bomb($noti){
+		if($noti['type'] !== 'be-bomb')
+			return false;
+
+		if($noti['hit']){
+			$points = '<strong class="label label-success">' . $noti['points'] . '</strong>';
+		}else{
+			$points = '<strong class="label label-danger">+' . $noti['points'] . '</strong>';
+		}
+
+		if(class_exists('number_user_nicename')){
+			$fight_back_url = self::get_tabs('bomb',$noti['attacker-id'] + number_user_nicename::$prefix_number)['url'];
+		}else{
+			$fight_back_url = self::get_tabs('bomb',$noti['attacker-id'])['url'];
+		}
+		?>
+		<div class="media">
+			<div class="media-left">
+				<a href="<?php esc_html(get_author_posts_url($noti['attacker-id']));?>">
+				<img src="<?= get_avatar_url($noti['attacker-id']);?>" class="avatar media-object" alt="avatar" width="60" height="60">
+				</a>
+			</div>
+			<div class="media-body">
+				<h4 class="media-heading">
+					<a class="label label-default" href="<?= self::get_tabs('bomb')['url'];?>"><i class="fa fa-<?= self::get_tabs('bomb')['icon'];?>"></i> <?= ___('Bomb world');?></a>
+					<?= $points;?>
+					
+					<?php theme_custom_point::the_history_time($noti);?>
+
+					<?php if($noti['hit']){ ?>
+						<a class="fight-back btn btn-danger btn-xs" href="<?= $fight_back_url;?>" target="_blank"><strong><?= ___('It is time to fight back');?> <i class="fa fa-external-link"></i></strong></a>
+					<?php } ?>
+				</h4>
+				<div class="excerpt">
+					<p>
+					<?php
+					$attacker_name = esc_html(get_the_author_meta('display_name',$noti['attacker-id']));
+
+					$attacker_name = '<a href="' . esc_url(get_author_posts_url($noti['attacker-id'])) . '" target="_blank">' . $attacker_name  . '</a>';
+					
+					if($noti['hit']){
+						echo sprintf(
+							___('%1$s bombed you and hit. You lost %2$s %3$s.'),
+							
+							$attacker_name,
+							
+							'<strong>' . ( 0 - abs($noti['points'])) . '</strong>',
+							
+							theme_custom_point::get_point_name()
+						);
+					}else{
+						echo sprintf(
+							___('%1$s bombed you but miss! You got %2$s %3$s.'),
+							
+							$attacker_name,
+							
+							'<strong>+' . abs($noti['points']) . '</strong>',
+							
+							theme_custom_point::get_point_name()
+						);					
+					}
+
+					?>
+					
+					</p>
+				</div>
+			</div><!-- /.media-body -->
+		</div><!-- /.media -->
+		<?php
 	}
 	public static function frontend_seajs_alias($alias){
 		if(self::is_page()){
@@ -456,6 +649,9 @@ class theme_custom_point_bomb{
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
+			m.config.lang.M01 = '<?= ___('Target locking...');?>';
+			m.config.lang.M02 = '<?= ___('Bombing, please wait...');?>';
+			m.config.lang.E01 = '<?= ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
 			m.init();
 		});
 		<?php

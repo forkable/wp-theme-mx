@@ -24,7 +24,7 @@ class theme_custom_user_settings{
 		
 		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
 
-		add_filter('custom_point_options_default', __CLASS__ . '::filter_custom_point_options_default');
+		add_filter('custom_point_value_default', __CLASS__ . '::filter_custom_point_value_default');
 
 		add_filter('custom_point_types' , __CLASS__ . '::filter_custom_point_types');
 	
@@ -55,34 +55,32 @@ class theme_custom_user_settings{
 		return $title . $sep . get_bloginfo('name');
 	}
 	public static function filter_query_vars($vars){
-		if(!in_array('page',$vars)) $vars[] = 'page';
+		if(!in_array('tab',$vars)) $vars[] = 'tab';
 		return $vars;
 	}
 	public static function is_page(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-			
-		$caches[self::$iden] =
-			is_page(self::$page_slug) 				&& 
-			self::get_tabs(get_query_var('tab'));
+		static $cache = null;
+		if($cache === null)
+			$cache = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 		
-		return $caches[self::$iden];
+		return $cache;
 	}
 
 	public static function filter_custom_point_types(array $types = []){
 		$types['save-settings'] = [
-			'text' => ___('When user save settings')
+			'text' => ___('When user save settings'),
+			'type' => 'number',
 		];
 		$types['save-avatar'] = [
-			'text' => ___('When user save avatar')
+			'text' => ___('When user save avatar'),
+			'type' => 'number',
 		];
 
 		return $types;
 	}
-	public static function filter_custom_point_options_default(array $opts = []){
-		$opts['points']['save-settings'] = -30;
-		$opts['points']['save-avatar'] = -50;
+	public static function filter_custom_point_value_default(array $opts = []){
+		$opts['save-settings'] = -30;
+		$opts['save-avatar'] = -50;
 		return $opts;
 	}
 	public static function process(){
@@ -110,7 +108,7 @@ class theme_custom_user_settings{
 					/** get current user points */
 					$user_points = theme_custom_point::get_point($user_id);
 					
-					if(theme_custom_point::get_point_value('save-' . $type) > $user_points){
+					if($user_points - abs(theme_custom_point::get_point_value('save-' . $type)) < 0){
 						die(theme_features::json_format([
 							'status' => 'error',
 							'code' => 'not_enough_point',
@@ -158,7 +156,7 @@ class theme_custom_user_settings{
 					if(class_exists('theme_custom_point')) {
 						$meta = [
 							'type' => 'save-' . $type,
-							'points' => theme_custom_point::get_point_value('save-' . $type),
+							'points' => 0 - abs(theme_custom_point::get_point_value('save-' . $type)),
 							'timestamp' => current_time('timestamp'),
 						];
 						add_user_meta($user_id,theme_custom_point::$user_meta_key['history'],$meta);
@@ -166,12 +164,12 @@ class theme_custom_user_settings{
 						 * update points
 						 */
 						
-						update_user_meta($user_id,theme_custom_point::$user_meta_key['point'],$user_points + theme_custom_point::get_point_value('save-' . $type));
+						update_user_meta($user_id,theme_custom_point::$user_meta_key['point'],$user_points - abs(theme_custom_point::get_point_value('save-' . $type)));
 
 						/**
 						 * feelback
 						 */
-						$output['points'] = theme_custom_point::get_point_value('save-' . $type);
+						$output['points'] = 0 - abs(theme_custom_point::get_point_value('save-' . $type));
 					}
 
 					
@@ -201,10 +199,9 @@ class theme_custom_user_settings{
 				 * old pwd
 				 */
 				$old_pwd = isset($_POST['old-pwd']) && is_string($_POST['old-pwd']) ? trim($_POST['old-pwd']) : null;
-				global $current_user;
-				get_currentuserinfo();
+
 				if(empty($old_pwd) || 
-					wp_check_password($old_pwd,$current_user->user_pass,get_current_user_id())){
+					wp_check_password($old_pwd,$current_user->user_pass,$user_id)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_old_pwd';
 					$output['msg'] = ___('Invaild current password.');
@@ -214,16 +211,15 @@ class theme_custom_user_settings{
 				/**
 				 * change password
 				 */
-				$current_id = get_current_user_id();
 				wp_update_user(array(
-					'ID' => $current_id,
+					'ID' => $user_id,
 					'user_pass' => $new_pwd_1,
 				));
 				/**
 				 * set current, relogin
 				 */
-				wp_set_current_user($current_id);
-				wp_set_auth_cookie($current_id);
+				wp_set_current_user($user_id);
+				wp_set_auth_cookie($user_id);
 				
 				$output['status'] = 'success';
 				$output['msg'] = ___('Your new password has been saved. Re-logging in, please wait...');
@@ -241,7 +237,7 @@ class theme_custom_user_settings{
 					/** get current user points */
 					$user_points = theme_custom_point::get_point($user_id);
 					
-					if(theme_custom_point::get_point_value('save-' . $type) > $user_points){
+					if($user_points - abs(theme_custom_point::get_point_value('save-' . $type)) < 0){
 						die(theme_features::json_format([
 							'status' => 'error',
 							'code' => 'not_enough_point',
@@ -258,10 +254,8 @@ class theme_custom_user_settings{
 				}
 
 				$wp_uplaod_dir = wp_upload_dir();
-
-				$current_user_id = get_current_user_id();
 				
-				$filename = $current_user_id . '.jpg';
+				$filename = $user_id . '.jpg';
 
 				$filesub_url = '/avatar/' . $filename;
 
@@ -287,7 +281,7 @@ class theme_custom_user_settings{
 					if(class_exists('theme_custom_point')) {
 						$meta = [
 							'type' => 'save-' . $type,
-							'points' => theme_custom_point::get_point_value('save-' . $type),
+							'points' => 0 - abs(theme_custom_point::get_point_value('save-' . $type)),
 							'timestamp' => current_time('timestamp'),
 						];
 						add_user_meta($user_id,theme_custom_point::$user_meta_key['history'],$meta);
@@ -295,19 +289,19 @@ class theme_custom_user_settings{
 						 * update points
 						 */
 						
-						update_user_meta($user_id,theme_custom_point::$user_meta_key['point'],$user_points + theme_custom_point::get_point_value('save-' . $type));
+						update_user_meta($user_id,theme_custom_point::$user_meta_key['point'],$user_points - abs(theme_custom_point::get_point_value('save-' . $type)));
 
 						/**
 						 * feelback
 						 */
-						$output['points'] = theme_custom_point::get_point_value('save-' . $type);
+						$output['points'] = 0 - abs(theme_custom_point::get_point_value('save-' . $type));
 					}
 					/**
 					 * update user meta for avatar
 					 */
 					$avatar_meta_key = class_exists('theme_custom_avatar') ? theme_custom_avatar::$user_meta_key['avatar'] : 'avatar';
 					
-					update_user_meta($current_user_id,$avatar_meta_key,$filesub_url . $timestamp);
+					update_user_meta($user_id,$avatar_meta_key,$filesub_url . $timestamp);
 					
 					$output['status'] = 'success';
 					$output['avatar-url'] = $fileurl;
@@ -324,14 +318,12 @@ class theme_custom_user_settings{
 		}
 	}
 	public static function get_url(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-			
-		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$caches[self::$iden] = esc_url(get_permalink($page->ID));
-		
-		return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null){
+			$page = theme_cache::get_page_by_path(self::$page_slug);
+			$cache = esc_url(get_permalink($page->ID));
+		}
+		return $cache;
 	}
 	public static function get_tabs($key = null){
 		static $caches = [];
@@ -358,7 +350,7 @@ class theme_custom_user_settings{
 			),
 			'avatar' => array(
 				'text' => ___('My avatar'),
-				'icon' => 'image',
+				'icon' => 'github-alt',
 				'url' => esc_url(add_query_arg('tab','avatar',$baseurl)),
 				'filter_priority' => 70,
 			),
@@ -386,14 +378,14 @@ class theme_custom_user_settings{
 	public static function filter_nav_settings($navs){
 		$navs['settings'] = '<a href="' . self::get_tabs('settings')['url'] . '">
 			<i class="fa fa-' . self::get_tabs('settings')['icon'] . ' fa-fw"></i> 
-			' . esc_html(self::get_tabs('settings')['text']) . '
+			' . self::get_tabs('settings')['text'] . '
 		</a>';
 		return $navs;
 	}
 	public static function filter_nav_avatar($navs){
 		$navs['avatar'] = '<a href="' . self::get_tabs('avatar')['url'] . '">
 			<i class="fa fa-' . self::get_tabs('avatar')['icon'] . ' fa-fw"></i> 
-			' . esc_html(self::get_tabs('avatar')['text']) . '
+			' . self::get_tabs('avatar')['text'] . '
 		</a>';
 		return $navs;
 	}
@@ -410,7 +402,7 @@ class theme_custom_user_settings{
 		?>
 		<li class="list-group-item">
 			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
-			<?php theme_custom_point::the_point_sign(theme_custom_point::get_point_value('save-settings'));?>
+			<?php theme_custom_point::the_point_sign(0 - abs(theme_custom_point::get_point_value('save-settings')));?>
 			
 			<span class="history-text">
 				<?= ___('You modified your settings.');?>
@@ -426,7 +418,7 @@ class theme_custom_user_settings{
 		?>
 		<li class="list-group-item">
 			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
-			<?php theme_custom_point::the_point_sign(theme_custom_point::get_point_value('save-avatar'));?>
+			<?php theme_custom_point::the_point_sign(0 - (theme_custom_point::get_point_value('save-avatar')));?>
 			
 			<span class="history-text">
 				<?= ___('You modified your avatar.');?>

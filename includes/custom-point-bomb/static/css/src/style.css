@@ -1,6 +1,9 @@
 #fm-bomb{
 	display: none;
 }
+.bomb-area-meta img{
+	vertical-align: top;
+}
 .attack-sign{
 	padding-top: 20px;
 	

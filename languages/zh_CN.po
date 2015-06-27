@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-25 22:43+0800\n"
-"PO-Revision-Date: 2015-06-25 22:50+0800\n"
+"POT-Creation-Date: 2015-06-27 21:11+0800\n"
+"PO-Revision-Date: 2015-06-27 21:11+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -41,14 +41,15 @@ msgstr "添加评论"
 #: includes/custom-page-cats/custom-page-cats.php:201
 #: includes/custom-page-rank/custom-page-rank.php:491
 #: includes/custom-page-tags/custom-page-tags.php:405
-#: includes/custom-point/custom-point.php:978
-#: includes/custom-post-point/custom-post-point.php:842
-#: includes/custom-post-point/custom-post-point.php:864
-#: includes/custom-sign/custom-sign.php:254
+#: includes/custom-point/custom-point.php:1012
+#: includes/custom-post-point/custom-post-point.php:848
+#: includes/custom-post-point/custom-post-point.php:870
+#: includes/custom-sign/custom-sign.php:260
 #: includes/custom-slidebox/custom-slidebox.php:354
-#: includes/custom-user-settings/custom-user-settings.php:474
-#: includes/custom-user-settings/custom-user-settings.php:485
-#: includes/favicon/favicon.php:198 includes/quick-sign/quick-sign.php:400
+#: includes/custom-user-settings/custom-user-settings.php:466
+#: includes/custom-user-settings/custom-user-settings.php:477
+#: includes/favicon/favicon.php:198 includes/quick-sign/quick-sign.php:395
+#: tpl/page-account-bomb.php:20
 msgid "Loading, please wait..."
 msgstr "加载中，请稍候…"
 
@@ -511,13 +512,13 @@ msgstr "取消回复"
 msgid "You must be %s to post a comment."
 msgstr "您需要 %s 后才能发表评论。"
 
-#: functions.php:1827 includes/custom-point-bomb/custom-point-bomb.php:197
+#: functions.php:1827 includes/custom-point-bomb/custom-point-bomb.php:221
 msgid "log-in"
 msgstr "登录"
 
 #: functions.php:1859 includes/_quick-comment/quick-comment.php:347
-#: includes/quick-sign/quick-sign.php:403 tpl/author-profile.php:21
-#: tpl/page-account-settings.php:89
+#: includes/quick-sign/quick-sign.php:398 tpl/author-profile.php:21
+#: tpl/page-account-settings.php:90
 msgid "Nickname"
 msgstr "昵称"
 
@@ -526,7 +527,7 @@ msgid "Whats your nickname?"
 msgstr "您的昵称"
 
 #: functions.php:1872 includes/_quick-comment/quick-comment.php:348
-#: includes/quick-sign/quick-sign.php:404
+#: includes/quick-sign/quick-sign.php:399
 msgid "Email"
 msgstr "邮箱"
 
@@ -543,7 +544,7 @@ msgid "Nothing to say?"
 msgstr "没什么好说的吗？"
 
 #: header.php:80 includes/custom-sign/custom-sign.php:149
-#: includes/quick-sign/quick-sign.php:401 page-sign.php:204
+#: includes/quick-sign/quick-sign.php:396 page-sign.php:204
 #: tpl/header-topbar-tools.php:117
 msgid "Login"
 msgstr "登录"
@@ -685,9 +686,9 @@ msgstr "我不喜欢"
 #: includes/_post-thumb/post-thumb.php:244
 #: includes/_quick-comment/quick-comment.php:352
 #: includes/clean-up/clean-up.php:228
-#: includes/custom-point/custom-point.php:979
+#: includes/custom-point/custom-point.php:1013
 #: includes/custom-slidebox/custom-slidebox.php:355
-#: includes/favicon/favicon.php:199 includes/quick-sign/quick-sign.php:412
+#: includes/favicon/favicon.php:199 includes/quick-sign/quick-sign.php:407
 msgid "Server error or network is disconnected."
 msgstr "服务器错误或网络未连接。"
 
@@ -812,10 +813,30 @@ msgstr "3秒后关闭提示"
 msgid "Error"
 msgstr "错误"
 
-#: includes/account-notification/account-notification.php:88
+#: includes/account-notification/account-notification.php:101
 #: tpl/page-account-notifications.php:5
 msgid "My notifications"
 msgstr "我的提醒"
+
+#: includes/account-notification/account-notification.php:255
+#: includes/custom-point/custom-point.php:752
+msgid "Special event"
+msgstr "特别事件"
+
+#: includes/account-notification/account-notification.php:293
+#, php-format
+msgid "Your post %1$s has a comment by %2$s."
+msgstr "您的文章 %1$s 有一条来自 %2$s 的评论。"
+
+#: includes/account-notification/account-notification.php:324
+#, php-format
+msgid "Your comment has a reply by %1$s in %2$s."
+msgstr "%1$s 回复了您在 %2$s 的评论。"
+
+#: includes/account-notification/account-notification.php:356
+#, php-format
+msgid "%s is following you."
+msgstr "%s 正在关注您。"
 
 #: includes/cache/cache.php:112
 msgid "Theme cache"
@@ -861,7 +882,7 @@ msgstr "点击之前保存设置。"
 #: includes/custom-page-cats/custom-page-cats.php:64
 #: includes/custom-page-rank/custom-page-rank.php:66
 #: includes/custom-page-tags/custom-page-tags.php:68
-#: includes/custom-point/custom-point.php:140
+#: includes/custom-point/custom-point.php:144
 #: includes/custom-slidebox/custom-slidebox.php:227
 #: includes/file-timestamp/file-timestamp.php:58
 #: includes/min-rebuild/min-rebuild.php:37
@@ -1001,8 +1022,8 @@ msgid "Post ID is invaild."
 msgstr "无效的文章 ID 参数。"
 
 #: includes/comment-ajax/comment-ajax.php:308
-#: includes/custom-post-point/custom-post-point.php:653
-#: includes/custom-post-point/custom-post-point.php:727
+#: includes/custom-post-point/custom-post-point.php:659
+#: includes/custom-post-point/custom-post-point.php:733
 msgid "Post is not exist."
 msgstr "文章不存在。"
 
@@ -1015,7 +1036,8 @@ msgid "{n} page"
 msgstr "第 {n} 页"
 
 #: includes/comment-ajax/comment-ajax.php:477
-#: includes/custom-post-point/custom-post-point.php:843
+#: includes/custom-point-bomb/custom-point-bomb.php:654
+#: includes/custom-post-point/custom-post-point.php:849
 msgid ""
 "Sorry, some server error occurred, the operation can not be completed, "
 "please try again later."
@@ -1025,20 +1047,20 @@ msgstr "抱歉，服务器发生了一些错误，该操作无法完成，请稍
 msgid "Account"
 msgstr "会员帐号"
 
-#: includes/custom-api/custom-api.php:110
+#: includes/custom-api/custom-api.php:109
 msgid "Sorry, no content found."
 msgstr "抱歉，没有内容发现。"
 
-#: includes/custom-api/custom-api.php:125
+#: includes/custom-api/custom-api.php:124
 msgid "Sorry, post ID is invaild."
 msgstr "抱歉，文章 ID 编号无效。"
 
-#: includes/custom-api/custom-api.php:137
+#: includes/custom-api/custom-api.php:136
 msgid "Sorry, the post do not exist."
 msgstr "抱歉，文章不存在。"
 
-#: includes/custom-api/custom-api.php:146
-#: includes/custom-user-settings/custom-user-settings.php:321
+#: includes/custom-api/custom-api.php:145
+#: includes/custom-user-settings/custom-user-settings.php:315
 msgid "Sorry, the type param is invaild."
 msgstr "抱歉，缺少类型参数。"
 
@@ -1385,9 +1407,9 @@ msgstr "小尺寸"
 
 #: includes/custom-contribution/custom-contribution.php:532
 #: includes/custom-follow/custom-follow.php:141
-#: includes/custom-sign/custom-sign.php:255
-#: includes/custom-user-settings/custom-user-settings.php:475
-#: includes/custom-user-settings/custom-user-settings.php:486
+#: includes/custom-sign/custom-sign.php:261
+#: includes/custom-user-settings/custom-user-settings.php:467
+#: includes/custom-user-settings/custom-user-settings.php:478
 msgid "Sorry, server error please try again later."
 msgstr "抱歉，服务器错误请稍后重试。"
 
@@ -1632,48 +1654,50 @@ msgstr "正在加载预览图……"
 msgid "ERROR: can not load the preview image."
 msgstr "错误: 无法加载预览图。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:79
-msgid "Bomb!"
-msgstr "丢雷！"
+#: includes/custom-point-bomb/custom-point-bomb.php:97
+#: includes/custom-point-bomb/custom-point-bomb.php:594
+#: tpl/page-account-bomb.php:15
+msgid "Bomb world"
+msgstr "丢雷世界"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:92
+#: includes/custom-point-bomb/custom-point-bomb.php:110
 msgid "Victory percentage"
 msgstr "获胜百分比"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:93
+#: includes/custom-point-bomb/custom-point-bomb.php:112
 msgid ""
 "User bombs other user points victory percentage. The unit is the percentage."
 msgstr "用户轰炸其他用户积分获胜百分比。单位是百分比。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:96
+#: includes/custom-point-bomb/custom-point-bomb.php:115
 msgid "When user bomb points"
 msgstr "当用户轰炸积分时"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:97
-#: includes/custom-post-point/custom-post-point.php:308
+#: includes/custom-point-bomb/custom-point-bomb.php:117
+#: includes/custom-post-point/custom-post-point.php:309
 msgid "Use commas to separate multiple point, first as the default."
 msgstr "多个积分点使用英文逗号（,）分隔，第一个为默认值。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:143
+#: includes/custom-point-bomb/custom-point-bomb.php:173
 msgid "User points bomb description"
 msgstr "用户轰炸积分描述"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:147
+#: includes/custom-point-bomb/custom-point-bomb.php:177
 #: includes/dev-mode/dev-mode.php:173 tpl/author-profile.php:42
-#: tpl/page-account-settings.php:109
+#: tpl/page-account-settings.php:110
 msgid "Description"
 msgstr "描述"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:159
+#: includes/custom-point-bomb/custom-point-bomb.php:189
 #, php-format
 msgid ""
 "Welcome to bomb world. You can consume your %1$s to bomb opponent's %1$s. "
 "Please read the blew item before bombs:"
 msgstr ""
-"欢迎来到丢雷的世界。你可以消耗你的%1$s去轰炸对手的%1$s。丢雷之前，请看下列规"
-"则说明："
+"欢迎来到丢雷世界。你可以消耗你的%1$s去轰炸对手的%1$s。丢雷之前，请看下列规则"
+"说明："
 
-#: includes/custom-point-bomb/custom-point-bomb.php:161
+#: includes/custom-point-bomb/custom-point-bomb.php:191
 #, php-format
 msgid ""
 "If you hit the opponent when you bomb, your consumption will come back and "
@@ -1681,263 +1705,308 @@ msgid ""
 msgstr ""
 "如果你命中你轰炸的目标，你消耗的%1$s将会返还并且获得你所轰炸的%1$s数量。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:162
+#: includes/custom-point-bomb/custom-point-bomb.php:192
 #, php-format
 msgid ""
 "If you miss the opponent when you bomb, the opponent will get your half of "
 "%s of consumption."
 msgstr "如果你没命中你轰炸的目标，目标将会获得你轰炸%s数量的一半。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:163
+#: includes/custom-point-bomb/custom-point-bomb.php:193
 msgid "Do not bomb atrociously, be careful opponent bombs back."
 msgstr ""
 "丢雷有风险，轰炸须谨慎！小心对方会反击哦<small>（在反击前炸光他不就好了嘛XD）"
 "</small>。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:196
+#: includes/custom-point-bomb/custom-point-bomb.php:220
 #, php-format
 msgid "Sorry, please %s."
 msgstr "抱歉，请先%s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:209
+#: includes/custom-point-bomb/custom-point-bomb.php:231
 msgid "Sorry, the target user ID is invaild."
 msgstr "抱歉，目标用户 ID 无效。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:220
+#: includes/custom-point-bomb/custom-point-bomb.php:245
 msgid "Sorry, the target user do not exist."
 msgstr "抱歉，目标用户不存在。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:231
+#: includes/custom-point-bomb/custom-point-bomb.php:256
+msgid "Sorry, you can not attack yourself."
+msgstr "啊咧，就算是抖M也不能轰自己哦！"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:282
+msgid "Target locked, bomb is ready."
+msgstr "目标已锁定，随时可以轰炸！"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:306
 msgid "Sorry, the point value is invaild."
 msgstr "抱歉，积分点无效。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:242
-msgid "Sorry, the target points is not enough to bear your bomb."
-msgstr "抱歉，目标用户积分过低不足以承受你的轰炸。"
+#: includes/custom-point-bomb/custom-point-bomb.php:318
+#, php-format
+msgid "Sorry, the target %s is not enough to bear your bomb."
+msgstr "抱歉，目标%s过低不足以承受你的轰炸。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:289
+#: includes/custom-point-bomb/custom-point-bomb.php:330
+#, php-format
+msgid "Sorry, your %s is not enough to bomb target."
+msgstr "抱歉，你的%s过低无法轰炸目标。"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:374
 #, php-format
 msgid ""
-"Bombing successfully! Your bomb hit %1$s, you got +%2$d %3$s and remaining "
-"%4$d %3$s. Target lost -%5$d %3$s and remaining %6$d %3$s."
-msgstr ""
-"轰炸成功！%1$s被炸飞，你拿到了 +%2$d 个%3$s，剩余 %4$d 个%3$s。目标丢失了 -"
-"%5$d 个%3$s，剩余 %6$d 个%3$s。"
+"Bombing successfully! Your bomb hit %1$s, you got %2$s %3$s. Target "
+"remaining %4$s %3$s."
+msgstr "轰炸成功，%1$s 被你炸飞，你获得了 %2$s 个%3$s。目标剩余 %4$s 个%3$s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:311
+#: includes/custom-point-bomb/custom-point-bomb.php:390
 #, php-format
 msgid ""
-"Unlucky! %1$s miss your attack, you lost -%2$d %3$s and remaining %4$d %3$s. "
-"Target picked up +%5$d %3$s and remaining %6$d %3$s."
+"Unlucky! %1$s miss your attack, you lost %2$s %3$s and remaining %4$s %3$s."
 msgstr ""
-"轰炸失败！%1$s回避了你的攻击，你损失了 -%2$d 个%3$s，剩余 %4$d 个%3$s。目标获"
-"得 +%5$d 个%3$s，剩余 %6$d 个%3$s。"
+"轰炸失败！%1$s 回避了你的攻击，你损失了 %2$s 个%3$s，剩余 %4$s 个%3$s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:331
+#: includes/custom-point-bomb/custom-point-bomb.php:411
 #: includes/custom-post-point/custom-post-point.php:112
 msgid "Sorry, type param is invaild."
 msgstr "抱歉，缺少类型参数。"
 
-#: includes/custom-point/custom-point.php:70
-#: includes/custom-point/custom-point.php:345
-#: includes/custom-point/custom-point.php:362
-msgid "Cat-paw"
-msgstr "喵爪"
+#: includes/custom-point-bomb/custom-point-bomb.php:498
+#, php-format
+msgid "You bombed %1$s and hit! You got %2$s %3$s."
+msgstr "你炸飞了 %1$s！你获得 %2$s 个%3$s。"
 
-#: includes/custom-point/custom-point.php:73
+#: includes/custom-point-bomb/custom-point-bomb.php:508
+#, php-format
+msgid "You bombed %1$s but miss! You lost %2$s %3$s."
+msgstr "你轰炸了 %1$s 但很可惜未命中，你丢失了 %2$s 个%3$s。"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:541
+#: includes/custom-point-bomb/custom-point-bomb.php:612
+#, php-format
+msgid "%1$s bombed you and hit. You lost %2$s %3$s."
+msgstr "%1$s 轰炸了你并且命中！。你丢失了 %2$s 个%3$s。"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:551
+#, php-format
+msgid "%1$s bombed you but miss. You got %2$s %3$s."
+msgstr "%1$s 轰炸了你，不过没命中！你捡到了 %2$s 个%3$s。"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:600
+msgid "It is time to fight back"
+msgstr "问多无用！"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:622
+#, php-format
+msgid "%1$s bombed you but miss! You got %2$s %3$s."
+msgstr "%1$s 轰炸了你，不过没命中！你捡到了 %2$s 个%3$s。"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:652
+msgid "Target locking..."
+msgstr "目标锁定中……"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:653
+msgid "Bombing, please wait..."
+msgstr "正在轰炸，请稍候……"
+
+#: includes/custom-point/custom-point.php:71
 msgid "User point settings"
 msgstr "用户积分设置"
 
-#: includes/custom-point/custom-point.php:74
+#: includes/custom-point/custom-point.php:72
 msgid "About user point settings."
 msgstr "关于用户积分设置。"
 
-#: includes/custom-point/custom-point.php:78
+#: includes/custom-point/custom-point.php:76
 msgid "Point name"
 msgstr "积分名称"
 
-#: includes/custom-point/custom-point.php:102
-#: includes/custom-point/custom-point.php:108
+#: includes/custom-point/custom-point.php:100
 msgid "Description on point history page"
 msgstr "关于历史积分记录的描述"
 
-#: includes/custom-point/custom-point.php:116
+#: includes/custom-point/custom-point.php:107
+msgid "Point image url"
+msgstr "积分图像 URL"
+
+#: includes/custom-point/custom-point.php:120
 msgid "Add/Reduce point for user - special event"
 msgstr "增加/削减用户积分 - 特别事件"
 
-#: includes/custom-point/custom-point.php:120
+#: includes/custom-point/custom-point.php:124
 msgid "User ID"
 msgstr "用户 ID"
 
-#: includes/custom-point/custom-point.php:127
+#: includes/custom-point/custom-point.php:131
 msgid "How many point to add/reduce"
 msgstr "增/减用户多少积分"
 
-#: includes/custom-point/custom-point.php:134
+#: includes/custom-point/custom-point.php:138
 msgid "Event description"
 msgstr "事件描述"
 
-#: includes/custom-point/custom-point.php:144
+#: includes/custom-point/custom-point.php:148
 msgid "Add/Reduce"
 msgstr "增加/削减"
 
-#: includes/custom-point/custom-point.php:154
+#: includes/custom-point/custom-point.php:158
 msgid "Restore point options"
 msgstr "还原至积分默认选项"
 
-#: includes/custom-point/custom-point.php:155
+#: includes/custom-point/custom-point.php:159
 msgid "You can restore the point options when you want."
 msgstr "当你想要的时候，您可以恢复至积分默认选项。"
 
-#: includes/custom-point/custom-point.php:159
 #: includes/custom-point/custom-point.php:163
+#: includes/custom-point/custom-point.php:167
 #: includes/post-copyright/post-copyright.php:54
 #: includes/post-share/post-share.php:106
 msgid "Restore"
 msgstr "还原"
 
-#: includes/custom-point/custom-point.php:165
+#: includes/custom-point/custom-point.php:169
 msgid "Check the box and save all settings to restore point options."
 msgstr "选中的复选框并保存所有的设置恢复至默认积分选项。"
 
-#: includes/custom-point/custom-point.php:201
+#: includes/custom-point/custom-point.php:205
 msgid "Invaild user id."
 msgstr "无效的用户 ID。"
 
-#: includes/custom-point/custom-point.php:208
+#: includes/custom-point/custom-point.php:212
 msgid "User does not exist."
 msgstr "用户不存在。"
 
-#: includes/custom-point/custom-point.php:213
+#: includes/custom-point/custom-point.php:217
 #, php-format
 msgid "The user has %d points now."
 msgstr "该用户当前积分为 %d。"
 
-#: includes/custom-point/custom-point.php:222
+#: includes/custom-point/custom-point.php:226
 msgid "Your are not enough permission to modify user."
 msgstr "你有没有足够的权限来修改用户。"
 
-#: includes/custom-point/custom-point.php:229
-#: includes/custom-user-settings/custom-user-settings.php:125
+#: includes/custom-point/custom-point.php:233
+#: includes/custom-user-settings/custom-user-settings.php:123
 msgid "Invaild param."
 msgstr "无效的参数。"
 
-#: includes/custom-point/custom-point.php:234
+#: includes/custom-point/custom-point.php:238
 msgid "Invaild user ID."
 msgstr "无效的用户 ID。"
 
-#: includes/custom-point/custom-point.php:238
+#: includes/custom-point/custom-point.php:242
 msgid "Invaild point."
 msgstr "无效的积分。"
 
-#: includes/custom-point/custom-point.php:242
+#: includes/custom-point/custom-point.php:246
 msgid "Invaild event."
 msgstr "无效的事件。"
 
-#: includes/custom-point/custom-point.php:261
+#: includes/custom-point/custom-point.php:265
 msgid "Fuck you man, the user is not exist"
 msgstr "用户不存在。"
 
-#: includes/custom-point/custom-point.php:272
+#: includes/custom-point/custom-point.php:276
 #, php-format
 msgid "The user %s(%d) point has set to %s."
 msgstr "用户 %s（%d）积分已设置为 %s。"
 
-#: includes/custom-point/custom-point.php:298
+#: includes/custom-point/custom-point.php:301
 msgid "When sign-up"
 msgstr "当注册时"
 
-#: includes/custom-point/custom-point.php:301
+#: includes/custom-point/custom-point.php:305
 msgid "When sign-in daily"
 msgstr "当每天登录时"
 
-#: includes/custom-point/custom-point.php:304
+#: includes/custom-point/custom-point.php:309
 msgid "When publish comment"
 msgstr "当发表评论时"
 
-#: includes/custom-point/custom-point.php:307
+#: includes/custom-point/custom-point.php:313
 msgid "When delete comment"
 msgstr "当删除评论时"
 
-#: includes/custom-point/custom-point.php:310
+#: includes/custom-point/custom-point.php:317
 msgid "When publish post"
 msgstr "当发表文章时"
 
-#: includes/custom-point/custom-point.php:313
+#: includes/custom-point/custom-point.php:321
 msgid "When reply post"
 msgstr "当文章被回复时"
 
-#: includes/custom-point/custom-point.php:316
+#: includes/custom-point/custom-point.php:325
 msgid "When delete post"
 msgstr "当文章被删除时"
 
-#: includes/custom-point/custom-point.php:319
+#: includes/custom-point/custom-point.php:329
 msgid "When post per hundred view "
 msgstr "当文章增加 100 查看数时"
 
-#: includes/custom-point/custom-point.php:322
+#: includes/custom-point/custom-point.php:333
 msgid "When aff sign-up"
 msgstr "当推广注册时"
 
 #: includes/custom-point/custom-point.php:346
+#: includes/custom-point/custom-point.php:390
+msgid "Cat-paw"
+msgstr "喵爪"
+
+#: includes/custom-point/custom-point.php:347
 msgid "Point can exchange many things."
 msgstr "积分能换许多东西哦。"
 
-#: includes/custom-point/custom-point.php:459
+#: includes/custom-point/custom-point.php:493
 #, php-format
 msgid "One special event happened: %s"
 msgstr "一个特别事件发生了：%s"
 
-#: includes/custom-point/custom-point.php:475
+#: includes/custom-point/custom-point.php:509
 #, php-format
 msgid "Your post \"%s\" has been deleted."
 msgstr "你的文章 \"%s\" 已被删除。"
 
-#: includes/custom-point/custom-point.php:492
+#: includes/custom-point/custom-point.php:526
 #, php-format
 msgid "You registered %s."
 msgstr "你注册了 %s。"
 
-#: includes/custom-point/custom-point.php:511
-#: includes/custom-point/custom-point.php:560
+#: includes/custom-point/custom-point.php:545
+#: includes/custom-point/custom-point.php:594
 msgid "The comment has been deleted."
 msgstr "该评论已被删除。"
 
-#: includes/custom-point/custom-point.php:513
+#: includes/custom-point/custom-point.php:547
 #, php-format
 msgid "You published a comment in %1$s."
 msgstr "你在 %1$s 中发表了一篇评论。"
 
-#: includes/custom-point/custom-point.php:537
-#: includes/custom-point/custom-point.php:564
-#: includes/custom-post-point/custom-post-point.php:466
-#: includes/custom-post-point/custom-post-point.php:494
+#: includes/custom-point/custom-point.php:571
+#: includes/custom-point/custom-point.php:598
+#: includes/custom-post-point/custom-post-point.php:472
+#: includes/custom-post-point/custom-post-point.php:500
 msgid "The post has been deleted."
 msgstr "该文章被删除。"
 
-#: includes/custom-point/custom-point.php:539
+#: includes/custom-point/custom-point.php:573
 #, php-format
 msgid "You published a post %s."
 msgstr "您发布了一篇文章 %s。"
 
-#: includes/custom-point/custom-point.php:566
+#: includes/custom-point/custom-point.php:600
 #, php-format
 msgid "Your post %1$s has a new comment by %2$s."
 msgstr "%2$s 评论了您的文章 %1$s。"
 
-#: includes/custom-point/custom-point.php:590
+#: includes/custom-point/custom-point.php:624
 msgid "Log-in daily reward."
 msgstr "每天登录奖励。"
 
-#: includes/custom-point/custom-point.php:641
+#: includes/custom-point/custom-point.php:675
 #, php-format
 msgid "Sign-in daily points: +%s"
 msgstr "当每天登录奖励：+%s"
-
-#: includes/custom-point/custom-point.php:718
-#: tpl/page-account-notifications.php:58
-msgid "Special event"
-msgstr "特别事件"
 
 #: includes/custom-point/widget.php:14
 msgid "User point rank <small>(custom)</small>"
@@ -1984,7 +2053,7 @@ msgid "Recalculate all posts point"
 msgstr "重新计算所有文章积分点"
 
 #: includes/custom-post-point/custom-post-point.php:126
-#: includes/custom-post-point/custom-post-point.php:433
+#: includes/custom-post-point/custom-post-point.php:439
 msgid "Operation completed."
 msgstr "操作完成。"
 
@@ -2002,98 +2071,98 @@ msgstr "请保存您的设置在操作前。此操作需要大量的服务器资
 msgid "When post point swap"
 msgstr "当文章积分被交换时"
 
-#: includes/custom-post-point/custom-post-point.php:345
+#: includes/custom-post-point/custom-post-point.php:351
 msgid "Invaild post id param."
 msgstr "无效的文章 ID 参数。"
 
-#: includes/custom-post-point/custom-post-point.php:354
+#: includes/custom-post-point/custom-post-point.php:360
 msgid "Post does not exist."
 msgstr "文章不存在。"
 
-#: includes/custom-post-point/custom-post-point.php:362
+#: includes/custom-post-point/custom-post-point.php:368
 msgid "Go to log-in"
 msgstr "跑去登录"
 
-#: includes/custom-post-point/custom-post-point.php:362
+#: includes/custom-post-point/custom-post-point.php:368
 msgid "Sorry, please log-in."
 msgstr "抱歉，请先登录。"
 
-#: includes/custom-post-point/custom-post-point.php:380
+#: includes/custom-post-point/custom-post-point.php:386
 msgid "Invaild point value."
 msgstr "无效的积分点数。"
 
-#: includes/custom-post-point/custom-post-point.php:398
+#: includes/custom-post-point/custom-post-point.php:404
 msgid "Sorry, system can not increase post points count."
 msgstr "抱歉，系统无法增加文章积分统计点数。"
 
-#: includes/custom-post-point/custom-post-point.php:408
+#: includes/custom-post-point/custom-post-point.php:414
 msgid "System can not increase rater posts."
 msgstr "系统无法增加评分者文章。"
 
-#: includes/custom-post-point/custom-post-point.php:440
+#: includes/custom-post-point/custom-post-point.php:446
 msgid "Invaild type param."
 msgstr "无效的类型参数。"
 
-#: includes/custom-post-point/custom-post-point.php:469
+#: includes/custom-post-point/custom-post-point.php:475
 #, php-format
 msgid "You rated %1$d %2$s for the post %3$s."
 msgstr "你对文章 %3$s 送了 %1$d 个%2$s。"
 
-#: includes/custom-post-point/custom-post-point.php:497
+#: includes/custom-post-point/custom-post-point.php:503
 #, php-format
 msgid "You post %1$s has been rated %2$d %3$s by %4$s."
 msgstr "%4$s 给你的文章 %1$s 送了 %2$d 个%3$s。"
 
-#: includes/custom-post-point/custom-post-point.php:560
-#: includes/custom-post-point/custom-post-point.php:631
-#: includes/custom-post-point/custom-post-point.php:705
-#: includes/custom-post-point/custom-post-point.php:763
-#: includes/custom-post-point/custom-post-point.php:799
+#: includes/custom-post-point/custom-post-point.php:566
+#: includes/custom-post-point/custom-post-point.php:637
+#: includes/custom-post-point/custom-post-point.php:711
+#: includes/custom-post-point/custom-post-point.php:769
+#: includes/custom-post-point/custom-post-point.php:805
 msgid "Invaild post id."
 msgstr "无效的文章 ID 参数。"
 
-#: includes/custom-post-point/custom-post-point.php:567
-#: includes/custom-post-point/custom-post-point.php:719
+#: includes/custom-post-point/custom-post-point.php:573
+#: includes/custom-post-point/custom-post-point.php:725
 msgid "Invaild points value."
 msgstr "无效的积分点数。"
 
-#: includes/custom-post-point/custom-post-point.php:638
-#: includes/custom-post-point/custom-post-point.php:712
-#: includes/custom-post-point/custom-post-point.php:770
-#: includes/custom-post-point/custom-post-point.php:806
+#: includes/custom-post-point/custom-post-point.php:644
+#: includes/custom-post-point/custom-post-point.php:718
+#: includes/custom-post-point/custom-post-point.php:776
+#: includes/custom-post-point/custom-post-point.php:812
 msgid "Invaild rater id."
 msgstr "无效的评分用户 ID。"
 
-#: includes/custom-post-point/custom-post-point.php:645
+#: includes/custom-post-point/custom-post-point.php:651
 msgid "Invaild points."
 msgstr "无效的积分点数。"
 
-#: includes/custom-post-point/custom-post-point.php:662
+#: includes/custom-post-point/custom-post-point.php:668
 msgid "Sorry, you can not rate your post."
 msgstr "抱歉，您不能对自己的文章评分。"
 
-#: includes/custom-post-point/custom-post-point.php:670
-#: includes/custom-post-point/custom-post-point.php:735
+#: includes/custom-post-point/custom-post-point.php:676
+#: includes/custom-post-point/custom-post-point.php:741
 msgid "Rater is not exist."
 msgstr "评分人不存在。"
 
-#: includes/custom-post-point/custom-post-point.php:682
-#: includes/custom-post-point/custom-post-point.php:744
+#: includes/custom-post-point/custom-post-point.php:688
+#: includes/custom-post-point/custom-post-point.php:750
 msgid "You had rated this post."
 msgstr "您已经对此文章评过分了。"
 
-#: includes/custom-post-point/custom-post-point.php:783
-#: includes/custom-post-point/custom-post-point.php:815
+#: includes/custom-post-point/custom-post-point.php:789
+#: includes/custom-post-point/custom-post-point.php:821
 msgid "You did not rate this post yet."
 msgstr "您还未对次文章评分。"
 
-#: includes/custom-post-point/custom-post-point.php:878
-#: includes/custom-post-point/custom-post-point.php:892
+#: includes/custom-post-point/custom-post-point.php:884
+#: includes/custom-post-point/custom-post-point.php:898
 #, php-format
 msgid "Rate %d %s"
 msgstr "打赏 %d 个%s"
 
-#: includes/custom-post-point/custom-post-point.php:886
+#: includes/custom-post-point/custom-post-point.php:892
 msgid "Toggle Dropdown"
 msgstr "下拉菜单"
 
@@ -2181,7 +2250,7 @@ msgid "Storage download"
 msgstr "网盘下载"
 
 #: includes/custom-post-storage/custom-post-storage.php:223
-#: includes/quick-sign/quick-sign.php:405
+#: includes/quick-sign/quick-sign.php:400
 msgid "Password"
 msgstr "密码"
 
@@ -2218,7 +2287,7 @@ msgid "Terms of service page URL"
 msgstr "服务协议页面 URL"
 
 #: includes/custom-sign/custom-sign.php:156
-#: includes/quick-sign/quick-sign.php:402 tpl/header-topbar-tools.php:157
+#: includes/quick-sign/quick-sign.php:397 tpl/header-topbar-tools.php:157
 msgid "Register"
 msgstr "注册"
 
@@ -2311,93 +2380,93 @@ msgstr "不限制"
 msgid "Add a new item"
 msgstr "添加新条目"
 
-#: includes/custom-user-settings/custom-user-settings.php:75
+#: includes/custom-user-settings/custom-user-settings.php:71
 msgid "When user save settings"
 msgstr "当用户保存设置时"
 
-#: includes/custom-user-settings/custom-user-settings.php:78
+#: includes/custom-user-settings/custom-user-settings.php:75
 msgid "When user save avatar"
 msgstr "当用户保存头像时"
 
-#: includes/custom-user-settings/custom-user-settings.php:117
+#: includes/custom-user-settings/custom-user-settings.php:115
 msgid "Sorry, your points are not enough to modify settings."
 msgstr "抱歉，您的积分不足，无法修改设置。"
 
-#: includes/custom-user-settings/custom-user-settings.php:133
+#: includes/custom-user-settings/custom-user-settings.php:131
 msgid "Invaild nickname."
 msgstr "无效的昵称。"
 
-#: includes/custom-user-settings/custom-user-settings.php:179
+#: includes/custom-user-settings/custom-user-settings.php:177
 msgid "Your settings have been saved."
 msgstr "您的设置已保存。"
 
-#: includes/custom-user-settings/custom-user-settings.php:197
+#: includes/custom-user-settings/custom-user-settings.php:195
 msgid "Password invaild twice."
 msgstr "两次密码无效。"
 
-#: includes/custom-user-settings/custom-user-settings.php:210
+#: includes/custom-user-settings/custom-user-settings.php:207
 msgid "Invaild current password."
 msgstr "当前密码无效。"
 
-#: includes/custom-user-settings/custom-user-settings.php:229
+#: includes/custom-user-settings/custom-user-settings.php:225
 msgid "Your new password has been saved. Re-logging in, please wait..."
 msgstr "您的新密码已保存。正在重新登录，请稍候……"
 
-#: includes/custom-user-settings/custom-user-settings.php:248
+#: includes/custom-user-settings/custom-user-settings.php:244
 msgid "Sorry, your points are not enough to modify avatar."
 msgstr "抱歉，您的积分不足，无法修改头像。"
 
-#: includes/custom-user-settings/custom-user-settings.php:256
+#: includes/custom-user-settings/custom-user-settings.php:252
 msgid "Sorry, your file is invaild format, please check it again."
 msgstr "对不起，您的文件是无效的格式，请再检查一下。"
 
-#: includes/custom-user-settings/custom-user-settings.php:281
+#: includes/custom-user-settings/custom-user-settings.php:275
 msgid ""
 "Sorry, system can not write file, please try again later or contact the "
 "administrator."
 msgstr "对不起，系统无法写入文件，请稍后重试或联系管理员。"
 
-#: includes/custom-user-settings/custom-user-settings.php:314
+#: includes/custom-user-settings/custom-user-settings.php:308
 msgid ""
 "Congratulation! Your avatar has been updated. Page is redirecting, please "
 "wait..."
 msgstr "恭喜！你的头像已经成功更新。页面正在刷新，请稍候.……"
 
-#: includes/custom-user-settings/custom-user-settings.php:348
+#: includes/custom-user-settings/custom-user-settings.php:340
 msgid "Reward history"
 msgstr "积分历史"
 
-#: includes/custom-user-settings/custom-user-settings.php:354
+#: includes/custom-user-settings/custom-user-settings.php:346
 #: tpl/header-topbar-tools.php:98
 msgid "My settings"
 msgstr "我的设置"
 
-#: includes/custom-user-settings/custom-user-settings.php:360
-#: tpl/page-account-settings.php:68
+#: includes/custom-user-settings/custom-user-settings.php:352
+#: tpl/page-account-settings.php:69
 msgid "My avatar"
 msgstr "我的头像"
 
-#: includes/custom-user-settings/custom-user-settings.php:366
+#: includes/custom-user-settings/custom-user-settings.php:358
 msgid "Change password"
 msgstr "修改密码"
 
-#: includes/custom-user-settings/custom-user-settings.php:416
+#: includes/custom-user-settings/custom-user-settings.php:408
 msgid "You modified your settings."
 msgstr "你修改了你的设置。"
 
-#: includes/custom-user-settings/custom-user-settings.php:432
+#: includes/custom-user-settings/custom-user-settings.php:424
 msgid "You modified your avatar."
 msgstr "你修改了你的头像。"
 
-#: includes/default-gravatar/default-gravatar.php:27
+#: includes/default-gravatar/default-gravatar.php:26
 msgid "Custom default gravatar"
 msgstr "自定义默认头像"
 
-#: includes/default-gravatar/default-gravatar.php:43
+#: includes/default-gravatar/default-gravatar.php:40
 msgid "Custom default gravatar settings"
 msgstr "自定义默认头像设置"
 
-#: includes/default-gravatar/default-gravatar.php:44
+#: includes/default-gravatar/default-gravatar.php:41
 #, php-format
 msgid ""
 "You can change the default gravatar image using custom avatar url address. "
@@ -2406,11 +2475,11 @@ msgstr ""
 "您可以使用自定义图片 URL 来更改 Gravatar 默认头像。保存设置后，请点击 %s 选择"
 "自定义 Gravatar 头像。"
 
-#: includes/default-gravatar/default-gravatar.php:44
+#: includes/default-gravatar/default-gravatar.php:41
 msgid "here"
 msgstr "这里"
 
-#: includes/default-gravatar/default-gravatar.php:48
+#: includes/default-gravatar/default-gravatar.php:45
 msgid "Custom avatar URL"
 msgstr "自定义头像地址 URL"
 
@@ -3034,28 +3103,28 @@ msgstr "抱歉，昵称无效，请输入另一个后重试。"
 msgid "Sorry, email already exists, please change another one and try again."
 msgstr "抱歉，邮箱已经存在，请输入另一个再尝试。"
 
-#: includes/quick-sign/quick-sign.php:406
+#: includes/quick-sign/quick-sign.php:401
 msgid "Re-type password"
 msgstr "重复密码"
 
-#: includes/quick-sign/quick-sign.php:407
+#: includes/quick-sign/quick-sign.php:402
 msgid "Login / Register"
 msgstr "登录/注册"
 
-#: includes/quick-sign/quick-sign.php:408 page-sign.php:197
+#: includes/quick-sign/quick-sign.php:403 page-sign.php:197
 msgid "Remember me"
 msgstr "下次自动登录"
 
-#: includes/quick-sign/quick-sign.php:409
+#: includes/quick-sign/quick-sign.php:404
 #, php-format
 msgid "Login successful, closing tip after %d seconds."
 msgstr "登录成功，%d 秒后关闭提示。"
 
-#: includes/quick-sign/quick-sign.php:410
+#: includes/quick-sign/quick-sign.php:405
 msgid "Login successful, page is refreshing, please wait.."
 msgstr "登录成功，页面正在刷新，请稍候…"
 
-#: includes/quick-sign/quick-sign.php:411
+#: includes/quick-sign/quick-sign.php:406
 msgid "Forgot my password?"
 msgstr "忘记了密码？"
 
@@ -3770,11 +3839,11 @@ msgstr "这个功能是正在开发中。"
 msgid "Basic profile"
 msgstr "基本资料"
 
-#: tpl/author-profile.php:13 tpl/page-account-settings.php:77
+#: tpl/author-profile.php:13 tpl/page-account-settings.php:78
 msgid "Unique identifier"
 msgstr "唯一的标识（不能被更改）"
 
-#: tpl/author-profile.php:13 tpl/page-account-settings.php:78
+#: tpl/author-profile.php:13 tpl/page-account-settings.php:79
 msgid "UID"
 msgstr "UID"
 
@@ -3782,7 +3851,7 @@ msgstr "UID"
 msgid "Registered"
 msgstr "注册时间"
 
-#: tpl/author-profile.php:29 tpl/page-account-settings.php:99
+#: tpl/author-profile.php:29 tpl/page-account-settings.php:100
 msgid "Website / Blog"
 msgstr "网站 / 博客"
 
@@ -3818,18 +3887,19 @@ msgstr "我的收藏"
 msgid "Log-out"
 msgstr "登出"
 
-#: tpl/page-account-avatar.php:9 tpl/page-account-history.php:5
-msgid "My reward point histories"
-msgstr "我的积分历史"
+#: tpl/page-account-avatar.php:9
+msgid "Edit my avatar"
+msgstr "编辑我的头像"
 
 #: tpl/page-account-avatar.php:33
-msgid "You have %1$d %2$s, You need to collect %3$d %2%s to modify the avatar."
-msgstr "你目前有 %1$d 个%2$s，你需要收集 %3$d 个%2$s才能修改头像。"
+#, php-format
+msgid "You have %1$s %2$s, You need to collect %3$s %2$s to modify the avatar."
+msgstr "你目前有 %1$s 个%2$s，你需要收集 %3$s 个%2$s才能修改头像。"
 
 #: tpl/page-account-avatar.php:43
 #, php-format
-msgid "You have %1$d %2$s, modify avatar will consume %3$d %2$s."
-msgstr "你目前有 %1$d 个%2$s，修改头像将会消耗 %3$d 个%2$s。"
+msgid "You have %1$s %2$s, modify avatar will consume %3$s %2$s."
+msgstr "你目前有 %1$s 个%2$s，修改头像将会消耗 %3$s 个%2$s。"
 
 #: tpl/page-account-avatar.php:61
 msgid "Current avatar"
@@ -3840,7 +3910,7 @@ msgid "New avatar"
 msgstr "新头像"
 
 #: tpl/page-account-avatar.php:88 tpl/page-account-password.php:41
-#: tpl/page-account-settings.php:120
+#: tpl/page-account-settings.php:121
 msgid "Saving, please wait..."
 msgstr "保存中，请稍候……"
 
@@ -3852,9 +3922,29 @@ msgstr "保存我的头像"
 msgid "Upload a new avatar"
 msgstr "上传新头像"
 
-#: tpl/page-account-bomb.php:5
-msgid "Welcome to bomb world"
-msgstr "欢迎来到丢雷的世界"
+#: tpl/page-account-bomb.php:26 tpl/page-account-bomb.php:59
+msgid "Avatar"
+msgstr "头像"
+
+#: tpl/page-account-bomb.php:41
+msgid "Bomb number"
+msgstr "轰炸数量"
+
+#: tpl/page-account-bomb.php:68
+msgid "Target name"
+msgstr "目标名称"
+
+#: tpl/page-account-bomb.php:72
+msgid "Target UID, e.g. 101406"
+msgstr "目标 UID，例如：101406"
+
+#: tpl/page-account-bomb.php:82
+msgid "Bombing..."
+msgstr "正在轰炸中……"
+
+#: tpl/page-account-bomb.php:84
+msgid "Bomb!"
+msgstr "丢雷！"
 
 #: tpl/page-account-collection.php:40
 msgid "Collection title"
@@ -3998,31 +4088,15 @@ msgstr "已发布"
 msgid "Pending"
 msgstr "待审核"
 
+#: tpl/page-account-history.php:5
+msgid "My reward point histories"
+msgstr "我的积分历史"
+
 #: tpl/page-account-history.php:26
 msgid "Your have not any history yet."
 msgstr "您暂无任何历史记录哦。"
 
-#: tpl/page-account-notifications.php:93
-#, php-format
-msgid "Your post %1$s has a comment by %2$s."
-msgstr "您的文章 %1$s 有一条来自 %2$s 的评论。"
-
-#: tpl/page-account-notifications.php:121
-#, php-format
-msgid "Your comment has a reply by %1$s in %2$s."
-msgstr "%1$s 回复了您在 %2$s 的评论。"
-
-#: tpl/page-account-notifications.php:150
-#, php-format
-msgid "%s is following you."
-msgstr "%s 正在关注您。"
-
-#: tpl/page-account-notifications.php:178
-#, php-format
-msgid "%s published a post %s."
-msgstr "%s 发布了一片文章 %s。"
-
-#: tpl/page-account-notifications.php:201
+#: tpl/page-account-notifications.php:52
 msgid "You have not any notification yet"
 msgstr "您暂无任何提醒。"
 
@@ -4072,47 +4146,126 @@ msgstr "更新"
 msgid "Edit my profile"
 msgstr "编辑我的资料"
 
-#: tpl/page-account-settings.php:33
-msgid ""
-"You have %1$d %2$s, You need to collect %3$d %2%s to modify the settings."
-msgstr "你目前有 %1$d 个%2$s，你需要收集 %3$d 个%2$s才能修改设置"
-
-#: tpl/page-account-settings.php:43
+#: tpl/page-account-settings.php:34
 #, php-format
-msgid "You have %1$d %2$s, modify settings will consume %3$d %2$s."
-msgstr "你目前有 %1$d 个%2$s，修改设置将会消耗 %3$d 个%2$s。"
+msgid ""
+"You have %1$s %2$s, You need to collect %3$s %2$s to modify the settings."
+msgstr "你目前有 %1$s 个%2$s，你需要收集 %3$s 个%2$s才能修改设置"
 
-#: tpl/page-account-settings.php:64
+#: tpl/page-account-settings.php:44
+#, php-format
+msgid "You have %1$s %2$s, modify settings will consume %3$s %2$s."
+msgstr "你目前有 %1$s 个%2$s，修改设置将会消耗 %3$s 个%2$s。"
+
+#: tpl/page-account-settings.php:65
 msgid "Views source image"
 msgstr "查看原图"
 
-#: tpl/page-account-settings.php:69
+#: tpl/page-account-settings.php:70
 msgid "Change avatar"
 msgstr "更改头像"
 
-#: tpl/page-account-settings.php:92
+#: tpl/page-account-settings.php:93
 msgid "Please type nickname (required)"
 msgstr "请输入昵称（必填）"
 
-#: tpl/page-account-settings.php:92
+#: tpl/page-account-settings.php:93
 msgid "Please type nickname"
 msgstr "请输入昵称"
 
-#: tpl/page-account-settings.php:102
+#: tpl/page-account-settings.php:103
 msgid "Your blog url (include http://)"
 msgstr "您的博客网址（包含http://）"
 
-#: tpl/page-account-settings.php:102
+#: tpl/page-account-settings.php:103
 msgid "Please type your blog url"
 msgstr "请输入您的博客网址"
 
-#: tpl/page-account-settings.php:112
+#: tpl/page-account-settings.php:113
 msgid "Introduce yourself to everyone"
 msgstr "向每个人介绍自己"
 
-#: tpl/page-account-settings.php:122
+#: tpl/page-account-settings.php:123
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "Comes form \"%s\" notification"
+#~ msgstr "来自“%s”的提醒"
+
+#~ msgid "%s published a post %s."
+#~ msgstr "%s 发布了一片文章 %s。"
+
+#~ msgid "%1$s bombed you and miss. You got %2$s %3$s."
+#~ msgstr "%1$s 轰炸了你，不过没命中！你捡到 %2$s 个%3$s。"
+
+#~ msgid "%1$s bombed you and hit. You lost %1$s $2%s."
+#~ msgstr "你被 %1$s 轰炸命中，并炸飞了 %1$s 个$2%s。"
+
+#~ msgid "%1$s bombed you and miss. You got %1$s $2%s."
+#~ msgstr "%1$s 轰炸了你，不过没命中！你捡到 %1$s 个$2%s。"
+
+#~ msgid "You bombed %1$s and hit! You got %2$s $3%s."
+#~ msgstr "你炸飞了 %1$s！你获得 %2$s 个$3%s。"
+
+#~ msgid "You bombed %1$s but miss! You lost %2$s $3%s."
+#~ msgstr "你轰炸了 %1$s 但很可惜未命中，你丢失了 %2$s 个$3%s。"
+
+#~ msgid "Your bombed %1$s and hit! You got %2$s $3%s."
+#~ msgstr "你炸飞了 %1$s！你获得 %2$s 个$3%s。"
+
+#~ msgid "Your bombed %1$s but miss! You lost %2$s $3%s."
+#~ msgstr "你轰炸了 %1$s 但很可惜未命中，你丢失了 %2$s 个$3%s。"
+
+#~ msgid ""
+#~ "Bombing successfully! Your bomb hit %1$s, you got %2$s %3$s and remaining "
+#~ "%4$s %3$s. Target lost %5$s %3$s and remaining %6$s %3$s."
+#~ msgstr ""
+#~ "轰炸成功！%1$s 被你炸飞，你获得了 %2$s 个%3$s，剩余 %4$s 个%3$s。目标丢失"
+#~ "了 -%5$s 个%3$s，剩余 %6$s 个%3$s。"
+
+#~ msgid ""
+#~ "Unlucky! %1$s miss your attack, you lost %2$s %3$s and remaining %4$s "
+#~ "%3$s. Target picked up %5$s %3$s and remaining %6$s %3$s."
+#~ msgstr ""
+#~ "轰炸失败！%1$s 回避了你的攻击，你损失了 %2$s 个%3$s，剩余 %4$s 个%3$s。目"
+#~ "标获得 %5$s 个%3$s，剩余 %6$s 个%3$s。"
+
+#~ msgid ""
+#~ "Bombing successfully! Your bomb hit %1$s, you got +%2$d %3$s and "
+#~ "remaining %4$d %3$s. Target lost -%5$d %3$s and remaining %6$d %3$s."
+#~ msgstr ""
+#~ "轰炸成功！%1$s 被你炸飞，你获得了 +%2$d 个%3$s，剩余 %4$d 个%3$s。目标丢失"
+#~ "了 -%5$d 个%3$s，剩余 %6$d 个%3$s。"
+
+#~ msgid ""
+#~ "Unlucky! %1$s miss your attack, you lost -%2$d %3$s and remaining %4$d "
+#~ "%3$s. Target picked up +%5$d %3$s and remaining %6$d %3$s."
+#~ msgstr ""
+#~ "轰炸失败！%1$s 回避了你的攻击，你损失了 -%2$d 个%3$s，剩余 %4$d 个%3$s。目"
+#~ "标获得 +%5$d 个%3$s，剩余 %6$d 个%3$s。"
+
+#~ msgid "You have %1$d %2$s, modify settings will consume %3$d %2$s."
+#~ msgstr "你目前有 %1$d 个%2$s，修改设置将会消耗 %3$d 个%2$s。"
+
+#~ msgid ""
+#~ "You have %1$d %2$s, You need to collect %3$d %2%s to modify the avatar."
+#~ msgstr "你目前有 %1$d 个%2$s，你需要收集 %3$d 个%2$s才能修改头像。"
+
+#~ msgid "You have %1$d %2$s, modify avatar will consume %3$d %2$s."
+#~ msgstr "你目前有 %1$d 个%2$s，修改头像将会消耗 %3$d 个%2$s。"
+
+#~ msgid ""
+#~ "You have %1$d %2$s, You need to collect %3$d %2%s to modify the settings."
+#~ msgstr "你目前有 %1$d 个%2$s，你需要收集 %3$d 个%2$s才能修改设置"
+
+#~ msgid "Sorry, the target points is not enough to bear your bomb."
+#~ msgstr "抱歉，目标用户积分过低不足以承受你的轰炸。"
+
+#~ msgid "Sorry, your points is not enough to bomb target."
+#~ msgstr "抱歉，目标用户积分过低不足以承受你的轰炸。"
+
+#~ msgid "Welcome to bomb world"
+#~ msgstr "欢迎来到丢雷的世界"
 
 #~ msgid "Welcome to bomb game"
 #~ msgstr "欢迎来到丢雷游戏"
@@ -4537,9 +4690,6 @@ msgstr "保存我的设置"
 
 #~ msgid "Settings"
 #~ msgstr "设置"
-
-#~ msgid "Avatar"
-#~ msgstr "头像"
 
 #~ msgid "Notifications"
 #~ msgstr "提醒"

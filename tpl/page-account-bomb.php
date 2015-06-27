@@ -41,10 +41,7 @@ if(theme_custom_point::get_point_img_url()){
 					<h4><?= ___('Bomb number');?></h4>
 					<?php
 					$points = theme_custom_point_bomb::get_point_values();
-
-					if(is_null_array($points))
-						$points = [10,50,100];
-						
+					
 					$i = 0;
 					foreach($points as $point){
 						++$i;
@@ -52,7 +49,7 @@ if(theme_custom_point::get_point_img_url()){
 						<label for="bomb-point-<?= $point;?>" class="label label-default">
 							<?= $point_icon;?>
 							<?= $point;?>
-							<input type="radio" name="bomb[points]" id="bomb-point-<?= $point;?>" class="bomb-points" value="<?= $point;?>" <?= $i === 1 ? 'checked' : null;?> hidden>
+							<input type="radio" name="points" id="bomb-point-<?= $point;?>" class="bomb-points" value="<?= $point;?>" <?= $i === 1 ? 'checked' : null;?> hidden>
 						</label>
 					<?php } ?>
 				</div>
@@ -72,7 +69,7 @@ if(theme_custom_point::get_point_img_url()){
 						</p>
 						<p>
 							<span>
-								<input id="bomb-target" type="text" name="bomb[target]" class="form-control" placeholder="<?= ___('Target UID, e.g. 101406');?>" value="<?= isset($_GET['target']) && is_numeric($_GET['target']) ? (int)$_GET['target'] : null;?>" required >
+								<input id="bomb-target" type="text" name="target" class="form-control" placeholder="<?= ___('Target UID, e.g. 101406');?>" value="<?= isset($_GET['target']) && is_numeric($_GET['target']) ? (int)$_GET['target'] : null;?>" required >
 							</span>
 						</p>
 					</div>			
