@@ -322,8 +322,8 @@ class custom_post_point{
 
 		if($cache !== null)
 			return $cache;
-			
-		$values = explode(',',(array)theme_custom_point::get_point_value('post-swap'));
+
+		$values = explode(',',theme_custom_point::get_point_value('post-swap'));
 		if(!is_null_array($values)){
 			$cache = array_map(function($v){
 				$v = trim($v);
@@ -481,7 +481,7 @@ class custom_post_point{
 				?>
 			</span>
 			
-			<?php theme_custom_point::the_history_time($history);?>
+			<?php theme_custom_point::the_time($history);?>
 		</li>
 		<?php
 	}
@@ -510,7 +510,7 @@ class custom_post_point{
 				?>
 			</span>
 			
-			<?php theme_custom_point::the_history_time($history);?>
+			<?php theme_custom_point::the_time($history);?>
 		</li>
 		<?php
 	}

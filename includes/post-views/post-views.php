@@ -2,7 +2,7 @@
 /*
 Feature Name:	Post Views
 Feature URI:	http://www.inn-studio.com
-Version:		3.0.0
+Version:		3.0.1
 Description:	Count the post views.
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -12,16 +12,16 @@ add_filter('theme_includes',function($fns){
 	return $fns;
 });
 class theme_post_views{
-	private static $iden = 'theme_post_views';
-	private static $post_meta_key = 'views';
-	private static $cache_key = array(
+	public static $iden = 'theme_post_views';
+	public static $post_meta_key = 'views';
+	public static $cache_key = array(
 		'views' => 'theme_post_views',
 		'times' => 'theme_post_views_times'
 	);
-	private static $expire = 2505600;/** 29 days */
-	private static $cookie_expire = 60;/** 1 min */
-	private static $cookie = null;
-	public static $opt;
+	public static $expire = 2505600;/** 29 days */
+	public static $cookie_expire = 60;/** 1 min */
+	public static $cookie = null;
+
 	public static function init(){
 
 		add_action('base_settings',		__CLASS__ . '::display_backend');
@@ -30,8 +30,6 @@ class theme_post_views{
 
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
 
-		self::$opt = (array)theme_options::get_options(self::$iden);
-		
 		if(self::is_enabled() === false)
 			return;
 
@@ -48,7 +46,7 @@ class theme_post_views{
 		add_action('manage_posts_custom_column',__CLASS__ . '::admin_show',10,2);
 		add_filter('manage_posts_columns', __CLASS__ . '::admin_add_column');
 	}
-	public static function options_default($opts = []){
+	public static function options_default(array $opts = []){
 		$opts[self::$iden] = array(
 			'enabled' => 1,
 			'storage-times' => 10,
@@ -143,8 +141,8 @@ class theme_post_views{
 		return $meta;
 	}
 	private static function get_storage_times(){
-		if(isset(self::$opt['storage-times']) && (int)self::$opt['storage-times'] !== 0){
-			return (int)self::$opt['storage-times'];
+		if((int)self::get_options('storage-times') !== 0){
+			return self::get_options('storage-times');
 		}else{
 			return 10;
 		}
@@ -170,18 +168,22 @@ class theme_post_views{
 		
 		return $meta;
 	}
-	public static function is_enabled(){
-		
-		if(isset(self::$opt['enabled']) && self::$opt['enabled'] == 1)
-			return true;
-			
-		return false;
+	public static function get_options($key = null){
+		static $caches = null;
+		if($caches === null)
+			$caches = theme_options::get_options(self::$iden);
+		if($key)
+			return isset($caches[$key]) ? $caches[$key] : false;
+		return $caches;
 	}
-	public static function options_save($options){
+	public static function is_enabled(){
+		return self::get_options('enabled') == 1;
+	}
+	public static function options_save(array $opts = []){
 		if(isset($_POST[self::$iden])){
-			$options[self::$iden] = $_POST[self::$iden];
+			$opts[self::$iden] = $_POST[self::$iden];
 		}
-		return $options;
+		return $opts;
 	}
 
 	public static function admin_add_column($columns){

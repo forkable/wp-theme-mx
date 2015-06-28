@@ -53,7 +53,10 @@ if(is_user_logged_in()){
 		<?php if(class_exists('theme_custom_edit')) { ?>
 			<a href="<?= theme_custom_edit::get_tabs('edit')['url'];?>" class="btn btn-default meta tool-my-posts" title="<?= theme_custom_edit::get_tabs('edit')['text'];?>"><i class="fa fa-<?= theme_custom_edit::get_tabs('edit')['icon'];?> fa-fw"></i></a>
 		<?php } ?>
-		
+		<!-- bomb -->
+		<?php if(class_exists('theme_custom_point_bomb')){ ?>
+			<a title="<?= theme_custom_point_bomb::get_tabs('bomb')['text'];?>" href="<?= theme_custom_point_bomb::get_tabs('bomb')['url'];?>" class="btn btn-default meta tool-bomb"><i class="fa fa-<?= theme_custom_point_bomb::get_tabs('bomb')['icon'];?>"></i></a>
+		<?php } ?>
 		<!-- notification -->
 		<?php 
 		if(class_exists('theme_notification')){

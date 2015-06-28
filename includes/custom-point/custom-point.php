@@ -174,6 +174,9 @@ class theme_custom_point{
 		</fieldset>
 		<?php
 	}
+	public static function the_list_icon($type){
+		echo '<span class="point-icon"><i class="fa fa-2x fa-fw fa-' . $type . '"></i></span>';
+	}
 	public static function get_point_img_url(){
 		static $cache = null;
 		if($cache === null)
@@ -325,10 +328,6 @@ class theme_custom_point{
 					'text' => ___('When delete post'),
 					'type' => 'number',
 				],
-				'post-per-hundred-view'	=> [
-					'text' => ___('When post per hundred view '),
-					'type' => 'number',
-				],
 				'aff-signup' => [
 					'text' => ___('When aff sign-up'),
 					'type' => 'number',
@@ -367,7 +366,6 @@ class theme_custom_point{
 			'post-publish' 			=> 3, /** 发表新文章 */
 			'post-reply' 			=> 1, /** 文章被回复 */
 			'post-delete'			=> -5,/** 文章被删除 */
-			'post-per-hundred-view' => 5, /** 文章每百查看 */
 			'aff-signup'			=> 5, /** 推广注册 */
 		];
 		$values = apply_filters('custom_point_value_default',$values);
@@ -472,7 +470,7 @@ class theme_custom_point{
 		}
 		return $metas;
 	}
-	public static function the_history_time($history){
+	public static function the_time($history){
 		if(!isset($history['timestamp']))
 			return false;
 		?>
@@ -486,14 +484,14 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item list-group-item-warning">
-			<span class="point-name"><?= self::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('info-circle');?>
 			<?php self::the_point_sign($history['point']);?>
 			
 			<span class="history-text">
 				<?= sprintf(___('One special event happened: %s'),$history['event']);?>
 			</span>
 			
-			<?php self::the_history_time($history);?>
+			<?php self::the_time($history);?>
 		</li>
 		<?php
 	}
@@ -502,14 +500,14 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= self::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('trash');?>
 			<?php self::the_point_sign(self::get_point_value('post-delete'));?>
 			
 			<span class="history-text">
 				<?= sprintf(___('Your post "%s" has been deleted.'),$history['post-title']);?>
 			</span>
 			
-			<?php self::the_history_time($history);?>
+			<?php self::the_time($history);?>
 		</li>
 		</li>
 		<?php
@@ -519,14 +517,14 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= self::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('user-plus');?>
 			<?php self::the_point_sign(self::get_point_value('signup'));?>
 			
 			<span class="history-text">
 				<?= sprintf(___('You registered %s.'),'<a href="' . home_url() . '">' . get_bloginfo('name') . '</a>');?>
 			</span>
 			
-			<?php self::the_history_time($history);?>
+			<?php self::the_time($history);?>
 		</li>
 		<?php
 	}
@@ -535,7 +533,7 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= self::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('comment-o');?>
 			<?php self::the_point_sign(self::get_point_value('comment-publish'));?>
 			
 			<span class="history-text">
@@ -552,7 +550,7 @@ class theme_custom_point{
 				?>
 			</span>
 			
-			<?php self::the_history_time($history);?>
+			<?php self::the_time($history);?>
 		</li>
 		<?php
 	}
@@ -561,7 +559,7 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= self::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('paint-brush');?>
 			<?php self::the_point_sign(self::get_point_value('post-publish'));?>
 			
 			<span class="history-text">
@@ -575,7 +573,7 @@ class theme_custom_point{
 				?>
 			</span>
 			
-			<?php self::the_history_time($history);?>
+			<?php self::the_time($history);?>
 		</li>
 		<?php
 	}
@@ -584,7 +582,7 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= self::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('comments-o');?>
 			<?php self::the_point_sign(self::get_point_value('post-reply'));?>
 			
 			<span class="history-text">
@@ -608,7 +606,7 @@ class theme_custom_point{
 				?>
 			</span>
 			
-			<?php self::the_history_time($history);?>
+			<?php self::the_time($history);?>
 		</li>
 		<?php
 	}
@@ -617,14 +615,14 @@ class theme_custom_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= self::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('user');?>
 			<?php self::the_point_sign(self::get_point_value('signin-daily'));?>
 			
 			<span class="history-text">
 				<?= ___('Log-in daily reward.');?>
 			</span>
 			
-			<?php self::the_history_time($history);?>
+			<?php self::the_time($history);?>
 		</li>
 		<?php
 	}
@@ -689,6 +687,16 @@ class theme_custom_point{
 		update_user_meta($user_id,self::$user_meta_key['point'],$points);
 	}
 	/**
+	 * add history for user
+	 *
+	 * @param int $user_id User ID
+	 * @param array $meta History meta data
+	 * @version 1.0.0
+	 */
+	public static function add_history($user_id,$meta){
+		add_user_meta($user_id,self::$user_meta_key['history'],$meta);
+	}
+	/**
 	 * HOOK - Add post-delete history to user meta
 	 *
 	 * @version 1.0.0
@@ -706,7 +714,10 @@ class theme_custom_point{
 			'post-title' => get_the_title($post->ID),
 			'timestamp' => current_time('timestamp'),
 		);
-		add_user_meta($post->post_author,self::$user_meta_key['history'],$meta);
+		/**
+		 * add to history
+		 */
+		self::add_history($post->post_author,$meta);
 
 		/**
 		 * point
@@ -724,7 +735,10 @@ class theme_custom_point{
 			'type'=> 'signup',
 			'timestamp' => current_time('timestamp'),
 		);
-		add_user_meta($user_id,self::$user_meta_key['history'],$meta);
+		/**
+		 * add to history
+		 */
+		self::add_history($user_id,$meta);
 		/**
 		 * update point
 		 */
@@ -760,7 +774,10 @@ class theme_custom_point{
 			'event' => $event,
 			'timestamp' => $current_timestamp
 		);
-		add_user_meta($user_id,self::$user_meta_key['history'],$meta);
+		/**
+		 * add to history
+		 */
+		self::add_history($user_id,$meta);
 		/**
 		 * update point
 		 */
@@ -811,7 +828,10 @@ class theme_custom_point{
 			'type' => 'signin-daily',
 			'timestamp' => $current_timestamp
 		);
-		add_user_meta($user_id,self::$user_meta_key['history'],$meta);
+		/**
+		 * add to history
+		 */
+		self::add_history($user_id,$meta);
 		/**
 		 * update point
 		 */
@@ -901,7 +921,10 @@ class theme_custom_point{
 			'comment-id' => $comment_id,
 			'timestamp' => current_time('timestamp'),
 		);
-		add_user_meta($comment_author_id,self::$user_meta_key['history'],$meta);
+		/**
+		 * add to history
+		 */
+		self::add_history($comment_author_id,$meta);
 		/**
 		 * update point
 		 */
@@ -935,7 +958,10 @@ class theme_custom_point{
 			'comment-id' => $comment_id,
 			'timestamp' => current_time('timestamp'),
 		);
-		add_user_meta($post->post_author,self::$user_meta_key['history'],$meta);
+		/**
+		 * add to history
+		 */
+		self::add_history($post->post_author,$meta);
 		/**
 		 * update point
 		 */
@@ -977,7 +1003,10 @@ class theme_custom_point{
 			'post-id' => $post_id,
 			'timestamp' => current_time('timestamp'),
 		);
-		add_user_meta($post->post_author,self::$user_meta_key['history'],$meta);
+		/**
+		 * add to history
+		 */
+		self::add_history($post->post_author,$meta);
 		/**
 		 * update point
 		 */

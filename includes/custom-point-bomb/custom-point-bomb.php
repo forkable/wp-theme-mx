@@ -10,6 +10,7 @@ class theme_custom_point_bomb{
 
 	public static $iden = 'theme_custom_point_bomb';
 	public static $page_slug = 'account';
+	public static $max_times = 5;
 	
 	public static function init(){
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
@@ -258,6 +259,33 @@ class theme_custom_point_bomb{
 		}
 		return $target;
 	}
+	private static function get_times_group_id(){
+		static $cache = null;
+		if($cache === null)
+			$cache = self::$iden . self::get_current_user_id() . current_time('Ymd');
+
+		return $cache;
+	}
+	private static function get_times(){
+		return isset($_COOKIE[self::get_times_group_id()]) ? (int)$_COOKIE[self::get_times_group_id()] : 0;
+	}
+	private static function set_times($times){
+		setcookie(self::get_times_group_id(),$times,time()+3600*24);
+	}
+	private static function is_max_times(){
+		if(self::$max_times <= self::get_times())
+			return true;
+		return false;
+	}
+	private static function check_max_times(){
+		if(self::is_max_times()){
+			die(theme_features::json_format([
+				'status' => 'error',
+				'code' => 'reach_max_times',
+				'msg' => ___('Sorry, you have reached the maximun times today, see you tomorrow.'),
+			]));
+		}
+	}
 	public static function process(){
 		theme_features::check_referer();
 		theme_features::check_nonce();
@@ -269,6 +297,16 @@ class theme_custom_point_bomb{
 		
 		switch($type){
 			case 'get-target':
+				/**
+				 * check login
+				 */
+				$current_user_id = self::check_login();
+				
+				/**
+				 * check times
+				 */
+				self::check_max_times();
+				
 				/**
 				 * get target
 				 */
@@ -291,6 +329,12 @@ class theme_custom_point_bomb{
 				 * check login
 				 */
 				$current_user_id = self::check_login();
+
+				/**
+				 * check times
+				 */
+				self::check_max_times();
+				
 				/**
 				 * get target
 				 */
@@ -401,6 +445,10 @@ class theme_custom_point_bomb{
 				}
 				$output['hit'] = $hit;
 				$output['status'] = 'success';
+				/**
+				 * set times
+				 */
+				self::set_times(self::get_times() + 1);
 				
 				die(theme_features::json_format($output));
 						
@@ -488,9 +536,8 @@ class theme_custom_point_bomb{
 		$target_name = esc_html(get_the_author_meta('display_name',$history['target-id']));
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('bomb');?>
 			<?php theme_custom_point::the_point_sign($history['points']);?>
-			
 			<span class="history-text">
 				<?php
 				if($history['hit']){
@@ -517,7 +564,7 @@ class theme_custom_point_bomb{
 				?>
 			</span>
 			
-			<?php theme_custom_point::the_history_time($history);?>
+			<?php theme_custom_point::the_time($history);?>
 		</li>
 		<?php
 	}
@@ -531,7 +578,7 @@ class theme_custom_point_bomb{
 		
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('bomb');?>
 			<?php theme_custom_point::the_point_sign($history['points']);?>
 			
 			<span class="history-text">
@@ -560,7 +607,7 @@ class theme_custom_point_bomb{
 				?>
 			</span>
 			
-			<?php theme_custom_point::the_history_time($history);?>
+			<?php theme_custom_point::the_time($history);?>
 		</li>
 		<?php
 	}
@@ -594,7 +641,7 @@ class theme_custom_point_bomb{
 					<a class="label label-default" href="<?= self::get_tabs('bomb')['url'];?>"><i class="fa fa-<?= self::get_tabs('bomb')['icon'];?>"></i> <?= ___('Bomb world');?></a>
 					<?= $points;?>
 					
-					<?php theme_custom_point::the_history_time($noti);?>
+					<?php theme_custom_point::the_time($noti);?>
 
 					<?php if($noti['hit']){ ?>
 						<a class="fight-back btn btn-danger btn-xs" href="<?= $fight_back_url;?>" target="_blank"><strong><?= ___('It is time to fight back');?> <i class="fa fa-external-link"></i></strong></a>

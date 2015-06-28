@@ -401,14 +401,14 @@ class theme_custom_user_settings{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('cog');?>
 			<?php theme_custom_point::the_point_sign(0 - abs(theme_custom_point::get_point_value('save-settings')));?>
 			
 			<span class="history-text">
 				<?= ___('You modified your settings.');?>
 			</span>
 			
-			<?php theme_custom_point::the_history_time($history);?>
+			<?php theme_custom_point::the_time($history);?>
 		</li>
 		<?php
 	}
@@ -417,14 +417,14 @@ class theme_custom_user_settings{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('github-alt');?>
 			<?php theme_custom_point::the_point_sign(0 - (theme_custom_point::get_point_value('save-avatar')));?>
 			
 			<span class="history-text">
 				<?= ___('You modified your avatar.');?>
 			</span>
 			
-			<?php theme_custom_point::the_history_time($history);?>
+			<?php theme_custom_point::the_time($history);?>
 		</li>
 		<?php
 	}

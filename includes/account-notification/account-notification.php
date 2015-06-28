@@ -252,6 +252,7 @@ class theme_notification{
 			</div>
 			<div class="media-body">
 				<h4 class="media-heading">
+					<span class="label label-default"><i class="fa fa-info-circle"></i> <?= ___('Special event');?></span> 
 					<?= ___('Special event');?>
 					<?php
 					if($noti['point'] > 0){
@@ -288,6 +289,7 @@ class theme_notification{
 			</div>
 			<div class="media-body">
 				<h4 class="media-heading">
+					<span class="label label-default"><i class="fa fa-comments"></i> <?= ___('Post reply');?></span> 
 					<?php
 					echo sprintf(
 						___('Your post %1$s has a comment by %2$s.'),
@@ -319,15 +321,16 @@ class theme_notification{
 			</div>
 			<div class="media-body">
 				<h4 class="media-heading">
-				<?php
-				echo sprintf(
-					___('Your comment has a reply by %1$s in %2$s.'),
-					get_comment_author_link($noti['comment-id']),
-					'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '#comment-' . $noti['comment-id'] . '">
-						' . esc_html(get_the_title($comment->comment_post_ID)) . '
-					</a>'
-				);
-				?>
+					<span class="label label-default"><i class="fa fa-comments-o"></i> <?= ___('Comment reply');?></span> 
+					<?php
+					echo sprintf(
+						___('Your comment has a reply by %1$s in %2$s.'),
+						get_comment_author_link($noti['comment-id']),
+						'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '#comment-' . $noti['comment-id'] . '">
+							' . esc_html(get_the_title($comment->comment_post_ID)) . '
+						</a>'
+					);
+					?>
 				</h4>
 				<div class="excerpt"><?php comment_text($noti['comment-id']);?></div>
 			</div><!-- /.media-body -->
@@ -403,13 +406,7 @@ class theme_notification{
 		 * add history
 		 */
 		$_meta_value['id']  = self::get_timestamp(true);
-		add_user_meta($object_id,self::$user_meta_key['key'],$_meta_value);
-		/**
-		 * update unread count
-		 */
-		$unread_count = (array)get_user_meta($object_id,self::$user_meta_key['unread_count'],true);
-		$unread_count[self::get_timestamp(true)] = $_meta_value;
-		update_user_meta($object_id,self::$user_meta_key['unread_count'],$unread_count);
+		self::add_noti($object_id,$_meta_value);
 
 		return true;
 
@@ -522,13 +519,23 @@ class theme_notification{
 			'comment-id' 	=> $comment->comment_ID,
 			'timestamp' 	=> self::get_timestamp(),
 		);
-		add_user_meta($post_author_id,self::$user_meta_key['key'],$meta);
+		self::add_noti($post_author_id,$meta);
+	}
+	/**
+	 * add notifications for user
+	 *
+	 * @param int $user_id User ID
+	 * @param array $meta Notification meta data
+	 * @version 1.0.0
+	 */
+	public static function add_noti($user_id,$meta){
+		add_user_meta($user_id,self::$user_meta_key['key'],$meta);
 		/**
-		 * update unread count for post author
+		 * update unread count
 		 */
-		$unread_count = (array)get_user_meta($post_author_id,self::$user_meta_key['unread_count'],true);
-		$unread_count[self::get_timestamp(true)] = $meta;
-		update_user_meta($post_author_id,self::$user_meta_key['unread_count'],$unread_count);
+		$unread_count = (array)get_user_meta($user_id,self::$user_meta_key['unread_count'],true);
+		$unread_count[$meta['timestamp']] = $meta;
+		update_user_meta($user_id,self::$user_meta_key['unread_count'],$unread_count);
 	}
 	public static function get_post($post_id){
 		static $caches = [];
@@ -592,14 +599,7 @@ class theme_notification{
 			'comment-id' => $comment->comment_ID,
 			'timestamp' => self::get_timestamp(),
 		);
-		add_user_meta($parent_comment_author_id,self::$user_meta_key['key'],$meta);
-		
-		/**
-		 * update unread count for comment parent author
-		 */
-		$unread_count = (array)get_user_meta($parent_comment_author_id,self::$user_meta_key['unread_count'],true);
-		$unread_count[self::get_timestamp(true)] = $meta;
-		update_user_meta($parent_comment_author_id,self::$user_meta_key['unread_count'],$unread_count);
+		self::add_noti($parent_comment_author_id,$meta);
 	}
 	public static function process(){
 		$output = [];
@@ -611,6 +611,15 @@ class theme_notification{
 		
 
 		die(theme_features::json_format($output));
+	}
+	public static function the_time($meta){
+		if(!isset($meta['timestamp']))
+			return false;
+		?>
+		<span class="noti-time event-time">
+			<?= friendly_date($meta['timestamp']); ?>
+		</span>
+		<?php
 	}
 	public static function frontend_css(){
 		if(!self::is_page()) 
