@@ -19,19 +19,15 @@ $open_sign_html = function(){
 	if(!class_exists('theme_open_sign'))
 		return;
 	?>
-	<div class="open-login btn-group btn-group-justified" role="group">
-		<div class="btn-group" role="group">
-			<a href="<?= esc_url(theme_open_sign::get_login_url('qq'));?>" class="btn btn-primary">
-				<i class="fa fa-qq fa-fw"></i> 
-				<?= ___('Login from QQ');?>
-			</a>
-		</div>
-		<div class="btn-group" role="group">
-			<a href="<?= esc_url(theme_open_sign::get_login_url('sina'));?>" class="btn btn-danger">
-				<i class="fa fa-weibo fa-fw"></i> 
-				<?= ___('Login from Weibo');?>
-			</a>
-		</div>
+	<div class="open-login btn-group btn-group-justified" >
+		<a href="<?= esc_url(theme_open_sign::get_login_url('qq'));?>" class="btn btn-primary">
+			<i class="fa fa-qq fa-fw"></i> 
+			<?= ___('Login from QQ');?>
+		</a>
+		<a href="<?= esc_url(theme_open_sign::get_login_url('sina'));?>" class="btn btn-danger">
+			<i class="fa fa-weibo fa-fw"></i> 
+			<?= ___('Login from Weibo');?>
+		</a>
 	</div>
 	<?php
 };
@@ -76,13 +72,6 @@ $open_sign_html = function(){
 					<input name="user[pwd]" type="password" class="form-control" id="sign-pwd" placeholder="<?= ___('Your password, at least 3 length');?>" title="<?= ___('Please type password, at least 3 length');?>" minlength="3" required tabindex="1">
 				</div>
 			</div>
-			<div class="checkbox">
-				<label for="sign-agree">
-					<input type="checkbox" name="user[agree]" id="sign-agree" value="1" checked required onclick="return false" >
-					<?= sprintf(___('I am agree the %s'),'<a href="' . theme_custom_sign::get_options('tos-url') . '" target="_blank">' . ___('TOS') . '</a>');?>
-				</label>
-			</div>
-			<div class="form-group submit-tip"></div>
 			<div class="form-group form-group-submit">
 				<button type="submit" class="btn btn-success btn-block btn-lg submit" data-loading-text="<?= ___('Processing, please wait...');?>" tabindex="1">
 					<i class="fa fa-check"></i>
@@ -90,18 +79,20 @@ $open_sign_html = function(){
 				</button>
 				<input type="hidden" name="type" value="register">
 			</div>
+			<div class="form-group text-center">
+				<i class="fa fa-check-square-o"></i> 
+				<?= sprintf(___('I am agree the %s.'),'<a href="' . theme_custom_sign::get_tos_url() . '" target="_blank">' . ___('TOS') . '</a>');?>
+			</div>
 		</form>
 	</div><!-- /.panel-body -->
 </div><!-- /.panel -->
-<div class="form-group row">
-	<div class="col-sm-6">
+<div class="form-group">
+	<div class="btn-group btn-group-justified">
 		<a class="btn btn-default" href="<?= esc_url(theme_custom_sign::get_tabs('login')['url']);?>#main">
 			<i class="fa fa-<?= theme_custom_sign::get_tabs('login')['icon'];?> fa-fw"></i>
 			<?= ___('I have account');?>
 		</a>
-	</div>
-	<div class="col-sm-6">
-		<a class="btn btn-default" href="<?= esc_url(theme_custom_sign::get_tabs('recover')['url']);?>#main">
+		<a class="btn btn-default" role="button" href="<?= esc_url(theme_custom_sign::get_tabs('recover')['url']);?>#main">
 			<i class="fa fa-<?= theme_custom_sign::get_tabs('recover')['icon'];?> fa-fw"></i>
 			<?= ___('Forgot password?');?>
 		</a>
@@ -124,6 +115,11 @@ $open_sign_html();
 		<h3><?= ___('Recover password');?></h3>
 	</div>
 	<div class="panel-body">
+		<div class="page-tip">
+			<?= status_tip('info',___('System updating...'));?>
+		</div>
+	</div>
+	<div class="panel-body none">
 		<form action="javascript:;" id="fm-sign-recover">
 			<div class="form-group"><?= ___('If you forgot your account password, you can recover your password by your account email. Please entry your account email, we will send a confirm email to it and reset your password.');?></div>
 			<div class="form-group">
@@ -132,7 +128,6 @@ $open_sign_html();
 					<input type="email" name="user[email]" id="sign-email" class="form-control" title="<?= ___('Please type email');?>" required tabindex="1" autofocus placeholder="<?= ___('Please type email');?>">
 				</div>
 			</div>
-			<div class="form-group submit-tip"></div>
 			<div class="form-group form-group-submit">
 				<button type="submit" class="btn btn-success btn-block btn-lg submit" tabindex="1">
 					<i class="fa fa-send"></i> 
@@ -145,18 +140,14 @@ $open_sign_html();
 </div><!-- /.panel -->
 <div class="form-group">
 	<div class="btn-group btn-group-justified">
-		<div class="btn-group" role="group">
-			<a class="btn btn-info btn-block" href="<?= esc_url(theme_custom_sign::get_tabs('login')['url']);?>#main">
-				<i class="fa fa-<?= theme_custom_sign::get_tabs('login')['icon'];?> fa-fw"></i>
-				<?= ___('I have account');?>
-			</a>
-		</div>
-		<div class="btn-group" role="group">
-			<a class="btn btn-info btn-block" href="<?= esc_url(theme_custom_sign::get_tabs('register')['url']);?>#main">
-				<i class="fa fa-<?= theme_custom_sign::get_tabs('register')['icon'];?> fa-fw"></i>
-				<?= ___('Register new account');?>
-			</a>
-		</div>
+		<a class="btn btn-default" href="<?= esc_url(theme_custom_sign::get_tabs('login')['url']);?>#main">
+			<i class="fa fa-<?= theme_custom_sign::get_tabs('login')['icon'];?> fa-fw"></i>
+			<?= ___('I have account');?>
+		</a>
+		<a class="btn btn-default" href="<?= esc_url(theme_custom_sign::get_tabs('register')['url']);?>#main">
+			<i class="fa fa-<?= theme_custom_sign::get_tabs('register')['icon'];?> fa-fw"></i>
+			<?= ___('Register new account');?>
+		</a>
 	</div>
 </div>
 				<?php
@@ -191,13 +182,14 @@ $open_sign_html();
 					<input name="user[pwd]" type="password" class="form-control" id="sign-pwd" placeholder="<?= ___('Please type password');?>" title="<?= ___('Please type password, at least 3 length');?>" minlength="3" required tabindex="1">
 				</div>
 			</div>
-			<div class="checkbox">
-				<label for="sign-remember">
-					<input type="checkbox" name="user[remember]" id="sign-remember" value="1" checked tabindex="1">
-					<?= ___('Remember me');?>
-				</label>
+			<div class="form-group">
+				<div class="input-group">
+					<label for="sign-remember" class="input-group-addon"><input type="checkbox" name="user[remember]" id="sign-remember" value="1" checked tabindex="1" ></label>
+					<label for="sign-remember">
+						<?= ___('Remember me');?>
+					</label>
+				</div>
 			</div>
-			<div class="form-group submit-tip"></div>
 			<div class="form-group form-group-submit">
 				<button type="submit" class="btn btn-lg btn-success btn-block submit" data-loading-text="<?= ___('Logging in, please wait...');?>" tabindex="1">
 					<i class="fa fa-check"></i>
@@ -208,14 +200,12 @@ $open_sign_html();
 		</form>
 	</div><!-- /.panel-body -->
 </div><!-- /.panel -->
-<div class="form-group row">
-	<div class="col-sm-6">
+<div class="form-group">
+	<div class="btn-group btn-group-justified">
 		<a class="btn btn-default" href="<?= esc_url(theme_custom_sign::get_tabs('register')['url']);?>#main">
 			<i class="fa fa-<?= theme_custom_sign::get_tabs('register')['icon'];?> fa-fw"></i>
 			<?= ___('Register new account');?>
 		</a>
-	</div>
-	<div class="col-sm-6">
 		<a class="btn btn-default" href="<?= esc_url(theme_custom_sign::get_tabs('recover')['url']);?>#main">
 			<i class="fa fa-<?= theme_custom_sign::get_tabs('recover')['icon'];?> fa-fw"></i>
 			<?= ___('Forgot password?');?>

@@ -589,10 +589,10 @@ label.error{
 	.comment-list .comment:hover{
 		background: rgba(0,0,0,.05)
 	}
-	.comment-list .comment.is-me{
+	.comment-list .comment.is-me > .comment-body{
 		background: #FBEC88;
 	}
-	.comment-list .comment.is-post-author .author{
+	.comment-list .comment.is-post-author > .comment-body .author{
 		font-weight: bold;
 	}
 	.comment-list .media{
@@ -606,8 +606,9 @@ label.error{
 	.comment-list .comment-body{
 		padding: 20px;
 	}
-		.comment-list .comment-body > .media-body{
-		}
+	.comment-list p{
+		margin-bottom: 0;
+	}
 	.comment-list .thread-odd{
 		background: rgb(248,248,248);
 	}

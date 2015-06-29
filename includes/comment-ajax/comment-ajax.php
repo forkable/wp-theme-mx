@@ -529,7 +529,7 @@ class theme_comment_ajax{
 						global $current_user;
 						get_currentuserinfo();
 						$user_name = $current_user->display_name;
-						$user_url = get_author_posts_url($current_user->ID);
+						$user_url = theme_cache::get_author_posts_url($current_user->ID);
 						$avatar_url =  get_avatar_url($current_user->ID);
 					}
 					$output[self::$iden] = [

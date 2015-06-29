@@ -80,7 +80,7 @@ get_currentuserinfo();
 			</abbr>
 		</div>
 		<div class="col-sm-10"><p class="form-control-static"><strong>
-			<a href="<?= esc_url(get_author_posts_url($current_user->ID));?>"><?= $current_user->user_nicename;?></a>
+			<a href="<?= esc_url(theme_cache::get_author_posts_url($current_user->ID));?>"><?= $current_user->user_nicename;?></a>
 			</strong></p></div>
 	</div>
 	<!-- nickname -->

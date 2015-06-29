@@ -94,7 +94,7 @@ class theme_custom_point_views_per_hundred{
 			self::add_history_views_per_hundred($object_id);
 			
 			/** add noti */
-			self::add_noti_views_per_hundred($object_id);
+			//self::add_noti_views_per_hundred($object_id);
 			
 			/** reset times */
 			self::reset_times($object_id);

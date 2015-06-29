@@ -407,7 +407,7 @@ class theme_custom_point_bomb{
 				/** update target points */
 				theme_custom_point::update_user_points($target_id, $new_target_points);
 
-				$target_name = '<a href="' . esc_url(get_author_posts_url($target_id)) . '" target="_blank" class="author">' . esc_html($target->display_name) . '</a>';
+				$target_name = '<a href="' . esc_url(theme_cache::get_author_posts_url($target_id)) . '" target="_blank" class="author">' . esc_html($target->display_name) . '</a>';
 							
 				/**
 				 * hit target
@@ -544,7 +544,7 @@ class theme_custom_point_bomb{
 					echo sprintf(
 						___('You bombed %1$s and hit! You got %2$s %3$s.'),
 						
-						'<a href="' . esc_url(get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar">' . $target_name  . '</a>',
+						'<a href="' . esc_url(theme_cache::get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar">' . $target_name  . '</a>',
 						
 						'<strong>+' . abs($history['points']) . '</strong>',
 						
@@ -554,7 +554,7 @@ class theme_custom_point_bomb{
 					echo sprintf(
 						___('You bombed %1$s but miss! You lost %2$s %3$s.'),
 						
-						'<a href="' . esc_url(get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar">' . $target_name  . '</a>',
+						'<a href="' . esc_url(theme_cache::get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar">' . $target_name  . '</a>',
 						
 						'<strong>' . (0 - abs($history['points'])) . '</strong>',
 						
@@ -574,7 +574,7 @@ class theme_custom_point_bomb{
 
 		$attacker_name = esc_html(get_the_author_meta('display_name',$history['attacker-id']));
 		
-		$attacker_name = '<a href="' . esc_url(get_author_posts_url($history['attacker-id'])) . '" attacker="_blank"><img src="' . get_avatar_url($history['attacker-id']) . '" alt="' . $attacker_name . '" width="16" height="16" class="avatar">' . $attacker_name  . '</a>';
+		$attacker_name = '<a href="' . esc_url(theme_cache::get_author_posts_url($history['attacker-id'])) . '" attacker="_blank"><img src="' . get_avatar_url($history['attacker-id']) . '" alt="' . $attacker_name . '" width="16" height="16" class="avatar">' . $attacker_name  . '</a>';
 		
 		?>
 		<li class="list-group-item">
@@ -632,7 +632,7 @@ class theme_custom_point_bomb{
 		?>
 		<div class="media">
 			<div class="media-left">
-				<a href="<?php esc_html(get_author_posts_url($noti['attacker-id']));?>">
+				<a href="<?php esc_url(theme_cache::get_author_posts_url($noti['attacker-id']));?>">
 				<img src="<?= get_avatar_url($noti['attacker-id']);?>" class="avatar media-object" alt="avatar" width="60" height="60">
 				</a>
 			</div>

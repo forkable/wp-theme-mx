@@ -1726,6 +1726,8 @@ class theme_functions{
 		global $post;
 		static $i = 0;
 		foreach($opt as $k => $v){
+			if(!isset($v['title']) || trim($v['title']) === '')
+				continue;
 			?>
 <div id="homebox-<?= $k;?>" class="homebox panel panel-primary mx-panel">
 	

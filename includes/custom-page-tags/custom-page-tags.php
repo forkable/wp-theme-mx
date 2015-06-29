@@ -388,7 +388,7 @@ class theme_page_tags{
 		}
 		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
-		wp_cache_set($cache_id,$cache,self::$iden,86400);/** 24 hours */
+		wp_cache_set($cache_id,$cache,self::$iden,86400*7);/** 7days */
 		echo $cache;
 	}
 	public static function backend_seajs_alias($alias){

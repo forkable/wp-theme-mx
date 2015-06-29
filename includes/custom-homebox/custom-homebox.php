@@ -14,11 +14,7 @@ add_filter('theme_includes',function($fns){
 class theme_custom_homebox{
 	public static $iden = 'theme_custom_homebox';
 	public static $cache_id_mtime = 'theme_custom_homebox-mtime';
-	private static $colors = array(
-		'61b4ca',	'e1b32a',	'ee916f',	'a89d84',
-		'86b767',	'6170ca',	'c461ca',	'ca6161',
-		'ca8661',	'333333',	'84a89e',	'a584a8'
-	);
+
 	public static function init(){
 		
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
@@ -31,7 +27,6 @@ class theme_custom_homebox{
 	}
 	public static function action_public_post(){
 		self::delete_cache();
-		//die();
 	}
 	public static function keywords_to_html($keywords = null,$class = null){
 		if(!$keywords) return false;
@@ -56,11 +51,9 @@ class theme_custom_homebox{
 		if($caches === null)
 			$caches = (array)theme_options::get_options(self::$iden);
 
-		if($key){
+		if($key)
 			return isset($caches[$key]) ? $caches[$key] : null;
-		}else{
-			return $caches;
-		}
+		return $caches;
 	}
 
 	private static function cat_checkbox_tpl($placeholder){
@@ -112,6 +105,7 @@ class theme_custom_homebox{
 					</tr>
 				</tbody>
 			</table>
+			<input type="hidden" name="<?= self::$iden;?>[hash]" value="<?= md5(serialize($opt));?>">
 		</fieldset>
 	<?php
 	
@@ -186,12 +180,15 @@ class theme_custom_homebox{
 		
 		die(theme_features::json_format($output));
 	}
-	public static function options_save(array $options = []){
+	public static function options_save(array $opts = []){
 		if(isset($_POST[self::$iden])){
-			$options[self::$iden] = $_POST[self::$iden];
-			self::delete_cache();
+			$opts[self::$iden] = $_POST[self::$iden];
+
+			unset($_POST[self::$iden]['hash']);
+			if($_POST[self::$iden]['hash'] !== md5(json_encode($_POST[self::$iden])))
+				self::delete_cache();
 		}
-		return $options;
+		return $opts;
 	}
 	public static function delete_cache(){
 		wp_cache_delete(self::$iden);

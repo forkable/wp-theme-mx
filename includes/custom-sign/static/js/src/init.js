@@ -38,9 +38,8 @@ define(function(require, exports, module){
 				m.process_url = config.process_url;
 				m.done = function(data){
 					if(data && data.status === 'success'){
-						setTimeout(function(){
-							location.reload();
-						},2000);
+						location.hash = '';
+						location.reload();
 					}
 				};
 				m.loading_tx = config.lang.M00001;
@@ -77,6 +76,7 @@ define(function(require, exports, module){
 					m.process_url = config.process_url;
 					m.done = function(data){
 						if(data && data.status === 'success'){
+							location.hash = '';
 							location.reload();
 						}
 					};
@@ -92,6 +92,7 @@ define(function(require, exports, module){
 						m.process_url = config.process_url;
 						m.done = function(data){
 							if(data && data.status === 'success'){
+								location.hash = '';
 								location.reload();
 							}
 						};

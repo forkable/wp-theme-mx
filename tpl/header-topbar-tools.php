@@ -8,7 +8,7 @@ if(is_user_logged_in()){
 	<div class="btn-group btn-group-xs">
 		
 		<!-- my profile -->
-		<a href="<?= theme_cache::get_author_posts_url($current_user_id);?>" class="btn btn-default meta user-avatar" title="<?= ___('My profile');?>">
+		<a href="<?= esc_url(theme_cache::get_author_posts_url($current_user_id));?>" class="btn btn-default meta user-avatar" title="<?= ___('My profile');?>">
 			<?= get_avatar($current_user_id);?>
 			<span class="tx"><?= esc_html(get_the_author_meta('display_name',$current_user_id));?></span>
 		</a>

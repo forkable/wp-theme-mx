@@ -1030,7 +1030,7 @@ class theme_custom_point{
 			theme_file_timestamp::get_timestamp()
 		);
 	}
-	public static function backend_seajs_alias($alias){
+	public static function backend_seajs_alias(array $alias = []){
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__,'backend');
 		return $alias;
 	}

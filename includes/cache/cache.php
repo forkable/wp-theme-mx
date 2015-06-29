@@ -214,15 +214,20 @@ class theme_cache{
 		}
 	}
 
-	public static function get_author_posts_url($user_id,$author_nicename = ''){
-		$cache_id = md5(serialize(func_get_args()));
+	public static function get_author_posts_url($user_id){
+		static $caches = [];
+		$cache_id = $user_id;
 		$group_id = 'author_posts_urls';
-		$caches = wp_cache_get($group_id);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 
-		$caches[$cache_id] = get_author_posts_url($user_id,$author_nicename);
-		wp_cache_set($group_id,$caches,null,2505600);
+		$caches[$cache_id] = wp_cache_get($cache_id,$group_id);
+		
+		if(!$caches[$cache_id]){
+			$caches[$cache_id] = get_author_posts_url($user_id);
+			wp_cache_set($group_id,$caches[$cache_id],$group_id,2505600);
+		}
+		
 		return $caches[$cache_id];
 	}
 	/**
