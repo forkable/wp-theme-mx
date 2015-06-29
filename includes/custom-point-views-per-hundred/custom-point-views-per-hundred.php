@@ -77,7 +77,12 @@ class theme_custom_point_views_per_hundred{
 	public static function action_update_postmeta($meta_id, $object_id, $meta_key, $meta_value){
 		if($meta_key !== self::$post_meta_key)
 			return;
-
+			
+		/** only run once */
+		static $i = 0;
+		if($i !== 0)
+			return;
+		++$i;
 		
 		if(self::is_max_times($object_id)){
 			$user_id = self::get_post($object_id)->post_author;
@@ -112,10 +117,10 @@ class theme_custom_point_views_per_hundred{
 		return $cache;
 	}
 	public static function get_post($post_id){
-		static $cache = null;
-		if($cache === null)
-			$cache = get_post($post_id);
-		return $cache;
+		static $caches = [];
+		if(!isset($caches[$post_id]))
+			$caches[$post_id] = get_post($post_id);
+		return $caches[$post_id];
 	}
 	public static function get_points_value(){
 		return (int)theme_custom_point::get_point_value(self::$type_key);

@@ -69,7 +69,7 @@ if(theme_custom_point::get_point_img_url()){
 						</p>
 						<p>
 							<span>
-								<input id="bomb-target" type="text" name="target" class="form-control" placeholder="<?= ___('Target UID, e.g. 101406');?>" value="<?= isset($_GET['target']) && is_numeric($_GET['target']) ? (int)$_GET['target'] : null;?>" required >
+								<input id="bomb-target" type="text" name="target" class="form-control" placeholder="<?= sprintf(___('Target UID, e.g. %d'),105844);?>" value="<?= isset($_GET['target']) && is_numeric($_GET['target']) ? (int)$_GET['target'] : null;?>" required >
 							</span>
 						</p>
 					</div>			

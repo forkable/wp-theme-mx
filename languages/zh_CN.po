@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-29 00:20+0800\n"
-"PO-Revision-Date: 2015-06-29 00:22+0800\n"
+"POT-Creation-Date: 2015-06-29 10:39+0800\n"
+"PO-Revision-Date: 2015-06-29 10:39+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -31,9 +31,7 @@ msgid "Respond"
 msgstr "添加评论"
 
 #: comments.php:27 core/core-options.php:173 functions.php:1820
-#: includes/_post-thumb/post-thumb.php:243
-#: includes/_quick-comment/quick-comment.php:341
-#: includes/clean-up/clean-up.php:227
+#: includes/_post-thumb/post-thumb.php:243 includes/clean-up/clean-up.php:227
 #: includes/comment-ajax/comment-ajax.php:470
 #: includes/custom-collection/custom-collection.php:575
 #: includes/custom-contribution/custom-contribution.php:519
@@ -471,7 +469,6 @@ msgid "Your comment is awaiting moderation."
 msgstr "您的评论正在审核中。"
 
 #: functions.php:1467 functions.php:1474
-#: includes/_quick-comment/quick-comment.php:350
 msgid "Reply"
 msgstr "回复"
 
@@ -516,9 +513,8 @@ msgstr "您需要 %s 后才能发表评论。"
 msgid "log-in"
 msgstr "登录"
 
-#: functions.php:1859 includes/_quick-comment/quick-comment.php:347
-#: includes/quick-sign/quick-sign.php:398 tpl/author-profile.php:21
-#: tpl/page-account-settings.php:90
+#: functions.php:1859 includes/quick-sign/quick-sign.php:398
+#: tpl/author-profile.php:21 tpl/page-account-settings.php:90
 msgid "Nickname"
 msgstr "昵称"
 
@@ -526,8 +522,7 @@ msgstr "昵称"
 msgid "Whats your nickname?"
 msgstr "您的昵称"
 
-#: functions.php:1872 includes/_quick-comment/quick-comment.php:348
-#: includes/quick-sign/quick-sign.php:399
+#: functions.php:1872 includes/quick-sign/quick-sign.php:399
 msgid "Email"
 msgstr "邮箱"
 
@@ -683,135 +678,12 @@ msgstr "我喜欢"
 msgid "I dislike it"
 msgstr "我不喜欢"
 
-#: includes/_post-thumb/post-thumb.php:244
-#: includes/_quick-comment/quick-comment.php:352
-#: includes/clean-up/clean-up.php:228
+#: includes/_post-thumb/post-thumb.php:244 includes/clean-up/clean-up.php:228
 #: includes/custom-point/custom-point.php:1042
 #: includes/custom-slidebox/custom-slidebox.php:355
 #: includes/favicon/favicon.php:199 includes/quick-sign/quick-sign.php:407
 msgid "Server error or network is disconnected."
 msgstr "服务器错误或网络未连接。"
-
-#: includes/_quick-comment/quick-comment.php:22
-msgid "Referer error"
-msgstr "来路错误"
-
-#: includes/_quick-comment/quick-comment.php:35
-#: includes/_quick-comment/quick-comment.php:81
-msgid "Invail post id."
-msgstr "无效的文章 ID。"
-
-#: includes/_quick-comment/quick-comment.php:44
-msgid "This post comment has closed."
-msgstr "这篇文章的评论已关闭。"
-
-#: includes/_quick-comment/quick-comment.php:89
-msgid "Invail comment content"
-msgstr "无效的评论内容。"
-
-#: includes/_quick-comment/quick-comment.php:108
-msgid "Anonymous"
-msgstr "匿名"
-
-#: includes/_quick-comment/quick-comment.php:119
-msgid "Invail email address."
-msgstr "无效的电子邮箱地址。"
-
-#: includes/_quick-comment/quick-comment.php:150
-msgid "System can not create comment."
-msgstr "系统无法创建评论。"
-
-#: includes/_quick-comment/quick-comment.php:171 tpl/author-comments.php:10
-msgid "No comment yet."
-msgstr "暂无评论"
-
-#: includes/_quick-comment/quick-comment.php:183
-msgid "Invail type"
-msgstr "无效的类型。"
-
-#: includes/_quick-comment/quick-comment.php:224
-#: includes/comment-ajax/comment-ajax.php:111
-msgid "Blocked comment from frontend."
-msgstr "已禁止前台评论"
-
-#: includes/_quick-comment/quick-comment.php:246
-#: includes/comment-ajax/comment-ajax.php:178
-msgid "Sorry, you must be logged in to post a comment."
-msgstr "抱歉，您必须登陆后才能发表评论。"
-
-#: includes/_quick-comment/quick-comment.php:256
-#: includes/comment-ajax/comment-ajax.php:395
-#: includes/custom-contribution/custom-contribution.php:227
-#: includes/custom-contribution/custom-contribution.php:248
-#: tpl/page-account-post.php:31
-msgid "Sorry, the post does not exist."
-msgstr "抱歉，文章不存在。"
-
-#: includes/_quick-comment/quick-comment.php:271
-#: includes/comment-ajax/comment-ajax.php:410
-msgid "Sorry, comments are closed for this item."
-msgstr "抱歉，该文章的评论已被关闭。"
-
-#: includes/_quick-comment/quick-comment.php:280
-#: includes/comment-ajax/comment-ajax.php:419
-msgid "Sorry, can not comment on trash post."
-msgstr "抱歉，您必须登陆后才能发表评论。"
-
-#: includes/_quick-comment/quick-comment.php:289
-#: includes/comment-ajax/comment-ajax.php:428
-msgid "Sorry, can not comment draft post."
-msgstr "抱歉，您必须登陆后才能发表评论。"
-
-#: includes/_quick-comment/quick-comment.php:298
-#: includes/comment-ajax/comment-ajax.php:437
-msgid "Sorry, the post needs password to comment."
-msgstr "抱歉，您必须登陆后才能发表评论。"
-
-#: includes/_quick-comment/quick-comment.php:309
-#, php-format
-msgid "Total %d comments"
-msgstr "共 %d 条评论"
-
-#: includes/_quick-comment/quick-comment.php:311
-#: includes/_quick-comment/quick-comment.php:323
-msgid "Join the comments"
-msgstr "加入讨论"
-
-#: includes/_quick-comment/quick-comment.php:316
-msgid "Loading comment list, please wait..."
-msgstr "评论列表加载中，请稍候…"
-
-#: includes/_quick-comment/quick-comment.php:342
-#: includes/comment-ajax/comment-ajax.php:270
-#: includes/comment-ajax/comment-ajax.php:471
-msgid "Commented successfully, thank you!"
-msgstr "发表评论成功，感谢您的参与！"
-
-#: includes/_quick-comment/quick-comment.php:343
-#: includes/widget-author/widget-author.php:119
-msgid "Message"
-msgstr "提示"
-
-#: includes/_quick-comment/quick-comment.php:344
-msgid "No comment yet, you are first commenter."
-msgstr "暂无评论，果断抢沙发。"
-
-#: includes/_quick-comment/quick-comment.php:345
-msgid "Comment"
-msgstr "评论"
-
-#: includes/_quick-comment/quick-comment.php:346
-msgid "Post comment"
-msgstr "发表评论"
-
-#: includes/_quick-comment/quick-comment.php:349
-msgid "Closing tip after 3s"
-msgstr "3秒后关闭提示"
-
-#: includes/_quick-comment/quick-comment.php:351
-#: includes/custom-post-storage/custom-post-storage.php:57
-msgid "Error"
-msgstr "错误"
 
 #: includes/account-notification/account-notification.php:101
 #: tpl/page-account-notifications.php:5
@@ -1014,6 +886,14 @@ msgstr "提交评论无需刷新页面。推荐使以改善用户体验。"
 msgid "Enable comment AJAX"
 msgstr "启用 AJAX 评论"
 
+#: includes/comment-ajax/comment-ajax.php:111
+msgid "Blocked comment from frontend."
+msgstr "已禁止前台评论"
+
+#: includes/comment-ajax/comment-ajax.php:178
+msgid "Sorry, you must be logged in to post a comment."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
 #: includes/comment-ajax/comment-ajax.php:189
 msgid "Error: please fill your name."
 msgstr "错误：请填写你的名字。"
@@ -1025,6 +905,11 @@ msgstr "错误：请输入一个合法的邮箱地址。"
 #: includes/comment-ajax/comment-ajax.php:204
 msgid "Error: please type a comment."
 msgstr "错误：请输入评论内容。"
+
+#: includes/comment-ajax/comment-ajax.php:270
+#: includes/comment-ajax/comment-ajax.php:471
+msgid "Commented successfully, thank you!"
+msgstr "发表评论成功，感谢您的参与！"
 
 #: includes/comment-ajax/comment-ajax.php:295
 msgid "Post ID is invaild."
@@ -1039,6 +924,29 @@ msgstr "文章不存在。"
 #: includes/comment-ajax/comment-ajax.php:316
 msgid "Data sent."
 msgstr "数据传送完毕。"
+
+#: includes/comment-ajax/comment-ajax.php:395
+#: includes/custom-contribution/custom-contribution.php:227
+#: includes/custom-contribution/custom-contribution.php:248
+#: tpl/page-account-post.php:31
+msgid "Sorry, the post does not exist."
+msgstr "抱歉，文章不存在。"
+
+#: includes/comment-ajax/comment-ajax.php:410
+msgid "Sorry, comments are closed for this item."
+msgstr "抱歉，该文章的评论已被关闭。"
+
+#: includes/comment-ajax/comment-ajax.php:419
+msgid "Sorry, can not comment on trash post."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
+#: includes/comment-ajax/comment-ajax.php:428
+msgid "Sorry, can not comment draft post."
+msgstr "抱歉，您必须登陆后才能发表评论。"
+
+#: includes/comment-ajax/comment-ajax.php:437
+msgid "Sorry, the post needs password to comment."
+msgstr "抱歉，您必须登陆后才能发表评论。"
 
 #: includes/comment-ajax/comment-ajax.php:475
 msgid "{n} page"
@@ -1827,17 +1735,17 @@ msgstr "正在轰炸，请稍候……"
 msgid "When post per hundred views"
 msgstr "当文章增加 100 查看数时"
 
-#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:175
-#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:222
+#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:180
+#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:227
 #, php-format
 msgid "Your post %1$s reached per hundred views, %2$s %3$s. Views are %4$s."
 msgstr "你的文章 %1$s 达到每百查看数，奖励 %2$s 个%3$s。查看数为 %4$s 次。"
 
-#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:208
+#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:213
 msgid "Preview image"
 msgstr "封面图"
 
-#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:214
+#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:219
 msgid "Per hundred views"
 msgstr "每百查看数"
 
@@ -2253,6 +2161,10 @@ msgstr "百度网盘"
 #: includes/custom-post-storage/custom-post-storage.php:56
 msgid "Error: invaild code."
 msgstr "抱歉：无效的安全码。"
+
+#: includes/custom-post-storage/custom-post-storage.php:57
+msgid "Error"
+msgstr "错误"
 
 #: includes/custom-post-storage/custom-post-storage.php:80
 msgid "File storage"
@@ -3569,6 +3481,10 @@ msgstr "已关注"
 msgid "Follow"
 msgstr "关注"
 
+#: includes/widget-author/widget-author.php:119
+msgid "Message"
+msgstr "提示"
+
 #: includes/widget-author/widget-author.php:129
 msgid "Member information"
 msgstr "会员资料"
@@ -3852,6 +3768,10 @@ msgstr "请在【外观 - 小组件】中为单页面设置一些小组件"
 msgid "Please set some widgets in 404 page."
 msgstr "请在【外观 - 小组件】中为404页面设置一些小组件"
 
+#: tpl/author-comments.php:10
+msgid "No comment yet."
+msgstr "暂无评论"
+
 #: tpl/author-comments.php:33
 #, php-format
 msgid "%1$s published a comment in %2$s."
@@ -3962,8 +3882,9 @@ msgid "Target name"
 msgstr "目标名称"
 
 #: tpl/page-account-bomb.php:72
-msgid "Target UID, e.g. 101406"
-msgstr "目标 UID，例如：101406"
+#, php-format
+msgid "Target UID, e.g. %d"
+msgstr "目标 UID，例如：%d"
 
 #: tpl/page-account-bomb.php:82
 msgid "Bombing..."
@@ -4216,6 +4137,54 @@ msgstr "向每个人介绍自己"
 #: tpl/page-account-settings.php:123
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "Referer error"
+#~ msgstr "来路错误"
+
+#~ msgid "Invail post id."
+#~ msgstr "无效的文章 ID。"
+
+#~ msgid "This post comment has closed."
+#~ msgstr "这篇文章的评论已关闭。"
+
+#~ msgid "Invail comment content"
+#~ msgstr "无效的评论内容。"
+
+#~ msgid "Anonymous"
+#~ msgstr "匿名"
+
+#~ msgid "Invail email address."
+#~ msgstr "无效的电子邮箱地址。"
+
+#~ msgid "System can not create comment."
+#~ msgstr "系统无法创建评论。"
+
+#~ msgid "Invail type"
+#~ msgstr "无效的类型。"
+
+#~ msgid "Total %d comments"
+#~ msgstr "共 %d 条评论"
+
+#~ msgid "Join the comments"
+#~ msgstr "加入讨论"
+
+#~ msgid "Loading comment list, please wait..."
+#~ msgstr "评论列表加载中，请稍候…"
+
+#~ msgid "No comment yet, you are first commenter."
+#~ msgstr "暂无评论，果断抢沙发。"
+
+#~ msgid "Comment"
+#~ msgstr "评论"
+
+#~ msgid "Post comment"
+#~ msgstr "发表评论"
+
+#~ msgid "Closing tip after 3s"
+#~ msgstr "3秒后关闭提示"
+
+#~ msgid "Target UID, e.g. 101406"
+#~ msgstr "目标 UID，例如：101406"
 
 #~ msgid ""
 #~ "Your post \"%1$s\" reached per hundred views, %2$3 %3$s. Views are %5$d."

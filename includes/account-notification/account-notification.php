@@ -539,10 +539,8 @@ class theme_notification{
 	}
 	public static function get_post($post_id){
 		static $caches = [];
-		if(isset($caches[$post_id]))
-			return $caches[$post_id];
-
-		$caches[$post_id] = get_post($post_id);
+		if(!isset($caches[$post_id]))
+			$caches[$post_id] = get_post($post_id);
 		return $caches[$post_id];
 	}
 	public static function get_comment($comment_id){
