@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.1
+ * @version 1.0.2
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'default_gravatar::init';
@@ -27,10 +27,19 @@ class default_gravatar{
 		}
 		return $default_urls;
 	}
+	public static function get_options($key = null){
+		static $cache = null;
+		if($cache === null)
+			$cache = theme_options::get_options(self::$iden);
+
+		if($key)
+			return isset($cache[$key]) ? $cache[$key] : false;
+		return $cache;
+	}
 	public static function get_url(){
 		static $cache = null;
 		if($cache === null)
-			$cache = !empty(self::get_option('url')) ? self::get_option('url') : false;
+			$cache = !empty(self::get_options('url')) ? self::get_options('url') : false;
 
 		return $cache;
 	}
@@ -51,14 +60,5 @@ class default_gravatar{
 			</table>
 		</fieldset>
 		<?php
-	}
-	public static function get_options($key = null){
-		static $caches = null;
-		if($caches === null)			
-			$caches = (array)theme_options::get_options(self::$iden);
-			
-		if($key)
-			return isset($caches[$key]) ? $caches[$key] : null;
-		return $caches;
 	}
 }

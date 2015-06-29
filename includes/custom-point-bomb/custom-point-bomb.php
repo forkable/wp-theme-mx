@@ -388,7 +388,7 @@ class theme_custom_point_bomb{
 				
 				self::add_history_for_attacker($current_user_id,$target_id,$points,$hit);
 
-				self::add_noti_for_target($current_user_id,$target_id,$points,$hit);
+				//self::add_noti_for_target($current_user_id,$target_id,$points,$hit);
 				/**
 				 * new target points
 				 */
