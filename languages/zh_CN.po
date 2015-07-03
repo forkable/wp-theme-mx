@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-29 22:29+0800\n"
-"PO-Revision-Date: 2015-06-29 22:29+0800\n"
+"POT-Creation-Date: 2015-07-03 18:14+0800\n"
+"PO-Revision-Date: 2015-07-03 18:16+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -509,7 +509,7 @@ msgstr "取消回复"
 msgid "You must be %s to post a comment."
 msgstr "您需要 %s 后才能发表评论。"
 
-#: functions.php:1829 includes/custom-point-bomb/custom-point-bomb.php:222
+#: functions.php:1829 includes/custom-point-bomb/custom-point-bomb.php:230
 msgid "log-in"
 msgstr "登录"
 
@@ -954,7 +954,7 @@ msgid "{n} page"
 msgstr "第 {n} 页"
 
 #: includes/comment-ajax/comment-ajax.php:477
-#: includes/custom-point-bomb/custom-point-bomb.php:701
+#: includes/custom-point-bomb/custom-point-bomb.php:767
 #: includes/custom-post-point/custom-post-point.php:849
 msgid ""
 "Sorry, some server error occurred, the operation can not be completed, "
@@ -1572,41 +1572,49 @@ msgstr "正在加载预览图……"
 msgid "ERROR: can not load the preview image."
 msgstr "错误: 无法加载预览图。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:98
-#: includes/custom-point-bomb/custom-point-bomb.php:641
+#: includes/custom-point-bomb/custom-point-bomb.php:97
+#: includes/custom-point-bomb/custom-point-bomb.php:707
 #: tpl/page-account-bomb.php:15
 msgid "Bomb world"
 msgstr "丢雷世界"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:111
+#: includes/custom-point-bomb/custom-point-bomb.php:110
 msgid "Victory percentage"
 msgstr "获胜百分比"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:113
+#: includes/custom-point-bomb/custom-point-bomb.php:112
 msgid ""
 "User bombs other user points victory percentage. The unit is the percentage."
 msgstr "用户轰炸其他用户积分获胜百分比。单位是百分比。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:116
+#: includes/custom-point-bomb/custom-point-bomb.php:115
 msgid "When user bomb points"
 msgstr "当用户轰炸积分时"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:118
+#: includes/custom-point-bomb/custom-point-bomb.php:117
 #: includes/custom-post-point/custom-post-point.php:309
 msgid "Use commas to separate multiple point, first as the default."
 msgstr "多个积分点使用英文逗号（,）分隔，第一个为默认值。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:174
+#: includes/custom-point-bomb/custom-point-bomb.php:120
+msgid "User daily bomb max-times"
+msgstr "每天用户最大攻击次数"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:122
+msgid "The maximum number of attacks per user daily."
+msgstr "每天每用户最大攻击次数"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:182
 msgid "User points bomb description"
 msgstr "用户轰炸积分描述"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:178
+#: includes/custom-point-bomb/custom-point-bomb.php:186
 #: includes/dev-mode/dev-mode.php:173 tpl/author-profile.php:42
 #: tpl/page-account-settings.php:110
 msgid "Description"
 msgstr "描述"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:190
+#: includes/custom-point-bomb/custom-point-bomb.php:198
 #, php-format
 msgid ""
 "Welcome to bomb world. You can consume your %1$s to bomb opponent's %1$s. "
@@ -1615,7 +1623,7 @@ msgstr ""
 "欢迎来到丢雷世界。你可以消耗你的%1$s去轰炸对手的%1$s。丢雷之前，请看下列规则"
 "说明："
 
-#: includes/custom-point-bomb/custom-point-bomb.php:192
+#: includes/custom-point-bomb/custom-point-bomb.php:200
 #, php-format
 msgid ""
 "If you hit the opponent when you bomb, your consumption will come back and "
@@ -1623,112 +1631,113 @@ msgid ""
 msgstr ""
 "如果你命中你轰炸的目标，你消耗的%1$s将会返还并且获得你所轰炸的%1$s数量。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:193
+#: includes/custom-point-bomb/custom-point-bomb.php:201
 #, php-format
 msgid ""
 "If you miss the opponent when you bomb, the opponent will get your half of "
 "%s of consumption."
 msgstr "如果你没命中你轰炸的目标，目标将会获得你轰炸%s数量的一半。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:194
+#: includes/custom-point-bomb/custom-point-bomb.php:202
 msgid "Do not bomb atrociously, be careful opponent bombs back."
 msgstr ""
 "丢雷有风险，轰炸须谨慎！小心对方会反击哦<small>（在反击前炸光他不就好了嘛XD）"
 "</small>。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:221
+#: includes/custom-point-bomb/custom-point-bomb.php:229
 #, php-format
 msgid "Sorry, please %s."
 msgstr "抱歉，请先%s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:232
+#: includes/custom-point-bomb/custom-point-bomb.php:240
 msgid "Sorry, the target user ID is invaild."
 msgstr "抱歉，目标用户 ID 无效。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:246
+#: includes/custom-point-bomb/custom-point-bomb.php:254
 msgid "Sorry, the target user do not exist."
 msgstr "抱歉，目标用户不存在。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:257
+#: includes/custom-point-bomb/custom-point-bomb.php:265
 msgid "Sorry, you can not attack yourself."
 msgstr "啊咧，就算是抖M也不能轰自己哦！"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:285
+#: includes/custom-point-bomb/custom-point-bomb.php:297
 msgid "Sorry, you have reached the maximun times today, see you tomorrow."
 msgstr "抱歉，你今天已达到丢雷最大次数了，明天见！"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:320
+#: includes/custom-point-bomb/custom-point-bomb.php:332
 msgid "Target locked, bomb is ready."
 msgstr "目标已锁定，随时可以轰炸！"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:350
+#: includes/custom-point-bomb/custom-point-bomb.php:362
 msgid "Sorry, the point value is invaild."
 msgstr "抱歉，积分点无效。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:362
+#: includes/custom-point-bomb/custom-point-bomb.php:374
 #, php-format
 msgid "Sorry, the target %s is not enough to bear your bomb."
-msgstr "抱歉，目标%s过低不足以承受你的轰炸。"
+msgstr "抱歉，目标的%s装上了 360 安全卫士，你无法攻击。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:374
+#: includes/custom-point-bomb/custom-point-bomb.php:386
 #, php-format
 msgid "Sorry, your %s is not enough to bomb target."
 msgstr "抱歉，你的%s过低无法轰炸目标。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:418
+#: includes/custom-point-bomb/custom-point-bomb.php:446
 #, php-format
 msgid ""
 "Bombing successfully! Your bomb hit %1$s, you got %2$s %3$s. Target "
 "remaining %4$s %3$s."
 msgstr "轰炸成功，%1$s 被你炸飞，你获得了 %2$s 个%3$s。目标剩余 %4$s 个%3$s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:434
+#: includes/custom-point-bomb/custom-point-bomb.php:462
 #, php-format
 msgid ""
 "Unlucky! %1$s miss your attack, you lost %2$s %3$s and remaining %4$s %3$s."
 msgstr ""
 "轰炸失败！%1$s 回避了你的攻击，你损失了 %2$s 个%3$s，剩余 %4$s 个%3$s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:459
+#: includes/custom-point-bomb/custom-point-bomb.php:487
 #: includes/custom-post-point/custom-post-point.php:112
 msgid "Sorry, type param is invaild."
 msgstr "抱歉，缺少类型参数。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:545
+#: includes/custom-point-bomb/custom-point-bomb.php:592
 #, php-format
 msgid "You bombed %1$s and hit! You got %2$s %3$s."
 msgstr "你炸飞了 %1$s！你获得 %2$s 个%3$s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:555
+#: includes/custom-point-bomb/custom-point-bomb.php:602
 #, php-format
 msgid "You bombed %1$s but miss! You lost %2$s %3$s."
 msgstr "你轰炸了 %1$s 但很可惜未命中，你丢失了 %2$s 个%3$s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:588
-#: includes/custom-point-bomb/custom-point-bomb.php:659
+#: includes/custom-point-bomb/custom-point-bomb.php:649
+#: includes/custom-point-bomb/custom-point-bomb.php:725
 #, php-format
 msgid "%1$s bombed you and hit. You lost %2$s %3$s."
 msgstr "%1$s 轰炸了你并且命中！。你丢失了 %2$s 个%3$s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:598
+#: includes/custom-point-bomb/custom-point-bomb.php:659
+#: includes/custom-point-bomb/custom-point-bomb.php:713
+msgid "It is time to fight back"
+msgstr "问多无用！"
+
+#: includes/custom-point-bomb/custom-point-bomb.php:664
 #, php-format
 msgid "%1$s bombed you but miss. You got %2$s %3$s."
 msgstr "%1$s 轰炸了你，不过没命中！你捡到了 %2$s 个%3$s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:647
-msgid "It is time to fight back"
-msgstr "问多无用！"
-
-#: includes/custom-point-bomb/custom-point-bomb.php:669
+#: includes/custom-point-bomb/custom-point-bomb.php:735
 #, php-format
 msgid "%1$s bombed you but miss! You got %2$s %3$s."
 msgstr "%1$s 轰炸了你，不过没命中！你捡到了 %2$s 个%3$s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:699
+#: includes/custom-point-bomb/custom-point-bomb.php:765
 msgid "Target locking..."
 msgstr "目标锁定中……"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:700
+#: includes/custom-point-bomb/custom-point-bomb.php:766
 msgid "Bombing, please wait..."
 msgstr "正在轰炸，请稍候……"
 
@@ -2539,11 +2548,11 @@ msgstr "你修改了你的头像。"
 msgid "Custom default gravatar"
 msgstr "自定义默认头像"
 
-#: includes/default-gravatar/default-gravatar.php:40
+#: includes/default-gravatar/default-gravatar.php:49
 msgid "Custom default gravatar settings"
 msgstr "自定义默认头像设置"
 
-#: includes/default-gravatar/default-gravatar.php:41
+#: includes/default-gravatar/default-gravatar.php:50
 #, php-format
 msgid ""
 "You can change the default gravatar image using custom avatar url address. "
@@ -2552,11 +2561,11 @@ msgstr ""
 "您可以使用自定义图片 URL 来更改 Gravatar 默认头像。保存设置后，请点击 %s 选择"
 "自定义 Gravatar 头像。"
 
-#: includes/default-gravatar/default-gravatar.php:41
+#: includes/default-gravatar/default-gravatar.php:50
 msgid "here"
 msgstr "这里"
 
-#: includes/default-gravatar/default-gravatar.php:45
+#: includes/default-gravatar/default-gravatar.php:54
 msgid "Custom avatar URL"
 msgstr "自定义头像地址 URL"
 
@@ -2579,8 +2588,8 @@ msgstr "开发者模式"
 #: includes/dev-mode/dev-mode.php:100
 #: includes/gravatar-fix/gravatar-fix.php:40
 #: includes/post-views/post-views.php:68
-#: includes/recomm-post/recomm-post.php:120
-#: includes/recomm-post/recomm-post.php:124
+#: includes/recomm-post/recomm-post.php:118
+#: includes/recomm-post/recomm-post.php:122
 msgid "Enabled"
 msgstr "启用"
 
@@ -3212,28 +3221,28 @@ msgstr "忘记了密码？"
 msgid "Recommended post"
 msgstr "推荐文章"
 
-#: includes/recomm-post/recomm-post.php:59
+#: includes/recomm-post/recomm-post.php:57
 msgid "Set as recommended post"
 msgstr "作为推荐文章"
 
-#: includes/recomm-post/recomm-post.php:115
+#: includes/recomm-post/recomm-post.php:113
 msgid "Recommended posts"
 msgstr "推荐文章"
 
-#: includes/recomm-post/recomm-post.php:116
+#: includes/recomm-post/recomm-post.php:114
 msgid "Recommended posts will display on home page if enabled."
 msgstr "如果启用，将会在首页显示推荐文章。"
 
-#: includes/recomm-post/recomm-post.php:129
+#: includes/recomm-post/recomm-post.php:127
 msgid "Marked posts"
 msgstr "已标记的文章"
 
-#: includes/recomm-post/recomm-post.php:146
+#: includes/recomm-post/recomm-post.php:144
 msgid "Open in open window"
 msgstr "在新窗口中打开"
 
-#: includes/recomm-post/recomm-post.php:152
-#: includes/recomm-post/recomm-post.php:155
+#: includes/recomm-post/recomm-post.php:150
+#: includes/recomm-post/recomm-post.php:153
 msgid "No any post yet"
 msgstr "暂无任何资料"
 
@@ -4031,11 +4040,15 @@ msgstr "目标名称"
 msgid "Target UID, e.g. %d"
 msgstr "目标 UID，例如：%d"
 
-#: tpl/page-account-bomb.php:82
+#: tpl/page-account-bomb.php:80
+msgid "Say something to target?"
+msgstr "出招不喊招数名吗？"
+
+#: tpl/page-account-bomb.php:86
 msgid "Bombing..."
 msgstr "正在轰炸中……"
 
-#: tpl/page-account-bomb.php:84
+#: tpl/page-account-bomb.php:88
 msgid "Bomb!"
 msgstr "丢雷！"
 

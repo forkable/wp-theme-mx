@@ -1822,7 +1822,7 @@ class theme_functions{
 			<?= status_tip('loading',___('Loading, please wait...'));?>
 		</div>
 		
-		<p id="respond-must-login" class="alert alert-info hide-on-logged none">
+		<p id="respond-must-login" class="well hide-on-logged none">
 			<?php 
 			echo sprintf(
 				___('You must be %s to post a comment.'),
@@ -1841,7 +1841,7 @@ class theme_functions{
 			<input type="hidden" name="comment_parent" id="comment_parent" value="0">
 			
 			<div class="media-left media-top hidden-xs">
-				<img id="respond-avatar" src="<?= theme_features::get_theme_images_url('frontend/avatar.jpg');?>" alt="Avatar" class="media-object avatar" width="80" height="80">
+				<img id="respond-avatar" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" alt="Avatar" class="media-object avatar" width="80" height="80">
 			</div>
 			<div class="media-body">
 				<?php

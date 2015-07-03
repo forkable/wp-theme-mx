@@ -75,7 +75,11 @@ if(theme_custom_point::get_point_img_url()){
 					</div>			
 				</div><!-- .row -->
 			</div><!-- .form-group -->
-
+			<div class="form-group">
+				<div class="col-sm-12">
+					<input type="text" class="form-control text-center" name="says" id="bomb-says" placeholder="<?= ___('Say something to target?');?>" maxlength="30">
+				</div>
+			</div>
 			<div class="form-group">
 				<div class="col-sm-12">
 					<input type="hidden" name="type" value="bomb">

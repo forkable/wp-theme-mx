@@ -2,7 +2,7 @@
 /**
  * theme recommended post
  *
- * @version 2.0.4
+ * @version 2.0.5
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_recommended_post::init';
@@ -13,13 +13,13 @@ class theme_recommended_post{
 	public static $iden = 'theme_recommended_post';
 	
 	public static function init(){
-		add_action('add_meta_boxes',get_class() . '::add_meta_boxes');
-		add_action('page_settings',get_class() . '::display_backend');
-		add_filter('theme_options_save',get_class() . '::options_save');
-		add_filter('theme_options_default',get_class() . '::opttions_default');
+		add_action('add_meta_boxes',__CLASS__ . '::add_meta_boxes');
+		add_action('page_settings',__CLASS__ . '::display_backend');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
+		add_filter('theme_options_default',__CLASS__ . '::opttions_default');
 		
-		add_action('save_post',get_class() . '::save_post');
-		add_action('delete_post',get_class() . '::delete_post');
+		add_action('save_post',__CLASS__ . '::save_post');
+		add_action('delete_post',__CLASS__ . '::delete_post');
 	}
 	public static function add_meta_boxes(){
 		$screens = array('post');
@@ -28,34 +28,32 @@ class theme_recommended_post{
 			add_meta_box(
 				self::$iden,
 				___( 'Recommended post' ),
-				get_class() . '::box_display',
+				__CLASS__ . '::box_display',
 				$screen,
 				'side'
 			);
 		}
 	}
 	public static function get_options($key = null){
-		$caches = [];
-		if(!isset($caches[self::$iden]))
-			$caches[self::$iden] = theme_options::get_options(self::$iden);
+		static $caches = null;
+		if($caches === null)
+			$caches = (array)theme_options::get_options(self::$iden);
 
-		if($key){
-			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
-		}else{
-			return $caches[self::$iden];
-		}
+		if($key)
+			return isset($caches[$key]) ? $caches[$key] : false;
+		return $caches;
 	}
 	public static function box_display($post){
 	
 		wp_nonce_field(self::$iden,self::$iden . '-nonce' );
 
-		$recomm_posts = (array)self::get_options('ids');
+		$recomm_posts = self::get_ids();
 
 		$checked = in_array($post->ID,$recomm_posts) ? ' checked ' : null;
 		$btn_class = $checked ? ' button-primary ' : null;
 		?>
-		<label for="recomm-set" class="button widefat <?= $btn_class;?>">
-			<input type="checkbox" id="recomm-set" name="<?= self::$iden;?>" value="1" <?= $checked;?> />
+		<label for="<?= self::$iden;?>-set" class="button widefat <?= $btn_class;?>">
+			<input type="checkbox" id="<?= self::$iden;?>-set" name="<?= self::$iden;?>" value="1" <?= $checked;?> />
 			<?= ___('Set as recommended post');?>
 		</label>
 		<?php
@@ -63,7 +61,7 @@ class theme_recommended_post{
 	public static function delete_post($post_id){
 		if ( !current_user_can( 'delete_posts' ) )
 			return;
-		$opt = (array)self::get_options();
+		$opt = self::get_options();
 		$recomm_posts = isset($opt['ids']) ? (array)$opt['ids'] : [];
 		$k = array_search($post_id,$recomm_posts);
 		
@@ -73,7 +71,7 @@ class theme_recommended_post{
 			theme_options::set_options(self::$iden,$opt);
 		}
 	}
-	public static function opttions_default($opts){
+	public static function opttions_default(array $opts = []){
 		$opts[self::$iden]['enabled'] = 1;
 		return $opts;
 	}
@@ -83,7 +81,7 @@ class theme_recommended_post{
 		if(!isset($_POST[self::$iden . '-nonce']) || !wp_verify_nonce($_POST[self::$iden . '-nonce'], self::$iden)) 
 			return false;
 
-		$opt = (array)self::get_options();
+		$opt = self::get_options();
 		
 		if(!isset($opt['ids']))
 			$opt['ids'] = [];
@@ -102,7 +100,7 @@ class theme_recommended_post{
 		theme_options::set_options(self::$iden,$opt);
 	}
 	public static function get_ids(){
-		return self::get_options('ids');
+		return (array)self::get_options('ids');
 	}
 	public static function is_enabled(){
 		return self::get_options('enabled') == 1 ? true : false;
@@ -162,10 +160,10 @@ class theme_recommended_post{
 		</fieldset>
 		<?php
 	}
-	public static function options_save($options){
+	public static function options_save(array $opts = []){
 		if(isset($_POST[self::$iden])){
-			$options[self::$iden] = $_POST[self::$iden];
+			$opts[self::$iden] = $_POST[self::$iden];
 		}
-		return $options;
+		return $opts;
 	}
 }

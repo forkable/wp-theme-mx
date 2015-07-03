@@ -526,6 +526,7 @@ class Oauth{
             "client_id" => $appid,
             "redirect_uri" => $callback,
             "state" => $state,
+            'display' => 'mobile',
             "scope" => $scope
         );
 
