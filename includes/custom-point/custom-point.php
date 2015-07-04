@@ -665,7 +665,7 @@ class theme_custom_point{
 		/**
 		 * signin daily
 		 */
-		if(!is_user_logged_in()) return $output;
+		if(!theme_cache::is_user_logged_in()) return $output;
 		if(self::action_add_history_signin_daily() === true){
 			$point = (int)theme_options::get_options(self::$iden)['points']['signin-daily'];
 			$output['signin-daily'] = array(

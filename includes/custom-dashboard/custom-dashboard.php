@@ -44,26 +44,26 @@ class theme_custom_dashboard{
 	}
 
 	public static function is_page(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache = 
+				is_page(self::$page_slug) &&
+				(get_query_var('tab') === 'dashboard' || 
+				!get_query_var('tab'));
 			
-		$caches[self::$iden] = 
-			is_page(self::$page_slug) &&
-			(get_query_var('tab') === 'dashboard' || 
-			!get_query_var('tab'));
-			
-		return $caches[self::$iden];
+		return $cache;
 	}
 	public static function get_url(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-		
-		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$caches[self::$iden] = esc_url(get_permalink($page->ID));
-		
-		return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null){
+			$page = theme_cache::get_page_by_path(self::$page_slug);
+			if($page){
+				$cache = esc_url(get_permalink($page->ID));
+			}else{
+				$cache = false;
+			}
+		}
+		return $cache;
 	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();
@@ -71,7 +71,7 @@ class theme_custom_dashboard{
 			'dashboard' => array(
 				'text' => ___('My dashboard'),
 				'icon' => 'dashboard',
-				'url' => add_query_arg('tab','dashboard',$baseurl),
+				'url' => esc_url(add_query_arg('tab','dashboard',$baseurl)),
 				'filter_priority' => 10,
 			),
 		);

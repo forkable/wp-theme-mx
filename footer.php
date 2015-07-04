@@ -24,5 +24,6 @@
 		</p>
 	</div>
 </footer>
+<a href="#" class="back-to-top" title="<?= ___('Back to top');?>"><i class="fa fa-space-shuttle fa-fw fa-circle"></i></a>
 	<?php wp_footer();?>
 </body></html>

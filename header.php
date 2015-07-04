@@ -71,7 +71,7 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 			</a>
 
 			<!-- account btn -->
-			<?php if(is_user_logged_in()){ ?>
+			<?php if(theme_cache::is_user_logged_in()){ ?>
 				<a class="mx-tool mx-account-btn dropdown-toggle" href="javascript:;" data-toggle="collapse" data-target=".header-nav-account-menu">
 					<i class="fa fa-user fa-fw"></i>
 				</a>
@@ -112,7 +112,7 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 		?>
 
 		<!-- search btn -->
-		<a class="mx-tool mx-search-btn hidden-xs" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
+		<a class="mx-tool mx-search-btn search hidden-xs" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
 			<i class="fa fa-search fa-fw"></i>
 		</a>
 		
@@ -120,7 +120,7 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 		/**
 		 * account menu
 		 */
-		if(is_user_logged_in()){
+		if(theme_cache::is_user_logged_in()){
 			$active_tab = get_query_var('tab');
 			if(!$active_tab)
 				$active_tab = 'dashboard';
@@ -147,10 +147,7 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 		<!-- search form -->
 		<form class="mx-form navbar-form navbar-collapse-form collapse" role="search" action="<?= esc_url(home_url('/')); ?>" method="get">
             <div class="input-group">
-                <input name="s" class="form-control input-sm" placeholder="<?= ___('Keywords');?>" value="<?= esc_attr(get_search_query())?>" type="search">
-                <span class="input-group-btn">
-                    <button class="btn btn-default btn-sm" type="submit"><i class="fa fa-search fa-fw"></i></button>
-                </span>
+                <input name="s" class="form-control text-center" placeholder="<?= ___('Keywords');?>" value="<?= esc_attr(get_search_query())?>" type="search">
             </div>
         </form>		
         

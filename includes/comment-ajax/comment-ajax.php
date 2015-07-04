@@ -2,7 +2,7 @@
 /*
 Feature Name:	Comment AJAX
 Feature URI:	http://www.inn-studio.com
-Version:		2.0.7
+Version:		2.0.8
 Description:	Use AJAX when browse/add/reply comment. (Recommended enable)
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -518,8 +518,7 @@ class theme_comment_ajax{
 						$cpage = theme_features::get_option('default_comments_page') == 'newest' ? $pages : 1;
 					}
 					
-					$is_logged = is_user_logged_in();
-					if(!$is_logged){
+					if(!theme_cache::is_user_logged_in()){
 						$commenter = wp_get_current_commenter();
 						
 						$user_name = $commenter['comment_author'];
@@ -537,7 +536,7 @@ class theme_comment_ajax{
 						'count' => $post ? $post->comment_count : 0,
 						'pages' => $pages,
 						'cpage' => $cpage,
-						'logged' => $is_logged,
+						'logged' => theme_cache::is_user_logged_in(),
 						'registration' => theme_features::get_option('comment_registration'),
 						'user-name' => esc_html($user_name),
 						'user-url' => esc_url($user_url),

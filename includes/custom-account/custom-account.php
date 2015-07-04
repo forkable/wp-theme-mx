@@ -32,7 +32,7 @@ class theme_custom_account{
 		if(!self::is_page())
 			return false;
 
-		if(is_user_logged_in()){
+		if(theme_cache::is_user_logged_in()){
 			$account_navs = apply_filters('account_navs',[]);
 
 			if(!isset($account_navs[get_query_var('tab')]))

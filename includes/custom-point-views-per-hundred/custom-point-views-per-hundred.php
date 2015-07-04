@@ -69,10 +69,10 @@ class theme_custom_point_views_per_hundred{
 		return self::get_views($post_id) - 100 >= self::get_times($post_id);
 	}
 	private static function get_views($post_id){
-		static $cache = null;
-		if($cache === null)
-			$cache = (int)theme_post_views::get_views($post_id);
-		return $cache;
+		static $caches = [];
+		if(!isset($caches[$post_id]))
+			$caches[$post_id] = (int)theme_post_views::get_views($post_id);
+		return $caches[$post_id];
 	}
 	public static function action_update_postmeta($meta_id, $object_id, $meta_key, $meta_value){
 		if($meta_key !== self::$post_meta_key)

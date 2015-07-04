@@ -362,7 +362,7 @@ class custom_post_point{
 		/**
 		 * check user logged
 		 */
-		if(!is_user_logged_in()){
+		if(!theme_cache::is_user_logged_in()){
 			$output['status'] = 'error';
 			$output['code'] = 'need_login';
 			$output['msg'] = '<a href="' . wp_login_url(get_permalink($post->ID)) . '" title="' . ___('Go to log-in') . '">' . ___('Sorry, please log-in.') . '</a>';
@@ -451,23 +451,23 @@ class custom_post_point{
 		die(theme_features::json_format($output));
 	}
 	public static function get_post($post_id){
-		static $post = null;
-		if($post === null)
-			$post = get_post($post_id);
+		static $posts = [];
+		if(!isset($posts[$post_id]))
+			$posts[$post_id] = get_post($post_id);
 
-		return $post;
+		return $posts[$post_id];
 	}
 	public static function list_history_post_rate($history){
 		if($history['type'] !== 'post-rate')
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('thumbs-o-up');?>
 			<?php theme_custom_point::the_point_sign($history['points']);?>
 			
 			<span class="history-text">
 				<?php
-				$post = get_post($history['post-id']);
+				$post = self::get_post($history['post-id']);
 				if(!$post){
 					echo ___('The post has been deleted.');
 				}else{
@@ -490,12 +490,12 @@ class custom_post_point{
 			return false;
 		?>
 		<li class="list-group-item">
-			<span class="point-name"><?= theme_custom_point::get_point_name();?></span>
+			<?php theme_custom_point::the_list_icon('thumbs-up');?>
 			<?php theme_custom_point::the_point_sign($history['points']);?>
 			
 			<span class="history-text">
 				<?php
-				$post = get_post($history['post-id']);
+				$post = self::get_post($history['post-id']);
 				if(!$post){
 					echo ___('The post has been deleted.');
 				}else{

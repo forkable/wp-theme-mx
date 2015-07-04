@@ -1461,7 +1461,7 @@ class theme_functions{
 				</time>
 				<span class="comment-meta-data comment-reply reply">
 					<?php
-					if(!is_user_logged_in()){
+					if(!theme_cache::is_user_logged_in()){
 						static $reply_link;
 						if(!$reply_link)
 							$reply_link = '<a rel="nofollow" class="comment-reply-login quick-login-btn" href="' . wp_login_url(get_permalink($comment->comment_post_ID)) . '">' . ___('Reply') . '</a>';

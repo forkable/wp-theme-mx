@@ -213,7 +213,12 @@ class theme_cache{
 			return wp_cache_flush();
 		}
 	}
-
+	public static function is_user_logged_in(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_user_logged_in();
+		return $cache;
+	}
 	public static function get_author_posts_url($user_id){
 		static $caches = [];
 		$cache_id = $user_id;

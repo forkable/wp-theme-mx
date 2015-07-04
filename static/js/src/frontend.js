@@ -11,9 +11,36 @@ define(function(require, exports, module){
 	
 	};
 	exports.init = function(){
-		tools.ready(exports.hide_no_js);
-	};
+		tools.ready(function(){
+			exports.hide_no_js();
+			exports.search();
 
+		});
+	};
+	exports.search = function(){
+		var Q = function(s){
+				return document.querySelector(s);
+			},
+			$btn = Q('.main-nav a.search');
+			
+		if(!$btn)
+			return false;
+			
+		var $fm = Q($btn.getAttribute('data-target')),
+			$input = $fm.querySelector('input[type="search"]'),
+			submit_helper = function(){
+				if($input.value.trim() === '')
+					return false;
+			};
+			
+		$btn.addEventListener('click',function(){
+			setTimeout(function(){
+				$input.focus();
+			},100);
+		},false);
+
+		$fm.onsubmit = submit_helper;
+	}
 	exports.hide_no_js = function(){
 		var A = function(e){
 				return document.querySelectorAll(e);

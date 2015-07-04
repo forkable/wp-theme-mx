@@ -65,7 +65,7 @@ class theme_notification{
 		/**
 		 * check unread count
 		 */
-		if(is_user_logged_in()){
+		if(theme_cache::is_user_logged_in()){
 			$unread_count = (int)self::get_count(array(
 				'type' => 'unread'
 			));

@@ -198,7 +198,7 @@ class theme_custom_sign{
 		return $cache;
 	}
 	public static function template_redirect(){
-		if(self::is_page() && self::is_user_logged_in()){
+		if(self::is_page() && theme_cache::is_user_logged_in()){
 			$redirect = get_query_var('redirect');
 			$redirect ? wp_redirect($redirect) : wp_redirect(home_url());
 			die();
@@ -236,7 +236,7 @@ class theme_custom_sign{
 		return 'text/html';
 	}
 	public static function wp_title($title, $sep){
-		if(self::is_user_logged_in() || !self::is_page()) 
+		if(theme_cache::is_user_logged_in() || !self::is_page()) 
 			return $title;
 			
 		$tab_active = get_query_var('tab');
@@ -576,14 +576,8 @@ class theme_custom_sign{
 		
 		die(theme_features::json_format($output));
 	}
-	private static function is_user_logged_in(){
-		static $cache = null;
-		if($cache === null)
-			$cache = is_user_logged_in();
-		return $cache;
-	}
 	public static function cache_request($datas){
-		if(self::is_user_logged_in()){
+		if(theme_cache::is_user_logged_in()){
 			global $current_user;
 			get_currentuserinfo();
 			
@@ -592,7 +586,7 @@ class theme_custom_sign{
 				'display_name' 	=> $current_user->display_name,
 				'posts_url' 	=> theme_cache::get_author_posts_url($current_user->ID),
 				'logout_url' 	=> wp_logout_url(home_url()),
-				'avatar_url'	=> get_avatar($current_user->user_email),
+				'avatar_url'	=> get_avatar_url($current_user->ID),
 			);
 		}else{
 			$datas['user'] = array(
@@ -603,14 +597,14 @@ class theme_custom_sign{
 		return $datas;
 	}
 	public static function frontend_seajs_alias($alias){
-		if(self::is_user_logged_in() || !self::is_page())
+		if(theme_cache::is_user_logged_in() || !self::is_page())
 			return $alias;
 
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(self::is_user_logged_in() || !self::is_page()) 
+		if(theme_cache::is_user_logged_in() || !self::is_page()) 
 			return false;
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){

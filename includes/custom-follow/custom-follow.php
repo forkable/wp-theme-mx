@@ -127,13 +127,13 @@ class theme_custom_follow{
 		}
 	}
 	public static function frontend_seajs_alias($alias){
-		if(is_user_logged_in() || !is_page(self::$page_slug)) return $alias;
+		if(theme_cache::is_user_logged_in() || !is_page(self::$page_slug)) return $alias;
 
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(is_user_logged_in() || !is_page(self::$page_slug)) return false;
+		if(theme_cache::is_user_logged_in() || !is_page(self::$page_slug)) return false;
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => theme_quick_sign::$iden));?>';

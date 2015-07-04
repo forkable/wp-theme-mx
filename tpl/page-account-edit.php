@@ -9,7 +9,7 @@
 	global $post,$wp_query;
 	$wp_query = theme_custom_edit::get_query();
 	
-	if($wp_query->have_posts()){
+	if(have_posts()){
 		?>
 		<table class="table edit-table">
 			<thead>
@@ -19,6 +19,10 @@
 					<th class="edit-head-categories hidden-xs"><?= ___('Categories');?></th>
 					<!-- <th class="edit-head-tags"><?= ___('Tags');?></th> -->
 					<th class="edit-head-date"><?= ___('Date');?></th>
+					<!-- views -->
+					<?php if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
+						<th class="edit-head-views"><?= ___('Views');?></th>
+					<?php } ?>
 				</tr>
 			</thead>
 			<tbody>
@@ -65,10 +69,15 @@
 							?>
 						</div>
 					</td>
+					<!-- views -->
+					<?php if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
+						<td class="edit-post-views">
+							<?= theme_post_views::get_views($post->ID);?>
+						</td>
+					<?php } ?>
 				</tr>
 				<?php
 			}
-			wp_reset_postdata();
 			?>
 			</tbody>
 		</table>

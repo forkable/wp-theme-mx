@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-03 18:14+0800\n"
-"PO-Revision-Date: 2015-07-03 18:16+0800\n"
+"POT-Creation-Date: 2015-07-04 23:37+0800\n"
+"PO-Revision-Date: 2015-07-04 23:37+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -31,7 +31,7 @@ msgid "Respond"
 msgstr "添加评论"
 
 #: comments.php:27 core/core-options.php:173 functions.php:1822
-#: includes/_post-thumb/post-thumb.php:243 includes/clean-up/clean-up.php:227
+#: includes/clean-up/clean-up.php:227
 #: includes/comment-ajax/comment-ajax.php:470
 #: includes/custom-collection/custom-collection.php:575
 #: includes/custom-contribution/custom-contribution.php:519
@@ -208,6 +208,10 @@ msgstr "INN STUDIO"
 msgid "CDN by %s"
 msgstr "CDN by %s"
 
+#: footer.php:27
+msgid "Back to top"
+msgstr "返回顶部"
+
 #: functions.php:37
 msgid "MX"
 msgstr "MX"
@@ -308,9 +312,7 @@ msgstr "最赞"
 msgid "Random"
 msgstr "随机"
 
-#: functions.php:390 includes/_post-thumb/post-thumb.php:55
-#: includes/_post-thumb/post-thumb.php:57
-#: includes/widget-rank/widget-rank.php:195
+#: functions.php:390 includes/widget-rank/widget-rank.php:195
 msgid "Thumb up"
 msgstr "顶/赞"
 
@@ -571,7 +573,6 @@ msgid ""
 msgstr "如果您的服务器支持，当评论被回复时，它将会发送一封通知邮件给被回复人。"
 
 #: includes/_comment-notify/comment-notify.php:49
-#: includes/_post-thumb/post-thumb.php:51
 #: includes/link-manager/link-manager.php:30
 #: includes/post-copyright/post-copyright.php:39
 #: includes/post-share/post-share.php:97
@@ -579,7 +580,6 @@ msgid "Enable or not?"
 msgstr "启用"
 
 #: includes/_comment-notify/comment-notify.php:53
-#: includes/_post-thumb/post-thumb.php:52
 #: includes/comment-ajax/comment-ajax.php:98
 #: includes/link-manager/link-manager.php:34 includes/mailer/mailer.php:106
 #: includes/post-copyright/post-copyright.php:43
@@ -631,60 +631,6 @@ msgstr "%s的回复：%s"
 #, php-format
 msgid "Views the comment: %s"
 msgstr "查看此条评论：%s"
-
-#: includes/_post-thumb/post-thumb.php:46
-msgid "Post Thumb Up or Down Settings"
-msgstr "文章顶踩设置"
-
-#: includes/_post-thumb/post-thumb.php:47
-msgid ""
-"Agree or not? Just thumb up or down! You can set some sentences to show "
-"randomly when votes success. Multiple sentences that please use New Line to "
-"split them."
-msgstr ""
-"喜欢与否？只需要顶踩一下！您能设置一些提示语，当投票成功时候能随机地显示。不"
-"同的语句请用“换行”分隔。"
-
-#: includes/_post-thumb/post-thumb.php:61
-#: includes/_post-thumb/post-thumb.php:63
-msgid "Thumb down"
-msgstr "踩/喷"
-
-#: includes/_post-thumb/post-thumb.php:74
-#: includes/_post-thumb/post-thumb.php:90
-#, php-format
-msgid "You thumbed up, I am agree it, too!%sYou are right, I think so."
-msgstr "您顶了我一下，我好舒服哦！%s嗯，您说的对，我也同意。"
-
-#: includes/_post-thumb/post-thumb.php:75
-#: includes/_post-thumb/post-thumb.php:91
-#, php-format
-msgid "You thumbed down, you are a honest guy!%sYou are right, I think so."
-msgstr "您踩了我一下，看来您是一个诚实的人！%s嗯，您说的对，我也同意。"
-
-#: includes/_post-thumb/post-thumb.php:125
-msgid "You have already voted."
-msgstr "您已经投过票了。"
-
-#: includes/_post-thumb/post-thumb.php:129
-msgid "Not enough parameter."
-msgstr "缺少参数"
-
-#: includes/_post-thumb/post-thumb.php:139
-msgid "I like it"
-msgstr "我喜欢"
-
-#: includes/_post-thumb/post-thumb.php:152
-msgid "I dislike it"
-msgstr "我不喜欢"
-
-#: includes/_post-thumb/post-thumb.php:244 includes/clean-up/clean-up.php:228
-#: includes/custom-point/custom-point.php:1042
-#: includes/custom-slidebox/custom-slidebox.php:355
-#: includes/favicon/favicon.php:199 includes/mailer/mailer.php:218
-#: includes/quick-sign/quick-sign.php:52
-msgid "Server error or network is disconnected."
-msgstr "服务器错误或网络未连接。"
 
 #: includes/account-notification/account-notification.php:101
 #: tpl/page-account-notifications.php:5
@@ -872,6 +818,14 @@ msgstr "无参数"
 #, php-format
 msgid "Database updated in %s s."
 msgstr "数据库已在 %s 秒内更新。"
+
+#: includes/clean-up/clean-up.php:228
+#: includes/custom-point/custom-point.php:1042
+#: includes/custom-slidebox/custom-slidebox.php:355
+#: includes/favicon/favicon.php:199 includes/mailer/mailer.php:218
+#: includes/quick-sign/quick-sign.php:52
+msgid "Server error or network is disconnected."
+msgstr "服务器错误或网络未连接。"
 
 #: includes/comment-ajax/comment-ajax.php:90
 msgid "Comment AJAX settings"
@@ -4295,6 +4249,38 @@ msgstr "向每个人介绍自己"
 #: tpl/page-account-settings.php:123
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "Post Thumb Up or Down Settings"
+#~ msgstr "文章顶踩设置"
+
+#~ msgid ""
+#~ "Agree or not? Just thumb up or down! You can set some sentences to show "
+#~ "randomly when votes success. Multiple sentences that please use New Line "
+#~ "to split them."
+#~ msgstr ""
+#~ "喜欢与否？只需要顶踩一下！您能设置一些提示语，当投票成功时候能随机地显示。"
+#~ "不同的语句请用“换行”分隔。"
+
+#~ msgid "Thumb down"
+#~ msgstr "踩/喷"
+
+#~ msgid "You thumbed up, I am agree it, too!%sYou are right, I think so."
+#~ msgstr "您顶了我一下，我好舒服哦！%s嗯，您说的对，我也同意。"
+
+#~ msgid "You thumbed down, you are a honest guy!%sYou are right, I think so."
+#~ msgstr "您踩了我一下，看来您是一个诚实的人！%s嗯，您说的对，我也同意。"
+
+#~ msgid "You have already voted."
+#~ msgstr "您已经投过票了。"
+
+#~ msgid "Not enough parameter."
+#~ msgstr "缺少参数"
+
+#~ msgid "I like it"
+#~ msgstr "我喜欢"
+
+#~ msgid "I dislike it"
+#~ msgstr "我不喜欢"
 
 #~ msgid "I am agree the %s"
 #~ msgstr "我已同意本站的 %s"

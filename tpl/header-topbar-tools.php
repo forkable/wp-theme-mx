@@ -2,7 +2,7 @@
 /**
  * if user logged
  */
-if(is_user_logged_in()){
+if(theme_cache::is_user_logged_in()){
 	$current_user_id = get_current_user_id();
 	?>
 	<div class="btn-group btn-group-xs">
@@ -22,6 +22,12 @@ if(is_user_logged_in()){
 					<i class="fa fa-diamond fa-fw"></i> 
 				<?php } ?>
 				<?= theme_custom_point::get_point($current_user_id);?>
+			</a>
+		<?php } ?>
+		<!-- my dashboard -->
+		<?php if(class_exists('theme_custom_dashboard')){ ?>
+			<a href="<?= theme_custom_dashboard::get_tabs('dashboard')['url'];?>" class="meta tool-dashboard btn btn-default" title="<?= theme_custom_dashboard::get_tabs('dashboard')['text'];?>">
+				<i class="fa fa-<?= theme_custom_dashboard::get_tabs('dashboard')['icon'];?> fa-fw"></i>
 			</a>
 		<?php } ?>
 		

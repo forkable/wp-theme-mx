@@ -275,7 +275,7 @@ class theme_custom_point_bomb{
 		return $cache;
 	}
 	public static function get_max_times(){
-		$times = (int)self::get_options('bomb-times');
+		$times = (int)theme_custom_point::get_point_value('bomb-times');
 		return $times === 0 ? self::get_max_times_default() : $times;
 	}
 	private static function get_times(){
@@ -601,7 +601,7 @@ class theme_custom_point_bomb{
 					echo sprintf(
 						___('You bombed %1$s but miss! You lost %2$s %3$s.'),
 						
-						'<a href="' . esc_url(theme_cache::get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar">' . $target_name  . '</a>',
+						'<a href="' . esc_url(theme_cache::get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar"> ' . $target_name  . '</a>',
 						
 						'<strong>' . (0 - abs($history['points'])) . '</strong>',
 						
@@ -621,7 +621,7 @@ class theme_custom_point_bomb{
 
 		$attacker_name = esc_html(get_the_author_meta('display_name',$history['attacker-id']));
 		
-		$attacker_name = '<a href="' . esc_url(theme_cache::get_author_posts_url($history['attacker-id'])) . '" attacker="_blank"><img src="' . get_avatar_url($history['attacker-id']) . '" alt="' . $attacker_name . '" width="16" height="16" class="avatar">' . $attacker_name  . '</a>';
+		$attacker_name = '<a href="' . esc_url(theme_cache::get_author_posts_url($history['attacker-id'])) . '" attacker="_blank"><img src="' . get_avatar_url($history['attacker-id']) . '" alt="' . $attacker_name . '" width="16" height="16" class="avatar"> ' . $attacker_name  . '</a>';
 
 		if(class_exists('number_user_nicename')){
 			$fight_back_url = self::get_tabs('bomb',$history['attacker-id'] + number_user_nicename::$prefix_number)['url'];
