@@ -86,6 +86,8 @@ define(function(require, exports, module){
 			if(!js_request[config.iden].comments)
 				return false;
 			cache.$comment_list_container.innerHTML = js_request[config.iden].comments;
+			/** jump to comment */
+			jump_to_comment();
 		},
 		get : function(){
 			var _list = this,
@@ -340,7 +342,7 @@ define(function(require, exports, module){
 			location.hash = '#comments';
 		}
 	}
-
+	
 
 	/**
 	 * respond
@@ -594,7 +596,16 @@ define(function(require, exports, module){
 			return false;
 		}
 	};
-
+	function jump_to_comment(){
+		if(!location.hash || location.hash === '')
+			return false;
+		var hash = location.hash,
+			$comment = I(hash.substr(1));
+		if(!$comment)
+			return false;
+		location.hash = '#none';
+		location.hash = hash;
+	}
 	function I(e){
 		return document.getElementById(e);
 	}

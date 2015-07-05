@@ -1516,27 +1516,15 @@ label.error{
  */
 .back-to-top{
 	position: fixed;
-	background: #fff;
-	bottom: 5px;
+	bottom: 0;
 	right: 5px;
-	width: 40px;
-	height: 40px;
-	font-size: 20px;
 	opacity: .3;
-	border-radius: 50%;
-	box-shadow: 0 0 5px rgba(0,0,0,.3);
+	text-shadow: 0 1px 3px rgba(0,0,0,.3);
 	z-index: 1;
-	text-align: center;
-	line-height: 35px;
-	color: #333 !important;
-	transition: all 5s;
-	transform:rotate(-90deg);
+	color: #fff !important;
 }
 	.back-to-top:hover{
 		opacity: 1;
-		text-indent: 10px;
-		color: #333;
-		text-indent: 768px;
 	}
 	
 /**

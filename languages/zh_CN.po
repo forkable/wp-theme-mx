@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-04 23:37+0800\n"
-"PO-Revision-Date: 2015-07-04 23:37+0800\n"
+"POT-Creation-Date: 2015-07-05 18:29+0800\n"
+"PO-Revision-Date: 2015-07-05 18:30+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -42,7 +42,7 @@ msgstr "添加评论"
 #: includes/custom-point/custom-point.php:1041
 #: includes/custom-post-point/custom-post-point.php:848
 #: includes/custom-post-point/custom-post-point.php:870
-#: includes/custom-sign/custom-sign.php:620
+#: includes/custom-sign/custom-sign.php:614
 #: includes/custom-slidebox/custom-slidebox.php:354
 #: includes/custom-user-settings/custom-user-settings.php:466
 #: includes/custom-user-settings/custom-user-settings.php:477
@@ -185,30 +185,17 @@ msgstr "主题设置"
 msgid "Please set some widgets in footer."
 msgstr "请放一些小工具到底部栏目"
 
-#: footer.php:19
+#: footer.php:20
 #, php-format
-msgid "&copy; %s %s."
-msgstr "&copy; %s %s."
+msgid "&copy; %1$s %2$s. Theme %3$s."
+msgstr "&copy; %1$s %2$s。主题%3$s。"
 
-#: footer.php:21
-#, php-format
-msgid "Theme %s by %s."
-msgstr "Theme %s by %s."
-
-#: footer.php:21
-msgid "Top WordPress developer"
-msgstr "WordPress 顶尖开发者"
-
-#: footer.php:21 functions.php:40
-msgid "INN STUDIO"
-msgstr "INN STUDIO"
-
-#: footer.php:23
+#: footer.php:26
 #, php-format
 msgid "CDN by %s"
 msgstr "CDN by %s"
 
-#: footer.php:27
+#: footer.php:30
 msgid "Back to top"
 msgstr "返回顶部"
 
@@ -223,6 +210,10 @@ msgstr "http://inn-studio.com/mx"
 #: functions.php:39
 msgid "http://inn-studio.com"
 msgstr "http://inn-studio.com/"
+
+#: functions.php:40
+msgid "INN STUDIO"
+msgstr "INN STUDIO"
 
 #: functions.php:50
 msgid "Professional edition"
@@ -321,6 +312,7 @@ msgid "Comment count"
 msgstr "评论统计"
 
 #: functions.php:405 functions.php:642 includes/post-views/post-views.php:190
+#: tpl/page-account-edit.php:24
 msgid "Views"
 msgstr "查看数"
 
@@ -542,7 +534,7 @@ msgstr "没什么好说的吗？"
 
 #: header.php:80 includes/custom-sign/custom-sign.php:161
 #: includes/quick-sign/quick-sign.php:41 page-sign.php:196
-#: tpl/header-topbar-tools.php:120
+#: tpl/header-topbar-tools.php:126
 msgid "Login"
 msgstr "登录"
 
@@ -1184,7 +1176,7 @@ msgstr ""
 "代码。"
 
 #: includes/custom-contribution/custom-contribution.php:129
-#: tpl/header-topbar-tools.php:39
+#: tpl/header-topbar-tools.php:45
 msgid "Edit post"
 msgstr "编辑文章"
 
@@ -1279,7 +1271,7 @@ msgstr "小尺寸"
 
 #: includes/custom-contribution/custom-contribution.php:532
 #: includes/custom-follow/custom-follow.php:141
-#: includes/custom-sign/custom-sign.php:621
+#: includes/custom-sign/custom-sign.php:615
 #: includes/custom-user-settings/custom-user-settings.php:467
 #: includes/custom-user-settings/custom-user-settings.php:478
 msgid "Sorry, server error please try again later."
@@ -1295,7 +1287,7 @@ msgstr "我最近的积分动态"
 
 #: includes/custom-dashboard/dashboards.php:36
 #: includes/widget-rank/widget-rank.php:87
-#: includes/widget-tags/widget-tags.php:87 tpl/page-account-edit.php:79
+#: includes/widget-tags/widget-tags.php:87 tpl/page-account-edit.php:88
 #: tpl/page-rank-popular.php:22
 msgid "No data yet."
 msgstr "此类别暂无资料"
@@ -2190,7 +2182,7 @@ msgid "Terms of service page URL"
 msgstr "服务协议页面 URL"
 
 #: includes/custom-sign/custom-sign.php:168
-#: includes/quick-sign/quick-sign.php:42 tpl/header-topbar-tools.php:160
+#: includes/quick-sign/quick-sign.php:42 tpl/header-topbar-tools.php:166
 msgid "Register"
 msgstr "注册"
 
@@ -2477,7 +2469,7 @@ msgid "Reward history"
 msgstr "积分历史"
 
 #: includes/custom-user-settings/custom-user-settings.php:346
-#: tpl/header-topbar-tools.php:101
+#: tpl/header-topbar-tools.php:107
 msgid "My settings"
 msgstr "我的设置"
 
@@ -3759,13 +3751,13 @@ msgstr "缺少初始化文件。"
 msgid "Can not find the include file."
 msgstr "无法找到包含文件。"
 
-#: page-sign.php:25 tpl/header-topbar-tools.php:136
-#: tpl/header-topbar-tools.php:138
+#: page-sign.php:25 tpl/header-topbar-tools.php:142
+#: tpl/header-topbar-tools.php:144
 msgid "Login from QQ"
 msgstr "QQ 登录"
 
-#: page-sign.php:29 tpl/header-topbar-tools.php:146
-#: tpl/header-topbar-tools.php:148
+#: page-sign.php:29 tpl/header-topbar-tools.php:152
+#: tpl/header-topbar-tools.php:154
 msgid "Login from Weibo"
 msgstr "微博登录"
 
@@ -3926,19 +3918,19 @@ msgstr "我的资料"
 msgid "My points"
 msgstr "我的积分"
 
-#: tpl/header-topbar-tools.php:47
+#: tpl/header-topbar-tools.php:53
 msgid "New post"
 msgstr "新建作品"
 
-#: tpl/header-topbar-tools.php:67
+#: tpl/header-topbar-tools.php:73
 msgid "Notification"
 msgstr "提醒"
 
-#: tpl/header-topbar-tools.php:78 tpl/header-topbar-tools.php:86
+#: tpl/header-topbar-tools.php:84 tpl/header-topbar-tools.php:92
 msgid "My favor"
 msgstr "我的收藏"
 
-#: tpl/header-topbar-tools.php:107
+#: tpl/header-topbar-tools.php:113
 msgid "Log-out"
 msgstr "登出"
 
@@ -4128,23 +4120,23 @@ msgstr "封面图"
 msgid "Tags"
 msgstr "Tag 标签"
 
-#: tpl/page-account-edit.php:37
+#: tpl/page-account-edit.php:41
 msgid "Click to edit"
 msgstr "点击编辑"
 
-#: tpl/page-account-edit.php:41
+#: tpl/page-account-edit.php:45
 msgid "Edit"
 msgstr "编辑"
 
-#: tpl/page-account-edit.php:45
+#: tpl/page-account-edit.php:49
 msgid "View"
 msgstr "查看"
 
-#: tpl/page-account-edit.php:58
+#: tpl/page-account-edit.php:62
 msgid "Published"
 msgstr "已发布"
 
-#: tpl/page-account-edit.php:61
+#: tpl/page-account-edit.php:65
 msgid "Pending"
 msgstr "待审核"
 
@@ -4249,6 +4241,15 @@ msgstr "向每个人介绍自己"
 #: tpl/page-account-settings.php:123
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "&copy; %s %s."
+#~ msgstr "&copy; %s %s."
+
+#~ msgid "Theme %s by %s."
+#~ msgstr "Theme %s by %s."
+
+#~ msgid "Top WordPress developer"
+#~ msgstr "WordPress 顶尖开发者"
 
 #~ msgid "Post Thumb Up or Down Settings"
 #~ msgstr "文章顶踩设置"
