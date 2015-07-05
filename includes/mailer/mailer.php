@@ -111,7 +111,7 @@ class theme_mailer{
 						<tr>
 							<th><label for="<?= self::$iden;?>-<?= $k;?>"><?= $v['title'];?></label></th>
 							<td>
-								<input type="<?= isset($v['type']) ? $v['type'] : 'text';?>" name="<?= self::$iden;?>[<?= $k;?>]" id="<?= self::$iden;?>-<?= $k;?>" value="<?= self::get_options($k);?>" placeholder="<?= $v['placeholder'];?>" class="<?= isset($v['type']) && $v['type'] === 'number' ? 'short-text' : 'widefat';?>">
+								<input type="<?= isset($v['type']) ? $v['type'] : 'text';?>" name="<?= self::$iden;?>[<?= $k;?>]" id="<?= self::$iden;?>-<?= $k;?>" value="<?= stripslashes(self::get_options($k));?>" placeholder="<?= $v['placeholder'];?>" class="<?= isset($v['type']) && $v['type'] === 'number' ? 'short-text' : 'widefat';?>">
 								<p class="description"><?= $v['des'];?></p>
 							</td>
 						</tr>
@@ -198,7 +198,7 @@ class theme_mailer{
 	public static function phpmailer_init_smtp($phpmailer){
 		$phpmailer->isSMTP();
 		foreach(self::get_types() as $k => $v){
-			$phpmailer->$k = self::get_options($k);
+			$phpmailer->$k = stripslashes(self::get_options($k));
 		}
 		$phpmailer->SMTPDebug = 3;
 		$phpmailer->SMTPAuth = true;

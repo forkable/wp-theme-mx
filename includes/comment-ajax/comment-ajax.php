@@ -133,9 +133,9 @@ class theme_comment_ajax{
 			/**
 			 * Define comment values
 			 */
-			$comment_author = isset($_POST['author']) && is_string($_POST['author'])? trim(strip_tags($_POST['author'])): null;
+			$comment_author = isset($_POST['author']) && is_string($_POST['author'])? trim($_POST['author']): null;
 			
-			$comment_author_email = isset($_POST['email']) && is_string($comment_author_email) ? trim($_POST['email']): null;
+			$comment_author_email = isset($_POST['email']) && is_string($_POST['email']) && is_email($_POST['email']) ? trim($_POST['email']): null;
 			
 			$comment_author_url = isset($_POST['url']) && is_string($_POST['url']) ? trim($_POST['url']): null;
 			
@@ -188,7 +188,7 @@ class theme_comment_ajax{
 					$output['code'] = 'invaild_name';
 					$output['msg'] = ___('Error: please fill your name.');
 					die(theme_features::json_format($output));
-				}else if(!is_email($comment_author_email)){
+				}else if(!$comment_author_email){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_email';
 					$output['msg'] = ___('Error: please enter a valid email address.');

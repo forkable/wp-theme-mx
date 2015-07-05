@@ -1459,28 +1459,45 @@ class theme_functions{
 				<time class="comment-meta-data time" datetime="<?= get_comment_time('c');?>">
 					<a href="<?= esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?= friendly_date(get_comment_time('U')); ?></a>
 				</time>
-				<span class="comment-meta-data comment-reply reply">
-					<?php
-					if(!theme_cache::is_user_logged_in()){
+				<?php
+				if(!theme_cache::is_user_logged_in()){
+					/**
+					 * if needs register to comment
+					 */
+					if(theme_features::get_option('comment_registration')){
 						static $reply_link;
 						if(!$reply_link)
 							$reply_link = '<a rel="nofollow" class="comment-reply-login quick-login-btn" href="' . wp_login_url(get_permalink($comment->comment_post_ID)) . '">' . ___('Reply') . '</a>';
-						echo $reply_link;
 					}else{
 						$reply_link = get_comment_reply_link(
-							array_merge($args,[
+							[
 								'add_below'		=> 'comment-body', 
 								'depth' 		=> $depth,
-								'reply_text' 	=> ___('Reply'),
 								'max_depth' 	=> $args['max_depth'],
-							]),
+							],
 							$comment,
-							$comment->comment_post_ID
+							$post->ID
 						);
-						echo preg_replace('/(href=)[^\s]+/','$1"javascript:;"',$reply_link);
 					}
+				}else{
+					$reply_link = get_comment_reply_link(
+						[
+							'add_below'		=> 'comment-body', 
+							'depth' 		=> $depth,
+							'max_depth' 	=> $args['max_depth'],
+						],
+						$comment,
+						$post->ID
+					);
+				}
+
+				$reply_link = preg_replace('/(href=)[^\s]+/','$1"javascript:;"',$reply_link);
+				if(!empty($reply_link)){
 					?>
-				</span><!-- .reply -->
+					<span class="comment-meta-data comment-reply reply">
+						<?= $reply_link;?>
+					</span><!-- .reply -->
+				<?php } ?>
 			</h4>
 			
 		</div><!-- /.media-body -->
