@@ -273,6 +273,7 @@ class theme_custom_sign{
 			$creds['user_password'] = $args['pwd'];
 			$creds['remember'] = $args['remember'];
 			$user = wp_signon( $creds );
+			
 			if(is_wp_error($user)){
 				$output['status'] = 'error';
 				$output['code'] = 'email_pwd_not_match';
@@ -303,7 +304,7 @@ class theme_custom_sign{
 			$output['status'] = 'error';
 			$output['msg'] = ___('Sorry, email is invalid, please try again.');
 			$output['code'] = 'invalid_email';
-		}else if(!trim($args['nickname']) || !validate_username($args['nickname'])){
+		}else if(!trim($args['nickname']) || !sanitize_user($args['nickname'])){
 			$output['status'] = 'error';
 			$output['code'] = 'invalid_nickname';
 			$output['msg'] = ___('Sorry, nickname is invalid, please try again.');
@@ -318,15 +319,15 @@ class theme_custom_sign{
 			/** 
 			 * create user and get user id
 			 */
-			$user_data = array(
+			//die(theme_features::json_format($args));exit;
+			$user_id = wp_insert_user([
 				'user_login' => $args['nickname'],
-				'user_pass' =>$args['pwd'],
+				'user_pass' => $args['pwd'],
 				'nickname' => $args['nickname'],
 				'display_name' => $args['nickname'],
 				'user_email' => $args['email'],
-			);
-			
-			$user_id = wp_insert_user($user_data);
+			]);
+			//var_dump(is_wp_error($user_id));
 			if(is_wp_error($user_id)){
 				$output['status'] = 'error';
 				$output['code'] = $user_id->get_error_code();

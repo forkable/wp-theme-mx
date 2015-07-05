@@ -25,7 +25,9 @@ class number_user_nicename{
 	}
 	public static function user_register($user_id){
 		$std_nicename = $user_id + self::$prefix_number;
-		if(get_user_by('id',$user_id)->user_nicename == $std_nicename)
+		$user = get_user_by('id',$user_id);
+
+		if(isset($user->user_nicename) && $user->user_nicename == $std_nicename)
 			return;
 		wp_update_user([
 			'ID' => $user_id,

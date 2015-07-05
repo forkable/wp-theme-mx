@@ -1,10 +1,11 @@
 <?php
 if(!function_exists('non_strict_login')){
 	function non_strict_login( $username, $raw_username, $strict ) {
-	    if( !$strict )
-	        return $username;
+		static $tmp = null;
+		if($tmp === null)
+			$tmp = time() + mt_rand(100,999);
 
-	    return sanitize_user(stripslashes($raw_username), false);
+    	return $username ? $tmp : $username;
 	}
 }
 add_filter('sanitize_user', 'non_strict_login', 10, 3);
