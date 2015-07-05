@@ -69,7 +69,7 @@ class widget_hot_tags extends WP_Widget{
 				?>
 				<a 
 					class="hot-tag" 
-					href="<?= get_tag_link($tag->term_id);?>"
+					href="<?= get_tag_link($tag->term_id);?>" 
 					style="
 						font-size:<?= str_replace( ',', '.', ( $smallest + ( ( $count - $min_count ) * $font_step ) ) ),$unit;?>;
 						color:rgb(<?= mt_rand(50,200);?>,<?= mt_rand(50,200);?>,<?= mt_rand(50,200);?>);"
