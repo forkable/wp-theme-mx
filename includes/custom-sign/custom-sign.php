@@ -304,7 +304,7 @@ class theme_custom_sign{
 			$output['status'] = 'error';
 			$output['msg'] = ___('Sorry, email is invalid, please try again.');
 			$output['code'] = 'invalid_email';
-		}else if(!trim($args['nickname']) || !sanitize_user($args['nickname'])){
+		}else if(trim($args['nickname']) === ''){
 			$output['status'] = 'error';
 			$output['code'] = 'invalid_nickname';
 			$output['msg'] = ___('Sorry, nickname is invalid, please try again.');
@@ -321,7 +321,7 @@ class theme_custom_sign{
 			 */
 			//die(theme_features::json_format($args));exit;
 			$user_id = wp_insert_user([
-				'user_login' => $args['nickname'],
+				'user_login' => time() . mt_rand(100,999),
 				'user_pass' => $args['pwd'],
 				'nickname' => $args['nickname'],
 				'display_name' => $args['nickname'],
