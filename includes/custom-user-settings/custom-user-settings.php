@@ -91,10 +91,14 @@ class theme_custom_user_settings{
 		
 		$type = isset($_REQUEST['type']) && is_string($_REQUEST['type'])? $_REQUEST['type'] : null;
 
+		$user = isset($_POST['user']) && is_array($_POST['user']) ? $_POST['user'] : null;
+		
 		/**
-		 * get current user id
+		 * get current
 		 */
-		$user_id = get_current_user_id();
+		global $current_user;
+		get_currentuserinfo();
+
 		
 		switch($type){
 			/**
@@ -106,7 +110,7 @@ class theme_custom_user_settings{
 				 */
 				if(class_exists('theme_custom_point')){
 					/** get current user points */
-					$user_points = theme_custom_point::get_point($user_id);
+					$user_points = theme_custom_point::get_point($current_user->ID);
 					
 					if($user_points - abs(theme_custom_point::get_point_value('save-' . $type)) < 0){
 						die(theme_features::json_format([
@@ -116,7 +120,7 @@ class theme_custom_user_settings{
 						]));
 					}
 				}
-				$user = isset($_POST['user']) && is_array($_POST['user']) ? $_POST['user'] : null;
+				
 				if(empty($_POST['user']) || !is_array($_POST['user'])){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_param';
@@ -137,7 +141,7 @@ class theme_custom_user_settings{
 				$des = isset($user['description']) && is_string($user['description']) ? $user['description'] : null;
 				
 				$user_id = wp_update_user(array(
-					'ID' => $user_id,
+					'ID' => $current_user->ID,
 					'user_url' => $url,
 					'nickname' => $nickname,
 					'description' => $des,
@@ -159,12 +163,12 @@ class theme_custom_user_settings{
 							'points' => 0 - abs(theme_custom_point::get_point_value('save-' . $type)),
 							'timestamp' => current_time('timestamp'),
 						];
-						add_user_meta($user_id,theme_custom_point::$user_meta_key['history'],$meta);
+						add_user_meta($current_user->ID,theme_custom_point::$user_meta_key['history'],$meta);
 						/**
 						 * update points
 						 */
 						
-						update_user_meta($user_id,theme_custom_point::$user_meta_key['point'],$user_points - abs(theme_custom_point::get_point_value('save-' . $type)));
+						update_user_meta($current_user->ID,theme_custom_point::$user_meta_key['point'],$user_points - abs(theme_custom_point::get_point_value('save-' . $type)));
 
 						/**
 						 * feelback
@@ -185,11 +189,9 @@ class theme_custom_user_settings{
 				/**
 				 * twice pwd
 				 */
-				$new_pwd_1 = isset($_POST['new-pwd-1']) && is_string($_POST['new-pwd-1']) ? trim($_POST['new-pwd-1']) : null;
-				$new_pwd_2 = isset($_POST['new-pwd-2']) && is_string($_POST['new-pwd-2']) ? trim($_POST['new-pwd-2']) : null;
-				if(empty($new_pwd_1) 
-					|| empty($new_pwd_2)
-					|| ($new_pwd_1 !== $new_pwd_2)){
+				$new_pwd_1 = isset($user['new-pwd-1']) && is_string($user['new-pwd-1']) ? trim($user['new-pwd-1']) : null;
+				$new_pwd_2 = isset($user['new-pwd-2']) && is_string($user['new-pwd-2']) ? trim($user['new-pwd-2']) : null;
+				if(empty($new_pwd_1) || ($new_pwd_1 !== $new_pwd_2)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_pwd_twice';
 					$output['msg'] = ___('Password invaild twice.');
@@ -198,10 +200,10 @@ class theme_custom_user_settings{
 				/**
 				 * old pwd
 				 */
-				$old_pwd = isset($_POST['old-pwd']) && is_string($_POST['old-pwd']) ? trim($_POST['old-pwd']) : null;
+				$old_pwd = isset($user['old-pwd']) && is_string($user['old-pwd']) ? trim($user['old-pwd']) : null;
 
 				if(empty($old_pwd) || 
-					wp_check_password($old_pwd,$current_user->user_pass,$user_id)){
+					wp_check_password($old_pwd,$current_user->user_pass,$current_user->ID)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_old_pwd';
 					$output['msg'] = ___('Invaild current password.');
@@ -212,17 +214,17 @@ class theme_custom_user_settings{
 				 * change password
 				 */
 				wp_update_user(array(
-					'ID' => $user_id,
+					'ID' => $current_user->ID,
 					'user_pass' => $new_pwd_1,
 				));
 				/**
 				 * set current, relogin
 				 */
-				wp_set_current_user($user_id);
-				wp_set_auth_cookie($user_id);
+				wp_set_current_user($current_user->ID);
+				wp_set_auth_cookie($current_user->ID);
 				
 				$output['status'] = 'success';
-				$output['msg'] = ___('Your new password has been saved. Re-logging in, please wait...');
+				$output['msg'] = ___('Your new password has been saved.');
 				$output['redirect'] = home_url();
 				die(theme_features::json_format($output));
 				break;
@@ -235,7 +237,7 @@ class theme_custom_user_settings{
 				 */
 				if(class_exists('theme_custom_point')){
 					/** get current user points */
-					$user_points = theme_custom_point::get_point($user_id);
+					$user_points = theme_custom_point::get_point($current_user->ID);
 					
 					if($user_points - abs(theme_custom_point::get_point_value('save-' . $type)) < 0){
 						die(theme_features::json_format([
@@ -255,7 +257,7 @@ class theme_custom_user_settings{
 
 				$wp_uplaod_dir = wp_upload_dir();
 				
-				$filename = $user_id . '.jpg';
+				$filename = $current_user->ID . '.jpg';
 
 				$filesub_url = '/avatar/' . $filename;
 
@@ -284,12 +286,12 @@ class theme_custom_user_settings{
 							'points' => 0 - abs(theme_custom_point::get_point_value('save-' . $type)),
 							'timestamp' => current_time('timestamp'),
 						];
-						add_user_meta($user_id,theme_custom_point::$user_meta_key['history'],$meta);
+						add_user_meta($current_user->ID,theme_custom_point::$user_meta_key['history'],$meta);
 						/**
 						 * update points
 						 */
 						
-						update_user_meta($user_id,theme_custom_point::$user_meta_key['point'],$user_points - abs(theme_custom_point::get_point_value('save-' . $type)));
+						update_user_meta($current_user->ID,theme_custom_point::$user_meta_key['point'],$user_points - abs(theme_custom_point::get_point_value('save-' . $type)));
 
 						/**
 						 * feelback
@@ -301,7 +303,7 @@ class theme_custom_user_settings{
 					 */
 					$avatar_meta_key = class_exists('theme_custom_avatar') ? theme_custom_avatar::$user_meta_key['avatar'] : 'avatar';
 					
-					update_user_meta($user_id,$avatar_meta_key,$filesub_url . $timestamp);
+					update_user_meta($current_user->ID,$avatar_meta_key,$filesub_url . $timestamp);
 					
 					$output['status'] = 'success';
 					$output['avatar-url'] = $fileurl;
