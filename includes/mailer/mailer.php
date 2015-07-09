@@ -200,7 +200,7 @@ class theme_mailer{
 		foreach(self::get_types() as $k => $v){
 			$phpmailer->$k = stripslashes(self::get_options($k));
 		}
-		$phpmailer->SMTPDebug = 3;
+		//$phpmailer->SMTPDebug = 3;
 		$phpmailer->SMTPAuth = true;
 	}
 	public static function backend_seajs_alias(array $alias = []){

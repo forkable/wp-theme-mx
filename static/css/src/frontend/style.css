@@ -212,6 +212,24 @@ img{
 	border-radius: 2px;
 }
 /**
+ * .banner
+ */
+.banner{
+	display: block;
+	margin-top: -30px;
+	margin-bottom: -84px;
+	background: #1976d2;
+	background: -moz-linear-gradient(#03A9F4,#1976d2);
+	background: -webkit-linear-gradient(#03A9F4,#1976d2);
+	background: linear-gradient(#03A9F4,#1976d2);
+}
+	.banner img{
+		display: block;
+		width: 100%;
+		border-radius: 0;
+	}
+
+/**
  * layer ======================================================
  */
 .navbar-header .mx-tool{
@@ -826,23 +844,6 @@ label.error{
 		margin-top: -2px;
 	}
 
-/**
- * .banner
- */
-.banner{
-	display: block;
-	margin-top: -30px;
-	margin-bottom: -20px;
-	background: #1976d2;
-	background: -moz-linear-gradient(#03A9F4,#1976d2);
-	background: -webkit-linear-gradient(#03A9F4,#1976d2);
-	background: linear-gradient(#03A9F4,#1976d2);
-}
-	.banner img{
-		display: block;
-		width: 100%;
-		border-radius: 0;
-	}
 
 .main-nav{
 	background: #1976d2;
@@ -1536,23 +1537,23 @@ label.error{
 	color:#fff;
 }
 @media (min-width: 768px){
+	.mx-form{
+		position: absolute;
+		top: 0;
+		height: 43px;
+		right: 120px;
+		background: rgba(0,0,0,.3);
+		border-radius: 2px;
+	}
 	.menu-header{
 		padding-left: 0;
 	}
+	.main-nav{
+		height: 64px;
+		background: none;
+	}
 	.main-nav .dropdown-menu{
 		text-shadow: none;
-	}
-	.main-nav:before{
-		position: absolute;
-		top: -50px;
-		left: 0;
-		width: 100%;
-		height: 50px;
-		content:'';
-		background: #1976d2;
-		background: -moz-linear-gradient(rgba(3,155,229,0),#1976d2);
-		background: -webkit-linear-gradient(rgba(3,155,229,0),#1976d2);
-		background: linear-gradient(rgba(3,155,229,0),#1976d2);
 	}
 	.main-nav .dropdown-menu{
 		text-shadow: none;

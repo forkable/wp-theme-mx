@@ -269,9 +269,9 @@ class theme_custom_slidebox{
 					?>
 					<a 
 						href="<?= esc_url($v['link-url']);?>" 
-						title="<?= $v['title'];?>"
-						<?= $rel_nofollow;?>
-						<?= $target_blank;?>
+						title="<?= $v['title'];?>" 
+						<?= $rel_nofollow;?> 
+						<?= $target_blank;?> 
 					>
 						<img src="<?= $img_placeholder;?>" alt="<?= $v['title'];?>" class="placeholder">
 						<img src="<?= esc_url($v['img-url']);?>" alt="<?= $v['title'];?>" class="post-thumbnail">

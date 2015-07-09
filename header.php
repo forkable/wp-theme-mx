@@ -1,9 +1,8 @@
 <!DOCTYPE html><html <?php language_attributes(); ?>><head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
-	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><![endif]-->
-	<!-- <meta http-equiv="Cache-Control" content="no-transform" /> -->
+	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta http-equiv="Cache-Control" content="no-transform" /><![endif]-->
 	<meta name="renderer" content="webkit" />
-	<meta name="viewport" content="width=device-width" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<meta name="author" content="INN STUDIO" />
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
