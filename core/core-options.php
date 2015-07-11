@@ -291,9 +291,9 @@ class theme_options{
 	 * is_options_page
 	 * 
 	 * @return bool
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
-	private static function is_options_page(){
+	public static function is_options_page(){
 		if(!self::current_user_can('manage_options'))
 			return false;
 			

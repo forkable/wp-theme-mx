@@ -207,44 +207,41 @@ class theme_page_tags{
 	public static function get_tags($sql_post_ids){
 		global $wpdb;
 		$where = empty($sql_post_ids) ? '' : "AND tr.object_id IN ($sql_post_ids)";
+
 		$tags = $wpdb->get_results(
 			"
 			SELECT 
-				t.term_id tag_id,
 				t.name tag_name,
+				t.term_id tag_id,
 				tr.object_id post_id
-			FROM $wpdb->terms AS t
+			FROM 
+				$wpdb->term_relationships AS tr
 			
-			INNER JOIN $wpdb->term_taxonomy as tt
-				ON tt.term_id = t.term_id
-			
-			INNER JOIN $wpdb->term_relationships as tr
-				ON tr.term_taxonomy_id = tt.term_taxonomy_id
-
-			WHERE 
-				1 = 1 AND
-				tt.taxonomy = 'post_tag' 
-				$where
-
-			GROUP BY tr.object_id
+			INNER JOIN $wpdb->term_taxonomy AS tt
+				ON tt.term_taxonomy_id = tr.term_taxonomy_id
 				
+			INNER JOIN $wpdb->terms AS t
+				ON t.term_id = tt.term_id
+				
+			WHERE
+				tr.object_id IN ($sql_post_ids) AND
+				tt.taxonomy = 'post_tag'
 			",ARRAY_A
 		);
-		//echo '<pre>';
-		//print_r($tags);
-		//echo '</pre>';
-		if(!empty($tags)){
+		//self::sprint_r($wpdb);
+
+		if(empty($tags)){
 			return false;
 		}
 		/** 保存所有唯一的tags */
-		foreach($tags as $k => $v){
+		foreach($tags as $v){
 			self::save_tags($v['tag_id'],$v['tag_name'],$v['post_id']);
 		}
 		/**
 		 * 提取 tags 拼音首字母
 		 */
 		include __DIR__ . '/inc/Pinyin/Pinyin.php';
-		$double_pinyins = ['zh','ch','sh'];
+		$double_pinyins = ['zh','ch','sh','ou','ai','ang','an'];
 		$new_tags = [];
 		foreach(self::$tags as $tag_id => $tag){
 			/**
@@ -294,7 +291,7 @@ class theme_page_tags{
 			 * 单音
 			 */
 			}else{
-				$tag_one_pinyin = strtolower(mb_substr($tag_pinyin,0,1));
+				$tag_one_pinyin = mb_substr($tag_pinyin,0,1);
 				/**
 				 * 如果是新标签，进行记录
 				 */
@@ -318,7 +315,12 @@ class theme_page_tags{
 			];
 		self::$tags[$tag_id]['post_ids'][$post_id] = $post_id;
 	}
-
+	private static function sprint_r($data){
+		echo '<pre>';
+		print_r($data);
+		echo '</pre>';die;
+		
+	}
 	public static function display_frontend(){
 		set_time_limit(0);
 		
@@ -362,7 +364,7 @@ class theme_page_tags{
 //print_r($query_posts);
 //echo '</pre>';die;
 		if(!isset($query_posts[0])){
-			self::no_content();
+			self::no_content(__('No posts found.'));
 			return false;
 		}
 		
@@ -376,7 +378,7 @@ class theme_page_tags{
 				'permalink' => $home_url . str_replace('%post_id%',$v['ID'],$wp_rewrite->permalink_structure)
 			];
 		}
-
+		
 		$sql_post_ids = implode(',',$post_ids);
 
 		$pinyin_tags = self::get_tags($sql_post_ids);
@@ -386,7 +388,7 @@ class theme_page_tags{
 
 
 		if(empty($pinyin_tags)){
-			self::no_content();
+			self::no_content(__('No tags found.'));
 			return false;
 		}
 
@@ -436,9 +438,9 @@ class theme_page_tags{
 		wp_cache_set($cache_id,$cache,self::$iden,86400*7);/** 7days */
 		echo $cache;
 	}
-	private static function no_content(){
+	private static function no_content($msg){
 		?>
-		<div class="page-tip"><?= status_tip('info',___('No content yet.'));?></div>
+		<div class="page-tip"><?= status_tip('info',$msg);?></div>
 		<?php
 	}
 	public static function backend_seajs_alias($alias){

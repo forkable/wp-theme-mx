@@ -262,7 +262,7 @@ class theme_page_rank{
 		}
 		global $post;
 		$defaults = [
-			'posts_per_page ' => 100,
+			'posts_per_page ' => 30,
 			'paged' => 1,
 			'date_query' => [
 				[

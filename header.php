@@ -119,12 +119,10 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 		/**
 		 * account menu
 		 */
-		if(theme_cache::is_user_logged_in()){
+		if(theme_cache::is_user_logged_in() && wp_is_mobile()){
 			$active_tab = get_query_var('tab');
 			if(!$active_tab)
 				$active_tab = 'dashboard';
-				
-			$is_account_page = theme_custom_account::is_page();
 			?>
 			<div class="header-nav-account-menu collapse">
 				<ul class="nav navbar-nav">
@@ -134,7 +132,7 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 						foreach($account_navs as $k => $v){
 							$active_class = $k === $active_tab ? ' active ' : null;
 							?>
-							<li class="<?= $is_account_page ? $active_class : null;?>"><?= $v;?></li>
+							<li class="<?= theme_custom_account::is_page() ? $active_class : null;?>"><?= $v;?></li>
 							<?php
 						}
 					}
