@@ -1,11 +1,11 @@
 <!DOCTYPE html><html <?php language_attributes(); ?>><head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>" />
+	<meta charset="<?= theme_cache::get_bloginfo( 'charset' ); ?>" />
 	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta http-equiv="Cache-Control" content="no-transform" /><![endif]-->
 	<meta name="renderer" content="webkit" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<meta name="author" content="INN STUDIO" />
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
-	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
+	<link rel="pingback" href="<?= theme_cache::get_bloginfo('pingback_url'); ?>" />
 	<?php wp_head();?>
 </head>
 <body <?php body_class(); ?>>
@@ -40,12 +40,12 @@
  * banner
  */
 if(!wp_is_mobile() && has_header_image()){ ?>
-<a class="banner hidden-xs" href="<?= home_url();?>">
+<a class="banner hidden-xs" href="<?= theme_cache::home_url();?>">
 	<div class="container">
-		<img src="<?php header_image(); ?>" alt="<?= get_bloginfo('name');?>">
+		<img src="<?php header_image(); ?>" alt="<?= theme_cache::get_bloginfo('name');?>">
 		<?php if(display_header_text()){ ?>
-			<h1 hidden><?= get_bloginfo('name');?></h1>
-			<span hidden><?= get_bloginfo('description');?></span>
+			<h1 hidden><?= theme_cache::get_bloginfo('name');?></h1>
+			<span hidden><?= theme_cache::get_bloginfo('description');?></span>
 		<?php } ?>
 	</div>
 </a>
@@ -61,8 +61,8 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	        </a>
-	        <a href="<?= home_url();?>" class="navbar-brand visible-xs-block">
-				<?= get_bloginfo('name');?>
+	        <a href="<?= theme_cache::home_url();?>" class="navbar-brand visible-xs-block">
+				<?= theme_cache::get_bloginfo('name');?>
 			</a>
 			<!-- search btn -->
 			<a class="mx-tool mx-search-btn dropdown-toggle" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
@@ -142,7 +142,7 @@ if(!wp_is_mobile() && has_header_image()){ ?>
 		<?php } ?>
 
 		<!-- search form -->
-		<form class="mx-form navbar-form navbar-collapse-form collapse" role="search" action="<?= esc_url(home_url('/')); ?>" method="get">
+		<form class="mx-form navbar-form navbar-collapse-form collapse" role="search" action="<?= theme_cache::home_url('/'); ?>" method="get">
             <div class="input-group">
                 <input name="s" class="form-control text-center" placeholder="<?= ___('Keywords');?>" value="<?= esc_attr(get_search_query())?>" type="search">
             </div>

@@ -73,7 +73,7 @@ class theme_import_settings{
 		theme_features::check_referer();
 		theme_features::check_nonce();
 		
-		if(!current_user_can('manage_options'))
+		if(!theme_cache::current_user_can('manage_options'))
 			die();
 			
 		$output = [];
@@ -118,7 +118,7 @@ class theme_import_settings{
 				header('Content-Length: ' . filesize($filepath));
 				
 				$download_fn = ___('Backup') ;
-				$download_fn .= '-' . get_bloginfo('name');
+				$download_fn .= '-' . theme_cache::get_bloginfo('name');
 				$download_fn .= '-' . date('Ymd-His') . '.bk';
 				
 				header('Content-Disposition: attachment; filename=" ' . $download_fn . '"');

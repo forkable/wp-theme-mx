@@ -58,7 +58,7 @@ class theme_dashboards extends theme_custom_dashboard{
 			/**
 			 * get comments
 			 */
-			$current_user_id = get_current_user_id();
+			$current_user_id = theme_cache::get_current_user_id();
 			$comments = get_comments([
 				'post_author' => $current_user_id,
 				'author__not_in' => [$current_user_id],
@@ -127,7 +127,7 @@ class theme_dashboards extends theme_custom_dashboard{
 	 * My statistics
 	 */
 	public static function my_statistics(){
-		$current_user_id = get_current_user_id();
+		$current_user_id = theme_cache::get_current_user_id();
 		?>
 		<div class="panel panel-default">
 			<div class="panel-heading">
@@ -196,7 +196,7 @@ class theme_dashboards extends theme_custom_dashboard{
 			global $post;
 			$query = new WP_Query(array(
 				'posts_per_page' => $posts_per_page,
-				'author' => get_current_user_id(),
+				'author' => theme_cache::get_current_user_id(),
 			));
 			if($query->have_posts()){
 				?>

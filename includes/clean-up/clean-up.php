@@ -103,7 +103,7 @@ class theme_clean_up{
 		
 		$type = isset($_GET['type']) ? $_GET['type'] : null;
 
-		if(!current_user_can('manage_options'))
+		if(!theme_cache::current_user_can('manage_options'))
 			die();
 			
 		timer_start();

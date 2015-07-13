@@ -147,7 +147,7 @@ class theme_mailer{
 			 * test
 			 */
 			case 'test':
-				if(!current_user_can('manage_options')){
+				if(!theme_cache::current_user_can('manage_options')){
 					die(theme_features::json_format([
 						'status' => 'error',
 						'code' => 'invaild_permission',

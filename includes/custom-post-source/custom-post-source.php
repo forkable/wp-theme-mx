@@ -141,7 +141,7 @@ class theme_custom_post_source{
 					echo sprintf(
 						___('This article is %1$s member %2$s\'s original work.'),
 						
-						'<a href="' . home_url() . '">' .get_bloginfo('name') . '</a>',
+						'<a href="' . theme_cache::home_url() . '">' .theme_cache::get_bloginfo('name') . '</a>',
 						
 						'<a href="' . theme_cache::get_author_posts_url($post->post_author) . '">' . esc_html(get_the_author_meta('display_name',$post->post_author)) . '</a>'
 						
@@ -165,7 +165,7 @@ class theme_custom_post_source{
 					echo sprintf(
 						___('This article is %1$s member %2$s\'s reprint work.'),
 						
-						'<a href="' . home_url() . '">' .get_bloginfo('name') . '</a>',
+						'<a href="' . theme_cache::home_url() . '">' .theme_cache::get_bloginfo('name') . '</a>',
 						
 						'<a href="' . theme_cache::get_author_posts_url($post->post_author) . '">' . esc_html(get_the_author_meta('display_name',$post->post_author)) . '</a>'
 						

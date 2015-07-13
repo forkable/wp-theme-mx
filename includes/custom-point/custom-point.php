@@ -223,7 +223,7 @@ class theme_custom_point{
 			 * special
 			 */
 			case 'special':
-				if(!current_user_can('create_users')){
+				if(!theme_cache::current_user_can('create_users')){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_permission';
 					$output['msg'] = ___('Your are not enough permission to modify user.');
@@ -289,12 +289,10 @@ class theme_custom_point{
 		die(theme_features::json_format($output));
 	}
 	public static function is_page(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-			
-			$caches[self::$iden] = is_page(self::$page_slug) && get_query_var('tab') === 'history';
-		return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache = theme_cache::is_page(self::$page_slug) && get_query_var('tab') === 'history';
+		return $cache;
 	}
 	public static function get_point_types($key = null){
 		static $caches = null;
@@ -443,7 +441,7 @@ class theme_custom_point{
 	 */
 	public static function get_history($args = []){
 		$defaults = array(
-			'user_id' => get_current_user_id(),
+			'user_id' => theme_cache::get_current_user_id(),
 			'paged' => 1,
 			'posts_per_page' => 20,
 		);
@@ -521,7 +519,7 @@ class theme_custom_point{
 			<?php self::the_point_sign(self::get_point_value('signup'));?>
 			
 			<span class="history-text">
-				<?= sprintf(___('You registered %s.'),'<a href="' . home_url() . '">' . get_bloginfo('name') . '</a>');?>
+				<?= sprintf(___('You registered %s.'),'<a href="' . theme_cache::home_url() . '">' . theme_cache::get_bloginfo('name') . '</a>');?>
 			</span>
 			
 			<?php self::the_time($history);?>
@@ -793,7 +791,7 @@ class theme_custom_point{
 	 * @version 1.0.0
 	 */
 	public static function action_add_history_signin_daily(){
-		$user_id = get_current_user_id();
+		$user_id = theme_cache::get_current_user_id();
 		$current_timestamp = current_time('timestamp');
 		/**
 		 * get the last sign-in time

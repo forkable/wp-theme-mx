@@ -209,7 +209,7 @@ class theme_open_sign{
 			if($redirect_uri){
 				wp_safe_redirect($redirect_uri);
 			}else{
-				wp_safe_redirect(home_url());
+				wp_safe_redirect(theme_cache::home_url());
 			}
 			die(___('Redirecting, please wait...'));
 	}
@@ -230,7 +230,7 @@ class theme_open_sign{
 		/** redirect */
 		$redirect = isset($_GET['redirect_uri']) && is_string($_GET['redirect_uri']) ? urldecode($_GET['redirect_uri']) : null;
 		if(empty($redirect)) 
-			$redirect = home_url();
+			$redirect = theme_cache::home_url();
 
 		/** expires_in */
 		$expires_in = isset($cb['expires_in']) && is_string($cb['expires_in']) ? (int)($cb['expires_in']) : null;
@@ -317,7 +317,7 @@ class theme_open_sign{
 				$url = urlencode(theme_features::get_process_url(array(
 					'action' => 'isos_cb',
 					'sina' => 'set-auth',
-					'uri' => isset($_SERVER["HTTP_REFERER"]) && strpos($_SERVER['HTTP_REFERER'],home_url()) === 0 ? $_SERVER["HTTP_REFERER"] : home_url(),
+					'uri' => isset($_SERVER["HTTP_REFERER"]) && strpos($_SERVER['HTTP_REFERER'],theme_cache::home_url()) === 0 ? $_SERVER["HTTP_REFERER"] : home_url(),
 					'nonce' => $nonce,
 				)));
 				$url = add_query_arg(array(

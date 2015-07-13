@@ -92,7 +92,7 @@ class theme_custom_follow{
 		die(theme_features::json_format($output));
 	}
 	private static function set_follow($user_id){
-		if($user_id == get_current_user_id()) return false;
+		if($user_id == theme_cache::get_current_user_id()) return false;
 		
 		$target_metas = get_user_meta($user_id,self::$user_meta_key['following']);
 		/**
@@ -100,26 +100,26 @@ class theme_custom_follow{
 		 */
 		$old_target_follower_count = (int)get_user_meta($user_id,self::$user_meta_key['follower_count'],true);
 
-		$old_my_following_count = (int)get_user_meta(get_current_user_id(),self::$user_meta_key['following'],true);
+		$old_my_following_count = (int)get_user_meta(theme_cache::get_current_user_id(),self::$user_meta_key['following'],true);
 		
-		if(!is_null_array($target_metas) && in_array(get_current_user_id(),$target_metas)){
+		if(!is_null_array($target_metas) && in_array(theme_cache::get_current_user_id(),$target_metas)){
 			/** opera target user meta */
-			delete_user_meta($user_id,self::$user_meta_key['follower'],get_current_user_id());
+			delete_user_meta($user_id,self::$user_meta_key['follower'],theme_cache::get_current_user_id());
 			update_user_meta($user_id,self::$user_meta_key['follower_count'],$old_target_follower_count - 1);
 			/** opera current user meta */
-			delete_user_meta(get_current_user_id(),self::$user_meta_key['following'],$user_id);
-			update_user_meta(get_current_user_id(),self::$user_meta_key['following_count'],$old_my_following_count - 1);
+			delete_user_meta(theme_cache::get_current_user_id(),self::$user_meta_key['following'],$user_id);
+			update_user_meta(theme_cache::get_current_user_id(),self::$user_meta_key['following_count'],$old_my_following_count - 1);
 			return array(
 				'user_follower_count' => $old_target_follower_count - 1,
 				'my_following_count' => $old_my_following_count - 1,
 			);
 		}else{
 			/** opera target user meta */
-			add_user_meta($user_id,$user_meta_key['follower'],get_current_user_id());
+			add_user_meta($user_id,$user_meta_key['follower'],theme_cache::get_current_user_id());
 			update_user_meta($user_id,self::$user_meta_key['follower_count'],$old_target_follower_count + 1);
 			/** opera current user meta */
-			add_user_meta(get_current_user_id(),$user_meta_key['following'],get_current_user_id());
-			update_user_meta(get_current_user_id(),self::$user_meta_key['following_count'],$old_my_following_count + 1);
+			add_user_meta(theme_cache::get_current_user_id(),$user_meta_key['following'],theme_cache::get_current_user_id());
+			update_user_meta(theme_cache::get_current_user_id(),self::$user_meta_key['following_count'],$old_my_following_count + 1);
 			return array(
 				'user_follower_count' => $old_target_follower_count + 1,
 				'my_following_count' => $old_my_following_count + 1,
@@ -127,13 +127,13 @@ class theme_custom_follow{
 		}
 	}
 	public static function frontend_seajs_alias($alias){
-		if(theme_cache::is_user_logged_in() || !is_page(self::$page_slug)) return $alias;
+		if(theme_cache::is_user_logged_in() || !theme_cache::is_page(self::$page_slug)) return $alias;
 
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(theme_cache::is_user_logged_in() || !is_page(self::$page_slug)) return false;
+		if(theme_cache::is_user_logged_in() || !theme_cache::is_page(self::$page_slug)) return false;
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => theme_quick_sign::$iden));?>';

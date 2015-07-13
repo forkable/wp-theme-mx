@@ -33,7 +33,7 @@ class theme_custom_dashboard{
 		if(!empty($tab_active) && isset($tabs[$tab_active])){
 			$title = $tabs[$tab_active]['text'];
 		}
-		return $title . $sep . get_bloginfo('name');
+		return $title . $sep . theme_cache::get_bloginfo('name');
 	}
 	public static function filter_nav_dashboard($navs){
 		$navs['dashboard'] = '<a href="' . esc_url(self::get_tabs('dashboard')['url']) . '">
@@ -47,7 +47,7 @@ class theme_custom_dashboard{
 		static $cache = null;
 		if($cache === null)
 			$cache = 
-				is_page(self::$page_slug) &&
+				theme_cache::is_page(self::$page_slug) &&
 				(get_query_var('tab') === 'dashboard' || 
 				!get_query_var('tab'));
 			
@@ -55,14 +55,8 @@ class theme_custom_dashboard{
 	}
 	public static function get_url(){
 		static $cache = null;
-		if($cache === null){
-			$page = theme_cache::get_page_by_path(self::$page_slug);
-			if($page){
-				$cache = esc_url(get_permalink($page->ID));
-			}else{
-				$cache = false;
-			}
-		}
+		if($cache === null)
+			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 		return $cache;
 	}
 	public static function get_tabs($key = null){

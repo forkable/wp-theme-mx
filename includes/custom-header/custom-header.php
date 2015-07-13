@@ -66,7 +66,7 @@ class theme_custom_header{
 		?>
 		<div id="banner" style="background-image:url(<?= get_header_image();?>)">
 			<?php if(display_header_text()){ ?>
-				<h2><?= get_bloginfo('description');?></h2>
+				<h2><?= theme_cache::get_bloginfo('description');?></h2>
 				</div>
 			<?php } ?>
 		</div>

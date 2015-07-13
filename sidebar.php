@@ -43,7 +43,7 @@
 	/** 
 	 * page widget
 	 */
-	}else if(is_page() && !theme_cache::dynamic_sidebar('widget-area-page')){
+	}else if(theme_cache::is_page() && !theme_cache::dynamic_sidebar('widget-area-page')){
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">

@@ -56,12 +56,12 @@ class theme_custom_point_bomb{
 		if(self::get_tabs(get_query_var('tab'))){
 			$title = self::get_tabs(get_query_var('tab'))['text'];
 		}
-		return $title . $sep . get_bloginfo('name');
+		return $title . $sep . theme_cache::get_bloginfo('name');
 	}
 	public static function is_page(){
 		static $cache = null;
 		if($cache === null)
-			$cache = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
+			$cache = theme_cache::is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 			
 		return $cache;
 	}
@@ -79,8 +79,7 @@ class theme_custom_point_bomb{
 	public static function get_url(){
 		static $cache = null;
 		if($cache === null){
-			$page = theme_cache::get_page_by_path(self::$page_slug);
-			$cache = esc_url(get_permalink($page->ID));
+			$cache = esc_url(get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID));
 		}
 		return $cache;
 	}
@@ -221,7 +220,7 @@ class theme_custom_point_bomb{
 		return $percent;
 	}
 	public static function check_login(){
-		if(!self::get_current_user_id())
+		if(!theme_cache::get_current_user_id())
 			die(theme_features::json_format([
 				'status' => 'error',
 				'code' => 'need_login',
@@ -230,7 +229,7 @@ class theme_custom_point_bomb{
 					'<a href="' . esc_url(add_query_arg('redirect',self::get_tabs('bomb')['url'])) . '">' . ___('log-in') . '</a>'
 				),
 			]));
-		return self::get_current_user_id();
+		return theme_cache::get_current_user_id();
 	}
 	public static function check_target( &$target_id ){
 		if(!$target_id){
@@ -270,7 +269,7 @@ class theme_custom_point_bomb{
 	private static function get_times_group_id(){
 		static $cache = null;
 		if($cache === null)
-			$cache = self::$iden . self::get_current_user_id() . current_time('Ymd');
+			$cache = self::$iden . theme_cache::get_current_user_id() . current_time('Ymd');
 
 		return $cache;
 	}
@@ -377,7 +376,7 @@ class theme_custom_point_bomb{
 				/**
 				 * check attacker points
 				 */
-				$attacker_id = self::get_current_user_id();
+				$attacker_id = theme_cache::get_current_user_id();
 				$attacker_points = theme_custom_point::get_point($attacker_id);
 				if($points > $attacker_points){
 					die(theme_features::json_format([
@@ -487,13 +486,6 @@ class theme_custom_point_bomb{
 					'msg' => ___('Sorry, type param is invaild.'),
 				]));
 		}
-	}
-	private static function get_current_user_id(){
-		static $cache = null;
-		if($cache === null)
-			$cache = get_current_user_id();
-
-		return $cache;
 	}
 	private static function get_timestamp(){
 		static $cache = null;

@@ -79,7 +79,7 @@ class theme_seo_plus{
 			if(!empty(self::get_options('description'))){
 				$descriptions[] = apply_filters('meta_description_home',self::get_options('description'));
 			}else{
-				$descriptions[] = apply_filters('meta_description_home',get_bloginfo('description'));
+				$descriptions[] = apply_filters('meta_description_home',theme_cache::get_bloginfo('description'));
 			}
 		/** 
 		 * other page

@@ -3,7 +3,7 @@
  * if user logged
  */
 if(theme_cache::is_user_logged_in()){
-	$current_user_id = get_current_user_id();
+	$current_user_id = theme_cache::get_current_user_id();
 	?>
 	<div class="btn-group btn-group-xs">
 		

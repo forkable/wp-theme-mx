@@ -45,21 +45,21 @@ class theme_custom_account{
 
 	}
 	public static function get_url(){
-		static $url = null;
-		if($url === null)
-			$url = esc_url(get_permalink(get_page_by_path(self::$page_slug)));
+		static $cache = null;
+		if($cache === null)
+			$cache = get_permalink(get_page_by_path(self::$page_slug)->ID);
 			
-		return $url;
+		return $cache;
 	}
 	public static function is_page(){
 		static $cache = null;
 		if($cache === null)
-			$cache = is_page(self::$page_slug);
+			$cache = theme_cache::is_page(self::$page_slug);
 
 		return $cache;
 	}
 	public static function page_create(){
-		if(!current_user_can('manage_options')) 
+		if(!theme_cache::current_user_can('manage_options')) 
 			return false;
 		
 		$page_slugs = array(

@@ -3,7 +3,7 @@
  * Theme Options
  * the theme options and show admin control planel
  * 
- * @version 5.0.1
+ * @version 5.0.2
  * 
  */
 theme_options::init();
@@ -81,15 +81,8 @@ class theme_options{
 
 		return $caches[self::$iden];
 	}
-	public static function current_user_can($key){
-		static $caches = [];
-		if(!isset($caches[$key]))
-			$caches[$key] = current_user_can($key);
-
-		return $caches[$key];
-	}
 	public static function backend_header(){
-		if(!self::current_user_can('manage_options'))
+		if(!theme_cache::current_user_can('manage_options'))
 			return false;
 
 
@@ -113,7 +106,7 @@ class theme_options{
 			'theme_css' => theme_features::get_theme_css(),
 		);
 		$config['vars'] = array(
-			'locale' => str_replace('-','_',get_bloginfo('language')),
+			'locale' => str_replace('-','_',theme_cache::get_bloginfo('language')),
 			'theme_js' => theme_features::get_theme_js(),
 			'theme_css' => theme_features::get_theme_css(),
 			'process_url' => esc_js(theme_features::get_process_url()),
@@ -226,7 +219,7 @@ class theme_options{
 				<p>
 					<input type="hidden" name="<?= self::$iden;?>[nonce]" value="<?= wp_create_nonce(self::$iden);?>">
 					
-					<button type="submit" class="button button-primary button-large"><i class="fa fa-check"></i> <?= ___('Save all settings');?></button>
+					<button id="submit" type="submit" class="button button-primary button-large"><i class="fa fa-check"></i> <span class="tx"><?= ___('Save all settings');?></span></button>
 					
 					<label for="options-restore" class="label-options-restore" title="<?= ___('Something error with theme? Try to restore. Be careful, theme options will be cleared up!');?>">
 						<input id="options-restore" name="<?= self::$iden;?>[restore]" type="checkbox" value="1"/>
@@ -244,7 +237,7 @@ class theme_options{
 	 * 
 	 */
 	private static function options_save(){
-		if(!self::current_user_can('manage_options'))
+		if(!theme_cache::current_user_can('manage_options'))
 			return false;
 
 		$opts_new = apply_filters(self::$iden . '_save',[]);
@@ -294,7 +287,7 @@ class theme_options{
 	 * @version 1.0.1
 	 */
 	public static function is_options_page(){
-		if(!self::current_user_can('manage_options'))
+		if(!theme_cache::current_user_can('manage_options'))
 			return false;
 			
 		if(is_admin() && isset($_GET['page']) && $_GET['page'] === 'core-options'){
@@ -313,7 +306,7 @@ class theme_options{
 	 * 
 	 */
 	public static function add_page(){
-		if(!self::current_user_can('manage_options'))
+		if(!theme_cache::current_user_can('manage_options'))
 			return false;
 		/* Add to theme setting menu */
 		add_theme_page(
@@ -333,7 +326,7 @@ class theme_options{
 	 * 
 	 */
 	public static function add_bar(){
-		if(!self::current_user_can('manage_options'))
+		if(!theme_cache::current_user_can('manage_options'))
 			return false;
 		
 		global $wp_admin_bar;

@@ -110,7 +110,7 @@ get_currentuserinfo();
 			<?= ___('Description');?>
 		</label>
 		<div class="col-sm-10">
-			<textarea name="user[description]" class="form-control" id="my-settings-des" placeholder="<?= ___('Introduce yourself to everyone');?>" tabindex="1"><?= esc_attr(get_user_meta(get_current_user_id(),'description',true));?></textarea>
+			<textarea name="user[description]" class="form-control" id="my-settings-des" placeholder="<?= ___('Introduce yourself to everyone');?>" tabindex="1"><?= esc_attr(get_user_meta(theme_cache::get_current_user_id(),'description',true));?></textarea>
 		</div>
 	</div>
 	<!-- submit -->

@@ -90,27 +90,14 @@ class theme_page_tags{
 		
 		die(theme_features::json_format($output));
 	}
-	public static function get_page(){
-		static $cache = null;
-		if($cache === null)
-			$cache = theme_cache::get_page_by_path(self::$page_slug);
-
-		return $cache;
-	}
 	public static function get_url(){
 		static $cache = null;
-		if($cache === null){
-			if(is_object(self::get_page())){
-				$cache = esc_url(get_permalink(self::get_page()->ID));
-			}else{
-				$cache = false;
-			}
-		}
-
+		if($cache === null)
+			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 		return $cache;	
 	}
 	public static function page_create(){
-		if(!current_user_can('manage_options')) 
+		if(!theme_cache::current_user_can('manage_options')) 
 			return false;
 		
 		$page_slugs = array(
@@ -370,12 +357,11 @@ class theme_page_tags{
 		
 		$posts = [];
 		$post_ids = [];
-		$home_url = home_url();
 		foreach($query_posts as $v){
 			$post_ids[] = $v['ID'];
 			$posts[$v['ID']] = [
 				'title' => $v['post_title'],
-				'permalink' => $home_url . str_replace('%post_id%',$v['ID'],$wp_rewrite->permalink_structure)
+				'permalink' => theme_cache::home_url() . str_replace('%post_id%',$v['ID'],$wp_rewrite->permalink_structure)
 			];
 		}
 		
@@ -462,7 +448,7 @@ class theme_page_tags{
 	public static function is_page(){
 		static $cache = null;
 		if($cache === null)
-			$cache = is_page(self::$page_slug);
+			$cache = theme_cache::is_page(self::$page_slug);
 
 		return $cache;
 	}

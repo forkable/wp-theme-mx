@@ -7,6 +7,7 @@
 .button-primary a{
 	color:#fff;
 }
+
 /* 描述 */
 .description{
 	padding-left:1rem;
@@ -249,10 +250,6 @@ input.text-select{
 	text-align:center;
 	cursor:pointer;
 }
-textarea.text-code{
-	width:80%;
-	height:10em;
-}
 
 /* reset_options */
 .label-options-restore{
@@ -260,23 +257,26 @@ textarea.text-code{
 	cursor:help;
 	float:right;
 }
-html #wpadminbar{
-	z-index:100;
-}
-.long-text{
-	width:99%;
-}
-
-html .regular-text:hover{
-	border-color:#A0A0A0 #B9B9B9 #B9B9B9;
-}
 
 #backend-tab .tabbtn .tx{
 	display: none;
 }
-
-
+#submit{
+	position: fixed;
+	bottom: 10px;
+	z-index: 10;
+	
+}
+	#submit .tx{
+		display: none;
+	}
 @media (min-width: 768px){
+	#submit{
+		bottom: 20px;
+	}
+		#submit .tx{
+			display: inline-block;
+		}
 	#backend-tab .tabbtn .tx{
 		display: inline;
 	}

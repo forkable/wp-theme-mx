@@ -190,7 +190,7 @@ class custom_navwalker extends Walker_Nav_Menu{
 	 * @param array $args passed from the wp_nav_menu function.
 	 */
 	public static function fallback($args){
-		if (!current_user_can('manage_options'))
+		if (!theme_cache::current_user_can('manage_options'))
 			return '';
 			
 		extract($args);

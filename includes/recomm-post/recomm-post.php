@@ -59,7 +59,7 @@ class theme_recommended_post{
 		<?php
 	}
 	public static function delete_post($post_id){
-		if ( !current_user_can( 'delete_posts' ) )
+		if ( !theme_cache::current_user_can( 'delete_posts' ) )
 			return;
 		$opt = self::get_options();
 		$recomm_posts = isset($opt['ids']) ? (array)$opt['ids'] : [];

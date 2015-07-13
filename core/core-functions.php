@@ -52,27 +52,6 @@ function mult_search_array($key,$value,$array){
 	return $results; 
 } 
 /**
- * check_referer
- *
- * @param string
- * @return bool
- * @version 1.0.1
- */
-function check_referer($referer = null){
-	static $home_url = null;
-	if($home_url === null)
-		$home_url = home_url();
-		
-	if(!$referer)
-		$referer = $home_url;
-		
-	if(!isset($_SERVER['HTTP_REFERER']) || stripos($_SERVER['HTTP_REFERER'],$referer) !== 0){
-		return false;
-	}else{
-		return true;
-	}
-}
-/**
  * array_multiwalk
  *
  * @param array

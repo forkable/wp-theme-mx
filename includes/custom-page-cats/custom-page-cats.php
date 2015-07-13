@@ -83,7 +83,7 @@ class theme_page_cats{
 		die(theme_features::json_format($output));
 	}
 	public static function page_create(){
-		if(!current_user_can('manage_options')) 
+		if(!theme_cache::current_user_can('manage_options')) 
 			return false;
 		
 		$page_slugs = array(

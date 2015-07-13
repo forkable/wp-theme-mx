@@ -17,7 +17,7 @@
 	</div>
 
 	<?php
-	$current_user_id = get_current_user_id();
+	$current_user_id = theme_cache::get_current_user_id();
 	$notis = theme_notification::get_notifications(array(
 		'user_id' => $current_user_id,
 	));

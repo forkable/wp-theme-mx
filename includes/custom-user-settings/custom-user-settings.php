@@ -52,7 +52,7 @@ class theme_custom_user_settings{
 		if(self::get_tabs(get_query_var('tab'))){
 			$title = self::get_tabs(get_query_var('tab'))['text'];
 		}
-		return $title . $sep . get_bloginfo('name');
+		return $title . $sep . theme_cache::get_bloginfo('name');
 	}
 	public static function filter_query_vars($vars){
 		if(!in_array('tab',$vars)) $vars[] = 'tab';
@@ -61,7 +61,7 @@ class theme_custom_user_settings{
 	public static function is_page(){
 		static $cache = null;
 		if($cache === null)
-			$cache = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
+			$cache = theme_cache::is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 		
 		return $cache;
 	}
@@ -225,7 +225,7 @@ class theme_custom_user_settings{
 				
 				$output['status'] = 'success';
 				$output['msg'] = ___('Your new password has been saved.');
-				$output['redirect'] = home_url();
+				$output['redirect'] = theme_cache::home_url();
 				die(theme_features::json_format($output));
 				break;
 			/**
@@ -322,8 +322,7 @@ class theme_custom_user_settings{
 	public static function get_url(){
 		static $cache = null;
 		if($cache === null){
-			$page = theme_cache::get_page_by_path(self::$page_slug);
-			$cache = esc_url(get_permalink($page->ID));
+			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 		}
 		return $cache;
 	}

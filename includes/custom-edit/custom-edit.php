@@ -42,7 +42,7 @@ class theme_custom_edit{
 		if(self::get_tabs(get_query_var('tab'))){
 			$title = self::get_tabs(get_query_var('tab'))['text'];
 		}
-		return $title . $sep . get_bloginfo('name');
+		return $title . $sep . theme_cache::get_bloginfo('name');
 	}
 	public static function filter_query_vars($vars){
 		if(!in_array('tab',$vars)) $vars[] = 'tab';
@@ -56,13 +56,10 @@ class theme_custom_edit{
 		return $navs;
 	}
 	public static function get_url(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-			
-		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$caches[self::$iden] = esc_url(get_permalink($page->ID));
-		return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache = get_permalink( theme_cache::get_page_by_path(self::$page_slug)->ID);
+		return $cache;
 	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();
@@ -91,7 +88,7 @@ class theme_custom_edit{
 	public static function get_query(){
 		global $paged;
 		return new WP_Query([
-			'author' => get_current_user_id(),
+			'author' => theme_cache::get_current_user_id(),
 			'posts_per_page' => 20,
 			'paged' => (int)$paged,
 		]);
@@ -100,7 +97,7 @@ class theme_custom_edit{
 	public static function is_page(){
 		static $cache = null;
 		if($cache === null)
-			$cache = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
+			$cache = theme_cache::is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 			
 		return $cache;
 	}

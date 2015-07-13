@@ -47,7 +47,7 @@ class theme_custom_contribution{
 		if(self::get_tabs(get_query_var('tab'))){
 			$title = self::get_tabs(get_query_var('tab'))['text'];
 		}
-		return $title . $sep . get_bloginfo('name');
+		return $title . $sep . theme_cache::get_bloginfo('name');
 	}
 	public static function filter_query_vars($vars){
 		if(!in_array('tab',$vars)) $vars[] = 'tab';
@@ -114,13 +114,11 @@ class theme_custom_contribution{
 		}
 	}
 	public static function get_url(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-			
-		$page = theme_cache::get_page_by_path(self::$page_slug);
-		$caches[self::$iden] = esc_url(get_permalink($page->ID));
-		return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null){
+			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
+		}
+		return $cache;
 	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();
@@ -140,7 +138,7 @@ class theme_custom_contribution{
 	public static function is_page(){
 		static $cache = null;
 		if($cache === null)
-			$cache = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
+			$cache = theme_cache::is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 			
 		return $cache;
 	}
@@ -179,7 +177,7 @@ class theme_custom_contribution{
 					die(theme_features::json_format($output));
 				}
 				/** rename file name */
-				$_FILES['img']['name'] = get_current_user_id() . '-' . current_time('YmdHis') . '-' . rand(100,999). '.' . $file_ext;
+				//$_FILES['img']['name'] = theme_cache::get_current_user_id() . '-' . current_time('YmdHis') . '-' . rand(100,999). '.' . $file_ext;
 				
 				/** 
 				 * pass
@@ -230,7 +228,7 @@ class theme_custom_contribution{
 					/**
 					 * check post author is myself
 					 */
-					if($old_post->post_author != get_current_user_id()){
+					if($old_post->post_author != theme_cache::get_current_user_id()){
 						die(theme_features::json_format([
 							'status' => 'error',
 							'code' => 'post_not_exist',
@@ -314,7 +312,7 @@ class theme_custom_contribution{
 				 * post status
 				 */
 				
-				if(current_user_can('publish_posts')){
+				if(theme_cache::current_user_can('publish_posts')){
 					$post_status = 'publish';
 				}else{
 					$post_status = 'pending';
@@ -350,7 +348,7 @@ class theme_custom_contribution{
 						'post_title' => $post_title,
 						'post_content' => fliter_script($post_content),
 						'post_status' => $post_status,
-						'post_author' => get_current_user_id(),
+						'post_author' => theme_cache::get_current_user_id(),
 						'post_category' => $all_cats,
 						'tags_input' => $tags,
 					],true);
@@ -463,7 +461,7 @@ class theme_custom_contribution{
 	    /** This filter is documented in wp-admin/includes/ajax-actions.php */
 	    $time_window = apply_filters( 'wp_check_post_lock_window', 150 );
 	 
-	    if ( $time && $time > time() - $time_window && $user != get_current_user_id() )
+	    if ( $time && $time > time() - $time_window && $user != theme_cache::get_current_user_id() )
 	        return $user;
 	    return false;
     }

@@ -31,7 +31,7 @@ class theme_custom_storage{
 
 		$post = self::get_decode_post();
 		if($post)
-			return get_the_title($post->ID) . $sep . ___('storage download') . $sep . get_bloginfo('name');
+			return get_the_title($post->ID) . $sep . ___('storage download') . $sep . theme_cache::get_bloginfo('name');
 		
 	}
 	
@@ -51,7 +51,7 @@ class theme_custom_storage{
 		if(!self::is_page())
 			return;
 		if(!self::get_decode_post()){
-			//wp_redirect(home_url());
+			//wp_redirect(theme_cache::home_url());
 			wp_die(
 				___('Error: invaild code.'),
 				___('Error'),
@@ -138,7 +138,7 @@ class theme_custom_storage{
 		die(theme_features::json_format($output));
 	}
 	public static function page_create(){
-		if(!current_user_can('manage_options')) 
+		if(!theme_cache::current_user_can('manage_options')) 
 			return false;
 		
 		$page_slugs = array(
@@ -311,7 +311,7 @@ class theme_custom_storage{
 	public static function is_page(){
 		static $cache = null;
 		if($cache === null)
-			$cache = is_page(self::$page_slug);
+			$cache = theme_cache::is_page(self::$page_slug);
 
 		return $cache;
 	}

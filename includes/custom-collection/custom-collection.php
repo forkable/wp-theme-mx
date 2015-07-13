@@ -43,7 +43,7 @@ class theme_custom_collection{
 		if(self::get_tabs(get_query_var('tab'))){
 			$title = self::get_tabs(get_query_var('tab'))['text'];
 		}
-		return $title . $sep . get_bloginfo('name');
+		return $title . $sep . theme_cache::get_bloginfo('name');
 	}
 	public static function filter_query_vars($vars){
 		if(!in_array('tab',$vars)) $vars[] = 'tab';
@@ -206,8 +206,7 @@ class theme_custom_collection{
 	public static function get_url(){
 		static $cache = null;
 		if($cache === null){
-			$page = theme_cache::get_page_by_path(self::$page_slug);
-			$cache = esc_url(get_permalink($page->ID));
+			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 		}
 		return $cache;
 	}
@@ -235,7 +234,7 @@ class theme_custom_collection{
 	public static function is_page(){
 		static $cache = null;
 		if($cache === null)
-			$cache = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
+			$cache = theme_cache::is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 			
 		return $cache;
 	}
@@ -272,7 +271,7 @@ class theme_custom_collection{
 					die(theme_features::json_format($output));
 				}
 				/** rename file name */
-				$_FILES['img']['name'] = get_current_user_id() . '-' . current_time('YmdHis') . '-' . rand(100,999). '.' . $file_ext;
+				$_FILES['img']['name'] = theme_cache::get_current_user_id() . '-' . current_time('YmdHis') . '-' . rand(100,999). '.' . $file_ext;
 				
 				/** 
 				 * pass
@@ -368,7 +367,7 @@ class theme_custom_collection{
 				/**
 				 * post status
 				 */
-				if(current_user_can('moderate_comments')){
+				if(theme_cache::current_user_can('moderate_comments')){
 					$post_status = 'publish';
 				}else{
 					$post_status = 'pending';
@@ -380,7 +379,7 @@ class theme_custom_collection{
 					'post_title' => $post_title,
 					'post_content' => fliter_script($post_content),
 					'post_status' => $post_status,
-					'post_author' => get_current_user_id(),
+					'post_author' => theme_cache::get_current_user_id(),
 					'post_category' => (array)self::get_options('cats'),
 					'tags_input' => $tags,
 				),true);

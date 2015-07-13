@@ -16,7 +16,7 @@ class theme_file_timestamp{
 		add_filter('theme_options_save' , __CLASS__ . '::options_save');
 	}
 	public static function process(){
-		if(!current_user_can('manage_options'))
+		if(!theme_cache::current_user_can('manage_options'))
 			die(___('You have not permission.'));
 
 		theme_options::set_options(self::$iden,$_SERVER['REQUEST_TIME']);

@@ -36,7 +36,7 @@ class theme_custom_author_profile{
 			$title = $tabs['profile']['text'];
 		}
 		$title = $author_display_name . $sep . $title;
-		return $title . $sep . get_bloginfo('name');
+		return $title . $sep . theme_cache::get_bloginfo('name');
 	}
 	public static function filter_query_vars($vars){
 		if(!in_array('tab',$vars)) $vars[] = 'tab';

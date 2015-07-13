@@ -14,7 +14,7 @@ class theme_user_code{
 		add_filter('theme_options_save', 	__CLASS__ . '::options_save');
 		add_action('base_settings', 		__CLASS__ . '::display_backend');
 
-		add_action('customize_register', __CLASS__ . '::customize');
+		//add_action('customize_register', __CLASS__ . '::customize');
 		
 	}
 	public static function display_frontend_header(){

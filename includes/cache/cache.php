@@ -178,7 +178,7 @@ class theme_cache{
 	 */
 	public static function process(){
 		$type = isset($_GET['type']) ? $_GET['type'] : null;
-		if(!current_user_can('manage_options'))
+		if(!self::current_user_can('manage_options'))
 			die();
 			
 		switch($type){
@@ -212,6 +212,54 @@ class theme_cache{
 		if(wp_using_ext_object_cache()){
 			return wp_cache_flush();
 		}
+	}
+	public static function get_current_user_id(){
+		if(!self::is_user_logged_in())
+			return false;
+		static $cache = null;
+		if($cache === null)
+			$cache = get_current_user_id();
+		return $cache;
+	}
+	public static function current_user_can($key){
+		if(!self::is_user_logged_in())
+			return false;
+		static $caches = [];
+		if(isset($caches[$key]))
+			return $caches[$key];
+		$caches[$key] = current_user_can($key);
+		return $caches[$key];
+	}
+	public static function home_url($path = null){
+		static $caches = [],$cache = null;
+		if($path === null){
+			if($cache !== null)
+				return $cache;
+			$cache = home_url();
+			return $cache;
+		}else{
+			if(isset($caches[$path]))
+				return $caches[$path];
+			$caches[$path] = home_url($path);
+			return $caches[$path];
+		}
+	}
+	public static function is_page($page = null){
+		static $caches = [],$cache = null;
+		if($page === null){
+			if($cache === null)
+				$cache = is_page();
+			return $cache;
+		}
+		if(!isset($caches[$page]))
+			$caches[$page] = is_page($page);
+		return $caches[$page];
+	}
+	public static function get_bloginfo($key){
+		static $caches = [];
+		if(!isset($caches[$key]))
+			$caches[$key] = get_bloginfo($key);
+		return $caches[$key];
 	}
 	public static function is_user_logged_in(){
 		static $cache = null;

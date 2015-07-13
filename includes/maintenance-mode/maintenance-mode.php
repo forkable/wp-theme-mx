@@ -73,10 +73,10 @@ class maintenance_mode{
 			return;
 		$output = '
 <!doctype html>
-<html lang="' . get_bloginfo('language') . '">
+<html lang="' . theme_cache::get_bloginfo('language') . '">
 	<head>
-	<meta charset="' . get_bloginfo( 'charset' ) . '">
-	<title>' . esc_attr(get_bloginfo('name')) . ' - ' . ___('Maintenance Mode') . '</title>
+	<meta charset="' . theme_cache::get_bloginfo( 'charset' ) . '">
+	<title>' . esc_attr(theme_cache::get_bloginfo('name')) . ' - ' . ___('Maintenance Mode') . '</title>
 	<style>
 	body {font:20px/2 "Microsoft YaHei",Arial,"Liberation Sans",FreeSans,sans-serif;text-align: center; padding: 150px; color: #333;}
 	article { display: block; text-align: left; width: 650px; margin: 0 auto; }
@@ -88,8 +88,8 @@ class maintenance_mode{
 	 <body>
 		<article>
 		<h1>' . ___('We&rsquo;ll be back soon!') . '</h1>
-		<p>' . sprintf(___('Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. If you need to you can always <a href="mailto:%s">contact us</a>, otherwise we&rsquo;ll be back online shortly!'),esc_html(get_bloginfo('admin_email'))) . '</p>
-		<p class="by">&mdash; ' . esc_html(get_bloginfo('name')) . '</p>
+		<p>' . sprintf(___('Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. If you need to you can always <a href="mailto:%s">contact us</a>, otherwise we&rsquo;ll be back online shortly!'),esc_html(theme_cache::get_bloginfo('admin_email'))) . '</p>
+		<p class="by">&mdash; ' . esc_html(theme_cache::get_bloginfo('name')) . '</p>
 		</article>
 	</body>
 </html>
@@ -111,7 +111,7 @@ class maintenance_mode{
 	 */
 	public static function redirect(){
 		$url = self::has_url();
-		if(!current_user_can('manage_options') && $url){
+		if(!theme_cache::current_user_can('manage_options') && $url){
 			header("Location: $url");
 			die();
 		}

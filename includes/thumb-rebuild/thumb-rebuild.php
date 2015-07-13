@@ -74,7 +74,7 @@ class RegenerateThumbnails {
 
 	// Add a "Regenerate Thumbnails" link to the media row actions
 	function add_media_row_action( $actions, $post ) {
-		if ( 'image/' != substr( $post->post_mime_type, 0, 6 ) || ! current_user_can( $this->capability ) )
+		if ( 'image/' != substr( $post->post_mime_type, 0, 6 ) || ! theme_cache::current_user_can( $this->capability ) )
 			return $actions;
 
 		$url = wp_nonce_url( admin_url( 'tools.php?page=regenerate-thumbnails&goback=1&ids=' . $post->ID ), 'regenerate-thumbnails' );
@@ -104,7 +104,7 @@ class RegenerateThumbnails {
 	// Add new items to the Bulk Actions using Javascript
 	// A last minute change to the "bulk_actions-xxxxx" filter in 3.1 made it not possible to add items using that
 	function add_bulk_actions_via_javascript() {
-		if ( ! current_user_can( $this->capability ) )
+		if ( ! theme_cache::current_user_can( $this->capability ) )
 			return;
 ?>
 		<script type="text/javascript">
@@ -150,7 +150,7 @@ class RegenerateThumbnails {
 		// If the button was clicked
 		if ( ! empty( $_POST['regenerate-thumbnails'] ) || ! empty( $_REQUEST['ids'] ) ) {
 			// Capability check
-			if ( ! current_user_can( $this->capability ) )
+			if ( ! theme_cache::current_user_can( $this->capability ) )
 				wp_die( ___( 'Cheatin&#8217; uh?' ) );
 
 			// Form nonce check
@@ -359,7 +359,7 @@ class RegenerateThumbnails {
 		if ( ! $image || 'attachment' != $image->post_type || 'image/' != substr( $image->post_mime_type, 0, 6 ) )
 			die( json_encode( array( 'error' => sprintf( ___( 'Failed resize: %s is an invalid image ID.'), esc_html( $_REQUEST['id'] ) ) ) ) );
 
-		if ( ! current_user_can( $this->capability ) )
+		if ( ! theme_cache::current_user_can( $this->capability ) )
 			$this->die_json_error_msg( $image->ID, ___( "Your user account doesn't have permission to resize images") );
 
 		$fullsizepath = get_attached_file( $image->ID );

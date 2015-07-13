@@ -97,12 +97,12 @@ class theme_custom_sign{
 		return $cache;
 	}
 	public static function filter_login_headerurl($login_header_url){
-		// if(current_user_can('moderate_comments')) return $login_header_url;
+		// if(theme_cache::current_user_can('moderate_comments')) return $login_header_url;
 		wp_safe_redirect(get_permalink(theme_cache::get_page_by_path(self::$page_slug)));
 		die();
 	}
 	public static function filter_show_admin_bar($show_admin_bar){
-		if(current_user_can('manage_categories'))
+		if(theme_cache::current_user_can('manage_categories'))
 			return $show_admin_bar;
 		return false;
 	}
@@ -114,8 +114,8 @@ class theme_custom_sign{
 			/** 
 			 * if not administrator and not ajax,redirect to 
 			 */
-			if(!current_user_can('moderate_comments')){
-				wp_safe_redirect(theme_cache::get_author_posts_url(get_current_user_id()));
+			if(!theme_cache::current_user_can('moderate_comments')){
+				wp_safe_redirect(theme_cache::get_author_posts_url(theme_cache::get_current_user_id()));
 				die();
 			}
 		}
@@ -146,7 +146,7 @@ class theme_custom_sign{
 	public static function get_tabs($key = null,$redirect = null){
 		static $baseurl = null;
 		if($baseurl === null)
-			$baseurl = get_permalink(theme_cache::get_page_by_path(self::$page_slug));
+			$baseurl = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 		
 		if(!$redirect)
 			$redirect =  get_query_var('redirect');
@@ -193,19 +193,19 @@ class theme_custom_sign{
 	public static function is_page(){
 		static $cache = null;
 		if($cache === null)
-			$cache = is_page(self::$page_slug);
+			$cache = theme_cache::is_page(self::$page_slug);
 			
 		return $cache;
 	}
 	public static function template_redirect(){
 		if(self::is_page() && theme_cache::is_user_logged_in()){
 			$redirect = get_query_var('redirect');
-			$redirect ? wp_redirect($redirect) : wp_redirect(home_url());
+			$redirect ? wp_redirect($redirect) : wp_redirect(theme_cache::home_url());
 			die();
 		}
 	}
 	public static function page_create(){
-		if(!current_user_can('manage_options')) 
+		if(!theme_cache::current_user_can('manage_options')) 
 			return false;
 		
 		$page_slugs = array(
@@ -246,7 +246,7 @@ class theme_custom_sign{
 		}else{
 			$title = $tabs['login']['text'];
 		}
-		return $title . $sep . get_bloginfo('name');
+		return $title . $sep . theme_cache::get_bloginfo('name');
 	}
 	/** 
 	 * user_login
@@ -459,7 +459,7 @@ class theme_custom_sign{
 					<p>
 						' . sprintf(___('You are receiving this email because you forgot your password. We already made an address for your account, you can access this address ( %s ) to log-in and change your password in 3 hours.'),'<a href="' . $callback_url . '" target="_blank">' . $callback_url . '</a>') . '
 					</p>
-					<p>' . sprintf(___('-- From %s'),'<a href="' . home_url() . '" target="_blank">' . get_bloginfo('name') . '</a>') . '</p>
+					<p>' . sprintf(___('-- From %s'),'<a href="' . theme_cache::home_url() . '" target="_blank">' . theme_cache::get_bloginfo('name') . '</a>') . '</p>
 				';
 				$title = ___('You are applying to reset your password.');
 				
@@ -565,7 +565,7 @@ class theme_custom_sign{
 				wp_set_current_user($user_id);
 				wp_set_auth_cookie($user_id,true);
 				$output['status'] = 'success';
-				$output['redirect'] = home_url();
+				$output['redirect'] = theme_cache::home_url();
 				$output['msg'] = ___('Congratulation, your account has been recovered! Password has been updated. Redirecting home page, please wait...');
 				
 				break;
@@ -586,7 +586,7 @@ class theme_custom_sign{
 				'logged'  		=> true,
 				'display_name' 	=> $current_user->display_name,
 				'posts_url' 	=> theme_cache::get_author_posts_url($current_user->ID),
-				'logout_url' 	=> wp_logout_url(home_url()),
+				'logout_url' 	=> wp_logout_url(theme_cache::home_url()),
 				'avatar_url'	=> get_avatar_url($current_user->ID),
 			);
 		}else{

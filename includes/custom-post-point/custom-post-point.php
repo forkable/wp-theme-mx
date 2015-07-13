@@ -70,7 +70,7 @@ class custom_post_point{
 		theme_features::check_referer();
 		theme_features::check_nonce();
 		
-		if(!current_user_can('manage_options'))
+		if(!theme_cache::current_user_can('manage_options'))
 			return false;
 			
 		$type = isset($_GET['type']) && is_string($_GET['type']) ? $_GET['type'] : false;
@@ -369,7 +369,7 @@ class custom_post_point{
 			die(theme_features::json_format($output));
 		}
 		
-		$rater_id = (int)get_current_user_id();
+		$rater_id = theme_cache::get_current_user_id();
 
 		switch($type){
 			/**

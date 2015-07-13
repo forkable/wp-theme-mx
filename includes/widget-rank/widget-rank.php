@@ -1,6 +1,6 @@
 <?php
 /** 
- * version 1.0.4
+ * version 1.0.5
  */
 
 add_action('widgets_init','widget_rank::register_widget' );
@@ -26,17 +26,17 @@ class widget_rank extends WP_Widget{
 			'category__in' => [],
 			'content_type' => 'tx',
 		],$instance);
-		
+		$title = esc_html($instance['title']);
 		echo $args['before_title'];
 		if(isset($instance['category__in'][0])){ ?>
-			<a class="link" href="<?= get_category_link($instance['category__in'][0]);?>" title="<?= esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>">
+			<a class="link" href="<?= get_category_link($instance['category__in'][0]);?>" title="<?= sprintf(___('Views more about %s'),$title);?>">
 				<i class="fa fa-bar-chart"></i> 
-				<?= esc_html($instance['title']);?>
+				<?= $title;?>
 			</a>
-			<a href="<?= get_category_link($instance['category__in'][0]);?>" title="<?= esc_attr(sprintf(___('Views more about %s'),$instance['title']));?>" class="more"><?= esc_html(___('More &raquo;'));?></a>
+			<a href="<?= get_category_link($instance['category__in'][0]);?>" title="<?= sprintf(___('Views more about %s'),$title);?>" class="more"><?= ___('More &raquo;');?></a>
 		<?php }else{ ?>
 			<i class="fa fa-bar-chart"></i> 
-			<?= esc_html($instance['title']);?>
+			<?= $title;?>
 		<?php } ?>
 		<?php
 		echo $args['after_title'];
@@ -49,29 +49,14 @@ class widget_rank extends WP_Widget{
 			'orderby' => $instance['orderby'],
 		));
 		$content_type_class = $instance['content_type'] === 'tx' ? ' post-tx-lists ' : ' post-mixed-lists ';
-		/** 
-		 * set container tag
-		 */
-		switch($instance['orderby']){
-			case 'latest':
-			case 'rand':
-			case 'random':
-			case 'recommended':
-			case 'sticky':
-				$container_tag = 'ul';
-				break;
-			default:
-				$container_tag = 'div';
-		}
+		
 		if($query->have_posts()){
 			?>
 			<ul class="list-group <?= $content_type_class;?> widget-orderby-<?= $instance['orderby'];?>">
-			
-			<!-- <ul class="tabbody post-lists <?= $content_type_class;?> widget-orderby-<?= $instance['orderby'];?>"> -->
 				<?php
 				foreach($query->posts as $post){
 					setup_postdata($post);
-					if($instance['content_type'] === 'tx'){
+					if($content_type_class === 'tx'){
 						theme_functions::widget_rank_tx_content(array(
 							'meta_type' => $instance['orderby'],
 						));
@@ -105,24 +90,24 @@ class widget_rank extends WP_Widget{
 		],$instance);
 		?>
 		<p>
-			<label for="<?= esc_attr(self::get_field_id('title'));?>"><?= ___('Title (optional)');?></label>
+			<label for="<?= self::get_field_id('title');?>"><?= ___('Title (optional)');?></label>
 			<input 
-				id="<?= esc_attr(self::get_field_id('title'));?>"
+				id="<?= self::get_field_id('title');?>"
 				class="widefat"
-				name="<?= esc_attr(self::get_field_name('title'));?>" 
+				name="<?= self::get_field_name('title');?>" 
 				type="text" 
-				value="<?= esc_attr($instance['title']);?>" 
+				value="<?= $instance['title'];?>" 
 				placeholder="<?= ___('Title (optional)');?>"
 			/>
 		</p>
 		<p>
-			<label for="<?= esc_attr(self::get_field_id('posts_per_page'));?>"><?= ___('Post number (required)');?></label>
+			<label for="<?= self::get_field_id('posts_per_page');?>"><?= ___('Post number (required)');?></label>
 			<input 
-				id="<?= esc_attr(self::get_field_id('posts_per_page'));?>"
+				id="<?= self::get_field_id('posts_per_page');?>"
 				class="widefat"
-				name="<?= esc_attr(self::get_field_name('posts_per_page'));?>" 
+				name="<?= self::get_field_name('posts_per_page');?>" 
 				type="number" 
-				value="<?= esc_attr($instance['posts_per_page']);?>" 
+				value="<?= $instance['posts_per_page'];?>" 
 				placeholder="<?= ___('Post number (required)');?>"
 			/>
 		</p>
@@ -136,11 +121,11 @@ class widget_rank extends WP_Widget{
 		</p>
 		<!-- date -->
 		<p>
-			<label for="<?= esc_attr(self::get_field_id('date'));?>"><?= ___('Date');?></label>
+			<label for="<?= self::get_field_id('date');?>"><?= ___('Date');?></label>
 			<select
-				name="<?= esc_attr(self::get_field_name('date'));?>" 
+				name="<?= self::get_field_name('date');?>" 
 				class="widefat"				
-				id="<?= esc_attr(self::get_field_id('date'));?>"
+				id="<?= self::get_field_id('date');?>"
 			>
 				<?php
 				$dates = theme_functions::get_rank_data();
@@ -151,11 +136,11 @@ class widget_rank extends WP_Widget{
 			</select>
 		</p>
 		<p>
-			<label for="<?= esc_attr(self::get_field_id('content_type'));?>"><?= ___('Content type');?></label>
+			<label for="<?= self::get_field_id('content_type');?>"><?= ___('Content type');?></label>
 			<select 
-				name="<?= esc_attr(self::get_field_name('content_type'));?>" 
+				name="<?= self::get_field_name('content_type');?>" 
 				class="widefat"
-				id="<?= esc_attr(self::get_field_id('content_type'));?>"
+				id="<?= self::get_field_id('content_type');?>"
 			>
 				<?php
 				/** 
@@ -170,13 +155,13 @@ class widget_rank extends WP_Widget{
 			</select>
 		</p>
 		<p>
-			<label for="<?= esc_attr(self::get_field_id('orderby'));?>">
+			<label for="<?= self::get_field_id('orderby');?>">
 				<?= ___('Order by');?>
 			</label>
 			<select 
-				name="<?= esc_attr(self::get_field_name('orderby'));?>" 
+				name="<?= self::get_field_name('orderby');?>" 
 				class="widefat"
-				id="<?= esc_attr(self::get_field_id('orderby'));?>"
+				id="<?= self::get_field_id('orderby');?>"
 			>
 				
 				<?php
@@ -244,7 +229,7 @@ class widget_rank extends WP_Widget{
 			<label for="<?= $id;?>-<?= $cat->term_id;?>" class="item button <?= $selected_class;?>">
 				<input 
 					type="checkbox" 
-					id="<?= esc_attr($id);?>-<?= esc_attr($cat->term_id);?>" 
+					id="<?= $id;?>-<?= $cat->term_id;?>" 
 					name="<?= esc_attr($name);?>[]" 
 					value="<?= $cat->term_id;?>"
 					<?= $checked;?>

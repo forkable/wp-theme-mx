@@ -45,8 +45,8 @@ class theme_post_share{
 		$defaults = array(
 			'post_title_text' => esc_attr(get_the_title()),
 			'post_url' => esc_url(get_permalink()),
-			'blog_name' => esc_attr(get_bloginfo('name')),
-			'blog_url' => esc_url(home_url()),
+			'blog_name' => esc_attr(theme_cache::get_bloginfo('name')),
+			'blog_url' => esc_url(theme_cache::home_url()),
 			'img_url' => esc_url($img_url),
 			'post_excerpt' => esc_attr(mb_substr(html_minify(strip_tags(get_the_excerpt())),0,120)),
 			'post_content' => esc_attr(mb_substr(html_minify(strip_tags(get_the_content())),0,120)),

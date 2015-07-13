@@ -34,7 +34,8 @@ class widget_comments extends WP_Widget{
 		echo $args['before_widget'];
 		$comments = get_comments(array(
 			'status' => 'approve',
-			'number' => isset($instance['number']) ? (int)$instance['number'] : 6
+			'number' => isset($instance['number']) ? (int)$instance['number'] : 6,
+			'type' => 'comment',
 		));
 		if(!empty($instance['title'])){
 			echo $args['before_title'];

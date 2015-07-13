@@ -51,7 +51,7 @@ function post_form($post_id = null){
 		/**
 		 * check author
 		 */
-		if($post->post_author != get_current_user_id()){
+		if($post->post_author != theme_cache::get_current_user_id()){
 			?>
 			<div class="page-tip"><?= status_tip('error',___('Sorry, you are not the post author, can not edit it.'));?></div>
 			<?php

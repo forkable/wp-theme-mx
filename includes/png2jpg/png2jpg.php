@@ -9,7 +9,7 @@ add_filter('theme_includes',function($fns){
 class theme_png2jpg{
 	public static $iden = 'theme_png2jpg';
 	public static function init(){
-		if(current_user_can('manage_options'))
+		if(theme_cache::current_user_can('manage_options'))
 			return;
 			
 		add_filter('wp_handle_upload_prefilter', __CLASS__ . '::filter_wp_handle_upload_prefilter' );

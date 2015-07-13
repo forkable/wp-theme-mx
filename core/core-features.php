@@ -6,7 +6,7 @@
  * Help you write a wp site quickly.
  *
  * @package KMTF
- * @version 5.0.2
+ * @version 5.0.3
  */
 theme_features::init();
 class theme_features{
@@ -50,7 +50,7 @@ class theme_features{
 			'theme_css' => self::get_theme_css(),
 		);
 		$config['vars'] = array(
-			'locale' => str_replace('-','_',get_bloginfo('language')),
+			'locale' => str_replace('-','_',theme_cache::get_bloginfo('language')),
 			'theme_js' => self::get_theme_js(),
 			'theme_css' => self::get_theme_css(),
 			'theme_images' => self::get_theme_images_url(),
@@ -234,7 +234,7 @@ class theme_features{
 			 */
 			case 'js':
 				if(!class_exists('theme_includes\JSMin')) 
-					include theme_features::get_theme_includes_path('class/jsmin.php');
+					include self::get_theme_includes_path('class/jsmin.php');
 					
 				$source = file_get_contents($file_path);
 				$min = theme_includes\JSMin::minify($source);
@@ -247,7 +247,7 @@ class theme_features{
 			 */
 			case 'css':
 				if(!class_exists('theme_includes\CSSMin')) 
-					include theme_features::get_theme_includes_path('class/cssmin.php');
+					include self::get_theme_includes_path('class/cssmin.php');
 					
 				$source = file_get_contents($file_path);
 				$cssmin = new theme_includes\CSSMin();
@@ -720,15 +720,11 @@ class theme_features{
 	 *
 	 * @param string
 	 * @return bool
-	 * @version 1.1.0
+	 * @version 1.1.1
 	 */
-	public static function check_referer($referer = null){
-		static $home_url = null;
-		if($home_url === null)
-			$home_url = home_url();
-			
+	public static function check_referer($referer = null){	
 		if(!$referer)
-			$referer = $home_url;
+			$referer = theme_cache::home_url();
 
 		if(!isset($_SERVER['HTTP_REFERER']) || stripos($_SERVER["HTTP_REFERER"],$referer) !== 0){
 			$output = array(
@@ -864,15 +860,15 @@ class theme_features{
 	 */
 	public static function get_thumbnail_src($post_id = null,$size = 'thumbnail',$replace_img = null){
 		static $caches = [];
-		$cache_id = md5(serialize(func_get_args()));
-		
-		if(isset($caches[$cache_id]))
-			return $caches[$cache_id];
-			
+
 		if(!$post_id){
 			global $post;
 			$post_id = $post->ID;
 		}
+		
+		$cache_id = $post_id . $size . $replace_img;
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
 		
 		$src = wp_get_attachment_image_src(get_post_thumbnail_id($post_id),$size);
 		
@@ -936,7 +932,7 @@ class theme_features{
 		global $post;
 		$post_obj = get_previous_post();
 		if($post_obj->ID){
-			$thumb_src = theme_features::get_thumbnail_src($post_obj->ID,$size,$replace_img);
+			$thumb_src = self::get_thumbnail_src($post_obj->ID,$size,$replace_img);
 		}else{
 			$thumb_src = null;
 		}
@@ -958,7 +954,7 @@ class theme_features{
 		global $post;
 		$post_obj = get_next_post();
 		if($post_obj->ID){
-			$thumb_src = theme_features::get_thumbnail_src($post_obj->ID,$size,$replace_img);
+			$thumb_src = self::get_thumbnail_src($post_obj->ID,$size,$replace_img);
 		}else{
 			$thumb_src = null;
 		}
@@ -1654,7 +1650,7 @@ class theme_features{
 	public static function get_theme_mtime(){
 		static $cache = null;
 		if($cache === null)
-			$cache = filemtime(theme_features::get_stylesheet_directory() . '/style.css');
+			$cache = filemtime(self::get_stylesheet_directory() . '/style.css');
 
 		return $cache;
 	}

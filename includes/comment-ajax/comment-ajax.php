@@ -161,7 +161,7 @@ class theme_comment_ajax{
 				$comment_author_email	= wp_slash( $user->user_email );
 				$comment_author_url		= wp_slash( $user->user_url );
 				$user_id				= $user->ID ;
-				if(current_user_can('unfiltered_html')){
+				if(theme_cache::current_user_can('unfiltered_html')){
 					if ( ! isset( $_POST['_wp_unfiltered_html_comment'] )
 						|| ! wp_verify_nonce( $_POST['_wp_unfiltered_html_comment'], 'unfiltered-html-comment_' . $comment_post_ID )
 					) {

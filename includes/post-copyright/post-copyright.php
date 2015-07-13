@@ -122,8 +122,8 @@ class theme_post_copyright{
 		$output_keywords = [
 			get_the_title(),
 			get_permalink(),
-			get_bloginfo('name'),
-			home_url()
+			theme_cache::get_bloginfo('name'),
+			theme_cache::home_url()
 		];
 		$codes = str_replace(
 			$tpl_keywords,

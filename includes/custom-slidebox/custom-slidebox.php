@@ -101,7 +101,7 @@ class theme_custom_slidebox{
 		/** 
 		 * check permission
 		 */
-		if(!current_user_can('manage_options')){
+		if(!theme_cache::current_user_can('manage_options')){
 			$output['status'] = 'error';
 			$output['code'] = 'invaild_permission';
 			$output['msg'] = ___('You have not permission to upload.');

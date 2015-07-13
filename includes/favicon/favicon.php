@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme_custom_favicon
 Feature URI:	http://www.inn-studio.com
-Version:		1.0.0
+Version:		1.0.1
 Description:	theme_custom_favicon
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -22,15 +22,15 @@ class theme_custom_favicon{
 	];
 	public static function init(){
 
-		add_action('page_settings',get_class() . '::display_backend');
-		add_action('wp_ajax_' . self::$iden,get_class() . '::process');
-		add_filter('theme_options_save',get_class() . '::options_save');
+		add_action('page_settings',__CLASS__ . '::display_backend');
+		add_action('wp_ajax_' . self::$iden,__CLASS__ . '::process');
+		add_filter('theme_options_save',__CLASS__ . '::options_save');
 
 		add_filter('after_backend_tab_init',__CLASS__ . '::backend_seajs_use');
 		add_filter('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 		add_action('backend_css',__CLASS__ . '::backend_css'); 
 
-		add_action('wp_head',get_class() . '::wp_head');
+		add_action('wp_head',__CLASS__ . '::wp_head');
 	}
 	private static function get_max_size(){
 		static $max_size;
@@ -115,7 +115,7 @@ class theme_custom_favicon{
 		/** 
 		 * check permission
 		 */
-		if(!current_user_can('manage_options')){
+		if(!theme_cache::current_user_can('manage_options')){
 			$output['status'] = 'error';
 			$output['code'] = 'invaild_permission';
 			$output['msg'] = ___('You have not permission to upload.');

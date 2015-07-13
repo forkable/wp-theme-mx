@@ -88,7 +88,7 @@ class theme_notification{
 			}	
 		}
 
-		return $title . $sep . get_bloginfo('name');
+		return $title . $sep . theme_cache::get_bloginfo('name');
 	}
 	public static function filter_query_vars($vars){
 		if(!in_array('page',$vars)) $vars[] = 'page';
@@ -132,33 +132,29 @@ class theme_notification{
 	 */
 	public static function clean_unread_notis(){
 		if(self::is_page()){
-			$old_metas = get_user_meta(get_current_user_id(),self::$user_meta_key['unread_count'],true);
+			$old_metas = get_user_meta(theme_cache::get_current_user_id(),self::$user_meta_key['unread_count'],true);
 			if(!empty($old_metas))
-				update_user_meta(get_current_user_id(),self::$user_meta_key['unread_count'],'');
+				update_user_meta(theme_cache::get_current_user_id(),self::$user_meta_key['unread_count'],'');
 		}
 	}
 	public static function get_url(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-			
-		$caches[self::$iden] = esc_url(get_permalink(theme_cache::get_page_by_path(self::$page_slug)));
-			
-		return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
+
+		return $cache;
 	}
 	public static function is_page(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache = theme_cache::is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
 
-		$caches[self::$iden] = is_page(self::$page_slug) && self::get_tabs(get_query_var('tab'));
-		
-		return $caches[self::$iden];
+		return $cache;
 	}
 
 	public static function get_count(array $args = []){
 		$defaults = array(
-			'user_id' => get_current_user_id(),
+			'user_id' => theme_cache::get_current_user_id(),
 			'type' => 'all',
 		);
 		$args = array_merge($defaults,$args);
@@ -184,7 +180,7 @@ class theme_notification{
 	}
 	public static function get_notifications(array $args = []){
 		$defaults = array(
-			'user_id' => get_current_user_id(),
+			'user_id' => theme_cache::get_current_user_id(),
 			'type' => 'all',/** all / unread / read */
 			'posts_per_page' => 20,
 			'paged' => 1,

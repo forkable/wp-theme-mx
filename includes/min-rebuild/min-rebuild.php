@@ -56,7 +56,7 @@ class theme_min_rebuild{
 	 * process
 	 */
 	public static function process(){
-		if(!current_user_can('manage_options'))
+		if(!theme_cache::current_user_can('manage_options'))
 			return false;
 		
 		@ini_set('max_input_nesting_level','10000');
