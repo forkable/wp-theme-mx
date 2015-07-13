@@ -1,5 +1,5 @@
 <?php
-$current_user_id = theme_cache::theme_cache::get_current_user_id();
+$current_user_id = theme_cache::get_current_user_id();
 ?>
 <div class="panel panel-default">
 	<div class="panel-heading">

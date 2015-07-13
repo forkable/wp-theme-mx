@@ -257,7 +257,7 @@ class theme_custom_point_bomb{
 		/**
 		 * check target is myself
 		 */
-		if(self::get_current_user_id() == $target_id){
+		if(theme_cache::get_current_user_id() == $target_id){
 			die(theme_features::json_format([
 				'status' => 'error',
 				'code' => 'target_is_myself',
