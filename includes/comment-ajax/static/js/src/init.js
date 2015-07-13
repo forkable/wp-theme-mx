@@ -468,7 +468,7 @@ define(function(require, exports, module){
 					if(data && data.status === 'success'){
 						/** do not use srcset */
 						data.comment = data.comment.replace('srcset','data-srcset');
-						var $new_comment = tools.parseHTML(data.comment)[0];
+						var $new_comment = tools.parseHTML(data.comment);
 						$new_comment.classList.add('new');
 						/**
 						 * if children respond

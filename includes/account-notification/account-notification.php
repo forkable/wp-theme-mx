@@ -556,7 +556,7 @@ class theme_notification{
 		
 		if($comment->comment_parent == 0)
 			return false;
-			
+		
 		/** get post author */
 		$post_author_id = self::get_post($comment->comment_post_ID)->post_author;
 		

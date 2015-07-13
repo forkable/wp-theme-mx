@@ -129,8 +129,23 @@ define(function(require, exports, module){
 	 */
 	
 	function upload(){
-		cache.$file.addEventListener('change',file_select,false);
-		cache.$file.addEventListener('drop',file_select,false);
+		cache.$file.addEventListener('change', file_select);
+		cache.$file.addEventListener('drop', file_drop);
+		cache.$file.addEventListener('dragover', dragover);
+	}
+	function dragover(evt){
+		evt.stopPropagation();
+		evt.preventDefault();
+		evt.dataTransfer.dropEffect = 'copy';
+	}
+	function file_drop(e){
+		e.stopPropagation();
+		e.preventDefault();
+		cache.files = e.dataTransfer.files;
+		cache.file_count = cache.files.length;
+		cache.file = cache.files[0];
+		cache.file_index = 0;
+		file_upload(cache.files[0]);
 	}
 	/**
 	 * file_select

@@ -16,7 +16,9 @@ ed.execCommand('mceInsertContent',false,h);}else if(qt){QTags.insertContent(h);}
 try{tb_remove();}catch(e){};}
 function load_thumbnails(){if(!config.edit||!config.attachs)
 return false;for(var i in config.attachs){append_tpl(config.attachs[i]);}}
-function upload(){cache.$file.addEventListener('change',file_select,false);cache.$file.addEventListener('drop',file_select,false);}
+function upload(){cache.$file.addEventListener('change',file_select);cache.$file.addEventListener('drop',file_drop);cache.$file.addEventListener('dragover',dragover);}
+function dragover(evt){evt.stopPropagation();evt.preventDefault();evt.dataTransfer.dropEffect='copy';}
+function file_drop(e){e.stopPropagation();e.preventDefault();cache.files=e.dataTransfer.files;cache.file_count=cache.files.length;cache.file=cache.files[0];cache.file_index=0;file_upload(cache.files[0]);}
 function file_select(e){e.stopPropagation();e.preventDefault();cache.files=e.target.files.length?e.target.files:e.originalEvent.dataTransfer.files;cache.file_count=cache.files.length;cache.file=cache.files[0];cache.file_index=0;file_upload(cache.files[0]);}
 function file_upload(file){var reader=new FileReader();reader.onload=function(e){file_submission(file);};reader.readAsDataURL(file);}
 function file_submission(file){file_beforesend_callback();var fd=new FormData(),xhr=new XMLHttpRequest();fd.append('type','upload');fd.append('theme-nonce',js_request['theme-nonce']);fd.append('img',file);xhr.open('post',config.process_url);xhr.onload=function(){if(xhr.status>=200&&xhr.status<400){file_complete_callback(xhr.responseText);}else{file_error_callback(xhr.responseText);}

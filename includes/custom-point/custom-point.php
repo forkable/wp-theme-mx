@@ -909,6 +909,12 @@ class theme_custom_point{
 	public static function action_add_history_core_comment_publish($comment_id){
 
 		$comment = get_comment($comment_id);
+		/**
+		 * return if visitor comment
+		 */
+		if($comment->user_id == 0)
+			return false;
+			
 		$comment_author_id = $comment->user_id;
 
 		$post = get_post($comment->comment_post_ID);
@@ -941,6 +947,12 @@ class theme_custom_point{
 	public static function action_add_history_core_post_reply($comment_id){
 		
 		$comment = get_comment($comment_id);
+		/**
+		 * return if visitor comment
+		 */
+		if($comment->user_id == 0)
+			return false;
+			
 		
 		$post = get_post($comment->comment_post_ID);
 		

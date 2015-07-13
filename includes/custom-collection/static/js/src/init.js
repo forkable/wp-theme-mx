@@ -361,9 +361,20 @@ define(function(require, exports, module){
 		if(!$file)
 			return false;
 
-		$file.addEventListener('change',file_select,false);
-		$file.addEventListener('drop',file_select,false);
-
+		$file.addEventListener('change',file_select);
+		$file.addEventListener('drop',file_drop);
+		$file.addEventListener('dragover',file_select);
+		function dragover(evt){
+			evt.stopPropagation();
+			evt.preventDefault();
+			evt.dataTransfer.dropEffect = 'copy';
+		}
+		function file_drop(e){
+			e.stopPropagation();
+			e.preventDefault();
+			_cache.files = e.dataTransfer.files;
+			file_upload(_cache.files[0]);
+		}
 		function file_select(e){
 			e.stopPropagation();
 			e.preventDefault();

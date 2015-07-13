@@ -4,9 +4,9 @@ define(function(require, exports, module){
 	var js_request = require('theme-cache-request');
 
 	exports.parseHTML = function(str) {
-		var tmp = document.implementation.createHTMLDocument();
-		tmp.body.innerHTML = str;
-		return tmp.body.children;
+		var tmp = document.createElement('div');
+		tmp.innerHTML = str;
+		return tmp.firstChild;
 	};
 
 	exports.scrollTop = function(y) {

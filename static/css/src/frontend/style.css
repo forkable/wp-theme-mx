@@ -610,7 +610,8 @@ label.error{
 	.comment-list .comment:hover{
 		background: rgba(0,0,0,.05)
 	}
-	.comment-list .comment.is-me > .comment-body{
+	.comment-list .comment.is-me > .comment-body,
+	.comment-list .comment.new > .comment-body{
 		background: #FBEC88;
 	}
 	.comment-list .comment.is-post-author > .comment-body .author{

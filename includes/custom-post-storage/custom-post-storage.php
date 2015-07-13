@@ -221,7 +221,7 @@ class theme_custom_storage{
 							<div class="form-group">
 								<div class="input-group input-group-lg">
 									<label for="<?= self::$iden,'-',$k;?>-pwd" class="input-group-addon" id="basic-addon1"><i class="fa fa-key"></i> <?= ___('Password');?></label>
-									<input type="text" id="<?= self::$iden,'-',$k;?>-pwd" class="form-control pwd" value="<?= esc_html($meta[$k]['pwd']);?>" size="5" onclick="this.select();" readonly>
+									<input type="text" id="<?= self::$iden,'-',$k;?>-pwd" class="form-control pwd" value="<?= esc_html($meta[$k]['pwd']);?>" size="5" onclick="this.select();" >
 								</div>
 								
 							</div>
