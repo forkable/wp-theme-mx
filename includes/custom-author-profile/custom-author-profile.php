@@ -66,51 +66,54 @@ class theme_custom_author_profile{
 				return (int)get_user_meta($user_id,self::$user_meta_key['following_count'],true);
 		}
 	}
-	public static function get_tabs($key = null,$author_id){
-		static $caches = [], $baseurl;
-		$cache_id = md5(serialize(func_get_args()));
+	public static function get_tabs($key,$author_id){
+		static $caches = [], $baseurl = [];
 		
-		if(isset($caches[$cache_id]))
-			return $caches[$cache_id];
+		if(isset($caches[$author_id])){
+			if($key)
+				return isset($caches[$author_id][$key]) ? $caches[$author_id][$key] : null;
+			return $caches[$author_id];
+		}
 		
-		if(!$baseurl)
-			$baseurl = theme_cache::get_author_posts_url($author_id);
+		if(!isset($baseurl[$author_id]))
+			$baseurl[$author_id] = theme_cache::get_author_posts_url($author_id);
 			
-		$caches = array(
+		$caches[$author_id] = array(
 			'profile' => array(
 				'text' => ___('Profile'),
 				'icon' => 'newspaper-o',
-				'url' => esc_url($baseurl)
+				'url' => esc_url($baseurl[$author_id])
 			),
 			'works' => array(
 				'text' => ___('Works'),
 				'icon' => 'file-text',
-				'url' => esc_url(add_query_arg('tab','works',$baseurl)),
+				'url' => esc_url(add_query_arg('tab','works',$baseurl[$author_id])),
 				'count' => self::get_count('works',$author_id),
 			),
 			'comments' => array(
 				'text' => ___('Comments'),
 				'icon' => 'comments',
-				'url' => esc_url(add_query_arg('tab','comments',$baseurl)),
+				'url' => esc_url(add_query_arg('tab','comments',$baseurl[$author_id])),
 				'count' => self::get_count('comments',$author_id),
 			),
 			'followers' => array(
 				'text' => ___('Followers'),
 				'icon' => 'venus-double',
-				'url' => esc_url(add_query_arg('tab','followers',$baseurl)),
+				'url' => esc_url(add_query_arg('tab','followers',$baseurl[$author_id])),
 				'count' => self::get_count('followers_count',$author_id),
 			),
 			'following' => array(
 				'text' => ___('Following'),
 				'icon' => 'venus-mars',
-				'url' => esc_url(add_query_arg('tab','following',$baseurl)),
+				'url' => esc_url(add_query_arg('tab','following',$baseurl[$author_id])),
 				'count' => self::get_count('following_count',$author_id),
 			)
 		);
 		if($key){
-			return isset($caches[$key]) ? $caches[$key] : null;
+			
+			return isset($caches[$author_id][$key]) ? $caches[$author_id][$key] : null;
 		}
-		return $caches;
+		return $caches[$author_id];
 	}
 }
 ?>

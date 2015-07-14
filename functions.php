@@ -331,13 +331,13 @@ class theme_functions{
 	 * @version 1.0.0
 	 */
 	public static function archive_img_content(array $args = []){
+		global $post;
 		$defaults = array(
 			'classes' => [],
 			'lazyload' => true,
 		);
 		$args = array_merge($defaults,$args);
 
-		global $post;
 		$args['classes'][] = 'post-list post-img-list';
 		
 		$post_title = esc_html(get_the_title());

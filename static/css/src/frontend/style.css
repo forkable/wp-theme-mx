@@ -467,6 +467,21 @@ img{
 		color:#b2b2b2;
 		font-size: 12px;
 	}
+/**
+ * .widget .post-img-list
+ */
+.widget .post-img-lists{
+	margin: -10px;
+	padding: 0;
+}
+.widget .post-img-list{
+	border-bottom: none;
+	margin-bottom: 10px;
+}
+
+.widget-title .more{
+	float: right;
+}
 label.error{
 	background:#E36532;
 	position:relative;
