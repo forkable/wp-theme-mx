@@ -184,7 +184,7 @@ label{
 	box-sizing: border-box;*/
 }
 body{
-	font-family: STheiti,Verdana,'Microsoft Yahei',arial,sans-serif;
+	font-family: 'Microsoft Yahei','Helvetica Neue',arial,sans-serif;
 	font-size: 14px;
 	background: #E3E3E3;
 }
@@ -589,10 +589,6 @@ label.error{
 		min-height: 80px;
 	}
 	#commentform .submit{
-		height: 80px;
-		width: 80px;
-		font-size: 40px;
-		line-height: 40px;
 	}
 	#commentform label{
 		font-weight: normal;

@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme-cache
 Feature URI:	http://inn-studio.com
-Version:		2.1.4
+Version:		2.1.5
 Description:	theme-cache
 Author:			INN STUDIO
 Author URI:		http://inn-studio.com
@@ -243,6 +243,12 @@ class theme_cache{
 			$caches[$path] = home_url($path);
 			return $caches[$path];
 		}
+	}
+	public static function is_singular(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_singular();
+		return $cache;
 	}
 	public static function is_page($page = null){
 		static $caches = [],$cache = null;

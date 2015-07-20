@@ -203,7 +203,7 @@ class theme_custom_user_settings{
 				$old_pwd = isset($user['old-pwd']) && is_string($user['old-pwd']) ? trim($user['old-pwd']) : null;
 
 				if(empty($old_pwd) || 
-					wp_check_password($old_pwd,$current_user->user_pass,$current_user->ID)){
+					!wp_check_password($old_pwd,$current_user->user_pass,$current_user->ID)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_old_pwd';
 					$output['msg'] = ___('Invaild current password.');

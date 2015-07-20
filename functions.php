@@ -1891,22 +1891,38 @@ class theme_functions{
 						</div><!-- /.form-group -->
 					</div><!-- /.col-sm-6 -->
 				</div><!-- /.row -->				
-				<div class="form-group">
-					<div class="input-group">
-						<textarea 
-							name="comment" 
-							id="comment-form-comment" 
-							class="form-control" 
-							rows="2" 
-							placeholder="<?= ___('Hi, have something to say?');?>"
-							title="<?= ___('Nothing to say?');?>"
-							required 
-						></textarea>
-						<span class="input-group-btn">
-							<button type="submit" class="submit btn btn-success" >
-								<i class="fa fa-check fa-fw"></i>
-							</button>
-						</span>
+				<div class="form-group btn-group-textarea">
+					<textarea 
+						name="comment" 
+						id="comment-form-comment" 
+						class="form-control" 
+						rows="2" 
+						placeholder="<?= ___('Hi, have something to say?');?>" 
+						title="<?= ___('Nothing to say?');?>" 
+						required 
+					></textarea>
+					<?php
+					/**
+					 * theme comment emotion pop btn
+					 */
+					if(class_exists('theme_comment_emotion') && (theme_comment_emotion::is_enabled('kaomoji') || theme_comment_emotion::is_enabled('img'))){
+						theme_comment_emotion::display_frontend('pop');
+					}
+					?>
+					<div class="btn-group btn-group-submit">
+						<?php
+						/**
+						 * theme comment emotion
+						 */
+						if(class_exists('theme_comment_emotion') && (theme_comment_emotion::is_enabled('kaomoji') || theme_comment_emotion::is_enabled('img'))){
+							theme_comment_emotion::display_frontend('pop-btn');
+						}
+						?>
+						<button type="submit" class="submit btn btn-success" >
+							<i class="fa fa-check"></i> 
+							<?= ___('Post comment');?>
+						</button>
+						
 					</div>
 				</div><!-- .form-group -->
 			</div><!-- /.media-body -->
