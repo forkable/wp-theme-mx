@@ -74,7 +74,8 @@ class widget_comments extends WP_Widget{
 					if(!isset($caches['avatar_placeholder']))
 						$caches['avatar_placeholder'] = esc_url(theme_features::get_theme_images_url(theme_functions::$avatar_placeholder));
 
-					
+					/** comment text */
+					$comment_text = str_sub(strip_tags(preg_replace('/<img[^>]+>/i','[' . ___('Image') . ']',get_comment_text($comment->comment_ID))),35);
 					?>
 <li class="list-group-item">
 	<a class="media" href="<?= $caches['permalinks'][$comment->comment_post_ID];?>#comment-<?= $comment->comment_ID;?>" title="<?= esc_attr($caches['post_title'][$comment->comment_post_ID]);?>">
@@ -88,7 +89,7 @@ class widget_comments extends WP_Widget{
 					<small><?= friendly_date(get_comment_time('U'));?></small>
 				</time>
 			</h4>
-			<div class="text"><?= str_sub(strip_tags(get_comment_text($comment->comment_ID),'<img>'),35);?></div>
+			<div class="text"><?= $comment_text;?></div>
 		</div>
 	</a>
 </li>

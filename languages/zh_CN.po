@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-20 00:05+0800\n"
-"PO-Revision-Date: 2015-07-20 00:07+0800\n"
+"POT-Creation-Date: 2015-07-20 08:39+0800\n"
+"PO-Revision-Date: 2015-07-20 08:40+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -568,8 +568,8 @@ msgstr "启用"
 
 #: includes/_comment-notify/comment-notify.php:53
 #: includes/comment-ajax/comment-ajax.php:98
-#: includes/comment-emotion/comment-emotion.php:113
-#: includes/comment-emotion/comment-emotion.php:128
+#: includes/comment-emotion/comment-emotion.php:117
+#: includes/comment-emotion/comment-emotion.php:132
 #: includes/gravatar-fix/gravatar-fix.php:38
 #: includes/link-manager/link-manager.php:34 includes/mailer/mailer.php:106
 #: includes/post-copyright/post-copyright.php:43
@@ -904,40 +904,37 @@ msgid ""
 "please try again later."
 msgstr "抱歉，服务器发生了一些错误，该操作无法完成，请稍后重试。"
 
-#: includes/comment-emotion/comment-emotion.php:103
+#: includes/comment-emotion/comment-emotion.php:107
 msgid "Comment emoticon settings"
 msgstr "评论表情设置"
 
-#: includes/comment-emotion/comment-emotion.php:104
+#: includes/comment-emotion/comment-emotion.php:108
 msgid "Comment can use Kaomoji or image emotions if enable."
 msgstr "如果启用的话，评论可以使用 颜文字或图片表情。"
 
-#: includes/comment-emotion/comment-emotion.php:108
+#: includes/comment-emotion/comment-emotion.php:112
 msgid "Kaomoji emoticon"
 msgstr "颜文字表情"
 
-#: includes/comment-emotion/comment-emotion.php:119
-#: includes/comment-emotion/comment-emotion.php:134
+#: includes/comment-emotion/comment-emotion.php:123
+#: includes/comment-emotion/comment-emotion.php:138
 msgid "One per line."
 msgstr "每行一个"
 
-#: includes/comment-emotion/comment-emotion.php:123
+#: includes/comment-emotion/comment-emotion.php:127
+#: includes/comment-emotion/comment-emotion.php:163
 msgid "Image emoticon"
 msgstr "图片表情"
 
-#: includes/comment-emotion/comment-emotion.php:132
+#: includes/comment-emotion/comment-emotion.php:136
 msgid "E.g. img01 = http://exmaple.com/img01.jpg"
 msgstr "例如 吃惊 = http://exmaple.com/img01.jpg"
 
-#: includes/comment-emotion/comment-emotion.php:156
+#: includes/comment-emotion/comment-emotion.php:160
 msgid "Kaomoji"
 msgstr "颜文字"
 
-#: includes/comment-emotion/comment-emotion.php:159
-msgid "Image"
-msgstr "图表情"
-
-#: includes/comment-emotion/comment-emotion.php:196
+#: includes/comment-emotion/comment-emotion.php:200
 msgid "Emotion"
 msgstr "表情"
 
@@ -1956,8 +1953,8 @@ msgstr "暂无匹配到的用户。"
 #: includes/widget-author-posts/widget-author-posts.php:98
 #: includes/widget-author/widget-author.php:133
 #: includes/widget-author/widget-author.php:140
-#: includes/widget-comments/widget-comments.php:111
-#: includes/widget-comments/widget-comments.php:118
+#: includes/widget-comments/widget-comments.php:112
+#: includes/widget-comments/widget-comments.php:119
 #: includes/widget-rank/widget-rank.php:93
 #: includes/widget-rank/widget-rank.php:100
 #: includes/widget-tags/widget-tags.php:132
@@ -3710,11 +3707,15 @@ msgstr "显示最新的评论"
 msgid "Latest comments"
 msgstr "最新评论"
 
-#: includes/widget-comments/widget-comments.php:101
+#: includes/widget-comments/widget-comments.php:78
+msgid "Image"
+msgstr "图片"
+
+#: includes/widget-comments/widget-comments.php:102
 msgid "No any comment yet."
 msgstr "暂无任何评论。"
 
-#: includes/widget-comments/widget-comments.php:122
+#: includes/widget-comments/widget-comments.php:123
 msgid "Number"
 msgstr "数量"
 

@@ -160,7 +160,7 @@ class theme_comment_emotion{
 					<a href="javascript:;" class="comment-emotion-pop-btn btn btn-default" data-target="#<?= self::$iden;?>-kaomoji"><i class="fa fa-font"></i><span class="hidden-xs"> <?= ___('Kaomoji');?></span></a>
 				<?php } ?>
 				<?php if(self::is_enabled('img')){ ?>
-					<a href="javascript:;" class="comment-emotion-pop-btn btn btn-default" data-target="#<?= self::$iden;?>-img"><i class="fa fa-smile-o"></i><span class="hidden-xs"> <?= ___('Image');?></span></a>
+					<a href="javascript:;" class="comment-emotion-pop-btn btn btn-default" data-target="#<?= self::$iden;?>-img"><i class="fa fa-smile-o"></i><span class="hidden-xs"> <?= ___('Image emoticon');?></span></a>
 					
 				<?php } ?>
 				<?php
