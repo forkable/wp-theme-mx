@@ -113,7 +113,7 @@ class theme_comment_ajax{
 	}
 	public static function process(){
 
-		//theme_features::check_referer();
+		theme_features::check_referer();
 		theme_features::check_nonce();
 	
 		$output = [];
@@ -144,6 +144,8 @@ class theme_comment_ajax{
 			$comment_parent = isset($_POST['comment_parent']) && is_numeric($_POST['comment_parent']) ? $_POST['comment_parent'] : null;
 			
 			$output['status'] = 'success';
+			kses_remove_filters();
+
 			/**
 			 * If logged
 			 */
@@ -161,14 +163,14 @@ class theme_comment_ajax{
 				$comment_author_email	= wp_slash( $user->user_email );
 				$comment_author_url		= wp_slash( $user->user_url );
 				$user_id				= $user->ID ;
-				if(theme_cache::current_user_can('unfiltered_html')){
-					if ( ! isset( $_POST['_wp_unfiltered_html_comment'] )
-						|| ! wp_verify_nonce( $_POST['_wp_unfiltered_html_comment'], 'unfiltered-html-comment_' . $comment_post_ID )
-					) {
-						kses_remove_filters(); // start with a clean slate
-						kses_init_filters(); // set up the filters
-					}
-				}
+				//if(theme_cache::current_user_can('unfiltered_html')){
+				//	if ( ! isset( $_POST['_wp_unfiltered_html_comment'] )
+				//		|| ! wp_verify_nonce( $_POST['_wp_unfiltered_html_comment'], 'unfiltered-html-comment_' . $comment_post_ID )
+				//	) {
+						//kses_remove_filters(); // start with a clean slate
+						//kses_init_filters(); // set up the filters
+				//	}
+				//}
 			/**
 			 * If not login, just visitor
 			 */
