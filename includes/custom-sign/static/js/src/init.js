@@ -33,13 +33,11 @@ define(function(require, exports, module){
 			cache.$fm_reset = I(config.fm_reset_id);
 			if(!cache.$fm_reset)
 				return false;
-			tools.auto_focus(cache.$fm_reset);
 			var m = new tools.validate();
 				m.process_url = config.process_url;
 				m.done = function(data){
 					if(data && data.status === 'success'){
-						location.hash = '';
-						location.reload();
+						location.href = data.redirect;
 					}
 				};
 				m.loading_tx = config.lang.M00001;
@@ -58,7 +56,6 @@ define(function(require, exports, module){
 			if(!cache.$fm_recover)
 				return false;
 			
-			tools.auto_focus(cache.$fm_recover);
 			var m = new tools.validate();
 				m.process_url = config.process_url;
 				m.loading_tx = config.lang.M00001;
@@ -71,7 +68,7 @@ define(function(require, exports, module){
 		init : function(){
 			cache.$fm_login = I(config.fm_login_id);
 			if(cache.$fm_login){
-				tools.auto_focus(cache.$fm_login);
+
 				var m = new tools.validate();
 					m.process_url = config.process_url;
 					m.done = function(data){
@@ -87,7 +84,7 @@ define(function(require, exports, module){
 			}else{
 				cache.$fm_reg = I(config.fm_reg_id);
 				if(cache.$fm_reg){
-					tools.auto_focus(cache.$fm_reg);
+
 					var m = new tools.validate();
 						m.process_url = config.process_url;
 						m.done = function(data){

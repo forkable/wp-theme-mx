@@ -147,15 +147,16 @@ class theme_custom_sign{
 		static $baseurl = null;
 		if($baseurl === null)
 			$baseurl = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
-		
-		if(!$redirect)
-			$redirect =  get_query_var('redirect');
 			
-		if($redirect){
+		if($redirect === null)
+			$redirect = get_query_var('redirect');
+			
+		if(!empty($redirect)){
 			$baseurl = add_query_arg([
 				'redirect' => $redirect
 			],$baseurl);
 		}
+
 		$tabs = [
 			'login' => [
 				'text' => ___('Login'),
@@ -228,12 +229,6 @@ class theme_custom_sign{
 		foreach($page_slugs as $k => $v){
 			theme_cache::get_page_by_path($k) || wp_insert_post(array_merge($defaults,$v));
 		}
-	}
-	/** 
-	 * set_html_content_type
-	 */
-	public static function set_html_content_type(){
-		return 'text/html';
 	}
 	public static function wp_title($title, $sep){
 		if(theme_cache::is_user_logged_in() || !self::is_page()) 
@@ -449,10 +444,10 @@ class theme_custom_sign{
 					'user_email' => $user->user_email,
 				);
 				$encode_str = json_encode($encode_arr);
-				$encode = authcode($encode_str,'encode',AUTH_KEY,7200);
+				$encode = base64_encode(authcode($encode_str,'encode',AUTH_KEY,7200));
 				$callback_url = esc_url(add_query_arg([
 					'token' => $encode,
-				],self::get_tabs('reset')['ur']));
+				],self::get_tabs('reset')['url']));
 
 				$content = '
 					<h3>' . sprintf(___('Dear %s!'),esc_html($user->display_name)) . '</h3>
@@ -463,15 +458,14 @@ class theme_custom_sign{
 				';
 				$title = ___('You are applying to reset your password.');
 				
-
-				add_filter( 'wp_mail_content_type',__CLASS__ . '::set_html_content_type');
+				$headers = ['Content-Type: text/html; charset=UTF-8'];
 				
 				$wp_mail = wp_mail(
 					$user->user_email,
 					$title,
-					$content
+					$content,
+					$headers
 				);
-				remove_filter( 'wp_mail_content_type',__CLASS__ . '::set_html_content_type');
 				/** 
 				 * check wp_mail is success or not
 				 */
@@ -496,50 +490,35 @@ class theme_custom_sign{
 					$output['msg'] = ___('Sorry, the param is invalid.');
 					die(theme_features::json_format($output));
 				}
-				/** email */
-				if(!$email){
+				$token = isset($user['token']) && is_string($user['token']) ? $user['token'] : false;
+				if(!$token){
 					$output['status'] = 'error';
-					$output['code'] = 'invalid_email';
-					$output['msg'] = ___('Sorry, your email is invalid.');
+					$output['code'] = 'invaild_token';
+					$output['msg'] = ___('Sorry, the token is invaild.');
 					die(theme_features::json_format($output));
 				}
-				/** pwd */
-				$pwd_new = isset($user['pwd-new']) && is_string($user['pwd-new']) ? $user['pwd-new'] : null;
+				/** pwd again */
 				$pwd_again = isset($user['pwd-again']) && is_string($user['pwd-again']) ?  $user['pwd-again'] : null;
-				if(empty($pwd_new) || $pwd_new !== $pwd_again){
+				if(empty($pwd) || $pwd !== $pwd_again){
 					$output['status'] = 'error';
 					$output['code'] = 'invalid_twice_pwd';
 					$output['msg'] = ___('Sorry, twice password is invaild, please try again.');
 					die(theme_features::json_format($output));
 				}
-				/** token */
-				$token = isset($user['token']) && is_string($user['token']) ? $user['token'] : null;
-				if(empty($token)){
-					$output['status'] = 'error';
-					$output['code'] = 'empty_token';
-					$output['msg'] = ___('Sorry, token is invaild.');
-					die(theme_features::json_format($output));
-				}
+
 				/** decode token */
-				$token_decode = authcode($token,'decode',AUTH_KEY);
+				$token_decode = self::get_decode_token($token);
 				if(!$token_decode){
 					$output['status'] = 'error';
 					$output['code'] = 'expired_token';
 					$output['msg'] = ___('Sorry, the token is expired.');
 					die(theme_features::json_format($output));
 				}
-				/** unserialize token */
-				$token_arr = json_decode($token_decode,true);
-				if(!$token_arr || !is_array($token_arr)){
-					$output['status'] = 'error';
-					$output['code'] = 'invalid_token';
-					$output['msg'] = ___('This token is expired.');
-					die(theme_features::json_format($output));
-				}
-				$token_user_id = isset($token_arr['user_id']) && is_numeric($token_arr['user_id']) ? $token_arr['user_id'] : null;
-				$token_user_email = isset($token_arr['user_email']) ? $token_arr['user_email'] : null;
+
+				$token_user_id = isset($token_decode['user_id']) && is_numeric($token_decode['user_id']) ? $token_decode['user_id'] : null;
+				$token_user_email = isset($token_decode['user_email']) && is_email($token_decode['user_email']) ? $token_decode['user_email'] : null;
 				/** check token email is match post email */
-				if($token_user_email != $email){
+				if(!$token_user_email){
 					$output['status'] = 'error';
 					$output['code'] = 'token_email_not_match';
 					$output['msg'] = ___('Sorry, the token email and you account email do not match.');
@@ -547,11 +526,12 @@ class theme_custom_sign{
 				}
 				
 				/** check post email exists */
-				$user_id = (int)email_exists($email);
-				if(!$user_id){
+				$user_id = (int)email_exists($token_user_email);
+				if($user_id != $token_decode['user_id']){
 					$output['status'] = 'error';
 					$output['code'] = 'email_not_exist';
 					$output['msg'] = ___('Sorry, your account email is not exist.');
+					die(theme_features::json_format($output));
 				}
 				/** check user already apply to recover password */
 				if(!get_user_meta($user_id,'_tmp_recover_pwd',true)){
@@ -561,7 +541,7 @@ class theme_custom_sign{
 				}
 				/** all ok, just set new password */
 				delete_user_meta($user_id,'_tmp_recover_pwd');
-				wp_set_password($post_pwd_new,$user_id);
+				wp_set_password($pwd,$user_id);
 				wp_set_current_user($user_id);
 				wp_set_auth_cookie($user_id,true);
 				$output['status'] = 'success';
@@ -576,6 +556,10 @@ class theme_custom_sign{
 		}
 		
 		die(theme_features::json_format($output));
+	}
+	public static function get_decode_token($token){
+		$token = authcode(base64_decode($token),'decode',AUTH_KEY);
+		return $token ? json_decode($token,true) : false;
 	}
 	public static function cache_request($datas){
 		if(theme_cache::is_user_logged_in()){

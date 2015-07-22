@@ -168,9 +168,11 @@ define(function(require, exports, module){
 							}else if(data.status === 'error'){
 								exports.ajax_loading_tip(data.status,data.msg);
 								if(data.code && data.code.indexOf('pwd') !== -1){
-									that.$fm.querySelector('input[type=password]').select();
+									var $pwd = that.$fm.querySelector('input[type=password]');
+									$pwd && $pwd.select();
 								}else if(data.code && data.code.indexOf('email') !== -1){
-									that.$fm.querySelector('input[type=email]').select();
+									var $email = that.$fm.querySelector('input[type=email]');
+									$email && $email.select();
 								}
 								cache.$submit.removeAttribute('disabled');
 							}

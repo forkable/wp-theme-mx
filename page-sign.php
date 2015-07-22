@@ -114,12 +114,8 @@ $open_sign_html();
 	<div class="panel-heading">
 		<h3><?= ___('Recover password');?></h3>
 	</div>
+
 	<div class="panel-body">
-		<div class="page-tip">
-			<?= status_tip('info',___('System updating...'));?>
-		</div>
-	</div>
-	<div class="panel-body none">
 		<form action="javascript:;" id="fm-sign-recover">
 			<div class="form-group"><?= ___('If you forgot your account password, you can recover your password by your account email. Please entry your account email, we will send a confirm email to it and reset your password.');?></div>
 			<div class="form-group">
@@ -151,6 +147,52 @@ $open_sign_html();
 	</div>
 </div>
 				<?php
+				break;
+			/** reset */
+			case 'reset':
+				$token = isset($_GET['token']) && is_string($_GET['token']) ? $_GET['token'] : null;
+				$decode_token = theme_custom_sign::get_decode_token($token);
+?>
+<div class="panel panel-default mx-sign-panel mx-sign-panel-<?= $tab_active;?>">
+	<div class="panel-heading">
+		<h3><?= ___('Reset my password');?></h3>
+	</div>
+	<div class="panel-body">
+		<?php if(!isset($decode_token['user_id']) || !isset($decode_token['user_email'])){ ?>
+			<div class="page-tip">
+				<?= status_tip('error',___('Sorry, the url is expired, please recover password again.'));?>
+			</div>
+			<div class="page-tip">
+				<a href="<?= theme_custom_sign::get_tabs('recover')['url'];?>" class="btn btn-success btn-block"><i class="fa fa-history"></i> <?= ___('Recover password');?></a>
+			</div>
+		<?php }else{ ?>
+			<p><?= sprintf(___('You are resetting %s password, please type your new password.'),'<strong>' . $decode_token['user_email'] . '</strong>');?></p>
+			<form action="javascript:;" id="fm-sign-<?= $tab_active;?>">
+				<div class="form-group">
+					<div class="input-group">
+						<label for="sign-pwd" class="input-group-addon"><i class="fa fa-key fa-fw"></i></label>
+						<input type="password" name="user[pwd]" id="sign-pwd" class="form-control" title="<?= ___('Please type new password');?>" required tabindex="1" autofocus placeholder="<?= ___('Please type new password');?>">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<label for="sign-pwd-again" class="input-group-addon"><i class="fa fa-key fa-fw"></i></label>
+						<input type="password" name="user[pwd-again]" id="sign-pwd-again" class="form-control" title="<?= ___('Retype new password');?>" required tabindex="1" placeholder="<?= ___('Retype new password');?>">
+					</div>
+				</div>
+				<div class="form-group form-group-submit">
+					<button type="submit" class="btn btn-success btn-block btn-lg submit" tabindex="1">
+						<i class="fa fa-check"></i> 
+						<?= ___('Reset');?>
+					</button>
+					<input type="hidden" name="user[token]" value="<?= isset($_GET['token']) && is_string($_GET['token']) ? $_GET['token'] : null;?>">
+					<input type="hidden" name="type" value="reset">
+				</div>
+			</form>
+		<?php } ?>
+	</div>
+</div>
+<?php
 				break;
 			/**
 			 * login
