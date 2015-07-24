@@ -27,9 +27,7 @@ define(function(require, exports, module){
 	}
 	function insert(){
 		function insert_content(){
-			setTimeout(function(){
-				cache.$comment.focus();
-			},1);
+			cache.$comment.focus();
 			var caret_pos = cache.$comment.selectionStart,
 				old_val = cache.$comment.value;
 			cache.$pop[cache.active_pop_i].style.display = 'none';
@@ -47,8 +45,11 @@ define(function(require, exports, module){
 	function pop(){
 		function hide_pop(e){
 			e.preventDefault();
-			if(cache.active_pop_i !== false)
+			if(cache.active_pop_i !== false){
 				cache.$pop[cache.active_pop_i].style.display = 'none';
+				cache.$comment.focus();
+			}
+				
 		}
 		function show_pop(){
 			/**
@@ -67,13 +68,13 @@ define(function(require, exports, module){
 					
 				}
 			}
-			/** replace data-src to src attribute */
+			/** replace data-url to src attribute */
 			if(!cache.replaced[cache.active_pop_i]){
 				cache.replaced[cache.active_pop_i] = true;
 				var $imgs = cache.$pop[cache.active_pop_i].querySelectorAll('img');
 				for(var i = 0, len = $imgs.length; i < len; i++){
-					$imgs[i].src = $imgs[i].getAttribute('data-src');
-					$imgs[i].removeAttribute('data-src');
+					$imgs[i].src = $imgs[i].getAttribute('data-url');
+					$imgs[i].removeAttribute('data-url');
 				}
 			}
 		}

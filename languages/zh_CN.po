@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-22 22:32+0800\n"
-"PO-Revision-Date: 2015-07-22 22:32+0800\n"
+"POT-Creation-Date: 2015-07-24 16:14+0800\n"
+"PO-Revision-Date: 2015-07-24 16:16+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -30,7 +30,7 @@ msgstr "评论"
 msgid "Respond"
 msgstr "添加评论"
 
-#: comments.php:27 core/core-options.php:166 functions.php:1835
+#: comments.php:27 core/core-options.php:166 functions.php:1868
 #: includes/clean-up/clean-up.php:227
 #: includes/comment-ajax/comment-ajax.php:472
 #: includes/custom-collection/custom-collection.php:574
@@ -119,7 +119,7 @@ msgstr "%d天前"
 msgid "%dm ago"
 msgstr "%d个月前"
 
-#: core/core-functions.php:708 functions.php:630
+#: core/core-functions.php:708 functions.php:629
 msgid "M j, Y"
 msgstr "Y年m月d日"
 
@@ -318,229 +318,205 @@ msgstr "顶/赞"
 msgid "Comment count"
 msgstr "评论统计"
 
-#: functions.php:405 functions.php:642 includes/post-views/post-views.php:190
+#: functions.php:405 functions.php:641 includes/post-views/post-views.php:190
 #: tpl/page-account-edit.php:24
 msgid "Views"
 msgstr "查看数"
 
-#: functions.php:608 functions.php:635
+#: functions.php:607 functions.php:634
 #, php-format
 msgid "Views all post by %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:609
+#: functions.php:608
 msgid "Author avatar"
 msgstr "作者头像"
 
-#: functions.php:623 tpl/page-account-contribution.php:144
+#: functions.php:622 tpl/page-account-contribution.php:144
 #: tpl/page-account-post.php:212
 msgid "Category"
 msgstr "分类"
 
-#: functions.php:733
+#: functions.php:728
 msgid "comment"
 msgstr "评论"
 
-#: functions.php:733
+#: functions.php:728
 msgid "comments"
 msgstr "评论"
 
-#: functions.php:762
+#: functions.php:757
 msgid ", "
 msgstr "、"
 
-#: functions.php:771 functions.php:785
+#: functions.php:766 functions.php:780
 #, php-format
 msgid "Views all posts by %s tag"
 msgstr "查看 %s 标签下的所有文章"
 
-#: functions.php:863 functions.php:873
+#: functions.php:858 functions.php:868
 msgid "No more post found"
 msgstr "暂无更多文章"
 
-#: functions.php:865
+#: functions.php:860 functions.php:1367
 #, php-format
 msgid "Previous post: %s"
 msgstr "上一篇：%s"
 
-#: functions.php:866 functions.php:1018
+#: functions.php:861 functions.php:1013
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: functions.php:875
+#: functions.php:870 functions.php:1384
 #, php-format
 msgid "Next post: %s"
 msgstr "下一篇：%s"
 
-#: functions.php:877 functions.php:1019
+#: functions.php:872 functions.php:1014
 msgid "&raquo;"
 msgstr "&raquo;"
 
-#: functions.php:911 functions.php:913
+#: functions.php:906 functions.php:908
 msgid "Back to Homepage"
 msgstr "返回到首页"
 
-#: functions.php:926
+#: functions.php:921
 msgid "Category Browser"
 msgstr "目录浏览"
 
-#: functions.php:933
+#: functions.php:928
 msgid "Tags Browser"
 msgstr "标签归档浏览"
 
-#: functions.php:951
+#: functions.php:946
 msgid "Date Browser"
 msgstr "日期归档浏览"
 
-#: functions.php:955
+#: functions.php:950
 #, php-format
 msgid "Search Result: %s"
 msgstr "搜索结果：%s"
 
-#: functions.php:961 includes/widget-author-posts/widget-author-posts.php:23
+#: functions.php:956 includes/widget-author-posts/widget-author-posts.php:23
 #: includes/widget-author-posts/widget-author-posts.php:83
 msgid "Author posts"
 msgstr "作者文章"
 
-#: functions.php:965
+#: functions.php:960
 msgid "Archive Browser"
 msgstr "归档浏览"
 
-#: functions.php:983
+#: functions.php:978
 #, php-format
 msgid "View all posts in %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:990
+#: functions.php:985
 msgid "Not found"
 msgstr "暂无资料"
 
-#: functions.php:1034
+#: functions.php:1029
 msgid "Posts pagination navigation"
 msgstr "文章分页导航"
 
-#: functions.php:1063 functions.php:1650
+#: functions.php:1058 functions.php:1314 functions.php:1683
 msgid "Previous page"
 msgstr "上一页"
 
-#: functions.php:1072 functions.php:1087 functions.php:1095 functions.php:1105
+#: functions.php:1067 functions.php:1082 functions.php:1090 functions.php:1100
 #, php-format
 msgid "Page %d"
 msgstr "第 %d 页"
 
-#: functions.php:1220
+#: functions.php:1215
 msgid ""
 "Sorry, I was not able to find what you need, what about look at other "
 "content :)"
 msgstr "抱歉，我没能找到您需要的内容，不放看看其他东西 ：）"
 
-#: functions.php:1230 includes/widget-adbox/widget-adbox.php:51
-msgid "All"
-msgstr "全部"
-
-#: functions.php:1231
-msgid "Daily"
-msgstr "每日"
-
-#: functions.php:1232
-msgid "Weekly"
-msgstr "每周"
-
-#: functions.php:1233
-msgid "Monthly"
-msgstr "每月"
-
-#: functions.php:1339
-msgid "Preview page"
-msgstr "上一页"
-
-#: functions.php:1339
-msgid "Preview post"
-msgstr "上一篇"
-
-#: functions.php:1348 functions.php:1647
+#: functions.php:1320 functions.php:1680
 msgid "Next page"
 msgstr "下一页"
 
-#: functions.php:1348
-msgid "Next post"
-msgstr "下一篇"
+#: functions.php:1364 functions.php:1381
+msgid "Placeholder"
+msgstr "占位符"
 
-#: functions.php:1440
+#: functions.php:1473
 msgid "Your comment is awaiting moderation."
 msgstr "您的评论正在审核中。"
 
-#: functions.php:1466
+#: functions.php:1499
 msgid "Reply"
 msgstr "回复"
 
-#: functions.php:1547 includes/related-post/related-post.php:54
+#: functions.php:1580 includes/related-post/related-post.php:54
 msgid "Maybe you will like them"
 msgstr "或许您会喜欢"
 
-#: functions.php:1579
+#: functions.php:1612
 msgid "No data."
 msgstr "暂无资料"
 
-#: functions.php:1625
+#: functions.php:1658
 msgid "No data yet"
 msgstr "此类别暂无资料"
 
-#: functions.php:1667
+#: functions.php:1700
 msgid "Please set some recommended posts to display."
 msgstr "请设置一些推荐文章以显示。"
 
-#: functions.php:1732
+#: functions.php:1765
 msgid "Please add some homebox."
 msgstr "请添加一些首页盒子。"
 
-#: functions.php:1755
+#: functions.php:1788
 msgid "&raquo; more"
 msgstr "&raquo; 更多"
 
-#: functions.php:1826
+#: functions.php:1859
 msgid "Leave a comment"
 msgstr "留下评论"
 
-#: functions.php:1828
+#: functions.php:1861
 msgid "Cancel reply"
 msgstr "取消回复"
 
-#: functions.php:1841
+#: functions.php:1874
 #, php-format
 msgid "You must be %s to post a comment."
 msgstr "您需要 %s 后才能发表评论。"
 
-#: functions.php:1842 includes/custom-point-bomb/custom-point-bomb.php:229
+#: functions.php:1875 includes/custom-point-bomb/custom-point-bomb.php:229
 msgid "log-in"
 msgstr "登录"
 
-#: functions.php:1874 tpl/author-profile.php:21
+#: functions.php:1907 tpl/author-profile.php:21
 #: tpl/page-account-settings.php:90
 msgid "Nickname"
 msgstr "昵称"
 
-#: functions.php:1876
+#: functions.php:1909
 msgid "Whats your nickname?"
 msgstr "您的昵称"
 
-#: functions.php:1887
+#: functions.php:1920
 msgid "Email"
 msgstr "邮箱"
 
-#: functions.php:1889
+#: functions.php:1922
 msgid "Whats your Email?"
 msgstr "您的邮箱"
 
-#: functions.php:1900
+#: functions.php:1933
 msgid "Hi, have something to say?"
 msgstr "Hi, 有什么要说的吗？"
 
-#: functions.php:1901
+#: functions.php:1934
 msgid "Nothing to say?"
 msgstr "没什么好说的吗？"
 
-#: functions.php:1923
+#: functions.php:1956
 msgid "Post comment"
 msgstr "发表评论"
 
@@ -572,8 +548,8 @@ msgstr "启用"
 
 #: includes/_comment-notify/comment-notify.php:53
 #: includes/comment-ajax/comment-ajax.php:98
-#: includes/comment-emotion/comment-emotion.php:117
-#: includes/comment-emotion/comment-emotion.php:132
+#: includes/comment-emotion/comment-emotion.php:120
+#: includes/comment-emotion/comment-emotion.php:135
 #: includes/gravatar-fix/gravatar-fix.php:38
 #: includes/link-manager/link-manager.php:34 includes/mailer/mailer.php:106
 #: includes/post-copyright/post-copyright.php:43
@@ -908,37 +884,37 @@ msgid ""
 "please try again later."
 msgstr "抱歉，服务器发生了一些错误，该操作无法完成，请稍后重试。"
 
-#: includes/comment-emotion/comment-emotion.php:107
+#: includes/comment-emotion/comment-emotion.php:110
 msgid "Comment emoticon settings"
 msgstr "评论表情设置"
 
-#: includes/comment-emotion/comment-emotion.php:108
+#: includes/comment-emotion/comment-emotion.php:111
 msgid "Comment can use Kaomoji or image emotions if enable."
 msgstr "如果启用的话，评论可以使用 颜文字或图片表情。"
 
-#: includes/comment-emotion/comment-emotion.php:112
+#: includes/comment-emotion/comment-emotion.php:115
 msgid "Kaomoji emoticon"
 msgstr "颜文字表情"
 
-#: includes/comment-emotion/comment-emotion.php:123
-#: includes/comment-emotion/comment-emotion.php:138
+#: includes/comment-emotion/comment-emotion.php:126
+#: includes/comment-emotion/comment-emotion.php:141
 msgid "One per line."
 msgstr "每行一个"
 
-#: includes/comment-emotion/comment-emotion.php:127
-#: includes/comment-emotion/comment-emotion.php:163
+#: includes/comment-emotion/comment-emotion.php:130
+#: includes/comment-emotion/comment-emotion.php:167
 msgid "Image emoticon"
 msgstr "图片表情"
 
-#: includes/comment-emotion/comment-emotion.php:136
+#: includes/comment-emotion/comment-emotion.php:139
 msgid "E.g. img01 = http://exmaple.com/img01.jpg"
 msgstr "例如 吃惊 = http://exmaple.com/img01.jpg"
 
-#: includes/comment-emotion/comment-emotion.php:160
+#: includes/comment-emotion/comment-emotion.php:164
 msgid "Kaomoji"
 msgstr "颜文字"
 
-#: includes/comment-emotion/comment-emotion.php:200
+#: includes/comment-emotion/comment-emotion.php:207
 msgid "Emotion"
 msgstr "表情"
 
@@ -3532,6 +3508,10 @@ msgstr "广告"
 msgid "Type"
 msgstr "类型"
 
+#: includes/widget-adbox/widget-adbox.php:51
+msgid "All"
+msgstr "全部"
+
 #: includes/widget-adbox/widget-adbox.php:52
 msgid "Desktop"
 msgstr "桌面"
@@ -3918,10 +3898,10 @@ msgstr "请在【外观 - 小组件】中为404页面设置一些小组件"
 msgid "No comment yet."
 msgstr "暂无评论"
 
-#: tpl/author-comments.php:33
+#: tpl/author-comments.php:34
 #, php-format
-msgid "%1$s published a comment in %2$s."
-msgstr "%1$s 在 %2$s 中发表了一条评论。"
+msgid "Published a comment in %1$s."
+msgstr "在《%1$s》中发表了一条评论。"
 
 #: tpl/author-followers.php:2 tpl/author-following.php:2
 #: tpl/page-rank-users.php:2
@@ -4291,6 +4271,27 @@ msgstr "向每个人介绍自己"
 #: tpl/page-account-settings.php:123
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "Daily"
+#~ msgstr "每日"
+
+#~ msgid "Weekly"
+#~ msgstr "每周"
+
+#~ msgid "Monthly"
+#~ msgstr "每月"
+
+#~ msgid "Preview page"
+#~ msgstr "上一页"
+
+#~ msgid "Preview post"
+#~ msgstr "上一篇"
+
+#~ msgid "Next post"
+#~ msgstr "下一篇"
+
+#~ msgid "%1$s published a comment in %2$s."
+#~ msgstr "%1$s 在 %2$s 中发表了一条评论。"
 
 #~ msgid "&copy; %1$s %2$s. Designer %3$s."
 #~ msgstr "版权所有 &copy; %1$s %2$s。设计者 %3$s。"

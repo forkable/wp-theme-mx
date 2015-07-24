@@ -1,7 +1,8 @@
 .comment-emotion-pop-btn{
 	width: 20%;
 }
-#commentform{
+#commentform,
+.comment{
 	overflow: visible;
 }
 	#commentform .submit{
@@ -25,9 +26,9 @@
 }
 	.comment-emotion-close{
 		position: absolute;
-		background: #eee;
-		right: -15px;
-		top: -15px;
+		background: #D9534F;
+		left: -15px;
+		bottom: -15px;
 		width: 30px;
 		height: 30px;
 		font-size: 25px;
@@ -36,10 +37,11 @@
 		z-index: 1;
 		cursor: pointer;
 		border-radius: 50%;
-		box-shadow: 0 1px 3px rgba(0,0,0,.3);
+		box-shadow: 0 0 3px rgba(0,0,0,.3);
+		color: #fff;
 	}
 		.comment-emotion-close:hover{
-			background: #ccc;
+			opacity: .8;
 		}
 	.comment-emotion-area-pop .pop{
 		position: relative;

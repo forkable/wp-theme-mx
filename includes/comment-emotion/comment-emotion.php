@@ -73,7 +73,10 @@ class theme_comment_emotion{
 			 * kaomoji
 			 */
 			if(!empty($_POST[self::$iden]['kaomoji']['text'])){
-				$opts[self::$iden]['kaomoji']['items'] = array_filter(explode("\n",$opts[self::$iden]['kaomoji']['text']));
+				$opts[self::$iden]['kaomoji']['items'] = 
+					array_map(function($v){
+						return str_replace("\r",'',trim($v));
+					},explode("\n",$opts[self::$iden]['kaomoji']['text']));
 			}
 			
 			/**
@@ -153,6 +156,7 @@ class theme_comment_emotion{
 		return self::get_options($key)[$type];
 	}
 	public static function display_frontend($type){
+		//var_dump(self::get_options());
 		switch($type){
 			case 'pop-btn':
 				?>
@@ -171,8 +175,11 @@ class theme_comment_emotion{
 					<?php if(self::is_enabled('kaomoji')){ ?>
 						<div id="<?= self::$iden;?>-kaomoji" class="pop">
 							<div class="comment-emotion-close">&times;</div>
-							<?php foreach(self::get_ems('kaomoji','items') as $name => $item){ ?>
-								<a href="javascript:;" data-content="<?= esc_html($item);?>"><?= esc_html($item);?></a>
+							<?php
+							foreach(self::get_ems('kaomoji','items') as $name => $item){
+								$item = esc_html($item);
+								?>
+								<a href="javascript:;" data-content="<?= $item;?>"><?= $item;?></a>
 							<?php } ?>
 						</div>
 					<?php } ?>
@@ -180,7 +187,7 @@ class theme_comment_emotion{
 						<div id="<?= self::$iden;?>-img" class="pop">
 							<div class="comment-emotion-close">&times;</div>
 							<?php foreach(self::get_ems('img','items') as $name => $url){ ?>
-								<a href="javascript:;" data-content="<?= '[',$name,']';?>"><img data-src="<?= esc_url($url);?>" alt="<?= esc_html($name);?>"></a>
+								<a href="javascript:;" data-content="<?= '[',$name,']';?>"><img data-url="<?= esc_url($url);?>" alt="<?= esc_html($name);?>"></a>
 							<?php } ?>
 						</div>
 					<?php } ?>

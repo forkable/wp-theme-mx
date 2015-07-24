@@ -582,7 +582,6 @@ class theme_functions{
 
 		wp_reset_postdata();
 
-		
 		$defaults = array(
 			'classes'			=> [],
 			'lazyload'			=> true,
@@ -669,12 +668,8 @@ class theme_functions{
 				 */
 				do_action('after_singular_post_content');
 				?>
+				<?php self::the_page_pagination();?>
 				
-				<?php //self::the_post_pagination();?>
-				
-
-
-
 				<div class="row">
 					<div class="col-xs-12 col-lg-5">
 						<?php
@@ -1222,30 +1217,23 @@ class theme_functions{
 
 	<?php
 	}
-	/** 
-	 * get_rank_data
-	 */
-	public static function get_rank_data($id = null){
-		$content = array(
-			'all' 			=> ___('All'),
-			'daily' 		=> ___('Daily'),
-			'weekly' 		=> ___('Weekly'),
-			'monthly' 		=> ___('Monthly'),
-		);
-		if($id) return isset($content[$id]) ? $content[$id] : false;
-		return $content;
-	}
+
 	/** 
 	 * smart_page_pagination
 	 */
 	public static function smart_page_pagination($args = []){
+		static $cache = null;
+		if($cache !== null)
+			return $cache;
+			
 		global $post,$page,$numpages;
 
 		//$cache = wp_cache_
-		$output = null;
+		$output = [];
 	
 		$defaults = array(
-			'add_fragment' => 'post-' . $post->ID
+			'add_fragment' => 'post-' . $post->ID,
+			'same_category' => false,
 		);
 		$args = array_merge($defaults,$args);
 		
@@ -1255,7 +1243,10 @@ class theme_functions{
 		 * prev post
 		 */
 		$prev_post = get_previous_post(true);
-		$prev_post = empty($prev_post) ? get_previous_post() : $prev_post;
+		
+		if(empty($prev_post) && $args['same_category'] === false)
+			$prev_post = get_previous_post();
+
 		if(!empty($prev_post)){
 			$output['prev_post'] = $prev_post;
 		}
@@ -1263,8 +1254,10 @@ class theme_functions{
 		 * next post
 		 */
 		$next_post = get_next_post(true);
-		$next_post = empty($next_post) ? get_next_post() : $next_post;
-		// var_dump($next_post);
+
+		if(empty($next_post) && $args['same_category'] === false)
+			$next_post = get_next_post();
+			
 		if(!empty($next_post)){
 			$output['next_post'] = $next_post;
 		}		
@@ -1285,71 +1278,113 @@ class theme_functions{
 			 */
 			if($page < $numpages){
 				$next_page_number = $page + 1;
-				$output['next_page']['url'] = theme_features::get_link_page_url($next_page_number,$add_fragment);
+				$output['next_page']['url'] = theme_features::get_link_page_url($next_page_number,$args['add_fragment']);
 				$output['next_page']['number'] = $next_page_number;
 			}
 		}
-		return array_filter($output);
+		$cache = array_filter($output);
+		return $cache;
 	}
 
 	
-	
+	public static function the_page_pagination(){
+		global $post,$page,$numpages;
+		$cache_id = $post->ID . $page . $numpages;
+		$cache_group = 'page-pagi';
+
+		$cache = theme_cache::get($cache_id,$cache_group);
+		if(!empty($cache)){
+			echo $cache;
+			return;
+		}
+		$page_pagination = self::smart_page_pagination([
+			'same_category' => true,
+		]);
+		
+		if(!isset($page_pagination['numpages']) || $page_pagination['numpages'] == 0)
+			return false;
+			
+		ob_start();
+		?>
+		<nav class="page-pagination">
+			<?php
+			if(isset($page_pagination['prev_page'])){
+				$page_str = $page_pagination['page'] . '/' . $page_pagination['numpages'];
+				?>
+				<a href="<?= $page_pagination['prev_page']['url'];?>" class="prev" title="<?= ___('Previous page');?> <?= $page_str;?>"><i class="fa fa-chevron-left"></i><span class="tx"><?= ___('Previous page');?> <?= $page_str;?></span></a>
+				<?php
+			}
+			if(isset($page_pagination['next_page'])){
+				$page_str = $page_pagination['page'] . '/' . $page_pagination['numpages'];
+				?>
+				<a href="<?= $page_pagination['next_page']['url'];?>" class="next" title="<?= ___('Next page');?> <?= $page_str;?>"><span class="tx"><?= $page_str;?> <?= ___('Next page');?></span><i class="fa fa-chevron-right"></i></a>
+				<?php
+			}
+		?>
+		</nav>
+		<?php
+		$cache = html_minify(ob_get_contents());
+		ob_end_clean();
+
+		theme_cache::set($cache_id,$cache,$cache_group,3600);
+		echo $cache;	
+	}
 	public static function the_post_pagination(){
 		global $post,$page;
 		$cache_id = $post->ID . $page;
 		$cache_group = 'post-pagi';
 
-		$cache = wp_cache_get($cache_id,$cache_group);
+		$cache = theme_cache::get($cache_id,$cache_group);
 		if(!empty($cache)){
 			echo $cache;
 			return;
 		}
 			
+		$prev_next_pagination = self::smart_page_pagination([
+			'same_category' => true,
+		]);
+		
+		$has_prev = isset($prev_next_pagination['next_post']) ? 'has-prev' : 'no-prev';
+
+		$has_next = isset($prev_next_pagination['prev_post']) ? 'has-next' : 'no-next';
+		
+		$prev_url = null;
+		$next_url = null;
+		
 		ob_start();
 		?>
-		<nav class="prev-next-pagination btn-group btn-group-justified">
+		<nav class="prev-next-pagination <?= $has_prev;?> <?= $has_next;?>">
 			<?php
-			$prev_next_pagination = self::smart_page_pagination();
-//var_dump($prev_next_pagination);
-			$prev_url = null;
-			$next_url = null;
-
 			/**
 			 * prev
 			 */
-			if(isset($prev_next_pagination['prev_page'])){
-				$prev_url = $prev_next_pagination['prev_page']['url'];
-				$prev_type = 'page';
-			}else{
+			if(isset($prev_next_pagination['next_post'])){
 				$prev_url = get_permalink($prev_next_pagination['next_post']->ID);
-				$prev_type = 'post';
+				$prev_title = esc_html(get_the_title($prev_next_pagination['next_post']->ID));
+				?>
+				<a href="<?= esc_url($prev_url);?>#post-<?= $prev_next_pagination['next_post']->ID;?>" class="left next-post" title="<?= $prev_title;?>">
+					<div class="post-thumbnail-area">
+						<img class="post-thumbnail-placeholder" src="<?= theme_features::get_theme_images_url(self::$thumbnail_placeholder);?>" alt="<?= ___('Placeholder');?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
+						<img class="post-thumbnail" src="<?= theme_features::get_theme_images_url(self::$thumbnail_placeholder);?>" data-src="<?= self::get_thumbnail_src($prev_next_pagination['next_post']->ID);?>" alt="<?= $prev_title ;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
+					</div>
+					<span class="tx"><i class="fa fa-arrow-circle-left"></i> <?= sprintf(___('Previous post: %s'),$prev_title);?></span>
+				</a>
+				<?php
 			}
 			/**
 			 * next
 			 */
-			if(isset($prev_next_pagination['next_page'])){
-				$next_url = $prev_next_pagination['next_page']['url'];
-				$next_type = 'page';
-			}else{
+			if(isset($prev_next_pagination['prev_post'])){
 				$next_url = get_permalink($prev_next_pagination['prev_post']->ID);
-				$next_type = 'post';
-			}
-			if($prev_url){
-				$prev_btn = $prev_type === 'page' ? 'btn-success' : 'btn-primary';
-				$prev_tx =  $prev_type === 'page' ? ___('Preview page') : ___('Preview post');
+				$next_title = esc_html(get_the_title($prev_next_pagination['prev_post']->ID));
 				?>
-				<div class="btn-group btn-group-lg" role="group">
-					<a href="<?= esc_url($prev_url);?>" class="prev-page btn btn-default"><i class="fa fa-arrow-left"></i> <?= $prev_tx;?></a>
-				</div>
-				<?php
-			}
-			if($next_url){
-				$next_btn = $next_type === 'page' ? 'btn-success' : 'btn-primary';
-				$next_tx =  $next_type === 'page' ? ___('Next page') : ___('Next post');
-				?>
-				<div class="btn-group btn-group-lg" role="group">
-					<a href="<?= esc_url($next_url);?>" class="next-page btn btn-default"><?= $next_tx;?> <i class="fa fa-arrow-right"></i></a>
-				</div>
+				<a href="<?= esc_url($next_url);?>#post-<?= $prev_next_pagination['prev_post']->ID;?>" class="right prev-post" title="<?= $next_title;?>">
+					<div class="post-thumbnail-area">
+						<img class="post-thumbnail-placeholder" src="<?= theme_features::get_theme_images_url(self::$thumbnail_placeholder);?>" alt="<?= ___('Placeholder');?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
+						<img class="post-thumbnail" src="<?= theme_features::get_theme_images_url(self::$thumbnail_placeholder);?>" data-src="<?= self::get_thumbnail_src($prev_next_pagination['prev_post']->ID);?>" alt="<?= $next_title ;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
+					</div>
+					<span class="tx"><i class="fa fa-arrow-circle-right"></i> <?= sprintf(___('Next post: %s'),$next_title);?></span>
+				</a>
 				<?php
 			}
 			?>
@@ -1358,7 +1393,7 @@ class theme_functions{
 		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
 
-		wp_cache_set($cache_id,$cache,$cache_group,3600);
+		theme_cache::set($cache_id,$cache,$cache_group,3600);
 		echo $cache;
 	}
 	/**
