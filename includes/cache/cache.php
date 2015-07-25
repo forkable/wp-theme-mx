@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme-cache
 Feature URI:	http://inn-studio.com
-Version:		2.1.5
+Version:		2.1.6
 Description:	theme-cache
 Author:			INN STUDIO
 Author URI:		http://inn-studio.com
@@ -244,6 +244,60 @@ class theme_cache{
 			return $caches[$path];
 		}
 	}
+	public static function is_archive(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_archive();
+		return $cache;
+	}
+	public static function is_post_type_archive(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_post_type_archive();
+		return $cache;
+	}
+	public static function is_front_page(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_front_page();
+		return $cache;
+	}
+	public static function is_author(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_author();
+		return $cache;
+	}
+	public static function is_404(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_404();
+		return $cache;
+	}
+	public static function is_search(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_search();
+		return $cache;
+	}
+	public static function is_tag(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_tag();
+		return $cache;
+	}
+	public static function is_category(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_category();
+		return $cache;
+	}
+	public static function is_home(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_home();
+		return $cache;
+	}
 	public static function is_singular(){
 		static $cache = null;
 		if($cache === null)
@@ -365,7 +419,8 @@ class theme_cache{
 		/**
 		 * if dev mode enabled, do NOT get data from cache
 		 */
-		if(theme_dev_mode::is_enabled()) return false;
+		if(theme_dev_mode::is_enabled()) 
+			return false;
 		
 		if(wp_using_ext_object_cache()){
 			if(!$group)
@@ -416,37 +471,33 @@ class theme_cache{
 		return $cache;
 	}
 	private static function get_page_prefix(){
-		static $caches = [];
-		if(isset($caches[self::$iden]))
-			return $caches[self::$iden];
-			
-		if(is_singular()){
+		if(self::is_singular()){
 			global $post;
 			$cache_id_prefix = 'post-' . $post->ID;
-		}else if(is_home()){
+		}else if(self::is_home()){
 			$cache_id_prefix = 'home';
-		}else if(is_category()){
+		}else if(self::is_category()){
 			$cache_id_prefix = 'cat-' . theme_features::get_current_cat_id();
-		}else if(is_tag()){
+		}else if(self::is_tag()){
 			$cache_id_prefix = 'tag-' . theme_features::get_current_tag_id();
-		}else if(is_search()){
+		}else if(self::is_search()){
 			$cache_id_prefix = 'search';
-		}else if(is_404()){
+		}else if(self::is_404()){
 			$cache_id_prefix = 'error404';
-		}else if(is_author()){
+		}else if(self::is_author()){
 			global $author;
 			$cache_id_prefix = 'author-' . $author;
-		}else if(is_front_page()){
+		}else if(self::is_front_page()){
 			$cache_id_prefix = 'frontpage';
-		}else if(is_post_type_archive()){
+		}else if(self::is_post_type_archive()){
 			$cache_id_prefix = 'post-type-' . get_query_var('post_type');
-		}else if(is_archive()){
+		}else if(self::is_archive()){
 			$cache_id_prefix = 'archive';
 		}else{
 			$cache_id_prefix = 'unknow';
 		}
-		$caches[self::$iden] = $cache_id_prefix;
-		return $caches[self::$iden];
+
+	 	return $cache_id_prefix;
 	}
 	/**
 	 * output dynamic sidebar from cache

@@ -1301,23 +1301,53 @@ class theme_functions{
 			'same_category' => true,
 		]);
 		
-		if(!isset($page_pagination['numpages']) || $page_pagination['numpages'] == 0)
+		if(!isset($page_pagination['numpages']) || $page_pagination['numpages'] <= 1)
 			return false;
 			
 		ob_start();
 		?>
 		<nav class="page-pagination">
 			<?php
+			$page_attr_str = $page_pagination['page'] . '/' . $page_pagination['numpages'];
+			$page_str = '<span class="current-page">' . $page_pagination['page'] . '</span>' . '/' . $page_pagination['numpages'];
 			if(isset($page_pagination['prev_page'])){
-				$page_str = $page_pagination['page'] . '/' . $page_pagination['numpages'];
 				?>
-				<a href="<?= $page_pagination['prev_page']['url'];?>" class="prev" title="<?= ___('Previous page');?> <?= $page_str;?>"><i class="fa fa-chevron-left"></i><span class="tx"><?= ___('Previous page');?> <?= $page_str;?></span></a>
+				<a 
+					href="<?= $page_pagination['prev_page']['url'];?>" 
+					class="prev" 
+					title="<?= ___('Previous page');?> <?= $page_attr_str;?>" 
+					data-number="<?= $page - 1;?>" 
+				><i class="fa fa-chevron-left"></i><span class="tx"><?= ___('Previous page');?> <?= $page_str;?></span></a>
+				<?php
+			}else{
+				?>
+				<a 
+					href="javascript:;" 
+					class="prev" 
+					title="<?= ___('Previous page');?> <?= $page_attr_str;?>" 
+					data-number="1" 
+				><i class="fa fa-chevron-left"></i><span class="tx"><?= ___('Previous page');?> <?= $page_str;?></span></a>
 				<?php
 			}
 			if(isset($page_pagination['next_page'])){
-				$page_str = $page_pagination['page'] . '/' . $page_pagination['numpages'];
+				//$page_attr_str = $page_pagination['page'] . '/' . $page_pagination['numpages'];
+				//$page_str = '<span class="current-page">' . $page_pagination['page'] . '</span>' . '/' . $page_pagination['numpages'];
 				?>
-				<a href="<?= $page_pagination['next_page']['url'];?>" class="next" title="<?= ___('Next page');?> <?= $page_str;?>"><span class="tx"><?= $page_str;?> <?= ___('Next page');?></span><i class="fa fa-chevron-right"></i></a>
+				<a 
+					href="<?= $page_pagination['next_page']['url'];?>" 
+					class="next" 
+					title="<?= ___('Next page');?> <?= $page_attr_str;?>" 
+					data-number="<?= $page + 1;?>" 
+				><span class="tx"><?= $page_str;?> <?= ___('Next page');?></span><i class="fa fa-chevron-right"></i></a>
+				<?php
+			}else{
+				?>
+				<a 
+					href="javascript:;" 
+					class="next" 
+					title="<?= ___('Next page');?> <?= $page_attr_str;?>" 
+					data-number="<?= $numpages;?>" 
+				><span class="tx"><?= $page_str;?> <?= ___('Next page');?></span><i class="fa fa-chevron-right"></i></a>
 				<?php
 			}
 		?>
