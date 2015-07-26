@@ -1337,7 +1337,6 @@ class theme_functions{
 					href="<?= $page_pagination['next_page']['url'];?>" 
 					class="next" 
 					title="<?= ___('Next page');?> <?= $page_attr_str;?>" 
-					data-number="<?= $page + 1;?>" 
 				><span class="tx"><?= $page_str;?> <?= ___('Next page');?></span><i class="fa fa-chevron-right"></i></a>
 				<?php
 			}else{
@@ -1346,7 +1345,6 @@ class theme_functions{
 					href="javascript:;" 
 					class="next" 
 					title="<?= ___('Next page');?> <?= $page_attr_str;?>" 
-					data-number="<?= $numpages;?>" 
 				><span class="tx"><?= $page_str;?> <?= ___('Next page');?></span><i class="fa fa-chevron-right"></i></a>
 				<?php
 			}

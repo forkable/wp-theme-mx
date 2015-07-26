@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 16:14+0800\n"
-"PO-Revision-Date: 2015-07-24 16:16+0800\n"
+"POT-Creation-Date: 2015-07-26 14:20+0800\n"
+"PO-Revision-Date: 2015-07-26 14:26+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -30,7 +30,7 @@ msgstr "评论"
 msgid "Respond"
 msgstr "添加评论"
 
-#: comments.php:27 core/core-options.php:166 functions.php:1868
+#: comments.php:27 core/core-options.php:166 functions.php:1898
 #: includes/clean-up/clean-up.php:227
 #: includes/comment-ajax/comment-ajax.php:472
 #: includes/custom-collection/custom-collection.php:574
@@ -47,6 +47,7 @@ msgstr "添加评论"
 #: includes/custom-user-settings/custom-user-settings.php:467
 #: includes/custom-user-settings/custom-user-settings.php:478
 #: includes/favicon/favicon.php:198 includes/mailer/mailer.php:216
+#: includes/page-nagination-ajax/page-nagination-ajax.php:95
 #: tpl/page-account-bomb.php:20
 msgid "Loading, please wait..."
 msgstr "加载中，请稍候…"
@@ -358,7 +359,7 @@ msgstr "查看 %s 标签下的所有文章"
 msgid "No more post found"
 msgstr "暂无更多文章"
 
-#: functions.php:860 functions.php:1367
+#: functions.php:860 functions.php:1398
 #, php-format
 msgid "Previous post: %s"
 msgstr "上一篇：%s"
@@ -367,7 +368,7 @@ msgstr "上一篇：%s"
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: functions.php:870 functions.php:1384
+#: functions.php:870 functions.php:1414
 #, php-format
 msgid "Next post: %s"
 msgstr "下一篇：%s"
@@ -419,7 +420,8 @@ msgstr "暂无资料"
 msgid "Posts pagination navigation"
 msgstr "文章分页导航"
 
-#: functions.php:1058 functions.php:1314 functions.php:1683
+#: functions.php:1058 functions.php:1318 functions.php:1320 functions.php:1327
+#: functions.php:1329 functions.php:1713
 msgid "Previous page"
 msgstr "上一页"
 
@@ -434,89 +436,90 @@ msgid ""
 "content :)"
 msgstr "抱歉，我没能找到您需要的内容，不放看看其他东西 ：）"
 
-#: functions.php:1320 functions.php:1680
+#: functions.php:1339 functions.php:1340 functions.php:1347 functions.php:1348
+#: functions.php:1710
 msgid "Next page"
 msgstr "下一页"
 
-#: functions.php:1364 functions.php:1381
+#: functions.php:1395 functions.php:1411
 msgid "Placeholder"
 msgstr "占位符"
 
-#: functions.php:1473
+#: functions.php:1503
 msgid "Your comment is awaiting moderation."
 msgstr "您的评论正在审核中。"
 
-#: functions.php:1499
+#: functions.php:1529
 msgid "Reply"
 msgstr "回复"
 
-#: functions.php:1580 includes/related-post/related-post.php:54
+#: functions.php:1610 includes/related-post/related-post.php:54
 msgid "Maybe you will like them"
 msgstr "或许您会喜欢"
 
-#: functions.php:1612
+#: functions.php:1642
 msgid "No data."
 msgstr "暂无资料"
 
-#: functions.php:1658
+#: functions.php:1688
 msgid "No data yet"
 msgstr "此类别暂无资料"
 
-#: functions.php:1700
+#: functions.php:1730
 msgid "Please set some recommended posts to display."
 msgstr "请设置一些推荐文章以显示。"
 
-#: functions.php:1765
+#: functions.php:1795
 msgid "Please add some homebox."
 msgstr "请添加一些首页盒子。"
 
-#: functions.php:1788
+#: functions.php:1818
 msgid "&raquo; more"
 msgstr "&raquo; 更多"
 
-#: functions.php:1859
+#: functions.php:1889
 msgid "Leave a comment"
 msgstr "留下评论"
 
-#: functions.php:1861
+#: functions.php:1891
 msgid "Cancel reply"
 msgstr "取消回复"
 
-#: functions.php:1874
+#: functions.php:1904
 #, php-format
 msgid "You must be %s to post a comment."
 msgstr "您需要 %s 后才能发表评论。"
 
-#: functions.php:1875 includes/custom-point-bomb/custom-point-bomb.php:229
+#: functions.php:1905 includes/custom-point-bomb/custom-point-bomb.php:229
 msgid "log-in"
 msgstr "登录"
 
-#: functions.php:1907 tpl/author-profile.php:21
+#: functions.php:1937 tpl/author-profile.php:21
 #: tpl/page-account-settings.php:90
 msgid "Nickname"
 msgstr "昵称"
 
-#: functions.php:1909
+#: functions.php:1939
 msgid "Whats your nickname?"
 msgstr "您的昵称"
 
-#: functions.php:1920
+#: functions.php:1950
 msgid "Email"
 msgstr "邮箱"
 
-#: functions.php:1922
+#: functions.php:1952
 msgid "Whats your Email?"
 msgstr "您的邮箱"
 
-#: functions.php:1933
+#: functions.php:1963
 msgid "Hi, have something to say?"
 msgstr "Hi, 有什么要说的吗？"
 
-#: functions.php:1934
+#: functions.php:1964
 msgid "Nothing to say?"
 msgstr "没什么好说的吗？"
 
-#: functions.php:1956
+#: functions.php:1986
 msgid "Post comment"
 msgstr "发表评论"
 
@@ -852,6 +855,7 @@ msgstr "数据传送完毕。"
 #: includes/comment-ajax/comment-ajax.php:397
 #: includes/custom-contribution/custom-contribution.php:225
 #: includes/custom-contribution/custom-contribution.php:246
+#: includes/page-nagination-ajax/page-nagination-ajax.php:44
 #: tpl/page-account-post.php:31
 msgid "Sorry, the post does not exist."
 msgstr "抱歉，文章不存在。"
@@ -879,6 +883,7 @@ msgstr "第 {n} 页"
 #: includes/comment-ajax/comment-ajax.php:479
 #: includes/custom-point-bomb/custom-point-bomb.php:759
 #: includes/custom-post-point/custom-post-point.php:849
+#: includes/page-nagination-ajax/page-nagination-ajax.php:99
 msgid ""
 "Sorry, some server error occurred, the operation can not be completed, "
 "please try again later."
@@ -3002,6 +3007,26 @@ msgstr "无效的 expires time。"
 #: includes/open-sign/open-sign.php:243
 msgid "Invalid refresh token."
 msgstr "无效的 refresh token。"
+
+#: includes/page-nagination-ajax/page-nagination-ajax.php:32
+msgid "Sorry, post id is invaild."
+msgstr "抱歉，文章 ID 编号无效。"
+
+#: includes/page-nagination-ajax/page-nagination-ajax.php:55
+msgid "Sorry, page number is invaild."
+msgstr "对不起，页码无效。"
+
+#: includes/page-nagination-ajax/page-nagination-ajax.php:96
+msgid "Content loaded."
+msgstr "内容加载完毕。"
+
+#: includes/page-nagination-ajax/page-nagination-ajax.php:97
+msgid "Already last page."
+msgstr "已是最后一页了。"
+
+#: includes/page-nagination-ajax/page-nagination-ajax.php:98
+msgid "Already first page."
+msgstr "已是第一页了。"
 
 #: includes/post-copyright/post-copyright.php:27
 msgid "Post copyright settings"

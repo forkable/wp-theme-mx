@@ -92,8 +92,11 @@ class theme_page_nagination_ajax{
 			m.config.post_id = <?= $post->ID;?>;
 			m.config.numpages = <?= $numpages;?>;
 			m.config.page = <?= $page;?>;
+			m.config.url_tpl = <?= json_encode(theme_features::get_link_page_url(9999));?>;
 			m.config.lang.M01 = '<?= ___('Loading, please wait...');?>';
 			m.config.lang.M02 = '<?= ___('Content loaded.');?>';
+			m.config.lang.M03 = '<?= ___('Already first page.');?>'
+			m.config.lang.M04 = '<?= ___('Already last page.');?>'
 			m.config.lang.E01 = '<?= ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
 			m.init();
 		});

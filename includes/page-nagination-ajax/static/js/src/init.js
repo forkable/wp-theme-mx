@@ -10,10 +10,13 @@ define(function(require, exports, module){
 		process_url : '',
 		post_id : '',
 		numpages : '',
+		url_tpl : '',
 		page : 1,
 		lang : {
 			M01 : 'Loading, please wait...', 
 			M02 : 'Content loaded.',
+			M03 : 'Already first page.',
+			M04 : 'Already last page.',
 			E01 : 'Sorry, some server error occurred, the operation can not be completed, please try again later.'
 		}
 		
@@ -87,21 +90,74 @@ define(function(require, exports, module){
 	exports.pagi_ajax = function(){
 		if(!cache.$nagi)
 			return;
+			
 		cache.$post_content = document.querySelector('.post-content');
 		cache.$as = cache.$nagi.querySelectorAll('a');
-		console.log(cache.$as);
+		/**
+		 * bind click event
+		 */
 		for( var i = 0, len = cache.$as.length; i < len; i++){
-			cache.$as[i].addEventListener('click',ajax);
+			cache.$as[i].addEventListener('click',event_click);
 		}
-		function ajax(e){
+		
+		/** save current post content to cache */
+		set_cache(config.page,cache.$post_content.innerHTML);
+		/**
+		 * get post content from cache
+		 */
+		function get_data_from_cache(id){
+			if(!cache.post_contents || !cache.post_contents[id])
+				return false;
+			return cache.post_contents[id];
+		}
+		
+		/**
+		 * set post content to cache
+		 */
+		function set_cache(id,data){
+			if(!cache.post_contents)
+				cache.post_contents = [];
+			cache.post_contents[id] = data;
+		}
+		
+		/**
+		 * write the content to post content area
+		 */
+		function set_post_content(content){
+			cache.$post_content.innerHTML = content;
+		}
+		
+		/**
+		 * get current page after click
+		 */
+		function get_next_page(){
+			return cache.$current == cache.$next ? config.page + 1 : config.page - 1;
+		}
+		
+		function event_click(e){
 			e.preventDefault();
+			
 			cache.$current = this;
-			
-			cache.next_pagenumber = parseInt(this.getAttribute('data-number'));
-			
+
+			/** check first page */
+			if(is_first_page()){
+				tools.ajax_loading_tip('warning',config.lang.M03,3);
+				return false;
+			}
+			if(is_last_page()){
+				tools.ajax_loading_tip('warning',config.lang.M04,3);
+				return false;
+			}
+			/** if have cache, just set content */
+			if(get_data_from_cache(get_next_page())){
+				set_post_content(get_data_from_cache(get_next_page()));
+				pagenumber();
+				hash();
+				return;
+			}
 			tools.ajax_loading_tip('loading',config.lang.M01);
 			var xhr = new XMLHttpRequest();
-			xhr.open('get',config.process_url + '&page=' + config.page);
+			xhr.open('get',config.process_url + '&page=' + get_next_page());
 			xhr.send();
 			xhr.onload = function(){
 				if(xhr.status >= 200 && xhr.status < 400){
@@ -122,11 +178,16 @@ define(function(require, exports, module){
 		}
 		function done(data){
 			if(data.status === 'success'){
+				/** set cache */
+				set_cache(get_next_page(),data.content)
+				/** set html */
+				set_post_content(data.content);
 				/** change page number */
 				pagenumber();
-				/** set html */
-				cache.$post_content.innerHTML = data.content;
-				/** rebind */
+				/** hash */
+				hash();
+				/** hide tip */
+				tools.ajax_loading_tip('hide');
 			}else if(data.status === 'error'){
 				tools.ajax_loading_tip(data.status,data.msg);
 			}
@@ -138,27 +199,24 @@ define(function(require, exports, module){
 				tools.ajax_loading_tip('error',config.lang.E01);
 			}
 		}
+		function hash(){
+			var url = config.url_tpl.replace(9999,config.page);
+			history.replaceState(null,null,url);
+			location.hash = '';
+			location.hash = '#' + cache.$post.id;
+		}
 		function pagenumber(){
-			/** next page */
-			config.page = cache.next_pagenumber;
-			if(cache.next_pagenumber > config.page){
-				cache.next_pagenumber++;
-				cache.$next_number.setAttribute('data-page',cache.next_pagenumber);
-				cache.$prev_number.setAttribute('data-page',cache.next_pagenumber - 2);
-			}else{
-				cache.next_pagenumber--;
-				cache.$next_number.setAttribute('data-page',cache.next_pagenumber);
-				cache.$prev_number.setAttribute('data-page',cache.next_pagenumber - 2);
-			}
-			if(config.page == config.numpages){
-				cache.$next_number.style.display = 'none';
-				if(cache.$prev_number.style.display == 'none')
-					cache.$prev_number.style.display = 'block';
-			}else if(config.page == 1){
-				cache.$prev_number.style.display = 'none';
-				if(cache.$next_number.style.display == 'none')
-					cache.$next_number.style.display = 'block';
-			}
+			/** set page */
+			config.page = get_next_page();
+			cache.$next_number.innerHTML = config.page;
+			cache.$prev_number.innerHTML = config.page;
+
+		}
+		function is_first_page(){
+			return cache.$current == cache.$prev && config.page == 1;
+		}
+		function is_last_page(){
+			return cache.$current == cache.$next && config.page == config.numpages;
 		}
 	}
 
