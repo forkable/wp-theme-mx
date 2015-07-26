@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 14:20+0800\n"
-"PO-Revision-Date: 2015-07-26 14:26+0800\n"
+"POT-Creation-Date: 2015-07-26 23:32+0800\n"
+"PO-Revision-Date: 2015-07-26 23:36+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -47,7 +47,7 @@ msgstr "添加评论"
 #: includes/custom-user-settings/custom-user-settings.php:467
 #: includes/custom-user-settings/custom-user-settings.php:478
 #: includes/favicon/favicon.php:198 includes/mailer/mailer.php:216
-#: includes/page-nagination-ajax/page-nagination-ajax.php:95
+#: includes/page-nagination-ajax/page-nagination-ajax.php:96
 #: tpl/page-account-bomb.php:20
 msgid "Loading, please wait..."
 msgstr "加载中，请稍候…"
@@ -333,8 +333,8 @@ msgstr "查看 %s 目录下的所有文章"
 msgid "Author avatar"
 msgstr "作者头像"
 
-#: functions.php:622 tpl/page-account-contribution.php:144
-#: tpl/page-account-post.php:212
+#: functions.php:622 tpl/page-account-contribution.php:161
+#: tpl/page-account-post.php:239
 msgid "Category"
 msgstr "分类"
 
@@ -883,7 +883,7 @@ msgstr "第 {n} 页"
 #: includes/comment-ajax/comment-ajax.php:479
 #: includes/custom-point-bomb/custom-point-bomb.php:759
 #: includes/custom-post-point/custom-post-point.php:849
-#: includes/page-nagination-ajax/page-nagination-ajax.php:99
+#: includes/page-nagination-ajax/page-nagination-ajax.php:100
 msgid ""
 "Sorry, some server error occurred, the operation can not be completed, "
 "please try again later."
@@ -1249,7 +1249,7 @@ msgid "{0} files have been uploaded."
 msgstr "{0} 个文件上传成功，嘻嘻…"
 
 #: includes/custom-contribution/custom-contribution.php:521
-#: tpl/page-account-contribution.php:215 tpl/page-account-post.php:344
+#: tpl/page-account-contribution.php:232 tpl/page-account-post.php:371
 msgid "Source"
 msgstr "来源"
 
@@ -2078,12 +2078,12 @@ msgid "Toggle Dropdown"
 msgstr "下拉菜单"
 
 #: includes/custom-post-source/custom-post-source.php:21
-#: tpl/page-account-contribution.php:220 tpl/page-account-post.php:356
+#: tpl/page-account-contribution.php:237 tpl/page-account-post.php:383
 msgid "Original"
 msgstr "原创"
 
 #: includes/custom-post-source/custom-post-source.php:24
-#: tpl/page-account-contribution.php:224 tpl/page-account-post.php:367
+#: tpl/page-account-contribution.php:241 tpl/page-account-post.php:394
 msgid "Reprint"
 msgstr "转载"
 
@@ -2147,15 +2147,15 @@ msgid "File storage"
 msgstr "文件存储"
 
 #: includes/custom-post-storage/custom-post-storage.php:113
-#: tpl/page-account-contribution.php:115 tpl/page-account-contribution.php:117
-#: tpl/page-account-post.php:172 tpl/page-account-post.php:174
+#: tpl/page-account-contribution.php:132 tpl/page-account-contribution.php:134
+#: tpl/page-account-post.php:199 tpl/page-account-post.php:201
 #, php-format
 msgid "%s url"
 msgstr "%s url"
 
 #: includes/custom-post-storage/custom-post-storage.php:121
-#: tpl/page-account-contribution.php:129 tpl/page-account-contribution.php:131
-#: tpl/page-account-post.php:192 tpl/page-account-post.php:194
+#: tpl/page-account-contribution.php:146 tpl/page-account-contribution.php:148
+#: tpl/page-account-post.php:219 tpl/page-account-post.php:221
 #, php-format
 msgid "%s password"
 msgstr "%s 密码"
@@ -2390,8 +2390,8 @@ msgid "Image address"
 msgstr "图片地址"
 
 #: includes/custom-slidebox/custom-slidebox.php:179
-#: includes/favicon/favicon.php:171 tpl/page-account-contribution.php:75
-#: tpl/page-account-post.php:132
+#: includes/favicon/favicon.php:171 tpl/page-account-contribution.php:92
+#: tpl/page-account-post.php:159
 msgid "Upload image"
 msgstr "上传图片"
 
@@ -3016,17 +3016,17 @@ msgstr "抱歉，文章 ID 编号无效。"
 msgid "Sorry, page number is invaild."
 msgstr "对不起，页码无效。"
 
-#: includes/page-nagination-ajax/page-nagination-ajax.php:96
+#: includes/page-nagination-ajax/page-nagination-ajax.php:97
 msgid "Content loaded."
 msgstr "内容加载完毕。"
-
-#: includes/page-nagination-ajax/page-nagination-ajax.php:97
-msgid "Already last page."
-msgstr "已是最后一页了。"
 
 #: includes/page-nagination-ajax/page-nagination-ajax.php:98
 msgid "Already first page."
 msgstr "已是第一页了。"
+
+#: includes/page-nagination-ajax/page-nagination-ajax.php:99
+msgid "Already last page."
+msgstr "已是最后一页了。"
 
 #: includes/post-copyright/post-copyright.php:27
 msgid "Post copyright settings"
@@ -4081,8 +4081,8 @@ msgstr "上传一张封面"
 msgid "Cover"
 msgstr "封面"
 
-#: tpl/page-account-collection.php:84 tpl/page-account-contribution.php:81
-#: tpl/page-account-post.php:138
+#: tpl/page-account-collection.php:84 tpl/page-account-contribution.php:98
+#: tpl/page-account-post.php:165
 msgid "Select or Drag images"
 msgstr "选择或拖放图片"
 
@@ -4103,29 +4103,29 @@ msgstr "预览专刊"
 msgid "Add new post"
 msgstr "添加新文章"
 
-#: tpl/page-account-collection.php:137 tpl/page-account-contribution.php:163
-#: tpl/page-account-post.php:245
+#: tpl/page-account-collection.php:137 tpl/page-account-contribution.php:180
+#: tpl/page-account-post.php:272
 msgid "Pop. tags"
 msgstr "热门标签"
 
-#: tpl/page-account-collection.php:166 tpl/page-account-contribution.php:192
-#: tpl/page-account-post.php:313
+#: tpl/page-account-collection.php:166 tpl/page-account-contribution.php:209
+#: tpl/page-account-post.php:340
 msgid "Custom tags"
 msgstr "自定义标签"
 
-#: tpl/page-account-collection.php:175 tpl/page-account-contribution.php:201
-#: tpl/page-account-post.php:322
+#: tpl/page-account-collection.php:175 tpl/page-account-contribution.php:218
+#: tpl/page-account-post.php:349
 #, php-format
 msgid "tag %d"
 msgstr "标签 %d"
 
-#: tpl/page-account-collection.php:190 tpl/page-account-contribution.php:252
-#: tpl/page-account-post.php:410
+#: tpl/page-account-collection.php:190 tpl/page-account-contribution.php:269
+#: tpl/page-account-post.php:437
 msgid "Sending, please wait..."
 msgstr "数据发送中，请稍候…"
 
-#: tpl/page-account-collection.php:192 tpl/page-account-contribution.php:254
-#: tpl/page-account-post.php:412
+#: tpl/page-account-collection.php:192 tpl/page-account-contribution.php:271
+#: tpl/page-account-post.php:439
 msgid "Submit"
 msgstr "提交"
 
@@ -4145,21 +4145,33 @@ msgstr "文章标题必须填写哦"
 msgid "Post content"
 msgstr "文章内容"
 
-#: tpl/page-account-contribution.php:102 tpl/page-account-post.php:159
+#: tpl/page-account-contribution.php:75
+msgid "Set split tag for each image?"
+msgstr "是否"
+
+#: tpl/page-account-contribution.php:80
+msgid "Unset"
+msgstr "不设置"
+
+#: tpl/page-account-contribution.php:84
+msgid "\"Next page\" tag"
+msgstr "使用“下一页”标签"
+
+#: tpl/page-account-contribution.php:119 tpl/page-account-post.php:186
 msgid "Storage link"
 msgstr "网盘链接"
 
-#: tpl/page-account-contribution.php:152 tpl/page-account-post.php:234
+#: tpl/page-account-contribution.php:169 tpl/page-account-post.php:261
 msgid "Select a category"
 msgstr "选择一个分类"
 
-#: tpl/page-account-contribution.php:232 tpl/page-account-post.php:380
-#: tpl/page-account-post.php:381
+#: tpl/page-account-contribution.php:249 tpl/page-account-post.php:407
+#: tpl/page-account-post.php:408
 msgid "The source of work URL, includes http://"
 msgstr "作品的来源地址，包括 http://"
 
-#: tpl/page-account-contribution.php:240 tpl/page-account-post.php:396
-#: tpl/page-account-post.php:397
+#: tpl/page-account-contribution.php:257 tpl/page-account-post.php:423
+#: tpl/page-account-post.php:424
 msgid "Author"
 msgstr "作者"
 
@@ -4246,7 +4258,23 @@ msgid ""
 "wait a minute..."
 msgstr "对不起，你现在不能编辑这篇文章，因为编辑正在编辑它。请稍候一会……"
 
-#: tpl/page-account-post.php:412
+#: tpl/page-account-post.php:141
+msgid "Use split tag for each image?"
+msgstr "为每张图片使用分隔符?"
+
+#: tpl/page-account-post.php:146
+msgid "No use"
+msgstr "不使用"
+
+#: tpl/page-account-post.php:150
+msgid "Use \"next page\" tag"
+msgstr "使用“下一页”标签"
+
+#: tpl/page-account-post.php:152
+msgid "Please confirm before uploading image."
+msgstr "请在上传图片前确认选择。"
+
+#: tpl/page-account-post.php:439
 msgid "Update"
 msgstr "更新"
 

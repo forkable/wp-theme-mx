@@ -1800,7 +1800,7 @@ class theme_functions{
 		}
 
 		global $post;
-		static $i = 0;
+		static $lazyload_i = 0;
 		foreach($opt as $k => $v){
 			if(!isset($v['title']) || trim($v['title']) === '')
 				continue;
@@ -1856,7 +1856,7 @@ class theme_functions{
 					setup_postdata($post);
 					self::archive_img_content(array(
 						'classes' => array('col-xs-6 col-sm-3'),
-						'lazyload' => $i < 1 ? false : true,
+						'lazyload' => $lazyload_i < 1 ? false : true,
 					));
 				}
 				wp_reset_postdata();
@@ -1867,8 +1867,8 @@ class theme_functions{
 		</ul>
 	</div>
 </div>
-		<?php
-			++$i;
+			<?php
+			++$lazyload_i;
 		} /** end foreach */
 
 		$cache = html_minify(ob_get_contents());

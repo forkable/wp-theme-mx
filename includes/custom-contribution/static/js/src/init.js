@@ -55,6 +55,8 @@ define(function(require, exports, module){
 		cache.$file_completion_tip = I('ctb-file-completion');
 		cache.$file_progress_bar = 	I('ctb-file-progress-bar');
 		cache.$file_progress_tx = 	I('ctb-file-progress-tx');
+		
+		cache.$split_nextpage = I('ctb-split-nextpage');
 
 		if(!cache.$fm) 
 			return false;
@@ -225,7 +227,12 @@ define(function(require, exports, module){
 		if(data && data.status === 'success'){
 			append_tpl(data);
 			/** send to editor */
-			send_to_editor(send_content(data.full.url,data[config.default_size].url));
+			var editor_content = send_content(data.full.url,data[config.default_size].url);
+			/** nextpage checked */
+			if(cache.$split_nextpage.checked && cache.file_index > 1){
+				editor_content = cache.$split_nextpage.value + editor_content;
+			}
+			send_to_editor(editor_content);
 		
 			/** 
 			 * check all thing has finished, if finished
@@ -321,7 +328,13 @@ define(function(require, exports, module){
 		 */
 		var $insert_btn = $tpl.querySelectorAll('.ctb-insert-btn'),
 			send_content_helper = function(){
-				send_to_editor(send_content(args.full.url,args[this.getAttribute('data-size')].url));
+					/** send to editor */
+				var editor_content = send_content(args.full.url,args[this.getAttribute('data-size')].url);
+				/** nextpage checked */
+				if(cache.$split_nextpage.checked){
+					editor_content = cache.$split_nextpage.value + editor_content;
+				}
+				send_to_editor(send_coneditor_contenttent);
 			};
 		for(var i = 0, len = $insert_btn.length; i < len; i++){
 			$insert_btn[i].addEventListener('click',send_content_helper,false);

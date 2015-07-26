@@ -125,6 +125,35 @@ function post_form($post_id = null){
 				?>
 			</div>
 		</div>
+		<!-- split with next-page -->
+		<?php
+		if(isset($_COOKIE['ctb-split']) && $_COOKIE['ctb-split'] == 'nextpage'){
+			$ctb_split_check_nextpage = 'checked';
+			$ctb_split_check_unset = null;
+		}else{
+			$ctb_split_check_nextpage = null;
+			$ctb_split_check_unset = 'checked';
+		}
+		?>
+		<div class="form-group">
+			<div class="col-sm-2 control-label">
+				<i class="fa fa-scissors"></i>
+				<?= ___('Use split tag for each image?');?>
+			</div>
+			<div class="col-sm-10">
+				<div class="checkbox-select">
+				<label for="ctb-split-unset" class="ctb-tag">
+					<input type="radio" name="ctb[split]" id="ctb-split-unset" value="unset" <?= $ctb_split_check_unset;?> hidden> 
+					<span class="label label-default"><?= ___('No use');?></span>
+				</label> 
+				<label for="ctb-split-nextpage" class="ctb-tag">
+					<input type="radio" name="ctb[split]" id="ctb-split-nextpage" value="<!--nextpage-->" <?= $ctb_split_check_nextpage;?> hidden> 
+					<span class="label label-default"><?= ___('Use "next page" tag');?></span>
+				</label> 
+				<span class="description"><?= ___('Please confirm before uploading image.');?></span>
+				</div>
+			</div>
+		</div>
 		<!-- upload image -->
 		<div class="form-group">
 			<div class="col-sm-2 control-label">
