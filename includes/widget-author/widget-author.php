@@ -47,7 +47,7 @@ class theme_widget_author extends WP_Widget{
 		}else{
 			$author_url = theme_cache::get_author_posts_url($author_id);
 		}
-		$description = get_the_author_meta('description',$author_id);
+		$description = theme_cache::get_the_author_meta('description',$author_id);
 		?>
 	
 		<div id="widget-author-card" class="widget-container panel-body">
@@ -56,39 +56,42 @@ class theme_widget_author extends WP_Widget{
 					<?= get_avatar($author_id,'100');?>
 				</div>
 				<div class="media-body">
-					<h4 class="media-heading author-card-name"><?= esc_html(get_the_author_meta('display_name',$author_id));?></h4>
+					<h4 class="media-heading author-card-name"><?= theme_cache::get_the_author_meta('display_name',$author_id);?></h4>
 					<p class="author-card-description" <?= empty($description) ? null : ' title="' . $description . '"';?> >
 						<?php
 						if(empty($description)){
 							echo ___('The author is lazy, nothing writes here.');
 						}else{
-							echo esc_html(str_sub($description,30));
+							echo str_sub($description,30);
 						}
 						?>
 					</p>
 				</div>
 			</a><!-- ./media -->
 			<?php if(class_exists('theme_custom_author_profile')){ ?>
-				<div class="author-card-meta-links btn-group btn-group-justified" role="group" aria-label="<?= ___('Author meta link group');?>">
+				<div class="author-card-meta-links btn-group btn-group-justified btn-group-sm" role="group">
 					<!-- works count -->
 					<a href="<?= theme_custom_author_profile::get_tabs('profile',$author_id)['url'];?>" class="btn btn-default" role="button">
-						<span class="tx"><?=  theme_custom_author_profile::get_tabs('works',$author_id)['text'];?></span>
+						<span class="tx"><i class="fa fa-<?= theme_custom_author_profile::get_tabs('works',$author_id)['icon'];?>"></i> <?= theme_custom_author_profile::get_tabs('works',$author_id)['text'];?></span>
 						<span class="count"><?= (int)theme_custom_author_profile::get_tabs('works',$author_id)['count'];?></span>
 					</a>
 					<!-- comments count -->
 					<a href="<?= theme_custom_author_profile::get_tabs('comments',$author_id)['url'];?>" class="btn btn-default" role="button">
-						<span class="tx"><?=  theme_custom_author_profile::get_tabs('comments',$author_id)['text'];?></span>
+						<span class="tx"><i class="fa fa-<?= theme_custom_author_profile::get_tabs('comments',$author_id)['icon'];?>"></i> <?= theme_custom_author_profile::get_tabs('comments',$author_id)['text'];?></span>
 						<span class="count"><?= (int)theme_custom_author_profile::get_tabs('comments',$author_id)['count'];?></span>
 					</a>
-					<!-- followers count -->
-					<a href="#<?= theme_custom_author_profile::get_tabs('followers',$author_id)['url'];?>" class="btn btn-default disabled" role="button">
-						<span class="tx"><?=  theme_custom_author_profile::get_tabs('followers',$author_id)['text'];?></span>
-						<span class="count"><?= (int)theme_custom_author_profile::get_tabs('followers',$author_id)['count'];?></span>
-					</a>
+					<!-- point -->
+					<?php if(class_exists('theme_custom_point_bomb')){ ?>
+						<!-- followers count -->
+						<a href="<?= theme_custom_point_bomb::get_tabs('bomb',$author_id)['url'];?>" class="btn btn-default" role="button" rel="nofollow">
+							<span class="tx"><i class="fa fa-bomb"></i> <?= theme_custom_point::get_point_name();?></span>
+							<span class="count"><?= theme_custom_point::get_point($author_id);?></span>
+						</a>
+					<?php } ?>
+					
 					<!-- following count -->
-					<a href="#<?= theme_custom_author_profile::get_tabs('following',$author_id)['url'];?>" class="btn btn-default disabled" role="button">
-						<span class="tx"><?=  theme_custom_author_profile::get_tabs('following',$author_id)['text'];?></span>
-						<span class="count"><?= (int)theme_custom_author_profile::get_tabs('following',$author_id)['count'];?></span>
+					<a href="javascript:;" class="btn btn-default disabled" role="button">
+						<span class="tx"><i class="fa fa-envelope"></i> <?= ___('P.M.');?></span>
 					</a>
 				</div>
 			<?php } ?>

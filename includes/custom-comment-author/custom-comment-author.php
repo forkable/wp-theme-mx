@@ -37,7 +37,7 @@ add_filter('get_comment_author_email',function($comment_author_email, $comment_I
 		return $caches[$cache_id];
 	}
 	
-	$caches[$cache_id] = get_the_author_meta('user_email',$comment->user_id,true);
+	$caches[$cache_id] = theme_cache::get_the_author_meta('user_email',$comment->user_id,true);
 	return $caches[$cache_id];
 },10,3);
 
@@ -55,6 +55,6 @@ add_filter('comment_email',function($comment_author_email, $comment){
 		return $caches[$cache_id];
 	}
 	
-	$caches[$cache_id] = get_the_author_meta('user_email',$comment->user_id);
+	$caches[$cache_id] = theme_cache::get_the_author_meta('user_email',$comment->user_id);
 	return $caches[$cache_id];
 },10,2);

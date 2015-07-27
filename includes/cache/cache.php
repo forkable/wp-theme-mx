@@ -213,6 +213,26 @@ class theme_cache{
 			return wp_cache_flush();
 		}
 	}
+	public static function get_the_author_meta($field,$user_id){
+		static $cache = [];
+		$cache_id = $field . $user_id;
+		if(!isset($cache[$cache_id]))
+			switch($field){
+				case 'display_name':
+				case 'first_name':
+				case 'last_name':
+				case 'description':
+				case 'user_firstname':
+				case 'user_lastname':
+				case 'nickname':
+					$cache[$cache_id] = esc_html(get_the_author_meta($field,$user_id));
+					break;
+				default:
+					$cache[$cache_id] = get_the_author_meta($field,$user_id);
+			}
+			
+		return $cache[$cache_id];
+	}
 	public static function get_current_user_id(){
 		if(!self::is_user_logged_in())
 			return false;

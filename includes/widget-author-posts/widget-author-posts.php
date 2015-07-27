@@ -30,7 +30,7 @@ class widget_author_posts extends WP_Widget{
 		echo $args['before_title'];
 			?>
 			<i class="fa fa-file-text"></i> 
-			<?= sprintf($title,get_the_author_meta('display_name',$post->post_author));?>
+			<?= sprintf($title,theme_cache::get_the_author_meta('display_name',$post->post_author));?>
 			<a href="<?php if(class_exists('theme_custom_author_profile')){
 				echo theme_custom_author_profile::get_tabs('works',$post->post_author)['url'];
 			}else{

@@ -61,7 +61,6 @@ define(function(require, exports, module){
 					cache.pop_hide[i] = true;
 				}
 				if(this == cache.$emotion_btns[i]){
-					console.log(i);
 					cache.active_pop_i = i;
 					cache.pop_hide[i] = false;
 					cache.$pop[i].style.display = 'block';

@@ -412,7 +412,7 @@ class theme_page_rank{
 							<!-- author -->
 							<div class="author meta col-xs-6 col-sm-2">
 								<i class="fa fa-user"></i> 
-								<?= esc_html(get_the_author_meta('display_name',$post->post_author));?>
+								<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>
 							</div>
 							
 							<!-- category -->

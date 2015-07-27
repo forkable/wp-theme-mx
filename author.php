@@ -12,7 +12,7 @@ if(empty($tab_active) || !isset($tabs[$tab_active]))
 <div class="container">
 	<h3 class="crumb-title">
 		<?= get_avatar($author);?>
-		<?= esc_html(get_the_author_meta('display_name',$author));?> - <?= $tabs[$tab_active]['text'];?>
+		<?= theme_cache::get_the_author_meta('display_name',$author);?> - <?= $tabs[$tab_active]['text'];?>
 	</h3>
 	<div class="panel panel-default">
 		<div class="panel-heading">

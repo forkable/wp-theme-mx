@@ -4,8 +4,8 @@
 		?>
 		<ul class="row mx-card-body post-img-lists">
 			<?php
-			while(have_posts()){
-				the_post();
+			foreach($wp_query->posts as $post){
+				setup_postdata($post);
 				theme_functions::archive_img_content(array(
 					'classes' => array('col-xs-6 col-sm-3 col-md-2')
 				));

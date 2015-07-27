@@ -564,7 +564,7 @@ class theme_custom_point_bomb{
 		if($history['type'] !== 'bomb')
 			return false;
 
-		$target_name = esc_html(get_the_author_meta('display_name',$history['target-id']));
+		$target_name = theme_cache::get_the_author_meta('display_name',$history['target-id']);
 
 		$says = isset($history['says']) && trim($history['says']) !== '' ? esc_html($history['says']) : false;
 		?>
@@ -611,7 +611,7 @@ class theme_custom_point_bomb{
 		if($history['type'] !== 'be-bomb')
 			return false;
 
-		$attacker_name = esc_html(get_the_author_meta('display_name',$history['attacker-id']));
+		$attacker_name = theme_cache::get_the_author_meta('display_name',$history['attacker-id']);
 		
 		$attacker_name = '<a href="' . esc_url(theme_cache::get_author_posts_url($history['attacker-id'])) . '" attacker="_blank"><img src="' . get_avatar_url($history['attacker-id']) . '" alt="' . $attacker_name . '" width="16" height="16" class="avatar"> ' . $attacker_name  . '</a>';
 
@@ -708,7 +708,7 @@ class theme_custom_point_bomb{
 				<div class="excerpt">
 					<p>
 					<?php
-					$attacker_name = esc_html(get_the_author_meta('display_name',$noti['attacker-id']));
+					$attacker_name = theme_cache::get_the_author_meta('display_name',$noti['attacker-id']);
 
 					$attacker_name = '<a href="' . esc_url(get_author_posts_url($noti['attacker-id'])) . '" target="_blank">' . $attacker_name  . '</a>';
 					

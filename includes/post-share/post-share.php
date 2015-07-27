@@ -50,7 +50,7 @@ class theme_post_share{
 			'img_url' => esc_url($img_url),
 			'post_excerpt' => esc_attr(mb_substr(html_minify(strip_tags(get_the_excerpt())),0,120)),
 			'post_content' => esc_attr(mb_substr(html_minify(strip_tags(get_the_content())),0,120)),
-			'author' => esc_attr(get_the_author_meta('display_name',$post->post_author)),
+			'author' => theme_cache::get_the_author_meta('display_name',$post->post_author),
 		);
 		$output_keywords = array_merge($defaults,$args);
 	
