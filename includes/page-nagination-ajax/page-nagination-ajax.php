@@ -58,6 +58,10 @@ class theme_page_nagination_ajax{
 		set_query_var('page',$page);
 		setup_postdata($post);
 		ob_start();
+		
+		if(class_exists('theme_img_lazyload'))
+			remove_filter('the_content','theme_img_lazyload::the_content');
+			
 		the_content();
 		$content = html_minify(ob_get_contents());
 		ob_end_clean();
