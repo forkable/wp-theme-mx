@@ -71,7 +71,7 @@ class theme_widget_author extends WP_Widget{
 			<?php if(class_exists('theme_custom_author_profile')){ ?>
 				<div class="author-card-meta-links btn-group btn-group-justified btn-group-sm" role="group">
 					<!-- works count -->
-					<a href="<?= theme_custom_author_profile::get_tabs('profile',$author_id)['url'];?>" class="btn btn-default" role="button">
+					<a href="<?= theme_custom_author_profile::get_tabs('works',$author_id)['url'];?>" class="btn btn-default" role="button">
 						<span class="tx"><i class="fa fa-<?= theme_custom_author_profile::get_tabs('works',$author_id)['icon'];?>"></i> <?= theme_custom_author_profile::get_tabs('works',$author_id)['text'];?></span>
 						<span class="count"><?= (int)theme_custom_author_profile::get_tabs('works',$author_id)['count'];?></span>
 					</a>
@@ -81,9 +81,16 @@ class theme_widget_author extends WP_Widget{
 						<span class="count"><?= (int)theme_custom_author_profile::get_tabs('comments',$author_id)['count'];?></span>
 					</a>
 					<!-- point -->
-					<?php if(class_exists('theme_custom_point_bomb')){ ?>
+					<?php 
+						if(class_exists('theme_custom_point_bomb')){ 
+						if(class_exists('number_user_nicename')){
+							$target_id = number_user_nicename::$prefix_number + $author_id;
+						}else{
+							$target_id = $author_id;
+						}
+						?>
 						<!-- followers count -->
-						<a href="<?= theme_custom_point_bomb::get_tabs('bomb',$author_id)['url'];?>" class="btn btn-default" role="button" rel="nofollow">
+						<a href="<?= theme_custom_point_bomb::get_tabs('bomb',$target_id)['url'];?>" class="btn btn-default" role="button" rel="nofollow">
 							<span class="tx"><i class="fa fa-bomb"></i> <?= theme_custom_point::get_point_name();?></span>
 							<span class="count"><?= theme_custom_point::get_point($author_id);?></span>
 						</a>

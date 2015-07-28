@@ -41,12 +41,12 @@ class widget_author_posts extends WP_Widget{
 			<?php
 		echo $args['after_title'];
 		
-		$query = theme_functions::get_posts_query(array(
+		$query = new WP_Query([
 			'category__in' => (array)$instance['category__in'],
 			'posts_per_page' => (int)$instance['posts_per_page'],
 			'orderby' => $instance['orderby'],
 			'author' => $post->post_author,
-		));
+		]);
 		$content_type_class = $instance['content_type'] === 'tx' ? ' post-tx-lists ' : ' post-img-list ';
 		?>
 		<div class="panel-body">
