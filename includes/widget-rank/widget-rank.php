@@ -128,8 +128,7 @@ class widget_rank extends WP_Widget{
 				id="<?= self::get_field_id('date');?>"
 			>
 				<?php
-				$dates = theme_functions::get_rank_data();
-				foreach($dates as $k => $v){
+				foreach(self::get_rank_data() as $k => $v){
 					echo get_option_list($k,$v,$instance['date']);
 				}
 				?>
@@ -200,6 +199,17 @@ class widget_rank extends WP_Widget{
 			</select>
 		</p>
 		<?php
+	}
+	public static function get_rank_data($key = null){
+		$content = [
+			'all' 			=> ___('All'),
+			'daily' 		=> ___('Daily'),
+			'weekly' 		=> ___('Weekly'),
+			'monthly' 		=> ___('Monthly'),
+		];
+		if($key) 
+			return isset($content[$key]) ? $content[$key] : false;
+		return $content;
 	}
 	/**
 	 * 
