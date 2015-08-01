@@ -230,7 +230,7 @@ class theme_comment_ajax{
 			 */
 			$comment = get_comment($comment_id);
 			
-			$post = get_post($comment_post_ID);
+			$post = theme_cache::get_post($comment_post_ID);
 			/** 
 			 * hook
 			 */
@@ -302,7 +302,7 @@ class theme_comment_ajax{
 				/**
 				 * check post exists
 				 */
-				$post = get_post($post_id);
+				$post = theme_cache::get_post($post_id);
 
 				if(!$post || ($post->post_type !== 'post' && $post->post_type !== 'page')){
 					$output['status'] = 'error';
@@ -386,7 +386,7 @@ class theme_comment_ajax{
 	public static function pre_comment_on_post($comment_post_ID){
 		
 		$comment_post_ID = isset($_POST['comment_post_ID']) ? (int) $_POST['comment_post_ID'] : 0;
-		$post = get_post($comment_post_ID);
+		$post = theme_cache::get_post($comment_post_ID);
 		/**
 		 * check comment_status
 		 */
@@ -507,7 +507,7 @@ class theme_comment_ajax{
 					if(!$post_id){
 						return $output;
 					}
-					$post = get_post($post_id);
+					$post = theme_cache::get_post($post_id);
 					$pages = theme_features::get_comment_pages_count(self::get_comments([
 						'post_id' => $post->ID,
 					]));

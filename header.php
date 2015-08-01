@@ -39,10 +39,11 @@
 /** 
  * banner
  */
-if(!wp_is_mobile() && has_header_image()){ ?>
-<a class="banner hidden-xs" href="<?= theme_cache::home_url();?>">
+$header_img = get_header_image();
+if(!wp_is_mobile() && (bool)$header_img){ ?>
+<a class="banner hidden-xs" href="<?= theme_cache::home_url();?>" title="<?= theme_cache::get_bloginfo('name');?> - <?= theme_cache::get_bloginfo('description');?>">
 	<div class="container">
-		<img src="<?php header_image(); ?>" alt="<?= theme_cache::get_bloginfo('name');?>">
+		<img src="<?= $header_img; ?>" alt="<?= theme_cache::get_bloginfo('name');?>" width="1600" height="250">
 		<?php if(display_header_text()){ ?>
 			<h1 hidden><?= theme_cache::get_bloginfo('name');?></h1>
 			<span hidden><?= theme_cache::get_bloginfo('description');?></span>

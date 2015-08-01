@@ -149,7 +149,7 @@ class theme_custom_post_source{
 						
 					?></li>
 					<li><?php 
-					$permalink = esc_url(get_permalink());
+					$permalink = theme_cache::get_permalink($post->ID);
 					echo sprintf(
 						___('Welcome to reprint but must indicate the source url %1$s.'),
 						'<a href="' . $permalink . '" target="_blank" rel="nofollow">' . $permalink . '</a>'

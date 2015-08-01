@@ -19,7 +19,17 @@ global $author;
 				</tr>
 				<tr>
 					<th><?= ___('Nickname');?></th>
-					<td><strong><?= theme_cache::get_the_author_meta('display_name',$author);?></strong></td>
+					<td>
+						<strong><?= theme_cache::get_the_author_meta('display_name',$author);?></strong> 
+					</td>
+				</tr>
+				<tr>
+					<th><?= ___('Level');?></th>
+					<td>
+						<?php if(class_exists('theme_custom_author_profile')){ ?>
+							<span class="label label-<?= theme_custom_author_profile::get_roles($author)['label'];?>"><?= theme_custom_author_profile::get_roles($author)['name'];?></span>
+						<?php } ?>
+					</td>
 				</tr>
 				<tr>
 					<th><?= ___('Registered');?></th>
@@ -64,10 +74,12 @@ global $author;
 				<tr>
 					<th><?= ___('Comments');?></th>
 					<td>
-					<?php 
+						<a href="<?= theme_custom_author_profile::get_tabs('comments',$author)['url'];?>">
+						<?php 
 						$count_comments = theme_features::get_user_comments_count($author);
 						echo (int)$count_comments != 0 ? $count_comments : '-';
 						?>
+						</a>
 					</td>
 				</tr>
 				<?php if(class_exists('theme_custom_point')){ ?>

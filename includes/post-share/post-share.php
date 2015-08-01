@@ -43,9 +43,9 @@ class theme_post_share{
 		$opt = self::get_options();
 		$img_url = theme_features::get_thumbnail_src();
 		$defaults = array(
-			'post_title_text' => esc_attr(get_the_title()),
-			'post_url' => esc_url(get_permalink()),
-			'blog_name' => esc_attr(theme_cache::get_bloginfo('name')),
+			'post_title_text' => theme_cache::get_the_title($post->ID),
+			'post_url' => theme_cache::get_permalink($post->ID),
+			'blog_name' => theme_cache::get_bloginfo('name'),
 			'blog_url' => esc_url(theme_cache::home_url()),
 			'img_url' => esc_url($img_url),
 			'post_excerpt' => esc_attr(mb_substr(html_minify(strip_tags(get_the_excerpt())),0,120)),

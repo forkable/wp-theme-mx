@@ -1260,12 +1260,18 @@ label.error{
 		height: auto;
 		max-width: none;
 	}
-	#widget-author-card .author-card-name{
+	.author-card-name{
 		font-weight: bold;
 		margin-top: 5px;
 	}
+			.author-card-name small{
+				font-size: 9px;
+				padding: 2px 5px;
+				margin-left: 1em;
+			}
 	.author-card-description{
 		color:#666;
+		margin: 0;
 	}
 	#widget-author-card .tx{
 		display: block;

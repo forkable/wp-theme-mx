@@ -48,7 +48,7 @@ class custom_post_point{
 			add_action('list_point_histroy',__CLASS__ . '::' . $v);
 	}
 	public static function sync_delete_post($post_id){
-		$post = get_post($post_id);
+		$post = theme_cache::get_post($post_id);
 		if(!$post)
 			return;
 			
@@ -352,7 +352,7 @@ class custom_post_point{
 			die(theme_features::json_format($output));
 		}
 		
-		$post = get_post($post_id);
+		$post = theme_cache::get_post($post_id);
 		if(empty($post) || $post->post_type !== 'post')
 			die(theme_features::json_format([
 				'status' => 'error',
@@ -365,7 +365,7 @@ class custom_post_point{
 		if(!theme_cache::is_user_logged_in()){
 			$output['status'] = 'error';
 			$output['code'] = 'need_login';
-			$output['msg'] = '<a href="' . wp_login_url(get_permalink($post->ID)) . '" title="' . ___('Go to log-in') . '">' . ___('Sorry, please log-in.') . '</a>';
+			$output['msg'] = '<a href="' . wp_login_url(theme_cache::get_permalink($post->ID)) . '" title="' . ___('Go to log-in') . '">' . ___('Sorry, please log-in.') . '</a>';
 			die(theme_features::json_format($output));
 		}
 		
@@ -450,13 +450,6 @@ class custom_post_point{
 
 		die(theme_features::json_format($output));
 	}
-	public static function get_post($post_id){
-		static $posts = [];
-		if(!isset($posts[$post_id]))
-			$posts[$post_id] = get_post($post_id);
-
-		return $posts[$post_id];
-	}
 	public static function list_history_post_rate($history){
 		if($history['type'] !== 'post-rate')
 			return false;
@@ -467,7 +460,7 @@ class custom_post_point{
 			
 			<span class="history-text">
 				<?php
-				$post = self::get_post($history['post-id']);
+				$post = theme_cache::get_post($history['post-id']);
 				if(!$post){
 					echo ___('The post has been deleted.');
 				}else{
@@ -475,7 +468,7 @@ class custom_post_point{
 						___('You rated %1$d %2$s for the post %3$s.'),
 						abs($history['points']),
 						theme_custom_point::get_point_name(),
-						'<a href="' . esc_url(get_permalink($history['post-id'])) . '">' . esc_html(get_the_title($history['post-id'])) . '</a>'
+						'<a href="' . theme_cache::get_permalink($history['post-id']) . '">' . theme_cache::get_the_title($history['post-id']) . '</a>'
 					);
 				}
 				?>
@@ -495,13 +488,13 @@ class custom_post_point{
 			
 			<span class="history-text">
 				<?php
-				$post = self::get_post($history['post-id']);
+				$post = theme_cache::get_post($history['post-id']);
 				if(!$post){
 					echo ___('The post has been deleted.');
 				}else{
 					echo sprintf(
 						___('You post %1$s has been rated %2$d %3$s by %4$s.'),
-						'<a href="' . esc_url(get_permalink($history['post-id'])) . '">' . esc_html(get_the_title($history['post-id'])) . '</a>',
+						'<a href="' . theme_cache::get_permalink($history['post-id']) . '">' . theme_cache::get_the_title($history['post-id']) . '</a>',
 						abs($history['points']),
 						theme_custom_point::get_point_name(),
 						esc_html(get_author_meta('display_name',$history['rater-id']))
@@ -541,7 +534,7 @@ class custom_post_point{
 			'post-id' => $post_id,
 			'points' => $points,
 		];
-		add_user_meta(self::get_post($post_id)->post_author,theme_custom_point::$user_meta_key['history'],$meta);
+		add_user_meta(theme_cache::get_post($post_id)->post_author,theme_custom_point::$user_meta_key['history'],$meta);
 		
 	}
 	public static function set_error($error){
@@ -651,7 +644,7 @@ class custom_post_point{
 				'msg' => ___('Invaild points.'),
 			];
 
-		$post = get_post($post_id);
+		$post = theme_cache::get_post($post_id);
 		if(!$post)
 			return [
 				'status' => 'error',
@@ -725,7 +718,7 @@ class custom_post_point{
 				'msg' => ___('Invaild points value.'),
 			];
 			
-		$post = get_post($post_id);
+		$post = theme_cache::get_post($post_id);
 		if(!$post)
 			return [
 				'status' => 'error',

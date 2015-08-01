@@ -66,6 +66,35 @@ class theme_custom_author_profile{
 				return (int)get_user_meta($user_id,self::$user_meta_key['following_count'],true);
 		}
 	}
+	public static function get_roles($user_id_or_role){
+		$roles = [
+			'subscriber' => [
+				'name' => ___('Author'),
+				'label' => 'default',
+			],
+			'contributor' => [
+				'name' => ___('Author'),
+				'label' => 'warning',
+			],
+			'author' => [
+				'name' => ___('Certification Author'),
+				'label' => 'primary',
+			],
+			'editor' => [
+				'name' => ___('Editor'),
+				'label' => 'success',
+			],
+			'administrator' => [
+				'name' => ___('Editor'),
+				'label' => 'danger',
+			],
+		];
+		if(is_numeric($user_id_or_role)){
+			//var_dump(theme_cache::get_the_author_meta('wp_capabilities',$user_id_or_role));die;
+			$user_id_or_role = array_keys(theme_cache::get_the_author_meta('wp_capabilities',$user_id_or_role))[0];
+		}
+		return isset($roles[$user_id_or_role]) ? $roles[$user_id_or_role] : false;
+	}
 	public static function get_tabs($key,$author_id){
 		static $caches = [], $baseurl = [];
 		

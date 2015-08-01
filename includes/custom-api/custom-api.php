@@ -125,7 +125,7 @@ class theme_custom_api{
 					die(theme_features::json_format($output));
 				}
 				global $post;
-				$post = get_post($post_id);
+				$post = theme_cache::get_post($post_id);
 
 				/**
 				 * check post exists
@@ -165,7 +165,7 @@ class theme_custom_api{
 		/**
 		 * post url
 		 */
-		$output['url'] = get_permalink($post->ID);
+		$output['url'] = theme_cache::get_permalink($post->ID);
 		/**
 		 * thumbnail
 		 */

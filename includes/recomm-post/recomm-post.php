@@ -139,7 +139,7 @@ class theme_recommended_post{
 										?>
 <label for="<?= self::$iden;?>-<?= $post->ID;?>" class="button">
 	<input type="checkbox" id="<?= self::$iden;?>-<?= $post->ID;?>" name="<?= self::$iden;?>[ids][<?= $post->ID;?>]" value="<?= $post->ID;?>" checked >
-	<?= esc_html(get_the_title($post->ID));?>
+	<?= esc_html(theme_cache::get_the_title($post->ID));?>
 	-
 	<a href="<?= esc_url(get_edit_post_link($post->ID));?>" target="_blank" title="<?= ___('Open in open window');?>"><i class="fa fa-external-link"></i></a>
 </label>

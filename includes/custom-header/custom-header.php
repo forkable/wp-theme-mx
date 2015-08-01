@@ -12,9 +12,7 @@ class theme_custom_header{
 	public static function init() {
 		$default_headers = [];
 		$img_names = array(
-			'bridge.jpg',
-			'classical.jpg',
-			'dusk.jpg'
+			'banner-01.png'
 		);
 		$args = array(
 			'default-text-color'     => 'fff',

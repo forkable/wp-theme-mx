@@ -120,8 +120,8 @@ class theme_post_copyright{
 			'%blog_url%'
 		];
 		$output_keywords = [
-			get_the_title(),
-			get_permalink(),
+			theme_cache::get_the_title($post->ID),
+			theme_cache::get_permalink($post->ID),
 			theme_cache::get_bloginfo('name'),
 			theme_cache::home_url()
 		];

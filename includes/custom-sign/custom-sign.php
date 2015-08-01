@@ -98,7 +98,7 @@ class theme_custom_sign{
 	}
 	public static function filter_login_headerurl($login_header_url){
 		// if(theme_cache::current_user_can('moderate_comments')) return $login_header_url;
-		wp_safe_redirect(get_permalink(theme_cache::get_page_by_path(self::$page_slug)));
+		wp_safe_redirect(theme_cache::get_permalink(theme_cache::get_page_by_path(self::$page_slug)));
 		die();
 	}
 	public static function filter_show_admin_bar($show_admin_bar){
@@ -146,7 +146,7 @@ class theme_custom_sign{
 	public static function get_tabs($key = null,$redirect = null){
 		static $baseurl = null;
 		if($baseurl === null)
-			$baseurl = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
+			$baseurl = theme_cache::get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 			
 		if($redirect === null)
 			$redirect = get_query_var('redirect');

@@ -1185,7 +1185,7 @@ class theme_features{
 			return $caches[$slug];
 			
 		$id = self::get_page_id_by_slug($slug);
-		$caches[$slug] = get_permalink($id);
+		$caches[$slug] = theme_cache::get_permalink($id);
 		return $caches[$slug];
 	}
 	/**
@@ -1238,17 +1238,16 @@ class theme_features{
 	 */
 	public static function get_link_page_url($page = 1,$add_fragment = null){
 		global $wp_rewrite,$post;
-		$post = get_post();
 
 		if ( 1 == $page ) {
-			$url = get_permalink();
+			$url = theme_cache::get_permalink($post->ID);
 		} else {
 			if ( '' == get_option('permalink_structure') || in_array($post->post_status, array('draft', 'pending')) )
-				$url = add_query_arg( 'page', $page, get_permalink() );
+				$url = add_query_arg( 'page', $page, theme_cache::get_permalink() );
 			elseif ( 'page' == get_option('show_on_front') && get_option('page_on_front') == $post->ID )
-				$url = trailingslashit(get_permalink()) . user_trailingslashit("$wp_rewrite->pagination_base/" . $page, 'single_paged');
+				$url = trailingslashit(theme_cache::get_permalink($post->ID)) . user_trailingslashit("$wp_rewrite->pagination_base/" . $page, 'single_paged');
 			else
-				$url = trailingslashit(get_permalink()) . user_trailingslashit($page, 'single_paged');
+				$url = trailingslashit(theme_cache::get_permalink($post->ID)) . user_trailingslashit($page, 'single_paged');
 		}
 		return $add_fragment ? esc_url($url) . '#' . $add_fragment : esc_url($url);	
 	}

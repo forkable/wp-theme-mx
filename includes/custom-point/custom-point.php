@@ -542,7 +542,7 @@ class theme_custom_point{
 				}else{
 					echo sprintf(___('You published a comment in %1$s.'),
 
-					'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '">' . esc_html(get_the_title($comment->comment_post_ID)) . '</a>'
+					'<a href="' . theme_cache::get_permalink($comment->comment_post_ID) . '">' . theme_cache::get_the_title($comment->comment_post_ID) . '</a>'
 					);
 				}
 				?>
@@ -562,11 +562,11 @@ class theme_custom_point{
 			
 			<span class="history-text">
 				<?php
-				$post = get_post($history['post-id']);
+				$post = theme_cache::get_post($history['post-id']);
 				if(!$post){
 					echo ___('The post has been deleted.');
 				}else{
-					echo sprintf(___('You published a post %s.'),'<a href="' . esc_url(get_permalink($history['post-id'])) . '">' . esc_html(get_the_title($history['post-id'])) . '</a>');
+					echo sprintf(___('You published a post %s.'),'<a href="' . theme_cache::get_permalink($history['post-id']) . '">' . theme_cache::get_the_title($history['post-id']) . '</a>');
 				}
 				?>
 			</span>
@@ -589,13 +589,13 @@ class theme_custom_point{
 				if(!$comment){
 					echo ___('The comment has been deleted.');
 				}else{
-					$post = get_post($comment->comment_post_ID);
+					$post = theme_cache::get_post($comment->comment_post_ID);
 					if(!$post){
 						echo ___('The post has been deleted.');
 					}else{
 						echo sprintf(___('Your post %1$s has a new comment by %2$s.'),
 
-						'<a href="' . esc_url(get_permalink($post->ID)) . '">' . esc_html(get_the_title($post->ID)) . '</a>',
+						'<a href="' . theme_cache::get_permalink($post->ID) . '">' . theme_cache::get_the_title($post->ID) . '</a>',
 
 						'<span class="comment-author">' . get_comment_author_link($history['comment-id']) . '</span>'
 						);
@@ -700,7 +700,7 @@ class theme_custom_point{
 	 * @version 1.0.0
 	 */
 	public static function action_add_history_post_delete($post_id){
-		$post = get_post($post_id);
+		$post = theme_cache::get_post($post_id);
 		if(!$post)
 			return false;
 			
@@ -709,7 +709,7 @@ class theme_custom_point{
 			
 		$meta = array(
 			'type'=> 'post-delete',
-			'post-title' => get_the_title($post->ID),
+			'post-title' => theme_cache::get_the_title($post->ID),
 			'timestamp' => current_time('timestamp'),
 		);
 		/**
@@ -917,7 +917,7 @@ class theme_custom_point{
 			
 		$comment_author_id = $comment->user_id;
 
-		$post = get_post($comment->comment_post_ID);
+		$post = theme_cache::get_post($comment->comment_post_ID);
 
 		if($comment_author_id == $post->post_author) return false;
 		$meta = array(
@@ -954,7 +954,7 @@ class theme_custom_point{
 			return false;
 			
 		
-		$post = get_post($comment->comment_post_ID);
+		$post = theme_cache::get_post($comment->comment_post_ID);
 		
 		/** post author id */
 		$post_author_id = $post->post_author;

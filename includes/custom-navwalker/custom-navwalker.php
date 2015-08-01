@@ -318,8 +318,8 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu {
 			if ( is_wp_error( $original_title ) )
 				$original_title = false;
 		} elseif ( 'post_type' == $item->type ) {
-			$original_object = get_post( $item->object_id );
-			$original_title = get_the_title( $original_object->ID );
+			$original_object = theme_cache::get_post( $item->object_id );
+			$original_title = theme_cache::get_the_title( $original_object->ID );
 		}
 
 		$classes = array(

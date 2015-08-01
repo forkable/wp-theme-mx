@@ -68,10 +68,10 @@ class widget_posts extends WP_Widget{
 						setup_postdata($post);
 						?>
 						<li>
-							<a href="<?= esc_url(get_permalink());?>">
-								<span class="title"><?= esc_html(get_the_title());?></span>
+							<a href="<?= theme_cache::get_permalink($post->ID);?>">
+								<span class="title"><?= theme_cache::get_the_title($post->ID);?></span>
 								<?php if($show_date === 1){ ?>
-								<small class="date"> - <?= esc_html(friendly_date(get_post_time('U', true)));?></small>
+								<small class="date"> - <?= friendly_date(get_post_time('U', true));?></small>
 								<?php } ?>
 							</a>
 						</li>

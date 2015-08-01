@@ -62,14 +62,6 @@ class widget_comments extends WP_Widget{
 					if(!isset($caches['author_name'][$comment->comment_author]))
 						$caches['author_name'][$comment->comment_author] = esc_html(get_comment_author());
 						
-					/** permalinks */
-					if(!isset($caches['permalinks'][$comment->comment_post_ID]))
-						$caches['permalinks'][$comment->comment_post_ID] = esc_url(get_permalink($comment->comment_post_ID));
-						
-					/** post_title */
-					if(!isset($caches['post_title'][$comment->comment_post_ID]))
-						$caches['post_title'][$comment->comment_post_ID] = get_the_title($comment->comment_post_ID);
-
 					/** avatar placeholder */
 					if(!isset($caches['avatar_placeholder']))
 						$caches['avatar_placeholder'] = esc_url(theme_features::get_theme_images_url(theme_functions::$avatar_placeholder));
@@ -78,7 +70,7 @@ class widget_comments extends WP_Widget{
 					$comment_text = str_sub(strip_tags(preg_replace('/<img[^>]+>/i','[' . ___('Image') . ']',get_comment_text($comment->comment_ID))),35);
 					?>
 <li class="list-group-item">
-	<a class="media" href="<?= $caches['permalinks'][$comment->comment_post_ID];?>#comment-<?= $comment->comment_ID;?>" title="<?= esc_attr($caches['post_title'][$comment->comment_post_ID]);?>">
+	<a class="media" href="<?= theme_cache::get_permalink($comment->comment_post_ID);?>#comment-<?= $comment->comment_ID;?>" title="<?= theme_cache::get_the_title($comment->comment_post_ID);?>">
 		<div class="media-left">
 			<img class="avatar media-object" data-src="<?= esc_url(get_avatar_url($comment));?>" src="<?= $caches['avatar_placeholder'];?>" alt="<?= $caches['author_name'][$comment->comment_author];?>" width="<?= self::$avatar_size;?>" height="<?= self::$avatar_size;?>"/>
 		</div>

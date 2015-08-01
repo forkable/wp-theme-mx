@@ -116,7 +116,7 @@ class theme_custom_contribution{
 	public static function get_url(){
 		static $cache = null;
 		if($cache === null){
-			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
+			$cache = theme_cache::get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 		}
 		return $cache;
 	}
@@ -214,7 +214,7 @@ class theme_custom_contribution{
 					/**
 					 * check post exists
 					 */
-					$old_post = self::get_post($edit_post_id);
+					$old_post = theme_cache::get_post($edit_post_id);
 					if(!$old_post || 
 						$old_post->post_type !== 'post' || 
 						!self::in_edit_post_status($old_post->post_status)
@@ -373,7 +373,7 @@ class theme_custom_contribution{
 					
 					/** set attachment post parent */
 					foreach($attach_ids as $attach_id){
-						$post = self::get_post($attach_id);
+						$post = theme_cache::get_post($attach_id);
 						if(!$post || $post->post_type !== 'attachment')
 							continue;
 						wp_update_post([
@@ -398,7 +398,7 @@ class theme_custom_contribution{
 						$output['status'] = 'success';
 						$output['msg'] = sprintf(
 							___('Congratulation! Your post has been published. You can %s or %s.'),
-							'<a href="' . esc_url(get_permalink($post_id)) . '" title="' . esc_attr(get_the_title($post_id)) . '">' . ___('View it now') . '</a>',
+							'<a href="' . esc_url(theme_cache::get_permalink($post_id)) . '" title="' . esc_attr(theme_cache::get_the_title($post_id)) . '">' . ___('View it now') . '</a>',
 							'<a href="javascript:location.href=location.href;">' . ___('countinue to write a new post') . '</a>'
 						);
 
@@ -416,7 +416,7 @@ class theme_custom_contribution{
 				}else{
 					$output['status'] = 'success';
 					if($old_post->post_status == 'publish'){
-						$output['msg'] = ___('Your post has updated successful.') . ' <a href="' . esc_url(get_permalink($post_id)) . '" target="_blank">' . ___('Views it now') . '</a>';
+						$output['msg'] = ___('Your post has updated successful.') . ' <a href="' . theme_cache::get_permalink($post_id) . '" target="_blank">' . ___('Views it now') . '</a>';
 					}else{
 						$output['msg'] = ___('Your post has updated successful.');
 					}
@@ -476,13 +476,13 @@ class theme_custom_contribution{
 			return false;
 		}
 			
-		$post = self::get_post($post_id);
+		$post = theme_cache::get_post($post_id);
 		$cache = $post && self::in_edit_post_status($post->post_status) && $post->post_type === 'post' ? $post_id : false;
 		return $cache;
 	}
 	
 	public static function get_post_attachs($post_id){
-		$post = self::get_post($post_id);
+		$post = theme_cache::get_post($post_id);
 		if(!$post)
 			return false;
 
@@ -492,13 +492,6 @@ class theme_custom_contribution{
 			'post_mime_type' => 'image',
 			'posts_per_page' => -1,
 		]);
-	}
-	public static function get_post($post_id){
-		static $caches = [];
-		if(!isset($caches[$post_id]))
-			$caches[$post_id] = get_post($post_id);
-
-		return $caches[$post_id];
 	}
 	public static function frontend_seajs_alias($alias){
 		if(self::is_page()){

@@ -76,7 +76,7 @@ class theme_cache{
 		 * when post delete
 		 */
 		add_action('delete_post', function($post_id){
-			$post = get_post($post_id);
+			$post = self::get_post($post_id);
 			$caches = (array)wp_cache_get('pages_by_path');
 			if(isset($caches[$post->post_name])){
 				unset($caches[$post->post_name]);
@@ -87,7 +87,7 @@ class theme_cache{
 		 * when post save
 		 */
 		add_action('save_post', function($post_id){
-			$post = get_post($post_id);
+			$post = self::get_post($post_id);
 			$caches = (array)wp_cache_get('pages_by_path');
 			if(!isset($caches[$post->post_name])){
 				$caches[$post->post_name] = $post_id;
@@ -212,6 +212,25 @@ class theme_cache{
 		if(wp_using_ext_object_cache()){
 			return wp_cache_flush();
 		}
+	}
+	public static function get_post($post_id, $output = OBJECT, $filter = 'raw'){
+		static $caches = [];
+		$cache_id = $post_id . $output . $filter;
+		if(!isset($caches[$cache_id]))
+			$caches[$cache_id] = get_post($post_id, $output, $filter);
+		return $caches[$cache_id];
+	}
+	public static function get_the_title($post_id){
+		static $caches = [];
+		if(!isset($caches[$post_id]))
+			$caches[$post_id] = esc_html(get_the_title($post_id));
+		return $caches[$post_id];
+	}
+	public static function get_permalink($post_id,  $leavename = false){
+		static $caches = [];
+		if(!isset($caches[$post_id]))
+			$caches[$post_id] = esc_url(get_permalink($post_id,$leavename));
+		return $caches[$post_id];
 	}
 	public static function get_the_author_meta($field,$user_id){
 		static $cache = [];
@@ -374,7 +393,7 @@ class theme_cache{
 		/** get post id from cache */
 		if(isset($caches[$page_path])){
 			$post_id = $caches[$page_path];
-			return get_post($post_id,$output);
+			return self::get_post($post_id,$output);
 		/** get post id from db */
 		}else{
 			$post = call_user_func_array('get_page_by_path',func_get_args());

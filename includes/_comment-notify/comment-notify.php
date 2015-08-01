@@ -77,8 +77,8 @@ class theme_comment_notify {
 		
 		$to = $comment->comment_author_email;
 		
-		$post_title = get_the_title($comment->comment_post_ID);
-		$post_url = esc_url(get_permalink($comment->comment_post_ID));
+		$post_title = theme_cache::get_the_title($comment->comment_post_ID);
+		$post_url = theme_cache::get_permalink($comment->comment_post_ID);
 		
 		$mail_title = sprintf(___('[%s] Your comment has been approved in "%s".'),theme_cache::get_bloginfo('name'),$post_title);
 		ob_start();
@@ -147,13 +147,13 @@ class theme_comment_notify {
 			return false;
 
 		$post_id = $parent_comment->comment_post_ID;
-		$post_title = esc_html(get_the_title($post_id));
+		$post_title = theme_cache::get_the_title($post_id);
 
-		$post_url = esc_url(get_permalink($post_id));
+		$post_url = theme_cache::get_permalink($post_id);
 
 		$comment_url = esc_url(get_comment_link($child_comment));
 		
-		$mail_title = sprintf(___('[%s] Your comment has a reply in "%s".'),esc_html(theme_cache::get_bloginfo('name')),$post_title);
+		$mail_title = sprintf(___('[%s] Your comment has a reply in "%s".'),theme_cache::get_bloginfo('name'),$post_title);
 		ob_start();
 		?>
 <p>

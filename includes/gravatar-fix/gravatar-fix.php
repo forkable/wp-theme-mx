@@ -5,7 +5,7 @@ Plugin URI: http://inn-studio.com/gravatar-fix
 Description: A simple and easy way to fix your gravatar can not be show in China. Replace by eqoe.cn. 
 Author: INN STUDIO
 Author URI: http://inn-studio.com
-Version: 1.1.1
+Version: 1.1.2
 */
 if(!class_exists('theme_gravatar_fix')){
 	add_filter('theme_includes',function($fns){
@@ -21,7 +21,6 @@ if(!class_exists('theme_gravatar_fix')){
 			add_action('page_settings', __CLASS__ . '::display_backend');
 			
 			add_filter('theme_options_default', __CLASS__ . '::options_default');
-			
 		}
 		public static function display_backend(){
 			?>
@@ -61,7 +60,7 @@ if(!class_exists('theme_gravatar_fix')){
 			return $opts;
 		}
 		public static function is_enabled(){
-			return self::get_options('enabled') == -1;
+			return self::get_options('enabled') == 1;
 		}
 		public static function get_options($key = null){
 			static $caches = null;

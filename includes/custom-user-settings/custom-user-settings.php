@@ -322,7 +322,7 @@ class theme_custom_user_settings{
 	public static function get_url(){
 		static $cache = null;
 		if($cache === null){
-			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
+			$cache = theme_cache::get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 		}
 		return $cache;
 	}

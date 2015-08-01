@@ -36,7 +36,7 @@ class theme_page_nagination_ajax{
 		/**
 		 * post
 		 */
-		$post = get_post($post_id);
+		$post = theme_cache::get_post($post_id);
 		if(!$post)
 			die(theme_features::json_format([
 				'status' => 'error',

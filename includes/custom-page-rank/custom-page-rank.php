@@ -129,7 +129,7 @@ class theme_page_rank{
 	public static function get_tabs($key = null){
 		static $base_url = null , $tabs = null;
 		if($base_url === null)
-			$base_url = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
+			$base_url = theme_cache::get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 
 		if($tabs === null)
 			$tabs = [
@@ -374,7 +374,7 @@ class theme_page_rank{
 		);
 		$args = array_merge($defaults,$args);
 
-		$post_title = esc_html(get_the_title());
+		$post_title = theme_cache::get_the_title($post->ID);
 
 		$excerpt = get_the_excerpt();
 		if(!empty($excerpt))
@@ -384,7 +384,7 @@ class theme_page_rank{
 
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
-		<a class="list-group-item <?= $args['classes'];?>" href="<?= esc_url(get_permalink());?>" title="<?= $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
+		<a class="list-group-item <?= $args['classes'];?>" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
 					<div class="thumbnail-container">

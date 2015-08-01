@@ -340,8 +340,6 @@ class theme_functions{
 
 		$args['classes'][] = 'post-list post-img-list';
 		
-		$post_title = esc_html(get_the_title());
-
 		$excerpt = get_the_excerpt();
 		
 		if(!empty($excerpt))
@@ -352,7 +350,7 @@ class theme_functions{
 		$thumbnail_placeholder = esc_url(theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder));
 		?>
 		<li class="<?= implode(' ',$args['classes']);?>">
-			<a class="post-list-bg" href="<?= get_permalink();?>" title="<?= $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
+			<a class="post-list-bg" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID), empty($excerpt) ? null : ' - ' . $excerpt;?>">
 				<div class="thumbnail-container">
 					<img class="placeholder" alt="Placeholder" src="<?= $thumbnail_placeholder;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
 					<?php
@@ -361,12 +359,12 @@ class theme_functions{
 					 */
 					if($args['lazyload']){
 						?>
-						<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
+						<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
 					<?php }else{ ?>
-						<img class="post-list-img" src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
+						<img class="post-list-img" src="<?= $thumbnail_real_src;?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
 					<?php } ?>
 				</div>
-				<h3 class="post-list-title"><?= $post_title;?></h3>
+				<h3 class="post-list-title"><?= theme_cache::get_the_title($post->ID);?></h3>
 					
 			</a>
 		</li>
@@ -417,8 +415,6 @@ class theme_functions{
 			'meta_type'			=> 'views',
 		);
 		$args = array_merge($defaults,$args);
-		
-		$post_title = esc_html(get_the_title());
 		/** 
 		 * classes
 		 */
@@ -429,16 +425,16 @@ class theme_functions{
 		
 		?>
 		<li class="<?= $classes;?>">
-			<a href="<?= esc_url(get_permalink());?>" title="<?= $post_title;?>">
+			<a href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID);?>">
 				<?php
 				if(empty($meta_type)){
-					echo $post_title;
+					echo theme_cache::get_the_title($post->ID);
 				}else{
 					?>
 					<span class="post-list-meta" title="<?= $meta_type['tx'];?>">
 						<span class="icon-<?= $meta_type['icon'];?>"></span><span class="after-icon"><?= $meta_type['num'];?></span>
 					</span>
-					<span class="tx"><?= $post_title;?></span>
+					<span class="tx"><?= theme_cache::get_the_title($post->ID);?></span>
 				<?php } ?>
 			</a>
 		</li>
@@ -460,8 +456,6 @@ class theme_functions{
 		);
 		$args = array_merge($defaults,$args);
 
-		$post_title = esc_html(get_the_title());
-
 		$excerpt = get_the_excerpt();
 		if(!empty($excerpt))
 			$excerpt = esc_html($excerpt);
@@ -471,13 +465,13 @@ class theme_functions{
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
 		<li class="list-group-item <?= $args['classes'];?>">
-			<a class="post-list-bg media" href="<?= get_permalink();?>" title="<?= $post_title, empty($excerpt) ? null : ' - ' . $excerpt;?>">
+			<a class="post-list-bg media" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID), empty($excerpt) ? null : ' - ' . $excerpt;?>">
 				<div class="media-left">
-					<img src="<?= $thumbnail_placeholder;?>" alt="<?= $post_title;?>" class="media-object placeholder">
-					<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>"/>
+					<img src="<?= $thumbnail_placeholder;?>" alt="<?= theme_cache::get_the_title($post->ID);?>" class="media-object placeholder">
+					<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= theme_cache::get_the_title($post->ID);?>"/>
 				</div>
 				<div class="media-body">
-					<h4 class="media-heading"><?= $post_title;?></h4>
+					<h4 class="media-heading"><?= theme_cache::get_the_title($post->ID);?></h4>
 					<?php
 					/**
 					 * output excerpt
@@ -523,18 +517,16 @@ class theme_functions{
 		 */
 		$args['classes'][] = 'singluar-post panel panel-default';
 
-		$post_title = esc_html(get_the_title());
 		?>
 		<article id="post-<?php $post->ID;?>" <?php post_class($args['classes']);?>>
 			<div class="panel-heading">
-				<?php if(!empty($post_title)){ ?>
-					<h3 class="entry-title panel-title"><?= $post_title;?></h3>
+				<?php if(theme_cache::get_the_title($post->ID) !== ''){ ?>
+					<h3 class="entry-title panel-title"><?= theme_cache::get_the_title($post->ID);?></h3>
 				<?php } ?>
 
 			</div>
 
 			<div class="panel-body">
-
 				
 				<!-- post-content -->
 				<div class="post-content content-reset">
@@ -594,11 +586,9 @@ class theme_functions{
 		 */
 		$args['classes'][] = 'singluar-post panel panel-default';
 
-		$post_title = esc_html(get_the_title());
+		$author_display_name = theme_cache::get_the_author_meta('display_name',$post->post_author);
 
-		$author_display_name = esc_html(get_the_author());
-
-		$author_url = esc_url(theme_cache::get_author_posts_url($post->post_author));
+		$author_url = theme_cache::get_author_posts_url($post->post_author);
 		?>
 		<article id="post-<?= $post->ID;?>" <?php post_class($args['classes']);?>>
 			<div class="panel-heading">
@@ -609,8 +599,8 @@ class theme_functions{
 						</a>
 					</div>
 					<div class="media-body">
-						<?php if(!empty($post_title)){ ?>
-							<h3 class="entry-title panel-title"><?= $post_title;?></h3>
+						<?php if(theme_cache::get_the_title($post->ID) !== ''){ ?>
+							<h3 class="entry-title panel-title"><?= theme_cache::get_the_title($post->ID);?></h3>
 						<?php } ?>
 						<header class="post-header post-metas clearfix">
 							
@@ -643,7 +633,16 @@ class theme_functions{
 									<span class="number" id="post-views-number-<?= $post->ID;?>">-</span>
 								</span>
 							<?php } ?>
-
+							<?php
+							/** 
+							 * comment
+							 */
+							$comment_count = (int)get_comments_number() . '';
+							?>
+							<a href="#comments" class="post-meta quick-comment comment-count" data-post-id="<?= $post->ID;?>">
+								<i class="fa fa-comment"></i>
+								<span class="comment-count-number"><?= $comment_count;?></span></span>
+							</a>
 						</header>
 					</div><!-- /.media-body -->
 				</div><!-- /.media -->
@@ -724,12 +723,11 @@ class theme_functions{
 				/** 
 				 * comment
 				 */
-				$comment_count = (int)get_comments_number();
 				$comment_tx = $comment_count <= 1 ? ___('comment') : ___('comments');
 				?>
 				<a href="#comments" class="post-meta quick-comment comment-count" data-post-id="<?= $post->ID;?>">
 					<i class="fa fa-comment"></i>
-					<span class="comment-count-number"><?= $comment_count;?></span> <span class="hidden-xs"><?= esc_html($comment_tx);?></span>
+					<span class="comment-count-number"><?= $comment_count;?></span> <span class="hidden-xs"><?= $comment_tx;?></span>
 				</a>
 
 				<?php
@@ -857,9 +855,9 @@ class theme_functions{
 					<?php if(!$prev_post){ ?>
 						<span class="adjacent-post-not-found button"><?= ___('No more post found');?></span>
 					<?php }else{ ?>
-						<a href="<?= get_permalink($prev_post->ID);?>" title="<?= esc_attr(sprintf(___('Previous post: %s'),$prev_post->post_title));?>" class="button">
-							<span class="aquo"><?= esc_html(___('&laquo;'));?></span>
-							<?= esc_html($prev_post->post_title);?>
+						<a href="<?= theme_cache::get_permalink($prev_post->ID);?>" title="<?= sprintf(___('Previous post: %s'),theme_cache::get_the_title($prev_post->ID));?>" class="button">
+							<span class="aquo"><?= ___('&laquo;');?></span>
+							<?= theme_cache::get_the_title($prev_post->ID);?>
 						</a>
 					<?php } ?>
 				</li>
@@ -867,9 +865,9 @@ class theme_functions{
 					<?php if(!$next_post){ ?>
 						<span class="adjacent-post-not-found button"><?= ___('No more post found');?></span>
 					<?php }else{ ?>
-						<a href="<?= get_permalink($next_post->ID);?>" title="<?= esc_attr(sprintf(___('Next post: %s'),$next_post->post_title));?>"  class="button">
-							<?= esc_html($next_post->post_title);?>
-							<span class="aquo"><?= esc_html(___('&raquo;'));?></span>
+						<a href="<?= theme_cache::get_permalink($next_post->ID);?>" title="<?= sprintf(___('Next post: %s'),theme_cache::get_the_title($next_post->ID));?>"  class="button">
+							<?= theme_cache::get_the_title($next_post->ID);?>
+							<span class="aquo"><?= ___('&raquo;');?></span>
 						</a>
 					<?php } ?>
 				</li>
@@ -952,7 +950,7 @@ class theme_functions{
 		}else if(is_author()){
 			global $author;
 			$user = get_user_by('id',$author);
-			$links['author'] = '<a href="'.theme_cache::get_author_posts_url($author).'">'.esc_html($user->display_name).'</a>';
+			$links['author'] = '<a href="'.theme_cache::get_author_posts_url($author).'">'. theme_cache::get_the_author_meta('display_name',$user->ID) .'</a>';
 			$links['curr_text'] = ___('Author posts');
     	/* archive */
     	}else if(is_archive()){
@@ -963,7 +961,7 @@ class theme_functions{
 			global $post;
 			/* The page parent */
 			if($post->post_parent){
-				$links['singluar'] = '<a href="' .get_page_link($post->post_parent). '">' .esc_html(get_the_title($post->post_parent)). '</a>';
+				$links['singluar'] = '<a href="' . theme_cache::get_permalink($post->post_parent). '">' .theme_cache::get_the_title($post->post_parent). '</a>';
 			}
 			/**
 			 * post / page
@@ -975,10 +973,11 @@ class theme_functions{
 				}
 				array_multisort($parent_id, SORT_ASC,$categories);
 				foreach($categories as $cat){
-					$links['singluar'] = '<a href="' . esc_html(get_category_link($cat->cat_ID)) . '" title="' . esc_attr(sprintf(___('View all posts in %s'),$cat->name)) . '">' . esc_html($cat->name) . '</a>';
+					$cat_name = esc_html($cat->name);
+					$links['singluar'] = '<a href="' . esc_url(get_category_link($cat->cat_ID)) . '" title="' . sprintf(___('View all posts in %s'),$cat_name) . '">' . $cat_name . '</a>';
 				}
     		}
-    		//$links['curr_text'] = esc_html(get_the_title());
+    		//$links['curr_text'] = esc_html(theme_cache::get_the_title($post->ID));
     	/* 404 */
     	}else if(is_404()){
     		// $nav_link = null;
@@ -1387,8 +1386,8 @@ class theme_functions{
 			 * prev
 			 */
 			if(isset($prev_next_pagination['next_post'])){
-				$prev_url = get_permalink($prev_next_pagination['next_post']->ID);
-				$prev_title = esc_html(get_the_title($prev_next_pagination['next_post']->ID));
+				$prev_url = theme_cache::get_permalink($prev_next_pagination['next_post']->ID);
+				$prev_title = esc_html(theme_cache::get_the_title($prev_next_pagination['next_post']->ID));
 				?>
 				<a href="<?= esc_url($prev_url);?>#post-<?= $prev_next_pagination['next_post']->ID;?>" class="left next-post" title="<?= $prev_title;?>">
 					<div class="post-thumbnail-area">
@@ -1403,8 +1402,8 @@ class theme_functions{
 			 * next
 			 */
 			if(isset($prev_next_pagination['prev_post'])){
-				$next_url = get_permalink($prev_next_pagination['prev_post']->ID);
-				$next_title = esc_html(get_the_title($prev_next_pagination['prev_post']->ID));
+				$next_url = theme_cache::get_permalink($prev_next_pagination['prev_post']->ID);
+				$next_title = esc_html(theme_cache::get_the_title($prev_next_pagination['prev_post']->ID));
 				?>
 				<a href="<?= esc_url($next_url);?>#post-<?= $prev_next_pagination['prev_post']->ID;?>" class="right prev-post" title="<?= $next_title;?>">
 					<div class="post-thumbnail-area">
@@ -1526,7 +1525,7 @@ class theme_functions{
 					if(theme_features::get_option('comment_registration')){
 						static $reply_link;
 						if(!$reply_link)
-							$reply_link = '<a rel="nofollow" class="comment-reply-login quick-login-btn" href="' . wp_login_url(get_permalink($comment->comment_post_ID)) . '">' . ___('Reply') . '</a>';
+							$reply_link = '<a rel="nofollow" class="comment-reply-login quick-login-btn" href="' . wp_login_url(theme_cache::get_permalink($comment->comment_post_ID)) . '">' . ___('Reply') . '</a>';
 					}else{
 						$reply_link = get_comment_reply_link(
 							[
@@ -1573,7 +1572,7 @@ class theme_functions{
 			
 			$parent_author = get_comment_author($parent_comment->comment_ID);
 			
-			$comment_content = '<a href="' . esc_url(get_permalink($parent_comment->comment_post_ID)) . '#comment-' . $parent_comment->comment_ID . '" class="at" rel="nofollow">@' . $parent_author . '</a> ' . $comment_content;
+			$comment_content = '<a href="' . esc_url(theme_cache::get_permalink($parent_comment->comment_post_ID)) . '#comment-' . $parent_comment->comment_ID . '" class="at" rel="nofollow">@' . $parent_author . '</a> ' . $comment_content;
 		}
 		return $comment_content;
 	}
@@ -1902,7 +1901,7 @@ class theme_functions{
 			<?php 
 			echo sprintf(
 				___('You must be %s to post a comment.'),
-				'<a href="' . esc_url(wp_login_url(get_permalink($post->ID))) . '#respond' . '"><strong>' . ___('log-in') . '</strong></a>'
+				'<a href="' . esc_url(wp_login_url(theme_cache::get_permalink($post->ID))) . '#respond' . '"><strong>' . ___('log-in') . '</strong></a>'
 			);
 			?>
 		</p>

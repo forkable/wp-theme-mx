@@ -85,7 +85,7 @@ class theme_custom_point_views_per_hundred{
 		++$i;
 		
 		if(self::is_max_times($object_id)){
-			$user_id = self::get_post($object_id)->post_author;
+			$user_id = theme_cache::get_post($object_id)->post_author;
 			$new_point = theme_custom_point::get_point($user_id) + self::get_points_value();
 			/** update user point */
 			theme_custom_point::update_user_points($user_id, $new_point);
@@ -116,17 +116,11 @@ class theme_custom_point_views_per_hundred{
 			$cache = current_time('timestamp');
 		return $cache;
 	}
-	public static function get_post($post_id){
-		static $caches = [];
-		if(!isset($caches[$post_id]))
-			$caches[$post_id] = get_post($post_id);
-		return $caches[$post_id];
-	}
 	public static function get_points_value(){
 		return (int)theme_custom_point::get_point_value(self::$type_key);
 	}
 	public static function add_history_views_per_hundred($post_id){
-		$post = self::get_post($post_id);
+		$post = theme_cache::get_post($post_id);
 		if(!$post)
 			return false;
 			
@@ -146,7 +140,7 @@ class theme_custom_point_views_per_hundred{
 		if(!class_exists('theme_notification'))
 			return;
 			
-		$post = self::get_post($post_id);
+		$post = theme_cache::get_post($post_id);
 		if(!$post)
 			return false;
 			
@@ -165,12 +159,9 @@ class theme_custom_point_views_per_hundred{
 			return;
 
 		global $post;
-		$post = self::get_post($meta['post-id']);
+		$post = theme_cache::get_post($meta['post-id']);
 		setup_postdata($post);
 
-		$post_title = esc_html(get_the_title());
-
-		$post_permalink = esc_url(get_the_permalink());
 		?>
 		<li class="list-group-item">
 			<?php theme_custom_point::the_list_icon('eye');?>
@@ -179,7 +170,7 @@ class theme_custom_point_views_per_hundred{
 				<?= sprintf(
 					___('Your post %1$s reached per hundred views, %2$s %3$s. Views are %4$s.'),
 					
-					'<a href="' . $post_permalink . '" target="_blank">' . $post_title . ' <i class="fa fa-external-link"></i></a>',
+					'<a href="' . theme_cache::get_permalink($post->ID) . '" target="_blank">' . get_title($post->ID) . ' <i class="fa fa-external-link"></i></a>',
 					
 					'<strong>+' . $meta['points'] . '</strong>',
 					
@@ -201,12 +192,9 @@ class theme_custom_point_views_per_hundred{
 			return;
 
 		global $post;
-		$post = self::get_post($meta['post-id']);
+		$post = theme_cache::get_post($meta['post-id']);
 		setup_postdata($post);
 
-		$post_title = esc_html(get_the_title());
-
-		$post_permalink = esc_url(get_the_permalink());
 		?>
 		<div class="media">
 			<div class="media-left">
@@ -225,7 +213,7 @@ class theme_custom_point_views_per_hundred{
 					<p>
 					<?= sprintf(
 						___('Your post %1$s reached per hundred views, %2$s %3$s. Views are %4$s.'),
-						'<a href="' . $post_permalink . '" target="_blank">' . $post_title . ' <i class="fa fa-external-link"></i></a>',
+						'<a href="' . theme_cache::get_permalink($post->ID) . '" target="_blank">' . theme_cache::get_the_title($post->ID) . ' <i class="fa fa-external-link"></i></a>',
 						
 						'<strong>+' . $meta['points'] . '</strong>',
 						

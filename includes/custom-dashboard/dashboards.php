@@ -103,7 +103,7 @@ class theme_dashboards extends theme_custom_dashboard{
 				echo sprintf(
 					___('%s commented your post "%s".'),
 					'<span class="author">' . get_comment_author_link() . '</span>',
-					'<a href="' . get_permalink($comment->comment_post_ID) . '">' . esc_html(get_the_title($comment->comment_post_ID)) . '</a>'
+					'<a href="' . theme_cache::get_permalink($comment->comment_post_ID) . '">' . esc_html(theme_cache::get_the_title($comment->comment_post_ID)) . '</a>'
 				);?>
 			</h4>
 			<p class="excerpt-tx">

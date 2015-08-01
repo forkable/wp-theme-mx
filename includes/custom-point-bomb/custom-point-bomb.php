@@ -79,7 +79,7 @@ class theme_custom_point_bomb{
 	public static function get_url(){
 		static $cache = null;
 		if($cache === null){
-			$cache = esc_url(get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID));
+			$cache = esc_url(theme_cache::get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID));
 		}
 		return $cache;
 	}

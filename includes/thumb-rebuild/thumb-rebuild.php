@@ -354,7 +354,7 @@ class RegenerateThumbnails {
 		header( 'Content-type: application/json' );
 
 		$id = (int) $_REQUEST['id'];
-		$image = get_post( $id );
+		$image = theme_cache::get_post( $id );
 
 		if ( ! $image || 'attachment' != $image->post_type || 'image/' != substr( $image->post_mime_type, 0, 6 ) )
 			die( json_encode( array( 'error' => sprintf( ___( 'Failed resize: %s is an invalid image ID.'), esc_html( $_REQUEST['id'] ) ) ) ) );
@@ -379,13 +379,13 @@ class RegenerateThumbnails {
 		// If this fails, then it just means that nothing was changed (old value == new value)
 		wp_update_attachment_metadata( $image->ID, $metadata );
 
-		die( json_encode( array( 'success' => sprintf( ___( '&quot;%1$s&quot; (ID %2$s) was successfully resized in %3$s seconds.'), esc_html( get_the_title( $image->ID ) ), $image->ID, timer_stop() ) ) ) );
+		die( json_encode( array( 'success' => sprintf( ___( '&quot;%1$s&quot; (ID %2$s) was successfully resized in %3$s seconds.'), esc_html( theme_cache::get_the_title( $image->ID ) ), $image->ID, timer_stop() ) ) ) );
 	}
 
 
 	// Helper to make a JSON error message
 	function die_json_error_msg( $id, $message ) {
-		die( json_encode( array( 'error' => sprintf( ___( '&quot;%1$s&quot; (ID %2$s) failed to resize. The error message was: %3$s'), esc_html( get_the_title( $id ) ), $id, $message ) ) ) );
+		die( json_encode( array( 'error' => sprintf( ___( '&quot;%1$s&quot; (ID %2$s) failed to resize. The error message was: %3$s'), esc_html( theme_cache::get_the_title( $id ) ), $id, $message ) ) ) );
 	}
 
 

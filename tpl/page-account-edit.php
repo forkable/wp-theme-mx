@@ -29,22 +29,20 @@
 			<?php
 			while(have_posts()){
 				the_post();
-				$post_title = esc_html(get_the_title());
-				$permalink = get_permalink();
 				$post_edit_url = esc_url(get_edit_post_link($post->ID));
 				?>
 				<tr>
 					<td class="edit-post-thumbnail">
-						<img class="post-list-img" src="<?= esc_url(theme_functions::get_thumbnail_src($post->ID));?>" alt="<?= $post_title;?>" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>"/>
+						<img class="post-list-img" src="<?= esc_url(theme_functions::get_thumbnail_src($post->ID));?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>"/>
 					</td>
 					<td class="edit-post-title">
-						<h4><strong><a href="<?= $post_edit_url;?>" title="<?= ___('Click to edit');?>"><?= $post_title;?></a></strong></h4>
+						<h4><strong><a href="<?= $post_edit_url;?>" title="<?= ___('Click to edit');?>"><?= theme_cache::get_the_title($post->ID);?></a></strong></h4>
 						<div class="edit-post-action btn-group btn-group-xs">
 							<a href="<?= $post_edit_url;?>" class="btn btn-primary edit-post-action-edit">
 								<i class="fa fa-pencil-square-o"></i> 
 								<?= ___('Edit');?>
 							</a>
-							<a class="btn btn-default edit-post-action-view" href="<?= $permalink;?>" target="_blank">
+							<a class="btn btn-default edit-post-action-view" href="<?= theme_cache::get_permalink($post->ID);?>" target="_blank">
 								<i class="fa fa-link"></i> 
 								<?= ___('View');?>
 							</a>

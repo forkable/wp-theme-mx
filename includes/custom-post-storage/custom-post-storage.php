@@ -31,7 +31,7 @@ class theme_custom_storage{
 
 		$post = self::get_decode_post();
 		if($post)
-			return get_the_title($post->ID) . $sep . ___('storage download') . $sep . theme_cache::get_bloginfo('name');
+			return theme_cache::get_the_title($post->ID) . $sep . ___('storage download') . $sep . theme_cache::get_bloginfo('name');
 		
 	}
 	
@@ -165,7 +165,7 @@ class theme_custom_storage{
 	public static function get_url(){
 		static $cache = null;
 		if($cache === null)
-			$cache =  esc_url(get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID));
+			$cache =  theme_cache::get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 
 		return $cache;
 	}

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-26 23:32+0800\n"
-"PO-Revision-Date: 2015-07-26 23:36+0800\n"
+"POT-Creation-Date: 2015-08-01 23:25+0800\n"
+"PO-Revision-Date: 2015-08-01 23:26+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -21,8 +21,9 @@ msgstr ""
 msgid "No content yet."
 msgstr "暂无资料"
 
-#: comments.php:14 includes/custom-author-profile/custom-author-profile.php:94
-#: tpl/author-profile.php:65
+#: comments.php:14
+#: includes/custom-author-profile/custom-author-profile.php:123
+#: tpl/author-profile.php:75
 msgid "Comments"
 msgstr "评论"
 
@@ -30,24 +31,24 @@ msgstr "评论"
 msgid "Respond"
 msgstr "添加评论"
 
-#: comments.php:27 core/core-options.php:166 functions.php:1898
+#: comments.php:27 core/core-options.php:166 functions.php:1889
 #: includes/clean-up/clean-up.php:227
 #: includes/comment-ajax/comment-ajax.php:472
-#: includes/custom-collection/custom-collection.php:574
-#: includes/custom-contribution/custom-contribution.php:517
+#: includes/custom-collection/custom-collection.php:573
+#: includes/custom-contribution/custom-contribution.php:510
 #: includes/custom-follow/custom-follow.php:140
 #: includes/custom-page-cats/custom-page-cats.php:201
 #: includes/custom-page-rank/custom-page-rank.php:491
 #: includes/custom-page-tags/custom-page-tags.php:443
 #: includes/custom-point/custom-point.php:1051
-#: includes/custom-post-point/custom-post-point.php:848
-#: includes/custom-post-point/custom-post-point.php:870
+#: includes/custom-post-point/custom-post-point.php:841
+#: includes/custom-post-point/custom-post-point.php:863
 #: includes/custom-sign/custom-sign.php:599
 #: includes/custom-slidebox/custom-slidebox.php:354
 #: includes/custom-user-settings/custom-user-settings.php:467
 #: includes/custom-user-settings/custom-user-settings.php:478
 #: includes/favicon/favicon.php:198 includes/mailer/mailer.php:216
-#: includes/page-nagination-ajax/page-nagination-ajax.php:96
+#: includes/page-nagination-ajax/page-nagination-ajax.php:100
 #: tpl/page-account-bomb.php:20
 msgid "Loading, please wait..."
 msgstr "加载中，请稍候…"
@@ -60,39 +61,39 @@ msgstr "抱歉，无效的来路。"
 msgid "Sorry, security code is invalid."
 msgstr "抱歉，无效的安全码。"
 
-#: core/core-features.php:1306 core/core-features.php:1371
+#: core/core-features.php:1305 core/core-features.php:1370
 msgid "&lsaquo; Previous"
 msgstr "&lsaquo;  上一页"
 
-#: core/core-features.php:1341 core/core-features.php:1372
+#: core/core-features.php:1340 core/core-features.php:1371
 msgid "Next &rsaquo;"
 msgstr "下一页 &rsaquo;"
 
-#: core/core-features.php:1370
+#: core/core-features.php:1369
 msgid "&laquo; First"
 msgstr "&laquo; 首页"
 
-#: core/core-features.php:1373
+#: core/core-features.php:1372
 msgid "Last &raquo;"
 msgstr "尾页 &raquo;"
 
-#: core/core-features.php:1708
+#: core/core-features.php:1707
 #: includes/widget-category-post/widget-category-post.php:130
 msgid "Select category"
 msgstr "选择目录"
 
-#: core/core-features.php:1764
+#: core/core-features.php:1763
 #, php-format
 msgid "(%s)"
 msgstr "（%s）"
 
-#: core/core-features.php:1771 includes/custom-slidebox/custom-slidebox.php:69
+#: core/core-features.php:1770 includes/custom-slidebox/custom-slidebox.php:69
 #: includes/widget-author-posts/widget-author-posts.php:225
-#: includes/widget-rank/widget-rank.php:242
+#: includes/widget-rank/widget-rank.php:252
 msgid "No category, pleass go to add some categories."
 msgstr "暂无分类目录，请去添加一些分类。"
 
-#: core/core-features.php:1799
+#: core/core-features.php:1798
 msgid "Select page"
 msgstr "选择页面"
 
@@ -120,7 +121,7 @@ msgstr "%d天前"
 msgid "%dm ago"
 msgstr "%d个月前"
 
-#: core/core-functions.php:708 functions.php:629
+#: core/core-functions.php:708 functions.php:619
 msgid "M j, Y"
 msgstr "Y年m月d日"
 
@@ -306,229 +307,228 @@ msgid "Popular"
 msgstr "最赞"
 
 #: functions.php:198 includes/widget-author-posts/widget-author-posts.php:175
-#: includes/widget-rank/widget-rank.php:192
+#: includes/widget-rank/widget-rank.php:191
 msgid "Random"
 msgstr "随机"
 
-#: functions.php:390 includes/widget-author-posts/widget-author-posts.php:163
-#: includes/widget-rank/widget-rank.php:180
+#: functions.php:388 includes/widget-author-posts/widget-author-posts.php:163
+#: includes/widget-rank/widget-rank.php:179
 msgid "Thumb up"
 msgstr "顶/赞"
 
-#: functions.php:397
+#: functions.php:395
 msgid "Comment count"
 msgstr "评论统计"
 
-#: functions.php:405 functions.php:641 includes/post-views/post-views.php:190
+#: functions.php:403 functions.php:631 includes/post-views/post-views.php:190
 #: tpl/page-account-edit.php:24
 msgid "Views"
 msgstr "查看数"
 
-#: functions.php:607 functions.php:634
+#: functions.php:597 functions.php:624
 #, php-format
 msgid "Views all post by %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:608
+#: functions.php:598
 msgid "Author avatar"
 msgstr "作者头像"
 
-#: functions.php:622 tpl/page-account-contribution.php:161
-#: tpl/page-account-post.php:239
+#: functions.php:612 tpl/page-account-post.php:241
 msgid "Category"
 msgstr "分类"
 
-#: functions.php:728
+#: functions.php:718
 msgid "comment"
 msgstr "评论"
 
-#: functions.php:728
+#: functions.php:718
 msgid "comments"
 msgstr "评论"
 
-#: functions.php:757
+#: functions.php:747
 msgid ", "
 msgstr "、"
 
-#: functions.php:766 functions.php:780
+#: functions.php:756 functions.php:770
 #, php-format
 msgid "Views all posts by %s tag"
 msgstr "查看 %s 标签下的所有文章"
 
-#: functions.php:858 functions.php:868
+#: functions.php:848 functions.php:858
 msgid "No more post found"
 msgstr "暂无更多文章"
 
-#: functions.php:860 functions.php:1398
+#: functions.php:850 functions.php:1389
 #, php-format
 msgid "Previous post: %s"
 msgstr "上一篇：%s"
 
-#: functions.php:861 functions.php:1013
+#: functions.php:851 functions.php:1004
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: functions.php:870 functions.php:1414
+#: functions.php:860 functions.php:1405
 #, php-format
 msgid "Next post: %s"
 msgstr "下一篇：%s"
 
-#: functions.php:872 functions.php:1014
+#: functions.php:862 functions.php:1005
 msgid "&raquo;"
 msgstr "&raquo;"
 
-#: functions.php:906 functions.php:908
+#: functions.php:896 functions.php:898
 msgid "Back to Homepage"
 msgstr "返回到首页"
 
-#: functions.php:921
+#: functions.php:911
 msgid "Category Browser"
 msgstr "目录浏览"
 
-#: functions.php:928
+#: functions.php:918
 msgid "Tags Browser"
 msgstr "标签归档浏览"
 
-#: functions.php:946
+#: functions.php:936
 msgid "Date Browser"
 msgstr "日期归档浏览"
 
-#: functions.php:950
+#: functions.php:940
 #, php-format
 msgid "Search Result: %s"
 msgstr "搜索结果：%s"
 
-#: functions.php:956 includes/widget-author-posts/widget-author-posts.php:23
+#: functions.php:946 includes/widget-author-posts/widget-author-posts.php:23
 #: includes/widget-author-posts/widget-author-posts.php:83
 msgid "Author posts"
 msgstr "作者文章"
 
-#: functions.php:960
+#: functions.php:950
 msgid "Archive Browser"
 msgstr "归档浏览"
 
-#: functions.php:978
+#: functions.php:969
 #, php-format
 msgid "View all posts in %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:985
+#: functions.php:976
 msgid "Not found"
 msgstr "暂无资料"
 
-#: functions.php:1029
+#: functions.php:1020
 msgid "Posts pagination navigation"
 msgstr "文章分页导航"
 
-#: functions.php:1058 functions.php:1318 functions.php:1320 functions.php:1327
-#: functions.php:1329 functions.php:1713
+#: functions.php:1049 functions.php:1309 functions.php:1311 functions.php:1318
+#: functions.php:1320 functions.php:1704
 msgid "Previous page"
 msgstr "上一页"
 
-#: functions.php:1067 functions.php:1082 functions.php:1090 functions.php:1100
+#: functions.php:1058 functions.php:1073 functions.php:1081 functions.php:1091
 #, php-format
 msgid "Page %d"
 msgstr "第 %d 页"
 
-#: functions.php:1215
+#: functions.php:1206
 msgid ""
 "Sorry, I was not able to find what you need, what about look at other "
 "content :)"
 msgstr "抱歉，我没能找到您需要的内容，不放看看其他东西 ：）"
 
-#: functions.php:1339 functions.php:1340 functions.php:1347 functions.php:1348
-#: functions.php:1710
+#: functions.php:1330 functions.php:1331 functions.php:1338 functions.php:1339
+#: functions.php:1701
 msgid "Next page"
 msgstr "下一页"
 
-#: functions.php:1395 functions.php:1411
+#: functions.php:1386 functions.php:1402
 msgid "Placeholder"
 msgstr "占位符"
 
-#: functions.php:1503
+#: functions.php:1494
 msgid "Your comment is awaiting moderation."
 msgstr "您的评论正在审核中。"
 
-#: functions.php:1529
+#: functions.php:1520
 msgid "Reply"
 msgstr "回复"
 
-#: functions.php:1610 includes/related-post/related-post.php:54
+#: functions.php:1601 includes/related-post/related-post.php:54
 msgid "Maybe you will like them"
 msgstr "或许您会喜欢"
 
-#: functions.php:1642
+#: functions.php:1633
 msgid "No data."
 msgstr "暂无资料"
 
-#: functions.php:1688
+#: functions.php:1679
 msgid "No data yet"
 msgstr "此类别暂无资料"
 
-#: functions.php:1730
+#: functions.php:1721
 msgid "Please set some recommended posts to display."
 msgstr "请设置一些推荐文章以显示。"
 
-#: functions.php:1795
+#: functions.php:1786
 msgid "Please add some homebox."
 msgstr "请添加一些首页盒子。"
 
-#: functions.php:1818
+#: functions.php:1809
 msgid "&raquo; more"
 msgstr "&raquo; 更多"
 
-#: functions.php:1889
+#: functions.php:1880
 msgid "Leave a comment"
 msgstr "留下评论"
 
-#: functions.php:1891
+#: functions.php:1882
 msgid "Cancel reply"
 msgstr "取消回复"
 
-#: functions.php:1904
+#: functions.php:1895
 #, php-format
 msgid "You must be %s to post a comment."
 msgstr "您需要 %s 后才能发表评论。"
 
-#: functions.php:1905 includes/custom-point-bomb/custom-point-bomb.php:229
+#: functions.php:1896 includes/custom-point-bomb/custom-point-bomb.php:229
 msgid "log-in"
 msgstr "登录"
 
-#: functions.php:1937 tpl/author-profile.php:21
+#: functions.php:1928 tpl/author-profile.php:21
 #: tpl/page-account-settings.php:90
 msgid "Nickname"
 msgstr "昵称"
 
-#: functions.php:1939
+#: functions.php:1930
 msgid "Whats your nickname?"
 msgstr "您的昵称"
 
-#: functions.php:1950
+#: functions.php:1941
 msgid "Email"
 msgstr "邮箱"
 
-#: functions.php:1952
+#: functions.php:1943
 msgid "Whats your Email?"
 msgstr "您的邮箱"
 
-#: functions.php:1963
+#: functions.php:1954
 msgid "Hi, have something to say?"
 msgstr "Hi, 有什么要说的吗？"
 
-#: functions.php:1964
+#: functions.php:1955
 msgid "Nothing to say?"
 msgstr "没什么好说的吗？"
 
-#: functions.php:1986
+#: functions.php:1977
 msgid "Post comment"
 msgstr "发表评论"
 
-#: header.php:79 includes/custom-sign/custom-sign.php:162 page-sign.php:238
+#: header.php:80 includes/custom-sign/custom-sign.php:162 page-sign.php:238
 #: tpl/header-topbar-tools.php:126
 msgid "Login"
 msgstr "登录"
 
-#: header.php:147
+#: header.php:148
 msgid "Keywords"
 msgstr "搜索关键词"
 
@@ -553,7 +553,7 @@ msgstr "启用"
 #: includes/comment-ajax/comment-ajax.php:98
 #: includes/comment-emotion/comment-emotion.php:120
 #: includes/comment-emotion/comment-emotion.php:135
-#: includes/gravatar-fix/gravatar-fix.php:38
+#: includes/gravatar-fix/gravatar-fix.php:37
 #: includes/link-manager/link-manager.php:34 includes/mailer/mailer.php:106
 #: includes/post-copyright/post-copyright.php:43
 #: includes/post-share/post-share.php:98 includes/post-views/post-views.php:64
@@ -683,6 +683,7 @@ msgstr "点击之前保存设置。"
 #: includes/custom-page-cats/custom-page-cats.php:64
 #: includes/custom-page-rank/custom-page-rank.php:66
 #: includes/custom-page-tags/custom-page-tags.php:66
+#: includes/custom-pm/custom-pm.php:130
 #: includes/custom-point/custom-point.php:144
 #: includes/custom-slidebox/custom-slidebox.php:227
 #: includes/file-timestamp/file-timestamp.php:58
@@ -843,8 +844,8 @@ msgid "Post ID is invaild."
 msgstr "无效的文章 ID 参数。"
 
 #: includes/comment-ajax/comment-ajax.php:310
-#: includes/custom-post-point/custom-post-point.php:659
-#: includes/custom-post-point/custom-post-point.php:733
+#: includes/custom-post-point/custom-post-point.php:652
+#: includes/custom-post-point/custom-post-point.php:726
 msgid "Post is not exist."
 msgstr "文章不存在。"
 
@@ -882,8 +883,8 @@ msgstr "第 {n} 页"
 
 #: includes/comment-ajax/comment-ajax.php:479
 #: includes/custom-point-bomb/custom-point-bomb.php:759
-#: includes/custom-post-point/custom-post-point.php:849
-#: includes/page-nagination-ajax/page-nagination-ajax.php:100
+#: includes/custom-post-point/custom-post-point.php:842
+#: includes/page-nagination-ajax/page-nagination-ajax.php:104
 msgid ""
 "Sorry, some server error occurred, the operation can not be completed, "
 "please try again later."
@@ -944,20 +945,35 @@ msgstr "抱歉，文章不存在。"
 msgid "Sorry, the type param is invaild."
 msgstr "抱歉，缺少类型参数。"
 
-#: includes/custom-author-profile/custom-author-profile.php:83
+#: includes/custom-author-profile/custom-author-profile.php:72
+#: includes/custom-author-profile/custom-author-profile.php:76
+#: tpl/page-account-post.php:425 tpl/page-account-post.php:426
+msgid "Author"
+msgstr "作者"
+
+#: includes/custom-author-profile/custom-author-profile.php:80
+msgid "Certification Author"
+msgstr "认证作者"
+
+#: includes/custom-author-profile/custom-author-profile.php:84
+#: includes/custom-author-profile/custom-author-profile.php:88
+msgid "Editor"
+msgstr "编辑"
+
+#: includes/custom-author-profile/custom-author-profile.php:112
 msgid "Profile"
 msgstr "资料"
 
-#: includes/custom-author-profile/custom-author-profile.php:88
-#: tpl/author-profile.php:56
+#: includes/custom-author-profile/custom-author-profile.php:117
+#: tpl/author-profile.php:66
 msgid "Works"
 msgstr "作品"
 
-#: includes/custom-author-profile/custom-author-profile.php:100
+#: includes/custom-author-profile/custom-author-profile.php:129
 msgid "Followers"
 msgstr "粉丝"
 
-#: includes/custom-author-profile/custom-author-profile.php:106
+#: includes/custom-author-profile/custom-author-profile.php:135
 msgid "Following"
 msgstr "正在关注"
 
@@ -1036,142 +1052,142 @@ msgstr ""
 msgid "New collection"
 msgstr "新建专刊"
 
-#: includes/custom-collection/custom-collection.php:270
+#: includes/custom-collection/custom-collection.php:269
 #: includes/custom-contribution/custom-contribution.php:176
 #: includes/custom-slidebox/custom-slidebox.php:98
 #: includes/favicon/favicon.php:112
 msgid "Invaild file type."
 msgstr "无效的文件类型。"
 
-#: includes/custom-collection/custom-collection.php:297
+#: includes/custom-collection/custom-collection.php:296
 #: includes/custom-contribution/custom-contribution.php:199
 #: includes/custom-slidebox/custom-slidebox.php:128
 #: includes/favicon/favicon.php:147
 msgid "Upload success."
 msgstr "上传成功。"
 
-#: includes/custom-collection/custom-collection.php:309
+#: includes/custom-collection/custom-collection.php:308
 msgid "Invaild collection param."
 msgstr "无效的专刊参数。"
 
-#: includes/custom-collection/custom-collection.php:319
+#: includes/custom-collection/custom-collection.php:318
 msgid "Sorry, posts can not be empty."
 msgstr "抱歉，文章不能为空。"
 
-#: includes/custom-collection/custom-collection.php:329
+#: includes/custom-collection/custom-collection.php:328
 #: includes/custom-contribution/custom-contribution.php:263
 msgid "Please write the post title."
 msgstr "请填写文章标题。"
 
-#: includes/custom-collection/custom-collection.php:340
+#: includes/custom-collection/custom-collection.php:339
 #: includes/custom-contribution/custom-contribution.php:283
 msgid "Please set an image as post thumbnail"
 msgstr "请选择一张图片作为封面"
 
-#: includes/custom-collection/custom-collection.php:350
+#: includes/custom-collection/custom-collection.php:349
 msgid "Please explain why you recommend this collection."
 msgstr "请描述一下为什么推荐此专刊？"
 
-#: includes/custom-collection/custom-collection.php:399
+#: includes/custom-collection/custom-collection.php:398
 #, php-format
 msgid ""
 "Your collection submitted successful, it will be published after approve in "
 "a while. Thank you very much! How about %s again?"
 msgstr "专刊提交成功，等会通过审核后就会发布了。十分感谢！%s 吗？"
 
-#: includes/custom-collection/custom-collection.php:400
+#: includes/custom-collection/custom-collection.php:399
 msgid "write a new collection"
 msgstr "再来一发"
 
-#: includes/custom-collection/custom-collection.php:406
+#: includes/custom-collection/custom-collection.php:405
 #: includes/custom-contribution/custom-contribution.php:400
 #, php-format
 msgid "Congratulation! Your post has been published. You can %s or %s."
 msgstr "恭喜！您的文章已发表成功。现在您可以 %s 或 %s。"
 
-#: includes/custom-collection/custom-collection.php:407
+#: includes/custom-collection/custom-collection.php:406
 #: includes/custom-contribution/custom-contribution.php:401
 msgid "View it now"
 msgstr "立即查看它"
 
-#: includes/custom-collection/custom-collection.php:408
+#: includes/custom-collection/custom-collection.php:407
 msgid "countinue to write a new collection"
 msgstr "继续写一篇新专刊"
 
-#: includes/custom-collection/custom-collection.php:418
+#: includes/custom-collection/custom-collection.php:417
 #: includes/custom-contribution/custom-contribution.php:412
 msgid "Post published"
 msgstr "文章发表"
 
-#: includes/custom-collection/custom-collection.php:434
+#: includes/custom-collection/custom-collection.php:433
 msgid "Sorry, the post id is invaild."
 msgstr "抱歉，文章 ID 编号无效。"
 
-#: includes/custom-collection/custom-collection.php:444
+#: includes/custom-collection/custom-collection.php:443
 msgid "Sorry, the post do not exist, please type another post ID."
 msgstr "抱歉，该文章不存在，请输入另一个文章的 ID 编号。"
 
-#: includes/custom-collection/custom-collection.php:451
+#: includes/custom-collection/custom-collection.php:450
 msgid "Finished get the post data."
 msgstr "获取文章数据成功。"
 
-#: includes/custom-collection/custom-collection.php:477
+#: includes/custom-collection/custom-collection.php:476
 msgid "Sorry, your posts are not enough, please add more posts."
 msgstr "抱歉，你的文章数量不充足，请添加更多文章。"
 
-#: includes/custom-collection/custom-collection.php:483
+#: includes/custom-collection/custom-collection.php:482
 msgid "Sorry, your post are too many, please reduce some posts and try again."
 msgstr "抱歉，你的文章数量太多了，请减少一些文章再尝试。"
 
-#: includes/custom-collection/custom-collection.php:501
+#: includes/custom-collection/custom-collection.php:500
 msgid "Sorry, the post id is invaild, please try again."
 msgstr "抱歉，文章 ID 编号无效，请重试。"
 
-#: includes/custom-collection/custom-collection.php:510
+#: includes/custom-collection/custom-collection.php:509
 msgid "Sorry, the post title is invaild, please try again."
 msgstr "抱歉，文章标题无效，请重试。"
 
-#: includes/custom-collection/custom-collection.php:519
+#: includes/custom-collection/custom-collection.php:518
 msgid "Sorry, the post content is invaild, please try again."
 msgstr "抱歉，文章内容无效，请重试。"
 
-#: includes/custom-collection/custom-collection.php:528
+#: includes/custom-collection/custom-collection.php:527
 msgid "Sorry, the post thumbnail is invaild, please try again."
 msgstr "抱歉，文章封面无效，请重试。"
 
-#: includes/custom-collection/custom-collection.php:537
+#: includes/custom-collection/custom-collection.php:536
 msgid "Sorry, the post do not exist, please try again."
 msgstr "抱歉，该文章不存在，请重试。"
 
-#: includes/custom-collection/custom-collection.php:575
+#: includes/custom-collection/custom-collection.php:574
 msgid "A item has been deleted."
 msgstr "一条栏目已经成功删除。"
 
-#: includes/custom-collection/custom-collection.php:576
+#: includes/custom-collection/custom-collection.php:575
 msgid "Getting post data, please wait..."
 msgstr "正在获取文章数据，请稍候……"
 
-#: includes/custom-collection/custom-collection.php:577
+#: includes/custom-collection/custom-collection.php:576
 msgid "Previewing, please wait..."
 msgstr "正在预览，请稍候……"
 
-#: includes/custom-collection/custom-collection.php:578
+#: includes/custom-collection/custom-collection.php:577
 msgid ""
 "Sorry, server is busy now, can not respond your request, please try again "
 "later."
 msgstr "抱歉，服务器正忙，无法响应你的请求，请稍候重试。"
 
-#: includes/custom-collection/custom-collection.php:579
+#: includes/custom-collection/custom-collection.php:578
 #, php-format
 msgid "Sorry, the minimum number of posts is %d."
 msgstr "抱歉，最少的文章数量为 %d。"
 
-#: includes/custom-collection/custom-collection.php:580
+#: includes/custom-collection/custom-collection.php:579
 #, php-format
 msgid "Sorry, the maximum number of posts is %d."
 msgstr "抱歉，最多的文章数量为 %d。"
 
-#: includes/custom-collection/custom-collection.php:581
+#: includes/custom-collection/custom-collection.php:580
 msgid "Sorry, the post id must be number, please correct it."
 msgstr "抱歉，文章 ID 编号必须为数字，请更正后重试。"
 
@@ -1236,56 +1252,56 @@ msgstr "你的作品已成功更新。"
 msgid "Views it now"
 msgstr "立即查看它"
 
-#: includes/custom-contribution/custom-contribution.php:518
+#: includes/custom-contribution/custom-contribution.php:511
 msgid "Uploading {0}/{1}, please wait..."
 msgstr "正在上传 {0}/{1}，请稍候…"
 
-#: includes/custom-contribution/custom-contribution.php:519
+#: includes/custom-contribution/custom-contribution.php:512
 msgid "Click to delete"
 msgstr "点击删除此张图片"
 
-#: includes/custom-contribution/custom-contribution.php:520
+#: includes/custom-contribution/custom-contribution.php:513
 msgid "{0} files have been uploaded."
 msgstr "{0} 个文件上传成功，嘻嘻…"
 
-#: includes/custom-contribution/custom-contribution.php:521
-#: tpl/page-account-contribution.php:232 tpl/page-account-post.php:371
+#: includes/custom-contribution/custom-contribution.php:514
+#: tpl/page-account-post.php:373
 msgid "Source"
 msgstr "来源"
 
-#: includes/custom-contribution/custom-contribution.php:522
+#: includes/custom-contribution/custom-contribution.php:515
 msgid "Click to view source"
 msgstr "点击查看原图"
 
-#: includes/custom-contribution/custom-contribution.php:523
+#: includes/custom-contribution/custom-contribution.php:516
 msgid "Set as cover."
 msgstr "设为封面"
 
-#: includes/custom-contribution/custom-contribution.php:524
+#: includes/custom-contribution/custom-contribution.php:517
 msgid "Optional: some description"
 msgstr "[在此处写下一些描述]"
 
-#: includes/custom-contribution/custom-contribution.php:525
+#: includes/custom-contribution/custom-contribution.php:518
 msgid "Insert"
 msgstr "插入"
 
-#: includes/custom-contribution/custom-contribution.php:526
+#: includes/custom-contribution/custom-contribution.php:519
 msgid "Preview"
 msgstr "预览图"
 
-#: includes/custom-contribution/custom-contribution.php:527
+#: includes/custom-contribution/custom-contribution.php:520
 msgid "Large size"
 msgstr "大尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:528
+#: includes/custom-contribution/custom-contribution.php:521
 msgid "Medium size"
 msgstr "中尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:529
+#: includes/custom-contribution/custom-contribution.php:522
 msgid "Small size"
 msgstr "小尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:530
+#: includes/custom-contribution/custom-contribution.php:523
 #: includes/custom-follow/custom-follow.php:141
 #: includes/custom-sign/custom-sign.php:600
 #: includes/custom-user-settings/custom-user-settings.php:468
@@ -1304,7 +1320,7 @@ msgstr "我最近的积分动态"
 #: includes/custom-dashboard/dashboards.php:36
 #: includes/widget-author-posts/widget-author-posts.php:69
 #: includes/widget-rank/widget-rank.php:72
-#: includes/widget-tags/widget-tags.php:87 tpl/page-account-edit.php:88
+#: includes/widget-tags/widget-tags.php:87 tpl/page-account-edit.php:86
 #: tpl/page-rank-popular.php:22
 msgid "No data yet."
 msgstr "此类别暂无资料"
@@ -1492,7 +1508,7 @@ msgstr "每月最赞"
 
 #: includes/custom-page-rank/custom-page-rank.php:175
 #: includes/widget-author-posts/widget-author-posts.php:180
-#: includes/widget-rank/widget-rank.php:197
+#: includes/widget-rank/widget-rank.php:196
 msgid "Latest"
 msgstr "最新"
 
@@ -1536,6 +1552,62 @@ msgstr "正在加载预览图……"
 msgid "ERROR: can not load the preview image."
 msgstr "错误: 无法加载预览图。"
 
+#: includes/custom-pm/custom-pm.php:81
+#: includes/widget-author/widget-author.php:106
+msgid "P.M."
+msgstr "私信"
+
+#: includes/custom-pm/custom-pm.php:125
+msgid "Private message settings"
+msgstr "私信设置"
+
+#: includes/custom-pm/custom-pm.php:126
+msgid "User can send private message to other user."
+msgstr ""
+
+#: includes/custom-pm/custom-pm.php:133
+msgid "Database tabble has been created."
+msgstr ""
+
+#: includes/custom-pm/custom-pm.php:135
+msgid "Create database table"
+msgstr ""
+
+#: includes/custom-pm/custom-pm.php:165
+msgid "Sorry, your permission is not enough to create database table."
+msgstr ""
+
+#: includes/custom-pm/custom-pm.php:172
+msgid "Sorry, the database table already exists."
+msgstr ""
+
+#: includes/custom-pm/custom-pm.php:200
+msgid "Sorry, the receiver is invaild, please try again."
+msgstr ""
+
+#: includes/custom-pm/custom-pm.php:209
+msgid "Sorry, the receiver do not exist, please try again."
+msgstr ""
+
+#: includes/custom-pm/custom-pm.php:220
+msgid "Sorry, message content is null, please try again."
+msgstr ""
+
+#: includes/custom-pm/custom-pm.php:233
+msgid ""
+"Sorry, system can not create the private message, please try again later."
+msgstr ""
+
+#: includes/custom-pm/custom-pm.php:246
+msgid "Message sent."
+msgstr ""
+
+#: includes/custom-pm/custom-pm.php:273
+#: includes/custom-point-bomb/custom-point-bomb.php:486
+#: includes/custom-post-point/custom-post-point.php:112
+msgid "Sorry, type param is invaild."
+msgstr "抱歉，缺少类型参数。"
+
 #: includes/custom-point-bomb/custom-point-bomb.php:96
 #: includes/custom-point-bomb/custom-point-bomb.php:699
 #: tpl/page-account-bomb.php:15
@@ -1573,7 +1645,7 @@ msgid "User points bomb description"
 msgstr "用户轰炸积分描述"
 
 #: includes/custom-point-bomb/custom-point-bomb.php:185
-#: includes/dev-mode/dev-mode.php:173 tpl/author-profile.php:42
+#: includes/dev-mode/dev-mode.php:173 tpl/author-profile.php:52
 #: tpl/page-account-settings.php:110
 msgid "Description"
 msgstr "描述"
@@ -1661,11 +1733,6 @@ msgid ""
 msgstr ""
 "轰炸失败！%1$s 回避了你的攻击，你损失了 %2$s 个%3$s，剩余 %4$s 个%3$s。"
 
-#: includes/custom-point-bomb/custom-point-bomb.php:486
-#: includes/custom-post-point/custom-post-point.php:112
-msgid "Sorry, type param is invaild."
-msgstr "抱歉，缺少类型参数。"
-
 #: includes/custom-point-bomb/custom-point-bomb.php:584
 #, php-format
 msgid "You bombed %1$s and hit! You got %2$s %3$s."
@@ -1709,17 +1776,17 @@ msgstr "正在轰炸，请稍候……"
 msgid "When post per hundred views"
 msgstr "当文章增加 100 查看数时"
 
-#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:180
-#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:227
+#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:171
+#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:215
 #, php-format
 msgid "Your post %1$s reached per hundred views, %2$s %3$s. Views are %4$s."
 msgstr "你的文章 %1$s 达到每百查看数，奖励 %2$s 个%3$s。查看数为 %4$s 次。"
 
-#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:213
+#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:201
 msgid "Preview image"
 msgstr "封面图"
 
-#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:219
+#: includes/custom-point-views-per-hundred/custom-point-views-per-hundred.php:207
 msgid "Per hundred views"
 msgstr "每百查看数"
 
@@ -1893,8 +1960,8 @@ msgstr "你在 %1$s 中发表了一篇评论。"
 
 #: includes/custom-point/custom-point.php:567
 #: includes/custom-point/custom-point.php:594
-#: includes/custom-post-point/custom-post-point.php:472
-#: includes/custom-post-point/custom-post-point.php:500
+#: includes/custom-post-point/custom-post-point.php:465
+#: includes/custom-post-point/custom-post-point.php:493
 msgid "The post has been deleted."
 msgstr "该文章被删除。"
 
@@ -1936,10 +2003,10 @@ msgstr "暂无匹配到的用户。"
 #: includes/custom-point/widget.php:97 includes/custom-point/widget.php:104
 #: includes/widget-author-posts/widget-author-posts.php:91
 #: includes/widget-author-posts/widget-author-posts.php:98
-#: includes/widget-author/widget-author.php:133
-#: includes/widget-author/widget-author.php:140
-#: includes/widget-comments/widget-comments.php:112
-#: includes/widget-comments/widget-comments.php:119
+#: includes/widget-author/widget-author.php:148
+#: includes/widget-author/widget-author.php:155
+#: includes/widget-comments/widget-comments.php:104
+#: includes/widget-comments/widget-comments.php:111
 #: includes/widget-rank/widget-rank.php:93
 #: includes/widget-rank/widget-rank.php:100
 #: includes/widget-tags/widget-tags.php:132
@@ -2014,76 +2081,76 @@ msgstr "系统无法增加评分者文章。"
 msgid "Invaild type param."
 msgstr "无效的类型参数。"
 
-#: includes/custom-post-point/custom-post-point.php:475
+#: includes/custom-post-point/custom-post-point.php:468
 #, php-format
 msgid "You rated %1$d %2$s for the post %3$s."
 msgstr "你对文章 %3$s 送了 %1$d 个%2$s。"
 
-#: includes/custom-post-point/custom-post-point.php:503
+#: includes/custom-post-point/custom-post-point.php:496
 #, php-format
 msgid "You post %1$s has been rated %2$d %3$s by %4$s."
 msgstr "%4$s 给你的文章 %1$s 送了 %2$d 个%3$s。"
 
+#: includes/custom-post-point/custom-post-point.php:559
+#: includes/custom-post-point/custom-post-point.php:630
+#: includes/custom-post-point/custom-post-point.php:704
+#: includes/custom-post-point/custom-post-point.php:762
+#: includes/custom-post-point/custom-post-point.php:798
+msgid "Invaild post id."
+msgstr "无效的文章 ID 参数。"
+
 #: includes/custom-post-point/custom-post-point.php:566
+#: includes/custom-post-point/custom-post-point.php:718
+msgid "Invaild points value."
+msgstr "无效的积分点数。"
+
 #: includes/custom-post-point/custom-post-point.php:637
 #: includes/custom-post-point/custom-post-point.php:711
 #: includes/custom-post-point/custom-post-point.php:769
 #: includes/custom-post-point/custom-post-point.php:805
-msgid "Invaild post id."
-msgstr "无效的文章 ID 参数。"
-
-#: includes/custom-post-point/custom-post-point.php:573
-#: includes/custom-post-point/custom-post-point.php:725
-msgid "Invaild points value."
-msgstr "无效的积分点数。"
-
-#: includes/custom-post-point/custom-post-point.php:644
-#: includes/custom-post-point/custom-post-point.php:718
-#: includes/custom-post-point/custom-post-point.php:776
-#: includes/custom-post-point/custom-post-point.php:812
 msgid "Invaild rater id."
 msgstr "无效的评分用户 ID。"
 
-#: includes/custom-post-point/custom-post-point.php:651
+#: includes/custom-post-point/custom-post-point.php:644
 msgid "Invaild points."
 msgstr "无效的积分点数。"
 
-#: includes/custom-post-point/custom-post-point.php:668
+#: includes/custom-post-point/custom-post-point.php:661
 msgid "Sorry, you can not rate your post."
 msgstr "抱歉，您不能对自己的文章评分。"
 
-#: includes/custom-post-point/custom-post-point.php:676
-#: includes/custom-post-point/custom-post-point.php:741
+#: includes/custom-post-point/custom-post-point.php:669
+#: includes/custom-post-point/custom-post-point.php:734
 msgid "Rater is not exist."
 msgstr "评分人不存在。"
 
-#: includes/custom-post-point/custom-post-point.php:688
-#: includes/custom-post-point/custom-post-point.php:750
+#: includes/custom-post-point/custom-post-point.php:681
+#: includes/custom-post-point/custom-post-point.php:743
 msgid "You had rated this post."
 msgstr "您已经对此文章评过分了。"
 
-#: includes/custom-post-point/custom-post-point.php:789
-#: includes/custom-post-point/custom-post-point.php:821
+#: includes/custom-post-point/custom-post-point.php:782
+#: includes/custom-post-point/custom-post-point.php:814
 msgid "You did not rate this post yet."
 msgstr "您还未对次文章评分。"
 
-#: includes/custom-post-point/custom-post-point.php:884
-#: includes/custom-post-point/custom-post-point.php:898
+#: includes/custom-post-point/custom-post-point.php:877
+#: includes/custom-post-point/custom-post-point.php:891
 #, php-format
 msgid "Rate %d %s"
 msgstr "打赏 %d 个%s"
 
-#: includes/custom-post-point/custom-post-point.php:892
+#: includes/custom-post-point/custom-post-point.php:885
 msgid "Toggle Dropdown"
 msgstr "下拉菜单"
 
 #: includes/custom-post-source/custom-post-source.php:21
-#: tpl/page-account-contribution.php:237 tpl/page-account-post.php:383
+#: tpl/page-account-post.php:385
 msgid "Original"
 msgstr "原创"
 
 #: includes/custom-post-source/custom-post-source.php:24
-#: tpl/page-account-contribution.php:241 tpl/page-account-post.php:394
+#: tpl/page-account-post.php:396
 msgid "Reprint"
 msgstr "转载"
 
@@ -2147,15 +2214,13 @@ msgid "File storage"
 msgstr "文件存储"
 
 #: includes/custom-post-storage/custom-post-storage.php:113
-#: tpl/page-account-contribution.php:132 tpl/page-account-contribution.php:134
-#: tpl/page-account-post.php:199 tpl/page-account-post.php:201
+#: tpl/page-account-post.php:201 tpl/page-account-post.php:203
 #, php-format
 msgid "%s url"
 msgstr "%s url"
 
 #: includes/custom-post-storage/custom-post-storage.php:121
-#: tpl/page-account-contribution.php:146 tpl/page-account-contribution.php:148
-#: tpl/page-account-post.php:219 tpl/page-account-post.php:221
+#: tpl/page-account-post.php:221 tpl/page-account-post.php:223
 #, php-format
 msgid "%s password"
 msgstr "%s 密码"
@@ -2390,8 +2455,7 @@ msgid "Image address"
 msgstr "图片地址"
 
 #: includes/custom-slidebox/custom-slidebox.php:179
-#: includes/favicon/favicon.php:171 tpl/page-account-contribution.php:92
-#: tpl/page-account-post.php:159
+#: includes/favicon/favicon.php:171 tpl/page-account-post.php:161
 msgid "Upload image"
 msgstr "上传图片"
 
@@ -2648,11 +2712,11 @@ msgstr "立即刷新"
 msgid "Save your settings before click"
 msgstr "点击前请保存您的设置。"
 
-#: includes/gravatar-fix/gravatar-fix.php:29
+#: includes/gravatar-fix/gravatar-fix.php:28
 msgid "Gravatar fix"
 msgstr "Gravatar 头像修复"
 
-#: includes/gravatar-fix/gravatar-fix.php:30
+#: includes/gravatar-fix/gravatar-fix.php:29
 msgid ""
 "This feature can fix the gravatar image to display in China. Just for "
 "Chinese users. If using \"Custom default gravatar\" please DO NOT enable "
@@ -2661,7 +2725,7 @@ msgstr ""
 "此功能可以修复 Gravatar 头像无法在中国内地显示，仅对中国内地用户使用。如果使"
 "用“自定义默认 Gravatar 头像”，请不要启用此功能。"
 
-#: includes/gravatar-fix/gravatar-fix.php:34
+#: includes/gravatar-fix/gravatar-fix.php:33
 msgid "Enabled or not?"
 msgstr "是否启用？"
 
@@ -3016,15 +3080,15 @@ msgstr "抱歉，文章 ID 编号无效。"
 msgid "Sorry, page number is invaild."
 msgstr "对不起，页码无效。"
 
-#: includes/page-nagination-ajax/page-nagination-ajax.php:97
+#: includes/page-nagination-ajax/page-nagination-ajax.php:101
 msgid "Content loaded."
 msgstr "内容加载完毕。"
 
-#: includes/page-nagination-ajax/page-nagination-ajax.php:98
+#: includes/page-nagination-ajax/page-nagination-ajax.php:102
 msgid "Already first page."
 msgstr "已是第一页了。"
 
-#: includes/page-nagination-ajax/page-nagination-ajax.php:99
+#: includes/page-nagination-ajax/page-nagination-ajax.php:103
 msgid "Already last page."
 msgstr "已是最后一页了。"
 
@@ -3534,6 +3598,7 @@ msgid "Type"
 msgstr "类型"
 
 #: includes/widget-adbox/widget-adbox.php:51
+#: includes/widget-rank/widget-rank.php:205
 msgid "All"
 msgstr "全部"
 
@@ -3581,32 +3646,32 @@ msgid "Categories: "
 msgstr "分类目录："
 
 #: includes/widget-author-posts/widget-author-posts.php:122
-#: includes/widget-rank/widget-rank.php:139
+#: includes/widget-rank/widget-rank.php:138
 msgid "Content type"
 msgstr "内容类型"
 
 #: includes/widget-author-posts/widget-author-posts.php:132
-#: includes/widget-rank/widget-rank.php:149
+#: includes/widget-rank/widget-rank.php:148
 msgid "Image type"
 msgstr "图片类型"
 
 #: includes/widget-author-posts/widget-author-posts.php:137
-#: includes/widget-rank/widget-rank.php:154
+#: includes/widget-rank/widget-rank.php:153
 msgid "Text type"
 msgstr "文本类型"
 
 #: includes/widget-author-posts/widget-author-posts.php:142
-#: includes/widget-rank/widget-rank.php:159
+#: includes/widget-rank/widget-rank.php:158
 msgid "Order by"
 msgstr "排序"
 
 #: includes/widget-author-posts/widget-author-posts.php:156
-#: includes/widget-rank/widget-rank.php:173
+#: includes/widget-rank/widget-rank.php:172
 msgid "Most views"
 msgstr "最多查看"
 
 #: includes/widget-author-posts/widget-author-posts.php:170
-#: includes/widget-rank/widget-rank.php:187
+#: includes/widget-rank/widget-rank.php:186
 msgid "Recommended"
 msgstr "推荐文章"
 
@@ -3622,27 +3687,23 @@ msgstr "显示作者信息。"
 msgid "Views the author information detail"
 msgstr "查看作者资料"
 
-#: includes/widget-author/widget-author.php:63
+#: includes/widget-author/widget-author.php:68
 msgid "The author is lazy, nothing writes here."
 msgstr "作者很懒，啥都没写。"
 
-#: includes/widget-author/widget-author.php:72
-msgid "Author meta link group"
-msgstr "作者相关链接"
-
-#: includes/widget-author/widget-author.php:104
+#: includes/widget-author/widget-author.php:119
 msgid "Followed"
 msgstr "已关注"
 
-#: includes/widget-author/widget-author.php:108
+#: includes/widget-author/widget-author.php:123
 msgid "Follow"
 msgstr "关注"
 
-#: includes/widget-author/widget-author.php:119
+#: includes/widget-author/widget-author.php:134
 msgid "Message"
 msgstr "提示"
 
-#: includes/widget-author/widget-author.php:129
+#: includes/widget-author/widget-author.php:144
 msgid "Member information"
 msgstr "会员资料"
 
@@ -3700,15 +3761,15 @@ msgstr "显示最新的评论"
 msgid "Latest comments"
 msgstr "最新评论"
 
-#: includes/widget-comments/widget-comments.php:78
+#: includes/widget-comments/widget-comments.php:70
 msgid "Image"
 msgstr "图片"
 
-#: includes/widget-comments/widget-comments.php:102
+#: includes/widget-comments/widget-comments.php:94
 msgid "No any comment yet."
 msgstr "暂无任何评论。"
 
-#: includes/widget-comments/widget-comments.php:123
+#: includes/widget-comments/widget-comments.php:115
 msgid "Number"
 msgstr "数量"
 
@@ -3734,6 +3795,18 @@ msgstr "查看更多%s"
 #: includes/widget-rank/widget-rank.php:124 tpl/page-account-edit.php:21
 msgid "Date"
 msgstr "日期"
+
+#: includes/widget-rank/widget-rank.php:206
+msgid "Daily"
+msgstr "每日"
+
+#: includes/widget-rank/widget-rank.php:207
+msgid "Weekly"
+msgstr "每周"
+
+#: includes/widget-rank/widget-rank.php:208
+msgid "Monthly"
+msgstr "每月"
 
 #: includes/widget-tags/widget-tags.php:12
 msgid "Popular tags <small>(custom)</small>"
@@ -3923,7 +3996,7 @@ msgstr "请在【外观 - 小组件】中为404页面设置一些小组件"
 msgid "No comment yet."
 msgstr "暂无评论"
 
-#: tpl/author-comments.php:34
+#: tpl/author-comments.php:33
 #, php-format
 msgid "Published a comment in %1$s."
 msgstr "在《%1$s》中发表了一条评论。"
@@ -3945,15 +4018,19 @@ msgstr "唯一的标识（不能被更改）"
 msgid "UID"
 msgstr "UID"
 
-#: tpl/author-profile.php:25
+#: tpl/author-profile.php:27
+msgid "Level"
+msgstr "等级"
+
+#: tpl/author-profile.php:35
 msgid "Registered"
 msgstr "注册时间"
 
-#: tpl/author-profile.php:29 tpl/page-account-settings.php:100
+#: tpl/author-profile.php:39 tpl/page-account-settings.php:100
 msgid "Website / Blog"
 msgstr "网站 / 博客"
 
-#: tpl/author-profile.php:52
+#: tpl/author-profile.php:62
 msgid "Statistics"
 msgstr "统计"
 
@@ -4081,8 +4158,7 @@ msgstr "上传一张封面"
 msgid "Cover"
 msgstr "封面"
 
-#: tpl/page-account-collection.php:84 tpl/page-account-contribution.php:98
-#: tpl/page-account-post.php:165
+#: tpl/page-account-collection.php:84 tpl/page-account-post.php:167
 msgid "Select or Drag images"
 msgstr "选择或拖放图片"
 
@@ -4103,77 +4179,26 @@ msgstr "预览专刊"
 msgid "Add new post"
 msgstr "添加新文章"
 
-#: tpl/page-account-collection.php:137 tpl/page-account-contribution.php:180
-#: tpl/page-account-post.php:272
+#: tpl/page-account-collection.php:137 tpl/page-account-post.php:274
 msgid "Pop. tags"
 msgstr "热门标签"
 
-#: tpl/page-account-collection.php:166 tpl/page-account-contribution.php:209
-#: tpl/page-account-post.php:340
+#: tpl/page-account-collection.php:166 tpl/page-account-post.php:342
 msgid "Custom tags"
 msgstr "自定义标签"
 
-#: tpl/page-account-collection.php:175 tpl/page-account-contribution.php:218
-#: tpl/page-account-post.php:349
+#: tpl/page-account-collection.php:175 tpl/page-account-post.php:351
 #, php-format
 msgid "tag %d"
 msgstr "标签 %d"
 
-#: tpl/page-account-collection.php:190 tpl/page-account-contribution.php:269
-#: tpl/page-account-post.php:437
+#: tpl/page-account-collection.php:190 tpl/page-account-post.php:439
 msgid "Sending, please wait..."
 msgstr "数据发送中，请稍候…"
 
-#: tpl/page-account-collection.php:192 tpl/page-account-contribution.php:271
-#: tpl/page-account-post.php:439
+#: tpl/page-account-collection.php:192 tpl/page-account-post.php:441
 msgid "Submit"
 msgstr "提交"
-
-#: tpl/page-account-contribution.php:40 tpl/page-account-post.php:92
-msgid "Post title"
-msgstr "文章标题"
-
-#: tpl/page-account-contribution.php:48 tpl/page-account-post.php:100
-msgid "Post title (require)"
-msgstr "文章标题（必填）"
-
-#: tpl/page-account-contribution.php:49 tpl/page-account-post.php:101
-msgid "Post title must to write"
-msgstr "文章标题必须填写哦"
-
-#: tpl/page-account-contribution.php:58 tpl/page-account-post.php:111
-msgid "Post content"
-msgstr "文章内容"
-
-#: tpl/page-account-contribution.php:75
-msgid "Set split tag for each image?"
-msgstr "是否"
-
-#: tpl/page-account-contribution.php:80
-msgid "Unset"
-msgstr "不设置"
-
-#: tpl/page-account-contribution.php:84
-msgid "\"Next page\" tag"
-msgstr "使用“下一页”标签"
-
-#: tpl/page-account-contribution.php:119 tpl/page-account-post.php:186
-msgid "Storage link"
-msgstr "网盘链接"
-
-#: tpl/page-account-contribution.php:169 tpl/page-account-post.php:261
-msgid "Select a category"
-msgstr "选择一个分类"
-
-#: tpl/page-account-contribution.php:249 tpl/page-account-post.php:407
-#: tpl/page-account-post.php:408
-msgid "The source of work URL, includes http://"
-msgstr "作品的来源地址，包括 http://"
-
-#: tpl/page-account-contribution.php:257 tpl/page-account-post.php:423
-#: tpl/page-account-post.php:424
-msgid "Author"
-msgstr "作者"
 
 #: tpl/page-account-edit.php:17
 msgid "Thumbnail"
@@ -4183,23 +4208,23 @@ msgstr "封面图"
 msgid "Tags"
 msgstr "Tag 标签"
 
-#: tpl/page-account-edit.php:41
+#: tpl/page-account-edit.php:39
 msgid "Click to edit"
 msgstr "点击编辑"
 
-#: tpl/page-account-edit.php:45
+#: tpl/page-account-edit.php:43
 msgid "Edit"
 msgstr "编辑"
 
-#: tpl/page-account-edit.php:49
+#: tpl/page-account-edit.php:47
 msgid "View"
 msgstr "查看"
 
-#: tpl/page-account-edit.php:62
+#: tpl/page-account-edit.php:60
 msgid "Published"
 msgstr "已发布"
 
-#: tpl/page-account-edit.php:65
+#: tpl/page-account-edit.php:63
 msgid "Pending"
 msgstr "待审核"
 
@@ -4248,6 +4273,30 @@ msgstr "重新输入新密码"
 msgid "Update password"
 msgstr "更新密码"
 
+#: tpl/page-account-pm.php:9
+msgid "Private messages"
+msgstr "私信"
+
+#: tpl/page-account-pm.php:17
+msgid "New P.M."
+msgstr "新建私信"
+
+#: tpl/page-account-pm.php:27
+msgid "Add a receiver UID to send private message."
+msgstr ""
+
+#: tpl/page-account-pm.php:33
+msgid "Receiver UID, e.g. 10004"
+msgstr ""
+
+#: tpl/page-account-pm.php:36
+msgid "Start"
+msgstr ""
+
+#: tpl/page-account-pm.php:45
+msgid "Enter to send P.M."
+msgstr ""
+
 #: tpl/page-account-post.php:43
 msgid "Sorry, collection edits feature is not supported currently."
 msgstr "抱歉，目前不支持编辑专刊的功能。"
@@ -4258,23 +4307,51 @@ msgid ""
 "wait a minute..."
 msgstr "对不起，你现在不能编辑这篇文章，因为编辑正在编辑它。请稍候一会……"
 
+#: tpl/page-account-post.php:92
+msgid "Post title"
+msgstr "文章标题"
+
+#: tpl/page-account-post.php:100
+msgid "Post title (require)"
+msgstr "文章标题（必填）"
+
+#: tpl/page-account-post.php:101
+msgid "Post title must to write"
+msgstr "文章标题必须填写哦"
+
+#: tpl/page-account-post.php:111
+msgid "Post content"
+msgstr "文章内容"
+
 #: tpl/page-account-post.php:141
 msgid "Use split tag for each image?"
 msgstr "为每张图片使用分隔符?"
 
-#: tpl/page-account-post.php:146
+#: tpl/page-account-post.php:147
 msgid "No use"
 msgstr "不使用"
 
-#: tpl/page-account-post.php:150
+#: tpl/page-account-post.php:151
 msgid "Use \"next page\" tag"
 msgstr "使用“下一页”标签"
 
-#: tpl/page-account-post.php:152
+#: tpl/page-account-post.php:153
 msgid "Please confirm before uploading image."
 msgstr "请在上传图片前确认选择。"
 
-#: tpl/page-account-post.php:439
+#: tpl/page-account-post.php:188
+msgid "Storage link"
+msgstr "网盘链接"
+
+#: tpl/page-account-post.php:263
+msgid "Select a category"
+msgstr "选择一个分类"
+
+#: tpl/page-account-post.php:409 tpl/page-account-post.php:410
+msgid "The source of work URL, includes http://"
+msgstr "作品的来源地址，包括 http://"
+
+#: tpl/page-account-post.php:441
 msgid "Update"
 msgstr "更新"
 
@@ -4325,14 +4402,17 @@ msgstr "向每个人介绍自己"
 msgid "Save my settings"
 msgstr "保存我的设置"
 
-#~ msgid "Daily"
-#~ msgstr "每日"
+#~ msgid "Author meta link group"
+#~ msgstr "作者相关链接"
 
-#~ msgid "Weekly"
-#~ msgstr "每周"
+#~ msgid "Set split tag for each image?"
+#~ msgstr "是否"
 
-#~ msgid "Monthly"
-#~ msgstr "每月"
+#~ msgid "Unset"
+#~ msgstr "不设置"
+
+#~ msgid "\"Next page\" tag"
+#~ msgstr "使用“下一页”标签"
 
 #~ msgid "Preview page"
 #~ msgstr "上一页"

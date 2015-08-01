@@ -111,7 +111,7 @@ class theme_custom_collection{
 		],$args);
 		
 		if($args['preview'] === false){
-			$args['url'] = get_the_permalink($args['post_id']);
+			$args['url'] = theme_cache::get_permalink($args['post_id']);
 		}
 		
 		$args['content'] = strip_tags($args['content'],'<b><strong><del><span><img>');
@@ -206,7 +206,7 @@ class theme_custom_collection{
 	public static function get_url(){
 		static $cache = null;
 		if($cache === null){
-			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
+			$cache = theme_cache::get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 		}
 		return $cache;
 	}
@@ -226,9 +226,8 @@ class theme_custom_collection{
 				'filter_priority' => 25,
 			),
 		);
-		if($key){
+		if($key)
 			return isset($tabs[$key]) ? $tabs[$key] : false;
-		}
 		return $tabs;
 	}
 	public static function is_page(){
@@ -404,7 +403,7 @@ class theme_custom_collection{
 						$output['status'] = 'success';
 						$output['msg'] = sprintf(
 							___('Congratulation! Your post has been published. You can %s or %s.'),
-							'<a href="' . esc_url(get_permalink($post_id)) . '" title="' . esc_attr(get_the_title($post_id)) . '">' . ___('View it now') . '</a>',
+							'<a href="' . theme_cache::get_permalink($post_id) . '" title="' . theme_cache::get_the_title($post_id) . '">' . ___('View it now') . '</a>',
 							'<a href="' . self::get_tabs('collection')['url'] . '">' . ___('countinue to write a new collection') . '</a>'
 						);
 
@@ -437,7 +436,7 @@ class theme_custom_collection{
 
 				
 				global $post;
-				$post = get_post($post_id);
+				$post = theme_cache::get_post($post_id);
 				if(!$post){
 					$output['status'] = 'error';
 					$output['code'] = 'post_not_exist';
@@ -456,7 +455,7 @@ class theme_custom_collection{
 							theme_functions::$thumbnail_size[2],
 						]
 					],
-					'title' 	=> esc_html(get_the_title($post_id)),
+					'title' 	=> esc_html(theme_cache::get_the_title($post_id)),
 					'excerpt' 	=> str_sub(strip_tags(trim($post->post_content)),120,'...'),
 				];
 				wp_reset_postdata();
@@ -529,7 +528,7 @@ class theme_custom_collection{
 				die(theme_features::json_format($output));
 			}
 			/** check post exists */
-			$url = esc_url(get_the_permalink($v['post-id']));
+			$url = esc_url(theme_cache::get_permalink($v['post-id']));
 			if(empty($url)){
 				$output['status'] = 'error';
 				$output['code'] = 'post_not_exist';

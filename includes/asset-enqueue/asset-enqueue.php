@@ -63,8 +63,8 @@ class theme_asset_enqueue{
 			],
 			'awesome' => [
 				'deps' => [],
-				//'url' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css',
-				'url' => 'http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css',
+				//'url' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css',
+				'url' => 'https://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css',
 				'version' => null,
 			],
 			

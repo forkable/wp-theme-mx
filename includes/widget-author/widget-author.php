@@ -56,7 +56,12 @@ class theme_widget_author extends WP_Widget{
 					<?= get_avatar($author_id,'100');?>
 				</div>
 				<div class="media-body">
-					<h4 class="media-heading author-card-name"><?= theme_cache::get_the_author_meta('display_name',$author_id);?></h4>
+					<h4 class="media-heading author-card-name">
+						<?= theme_cache::get_the_author_meta('display_name',$author_id);?>
+						<?php if(class_exists('theme_custom_author_profile')){ ?>
+							<small class="label label-<?= theme_custom_author_profile::get_roles($author_id)['label'];?>"><?= theme_custom_author_profile::get_roles($author_id)['name'];?></small>
+						<?php } ?>
+					</h4>
 					<p class="author-card-description" <?= empty($description) ? null : ' title="' . $description . '"';?> >
 						<?php
 						if(empty($description)){

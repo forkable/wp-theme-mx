@@ -140,7 +140,7 @@ class theme_notification{
 	public static function get_url(){
 		static $cache = null;
 		if($cache === null)
-			$cache = get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
+			$cache = theme_cache::get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 
 		return $cache;
 	}
@@ -289,7 +289,7 @@ class theme_notification{
 					<?php
 					echo sprintf(
 						___('Your post %1$s has a comment by %2$s.'),
-						'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '#comment-' . $comment->comment_ID . '">' . esc_html(get_the_title($comment->comment_post_ID)) . '</a>',
+						'<a href="' . theme_cache::get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '">' . esc_html(theme_cache::get_the_title($comment->comment_post_ID)) . '</a>',
 						get_comment_author_link($noti['comment-id'])
 					);
 					?>
@@ -322,8 +322,8 @@ class theme_notification{
 					echo sprintf(
 						___('Your comment has a reply by %1$s in %2$s.'),
 						get_comment_author_link($noti['comment-id']),
-						'<a href="' . esc_url(get_permalink($comment->comment_post_ID)) . '#comment-' . $noti['comment-id'] . '">
-							' . esc_html(get_the_title($comment->comment_post_ID)) . '
+						'<a href="' . theme_cache::get_permalink($comment->comment_post_ID) . '#comment-' . $noti['comment-id'] . '">
+							' . esc_html(theme_cache::get_the_title($comment->comment_post_ID)) . '
 						</a>'
 					);
 					?>
@@ -427,7 +427,7 @@ class theme_notification{
 		 */
 		if($comment->comment_parent != 0){
 			/** post author */
-			$post_author_id = self::get_post($comment->comment_post_ID)->post_author;
+			$post_author_id = theme_cache::get_post($comment->comment_post_ID)->post_author;
 			/**
 			 * 评论是回复评论，父评论是文章作者时，仅给父评论作者添加评论回复事件，不添加文章评论事件
 			 */
@@ -463,7 +463,7 @@ class theme_notification{
 		$comment = get_comment($comment_id);
 		
 		/** post author */
-		$post_author_id = self::get_post($comment->comment_post_ID)->post_author;
+		$post_author_id = theme_cache::get_post($comment->comment_post_ID)->post_author;
 			
 		/**
 		 * 评论是子评论
@@ -492,7 +492,7 @@ class theme_notification{
 	public static function action_add_noti_core_post_reply($comment_id){
 		$comment = self::get_comment($comment_id);
 
-		$post_author_id = self::get_post($comment->comment_post_ID)->post_author;
+		$post_author_id = theme_cache::get_post($comment->comment_post_ID)->post_author;
 
 		/**
 		 * if visitor is comment author, reuturn
@@ -533,12 +533,6 @@ class theme_notification{
 		$unread_count[$meta['timestamp']] = $meta;
 		update_user_meta($user_id,self::$user_meta_key['unread_count'],$unread_count);
 	}
-	public static function get_post($post_id){
-		static $caches = [];
-		if(!isset($caches[$post_id]))
-			$caches[$post_id] = get_post($post_id);
-		return $caches[$post_id];
-	}
 	public static function get_comment($comment_id){
 		static $caches = [];
 		if(isset($caches[$comment_id]))
@@ -558,7 +552,7 @@ class theme_notification{
 			return false;
 		
 		/** get post author */
-		$post_author_id = self::get_post($comment->comment_post_ID)->post_author;
+		$post_author_id = theme_cache::get_post($comment->comment_post_ID)->post_author;
 		
 		/**
 		 * if post author is current comment author, return
