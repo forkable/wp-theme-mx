@@ -30,7 +30,7 @@
 	/** 
 	 * post widget
 	 */
-	}else if(theme_cache::is_singular('post') && !theme_cache::dynamic_sidebar('widget-area-post')){
+	}else if(theme_cache::is_singular_post() && !theme_cache::dynamic_sidebar('widget-area-post')){
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">
