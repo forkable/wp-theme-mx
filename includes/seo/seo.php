@@ -2,7 +2,7 @@
 /*
 Feature Name:	SEO PLUS
 Feature URI:	http://www.inn-studio.com
-Version:		1.4.1
+Version:		1.4.2
 Description:	Improve the seo friendly
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -85,7 +85,7 @@ class theme_seo_plus{
 		 * other page
 		 */
 		}else{
-			if(is_singular()){
+			if(theme_cache::is_singular()){
 				global $post;
 
 				if(!empty($post->post_excerpt)){
@@ -93,10 +93,10 @@ class theme_seo_plus{
 				}else{
 					$descriptions[] = apply_filters('meta_description_singular',mb_substr(strip_tags($post->post_content),0,120));
 				}
-			}else if(is_category()){
+			}else if(theme_cache::is_category()){
 				$category_description = category_description();
 				$descriptions[] = apply_filters('meta_description_category',$category_description);
-			}else if(is_tag()){
+			}else if(theme_cache::is_tag()){
 				$tag_description = tag_description();
 				$descriptions[] = apply_filters('meta_description_tag',$tag_description);
 			}
@@ -127,7 +127,7 @@ class theme_seo_plus{
 		/** 
 		 * post page
 		 */
-		if(is_singular('post')){
+		if(theme_cache::is_singular_post()){
 			$posttags = get_the_tags();
 			if(!empty($posttags)){
 				foreach($posttags as $v) {
@@ -137,7 +137,7 @@ class theme_seo_plus{
 		/** 
 		 * other page
 		 */
-		}else if(!is_home()){
+		}else if(!theme_cache::is_home()){
 			$single_term_title = single_term_title('',false);
 			$all_tags[] = apply_filters('meta_keywords_not_home',$single_term_title);
 		/** 

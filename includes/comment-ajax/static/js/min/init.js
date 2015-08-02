@@ -34,8 +34,13 @@ _cache.$loading_ready.parentNode.removeChild(_cache.$loading_ready);if(_config.r
 if(_cache.$comment_ta){_cache.$comment_ta.addEventListener('keydown',function(e){if(e.keyCode==13&&e.ctrlKey){_cache.$submit_btn.click();return false;}},false);}
 if(_config.logged){if(_cache.$avatar)
 _cache.$avatar.src=js_request[config.iden]['avatar-url'];if(_cache.$area_visitor)
-_cache.$area_visitor.parentNode.removeChild(_cache.$area_visitor);}else{}
-_cache.$fm.style.display='block';_cache.$fm.addEventListener('submit',fm_submit,false);}
+_cache.$area_visitor.parentNode.removeChild(_cache.$area_visitor);}else{preset_userinfo();}
+_cache.$fm.style.display='block';_cache.$fm.addEventListener('submit',fm_submit);}
+function preset_userinfo(){if(_config.logged)
+return false;_cache.$comment_form_author=I('comment-form-author');_cache.$comment_form_email=I('comment-form-email');if(!_cache.$comment_form_author||!_cache.$comment_form_email)
+return false;if(js_request[config.iden]['user-name'])
+_cache.$comment_form_author.value=js_request[config.iden]['user-name'];if(js_request[config.iden]['user-email'])
+_cache.$comment_form_email.value=js_request[config.iden]['user-email'];}
 function fm_submit(e){if(_cache.$comment_ta.value.trim()===''){_cache.$comment_ta.focus();tools.ajax_loading_tip('error',_cache.$comment_ta.getAttribute('title'),3);return false;}
 if(!_config.logged&&_config.registration){var $inputs=_cache.$fm.querySelectorAll('input[required]');for(var i=0,len=$inputs.length;i<len;i++){if($inputs[i].getAttribute('type')==='email'&&!tools.is_email($inputs[i].value)){tools.ajax_loading_tip('error',$inputs[i].getAttribute('title'),3);return false;}
 if($inputs[i].value.trim()===''){tools.ajax_loading_tip('error',$inputs[i].getAttribute('title'),3);return false;}}}
@@ -47,12 +52,12 @@ $comment_loading.parentNode.removeChild($comment_loading);var $badge=I('comment-
 cache.$comments.style.display='block';tools.ajax_loading_tip(data.status,data.msg,3);}else if(data&&data.status==='error'){tools.ajax_loading_tip(data.status,data.msg);_cache.$comment_ta.focus();}else{tools.ajax_loading_tip('error',data);_cache.$comment_ta.select();}}else{tools.ajax_loading_tip('error',config.lang.E01);}
 _cache.$submit_btn.removeAttribute('disabled');};xhr.onerror=function(){tools.ajax_loading_tip('error',config.lang.E01);_cache.$submit_btn.removeAttribute('disabled');}}
 function goto_click(){_cache.$goto=I('goto-comment');_cache.$comment=I('comment-form-comment');if(!_cache.$goto||!_cache.$comment)
-return false;_cache.$goto.style.display='block';_cache.$goto.onclick=function(){setTimeout(function(){_cache.$comment.focus();},300);}}}
+return false;_cache.$goto.style.display='block';_cache.$goto.onclick=function(){_cache.$comment.focus();}}}
 var addComment={cache:{},cancelMove:function(){var t=this;t.cache.$parent.value='0';t.cache.$tmp.parentNode.insertBefore(t.cache.$respond,t.cache.$tmp);t.cache.$cancel.style.display='none';t.cache.$cancel.onclick=null;},moveForm:function(commId,parentId,respondId,postId){var t=this;t.cache.$comm=I(commId);t.cache.$respond=I(respondId);t.cache.$cancel=I('cancel-comment-reply-link');t.cache.$parent=I('comment_parent');t.cache.$post=I('comment_post_ID'),t.cache.$comment=I('comment-form-comment');if(!t.cache.$comm||!t.cache.$respond||!t.cache.$cancel||!t.cache.$parent)
 return;postId=postId||false;if(!t.cache.$tmp){t.cache.$tmp=document.createElement('div');t.cache.$tmp.id='wp-temp-form-div';t.cache.$tmp.style.display='none';t.cache.$respond.parentNode.insertBefore(t.cache.$tmp,t.cache.$respond);}
 t.cache.$comm.parentNode.insertBefore(t.cache.$respond,t.cache.$comm.nextSibling);if(t.cache.$post&&postId)
 t.cache.$post.value=postId;t.cache.$parent.value=parentId;t.cache.$cancel.style.display='block';t.cache.$cancel.onclick=function(){t.cancelMove();return false;};if(t.cache.$comment)
 t.cache.$comment.focus();return false;}};function jump_to_comment(){if(!location.hash||location.hash==='')
 return false;var hash=location.hash,$comment=I(hash.substr(1));if(!$comment)
-return false;location.hash='#none';location.hash=hash;}
+return false;location.hash='e';location.hash=hash;}
 function I(e){return document.getElementById(e);}});

@@ -2,7 +2,7 @@
 /*
 Feature Name:	Post Share
 Feature URI:	http://www.inn-studio.com
-Version:		2.0.1
+Version:		2.0.2
 Description:	
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -46,7 +46,7 @@ class theme_post_share{
 			'post_title_text' => theme_cache::get_the_title($post->ID),
 			'post_url' => theme_cache::get_permalink($post->ID),
 			'blog_name' => theme_cache::get_bloginfo('name'),
-			'blog_url' => esc_url(theme_cache::home_url()),
+			'blog_url' => theme_cache::home_url(),
 			'img_url' => esc_url($img_url),
 			'post_excerpt' => esc_attr(mb_substr(html_minify(strip_tags(get_the_excerpt())),0,120)),
 			'post_content' => esc_attr(mb_substr(html_minify(strip_tags(get_the_content())),0,120)),
@@ -153,15 +153,8 @@ class theme_post_share{
 		}
 		return $opts;
 	}
-	public static function is_singular(){
-		static $cache = null;
-		if($cache === null)
-			$cache = is_singular();
-
-		return $cache;
-	}
 	public static function frontend_css(){
-		if(!self::is_singular())
+		if(!theme_cache::is_singular())
 			return false;
 			
 		wp_enqueue_style(
@@ -172,14 +165,14 @@ class theme_post_share{
 		);
 	}
 	public static function frontend_seajs_alias(array $alias = []){
-		if(!self::is_singular())
+		if(!theme_cache::is_singular())
 			return $alias;
 			
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	} 
 	public static function frontend_seajs_use(){
-		if(!self::is_singular())
+		if(!theme_cache::is_singular())
 			return false;
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.0
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'custom_post_point::init';
@@ -819,22 +819,15 @@ class custom_post_point{
 
 		return true;
 	}
-	public static function is_singular_post(){
-		static $cache = null;
-		if($cache === null)
-			$cache = is_singular('post');
-
-		return $cache;
-	}
 	public static function frontend_seajs_alias(array $alias = []){
-		if(!self::is_singular_post())
+		if(!theme_cache::is_singular_post())
 			return $alias;
 			
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(!self::is_singular_post())
+		if(!theme_cache::is_singular_post())
 			return;
 		?>
 		seajs.use(['<?= self::$iden;?>'],function(m){

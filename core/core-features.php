@@ -1515,7 +1515,7 @@ class theme_features{
 
 	/* 增強bodyclass樣式 */
 	public static function theme_body_classes(array $classes = []){
-		if(is_singular()){
+		if(theme_cache::is_singular()){
 			$classes[] = 'singular';
 		}
 		return $classes;
@@ -1843,34 +1843,19 @@ class theme_features{
 		}
 	}
 	/**
-	 * Get option from cache
-	 *
-	 * @param string $key
-	 * @return mixed 
-	 * @version 1.0.0
-	 */
-	public static function get_option($key){
-		static $caches = [];
-		if(isset($caches[$key]))
-			return $caches[$key];
-
-		$caches[$key] = get_option($key);
-		return $caches[$key];
-	}
-	/**
 	 * Get comment pages count
 	 *
 	 * @param array $comments 
 	 * @return int Max comment pages number
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
 	public static function get_comment_pages_count($comments){
 		static $count = null;
 		if($count === null)
 			$count = get_comment_pages_count(
 				$comments, 
-				self::get_option('comments_per_page'), 
-				self::get_option('thread_comments')
+				theme_cache::get_option('comments_per_page'), 
+				theme_cache::get_option('thread_comments')
 			);
 		return $count;
 	}

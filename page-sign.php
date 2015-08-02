@@ -62,7 +62,7 @@ $open_sign_html = function(){
 			</div>
 			<div class="form-group">
 				<div class="input-group">
-					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></label>
+					<label for="sign-email" class="input-group-addon"><i class="fa fa-at fa-fw"></i></label>
 					<input name="user[email]" type="email" class="form-control" id="sign-email" placeholder="<?= ___('Please type email');?>" title="<?= ___('Please type email');?>" required tabindex="1">
 				</div>
 			</div>
@@ -120,7 +120,7 @@ $open_sign_html();
 			<div class="form-group"><?= ___('If you forgot your account password, you can recover your password by your account email. Please entry your account email, we will send a confirm email to it and reset your password.');?></div>
 			<div class="form-group">
 				<div class="input-group">
-					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></label>
+					<label for="sign-email" class="input-group-addon"><i class="fa fa-at fa-fw"></i></label>
 					<input type="email" name="user[email]" id="sign-email" class="form-control" title="<?= ___('Please type email');?>" required tabindex="1" autofocus placeholder="<?= ___('Please type email');?>">
 				</div>
 			</div>
@@ -214,7 +214,7 @@ $open_sign_html();
 		<form action="javascript:;" id="fm-sign-login">
 			<div class="form-group">
 				<div class="input-group">
-					<label for="sign-email" class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></label>
+					<label for="sign-email" class="input-group-addon"><i class="fa fa-at fa-fw"></i></label>
 					<input name="user[email]" type="email" class="form-control" id="sign-email" placeholder="<?= ___('Please type email');?>" title="<?= ___('Please type email');?>" required tabindex="1" autofocus>
 				</div>
 			</div>

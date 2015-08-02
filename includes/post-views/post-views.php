@@ -2,7 +2,7 @@
 /*
 Feature Name:	Post Views
 Feature URI:	http://www.inn-studio.com
-Version:		3.0.1
+Version:		3.0.2
 Description:	Count the post views.
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -240,28 +240,21 @@ class theme_post_views{
 	public static function is_viewed($post_id){
 		return !self::set_viewed_ids($post_id);
 	}
-	private static function is_singular_post(){
-		static $cache = null;
-		if($cache === null)
-			$cache = is_singular('post');
-
-		return $cache;
-	}
 	public static function js_cache_request(array $alias = []){
-		if(!self::is_singular_post())
+		if(!theme_cache::is_singular_post())
 			return $alias;
 		$alias[self::$iden] = get_the_ID();
 		return $alias;
 	}
 	public static function frontend_seajs_alias(array $alias = []){
-		if(!self::is_singular_post())
+		if(!theme_cache::is_singular_post())
 			return $alias;
 
 		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(!self::is_singular_post())
+		if(!theme_cache::is_singular_post())
 			return false;
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){

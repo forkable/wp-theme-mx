@@ -170,7 +170,7 @@ class theme_custom_point_views_per_hundred{
 				<?= sprintf(
 					___('Your post %1$s reached per hundred views, %2$s %3$s. Views are %4$s.'),
 					
-					'<a href="' . theme_cache::get_permalink($post->ID) . '" target="_blank">' . get_title($post->ID) . ' <i class="fa fa-external-link"></i></a>',
+					'<a href="' . theme_cache::get_permalink($post->ID) . '" target="_blank">' . theme_cache::get_the_title($post->ID) . ' <i class="fa fa-external-link"></i></a>',
 					
 					'<strong>+' . $meta['points'] . '</strong>',
 					

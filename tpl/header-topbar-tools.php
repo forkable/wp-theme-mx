@@ -34,7 +34,7 @@ if(theme_cache::is_user_logged_in()){
 		<!-- post edit -->
 		<?php
 		global $post;
-		if(is_singular('post') && $post->post_author == $current_user_id){
+		if(theme_cache::is_singular_post() && $post->post_author == $current_user_id){
 			if(class_exists('theme_custom_edit')){
 				$edit_post_link = theme_custom_edit::get_edit_post_link($post->ID);
 			}else{

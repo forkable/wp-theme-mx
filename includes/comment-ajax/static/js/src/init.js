@@ -403,6 +403,7 @@ define(function(require, exports, module){
 					}
 				},false);
 			}
+			
 			/**
 			 * user logged
 			 */
@@ -413,11 +414,27 @@ define(function(require, exports, module){
 				if(_cache.$area_visitor)
 					_cache.$area_visitor.parentNode.removeChild(_cache.$area_visitor);
 			}else{
-				
+				/**
+				 * preset userinfo
+				 */
+				preset_userinfo();
 			}
 			_cache.$fm.style.display = 'block';
 
-			_cache.$fm.addEventListener('submit',fm_submit,false);
+			_cache.$fm.addEventListener('submit',fm_submit);
+		}
+		function preset_userinfo(){
+			if(_config.logged)
+				return false;
+			_cache.$comment_form_author = I('comment-form-author');
+			_cache.$comment_form_email = I('comment-form-email');
+			if(!_cache.$comment_form_author || !_cache.$comment_form_email)
+				return false;
+
+			if(js_request[config.iden]['user-name'])
+				_cache.$comment_form_author.value = js_request[config.iden]['user-name'];
+			if(js_request[config.iden]['user-email'])
+				_cache.$comment_form_email.value = js_request[config.iden]['user-email'];
 		}
 		function fm_submit(e){
 			/**
@@ -533,9 +550,7 @@ define(function(require, exports, module){
 				
 			_cache.$goto.style.display = 'block';
 			_cache.$goto.onclick = function(){
-				setTimeout(function(){
-					_cache.$comment.focus();
-				},300);
+				_cache.$comment.focus();
 			}
 		}
 		
@@ -603,7 +618,7 @@ define(function(require, exports, module){
 			$comment = I(hash.substr(1));
 		if(!$comment)
 			return false;
-		location.hash = '#none';
+		location.hash = 'e';
 		location.hash = hash;
 	}
 	function I(e){

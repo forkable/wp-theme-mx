@@ -4,7 +4,7 @@
 	/** 
 	 * home widget
 	 */
-	if(is_home() && !theme_cache::dynamic_sidebar('widget-area-home')){
+	if(theme_cache::is_home() && !theme_cache::dynamic_sidebar('widget-area-home')){
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">
@@ -17,7 +17,7 @@
 	/** 
 	 * archive widget
 	 */
-	}else if((is_category() || is_archive() || is_search()) && !theme_cache::dynamic_sidebar('widget-area-archive')){
+	}else if((theme_cache::is_category() || theme_cache::is_archive() || theme_cache::is_search()) && !theme_cache::dynamic_sidebar('widget-area-archive')){
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">
@@ -30,7 +30,7 @@
 	/** 
 	 * post widget
 	 */
-	}else if(is_singular('post') && !theme_cache::dynamic_sidebar('widget-area-post')){
+	}else if(theme_cache::is_singular('post') && !theme_cache::dynamic_sidebar('widget-area-post')){
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">
