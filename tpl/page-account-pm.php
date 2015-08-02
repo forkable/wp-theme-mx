@@ -11,16 +11,20 @@ get_currentuserinfo();
 	</div>
 	<div class="panel-body">
 		<div class="row">
-			<div class="pm-tab col-sm-2">
-				<a href="javascript:;" data-target="pm-new">
-					<i class="fa fa-plus fa-fw"></i> 
-					<?= ___('New P.M.');?>
-				</a>
-				<a href="javascript:;" data-target="pm-dialog-100914">
-					<img src="<?= get_avatar_url(914);?>" alt="avatar" class="avatar"> 
-					<span class="author"><?= theme_cache::get_the_author_meta('display_name',914);?></span>
-				</a>
-			</div>
+			<nav id="pm-tab" class="pm-tab col-sm-2 nav nav-pills">
+				<li>
+					<a href="javascript:;" data-target="pm-new" class="">
+						<i class="fa fa-plus fa-fw"></i> 
+						<?= ___('New P.M.');?>
+					</a>
+				</li>
+				<li class="active">
+					<a href="javascript:;" data-target="pm-dialog-100914" class="">
+						<img src="<?= theme_features::get_theme_images_url(theme_functions::$avatar_placeholder);?>" alt="avatar" class="avatar" width="24" height="24"> 
+						<span class="author"><?= theme_cache::get_the_author_meta('display_name',914);?></span>
+					</a>
+				</li>
+			</nav>
 			<div class="pm-dialog-container col-sm-10">
 				<!-- pm-new -->
 				<form action="javascript:;" id="pm-new" class="pm-dialog">
@@ -38,11 +42,42 @@ get_currentuserinfo();
 				</form>
 				
 				<form action="javascript:;" id="pm-dialog-10024" class="pm-dialog">
-					<div class="pm-dialog-list">
-						
+					<div class="form-group pm-dialog-list">
+						<!-- list -->
+						<div class="pm-dialog-sender media">
+							<div class="media-left">
+								<img src="<?= theme_features::get_theme_images_url(theme_functions::$avatar_placeholder);?>" alt="avatar" id="pm-new-avatar" class="avatar" width="64px" height="64px"> 
+							</div>
+							<div class="media-body">
+								<div class="media-heading">
+									<span class="name">小叫兽</span> 
+									<span class="date">2015-12-12 05:32:11</span>
+								</div>
+								<div class="media-content">
+									你好，这是测试信息
+								</div>
+							</div>
+						</div>
+						<div class="pm-dialog-me media">
+							<div class="media-left">
+								<img src="<?= theme_features::get_theme_images_url(theme_functions::$avatar_placeholder);?>" alt="avatar" id="pm-new-avatar" class="avatar" width="64px" height="64px"> 
+							</div>
+							<div class="media-body">
+								<div class="media-heading">
+									<span class="name">我</span> 
+									<span class="date">2015-12-12 05:32:11</span>
+								</div>
+								<div class="media-content">
+									你好，这是测试信息
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="form-group">
-						<input name="pm[content]" class="pm-dialog-conteng form-control" placeholder="<?= ___('Enter to send P.M.');?>">
+						<textarea name="pm[content]" class="pm-dialog-conteng form-control" placeholder="<?= ___('Enter to send P.M.');?>"></textarea>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-success btn-block" type="submit"><i class="fa fa-check"></i>&nbsp;<?= ___('Send P.M.');?></button>
 					</div>
 				</form>
 			</div>

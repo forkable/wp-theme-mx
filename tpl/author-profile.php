@@ -90,7 +90,7 @@ global $author;
 							if(theme_custom_point::get_point($author) > 0){ 
 								if(class_exists('theme_custom_point_bomb')){
 									?>
-									<a href="<?= theme_custom_point_bomb::get_tabs('bomb',$author)['url'];?>">
+									<a href="<?= theme_custom_point_bomb::get_tabs('bomb',get_the_author_meta('nicename',$author))['url'];?>">
 										<i class="fa fa-bomb"></i> 
 										<?= theme_custom_point::get_point($author);?>
 									</a>

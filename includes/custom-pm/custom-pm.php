@@ -32,6 +32,8 @@ class theme_custom_pm{
 		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
 		
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
+		add_filter('frontend_seajs_alias', __CLASS__ . '::frontend_seajs_alias');
+		add_action('frontend_seajs_use', __CLASS__ . '::frontend_seajs_use');
 		
 		foreach(self::get_tabs() as $k => $v){
 			$nav_fn = 'filter_nav_' . $k; 
@@ -475,7 +477,7 @@ class theme_custom_pm{
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){
 			
-			<!-- m.init(); -->
+			m.init();
 		});
 		<?php
 	}

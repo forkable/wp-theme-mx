@@ -1,0 +1,36 @@
+.pm-tab a{
+	display: block;
+	/*margin-bottom: 10px;*/
+}
+@media( min-width: 768px ){
+	.pm-tab li{
+		width: 100%;
+	}
+}
+.pm-dialog-list{
+	border-bottom: 2px dashed #eee;
+	padding-bottom: 20px;
+}
+.pm-dialog-list .media-heading{
+	font-size: 12px;
+}
+	.pm-dialog-list .media-heading span{
+		margin-right: 1em;
+	}
+	.pm-dialog-list .media-heading .date{
+		color: #ccc;
+	}
+.pm-dialog-list .media-content{
+	padding: 5px 10px;
+	border-radius: 2px;
+	display: inline-block;
+	background: rgba(0,0,0,.05);
+}
+	.pm-dialog-list .pm-dialog-me .media-content{
+		background: #2196F3;
+		color: #fff;
+	}
+		.pm-dialog-list .pm-dialog-me .media-content a{
+			color: #fff;
+			border-bottom: 1px dashed #fff;
+		}
