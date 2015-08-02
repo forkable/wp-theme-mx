@@ -503,7 +503,6 @@ class theme_functions{
 	}
 	public static function page_content($args = []){
 		global $post;
-		wp_reset_postdata();
 		
 		$defaults = array(
 			'classes'			=> [],
@@ -571,8 +570,6 @@ class theme_functions{
 	 */
 	public static function singular_content(array $args = []){
 		global $post;
-
-		wp_reset_postdata();
 
 		$defaults = array(
 			'classes'			=> [],

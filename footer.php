@@ -17,10 +17,10 @@
 		<?php } ?>
 		<p class="footer-meta copyright text-center">
 			<?= sprintf(
-				___('&copy; %1$s %2$s. Producted by %3$s.'),
-				'<a href="' . theme_cache::home_url() . '">' .theme_cache::get_bloginfo('name') . '</a>',
+				___('&copy; %1$s %2$s. Theme %3$s.'),
+				'<a href="' . home_url() . '">' . theme_cache::get_bloginfo('name') . '</a>',
 				date('Y'),
-				'<a title="' . ___('WordPress top developer') . '" href="' . __('http://inn-studio.com') . '" target="_blank" rel="nofollow">' . ___('INN STUDIO') . '</a>'
+				'<a title="' . theme_features::get_theme_info('Version') . '" href="' . theme_features::get_theme_info('ThemeURI') . '" target="_blank" rel="nofollow">' . theme_features::get_theme_info('name') . '</a>'
 			);?>
 
 			<?= sprintf(___('CDN %s'),'<a href="http://blog.eqoe.cn" target="_blank" rel="nofollow">eqoe</a>');?>

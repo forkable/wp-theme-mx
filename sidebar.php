@@ -56,7 +56,7 @@
 	/** 
 	 * 404 widget
 	 */
-	}else if(is_404() && !theme_cache::dynamic_sidebar('widget-area-404')){
+	}else if(theme_cache::is_404() && !theme_cache::dynamic_sidebar('widget-area-404')){
 		?>
 		<div class="panel panel-default">
 			<div class="panel-body">

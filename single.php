@@ -16,7 +16,7 @@
 					<?php theme_functions::the_related_posts_plus();?>
 					<?php comments_template();?>
 				</div>
-				<?php get_sidebar('post');?>
+				<?php include __DIR__ . '/sidebar-post.php';?>
 			<?php 
 			}
 		}else{ 
