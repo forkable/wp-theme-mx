@@ -465,7 +465,7 @@ class theme_custom_user_settings{
 				seajs.use('<?= self::$iden,'-settings';?>',function(m){
 					m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
 					m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
-					m.config.lang.E00001 = '<?= ___('Sorry, server error please try again later.');?>';
+					m.config.lang.E00001 = '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>';
 					
 					m.init();
 				});				
@@ -476,7 +476,7 @@ class theme_custom_user_settings{
 				seajs.use('<?= self::$iden,'-',$tab_active;?>',function(m){
 					m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
 					m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
-					m.config.lang.E00001 = '<?= ___('Sorry, server error please try again later.');?>';
+					m.config.lang.E00001 = '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>';
 					
 					m.init();
 				});				

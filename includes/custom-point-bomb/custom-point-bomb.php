@@ -250,7 +250,7 @@ class theme_custom_point_bomb{
 			die(theme_features::json_format([
 				'status' => 'error',
 				'code' => 'target_user_not_exist',
-				'msg' => ___('Sorry, the target user do not exist.'),
+				'msg' => ___('Sorry, the target user does not exist.'),
 			]));
 		}
 
@@ -756,7 +756,7 @@ class theme_custom_point_bomb{
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
 			m.config.lang.M01 = '<?= ___('Target locking...');?>';
 			m.config.lang.M02 = '<?= ___('Bombing, please wait...');?>';
-			m.config.lang.E01 = '<?= ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
+			m.config.lang.E01 = '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>';
 			m.init();
 		});
 		<?php

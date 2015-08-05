@@ -832,7 +832,7 @@ class custom_post_point{
 		?>
 		seajs.use(['<?= self::$iden;?>'],function(m){
 			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?= ___('Sorry, some server error occurred, the operation can not be completed, please try again later.');?>';
+			m.config.lang.E00001 = '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>';
 			m.config.process_url = '<?= theme_features::get_process_url([
 				'action' => self::$iden,
 				'type' => 'incr'

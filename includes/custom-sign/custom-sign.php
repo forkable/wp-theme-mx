@@ -597,7 +597,7 @@ class theme_custom_sign{
 				'action' => self::$iden
 			]);?>';
 			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
-			m.config.lang.E00001 = '<?= ___('Sorry, server error please try again later.');?>';
+			m.config.lang.E00001 = '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>';
 			
 			m.init();
 		});

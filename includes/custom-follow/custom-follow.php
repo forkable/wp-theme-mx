@@ -138,7 +138,7 @@ class theme_custom_follow{
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => theme_quick_sign::$iden));?>';
 			m.config.lang.M00001 = '<?= esc_js(___('Loading, please wait...'));?>';
-			m.config.lang.E00001 = '<?= esc_js(___('Sorry, server error please try again later.'));?>';
+			m.config.lang.E00001 = '<?= esc_js(___('Sorry, server is busy now, can not respond your request, please try again later.'));?>';
 			
 			m.init();
 		});

@@ -1361,29 +1361,33 @@ label.error{
 
 /**
  * #ajax-loading
+ * @version 1.0.1
  */
 #ajax-loading-container{
 	position: fixed;
 	left: 0;
 	top: 0;
-	background: rgba(255,255,255,.95);
 	z-index: 100000;
 	width: 100%;
-	box-shadow: 0 0 20px rgba(0,0,0,.5);
 	text-align: center;
 	padding: 10px;
 	font-size: 20px;
 	line-height: 30px;
+	box-shadow: 0 20px 50px rgba(0,0,0,.5);
+	-webkit-transition: all .3s;
+	-moz-transition: all .3s;
+	transition: all .3s;
 }
-/** 
- * type
- */
-#ajax-loading-container{
-	-webkit-transition:all .5s;
-	-moz-transition:all .5s;
-	transition:all .5s;
-}
-	#ajax-loading-container.close{
+	#ajax-loading-container .fa{
+		vertical-align: inherit;
+	}
+	/** 
+	 * type
+	 */
+	#ajax-loading-container.closed{
+		-moz-transform: translateY(-100%);
+		-webkit-transform: translateY(-100%);
+		transform: translateY(-100%);
 		opacity: 0;
 	}
 	#ajax-loading-container.success,
@@ -1405,11 +1409,12 @@ label.error{
 	#ajax-loading-container .btn-close{
 		position: absolute;
 		top: 8px;
-		right: 0;
-		margin-right: 20px;
+		right: 10px;
 		cursor: pointer;
 		font-size: 30px;
-		color:rgb(251,238,238)
+		color:rgb(251,238,238);
+		box-shadow: none;
+		border-bottom: 2px solid rgba(0,0,0,.1);
 	}
 		#ajax-loading-container .btn-close:hover{
 			color:#fff;
@@ -1677,18 +1682,6 @@ label.error{
 	z-index: 1;
 	color: #fff !important;
 }
-	.back-to-top:hover:after{
-		position: absolute;
-		bottom: 100%;
-		left: 0;
-		width: 100%;
-		text-align: center;
-		background: rgba(0,0,0,.3);
-		color: #fff;
-		line-height: 1.5;
-		border-radius: 2px;
-		content: attr(title);
-	}
 	.back-to-top:hover{
 		opacity: 1;
 	}

@@ -336,12 +336,10 @@ function ___($text,$domain = null){
  * @example status_tip('error','content');
  * @example status_tip('error','big','content');
  * @example status_tip('error','big','content','span');
- * @version 2.0.1
+ * @version 2.0.2
  */
 function status_tip(){
 	$args = func_get_args();
-	if(empty($args))
-		return false;
 		
 	$defaults = array('type','size','content','wrapper');
 	$types = array('loading','success','error','question','info','ban','warning');
@@ -364,9 +362,12 @@ function status_tip(){
 				$$defaults[$k] = $v;
 			}
 	}
-	$type = $type ? $type : $types[0];
-	$size = $size ? $size : $sizes[0];
-	$wrapper = $wrapper ? $wrapper : $wrappers[0];
+	if(!$type)
+		$type = $types[0];
+	if(!$size)
+		$size = $sizes[0];
+	if(!$wrapper)
+		$wrapper = $wrappers[0];
 
 	switch($type){
 		case 'success':
@@ -388,15 +389,13 @@ function status_tip(){
 			break;
 		case 'loading':
 		case 'spinner':
-			$icon = 'spinner fa-pulse';
+			$icon = 'sun-o fa-pulse';
 			break;
 		default:
 			$icon = $type;
 	}
-
 	
-	$tpl = '<' . $wrapper . ' class="tip-status tip-status-' . $size . ' tip-status-' . $type . '"><i class="fa fa-' . $icon . '"></i> ' . $content . '</' . $wrapper . '>';
-	return $tpl;
+	return '<' . $wrapper . ' class="tip-status tip-status-' . $size . ' tip-status-' . $type . '"><i class="fa fa-' . $icon . '"></i> ' . $content . '</' . $wrapper . '>';
 }
 
 /**

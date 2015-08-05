@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.1
+ * @version 1.0.2
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_api::init';
@@ -30,6 +30,18 @@ class theme_custom_api{
 			case 'get_categories':
 				$output['status'] = 'success';
 				$output['categories'] = self::get_cats();
+				
+				/**
+				 * get cache
+				 */
+				$cache = wp_cache_get($type,self::$iden);
+				if($cache)
+					die(theme_features::json_format($cache));
+
+				/**
+				 * set cache
+				 */
+				wp_cache_set($type,$output,self::$iden,3600*24);
 				die(theme_features::json_format($output));
 			/**
 			 * get posts
@@ -92,6 +104,10 @@ class theme_custom_api{
 				/**
 				 * get cache
 				 */
+				$cache_id = md5(json_encode($query_args));
+				$cache = wp_cache_get($cache_id,self::$iden);
+				if($cache)
+					die(theme_features::json_format($cache));
 				
 				/**
 				 * create query
@@ -109,6 +125,10 @@ class theme_custom_api{
 					$output['msg'] = ___('Sorry, no content found.');
 				}
 				$output['status'] = 'success';
+				/**
+				 * set cache
+				 */
+				wp_cache_set($cache_id,$output,self::$iden,3600);
 				die(theme_features::json_format($output));
 			/**
 			 * get post
@@ -124,6 +144,13 @@ class theme_custom_api{
 					$output['msg'] = ___('Sorry, post ID is invaild.');
 					die(theme_features::json_format($output));
 				}
+				/**
+				 * get cache
+				 */
+				$cache = wp_cache_get($post_id,self::$iden);
+				if($cache)
+					die(theme_features::json_format($cache));
+					
 				global $post;
 				$post = theme_cache::get_post($post_id);
 
@@ -138,6 +165,12 @@ class theme_custom_api{
 				}
 				$output['status'] = 'success';
 				$output['post'] = self::get_postdata($post);
+
+				/**
+				 * set cache
+				 */
+				wp_cache_set($post_id,$output,self::$iden,3600);
+				
 				die(theme_features::json_format($output));
 			default:
 				$output['status'] = 'error';
@@ -157,6 +190,7 @@ class theme_custom_api{
 		the_content();
 		$output['post_content'] = ob_get_contents();
 		ob_end_clean();
+		$output['post_content'] = str_replace('[&hellip;]', '...', $output['post_content']);
 		
 		$output['post_excerpt'] = get_the_excerpt();
 		$output['post_categories'] = array_map(function($cat){

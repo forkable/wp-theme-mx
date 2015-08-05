@@ -170,7 +170,8 @@ class theme_custom_contribution{
 				 */
 				$filename = isset($_FILES['img']['name']) ? $_FILES['img']['name'] : null;
 				$file_ext = $filename ? array_slice(explode('.',$filename),-1,1)[0] : null;
-				if(!in_array($file_ext,self::$file_exts)){
+				$file_ext = strtolower($file_ext);
+				if(!$file_ext || !in_array($file_ext,self::$file_exts)){
 					$output['status'] = 'error';
 					$output['code'] = 'invaild_file_type';
 					$output['msg'] = ___('Invaild file type.');
@@ -520,7 +521,7 @@ class theme_custom_contribution{
 				M00011 : '<?= ___('Large size');?>',
 				M00012 : '<?= ___('Medium size');?>',
 				M00013 : '<?= ___('Small size');?>',
-				E00001 : '<?= ___('Sorry, server error please try again later.');?>'
+				E00001 : '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>'
 			};
 			<?php
 			if(self::is_edit()){

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-02 12:46+0800\n"
-"PO-Revision-Date: 2015-08-02 12:47+0800\n"
+"POT-Creation-Date: 2015-08-04 09:43+0800\n"
+"PO-Revision-Date: 2015-08-04 14:37+0800\n"
 "Last-Translator: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -35,11 +35,12 @@ msgstr "添加评论"
 #: includes/clean-up/clean-up.php:227
 #: includes/comment-ajax/comment-ajax.php:472
 #: includes/custom-collection/custom-collection.php:573
-#: includes/custom-contribution/custom-contribution.php:510
+#: includes/custom-contribution/custom-contribution.php:511
 #: includes/custom-follow/custom-follow.php:140
 #: includes/custom-page-cats/custom-page-cats.php:201
 #: includes/custom-page-rank/custom-page-rank.php:491
 #: includes/custom-page-tags/custom-page-tags.php:443
+#: includes/custom-pm/custom-pm.php:479
 #: includes/custom-point/custom-point.php:1051
 #: includes/custom-post-point/custom-post-point.php:834
 #: includes/custom-post-point/custom-post-point.php:856
@@ -679,7 +680,7 @@ msgstr "点击之前保存设置。"
 #: includes/custom-page-cats/custom-page-cats.php:64
 #: includes/custom-page-rank/custom-page-rank.php:66
 #: includes/custom-page-tags/custom-page-tags.php:66
-#: includes/custom-pm/custom-pm.php:130
+#: includes/custom-pm/custom-pm.php:132
 #: includes/custom-point/custom-point.php:144
 #: includes/custom-slidebox/custom-slidebox.php:227
 #: includes/file-timestamp/file-timestamp.php:58
@@ -850,8 +851,8 @@ msgid "Data sent."
 msgstr "数据传送完毕。"
 
 #: includes/comment-ajax/comment-ajax.php:397
-#: includes/custom-contribution/custom-contribution.php:225
-#: includes/custom-contribution/custom-contribution.php:246
+#: includes/custom-contribution/custom-contribution.php:226
+#: includes/custom-contribution/custom-contribution.php:247
 #: includes/page-nagination-ajax/page-nagination-ajax.php:44
 #: tpl/page-account-post.php:31
 msgid "Sorry, the post does not exist."
@@ -878,13 +879,20 @@ msgid "{n} page"
 msgstr "第 {n} 页"
 
 #: includes/comment-ajax/comment-ajax.php:479
+#: includes/custom-collection/custom-collection.php:577
+#: includes/custom-contribution/custom-contribution.php:524
+#: includes/custom-follow/custom-follow.php:141
+#: includes/custom-pm/custom-pm.php:480
 #: includes/custom-point-bomb/custom-point-bomb.php:759
 #: includes/custom-post-point/custom-post-point.php:835
+#: includes/custom-sign/custom-sign.php:600
+#: includes/custom-user-settings/custom-user-settings.php:468
+#: includes/custom-user-settings/custom-user-settings.php:479
 #: includes/page-nagination-ajax/page-nagination-ajax.php:104
 msgid ""
-"Sorry, some server error occurred, the operation can not be completed, "
-"please try again later."
-msgstr "抱歉，服务器发生了一些错误，该操作无法完成，请稍后重试。"
+"Sorry, server is busy now, can not respond your request, please try again "
+"later."
+msgstr "抱歉，服务器正忙，无法响应你的请求，请稍候重试。"
 
 #: includes/comment-emotion/comment-emotion.php:110
 msgid "Comment emoticon settings"
@@ -924,19 +932,19 @@ msgstr "表情"
 msgid "Account"
 msgstr "会员帐号"
 
-#: includes/custom-api/custom-api.php:109
+#: includes/custom-api/custom-api.php:125
 msgid "Sorry, no content found."
 msgstr "抱歉，没有内容发现。"
 
-#: includes/custom-api/custom-api.php:124
+#: includes/custom-api/custom-api.php:144
 msgid "Sorry, post ID is invaild."
 msgstr "抱歉，文章 ID 编号无效。"
 
-#: includes/custom-api/custom-api.php:136
+#: includes/custom-api/custom-api.php:163
 msgid "Sorry, the post do not exist."
 msgstr "抱歉，文章不存在。"
 
-#: includes/custom-api/custom-api.php:145
+#: includes/custom-api/custom-api.php:178
 #: includes/custom-user-settings/custom-user-settings.php:317
 msgid "Sorry, the type param is invaild."
 msgstr "抱歉，缺少类型参数。"
@@ -1049,14 +1057,14 @@ msgid "New collection"
 msgstr "新建专刊"
 
 #: includes/custom-collection/custom-collection.php:269
-#: includes/custom-contribution/custom-contribution.php:176
+#: includes/custom-contribution/custom-contribution.php:177
 #: includes/custom-slidebox/custom-slidebox.php:98
 #: includes/favicon/favicon.php:112
 msgid "Invaild file type."
 msgstr "无效的文件类型。"
 
 #: includes/custom-collection/custom-collection.php:296
-#: includes/custom-contribution/custom-contribution.php:199
+#: includes/custom-contribution/custom-contribution.php:200
 #: includes/custom-slidebox/custom-slidebox.php:128
 #: includes/favicon/favicon.php:147
 msgid "Upload success."
@@ -1071,12 +1079,12 @@ msgid "Sorry, posts can not be empty."
 msgstr "抱歉，文章不能为空。"
 
 #: includes/custom-collection/custom-collection.php:328
-#: includes/custom-contribution/custom-contribution.php:263
+#: includes/custom-contribution/custom-contribution.php:264
 msgid "Please write the post title."
 msgstr "请填写文章标题。"
 
 #: includes/custom-collection/custom-collection.php:339
-#: includes/custom-contribution/custom-contribution.php:283
+#: includes/custom-contribution/custom-contribution.php:284
 msgid "Please set an image as post thumbnail"
 msgstr "请选择一张图片作为封面"
 
@@ -1096,13 +1104,13 @@ msgid "write a new collection"
 msgstr "再来一发"
 
 #: includes/custom-collection/custom-collection.php:405
-#: includes/custom-contribution/custom-contribution.php:400
+#: includes/custom-contribution/custom-contribution.php:401
 #, php-format
 msgid "Congratulation! Your post has been published. You can %s or %s."
 msgstr "恭喜！您的文章已发表成功。现在您可以 %s 或 %s。"
 
 #: includes/custom-collection/custom-collection.php:406
-#: includes/custom-contribution/custom-contribution.php:401
+#: includes/custom-contribution/custom-contribution.php:402
 msgid "View it now"
 msgstr "立即查看它"
 
@@ -1111,7 +1119,7 @@ msgid "countinue to write a new collection"
 msgstr "继续写一篇新专刊"
 
 #: includes/custom-collection/custom-collection.php:417
-#: includes/custom-contribution/custom-contribution.php:412
+#: includes/custom-contribution/custom-contribution.php:413
 msgid "Post published"
 msgstr "文章发表"
 
@@ -1167,12 +1175,6 @@ msgstr "正在获取文章数据，请稍候……"
 msgid "Previewing, please wait..."
 msgstr "正在预览，请稍候……"
 
-#: includes/custom-collection/custom-collection.php:577
-msgid ""
-"Sorry, server is busy now, can not respond your request, please try again "
-"later."
-msgstr "抱歉，服务器正忙，无法响应你的请求，请稍候重试。"
-
 #: includes/custom-collection/custom-collection.php:578
 #, php-format
 msgid "Sorry, the minimum number of posts is %d."
@@ -1212,98 +1214,90 @@ msgstr "编辑文章"
 msgid "Post contribution"
 msgstr "文章投稿"
 
-#: includes/custom-contribution/custom-contribution.php:235
+#: includes/custom-contribution/custom-contribution.php:236
 #: tpl/page-account-post.php:56
 msgid "Sorry, you are not the post author, can not edit it."
 msgstr "抱歉，你不是该作品的作者，无法编辑。"
 
-#: includes/custom-contribution/custom-contribution.php:253
+#: includes/custom-contribution/custom-contribution.php:254
 msgid "Invaild contribution param."
 msgstr "无效的投稿参数。"
 
-#: includes/custom-contribution/custom-contribution.php:273
+#: includes/custom-contribution/custom-contribution.php:274
 msgid "Please write the post content."
 msgstr "文章内容必须填写哦"
 
-#: includes/custom-contribution/custom-contribution.php:293
+#: includes/custom-contribution/custom-contribution.php:294
 msgid "Please select a category."
 msgstr "请选择一个类别。"
 
-#: includes/custom-contribution/custom-contribution.php:395
+#: includes/custom-contribution/custom-contribution.php:396
 msgid ""
 "Your post submitted successful, it will be published after approve in a "
 "while."
 msgstr "你的文章提交成功，一会儿审核通过后将会发表，感谢您的参与！"
 
-#: includes/custom-contribution/custom-contribution.php:402
+#: includes/custom-contribution/custom-contribution.php:403
 msgid "countinue to write a new post"
 msgstr "继续写一篇"
 
-#: includes/custom-contribution/custom-contribution.php:419
-#: includes/custom-contribution/custom-contribution.php:421
+#: includes/custom-contribution/custom-contribution.php:420
+#: includes/custom-contribution/custom-contribution.php:422
 msgid "Your post has updated successful."
 msgstr "你的作品已成功更新。"
 
-#: includes/custom-contribution/custom-contribution.php:419
+#: includes/custom-contribution/custom-contribution.php:420
 msgid "Views it now"
 msgstr "立即查看它"
 
-#: includes/custom-contribution/custom-contribution.php:511
+#: includes/custom-contribution/custom-contribution.php:512
 msgid "Uploading {0}/{1}, please wait..."
 msgstr "正在上传 {0}/{1}，请稍候…"
 
-#: includes/custom-contribution/custom-contribution.php:512
+#: includes/custom-contribution/custom-contribution.php:513
 msgid "Click to delete"
 msgstr "点击删除此张图片"
 
-#: includes/custom-contribution/custom-contribution.php:513
+#: includes/custom-contribution/custom-contribution.php:514
 msgid "{0} files have been uploaded."
 msgstr "{0} 个文件上传成功，嘻嘻…"
 
-#: includes/custom-contribution/custom-contribution.php:514
+#: includes/custom-contribution/custom-contribution.php:515
 #: tpl/page-account-post.php:373
 msgid "Source"
 msgstr "来源"
 
-#: includes/custom-contribution/custom-contribution.php:515
+#: includes/custom-contribution/custom-contribution.php:516
 msgid "Click to view source"
 msgstr "点击查看原图"
 
-#: includes/custom-contribution/custom-contribution.php:516
+#: includes/custom-contribution/custom-contribution.php:517
 msgid "Set as cover."
 msgstr "设为封面"
 
-#: includes/custom-contribution/custom-contribution.php:517
+#: includes/custom-contribution/custom-contribution.php:518
 msgid "Optional: some description"
 msgstr "[在此处写下一些描述]"
 
-#: includes/custom-contribution/custom-contribution.php:518
+#: includes/custom-contribution/custom-contribution.php:519
 msgid "Insert"
 msgstr "插入"
 
-#: includes/custom-contribution/custom-contribution.php:519
+#: includes/custom-contribution/custom-contribution.php:520
 msgid "Preview"
 msgstr "预览图"
 
-#: includes/custom-contribution/custom-contribution.php:520
+#: includes/custom-contribution/custom-contribution.php:521
 msgid "Large size"
 msgstr "大尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:521
+#: includes/custom-contribution/custom-contribution.php:522
 msgid "Medium size"
 msgstr "中尺寸"
 
-#: includes/custom-contribution/custom-contribution.php:522
+#: includes/custom-contribution/custom-contribution.php:523
 msgid "Small size"
 msgstr "小尺寸"
-
-#: includes/custom-contribution/custom-contribution.php:523
-#: includes/custom-follow/custom-follow.php:141
-#: includes/custom-sign/custom-sign.php:600
-#: includes/custom-user-settings/custom-user-settings.php:468
-#: includes/custom-user-settings/custom-user-settings.php:479
-msgid "Sorry, server error please try again later."
-msgstr "抱歉，服务器错误请稍后重试。"
 
 #: includes/custom-dashboard/custom-dashboard.php:66
 msgid "My dashboard"
@@ -1548,57 +1542,57 @@ msgstr "正在加载预览图……"
 msgid "ERROR: can not load the preview image."
 msgstr "错误: 无法加载预览图。"
 
-#: includes/custom-pm/custom-pm.php:81
+#: includes/custom-pm/custom-pm.php:83
 #: includes/widget-author/widget-author.php:106
 msgid "P.M."
 msgstr "私信"
 
-#: includes/custom-pm/custom-pm.php:125
+#: includes/custom-pm/custom-pm.php:127
 msgid "Private message settings"
 msgstr "私信设置"
 
-#: includes/custom-pm/custom-pm.php:126
+#: includes/custom-pm/custom-pm.php:128
 msgid "User can send private message to other user."
 msgstr ""
 
-#: includes/custom-pm/custom-pm.php:133
+#: includes/custom-pm/custom-pm.php:135
 msgid "Database tabble has been created."
 msgstr ""
 
-#: includes/custom-pm/custom-pm.php:135
+#: includes/custom-pm/custom-pm.php:137
 msgid "Create database table"
 msgstr ""
 
-#: includes/custom-pm/custom-pm.php:165
+#: includes/custom-pm/custom-pm.php:167
 msgid "Sorry, your permission is not enough to create database table."
 msgstr ""
 
-#: includes/custom-pm/custom-pm.php:172
+#: includes/custom-pm/custom-pm.php:174
 msgid "Sorry, the database table already exists."
 msgstr ""
 
-#: includes/custom-pm/custom-pm.php:200
+#: includes/custom-pm/custom-pm.php:202
 msgid "Sorry, the receiver is invaild, please try again."
 msgstr ""
 
-#: includes/custom-pm/custom-pm.php:209
+#: includes/custom-pm/custom-pm.php:211
 msgid "Sorry, the receiver do not exist, please try again."
 msgstr ""
 
-#: includes/custom-pm/custom-pm.php:220
+#: includes/custom-pm/custom-pm.php:222
 msgid "Sorry, message content is null, please try again."
 msgstr ""
 
-#: includes/custom-pm/custom-pm.php:233
+#: includes/custom-pm/custom-pm.php:235
 msgid ""
 "Sorry, system can not create the private message, please try again later."
 msgstr ""
 
-#: includes/custom-pm/custom-pm.php:246
+#: includes/custom-pm/custom-pm.php:248
 msgid "Message sent."
 msgstr ""
 
-#: includes/custom-pm/custom-pm.php:273
+#: includes/custom-pm/custom-pm.php:275
 #: includes/custom-point-bomb/custom-point-bomb.php:486
 #: includes/custom-post-point/custom-post-point.php:112
 msgid "Sorry, type param is invaild."
@@ -4273,24 +4267,28 @@ msgstr "更新密码"
 msgid "Private messages"
 msgstr "私信"
 
-#: tpl/page-account-pm.php:17
+#: tpl/page-account-pm.php:18
 msgid "New P.M."
 msgstr "新建私信"
 
-#: tpl/page-account-pm.php:27
+#: tpl/page-account-pm.php:30
 msgid "Add a receiver UID to send private message."
 msgstr ""
 
-#: tpl/page-account-pm.php:33
+#: tpl/page-account-pm.php:36
 msgid "Receiver UID, e.g. 10004"
 msgstr ""
 
-#: tpl/page-account-pm.php:36
+#: tpl/page-account-pm.php:39
 msgid "Start"
 msgstr ""
 
-#: tpl/page-account-pm.php:45
+#: tpl/page-account-pm.php:72
 msgid "Enter to send P.M."
+msgstr ""
+
+#: tpl/page-account-pm.php:75
+msgid "Send P.M."
 msgstr ""
 
 #: tpl/page-account-post.php:43
@@ -4397,6 +4395,14 @@ msgstr "向每个人介绍自己"
 #: tpl/page-account-settings.php:123
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid ""
+#~ "Sorry, some server error occurred, the operation can not be completed, "
+#~ "please try again later."
+#~ msgstr "抱歉，服务器发生了一些错误，该操作无法完成，请稍后重试。"
+
+#~ msgid "Sorry, server error please try again later."
+#~ msgstr "抱歉，服务器错误请稍后重试。"
 
 #~ msgid "&copy; %1$s %2$s. Producted by %3$s."
 #~ msgstr "版权所有 &copy; %1$s %2$s。%3$s 荣誉出品。"

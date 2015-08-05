@@ -3,10 +3,10 @@ define(function(require, exports, module){
 	
 	var js_request = require('theme-cache-request');
 
-	exports.parseHTML = function(str) {
-		var tmp = document.createElement('div');
-		tmp.innerHTML = str;
-		return tmp.firstChild;
+	exports.parseHTML = function(s) {
+		var t = document.createElement('div');
+		t.innerHTML = s;
+		return t.firstChild;
 	};
 
 	exports.scrollTop = function(y) {
@@ -25,8 +25,9 @@ define(function(require, exports, module){
 	 * @param string t Message type. success/error/info/loading...
 	 * @param string s Message
 	 * @param int Timeout to hide(second)
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
+	var si;
 	exports.ajax_loading_tip = function(t,s,timeout){
 		var I = function(e){
 				return document.getElementById(e);
@@ -34,7 +35,6 @@ define(function(require, exports, module){
 			$t_container = I('ajax-loading-container'),
 			$t = I('ajax-loading'),
 			$close = I('ajax-loading-close'),
-			si,
 			action_close_st;
 		
 		if(!$t_container){
@@ -57,24 +57,22 @@ define(function(require, exports, module){
 				clearInterval(si);
 			});
 		}
-
+		clearInterval(si);
 		if(timeout > 0){
 			set_close_time(timeout);
-			clearInterval(si)
 			si = setInterval(function(){
 				timeout--;
 				set_close_time(timeout);
 				if(timeout <= 0){
 					action_close();
-					set_close_time('');
+					$close.innerHTML = '';
 					clearInterval(si);
-					return;
 				}
 			},1000);
+		}else{
+			$close.innerHTML = '';
 		}
 		if(s !== 'hide'){
-			if(action_close_st)
-				clearTimeout(action_close_st);
 			$t.innerHTML = exports.status_tip(t,s);
 			$t_container.setAttribute('class',t);
 			$t_container.style.display = 'block';
@@ -85,11 +83,7 @@ define(function(require, exports, module){
 			$close.innerHTML = '<span class="number">' + t + '</span>';
 		}
 		function action_close(){
-			clearTimeout(action_close_st);
-			$t_container.classList.add('close');
-			action_close_st = setTimeout(function(){
-				$t_container.style.display = 'none';
-			},300);
+			$t_container.classList.add('closed');
 		}
 	};
 	exports.param = function(obj){
@@ -284,75 +278,77 @@ define(function(require, exports, module){
 	 *
 	 * @param mixed
 	 * @return string
-	 * @version 1.1.0
+	 * @version 1.1.1
 	 */
 	exports.status_tip = function(){
 		var defaults = ['type','size','content','wrapper'],
 			types = ['loading','success','error','question','info','ban','warning'],
 			sizes = ['small','middle','large'],
 			wrappers = ['div','span'],
-			type = null,
-			icon = null,
-			size = null,
-			wrapper = null,
-			content = null,	
+			type,
+			icon,
+			size,
+			wrapper,
+			content,	
 			args = arguments;
-			switch(args.length){
-				case 0:
-					return false;
-				/** 
-				 * only content
-				 */
-				case 1:
-					content = args[0];
-					break;
-				/** 
-				 * only type & content
-				 */
-				case 2:
-					type = args[0];
-					content = args[1];
-					break;
-				/** 
-				 * other
-				 */
-				default:
-					for(var i in args){
-						eval(defaults[i] + ' = args[i];');
-					}
-			}
-			wrapper = wrapper || wrappers[0];
-			type = type ||  types[0];
-			size = size ||  sizes[0];
-		
-			switch(type){
-				case 'success':
-					icon = 'check-circle';
-					break;
-				case 'error' :
-					icon = 'times-circle';
-					break;
-				case 'info':
-				case 'warning':
-					icon = 'exclamation-circle';
-					break;
-				case 'question':
-				case 'help':
-					icon = 'question-circle';
-					break;
-				case 'ban':
-					icon = 'minus-circle';
-					break;
-				case 'loading':
-				case 'spinner':
-					icon = 'spinner fa-pulse';
-					break;
-				default:
-					icon = type;
-			}
+		switch(args.length){
+			case 0:
+				return false;
+			/** 
+			 * only content
+			 */
+			case 1:
+				content = args[0];
+				break;
+			/** 
+			 * only type & content
+			 */
+			case 2:
+				type = args[0];
+				content = args[1];
+				break;
+			/** 
+			 * other
+			 */
+			default:
+				for(var i in args){
+					eval(defaults[i] + ' = args[i];');
+				}
+		}
+		if(!type)
+			type = types[0];
+		if(!size)
+			size = sizes[0];
+		if(!wrapper)
+			wrapper = wrappers[0];
+	
+		switch(type){
+			case 'success':
+				icon = 'check-circle';
+				break;
+			case 'error' :
+				icon = 'times-circle';
+				break;
+			case 'info':
+			case 'warning':
+				icon = 'exclamation-circle';
+				break;
+			case 'question':
+			case 'help':
+				icon = 'question-circle';
+				break;
+			case 'ban':
+				icon = 'minus-circle';
+				break;
+			case 'loading':
+			case 'spinner':
+				icon = 'sun-o fa-spin';
+				break;
+			default:
+				icon = type;
+		}
 
-			var tpl = '<' + wrapper + ' class="tip-status tip-status-' + size + ' tip-status-' + type + '"><i class="fa fa-' + icon + '"></i> ' + content + '</' + wrapper + '>';
-			return tpl;
+		return '<' + wrapper + ' class="tip-status tip-status-' + size + ' tip-status-' + type + '"><i class="fa fa-' + icon + '"></i> ' + content + '</' + wrapper + '>';
 	};
 
 	/** 
