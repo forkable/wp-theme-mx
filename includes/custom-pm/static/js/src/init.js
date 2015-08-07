@@ -14,7 +14,8 @@ define(function(require, exports, module){
 			M07 : 'Me',
 			E01 : 'Sorry, server is busy now, can not respond your request, please try again later.'
 		},
-		uid : 'new'
+		uid : 'new',
+		userdata : {}
 		
 	};
 	var cache = {},
@@ -36,17 +37,14 @@ define(function(require, exports, module){
 		cache.$dialog_new_uid = I('pm-dialog-content-new');
 		cache.$tabs = {};
 		cache.$dialogs = {};
-		cache.userdata = {
-			'me' : {
-				name : config.lang.M07
-			}
+		config.userdata.me = {
+			name : config.lang.M07
 		};
 		cache.tab_count = cache.$tmp_tabs.length;
 		
 		for(var i=0; i<cache.tab_count; i++){
 			var uid = cache.$tmp_tabs[i].getAttribute('data-uid'),
 				$close = cache.$tmp_tabs[i].querySelector('.close');
-				
 			cache.$tabs[uid] = cache.$tmp_tabs[i];
 			cache.$dialogs[uid] = cache.$tmp_dialogs[i];
 			event_switch_tab(i,uid);
@@ -74,7 +72,6 @@ define(function(require, exports, module){
 		}
 		cache.$tmp_tabs[i].addEventListener('click',helper);
 	}
-
 	function is_current_tab(uid){
 		return cache.$current_tab.getAttribute('uid') === uid;
 	}
@@ -166,7 +163,7 @@ define(function(require, exports, module){
 		function done(data){
 			if(data.status === 'success'){
 				/** set userdata cache */
-				cache.userdata[uid] = {
+				config.userdata[uid] = {
 					avatar : data.avatar,
 					name : data.name
 				};
@@ -185,8 +182,8 @@ define(function(require, exports, module){
 				/** create init content */
 				if(!data.histories){
 					/** create dialog */
-					console.log(get_tpl_msg(uid,config.lang.M05.replace('%name%', cache.userdata[uid].name)));
-					create_dialog(uid,get_tpl_msg(uid,config.lang.M05.replace('%name%', cache.userdata[uid].name)));
+					//console.log(get_tpl_msg(uid,config.lang.M05.replace('%name%', config.userdata[uid].name)));
+					create_dialog(uid,get_tpl_msg(uid,config.lang.M05.replace('%name%', config.userdata[uid].name)));
 				}else{
 					/** create dialog */
 					create_dialog(uid,get_histories(data.histories));
@@ -293,9 +290,9 @@ define(function(require, exports, module){
 		return content;
 	}
 	function get_tpl_tab(uid){
-		return '<a id="pm-tab-' + uid + '" href="javascript:;" data-uid="' + uid + '" title="' + cache.userdata[uid].name + '">' + 
-			'<img src="' + cache.userdata[uid].avatar + '" alt="avatar" class="avatar" width="24" height="24"> ' + 
-				'<span class="author">' + cache.userdata[uid].name + '</span>' + 
+		return '<a id="pm-tab-' + uid + '" href="javascript:;" data-uid="' + uid + '" title="' + config.userdata[uid].name + '">' + 
+			'<img src="' + config.userdata[uid].avatar + '" alt="avatar" class="avatar" width="24" height="24"> ' + 
+				'<span class="author">' + config.userdata[uid].name + '</span>' + 
 		'</a>';
 	}
 	function get_tpl_close(){
@@ -324,7 +321,7 @@ define(function(require, exports, module){
 		return '<section class="pm-dialog-' + sender + '">' + 
 			'<div class="pm-dialog-bg">' + 
 				'<h4>' + 
-					'<span class="name">' + cache.userdata[uid].name + '</span> ' + 
+					'<span class="name">' + config.userdata[uid].name + '</span> ' + 
 					'<span class="date"> ' + d + ' </span>' + 
 				'</h4>' + 
 				'<div class="media-content">' + msg + '</div>' + 
@@ -351,7 +348,11 @@ define(function(require, exports, module){
 		};
 		xhr.onerror = fail;
 		function done(data){
-			if(data && data.status){
+			/** have new pm */
+			if(data && data.status === 'success'){
+				/** insert to dialog */
+				insert_dialog_msg(pm.pm_author,pm.pm_content);
+				setdata.pm
 				cache.timestamp = data.timestamp;
 			}
 			setTimeout(function(){

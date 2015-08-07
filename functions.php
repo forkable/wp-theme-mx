@@ -82,13 +82,6 @@ class theme_functions{
 		
 		add_image_size(self::$large_size[0],self::$large_size[1],self::$large_size[2],self::$large_size[3]);
 
-		/**
-		 * jpeg_quality
-		 */
-		add_filter('jpeg_quality',function($args){
-			return 75;
-		});
-		
 		add_theme_support('title-tag');
 		/** 
 		 * bg
@@ -1384,7 +1377,7 @@ class theme_functions{
 				$prev_url = theme_cache::get_permalink($prev_next_pagination['next_post']->ID);
 				$prev_title = theme_cache::get_the_title($prev_next_pagination['next_post']->ID);
 				?>
-				<a href="<?= esc_url($prev_url);?>#post-<?= $prev_next_pagination['next_post']->ID;?>" class="left next-post" title="<?= $prev_title;?>">
+				<a href="<?= $prev_url;?>#post-<?= $prev_next_pagination['next_post']->ID;?>" class="left next-post" title="<?= $prev_title;?>">
 					<div class="post-thumbnail-area">
 						<img class="post-thumbnail-placeholder" src="<?= theme_features::get_theme_images_url(self::$thumbnail_placeholder);?>" alt="<?= ___('Placeholder');?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
 						<img class="post-thumbnail" src="<?= theme_features::get_theme_images_url(self::$thumbnail_placeholder);?>" data-src="<?= self::get_thumbnail_src($prev_next_pagination['next_post']->ID);?>" alt="<?= $prev_title ;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
@@ -1400,7 +1393,7 @@ class theme_functions{
 				$next_url = theme_cache::get_permalink($prev_next_pagination['prev_post']->ID);
 				$next_title = theme_cache::get_the_title($prev_next_pagination['prev_post']->ID);
 				?>
-				<a href="<?= esc_url($next_url);?>#post-<?= $prev_next_pagination['prev_post']->ID;?>" class="right prev-post" title="<?= $next_title;?>">
+				<a href="<?= $next_url;?>#post-<?= $prev_next_pagination['prev_post']->ID;?>" class="right prev-post" title="<?= $next_title;?>">
 					<div class="post-thumbnail-area">
 						<img class="post-thumbnail-placeholder" src="<?= theme_features::get_theme_images_url(self::$thumbnail_placeholder);?>" alt="<?= ___('Placeholder');?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
 						<img class="post-thumbnail" src="<?= theme_features::get_theme_images_url(self::$thumbnail_placeholder);?>" data-src="<?= self::get_thumbnail_src($prev_next_pagination['prev_post']->ID);?>" alt="<?= $next_title ;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
@@ -1993,7 +1986,7 @@ class theme_functions{
 	 *
 	 * @param array $args
 	 * @return 
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
 	public static function the_user_list(array $args = []){
 		$defaults = [
@@ -2051,7 +2044,7 @@ class theme_functions{
 			$args['extra_title'] = str_replace('%',$point_value,$args['extra_title']);
 
 		
-		$display_name = esc_html($user->display_name);
+		$display_name = theme_cache::get_the_author_meta('display_name',$user->ID);
 
 		$avatar_placeholder = theme_features::get_theme_images_url(self::$avatar_placeholder);
 

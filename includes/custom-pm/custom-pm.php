@@ -10,7 +10,7 @@ class theme_custom_pm{
 	public static $iden = 'theme_custom_pm';
 	public static $page_slug = 'account';
 	public static $metas = [];
-	
+	public static $cache_expire = 2505600;
 	//public static $cache_group_id = [
 	//	'latest-pm-id' => 'latest-pm-id'
 	//];
@@ -250,23 +250,8 @@ class theme_custom_pm{
 				theme_features::check_nonce();
 				
 				$receiver_id = isset($_REQUEST['receiver-id']) && is_numeric($_REQUEST['receiver-id']) ? $_REQUEST['receiver-id'] : false;
-				$announcement = isset($_REQUEST['announcement']) && $_REQUEST['announcement'] == 1 && theme_cache::current_user_can('manage_options') ? true : false;
-				/** normal author is not allow send announcement type pm */
-				if(!$receiver_id && !$announcement){
-					die(theme_features::json_format([
-						'status' => 'error',
-						'code' => 'invaild_permission',
-						'msg' => ___('Sorry, the receiver is invaild, please try again.'),
-					]));
-				}
-				/** check receiver exists */
-				$receiver = get_user_by('slug',$receiver_id);
-				if(!$receiver)
-					die(theme_features::json_format([
-						'status' => 'error',
-						'code' => 'user_not_exist',
-						'msg' => ___('Sorry, the receiver do not exist, please try again.'),
-					]));
+			
+				$receiver = self::check_uid($receiver_id);
 
 				/** check content */
 				$content = isset($_REQUEST['content']) && is_string($_REQUEST['content']) ? trim($_REQUEST['content']) : false;
@@ -297,9 +282,9 @@ class theme_custom_pm{
 				die(theme_features::json_format([
 					'status' => 'success',
 					'pm' => [
-						'pm_receiver' => $pm->pm_receiver,
-						'pm_author' => $pm->pm_author,
-						'pm_date' => current_time('H:i:s'),
+						'pm_receiver' => self::get_niceid($pm->pm_receiver),
+						'pm_author' => self::get_niceid($pm->pm_author),
+						'pm_date' => current_time('Y/m/d H:i:s'),
 						'pm_content' => $pm->pm_content,
 					],
 					'msg' => ___('Message sent.'),
@@ -313,21 +298,47 @@ class theme_custom_pm{
 				
 				$receiver_id = theme_cache::get_current_user_id();
 
-				/** get pm list */
+				$client_timestamp = isset($_REQUEST['timestamp']) && is_numeric($_REQUEST['timestamp']) ? $_REQUEST['timestamp'] : false;
 				
-				$latest_pm = self::get_latest_pm($receiver_id);
-
-				/** get latest pm id from server */
-				$server_latest_pm_id = isset($latest_pm->pm_id) ? $latest_pm->pm_id : false;
-				
-				/** get latest pm id from client */
-				$clitent_latest_pm_id = isset($_REQUEST['latest-pm-id']) && is_numeric($_REQUEST['latest-pm-id']) ? (int)$_REQUEST['latest-pm-id'] : 0;
-				
-				/** new client */
-				if(!$latest_pm_id){
-					
+				/** if not client timestamp, return error */
+				if(!$client_timestamp){
+					die(theme_features::json_format([
+						'status' => 'error',
+						'code' => 'invaild_timestamp',
+						'msg' => ___('Sorry, your session is timeout, please refresh page.'),
+					]));
 				}
-				
+
+				/** set timeout */
+				set_time_limit(60);
+				/** check new pm for receiver */
+				for($i = 0;$i < 45; ++$i){
+					/** have new pm */
+					if(self::get_histories_timestamp($receiver_id) <= $client_timestamp){
+						sleep(1);
+						continue;
+					}
+						
+					/** have new pm, output latest pm */
+					$latest_pm = self::get_latest_pm($receiver_id);
+					die(theme_features::json_format([
+						'status' => 'success',
+						'pm' => [
+							'pm_receiver' => self::get_niceid($latest_pm->pm_receiver),
+							'pm_author' => self::get_niceid($latest_pm->pm_author),
+							'pm_date' => current_time('Y/m/d H:i:s'),
+							'pm_content' => $latest_pm->pm_content,
+						],
+						'msg' => ___('Sorry, type param is invaild.'),
+					]));
+				}
+
+				/** timeout msg */				
+				die(theme_features::json_format([
+					'status' => 'error',
+					'code' => 'timeout',
+					'msg' => ___('Timeout'),
+				]));
 				
 			default:
 				die(theme_features::json_format([
@@ -337,8 +348,13 @@ class theme_custom_pm{
 				]));
 		}
 	}
+	public static function get_niceid($user_id){
+		if(class_exists('number_user_nicename'))
+			$user_id += number_user_nicename::$prefix_number;
+		return $user_id;
+	}
 	public static function get_latest_pm($receiver_id){
-		$latest_pm_id = wp_cache_get($receiver_id,'latest-pm-id');
+		$latest_pm_id = wp_cache_get("latest-pm-id:$receiver_id",self::$iden);
 		if($latest_pm_id)
 			return $latest_pm_id;
 		$latest_pm = self::get_pms([
@@ -349,7 +365,8 @@ class theme_custom_pm{
 			$latest_pm_id = false;
 		setup_pmdata($latest_pm);
 		$latest_pm_id = $latest_pm->pm_id;
-		wp_cache_set($receiver_id,$latest_pm_id,'latest-pm-id');
+		
+		wp_cache_set("latest-pm-id:$receiver_id",$latest_pm_id,self::$iden,self::$cache_expire);
 		
 		return $latest_pm_id;
 	}
@@ -392,6 +409,7 @@ class theme_custom_pm{
 	public static function clear_lists($user_id){
 		self::update_user_meta($user_id,'lists',[]);
 	}
+
 	public static function insert_pm(array $args){
 		$args = array_merge([
 			'pm_author' => 0,
@@ -430,8 +448,11 @@ class theme_custom_pm{
 			]
 		);
 		$pm_id = $wpdb->insert_id;
-		if($pm_id)
+		if($pm_id){
 			self::setup_pmdata(self::get_pm($pm_id));
+			self::update_histories_timestamp($args['pm_receiver']);
+			self::update_histories_timestamp($args['pm_author']);
+		}
 		return $pm_id;
 	}
 	/**
@@ -452,7 +473,7 @@ class theme_custom_pm{
 	 * @version 1.0.0
 	 */
 	public static function get_pm($id){
-		$cache = wp_cache_get($id,'pm');
+		$cache = wp_cache_get("pm:$id",self::$iden);
 		if($cache)
 			return $cache;
 		global $wpdb;
@@ -465,7 +486,7 @@ class theme_custom_pm{
 		));
 		if(!$cache)
 			return null;
-		wp_cache_set($id,$cache,self::$iden);
+		wp_cache_set("pm:$id",$cache,self::$iden,self::$cache_expire);
 		return $cache;
 	}
 	public static function get_pms(array $args){
@@ -554,10 +575,17 @@ class theme_custom_pm{
 		));
 		return $results;
 	}
+	public static function update_histories_timestamp($uer_id){
+		wp_cache_set("histories:timestamp:$user_id",$_SERVER['REQUEST_TIME'],self::$iden,self::$cache_expire);
+		return $_SERVER['REQUEST_TIME'];
+	}
+	public static function get_histories_timestamp($user_id){
+		return wp_cache_get("histories:timestamp:$user_id",self::$iden);
+	}
+
 	public static function get_histories($user_id){
-		$cache_timestamp = wp_cache_get('timestamp','histories');
-		$cache_id = 'histories:' . $cache_timestamp;
-		$histories = wp_cache_get($cache_id,self::$iden);
+		$cache_timestamp = self::get_histories_timestamp($user_id);
+		$histories = wp_cache_get("histories:$user_id",self::$iden);
 		if(!empty($histories)){
 			return $histories;
 		}
@@ -577,25 +605,19 @@ class theme_custom_pm{
 			
 		$histories = [];
 		foreach($pms as $pm){
+			//$pm->pm_author = self::get_niceid($pm->pm_author);
+			//$pm->pm_receiver = self::get_niceid($pm->pm_receiver);
 			if($current_user_id == $pm->pm_author){
-				if(class_exists('number_user_nicename')){
-					$pm->pm_author += number_user_nicename::$prefix_number;
-					$pm->pm_receiver += number_user_nicename::$prefix_number;
-				}
 				if(!isset($histories[$pm->pm_receiver]))
 					$histories[$pm->pm_receiver] = [];
 				$histories[$pm->pm_receiver][$pm->pm_id] = $pm;
 			}else{
-				if(class_exists('number_user_nicename')){
-					$pm->pm_author += number_user_nicename::$prefix_number;
-					$pm->pm_receiver += number_user_nicename::$prefix_number;
-				}
 				if(!isset($histories[$pm->pm_author]))
 					$histories[$pm->pm_author] = [];
 				$histories[$pm->pm_author][$pm->pm_id] = $pm;
 			}
 		}
-		wp_cache_set($cache_id,$histories,self::$iden,3600*24*29);
+		wp_cache_set("histories:$user_id",$histories,self::$iden,self::$cache_expire);
 		return $histories;
 	}
 	public static function get_list_users($user_id){

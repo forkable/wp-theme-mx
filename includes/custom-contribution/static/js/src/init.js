@@ -334,7 +334,7 @@ define(function(require, exports, module){
 				if(cache.$split_nextpage.checked){
 					editor_content = cache.$split_nextpage.value + editor_content;
 				}
-				send_to_editor(send_coneditor_contenttent);
+				send_to_editor(editor_content);
 			};
 		for(var i = 0, len = $insert_btn.length; i < len; i++){
 			$insert_btn[i].addEventListener('click',send_content_helper,false);
