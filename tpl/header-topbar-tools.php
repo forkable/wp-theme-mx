@@ -72,7 +72,7 @@ if(theme_cache::is_user_logged_in()){
 			?>
 			<a href="<?= theme_notification::get_tabs('notifications')['url'];?>" class="meta tool-notification btn btn-<?= $unread ? 'success' : 'default';?>" title="<?= ___('Notification');?>">
 				<i class="fa fa-bell fa-fw"></i> 
-				<?= $unread > 0 ? $unread : null;?>
+				<span class="badge"><?= $unread > 0 ? $unread : null;?></span>
 			</a>
 		<?php } ?>
 
@@ -86,12 +86,11 @@ if(theme_cache::is_user_logged_in()){
 		<?php } ?>
 		
 		<!-- pm -->
-		<?php if(class_exists('theme_pm')){ ?>
-			<a href="<?= theme_pm::get_url();?>" class="meta tool-favor btn btn-default">
-				<i class="fa fa-envelope fa-fw"></i>
-				<?= ___('My favor');?>
-				<?php if(theme_pm::get_unread_count() != 0){ ?>
-					<span class="badge"><?= theme_pm::get_unread_count();?></span>
+		<?php if(class_exists('theme_custom_pm')){ ?>
+			<a href="<?= theme_custom_pm::get_url();?>" class="meta tool-favor btn btn-default">
+				<i class="fa fa-<?= theme_custom_pm::get_tabs('pm')['icon'];?> fa-fw"></i>
+				<?php if(!theme_custom_pm::is_page() && theme_custom_pm::get_unread_count($current_user_id) != 0){ ?>
+					<span class="badge"><?= theme_custom_pm::get_unread_count($current_user_id);?></span>
 				<?php } ?>
 			</a>
 		<?php } ?>

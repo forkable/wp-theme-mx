@@ -15,6 +15,7 @@ define(function(require, exports, module){
 			E01 : 'Sorry, server is busy now, can not respond your request, please try again later.'
 		},
 		uid : 'new',
+		my_uid : '',
 		userdata : {}
 		
 	};
@@ -25,6 +26,7 @@ define(function(require, exports, module){
 		tools.ready(function(){
 			tab_bind();
 			new_tab_bind();
+			comet();
 		});
 	};
 	
@@ -47,11 +49,23 @@ define(function(require, exports, module){
 				$close = cache.$tmp_tabs[i].querySelector('.close');
 			cache.$tabs[uid] = cache.$tmp_tabs[i];
 			cache.$dialogs[uid] = cache.$tmp_dialogs[i];
+			/** set user data */
+			if(uid !== 'new'){
+				config.userdata[uid] = {
+					name : cache.$tabs[uid].querySelector('.author').innerHTML,
+					avatar : cache.$tabs[uid].querySelector('img').src
+				};
+			}
+			/** bind tab event */
 			event_switch_tab(i,uid);
 			
 			/** bind close click */
 			if($close)
 				$close.addEventListener('click',event_close_click);
+
+			/** bind msg submit */
+			if(uid !== 'new')
+				cache.$dialogs[uid].addEventListener('submit',event_submit_send_pm);
 		}
 		for(var i=0; i<cache.tab_count; i++){
 			var uid = cache.$tmp_tabs[i].getAttribute('data-uid');
@@ -69,6 +83,7 @@ define(function(require, exports, module){
 			e.stopPropagation();
 			tab_toggle(uid);
 			focus_content(uid);
+			show_new_msg(uid,'hide');
 		}
 		cache.$tmp_tabs[i].addEventListener('click',helper);
 	}
@@ -76,6 +91,7 @@ define(function(require, exports, module){
 		return cache.$current_tab.getAttribute('uid') === uid;
 	}
 	function focus_content(uid){
+		//console.log(I('pm-dialog-content-' + uid));
 		I('pm-dialog-content-' + uid).focus();
 	}
 	function tab_toggle(uid){
@@ -200,6 +216,9 @@ define(function(require, exports, module){
 
 				/** switch new tab */
 				tab_switch_it(uid);
+
+				/** bind submit event */
+				cache.$dialogs[uid].addEventListener('submit',event_submit_send_pm);
 				
 			}else if(data.status === 'error'){
 				tools.ajax_loading_tip(data.status,data.msg,3);
@@ -217,10 +236,11 @@ define(function(require, exports, module){
 
 		/** ajax start */
 		var xhr = new XMLHttpRequest(),
+			$fm = this,
 			fd = new FormData(this);
 		fd.append('type','send');
 		fd.append('theme-nonce',js_request['theme-nonce']);
-		fd.appendChild('receiver-id',config.uid);
+		fd.append('uid',config.uid);
 		xhr.open('post',config.process_url);
 		xhr.send(fd);
 		xhr.onload = function(){
@@ -236,7 +256,7 @@ define(function(require, exports, module){
 		function done(data){
 			if(data.status && data.status === 'success'){
 				tools.ajax_loading_tip(data.status,data.msg,3);
-				insert_dialog_msg('me',data.msg);
+				focus_clear_input(config.uid);
 			}else if(data.status && data.status === 'error'){
 				tools.ajax_loading_tip(data.status,data.msg,5);
 			}else{
@@ -276,10 +296,24 @@ define(function(require, exports, module){
 		/** delete obj */
 		delete cache.$tabs[uid];
 		delete cache.$dialogs[uid];
+		
+		/** send remove uid to server */
+		var xhr = new XMLHttpRequest(),
+			fd = new FormData();
+		xhr.open('post',config.process_url);
+		fd.append('uid',uid);
+		fd.append('theme-nonce',js_request['theme-nonce']);
+		fd.append('type','remove-dialog');
+		xhr.send(fd);
+		
 	}
 	function insert_dialog_msg(uid,msg){
-		var $dialog_list = cache.$dialogs[uid].querySelector('.pm-dialog-list');
-		$dialog_list.append(tools.parseHTML(get_tpl_msg(uid,msg)));
+		var target_uid = uid;
+		if(uid === 'me')
+			target_uid = config.uid;
+
+		var $dialog_list = cache.$dialogs[target_uid].querySelector('.pm-dialog-list');
+		$dialog_list.appendChild(tools.parseHTML(get_tpl_msg(uid,msg)));
 		$dialog_list.scrollTop = $dialog_list.scrollHeight;
 	}
 	function get_histories(histories){
@@ -306,7 +340,7 @@ define(function(require, exports, module){
 				msgs + 
 			'</div>' + 
 			'<div class="form-group">' + 
-				'<textarea id="pm-dialog-content-' + uid + '" name="content" class="pm-dialog-conteng form-control" placeholder="' + config.lang.M02 + '" required title="' + config.lang.M03 + '"></textarea>' + 
+				'<input type="text" id="pm-dialog-content-' + uid + '" name="content" class="pm-dialog-conteng form-control" placeholder="' + config.lang.M02 + '" required title="' + config.lang.M03 + '">' + 
 			'</div>' + 
 			'<div class="form-group">' + 
 				'<button class="btn btn-success btn-block" type="submit"><i class="fa fa-check"></i>&nbsp;' + config.lang.M04 + '</button>' + 
@@ -331,9 +365,10 @@ define(function(require, exports, module){
 	function comet(){
 		var xhr = new XMLHttpRequest();
 		if(!cache.timestamp)
-			cache.timestamp = '';
+			cache.timestamp = js_request['theme_custom_pm']['timestamp'];
 		xhr.open('get',config.process_url + '&' + tools.param({
 			type : 'comet',
+			'theme-nonce' : js_request['theme-nonce'],
 			timestamp : cache.timestamp
 		}));
 		xhr.send();
@@ -343,28 +378,73 @@ define(function(require, exports, module){
 				try{data=JSON.parse(xhr.responseText)}catch(err){data=xhr.responseText}
 				done(data);
 			}else{
-				
+				fail();
 			}
 		};
 		xhr.onerror = fail;
 		function done(data){
 			/** have new pm */
 			if(data && data.status === 'success'){
-				/** insert to dialog */
-				insert_dialog_msg(pm.pm_author,pm.pm_content);
-				setdata.pm
 				cache.timestamp = data.timestamp;
-			}
-			setTimeout(function(){
+				/** author is me msg */
+				if(data.pm.pm_author == config.my_uid && cache.$dialogs[data.pm.pm_receiver]){
+					/** insert msg */
+					insert_dialog_msg(data.pm.pm_receiver,data.pm.pm_content);
+					/** clear current input content */
+					focus_clear_input(data.pm.pm_receiver);
+				/** receiver is me */
+				}else{
+					/** if dialog is not in lists */
+					if(!cache.$dialogs[data.pm.pm_author]){
+						/** create tab */
+						create_tab(data.pm.pm_author);
+
+						/** create close */
+						create_close(data.pm.pm_author);
+
+						/** highlight tab */
+						show_new_msg(data.pm.pm_author);
+					}
+					/** insert msg */
+					insert_dialog_msg(data.pm.pm_author,data.pm.pm_content);
+					
+					/** highlight tab */
+					if(config.uid != data.pm.pm_author){
+						show_new_msg(data.pm.pm_author);
+					}
+				}
 				comet();
-			},5);
-			
+			}else if(data && data.status === 'error'){
+				if(data.code === 'timeout'){
+					comet();
+				}
+			}else{
+				setTimeout(function(){
+					comet();
+				},30000);
+			}
 		}
 		function fail(){
 			setTimeout(function(){
 				comet();
-			},5);
+			},30000);
 		}
+	}
+	function show_new_msg(uid,type){
+		if(type === 'hide'){
+			cache.$tabs[uid].classList.remove('new-msg');
+		}else{
+			cache.$tabs[uid].classList.add('new-msg');
+		}
+	}
+	function focus_clear_input(uid){
+		if(!cache.$inputs)
+			cache.$inputs = {};
+		if(!cache.$inputs[uid])
+			cache.$inputs[uid] = I('pm-dialog-content-' + uid);
+		
+		cache.$inputs[uid].focus();
+		cache.$inputs[uid].value = '';
 	}
 	function date_format(d,fmt) { //author: meizz 
 	    var o = {
