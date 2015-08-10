@@ -87,7 +87,7 @@ if(theme_cache::is_user_logged_in()){
 		
 		<!-- pm -->
 		<?php if(class_exists('theme_custom_pm')){ ?>
-			<a href="<?= theme_custom_pm::get_url();?>" class="meta tool-favor btn btn-default">
+			<a href="<?= theme_custom_pm::get_tabs('pm')['url'];?>" class="meta tool-favor btn btn-default">
 				<i class="fa fa-<?= theme_custom_pm::get_tabs('pm')['icon'];?> fa-fw"></i>
 				<?php if(!theme_custom_pm::is_page() && theme_custom_pm::get_unread_count($current_user_id) != 0){ ?>
 					<span class="badge"><?= theme_custom_pm::get_unread_count($current_user_id);?></span>

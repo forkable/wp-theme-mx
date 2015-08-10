@@ -44,7 +44,8 @@ class theme_custom_pm{
 			$nav_fn = 'filter_nav_' . $k; 
 			add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
 		}
-
+		
+		add_action('wp_footer'		,__CLASS__ . '::wp_footer');
 	}
 	public static function wp_title($title, $sep){
 		if(!self::is_page()) 
@@ -55,16 +56,21 @@ class theme_custom_pm{
 		if(!empty($tab_active) && isset($tabs[$tab_active])){
 			$title = $tabs[$tab_active]['text'];
 		}
-		/** remove unread count */
-		self::clear_unreads(theme_cache::get_current_user_id());
 		
 		return $title . $sep . theme_cache::get_bloginfo('name');
+	}
+	public static function wp_footer(){
+		if(!self::is_page()) 
+			return false;
+		/** remove unread count */
+		self::clear_unreads(theme_cache::get_current_user_id());
 	}
 	public static function get_db_version(){
 		return self::get_options('db-version');
 	}
 	public static function filter_nav_pm($navs){
 		$badge = '';
+		$current_user_id = theme_cache::get_current_user_id();
 		if(!self::is_page() && self::get_unread_count($current_user_id) != 0){
 			$badge = '<span class="badge">' . self::get_unread_count($current_user_id) . '</span>';
 		}
@@ -249,7 +255,7 @@ class theme_custom_pm{
 				$user = self::check_uid($uid);
 
 				/** add user to lists */
-				self::add_list(theme_cache::get_current_user_id(), $user->ID);
+				self::add_list($current_user_id, $user->ID);
 				
 				die(theme_features::json_format([
 					'status' => 'success',
@@ -347,11 +353,12 @@ class theme_custom_pm{
 				}
 
 				/** set timeout */
-				set_time_limit(0);
+				set_time_limit(60);
 				/** check new pm for receiver */
 				for($i = 0;$i < self::$comet_timeout; ++$i){
 					/** have new pm */
-					if(self::get_timestamp($receiver_id) <= $client_timestamp){
+					$timestamp = self::get_timestamp($receiver_id);
+					if($timestamp <= $client_timestamp){
 						sleep(1);
 						continue;
 					}
@@ -366,10 +373,15 @@ class theme_custom_pm{
 						'status' => 'success',
 						'pm' => [
 							'pm_receiver' => self::get_niceid($latest_pm->pm_receiver),
+							//'pm_receiver_name' => theme_cache::get_the_author_meta('display_name',$latest_pm->pm_receiver),
+							//'pm_receiver_avatar' => theme_cache::get_the_author_meta('display_name',$latest_pm->pm_receiver),
 							'pm_author' => self::get_niceid($latest_pm->pm_author),
+							'pm_author_name' => theme_cache::get_the_author_meta('display_name',$latest_pm->pm_author),
+							'pm_author_avatar' => get_avatar_url($latest_pm->pm_author),
 							'pm_date' => current_time('Y/m/d H:i:s'),
 							'pm_content' => $latest_pm->pm_content,
 						],
+						'timestamp' => $timestamp,
 					]));
 				}
 
@@ -415,23 +427,21 @@ class theme_custom_pm{
 		return $pm_id;
 	}
 	public static function get_user_meta($user_id,$key = null,$force = false){
-		if($force || !isset(self::$metas[$user_id]))
-			self::$metas[$user_id] = get_user_meta($user_id,self::$iden,true);
+		$metas = get_user_meta($user_id,self::$iden,true);
 		if($key)
-			return isset(self::$metas[$user_id][$key]) ? self::$metas[$user_id][$key] : false;
-		return self::$metas[$user_id];
+			return isset($metas[$key]) ? $metas[$key] : false;
+		return $metas;
 	}
-	public static function update_user_meta($user_id,$key = null,$data){
-		if(!isset(self::$metas[$user_id]))
-			self::$metas[$user_id] = [];
-		self::$metas[$user_id][$key] = $data;
-		update_user_meta($user_id,self::$iden,self::$metas[$user_id]);
+	public static function update_user_meta($user_id,$key,$data){
+		$metas = self::get_user_meta($user_id);
+		$metas[$key] = $data;
+		update_user_meta($user_id,self::$iden,$metas);
 	}
 	public static function get_unreads($user_id,$force = false){
 		return self::get_user_meta($user_id,'unreads',$force);
 	}
 	public static function remove_list($user_id,$receiver_id){
-		$lists = self::get_lists($user_id);
+		$lists = self::get_lists($user_id,true);
 		if(empty($lists))
 			return false;
 		$key = array_search($receiver_id,$lists);
@@ -442,7 +452,7 @@ class theme_custom_pm{
 		return $lists;
 	}
 	public static function add_list($user_id,$receiver_id){
-		$lists = self::get_lists($user_id);
+		$lists = self::get_lists($user_id,true);
 		if(!$lists){
 			$lists = [$receiver_id];
 		}else{
@@ -453,24 +463,24 @@ class theme_custom_pm{
 		self::update_user_meta($user_id,'lists',$lists);
 		return $lists;
 	}
-	public static function get_lists($user_id){
-		return self::get_user_meta($user_id,'lists');
+	public static function get_lists($user_id,$force = false){
+		return self::get_user_meta($user_id,'lists',$force);
 	}
-	public static function is_unread($user_id,$pm_id){
+	public static function is_unread($user_id,$unread_user_id){
 		$unreads = self::get_unreads($user_id);
-		return is_array($unread) && in_array($pm_id,$unread);
+		return is_array($unreads) && in_array($unread_user_id,$unreads);
 	}
-	public static function get_unread_count($user_id,$focus = false){
-		return count(self::get_unreads($user_id,$focus));
+	public static function get_unread_count($user_id,$force = false){
+		return count(self::get_unreads($user_id,$force));
 	}
-	public static function add_unread($user_id,$pm_id){
+	public static function add_unread($user_id,$unread_user_id){
 		$unreads = self::get_unreads($user_id,true);
 		if(!$unreads){
-			$unreads = [$pm_id];
+			$unreads = [$unread_user_id];
 		}else{
-			if(in_array($pm_id,$unreads))
+			if(in_array($unread_user_id,$unreads))
 				return false;
-			$unreads[] = $pm_id;
+			$unreads[] = $unread_user_id;
 		}
 		self::update_user_meta($user_id,'unreads',$unreads);
 	}
@@ -527,6 +537,9 @@ class theme_custom_pm{
 			
 			self::update_timestamp($args['pm_author']);
 			self::set_latest_pm_id($args['pm_author'],$pm_id);
+
+			/** add unread */
+			self::add_unread(theme_cache::get_current_user_id(),$args['pm_receiver']);
 		}
 		return $pm_id;
 	}
@@ -646,8 +659,9 @@ class theme_custom_pm{
 		return $results;
 	}
 	public static function update_timestamp($user_id){
-		wp_cache_set("timestamp:$user_id",$_SERVER['REQUEST_TIME'],self::$iden,self::$cache_expire);
-		return $_SERVER['REQUEST_TIME'];
+		$current_time = current_time('timestamp');
+		wp_cache_set("timestamp:$user_id",$current_time,self::$iden,self::$cache_expire);
+		return $current_time;
 	}
 	public static function get_timestamp($user_id){
 		$timestamp = wp_cache_get("timestamp:$user_id",self::$iden,true);
@@ -657,8 +671,8 @@ class theme_custom_pm{
 	}
 
 	public static function get_histories($user_id){
-		$cache_timestamp = self::get_timestamp($user_id);
-		$histories = wp_cache_get("histories:$user_id",self::$iden);
+		//$cache_timestamp = self::get_timestamp($user_id);
+		$histories = wp_cache_get("histories:$user_id",self::$iden,true);
 		if(!empty($histories)){
 			return $histories;
 		}
@@ -700,8 +714,9 @@ class theme_custom_pm{
 		if(!$pm_lists)
 			return false;
 			
-		foreach($pm_lists as $user_id){ ?>
-			<a id="pm-tab-<?= theme_custom_pm::get_niceid($user_id);?>" href="javascript:;" data-uid="<?= theme_custom_pm::get_niceid($user_id);?>">
+		foreach($pm_lists as $user_id){ 
+			?>
+			<a id="pm-tab-<?= theme_custom_pm::get_niceid($user_id);?>" href="javascript:;" data-uid="<?= theme_custom_pm::get_niceid($user_id);?>" class="<?= self::is_unread($current_user_id,$user_id) ? 'new-msg' : null;?>">
 				<img src="<?= get_avatar_url($user_id);?>" alt="<?= ___('Avatar');?>" class="avatar" width="24" height="24"> 
 				<span class="author"><?= theme_cache::get_the_author_meta('display_name',$user_id);?></span>
 				<b class="close">&times;</b>
@@ -743,9 +758,9 @@ class theme_custom_pm{
 		<?php 
 		if(isset($history_users[$user_id])){
 			foreach($dialog_histories[$user_id] as $history){
-				$name = $current_user_id == $history->pm_author ? ___('Me') : get_the_author_meta('display_name',$history_user_id);
+				$name = $current_user_id == $history->pm_author ? ___('Me') : theme_cache::get_the_author_meta('display_name',$user_id);
 				?>
-				<section class="pm-dialog-<?= $current_user_id == $user_id ? 'me' : 'sender' ;?>">
+				<section class="pm-dialog-<?= $current_user_id == $history->pm_author ? 'me' : 'sender' ;?>">
 					<div class="pm-dialog-bg">
 						<h4>
 							<span class="name"><?= $name;?></span> 

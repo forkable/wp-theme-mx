@@ -57,7 +57,7 @@ define(function(require, exports, module){
 				};
 			}
 			/** bind tab event */
-			event_switch_tab(i,uid);
+			event_switch_tab(uid);
 			
 			/** bind close click */
 			if($close)
@@ -77,7 +77,7 @@ define(function(require, exports, module){
 			}
 		}
 	}
-	function event_switch_tab(i,uid){
+	function event_switch_tab(uid){
 		function helper(e){
 			e.preventDefault();
 			e.stopPropagation();
@@ -85,7 +85,7 @@ define(function(require, exports, module){
 			focus_content(uid);
 			show_new_msg(uid,'hide');
 		}
-		cache.$tmp_tabs[i].addEventListener('click',helper);
+		cache.$tabs[uid].addEventListener('click',helper);
 	}
 	function is_current_tab(uid){
 		return cache.$current_tab.getAttribute('uid') === uid;
@@ -99,7 +99,9 @@ define(function(require, exports, module){
 		config.uid = uid;
 		for(var i in cache.$tabs){
 			/** if current tab */
-			if(i === uid){
+			//console.log(i , uid);
+			if(i == uid){
+				//console.log(cache.$tabs[uid]);
 				/** display target dialog */
 				cache.$dialogs[uid].style.display = 'block';
 				/** add class for target tab */
@@ -212,7 +214,7 @@ define(function(require, exports, module){
 				cache.tab_count++;
 				
 				/** add click event */
-				event_switch_tab(cache.tab_count - 1,uid);
+				event_switch_tab(uid);
 
 				/** switch new tab */
 				tab_switch_it(uid);
@@ -385,32 +387,56 @@ define(function(require, exports, module){
 		function done(data){
 			/** have new pm */
 			if(data && data.status === 'success'){
+				var author_uid = data.pm.pm_author,
+					receiver_uid = data.pm.pm_receiver;
 				cache.timestamp = data.timestamp;
 				/** author is me msg */
-				if(data.pm.pm_author == config.my_uid && cache.$dialogs[data.pm.pm_receiver]){
+				if(author_uid == config.my_uid && cache.$dialogs[receiver_uid]){
+					//console.log('fuck');
 					/** insert msg */
-					insert_dialog_msg(data.pm.pm_receiver,data.pm.pm_content);
+					insert_dialog_msg('me',data.pm.pm_content);
 					/** clear current input content */
-					focus_clear_input(data.pm.pm_receiver);
+					focus_clear_input(receiver_uid);
 				/** receiver is me */
 				}else{
+					/** set userdata */
+					if(!config.userdata[author_uid]){
+						config.userdata[author_uid] = {
+							name : data.pm.pm_author_name,
+							avatar : data.pm.pm_author_avatar,
+						};
+					}
+					//console.log(cache.$dialogs[author_uid]);
 					/** if dialog is not in lists */
-					if(!cache.$dialogs[data.pm.pm_author]){
+					if(!cache.$dialogs[author_uid]){
 						/** create tab */
-						create_tab(data.pm.pm_author);
+						create_tab(author_uid);
 
 						/** create close */
-						create_close(data.pm.pm_author);
+						create_close(author_uid);
 
+						/** create dialog */
+						create_dialog(author_uid);
+						cache.$dialogs[author_uid].style.display = 'none';
+						
 						/** highlight tab */
-						show_new_msg(data.pm.pm_author);
+						show_new_msg(author_uid);
+						
+						/** update count */
+						cache.tab_count++;
+						
+						/** add click event */
+						event_switch_tab(author_uid);
+
+						/** bind submit event */
+						cache.$dialogs[author_uid].addEventListener('submit',event_submit_send_pm);
 					}
 					/** insert msg */
-					insert_dialog_msg(data.pm.pm_author,data.pm.pm_content);
+					insert_dialog_msg(author_uid,data.pm.pm_content);
 					
 					/** highlight tab */
-					if(config.uid != data.pm.pm_author){
-						show_new_msg(data.pm.pm_author);
+					if(config.uid != author_uid){
+						show_new_msg(author_uid);
 					}
 				}
 				comet();
