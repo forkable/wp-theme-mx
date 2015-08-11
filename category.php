@@ -3,14 +3,8 @@
 	<?= theme_functions::get_crumb();?>
 	<div class="row">
 		<div id="main" class="col-md-9 col-sm-12">
-			<div class="panel panel-default mx-panel">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						<i class="fa fa-folder-open"></i> 
-						<a href="<?= get_category_link(theme_features::get_current_cat_id());?>"><?=  single_cat_title(null,false);?></a>
-					</h3>
-				</div>
-				<div class="panel-body">
+			<div class="mod">
+				<div class="mod-body">
 					<?php
 					if(have_posts()){
 						?>
@@ -31,9 +25,9 @@
 						<?= status_tip('info',___('No content yet.'));?>
 					<?php } ?>
 				</div>
-				<div class="panel-footer area-pagination">
-					<?php theme_functions::pagination();?>
-				</div>
+			</div>
+			<div class="area-pagination">
+				<?php theme_functions::pagination();?>
 			</div>
 		</div><!-- /#main -->
 		<?php get_sidebar() ;?>

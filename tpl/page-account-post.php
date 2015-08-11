@@ -451,12 +451,6 @@ function post_form($post_id = null){
 
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<i class="fa fa-<?= theme_custom_contribution::get_tabs('post')['icon'];?>"></i> 
-			<?= theme_custom_contribution::get_tabs('post')['text'];?>
-		</h3>
-	</div>
 	<div class="panel-body">
 		<?php
 		if(isset($_GET['post']) && is_numeric($_GET['post'])){

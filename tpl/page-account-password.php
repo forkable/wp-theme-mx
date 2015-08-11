@@ -1,10 +1,4 @@
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<i class="fa fa-<?= theme_custom_user_settings::get_tabs(get_query_var('tab'))['icon'];?>"></i>
-			<?= ___('Change my password');?>
-		</h3>
-	</div>
 	<div class="panel-body">
 <form id="fm-change-password" class="user-form form-horizontal" method="post" action="javascript:;">
 	<!-- current password -->

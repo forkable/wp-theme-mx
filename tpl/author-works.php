@@ -1,8 +1,8 @@
-<div class="panel-body">
+<div class="mod-body">
 	<?php
 	if(have_posts()){
 		?>
-		<ul class="row mx-card-body post-img-lists">
+		<ul class="row post-img-lists">
 			<?php
 			foreach($wp_query->posts as $post){
 				setup_postdata($post);
@@ -17,8 +17,6 @@
 	<?php } ?>
 </div>
 <?php if($GLOBALS['wp_query']->max_num_pages > 1){ ?>
-	<div class="panel-footer">
-		<?= theme_functions::pagination();?>
-	</div>
+	<?= theme_functions::pagination();?>
 <?php } ?>
 </div>

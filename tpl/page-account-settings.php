@@ -3,12 +3,6 @@ global $current_user;
 get_currentuserinfo();
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<i class="fa fa-<?= theme_custom_user_settings::get_tabs(get_query_var('tab'))['icon'];?>"></i>
-			<?= ___('Edit my profile');?>
-		</h3>
-	</div>
 	<div class="panel-body">
 		<?php
 		/**

@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme-custom-homebox
 Feature URI:	http://www.inn-studio.com
-Version:		1.1.1
+Version:		1.1.2
 Description:	
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -197,6 +197,8 @@ class theme_custom_homebox{
 		wp_cache_set(self::$iden,$data,null,3600*24);
 	}
 	public static function get_cache(){
+		if(theme_dev_mode::is_enabled())
+			return false;
 		return wp_cache_get(self::$iden);
 	}
 	public static function backend_css(){

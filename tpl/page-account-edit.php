@@ -1,10 +1,4 @@
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<i class="fa fa-<?= theme_custom_edit::get_tabs('edit')['icon'];?>"></i> 
-			<?= theme_custom_edit::get_tabs('edit')['text'];?>
-		</h3>
-	</div>
 	<?php
 	global $post,$wp_query;
 	$wp_query = theme_custom_edit::get_query();

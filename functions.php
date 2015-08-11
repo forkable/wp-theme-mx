@@ -340,7 +340,7 @@ class theme_functions{
 			
 		$thumbnail_real_src = esc_url(theme_functions::get_thumbnail_src($post->ID));
 
-		$thumbnail_placeholder = esc_url(theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder));
+		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
 		<li class="<?= implode(' ',$args['classes']);?>">
 			<a class="post-list-bg" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID), empty($excerpt) ? null : ' - ' . $excerpt;?>">
@@ -870,14 +870,14 @@ class theme_functions{
 
 	}
    /**
-     * get_crumb
-     * 
-     * 
-     * @return string The html code
-     * @version 2.0.7
-     * 
-     */
-    public static function get_crumb(array $args = []){
+	 * get_crumb
+	 * 
+	 * 
+	 * @return string The html code
+	 * @version 2.0.7
+	 * 
+	 */
+	public static function get_crumb(array $args = []){
 		$defaults = array(
 			'header' => null,
 			'footer' => null,
@@ -886,8 +886,8 @@ class theme_functions{
 		
 		$links = [];
 		
-    	if(theme_cache::is_home())
-    		return null;
+		if(theme_cache::is_home())
+			return null;
 		
 		$links['home'] = '<a href="' . theme_cache::home_url() . '" class="home" title="' . ___('Back to Homepage') . '">
 			<i class="fa fa-home fa-fw"></i>
@@ -896,8 +896,8 @@ class theme_functions{
 		
 		$split = '<span class="split"><i class="fa fa-angle-right"></i></span>';
 		
-    	/* category */
-    	if(theme_cache::is_category()){
+		/* category */
+		if(theme_cache::is_category()){
 			$cat_curr = theme_features::get_current_cat_id();
 			if($cat_curr > 1){
 				$links_cat = get_category_parents($cat_curr,true,'%split%');
@@ -906,46 +906,46 @@ class theme_functions{
 				$links['category'] = implode($split,$links_cats);
 				$links['curr_text'] = ___('Category Browser');
 			}
-    	/* tag */
-    	}else if(theme_cache::is_tag()){
-    		$tag_id = theme_features::get_current_tag_id();
+		/* tag */
+		}else if(theme_cache::is_tag()){
+			$tag_id = theme_features::get_current_tag_id();
 			$tag_obj = get_tag($tag_id);
-    		$links['tag'] = '<a href="'. esc_url(get_tag_link($tag_id)).'">' . esc_html(theme_features::get_current_tag_name()).'</a>';
-    		$links['curr_text'] = ___('Tags Browser');
-    		/* date */
-    	}else if(theme_cache::is_date()){
-    		global $wp_query;
-    		$day = $wp_query->query_vars['day'];
-    		$month = $wp_query->query_vars['monthnum'];
-    		$year = $wp_query->query_vars['year'];
-    		/* day */
-    		if(theme_cache::is_day()){
-    			$date_link = get_day_link(null,null,$day);
-    		/* month */
-    		}else if(theme_cache::is_month()){
-    			$date_link = get_month_link($year,$month);
-    		/* year */
-    		}else if(theme_cache::is_year()){
-    			$date_link = get_year_link($year);
-    		}
-    		$links['date'] = '<a href="'.$date_link.'">' . theme_cache::wp_title('',false).'</a>';
-    		$links['curr_text'] = ___('Date Browser');
-    	/* search*/
-    	}else if(theme_cache::is_search()){
-    		// $nav_link = null;
-    		$links['curr_text'] = sprintf(___('Search Result: %s'),esc_html(get_search_query()));
+			$links['tag'] = '<a href="'. esc_url(get_tag_link($tag_id)).'">' . esc_html(theme_features::get_current_tag_name()).'</a>';
+			$links['curr_text'] = ___('Tags Browser');
+			/* date */
+		}else if(theme_cache::is_date()){
+			global $wp_query;
+			$day = $wp_query->query_vars['day'];
+			$month = $wp_query->query_vars['monthnum'];
+			$year = $wp_query->query_vars['year'];
+			/* day */
+			if(theme_cache::is_day()){
+				$date_link = get_day_link(null,null,$day);
+			/* month */
+			}else if(theme_cache::is_month()){
+				$date_link = get_month_link($year,$month);
+			/* year */
+			}else if(theme_cache::is_year()){
+				$date_link = get_year_link($year);
+			}
+			$links['date'] = '<a href="'.$date_link.'">' . theme_cache::wp_title('',false).'</a>';
+			$links['curr_text'] = ___('Date Browser');
+		/* search*/
+		}else if(theme_cache::is_search()){
+			// $nav_link = null;
+			$links['curr_text'] = sprintf(___('Search Result: %s'),esc_html(get_search_query()));
 		/* author */
 		}else if(theme_cache::is_author()){
 			global $author;
 			$user = get_user_by('id',$author);
 			$links['author'] = '<a href="'.theme_cache::get_author_posts_url($author).'">' . theme_cache::get_the_author_meta('display_name',$user->ID) . '</a>';
 			$links['curr_text'] = ___('Author posts');
-    	/* archive */
-    	}else if(theme_cache::is_archive()){
-    		$links['archive'] = '<a href="'.get_current_url().'">' . theme_cache::wp_title('',false) . '</a>';
-    		$links['curr_text'] = ___('Archive Browser');
-    	/* Singular */
-    	}else if(theme_cache::is_singular()){
+		/* archive */
+		}else if(theme_cache::is_archive()){
+			$links['archive'] = '<a href="'.get_current_url().'">' . theme_cache::wp_title('',false) . '</a>';
+			$links['curr_text'] = ___('Archive Browser');
+		/* Singular */
+		}else if(theme_cache::is_singular()){
 			global $post;
 			/* The page parent */
 			if($post->post_parent){
@@ -954,7 +954,7 @@ class theme_functions{
 			/**
 			 * post / page
 			 */
-    		if(theme_features::get_current_cat_id() > 1){
+			if(theme_features::get_current_cat_id() > 1){
 				$categories = get_the_category();
 				foreach ($categories as $key => $row) {
 							$parent_id[$key] = $row->category_parent;
@@ -964,22 +964,22 @@ class theme_functions{
 					$cat_name = esc_html($cat->name);
 					$links['singluar'] = '<a href="' . esc_url(get_category_link($cat->cat_ID)) . '" title="' . sprintf(___('View all posts in %s'),$cat_name) . '">' . $cat_name . '</a>';
 				}
-    		}
-    		//$links['curr_text'] = esc_html(theme_cache::get_the_title($post->ID));
-    	/* 404 */
-    	}else if(theme_cache::is_404()){
-    		// $nav_link = null;
-    		$links['curr_text'] = ___('Not found');
-    	}
+			}
+			//$links['curr_text'] = esc_html(theme_cache::get_the_title($post->ID));
+		/* 404 */
+		}else if(theme_cache::is_404()){
+			// $nav_link = null;
+			$links['curr_text'] = ___('Not found');
+		}
 	
-    return '<div class="crumb-container">
+	return '<div class="crumb-container">
 		' . $args['header'] . '
 		<nav class="crumb">
 			' . implode($split,apply_filters('crumb_links',$links)) . '
 		</nav>
 		' . $args['footer'] . '
 	</div>';
-    }
+	}
 	/**
 	 * get_post_pagination
 	 * show pagination in archive or searching page
@@ -1008,27 +1008,29 @@ class theme_functions{
 		}
 	}
 	public static function pagination( array $args = [] ) {
-	    
-	    $defaults = array(
-	        'custom_query'		=> false,
-	        'previous_string' 	=> '<i class="fa fa-arrow-left"></i>',
-	        'next_string'     	=> '<i class="fa fa-arrow-right"></i>',
-	        'before_output'   	=> '<div class="posts-nav btn-group btn-group-justified" role="group" aria-label="' . ___('Posts pagination navigation') . '">',
-	        'after_output'    	=> '</div>'
-	    );
-	    $args = array_merge($defaults,$args);
-	    
-	    if ( !$args['custom_query'] )
-	        $args['custom_query'] = @$GLOBALS['wp_query'];
-	        
-	    $count = (int) $args['custom_query']->max_num_pages;
-	    $page  = intval( get_query_var( 'paged' ) );
-    
-	    if ( $count <= 1 )
-	        return false;
-	    
-	    if ( !$page )
-	        $page = 1;
+		
+		$defaults = array(
+			'custom_query'		=> false,
+			'previous_string' 	=> '<i class="fa fa-arrow-left"></i>',
+			'next_string'	 	=> '<i class="fa fa-arrow-right"></i>',
+			'before_output'   	=> '<div class="posts-nav btn-group btn-group-justified" role="group" aria-label="' . ___('Posts pagination navigation') . '">',
+			'after_output'		=> '</div>'
+		);
+		$args = array_merge($defaults,$args);
+
+		$rand_id = rand(1000,9999);
+		
+		if ( !$args['custom_query'] )
+			$args['custom_query'] = @$GLOBALS['wp_query'];
+			
+		$count = (int) $args['custom_query']->max_num_pages;
+		$page  = intval( get_query_var( 'paged' ) );
+	
+		if ( $count <= 1 )
+			return false;
+		
+		if ( !$page )
+			$page = 1;
 	   
 		/**
 		 * output before_output;
@@ -1038,71 +1040,62 @@ class theme_functions{
 		/**
 		 * prev page
 		 */
-	    if ( $page > 1 ){
-		    $previous = intval($page) - 1;
-		    $previous_url = get_pagenum_link($previous);
-		    
-	       echo '<a class="btn btn-success prev" href="' . esc_url($previous_url) . '" title="' . ___( 'Previous page') . '">' . $args['previous_string'] . '</a>';
-        }
-	    /**
-	     * middle
-	     */
-	    if ( $count > 1 ) {
-		    ?>
-		    <div class="btn-group" role="group">
-			    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-				    <?= sprintf(___('Page %d'),$page);?>
-				    <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" role="menu">
-					
-					<?php
-					/**
-					 * Previous 5 page
-					 */
-					for( $i = $page - 3; $i < $page; $i++){
-						if($i < 1 )
-							continue;
+		if ( $page > 1 ){
+			$previous = intval($page) - 1;
+			$previous_url = get_pagenum_link($previous);
+			
+		   echo '<a class="btn btn-success prev" href="' . esc_url($previous_url) . '" title="' . ___( 'Previous page') . '">' . $args['previous_string'] . '</a>';
+		}
+		/**
+		 * middle
+		 */
+		if ( $count > 1 ) {
+			?>
+			<div class="btn-group" role="group">
+				<label for="pagination-<?= $rand_id;?>" class="btn btn-default">
+					<select id="pagination-<?= $rand_id;?>" class="form-control">
+						<?php
+						/**
+						 * Previous 5 page
+						 */
+						for( $i = $page - 3; $i < $page; $i++){
+							if($i < 1 )
+								continue;
+							?>
+							<option value="<?= esc_url(get_pagenum_link($i));?>">
+								<?= sprintf(___('Page %d'),$i);?>
+							</option>
+							<?php
+						}
 						?>
-						<li>
-							<a href="<?= esc_url( get_pagenum_link($i) );?>">
-								<?= sprintf(___('Page %d'),$i);?>
-							</a>
-						</li>
-						<?php
-					}
-					?>
-					<li class="active">
-						<a href="<?= esc_url( get_pagenum_link($page) );?>">
+						<option selected value="<?= esc_url( get_pagenum_link($page) );?>">
 							<?= sprintf(___('Page %d'),$page);?>
-						</a>
-					</li>
-					<?php
-			        for( $i = $page + 1; $i < $page + 4; $i++ ) {
-				        if($i > $count)
-				        	break;
-			            ?>
-						<li>
-							<a href="<?= esc_url( get_pagenum_link($i) );?>">
-								<?= sprintf(___('Page %d'),$i);?>
-							</a>
-						</li>
+						</option>
 						<?php
-			        }
-			        ?>
-	        	</ul>
-	        </div>
-	        <?php
-	    }
-	    
-	    /**
-	     * next page
-	     */
-	    if ($page < $count ){
-		    $next = intval($page) + 1;
+						for( $i = $page + 1; $i < $page + 4; $i++ ) {
+							if($i > $count)
+								break;
+							?>
+							<option value="<?= esc_url(get_pagenum_link($i));?>">
+								<?= sprintf(___('Page %d'),$i);?>
+							</option>
+							<?php
+						}
+						?>
+					</select>
+				</label>
+			</div>
+			<?php
+		}
+		
+		/**
+		 * next page
+		 */
+		if ($page < $count ){
+			$next = intval($page) + 1;
 	   		$next_url = get_pagenum_link($next);
-	        echo '<a class="btn btn-success next" href="' . esc_url($next_url) . '" title="' . __( 'Next page') . '">' . $args['next_string'] . '</a>';
-    	}
+			echo '<a class="btn btn-success next" href="' . esc_url($next_url) . '" title="' . __( 'Next page') . '">' . $args['next_string'] . '</a>';
+		}
 
 		/**
 		 * output
@@ -1571,14 +1564,14 @@ class theme_functions{
 		 * cache
 		 */
 		$cache_group_id = 'related_posts';
-		$cache = wp_cache_get($post->ID,$cache_group_id);
+		$cache = theme_dev_mode::is_enabled() ? false : wp_cache_get($post->ID,$cache_group_id);
 		if($cache){
 			echo $cache;
 			return $cache;
 		}
 		
 		$defaults = array(
-			'posts_per_page' => 6,
+			'posts_per_page' => 8,
 			'orderby' => 'latest',
 		);
 		$query_args = array(
@@ -1586,17 +1579,19 @@ class theme_functions{
 		);
 		$args = array_merge($defaults,$args);
 		$content_args = array(
-			'classes' => array('col-xs-6 col-sm-4 col-md-2')
+			'classes' => array('col-xs-6 col-sm-4 col-md-3')
 		);
 		
 		ob_start();
 		?>
 		
-		<div class="related-posts panel panel-default" role="tabpanel">
-			<div class="panel-heading">
-				<h3 class="panel-title"><i class="fa fa-heart-o"></i> <?= ___('Maybe you will like them');?></h3>
+		<div class="related-posts mod">
+			<div class="mod-heading">
+				<h3 class="mod-title">
+					<i class="fa fa-heart-o"></i> <?= ___('Maybe you will like them');?>
+				</h3>
 			</div>
-			<div class="panel-body">
+			<div class="mod-body">
 				<?php
 				$same_tag_args = $args;
 				$same_tag_query = $query_args;
@@ -1792,17 +1787,17 @@ class theme_functions{
 			if(!isset($v['title']) || trim($v['title']) === '')
 				continue;
 			?>
-<div id="homebox-<?= $k;?>" class="homebox panel panel-primary mx-panel">
+<div id="homebox-<?= $k;?>" class="homebox mod">
 	
-	<div class="panel-heading mx-panel-heading clearfix">
-		<h3 class="panel-title mx-panel-title">
+	<div class="mod-heading">
+		<h3 class="mod-title">
 			<?php 
 			
 			if(empty($v['link'])){
 				echo stripcslashes($v['title']);
 			}else{
 				?>
-				<a href="<?= esc_url($v['link']);?>"><?= stripcslashes($v['title']);?> <small><?= ___('&raquo; more');?></small></a>
+				<a href="<?= esc_url($v['link']);?>"><span class="tx"><?= stripcslashes($v['title']);?></span> <small><?= ___('&raquo; more');?></small></a>
 				<?php
 			}
 			?>
@@ -1830,29 +1825,27 @@ class theme_functions{
 			
 		</div>
 	</div>
-	<div class="panel-body">
-		<ul class="row mx-card-body post-img-lists">
-			<?php
-			$query = new WP_Query([
-				'category__in' => isset($v['cats']) ? $v['cats'] : [],
-				'posts_per_page' => 8,
-				'ignore_sticky_posts' => false,
-			]);
-			if($query->have_posts()){
-				foreach($query->posts as $post){
-					setup_postdata($post);
-					self::archive_img_content(array(
-						'classes' => array('col-xs-6 col-sm-3'),
-						'lazyload' => $lazyload_i < 1 ? false : true,
-					));
-				}
-				wp_reset_postdata();
-			}else{
-				
+	<ul class="row post-img-lists">
+		<?php
+		$query = new WP_Query([
+			'category__in' => isset($v['cats']) ? $v['cats'] : [],
+			'posts_per_page' => 8,
+			'ignore_sticky_posts' => false,
+		]);
+		if($query->have_posts()){
+			foreach($query->posts as $post){
+				setup_postdata($post);
+				self::archive_img_content(array(
+					'classes' => array('col-xs-6 col-sm-3'),
+					'lazyload' => $lazyload_i < 1 ? false : true,
+				));
 			}
-			?>
-		</ul>
-	</div>
+			wp_reset_postdata();
+		}else{
+			
+		}
+		?>
+	</ul>
 </div>
 			<?php
 			++$lazyload_i;
@@ -1868,16 +1861,14 @@ class theme_functions{
 	public static function theme_respond(){
 		global $post;
 		?>
-<div id="respond" class="panel panel-primary">
+<div id="respond" class="panel panel-default">
 	<div class="panel-heading">
 		<h3 id="reply-title" class="panel-title comment-reply-title">
 			<span class="leave-reply">
 				<i class="fa fa-commenting"></i> 
 				<?= ___('Leave a comment');?>
 			</span>
-			<a href="javascript:;" id="cancel-comment-reply-link" class="none" title="<?= ___('Cancel reply');?>">
-				<i class="fa fa-times fa-fw"></i>
-			</a>
+			<a href="javascript:;" id="cancel-comment-reply-link" class="none" title="<?= ___('Cancel reply');?>">&times;</a>
 		</h3>		
 	</div>
 	<div class="panel-body">

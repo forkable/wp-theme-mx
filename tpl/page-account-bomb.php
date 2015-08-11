@@ -9,12 +9,6 @@ if(theme_custom_point::get_point_img_url()){
 }
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<i class="fa fa-<?= theme_custom_point_bomb::get_tabs(get_query_var('tab'))['icon'];?>"></i> 
-			<?= ___('Bomb world');?>
-		</h3>
-	</div>
 	<div class="panel-body">
 		<?= theme_custom_point_bomb::get_des();?>
 		<div class="page-tip" id="fm-bomb-loading"><?= status_tip('loading',___('Loading, please wait...'));?></div>

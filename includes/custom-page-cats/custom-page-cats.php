@@ -2,7 +2,7 @@
 /**
  * theme_page_cats
  *
- * @version 1.0.0
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_page_cats::init';
@@ -143,12 +143,13 @@ class theme_page_cats{
 		return $new_tags;
 	}
 	public static function display_frontend(){
-		$cache = wp_cache_get(self::$iden);
-		if(!empty($cache)){
-			echo $cache;
-			return;
+		if(!theme_dev_mode::is_enabled()){
+			$cache = wp_cache_get(self::$iden);
+			if(!empty($cache)){
+				echo $cache;
+				return;
+			}
 		}
-
 		ob_start();
 		$slugs = self::get_slugs();
 		if(is_null_array($slugs)){
@@ -160,12 +161,14 @@ class theme_page_cats{
 		arsort($slugs);
 		foreach($slugs as $k => $post_ids){
 		?>
-			<div class="panel-tags-index panel panel-primary">
-				<div class="panel-heading">
-					<strong><?= $k;?></strong>
-					<small> - <?= ___('Initial');?></small>
+			<div class="panel-tags-index mod">
+				<div class="mod-heading">
+					<h4 class="mod-title">
+						<span class="tx"><?= $k;?></span>
+						<small> - <?= ___('Initial');?></small>
+					</h4>
 				</div>
-				<div class="panel-body">
+				<div class="mod-body">
 					<ul class="row post-img-lists">
 						<?php
 						$query = new WP_Query(array(

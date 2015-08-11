@@ -6,28 +6,26 @@
 	 */
 	if(!wp_is_mobile()){
 		?>
-		<div class="panel panel-default hidden-xs">
-			<div class="mx-card-body row neck">
-				<div class="col-md-6 hidden-xs">
-					<div class="slidebox-container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="slidebox-container">
+					<?php 
+					if(class_exists('theme_custom_slidebox')){
+						if(!theme_custom_slidebox::display_frontend()){
+							?><div class="page-tip"><?= status_tip('info',___('Please set some slidebox posts.'));?></div>
 						<?php 
-						if(class_exists('theme_custom_slidebox')){
-							if(!theme_custom_slidebox::display_frontend()){
-								?><div class="page-tip"><?= status_tip('info',___('Please set some slidebox posts.'));?></div>
-							<?php 
-							}
-						} 
-						?>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="recomm-container">
-						<?php
-						if(method_exists('theme_functions','the_recommended')){
-							theme_functions::the_recommended();
 						}
-						?>
-					</div>
+					} 
+					?>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="recomm-container">
+					<?php
+					if(method_exists('theme_functions','the_recommended')){
+						theme_functions::the_recommended();
+					}
+					?>
 				</div>
 			</div>
 		</div>

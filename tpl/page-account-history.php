@@ -2,12 +2,6 @@
 $current_user_id = theme_cache::get_current_user_id();
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<i class="fa fa-<?= theme_custom_user_settings::get_tabs(get_query_var('tab'))['icon'];?>"></i>
-			<?= sprintf(___('%s\'s reward point histories'), theme_cache::get_the_author_meta('display_name',$current_user_id));?>
-		</h3>
-	</div>
 	<div class="panel-body">
 <div class="media">
 	<div class="media-left">

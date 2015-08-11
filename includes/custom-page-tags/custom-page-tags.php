@@ -312,7 +312,7 @@ class theme_page_tags{
 		set_time_limit(0);
 		
 		$cache_id = 'display-frontend';
-		$cache = wp_cache_get($cache_id,self::$iden);
+		$cache = theme_dev_mode::is_enabled() ? false : wp_cache_get($cache_id,self::$iden);
 		//$cache = false;
 		if(!empty($cache)){
 			echo $cache;
@@ -380,10 +380,12 @@ class theme_page_tags{
 
 		foreach($pinyin_tags as $initial => $tags){
 			?>
-			<div class="panel-tags-index panel panel-primary">
-				<div class="panel-heading">
-					<strong><?= $initial;?></strong>
-					<small> - <?= ___('Pinyin initial');?></small>
+			<div class="panel-tags-index mod">
+				<div class="mod-heading">
+					<h4 class="mod-title">
+						<span class="tx"><?= $initial;?></span>
+						<small> - <?= ___('Pinyin initial');?></small>
+					</h4>
 				</div>
 				<div class="panel-body">
 					<?php foreach($tags as $tag_id => $tag){ ?>

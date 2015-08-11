@@ -1,21 +1,4 @@
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<i class="fa fa-bell"></i>
-			<?= ___('My notifications');?>
-			<?php
-			$unread = theme_notification::get_count(array(
-				'type' => 'unread'
-			));
-			if($unread !== 0){
-				?>
-				<span class='badge'><?= $unread;?></span>
-				<?php
-			}
-			?>
-		</h3>
-	</div>
-
 	<?php
 	$current_user_id = theme_cache::get_current_user_id();
 	$notis = theme_notification::get_notifications(array(

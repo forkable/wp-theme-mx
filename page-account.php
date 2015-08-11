@@ -11,19 +11,6 @@ if(!$active_tab)
 	<div class="row">
 		<div id="account-navbar" class="col-sm-3 col-lg-2 hidden-xs">
 			<div class="navbar navbar-default" role="navigation">
-				<div class="navbar-header">
-					<a href="javascript:;" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".account-navbar-collapse">
-						<span class="sr-only"><?= ___('Account menu');?></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</a>
-					<span class="navbar-brand">
-						<?= ___('Account menu');?> 
-						<span class="hidden-xs"><i class="fa fa-caret-down"></i></span>
-					</span>
-				</div>
-
 				<div class="navbar-collapse account-navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<?php

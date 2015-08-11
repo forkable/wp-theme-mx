@@ -26,12 +26,6 @@ if(class_exists('theme_custom_collection')){
 }
 ?>
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<i class="fa fa-<?= theme_custom_collection::get_tabs('collection')['icon'];?>"></i> 
-			<?= theme_custom_collection::get_tabs('collection')['text'];?>
-		</h3>
-	</div>
 	<div class="panel-body">
 		<?= theme_custom_collection::get_des();?>
 		<form action="javascript:;" id="fm-clt" class="form-horizontal">

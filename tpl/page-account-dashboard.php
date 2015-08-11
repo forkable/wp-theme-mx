@@ -1,10 +1,4 @@
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">
-			<i class="fa fa-<?= theme_custom_dashboard::get_tabs('dashboard')['icon'];?>"></i>
-			<?= theme_custom_dashboard::get_tabs('dashboard')['text'];?>
-		</h3>
-	</div>
 	<div class="panel-body">
 		<div class="row">
 			<?php 

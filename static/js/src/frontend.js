@@ -14,9 +14,21 @@ define(function(require, exports, module){
 		tools.ready(function(){
 			exports.hide_no_js();
 			exports.search();
+			exports.posts_nav();
 		});
 	}
-
+	exports.posts_nav = function(){
+		var $pns = document.querySelectorAll('.posts-nav');
+		if(!$pns[0])
+			return;
+		function helper(e){
+			if(this.value)
+				location.href = this.value;
+		}
+		for(var i=0,len=$pns.length; i<len; i++){
+			$pns[i].querySelector('select').addEventListener('change',helper);
+		}
+	}
 
 	exports.search = function(){
 		var Q = function(s){

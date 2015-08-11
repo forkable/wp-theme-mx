@@ -1,5 +1,9 @@
 
-define(function(require,exports,module){'use strict';require.async(['modules/lazyload','modules/bootstrap-without-jq'],function(_a,_b){});var tools=require('modules/tools');exports.config={is_home:false};exports.init=function(){tools.ready(function(){exports.hide_no_js();exports.search();});}
+define(function(require,exports,module){'use strict';require.async(['modules/lazyload','modules/bootstrap-without-jq'],function(_a,_b){});var tools=require('modules/tools');exports.config={is_home:false};exports.init=function(){tools.ready(function(){exports.hide_no_js();exports.search();exports.posts_nav();});}
+exports.posts_nav=function(){var $pns=document.querySelectorAll('.posts-nav');if(!$pns[0])
+return;function helper(e){if(this.value)
+location.href=this.value;}
+for(var i=0,len=$pns.length;i<len;i++){$pns[i].querySelector('select').addEventListener('change',helper);}}
 exports.search=function(){var Q=function(s){return document.querySelector(s);},$btn=Q('.main-nav a.search');if(!$btn)
 return false;var $fm=Q($btn.getAttribute('data-target')),$input=$fm.querySelector('input[type="search"]'),submit_helper=function(){if($input.value.trim()==='')
 return false;};$btn.addEventListener('click',function(){setTimeout(function(){$input.focus();},100);},false);$fm.onsubmit=submit_helper;}
