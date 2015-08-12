@@ -1,6 +1,3 @@
-
-
-
 /**
  * dashboard
  */
@@ -46,6 +43,9 @@
 		display: block;
 		border-top: 1px solid rgba(0,0,0,.05);
 	}
+		#account-navbar .navbar li:first-child{
+			border-top: none;
+		}
 	#account-navbar .navbar li a {
 		padding-top: 12px;
 		padding-bottom: 12px;
