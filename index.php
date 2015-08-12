@@ -4,7 +4,6 @@
 	/**
 	 * slidebox
 	 */
-	if(!wp_is_mobile()){
 		?>
 		<div class="row">
 			<div class="col-md-6">
@@ -19,17 +18,18 @@
 					?>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="recomm-container">
-					<?php
-					if(method_exists('theme_functions','the_recommended')){
-						theme_functions::the_recommended();
-					}
-					?>
+			<?php if(!wp_is_mobile()){ ?>
+				<div class="col-md-6">
+					<div class="recomm-container">
+						<?php
+						if(method_exists('theme_functions','the_recommended')){
+							theme_functions::the_recommended();
+						}
+						?>
+					</div>
 				</div>
-			</div>
+		<?php } ?>
 		</div>
-	<?php } ?>
 	<div class="row">
 		<div id="main" class="col-md-9 col-sm-12">
 			
