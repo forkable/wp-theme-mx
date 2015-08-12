@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /** Theme options */
 include __DIR__ . '/core/core-options.php';
