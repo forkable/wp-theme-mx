@@ -278,7 +278,7 @@ define(function(require, exports, module){
 	 *
 	 * @param mixed
 	 * @return string
-	 * @version 1.1.1
+	 * @version 1.1.2
 	 */
 	exports.status_tip = function(){
 		var defaults = ['type','size','content','wrapper'],
@@ -342,7 +342,7 @@ define(function(require, exports, module){
 				break;
 			case 'loading':
 			case 'spinner':
-				icon = 'sun-o fa-spin';
+				icon = 'circle-o-notch fa-spin';
 				break;
 			default:
 				icon = type;

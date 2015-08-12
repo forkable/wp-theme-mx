@@ -20,7 +20,6 @@ html .slide-checkbox{
 
 .slides .overflow{
 	width: 100%;
-	max-height: 320px;
 	overflow: hidden;
 	border-radius: 2px;
 }
@@ -63,7 +62,7 @@ html .slide-checkbox{
 		margin: 0;
 		width: 50px;
 		font-size: 20px;
-		line-height: 320px;
+		line-height: 200px;
 		text-align: center;
 		font-family: FontAwesome;
 		content: '';
@@ -96,6 +95,7 @@ html .slide-checkbox{
  * .active
  */
 #slidebox .active{
+	display: none;
 	position: absolute;
 	bottom: 20px;
 	left: 20px;
@@ -127,7 +127,7 @@ html .slide-checkbox{
 	position: absolute;
 	background: linear-gradient(transparent,#000);
 	color: #fff;
-	text-align: right;
+	text-align: center;
 	bottom: 0;
 	width: 100%;
 	margin: 0;
@@ -160,27 +160,45 @@ html .slide-checkbox{
 }
 
 @media (min-width: 768px){
-	.slides .overflow,
-	.slides a{
-		height: 405px;
+	.slides a,
+	.slides .inner{
+		/*height: 360px;*/
+	}
+	#slidebox .control label:before{
+		line-height: 429px;
+	}
+	#slidebox .active{
+		display: block;
+	}
+	#slidebox h2{
+		text-align: right;
 	}
 }
 @media (min-width: 992px) {
-	.slides .overflow,
-	.slides a{
-		height: 282px;
+	.slides a,
+	.slides .inner{
+		height: 300px;
+	}
+	#slidebox .control label:before{
+		line-height: 300px;
 	}
 }
 @media (min-width: 1200px) {
-	.slides .overflow,
-	.slides a{
-		height: 320px;
+	.slides a,
+	.slides .inner{
+		height: 342px;
+	}
+	#slidebox .control label:before{
+		line-height: 342px;
 	}
 }
 @media (min-width: 1300px){
-	.slides .overflow,
-	.slides a{
-		height: 350px;
-		max-height: 350px;
+	.slides a,
+	.slides .inner{
+		height: 362px;
+		max-height: 362px;
+	}
+	#slidebox .control label:before{
+		line-height: 362px;
 	}
 }

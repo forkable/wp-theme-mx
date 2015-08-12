@@ -70,9 +70,9 @@ class theme_custom_pm{
 	}
 	public static function filter_nav_pm($navs){
 		$badge = '';
-		$current_user_id = theme_cache::get_current_user_id();
-		if(!self::is_page() && self::get_unread_count($current_user_id) != 0){
-			$badge = '<span class="badge">' . self::get_unread_count($current_user_id) . '</span>';
+		$unread_count = self::get_unread_count(theme_cache::get_current_user_id());
+		if(!self::is_page() && $unread_count != 0){
+			$badge = '<span class="badge">' . $unread_count . '</span>';
 		}
 		$navs['pm'] = '<a href="' . self::get_tabs('pm')['url'] . '">
 			<i class="fa fa-' . self::get_tabs('pm')['icon'] . ' fa-fw"></i> 
@@ -93,6 +93,9 @@ class theme_custom_pm{
 			$cache = theme_cache::get_permalink(theme_cache::get_page_by_path(self::$page_slug)->ID);
 		}
 		return $cache;
+	}
+	public static function get_user_pm_url($user_id){
+		return self::get_tabs('pm')['url'] . '#' . self::get_niceid($user_id);
 	}
 	public static function get_tabs($key = null){
 		$baseurl = self::get_url();
@@ -150,7 +153,7 @@ class theme_custom_pm{
 						<th scope="row"><?= ___('Control');?></th>
 						<td>
 							<?php if(isset($_GET[self::$iden])){ ?>
-								<div id="<?= self::$iden;?>-tip" calss="page-tip"><?= status_tip('success',___('Database tabble has been created.'));?></div>
+								<div id="<?= self::$iden;?>-tip" calss="page-tip"><?= status_tip('success',___('Database table has been created.'));?></div>
 							<?php } ?>
 							<a id="<?= self::$iden;?>-create-table" href="javascript:;"><?= ___('Create database table');?></a>
 							<input type="hidden" name="<?= self::$iden;?>[db-version]" value="<?= self::get_db_version() ?self::get_db_version() : self::$db_version;?>">
@@ -482,7 +485,7 @@ class theme_custom_pm{
 				return false;
 			$unreads[] = $unread_user_id;
 		}
-		self::update_user_meta($user_id,'unreads',$unreads);
+		self::update_user_meta($unread_user_id,'unreads',$unreads);
 	}
 	public static function clear_unreads($user_id){
 		self::update_user_meta($user_id,'unreads',[]);
@@ -539,7 +542,7 @@ class theme_custom_pm{
 			self::set_latest_pm_id($args['pm_author'],$pm_id);
 
 			/** add unread */
-			self::add_unread(theme_cache::get_current_user_id(),$args['pm_receiver']);
+			self::add_unread($args['pm_author'],$args['pm_receiver']);
 		}
 		return $pm_id;
 	}
@@ -647,6 +650,7 @@ class theme_custom_pm{
 				$args['receiver']
 			);
 		}
+		//var_dump($where);die;
 		$results = $wpdb->get_results(
 			"
 			SELECT * FROM " . self::$table . "
@@ -669,10 +673,10 @@ class theme_custom_pm{
 			$timestamp = self::update_timestamp($user_id);
 		return $timestamp;
 	}
-
 	public static function get_histories($user_id){
-		//$cache_timestamp = self::get_timestamp($user_id);
-		$histories = wp_cache_get("histories:$user_id",self::$iden,true);
+		$timestamp = self::get_timestamp($user_id);
+		$cache_id = "histories:$user_id:$timestamp";
+		$histories = wp_cache_get($cache_id,self::$iden,true);
 		if(!empty($histories)){
 			return $histories;
 		}
@@ -680,11 +684,10 @@ class theme_custom_pm{
 		if(!$users)
 			return false;
 
-		$current_user_id = theme_cache::get_current_user_id();
 		$pms = self::get_pms([
 			'dialog_in' => [
 				'opposite' => $users,
-				'me' => $current_user_id,
+				'me' => $user_id,
 			]
 		]);
 		if(!$pms)
@@ -692,9 +695,7 @@ class theme_custom_pm{
 			
 		$histories = [];
 		foreach($pms as $pm){
-			//$pm->pm_author = self::get_niceid($pm->pm_author);
-			//$pm->pm_receiver = self::get_niceid($pm->pm_receiver);
-			if($current_user_id == $pm->pm_author){
+			if($user_id == $pm->pm_author){
 				if(!isset($histories[$pm->pm_receiver]))
 					$histories[$pm->pm_receiver] = [];
 				$histories[$pm->pm_receiver][$pm->pm_id] = $pm;
@@ -704,7 +705,7 @@ class theme_custom_pm{
 				$histories[$pm->pm_author][$pm->pm_id] = $pm;
 			}
 		}
-		wp_cache_set("histories:$user_id",$histories,self::$iden,self::$cache_expire);
+		wp_cache_set($cache_id,$histories,self::$iden,self::$cache_expire);
 		return $histories;
 	}
 	public static function the_tabs(){
@@ -777,7 +778,7 @@ class theme_custom_pm{
 		?>
 	</div>
 	<div class="form-group">
-		<input type="text" id="pm-dialog-content-<?= self::get_niceid($user_id);?>" name="content" class="pm-dialog-conteng form-control" placeholder="<?= ___('Ctrl + enter to send P.M.');?>" required title="<?= ___('P.M. content');?>">
+		<input type="text" id="pm-dialog-content-<?= self::get_niceid($user_id);?>" name="content" class="pm-dialog-conteng form-control" placeholder="<?= ___('Enter to send P.M.');?>" required title="<?= ___('P.M. content');?>">
 	</div>
 	<div class="form-group">
 		<button class="btn btn-success btn-block" type="submit"><i class="fa fa-check"></i>&nbsp;<?= ___('Send P.M.');?></button>
@@ -812,7 +813,14 @@ class theme_custom_pm{
 		?>
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.config.lang.M01 = '<?= ___('Loading, please wait...');?>';
+			m.config.lang.M02 = '<?= ___('Enter to send P.M.');?>';
+			m.config.lang.M03 = '<?= ___('P.M. content');?>';
+			m.config.lang.M04 = '<?= ___('Send P.M.');?>';
+			m.config.lang.M05 = '<?= ___('Hello, I am %name%, welcome to chat with me what do you want.');?>';
+			m.config.lang.M06 = '<?= ___('P.M. is sending, please wait...');?>';
+			m.config.lang.M07 = '<?= ___('Me');?>';
 			m.config.lang.E01 = '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>';
+	
 			m.config.process_url = '<?= theme_features::get_process_url([
 				'action' => self::$iden,
 			]);?>';

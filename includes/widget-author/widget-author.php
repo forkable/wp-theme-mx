@@ -101,40 +101,14 @@ class theme_widget_author extends WP_Widget{
 						</a>
 					<?php } ?>
 					
-					<!-- following count -->
-					<a href="javascript:;" class="btn btn-default disabled" role="button">
-						<span class="tx"><i class="fa fa-envelope"></i> <?= ___('P.M.');?></span>
-					</a>
+					<!-- pm -->
+					<?php if(class_exists('theme_custom_pm')){ ?>
+						<a target="_blank" href="<?= theme_custom_pm::get_user_pm_url($author_id);?>" class="btn btn-default" role="button">
+							<span class="tx"><i class="fa fa-<?= theme_custom_pm::get_tabs('pm')['icon'];?>"></i> <?= ___('P.M.');?></span>
+						</a>
+					<?php } ?>
 				</div>
 			<?php } ?>
-			<div class="author-card-features btn-group btn-group-justified" role="group">
-				<?php
-				/**
-				 * follow
-				 */
-				if(class_exists('theme_follow')){ ?>
-					<a href="javascript:;" class="btn btn-success" id="widget-author-card-follow" data-author-id="<?= $author_id;?>">
-						<span class="followed">
-							<i class="fa fa-check-circle"></i> 
-							<?= ___('Followed');?>
-						</span>
-						<span class="unfollow">
-							<i class="fa fa-plus-circle"></i> 
-							<?= ___('Follow');?>
-						</span>
-					</a>
-				<?php } ?>
-				<?php
-				/**
-				 * PM
-				 */
-				if(class_exists('theme_pm')){ ?>
-					<a href="javascript:;" class="btn btn-danger" id="widget-author-card-pm" data-author-id="<?= $author_id;?>">
-						<i class="fa fa-envelope-o"></i> 
-						<?= ___('Message');?>
-					</a>
-				<?php } ?>
-			</div>
 		</div>
 		<?php
 		echo $args['after_widget'];

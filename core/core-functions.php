@@ -336,7 +336,7 @@ function ___($text,$domain = null){
  * @example status_tip('error','content');
  * @example status_tip('error','big','content');
  * @example status_tip('error','big','content','span');
- * @version 2.0.2
+ * @version 2.0.3
  */
 function status_tip(){
 	$args = func_get_args();
@@ -389,7 +389,7 @@ function status_tip(){
 			break;
 		case 'loading':
 		case 'spinner':
-			$icon = 'sun-o fa-pulse';
+			$icon = 'circle-o-notch fa-spin';
 			break;
 		default:
 			$icon = $type;

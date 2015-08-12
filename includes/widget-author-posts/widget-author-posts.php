@@ -58,7 +58,7 @@ class widget_author_posts extends WP_Widget{
 					foreach($query->posts as $post){
 						setup_postdata($post);
 						theme_functions::archive_img_content([
-							'classes' => ['col-xs-6 col-sm-4']
+							'classes' => ['col-xs-6 col-sm-4 col-md-6']
 						]);
 					}
 					wp_reset_postdata();

@@ -1,6 +1,7 @@
 <div class="panel panel-default">
 	<div class="panel-body">
-		<div class="row">
+		<div class="page-tip" id="pm-loading-tip"><?= status_tip('loading',___('Loading, please wait...'));?></div>
+		<div id="pm-container" class="row">
 			<div class="col-sm-2">
 				<nav id="pm-tab" class="pm-tab">
 					<a id="pm-tab-new" href="javascript:;" data-uid="new" class="active">

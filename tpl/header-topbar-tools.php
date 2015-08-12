@@ -86,11 +86,14 @@ if(theme_cache::is_user_logged_in()){
 		<?php } ?>
 		
 		<!-- pm -->
-		<?php if(class_exists('theme_custom_pm')){ ?>
-			<a href="<?= theme_custom_pm::get_tabs('pm')['url'];?>" class="meta tool-favor btn btn-default">
+		<?php 
+		if(class_exists('theme_custom_pm')){ 
+			$pm_unread_count = theme_custom_pm::get_unread_count($current_user_id);
+			?>
+			<a href="<?= theme_custom_pm::get_tabs('pm')['url'];?>" class="meta tool-favor btn btn-default" title="<?= ___('P.M.');?>">
 				<i class="fa fa-<?= theme_custom_pm::get_tabs('pm')['icon'];?> fa-fw"></i>
-				<?php if(!theme_custom_pm::is_page() && theme_custom_pm::get_unread_count($current_user_id) != 0){ ?>
-					<span class="badge"><?= theme_custom_pm::get_unread_count($current_user_id);?></span>
+				<?php if(!theme_custom_pm::is_page() &&  $pm_unread_count != 0){ ?>
+					<span class="badge"><?= $pm_unread_count;?></span>
 				<?php } ?>
 			</a>
 		<?php } ?>

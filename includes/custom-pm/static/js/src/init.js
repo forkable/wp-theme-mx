@@ -6,7 +6,7 @@ define(function(require, exports, module){
 	exports.config = {
 		lang : {
 			M01 : 'Loading, please wait...',
-			M02 : 'Ctrl + enter to send P.M.',
+			M02 : 'Enter to send P.M.',
 			M03 : 'P.M. content',
 			M04 : 'Send P.M.',
 			M05 : 'Hello, I am %name%, welcome to chat with me what do you want.',
@@ -27,6 +27,7 @@ define(function(require, exports, module){
 			tab_bind();
 			new_tab_bind();
 			comet();
+			preset_receiver_bind();
 		});
 	};
 	
@@ -42,6 +43,15 @@ define(function(require, exports, module){
 		config.userdata.me = {
 			name : config.lang.M07
 		};
+
+
+		/** hide loading tip */
+		var $tip = I('pm-loading-tip');
+		$tip.parentNode.removeChild($tip);
+		
+		/** show container */
+		I('pm-container').style.display = 'block';
+		
 		cache.tab_count = cache.$tmp_tabs.length;
 		
 		for(var i=0; i<cache.tab_count; i++){
@@ -56,6 +66,9 @@ define(function(require, exports, module){
 					avatar : cache.$tabs[uid].querySelector('img').src
 				};
 			}
+			/** scroll bottom */
+			scroll_dialog_bottom(uid);
+			
 			/** bind tab event */
 			event_switch_tab(uid);
 			
@@ -77,6 +90,22 @@ define(function(require, exports, module){
 			}
 		}
 	}
+	function preset_receiver_bind(){
+		/** check preset receiver */
+		cache.preset_uid = get_hash_uid();
+		if(!cache.preset_uid)
+			return;
+			
+		if(!cache.$tabs[cache.preset_uid]){
+			get_uid_from_server(cache.preset_uid);
+		}else{
+			tab_switch_it(cache.preset_uid);
+		}
+		
+	}
+	function get_hash_uid(){
+		return location.hash && parseInt(location.hash.replace('#',''));
+	}
 	function event_switch_tab(uid){
 		function helper(e){
 			e.preventDefault();
@@ -86,6 +115,11 @@ define(function(require, exports, module){
 			show_new_msg(uid,'hide');
 		}
 		cache.$tabs[uid].addEventListener('click',helper);
+	}
+	function scroll_dialog_bottom(uid){
+		var $list = cache.$dialogs[uid].querySelector('.pm-dialog-list');
+		if($list)
+			$list.scrollTop = $list.scrollHeight;
 	}
 	function is_current_tab(uid){
 		return cache.$current_tab.getAttribute('uid') === uid;
@@ -233,6 +267,11 @@ define(function(require, exports, module){
 	}
 	function event_submit_send_pm(e){
 		e.preventDefault();
+		
+		/** set disabled */
+		var $submit = cache.$dialogs[config.uid].querySelector('button[type="submit"]');
+		$submit.setAttribute('disabled',true);
+		
 		/** tip */
 		tools.ajax_loading_tip('loading',config.lang.M06);
 
@@ -265,11 +304,17 @@ define(function(require, exports, module){
 				tools.ajax_loading_tip('error',data);
 			}
 			focus_content(config.uid);
+			
+			/** remove disabled */
+			$submit.removeAttribute('disabled');
 		}
 		
 		function fail(){
 			tools.ajax_loading_tip('error',config.lang.E01);
 			focus_content(config.uid);
+			
+			/** remove disabled */
+			$submit.removeAttribute('disabled');
 		}
 	}
 	function event_close_click(e){
