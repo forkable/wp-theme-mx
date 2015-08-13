@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.0
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_pm::init';
@@ -24,14 +24,14 @@ class theme_custom_pm{
 		
 		if(!self::get_db_version()){
 			self::create_db_table();
-			theme_options::set_options(self::$iden,[
+			theme_options::set_options(__CLASS__,[
 				'db-version' => self::$db_version,
 			]);
 		}
 		
 		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
 		
-		add_filter('wp_ajax_' . self::$iden, __CLASS__ . '::process');
+		add_filter('wp_ajax_' . __CLASS__, __CLASS__ . '::process');
 		
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 		add_filter('frontend_seajs_alias', __CLASS__ . '::frontend_seajs_alias');
@@ -44,6 +44,9 @@ class theme_custom_pm{
 			$nav_fn = 'filter_nav_' . $k; 
 			add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
 		}
+
+		add_action('base_settings', 		__CLASS__ . '::display_backend');
+		add_action('theme_options_save', 		__CLASS__ . '::options_save');
 		
 		add_action('wp_footer'		,__CLASS__ . '::wp_footer');
 	}
@@ -135,12 +138,14 @@ class theme_custom_pm{
 		";
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
-	}
-	public static function options_default(array $opts = []){
 		
 	}
+
 	public static function options_save(array $opts = []){
-		
+		if(isset($_POST[__CLASS__])){
+			$opts[__CLASS__] = $_POST[__CLASS__];
+		}
+		return $opts;
 	}
 	public static function display_backend(){
 		?>
@@ -152,11 +157,14 @@ class theme_custom_pm{
 					<tr>
 						<th scope="row"><?= ___('Control');?></th>
 						<td>
-							<?php if(isset($_GET[self::$iden])){ ?>
-								<div id="<?= self::$iden;?>-tip" calss="page-tip"><?= status_tip('success',___('Database table has been created.'));?></div>
+							<?php if(isset($_GET[__CLASS__])){ ?>
+								<div id="<?= __CLASS__;?>-tip" calss="page-tip"><?= status_tip('success',___('Database table has been created.'));?></div>
 							<?php } ?>
-							<a id="<?= self::$iden;?>-create-table" href="javascript:;"><?= ___('Create database table');?></a>
-							<input type="hidden" name="<?= self::$iden;?>[db-version]" value="<?= self::get_db_version() ?self::get_db_version() : self::$db_version;?>">
+							<a id="<?= __CLASS__;?>-create-table" href="<?= theme_features::get_process_url([
+								'action' => __CLASS__,
+								'type' => 'create-db',
+							]);?>"><?= ___('Create database table');?></a>
+							<input type="hidden" name="<?= __CLASS__;?>[db-version]" value="<?= self::get_db_version() ?self::get_db_version() : self::$db_version;?>">
 						</td>
 					</tr>
 				</tbody>
@@ -167,7 +175,7 @@ class theme_custom_pm{
 	public static function get_options($key = null){
 		static $caches = null;
 		if($caches === null)
-			$caches = theme_options::get_options(self::$iden);
+			$caches = theme_options::get_options(__CLASS__);
 		if($key)
 			return isset($caches[$key]) ? $caches[$key] : false;
 		return $caches[$key];
@@ -236,7 +244,12 @@ class theme_custom_pm{
 					//]));
 				
 				self::create_db_table();
-				header('location: ' . theme_options::get_url() . '&' . self::$iden);
+				
+				theme_options::set_options(__CLASS__,[
+					'db-version' => self::$db_version
+				]);
+
+				header('location: ' . theme_options::get_url() . '&' . __CLASS__);
 				die;
 				//die(theme_features::json_format([
 				//	'status' => 'success',
@@ -409,10 +422,10 @@ class theme_custom_pm{
 		return $user_id;
 	}
 	public static function set_latest_pm_id($user_id,$pm_id){
-		wp_cache_set("latest-pm-id:$user_id",$pm_id,self::$iden,self::$cache_expire);
+		wp_cache_set("latest-pm-id:$user_id",$pm_id,__CLASS__,self::$cache_expire);
 	}
 	public static function get_latest_pm_id($user_id){
-		$pm_id = wp_cache_get("latest-pm-id:$user_id",self::$iden);
+		$pm_id = wp_cache_get("latest-pm-id:$user_id",__CLASS__);
 		if($pm_id)
 			return $pm_id;
 		$pms = self::get_pms([
@@ -425,12 +438,12 @@ class theme_custom_pm{
 		self::setup_pmdata($pm);
 		$pm_id = $pm->pm_id;
 		
-		wp_cache_set("latest-pm-id:$user_id",$pm_id,self::$iden,self::$cache_expire);
+		wp_cache_set("latest-pm-id:$user_id",$pm_id,__CLASS__,self::$cache_expire);
 		
 		return $pm_id;
 	}
 	public static function get_user_meta($user_id,$key = null,$force = false){
-		$metas = get_user_meta($user_id,self::$iden,true);
+		$metas = get_user_meta($user_id,__CLASS__,true);
 		if($key)
 			return isset($metas[$key]) ? $metas[$key] : false;
 		return $metas;
@@ -438,7 +451,7 @@ class theme_custom_pm{
 	public static function update_user_meta($user_id,$key,$data){
 		$metas = self::get_user_meta($user_id);
 		$metas[$key] = $data;
-		update_user_meta($user_id,self::$iden,$metas);
+		update_user_meta($user_id,__CLASS__,$metas);
 	}
 	public static function get_unreads($user_id,$force = false){
 		return self::get_user_meta($user_id,'unreads',$force);
@@ -553,8 +566,8 @@ class theme_custom_pm{
 	 * @version 1.0.0
 	 */
 	public static function setup_pmdata($pm){
-		if(!wp_cache_get("pm:$pm->pm_id",self::$iden))
-			wp_cache_set("pm:$pm->pm_id",$pm,self::$iden,self::$cache_expire);
+		if(!wp_cache_get("pm:$pm->pm_id",__CLASS__))
+			wp_cache_set("pm:$pm->pm_id",$pm,__CLASS__,self::$cache_expire);
 	}
 	/**
 	 * get a private message
@@ -564,7 +577,7 @@ class theme_custom_pm{
 	 * @version 1.0.0
 	 */
 	public static function get_pm($id){
-		$cache = wp_cache_get("pm:$id",self::$iden);
+		$cache = wp_cache_get("pm:$id",__CLASS__);
 		if($cache)
 			return $cache;
 		global $wpdb;
@@ -577,7 +590,7 @@ class theme_custom_pm{
 		));
 		if(!$cache)
 			return null;
-		wp_cache_set("pm:$id",$cache,self::$iden,self::$cache_expire);
+		wp_cache_set("pm:$id",$cache,__CLASS__,self::$cache_expire);
 		return $cache;
 	}
 	public static function get_pms(array $args){
@@ -664,11 +677,11 @@ class theme_custom_pm{
 	}
 	public static function update_timestamp($user_id){
 		$current_time = current_time('timestamp');
-		wp_cache_set("timestamp:$user_id",$current_time,self::$iden,self::$cache_expire);
+		wp_cache_set("timestamp:$user_id",$current_time,__CLASS__,self::$cache_expire);
 		return $current_time;
 	}
 	public static function get_timestamp($user_id){
-		$timestamp = wp_cache_get("timestamp:$user_id",self::$iden,true);
+		$timestamp = wp_cache_get("timestamp:$user_id",__CLASS__,true);
 		if(!$timestamp)
 			$timestamp = self::update_timestamp($user_id);
 		return $timestamp;
@@ -676,7 +689,7 @@ class theme_custom_pm{
 	public static function get_histories($user_id){
 		$timestamp = self::get_timestamp($user_id);
 		$cache_id = "histories:$user_id:$timestamp";
-		$histories = wp_cache_get($cache_id,self::$iden,true);
+		$histories = wp_cache_get($cache_id,__CLASS__,true);
 		if(!empty($histories)){
 			return $histories;
 		}
@@ -705,7 +718,7 @@ class theme_custom_pm{
 				$histories[$pm->pm_author][$pm->pm_id] = $pm;
 			}
 		}
-		wp_cache_set($cache_id,$histories,self::$iden,self::$cache_expire);
+		wp_cache_set($cache_id,$histories,__CLASS__,self::$cache_expire);
 		return $histories;
 	}
 	public static function the_tabs(){
@@ -788,8 +801,8 @@ class theme_custom_pm{
 		}
 	}
 	public static function cache_request(array $alias = []){
-		if(isset($_GET[self::$iden]) && $_GET[self::$iden] == 1){
-			$alias[self::$iden] = [
+		if(isset($_GET[__CLASS__]) && $_GET[__CLASS__] == 1){
+			$alias[__CLASS__] = [
 				'timestamp' => self::get_timestamp(theme_cache::get_current_user_id())
 			];
 		}
@@ -797,13 +810,13 @@ class theme_custom_pm{
 	}
 	public static function js_cache_request(array $alias = []){
 		if(self::is_page()){
-			$alias[self::$iden] = 1;
+			$alias[__CLASS__] = 1;
 		}
 		return $alias;
 	}
 	public static function frontend_seajs_alias(array $alias = []){
 		if(self::is_page()){
-			$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+			$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__);
 		}
 		return $alias;
 	}
@@ -811,7 +824,7 @@ class theme_custom_pm{
 		if(!self::is_page()) 
 			return false;
 		?>
-		seajs.use('<?= self::$iden;?>',function(m){
+		seajs.use('<?= __CLASS__;?>',function(m){
 			m.config.lang.M01 = '<?= ___('Loading, please wait...');?>';
 			m.config.lang.M02 = '<?= ___('Enter to send P.M.');?>';
 			m.config.lang.M03 = '<?= ___('P.M. content');?>';
@@ -822,7 +835,7 @@ class theme_custom_pm{
 			m.config.lang.E01 = '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>';
 	
 			m.config.process_url = '<?= theme_features::get_process_url([
-				'action' => self::$iden,
+				'action' => __CLASS__,
 			]);?>';
 			m.config.my_uid = <?= self::get_niceid(theme_cache::get_current_user_id());?>;
 			m.init();
@@ -834,7 +847,7 @@ class theme_custom_pm{
 			return false;
 			
 		wp_enqueue_style(
-			self::$iden,
+			__CLASS__,
 			theme_features::get_theme_includes_css(__DIR__),
 			'frontend',
 			theme_file_timestamp::get_timestamp()

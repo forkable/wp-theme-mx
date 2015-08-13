@@ -16,17 +16,15 @@
 			</div>
 		<?php } ?>
 		<p class="footer-meta copyright text-center">
-			<?= sprintf(
-				___('&copy; %1$s %2$s. Theme %3$s.'),
-				'<a href="' . home_url() . '">' . theme_cache::get_bloginfo('name') . '</a>',
-				date('Y'),
-				'<a title="' . theme_features::get_theme_info('Version') . '" href="' . theme_features::get_theme_info('ThemeURI') . '" target="_blank" rel="nofollow">' . theme_features::get_theme_info('name') . '</a>'
-			);?>
-
+			<?php
+			if(class_exists('theme_user_code')){
+				echo theme_user_code::get_frontend_footer_code();
+			}
+			?>
 			<?= sprintf(___('CDN %s'),'<a href="http://blog.eqoe.cn" target="_blank" rel="nofollow">eqoe</a>');?>
 		</p>
 	</div>
 </footer>
 <a href="#" class="back-to-top" title="<?= ___('Back to top');?>"><i class="fa fa-arrow-up fa-3x"></i></a>
-	<?php wp_footer();?>
+<?php wp_footer();?>
 </body></html>

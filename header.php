@@ -112,7 +112,7 @@ if(!wp_is_mobile() && (bool)$header_img){ ?>
 		?>
 
 		<!-- search btn -->
-		<a class="mx-tool mx-search-btn search hidden-lg" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
+		<a class="mx-tool mx-search-btn search hidden-xs" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
 			<i class="fa fa-search fa-fw"></i>
 		</a>
 		
