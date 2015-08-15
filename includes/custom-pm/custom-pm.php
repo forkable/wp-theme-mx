@@ -66,7 +66,9 @@ class theme_custom_pm{
 		if(!self::is_page()) 
 			return false;
 		/** remove unread count */
-		self::clear_unreads(theme_cache::get_current_user_id());
+		$current_user_id = theme_cache::get_current_user_id();
+		if(self::get_unread_count($current_user_id) > 0)
+			self::clear_unreads($current_user_id);
 	}
 	public static function get_db_version(){
 		return self::get_options('db-version');
@@ -335,8 +337,10 @@ class theme_custom_pm{
 				/** get pm */
 				$pm = self::get_pm($pm_id);
 
-				/** add receiver list */
+				/** add list for author */
 				self::add_list($current_user_id,$pm->pm_receiver);
+				/** add list for receiver */
+				self::add_list($pm->pm_receiver,$current_user_id);
 				
 				die(theme_features::json_format([
 					'status' => 'success',

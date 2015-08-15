@@ -577,7 +577,7 @@ img{
 	}
 	.post-img-list .post-list-title{
 		font-size: 13px;
-		line-height: 20px;
+		line-height: 21px;
 		margin: 0;
 		height: 40px;
 		overflow: hidden;
@@ -759,12 +759,13 @@ img{
 	
 }
 	.widget_author_posts .post-img-lists{
-		margin: 0 -5px;
+		margin: 0 -10px;
 	}
-	.widget_author_posts .post-img-list{
-		margin: 0;
-		padding: 5px;
-	}
+		.widget_author_posts .post-img-list{
+			margin: 0;
+			padding: 0 10px;
+			margin-bottom: 20px;
+		}
 	.widget_author_posts .post-list-title{
 		padding: 5px;
 	}

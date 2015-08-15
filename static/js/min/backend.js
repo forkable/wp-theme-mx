@@ -14,5 +14,5 @@ if($parent.classList.contains('active')){$parent.classList.remove('active');}els
 st=setInterval(function(){if(i>=10){toggle(true);clearInterval(st);return false;}
 toggle();i++;},70);}
 jQuery($tab).KandyTabs({delay:100,resize:false,current:current_tab,custom:function(b,c,i,t){tools.cookie.set(that.config.tab_cookie_id,i+1);args.custom(b,c,i,t);if(!cache.navtab)
-cache.navtab={i:true};if(cache.navtab[i]===true)
+cache.navtab=[];if(cache.navtab[i]===true)
 return false;cache.navtab[i]=true;var $cont=jQuery(c[i])[0],data=get_data($cont),$nav_container=jQuery(data.nav_html)[0],$nav=$nav_container.querySelector('ul'),$nav_links=$nav_container.querySelectorAll('li'),legends_ot=data.legends_ot;$cont.insertBefore($nav_container,$cont.firstChild);scroll_to_switch($nav_links,legends_ot);scroll_to_item($nav_links,data.$legends);fixed_nav($nav);},done:function($btn,$cont,$tab){document.querySelector('.backend-tab-loading').style.display='none';$btn.eq(0).before('<span class="tab-title">'+args.tab_title+'</span>');$tab[0].style.display='block';args.done($btn,$cont,$tab);exports.select_text.init();}})};function I(e){return document.getElementById(e);}});

@@ -177,15 +177,13 @@ define(function(require, exports, module){
 			custom:function(b,c,i,t){
 				tools.cookie.set(that.config.tab_cookie_id,i+1);
 				args.custom(b,c,i,t);
-				//console.log(cache.i);
 				
 				/**
 				 * tabnav
 				 */
 				if(!cache.navtab)
-					cache.navtab = {
-						i : true
-					};
+					cache.navtab = [];
+					
 				if(cache.navtab[i] === true)
 					return false;
 
