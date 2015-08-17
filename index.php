@@ -1,4 +1,12 @@
 <?php get_header();?>
+<?php 
+if(class_exists('theme_custom_slidebox')){
+	if(!theme_custom_slidebox::display_frontend()){
+		?><div class="page-tip"><?= status_tip('info',___('Please set some slidebox posts.'));?></div>
+	<?php 
+	}
+} 
+?>
 <div class="container">
 	<?php
 	/**
@@ -6,18 +14,6 @@
 	 */
 		?>
 		<div class="row">
-			<div class="col-md-6">
-				<div class="slidebox-container">
-					<?php 
-					if(class_exists('theme_custom_slidebox')){
-						if(!theme_custom_slidebox::display_frontend()){
-							?><div class="page-tip"><?= status_tip('info',___('Please set some slidebox posts.'));?></div>
-						<?php 
-						}
-					} 
-					?>
-				</div>
-			</div>
 			<?php if(!wp_is_mobile()){ ?>
 				<div class="col-md-6">
 					<div class="recomm-container">

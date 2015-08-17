@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme_custom_slidebox
 Feature URI:	http://www.inn-studio.com
-Version:		1.0.0
+Version:		2.0.0
 Description:	theme_custom_slidebox
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -13,12 +13,12 @@ add_filter('theme_includes',function($fns){
 });
 class theme_custom_slidebox{
 	public static $iden = 'theme_custom_slidebox';
-	public static $file_exts = array('png','jpg','gif');
-	public static $image_size = array(554,320,true);
+	public static $file_exts = ['png','jpg','gif'];
+	public static $image_size = [800,500,true];
 	public static function init(){
 		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use'); 
 		add_action('page_settings',__CLASS__ . '::display_backend');
-		add_action('wp_ajax_' . self::$iden,__CLASS__ . '::process');
+		add_action('wp_ajax_' . __CLASS__,__CLASS__ . '::process');
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
 
 		/**
@@ -31,7 +31,7 @@ class theme_custom_slidebox{
 	}
 	public static function options_save($options){
 		if(isset($_POST['slidebox'])){
-			$options[self::$iden] = $_POST['slidebox'];
+			$options[__CLASS__] = $_POST['slidebox'];
 		}
 		return $options;
 	}
@@ -73,16 +73,13 @@ class theme_custom_slidebox{
 		return $content;
 	}
 	public static function get_options($key = null){
-		$caches = [];
-		if(!isset($caches[self::$iden]))
-			$caches[self::$iden] = (array)theme_options::get_options(self::$iden);
+		$caches = null;
+		if($caches === null)
+			$caches = (array)theme_options::get_options(__CLASS__);
 
-		if($key){
-			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
-		}else{
-			return $caches[self::$iden];
-		}
-		
+		if($key)
+			return isset($caches[$key]) ? $caches[$key] : null;
+		return $caches;
 	}
 	public static function process(){
 		$output = [];
@@ -114,7 +111,7 @@ class theme_custom_slidebox{
 		require_once( ABSPATH . 'wp-admin/includes/file.php' );
 		require_once( ABSPATH . 'wp-admin/includes/media.php' );
 	
-		add_image_size(self::$iden, self::$image_size[0],self::$image_size[1],self::$image_size[2]);
+		add_image_size(__CLASS__, self::$image_size[0],self::$image_size[1],self::$image_size[2]);
 		
 		$attach_id = media_handle_upload('img',0);
 		if(is_wp_error($attach_id)){
@@ -124,7 +121,7 @@ class theme_custom_slidebox{
 			die(theme_features::json_format($output));
 		}else{
 			$output['status'] = 'success';
-			$output['url'] = wp_get_attachment_image_src($attach_id,self::$iden)[0];
+			$output['url'] = wp_get_attachment_image_src($attach_id,__CLASS__)[0];
 			$output['msg'] = ___('Upload success.');
 			die(theme_features::json_format($output));
 		}
@@ -237,65 +234,94 @@ class theme_custom_slidebox{
 	public static function display_frontend(){
 		$boxes = (array)self::get_options();
 	
-		$cache_id = md5(serialize($boxes));
-		$cache = wp_cache_get($cache_id);
+		$cache_id = md5(json_encode($boxes));
+		$cache = theme_cache::get($cache_id);
 		if($cache){
 			echo $cache;
 			return $cache;
 		}
 		
 		if(is_null_array($boxes) || count($boxes) < 2) return false;
+
+		$placeholder = theme_features::get_theme_includes_image(__DIR__,'placeholder.png');
+		
 		krsort($boxes);
 		ob_start();
 		?>
-<div id="slidebox">
-	<?php
-	/**
-	 * slide setup
-	 */
-	for($i = 1, $len = count($boxes); $i <= $len; ++$i){ ?>
-		<input type="radio" name="slide-checkbox" class="slide-checkbox" id="slide-<?= $i;?>" <?= $i === 1 ? 'checked' : null;?>/>
+<div class="slidebox-container">
+<div class="area-overdely"></div>
+<div class="area-blur">
+	<?php 
+	$i = 0;
+	foreach($boxes as $v){ 
+	++$i;
+	?>
+		<div class="item <?= $i === 1 ? 'active' : null;?>" style="background-image:url(<?= esc_url($v['img-url']);?>)"></div>
 	<?php } ?>
-	<div class="slides">
-		<div class="overflow">
-			<div class="inner">
-				<?php
-				$img_placeholder = theme_features::get_theme_includes_image(__DIR__,'placeholder.png');
-				
-				foreach($boxes as $k => $v){
-					$rel_nofollow = isset($v['rel']['nofollow']) ? ' rel="nofollow" ' : null;
-					$target_blank = isset($v['target']['blank']) ? ' target="blank" ' : null;
-					$title = $v['title'];
-					?>
-					<a 
-						href="<?= esc_url($v['link-url']);?>" 
-						title="<?= $v['title'];?>" 
-						<?= $rel_nofollow;?> 
-						<?= $target_blank;?> 
-					>
-						<img src="<?= $img_placeholder;?>" alt="<?= $v['title'];?>" class="placeholder">
-						<img src="<?= esc_url($v['img-url']);?>" alt="<?= $v['title'];?>" class="post-thumbnail">
-
-						<h2>
-		                    <?= $v['title'];?>
-							<?php if(isset($v['subtitle']) && !empty($v['subtitle'])){ ?>
-								<small><?= $v['subtitle'];?></small>
-							<?php } ?>
-		                </h2>
-					</a>
-					<?php
-				}
-				?>
-			</div><!-- /.inner -->
-		</div><!-- /.overflow -->
-	</div><!-- /#slides -->
-	<div class="control"><?= self::get_labels($boxes);?></div>
-	<div class="active"><?= self::get_labels($boxes);?></div>
-</div><!-- /#slidebox-container -->
+</div>
+<div id="slidebox" class="container">
+	<div class="area-main">
+		<?php
+		$i = 0;
+		foreach($boxes as $v){
+			++$i;
+			$rel_nofollow = isset($v['rel']['nofollow']) ? 'rel="nofollow"' : null;
+			$target_blank = isset($v['target']['blank']) ? 'target="blank"' : null;
+			$title = $v['title'];
+			$img_url = esc_url($v['img-url']);
+			$link_url = esc_url($v['link-url']);
+			?>
+			<div class="item <?= $i === 1 ? 'active' : null;?>">
+				<a 
+					class="img" 
+					href="<?= $link_url;?>" 
+					title="<?= $v['title'];?>" 
+					<?= $rel_nofollow;?> 
+					<?= $target_blank;?> 
+				><img src="<?= $img_url;?>" alt="<?= $v['title'];?>" width="<?= self::$image_size[0];?>" height="<?= self::$image_size[1];?>"></a>
+			
+				<a 
+					class="des" 
+					href="<?= $link_url;?>" 
+					title="<?= $v['title'];?>" 
+					<?= $rel_nofollow;?> 
+					<?= $target_blank;?> 
+				>
+					<?= $v['title'];?><br>
+					<span class="more"><?= ___('Detail');?></span>
+				</a>
+			</div>
+		<?php } ?>
+	</div>
+	<div class="area-thumbnail">
+		<?php
+		$i = 0;
+		foreach($boxes as $v){
+			++$i;
+			$rel_nofollow = isset($v['rel']['nofollow']) ? 'rel="nofollow"' : null;
+			$target_blank = isset($v['target']['blank']) ? 'target="blank"' : null;
+			$title = $v['title'];
+			$img_url = esc_url($v['img-url']);
+			$link_url = esc_url($v['link-url']);
+			?>
+			<a 
+				class="item <?= $i === 1 ? 'active' : null;?>" 
+				href="<?= $link_url;?>" 
+				title="<?= $v['title'];?>" 
+				<?= $rel_nofollow;?> 
+				<?= $target_blank;?> 
+			>
+				<img src="<?= $img_url;?>" alt="placeholder" width="<?= self::$image_size[0];?>" height="<?= self::$image_size[1];?>">
+				<h2><?= $title;?></h2>
+			</a>
+		<?php } ?>
+	</div>
+</div><!-- /#slidebox -->
+</div><!-- /.slidebox-container -->
 		<?php
 		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
-		wp_cache_set($cache_id,$cache);
+		theme_cache::set($cache_id,$cache);
 		echo $cache;
 		return $cache;
 	}
@@ -319,27 +345,27 @@ class theme_custom_slidebox{
 		<?php
 	}
 	public static function frontend_seajs_alias(array $alias = []){
-		if(!is_home())
+		if(!theme_cache::is_home())
 			return $alias;
 			
-		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+		$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__);
 
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
-		if(!is_home())
+		if(!theme_cache::is_home())
 			return false;
 		?>
-		seajs.use('<?= self::$iden;?>',function(m){
+		seajs.use('<?= __CLASS__;?>',function(m){
 			m.init();
 		});
 		<?php
 	}
 	public static function frontend_css(){
-		if(!is_home())
+		if(!theme_cache::is_home())
 			return false;
 		wp_enqueue_style(
-			self::$iden,
+			__CLASS__,
 			theme_features::get_theme_includes_css(__DIR__),
 			'frontend',
 			theme_file_timestamp::get_timestamp()
@@ -350,7 +376,7 @@ class theme_custom_slidebox{
 		?>
 		seajs.use('<?= theme_features::get_theme_includes_js(__DIR__,'backend.js');?>',function(m){
 			m.config.tpl = <?= json_encode(html_minify(self::get_box_tpl('%placeholder%')));?>;
-			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';
+			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>__CLASS__));?>';
 			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
 			m.config.lang.E00001 = '<?= ___('Server error or network is disconnected.');?>';
 			m.init();
