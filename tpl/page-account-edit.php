@@ -21,13 +21,13 @@
 			</thead>
 			<tbody>
 			<?php
-			while(have_posts()){
-				the_post();
-				$post_edit_url = esc_url(get_edit_post_link($post->ID));
+			foreach($wp_query->posts as $post){
+				setup_postdata($post);
+				$post_edit_url = theme_custom_edit::get_edit_post_link($post->ID);
 				?>
 				<tr>
 					<td class="edit-post-thumbnail">
-						<img class="post-list-img" src="<?= esc_url(theme_functions::get_thumbnail_src($post->ID));?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>"/>
+						<img class="post-list-img" src="<?= theme_functions::get_thumbnail_src($post->ID);?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= theme_functions::$thumbnail_size[1];?>" height="<?= theme_functions::$thumbnail_size[2];?>"/>
 					</td>
 					<td class="edit-post-title">
 						<h4><strong><a href="<?= $post_edit_url;?>" title="<?= ___('Click to edit');?>"><?= theme_cache::get_the_title($post->ID);?></a></strong></h4>

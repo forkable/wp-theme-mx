@@ -279,7 +279,7 @@ class theme_custom_slidebox{
 					<?= $rel_nofollow;?> 
 					<?= $target_blank;?> 
 				><img src="<?= $img_url;?>" alt="<?= $v['title'];?>" width="<?= self::$image_size[0];?>" height="<?= self::$image_size[1];?>"></a>
-			
+
 				<a 
 					class="des" 
 					href="<?= $link_url;?>" 
@@ -287,8 +287,11 @@ class theme_custom_slidebox{
 					<?= $rel_nofollow;?> 
 					<?= $target_blank;?> 
 				>
-					<?= $v['title'];?><br>
-					<span class="more"><?= ___('Detail');?></span>
+					<span class="title"><?= $v['title'];?></span>
+					<?php if($v['subtitle'] !== ''){ ?>
+						<span class="sub-title"><?= $v['subtitle'];?></span>
+					<?php } ?>
+					<span class="more"><?= ___('Detail &raquo;');?></span>
 				</a>
 			</div>
 		<?php } ?>

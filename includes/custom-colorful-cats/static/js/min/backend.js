@@ -1,0 +1,9 @@
+
+define(function(require,exports,module){'use strict';var $=require('modules/jquery'),jQuery=$,dialog=require('modules/jquery.dialog');exports.init=function(){jQuery(document).ready(function(){exports.bind();});}
+exports.config={container_id:'#colorful-cats',preset_colors:[]}
+exports.cache={}
+exports.bind=function(){exports.cache.$cats=$(exports.config.container_id);exports.cache.$cats_btn=exports.cache.$cats.find('a');exports.cache.$cats_input=exports.cache.$cats.find('input');exports.cache.$cats_btn.on('click',function(){exports.cache.$current_btn=$(this);exports.pop();});}
+exports.pop=function(){exports.cache.$tpl=$(exports.color_tpl(exports.cache.$current_btn.data('color')));exports.cache.$tpl.find('a').on('click',function(){var $this=$(this),curr_color=$this.data('color');exports.cache.$tpl.find('a').removeClass('current');$this.addClass('current');$('#colorful-cat-input-'+exports.cache.$current_btn.data('id')).val(curr_color);exports.cache.$current_btn.css({'background-color':'#'+curr_color}).data('color',curr_color);});exports.dialog({'id':'colorful-cat-dialog','content':exports.cache.$tpl[0]});}
+exports.color_tpl=function(curr_color){var tpl='';for(var i in exports.config.preset_colors){var color=exports.config.preset_colors[i],curr_class=curr_color==color?' class="current" ':'';tpl+='<a href="javascript:void(0);" style="background-color:#'+color+'" data-color="'+color+'" '+curr_class+'></a>';}
+tpl='<div id="colorful-cat-selector">'+tpl+'</div>';return tpl;}
+exports.dialog=function(args){args.quickClose=true;var set_content=function(){if(args.id){dialog.get(args.id).content(args.content).show(exports.cache.$current_btn[0]);}else{exports.cache.dialog.content(args.content).show(exports.cache.$current_btn[0]);}},retry_set=function(){exports.cache.dialog=dialog(args).show(exports.cache.$current_btn[0]);};try{set_content();}catch(e){retry_set();}}});

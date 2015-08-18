@@ -458,6 +458,7 @@ img{
 		position: relative;
 		margin-bottom: 10px;
 		padding: 0;
+		border-bottom: 2px solid #ccc;
 		text-shadow: 	0 1px 1px #fff, 
 						0 0 10px #fff, 
 						0 0 7px #fff;
@@ -479,12 +480,9 @@ img{
 		.panel .panel-title{
 			float: left;
 			margin: 0;
-			font-size: 1em;
+			font-size: 2em;
 		}
 		.mod-title{
-			border-bottom: 2px solid #2196F3;
-			border-radius: 2px;
-			padding-right: 10px;
 		}
 			.mod-title:hover{
 				border-color: #D9534F;
@@ -543,10 +541,6 @@ img{
 			/*color: #D9534F;*/
 			/*box-shadow: 0px 1px 12px rgba(0,0,0,.3);*/
 		}
-		.post-img-list a:active,
-		.post-img-list a:focus{
-			transform: translateY(1px);
-		}
 	.post-img-list .placeholder,
 	.post-thumbnail-placeholder{
 		opacity: 0;
@@ -587,7 +581,82 @@ img{
 		-moz-box-sizing: content-box;
 		box-sizing: content-box;
 	}
+/**
+ * .post-stick-list
+ */
+.post-stick-list{
+	margin-bottom: 20px;
+}
+	.post-stick-list .post-list-bg{
+		background: #fff;
+		display: block;
+		padding-bottom: 10px;
+		box-shadow: 0 1px 0 1px rgba(0,0,0,.07);
+		border-radius: 2px;
+	}
+	.post-stick-list .thumbnail-container{
+		position: relative;
+		overflow: hidden;
+	}
+	
+	.post-stick-list .post-list-img{
+		position: absolute;
+		width: 100%;
+		top: 0;
+		left: 0;
+		transition: all .3s;
+	}
 
+	.post-stick-list .post-list-cat{
+		position: absolute;
+		bottom: 0;
+		left: 10px;
+		color: #fff;
+		font-size: 12px;
+	}
+		.post-stick-list .post-list-cat span{
+			display: inline-block;
+			padding: 0 5px;
+			border-radius: 2px 2px 0 0;
+		}
+	.post-stick-list .post-list-title{
+		margin: 0;
+		font-size: 18px;
+		padding: 10px 20px;
+		line-height: 1.5;
+		height: 70px;
+		overflow: hidden;
+		margin-bottom: 10px;
+	}
+	.post-stick-list .post-list-meta{
+		display: table;
+		table-layout: fixed;
+		text-align: center;
+		line-height: 1;
+	}
+		.post-stick-list .post-list-meta .meta{
+			display: table-cell;
+			width: 1%;
+			color: #999;
+		}
+		.post-stick-list .post-list-meta .author .avatar{
+			vertical-align: top;
+		}
+		.post-stick-list .post-list-meta .author .tx{
+			display: inline-block;
+			max-width: 6em; 
+			white-space: nowrap;overflow:hidden;text-overflow:ellipsis; 
+		}
+@media( min-width: 768px ){
+	.post-stick-list:hover .thumbnail-container{
+		overflow: unset;
+	}
+	.post-stick-list:hover .post-list-img{
+		transform: scale(1.2,1.2);
+		z-index: 1;
+		box-shadow: 0 5px 20px rgba(0,0,0,.7);
+	}
+}
 /**
  * .widget-area
  */

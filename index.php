@@ -8,24 +8,17 @@ if(class_exists('theme_custom_slidebox')){
 } 
 ?>
 <div class="container">
-	<?php
-	/**
-	 * slidebox
-	 */
-		?>
-		<div class="row">
-			<?php if(!wp_is_mobile()){ ?>
-				<div class="col-md-6">
-					<div class="recomm-container">
-						<?php
-						if(method_exists('theme_functions','the_recommended')){
-							theme_functions::the_recommended();
-						}
-						?>
-					</div>
-				</div>
-		<?php } ?>
+
+	<?php if(!wp_is_mobile()){ ?>
+		<div class="recomm-container">
+			<?php
+			if(method_exists('theme_functions','the_recommended')){
+				theme_functions::the_recommended();
+			}
+			?>
 		</div>
+	<?php } ?>
+
 	<div class="row">
 		<div id="main" class="col-md-9 col-sm-12">
 			

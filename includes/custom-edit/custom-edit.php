@@ -78,11 +78,8 @@ class theme_custom_edit{
 	}
 	public static function get_edit_post_link($post_id){
 		static $caches = [];
-		if(isset($caches[$post_id]))
-			return $caches[$post_id];
-			
-		$caches[$post_id] = esc_url(theme_custom_contribution::get_tabs('post')['url'] . '&post=' . $post_id);
-
+		if(!isset($caches[$post_id]))
+			$caches[$post_id] = esc_url(theme_custom_contribution::get_tabs('post')['url'] . '&post=' . $post_id);
 		return $caches[$post_id];
 	}
 	public static function get_query(){

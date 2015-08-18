@@ -1713,8 +1713,8 @@ class theme_functions{
 			<?php
 			return false;
 		}
-		$cache_id = md5(serialize($recomms));
-		$cache = wp_cache_get($cache_id);
+		$cache_id = md5(json_encode($recomms));
+		$cache = theme_cache::get($cache_id);
 		
 		if(!empty($cache)){
 			echo $cache;
@@ -1728,28 +1728,114 @@ class theme_functions{
 		ob_start();
 		if(have_posts()){
 			?>
-			<ul class="home-recomm row post-img-lists">
-				<?php
-				foreach($query->posts as $post){
-					setup_postdata($post);
-					self::archive_img_content(array(
-						'classes' => array('col-sm-4'),
-						'lazyload' => false,
-					));
-				}
-				wp_reset_postdata();
-				?>
-			</ul>
+			<div class="mod home-recomm">
+				<div class="mod-heading">
+					<h2 class="mod-title">
+						<?php if(class_exists('theme_page_rank')){ ?>
+							<a href="<?= theme_page_rank::get_tabs('recommend')['url'];?>">
+						<?php } ?>
+						<i class="fa fa-star-o"></i> <?= ___('Recommend');?>
+						<?php if(class_exists('theme_page_rank')){ ?>
+							</a>
+						<?php } ?>
+					</h2>
+					<?php if(class_exists('theme_page_rank')){ ?>
+						<a href="<?= theme_page_rank::get_tabs('recommend')['url'];?>" class="more"><?= ___('more &raquo;');?></a>
+					<?php } ?>
+				</div>
+				<ul class="home-recomm row post-img-lists">
+					<?php
+					foreach($query->posts as $post){
+						setup_postdata($post);
+						self::archive_stick_content(array(
+							'classes' => ['col-sm-6 col-md-3'],
+							//'lazyload' => false,
+						));
+					}
+					wp_reset_postdata();
+					?>
+				</ul>
+			</div>
 			<?php
 		}else{
 			
 		}
 		$cache = ob_get_contents();
 		ob_end_clean();
-		wp_cache_set($cache_id,$cache,3600*24);
+		theme_cache::set($cache_id,$cache,3600*24);
 
 		echo $cache;
 		return $cache;
+	}
+	public static function archive_stick_content(array $args = []){
+		global $post;
+		$args = array_merge([
+			'classes' => ['col-xs-12 col-md-3'],
+			'lazyload' => true,
+		],$args);
+
+		$args['classes'][] = 'post-list post-stick-list';
+		
+		$excerpt = get_the_excerpt();
+		
+		if(!empty($excerpt))
+			$excerpt = esc_html($excerpt);
+			
+		$thumbnail_real_src = esc_url(theme_functions::get_thumbnail_src($post->ID));
+
+		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
+		?>
+		<li class="<?= implode(' ',$args['classes']);?>">
+			<a class="post-list-bg" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID), empty($excerpt) ? null : ' - ' . $excerpt;?>">
+				<div class="thumbnail-container">
+					<img class="placeholder" alt="Placeholder" src="<?= $thumbnail_placeholder;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
+					<?php
+					/**
+					 * lazyload img
+					 */
+					if($args['lazyload']){
+						?>
+						<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
+					<?php }else{ ?>
+						<img class="post-list-img" src="<?= $thumbnail_real_src;?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
+					<?php } ?>
+
+					<?php if(class_exists('theme_colorful_cats')){ ?>
+						<div class="post-list-cat">
+							<?php
+							/**
+							 * cats
+							 */
+							foreach(get_the_category($post->ID) as $cat){
+								$color = theme_colorful_cats::get_cat_color($cat->term_id,true);
+								?>
+								<span style="background-color:rgba(<?= $color['r'];?>,<?= $color['g'];?>,<?= $color['b'];?>,.8);"><?= $cat->name;?></span>
+							<?php } ?>
+						</div>
+					<?php } ?>
+
+				</div>
+				<h3 class="post-list-title"><?= theme_cache::get_the_title($post->ID);?></h3>
+				<div class="post-list-meta">
+					<span class="meta author" title="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>">
+						<img width="16" height="16" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?= get_avatar_url($post->post_author);?>" alt="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>" class="avatar"> <span class="tx"><?= theme_cache::get_the_author_meta('display_name',$post->post_author);?></span>
+					</span>
+					<?php
+					/**
+					 * views
+					 */
+					if(class_exists('theme_post_views') && theme_post_views::is_enabled()){ ?>
+						<span class="meta views" title="<?= ___('Views');?>"><i class="fa fa-play-circle"></i> <?= theme_post_views::get_views($post->ID);?></span>
+					<?php } ?>
+
+					<!-- comments count -->
+					<span class="meta comments-count" title="<?= ___('Comments');?>">
+						<i class="fa fa-comment"></i> <?= (int)$post->comment_count;?>
+					</span>
+				</div>
+			</a>
+		</li>
+		<?php
 	}
 	public static function the_homebox(array $args = []){
 		if(!class_exists('theme_custom_homebox')) 

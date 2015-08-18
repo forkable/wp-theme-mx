@@ -3,7 +3,7 @@
  */
 .slidebox-container{
 	position: relative;
-	margin-bottom: 20px;
+	padding: 0 0 40px;
 }
 #slidebox:after{
 	display: block;
@@ -41,6 +41,7 @@
 	 */
 	#slidebox .area-main{
 		position: relative;
+		margin-bottom: 20px;
 	}
 		#slidebox .area-main .item{
 			display: none;
@@ -64,10 +65,12 @@
 			}
 		#slidebox .area-main .item.active{
 			display: block;
-			
 			opacity: 1;
 			z-index: 1;
 		}
+			#slidebox .area-main .item.active a{
+				opacity: 1;
+			}
 		#slidebox .area-main img{
 			display: block;
 			max-width: 100%;
@@ -86,14 +89,18 @@
 			line-height: 1.2;
 		}
 			#slidebox .area-main .des span{
-				display: inline-block;
+				display: block;
+			}
+			
+			#slidebox .area-main .des .more{
 				border: 1px solid #fff;
 				border-radius: 2px;
 				padding: 5px 10px;
 				margin-top: 20px;
 				text-transition: uppercase;
+				display: inline-block;
 			}
-			#slidebox .area-main:hover .des span{
+			#slidebox .area-main .des .more:hover{
 				background: rgba(255,255,255,.3);
 			}
 	/**
@@ -119,7 +126,7 @@
 		}
 		#slidebox .area-thumbnail h2{
 			position: absolute;
-			background: linear-gradient(transparent,rgba(0,0,0,.3));
+			/*background: linear-gradient(transparent,rgba(0,0,0,.3));*/
 			bottom: 0;
 			left: 10px;
 			right: 10px;
@@ -128,11 +135,17 @@
 			color: #fff;
 			padding: 5px;
 			white-space: nowrap;overflow:hidden;text-overflow:ellipsis; 
-			text-shadow: 0 0 1px #000;
+			text-shadow: 0 0 3px #000;
 			font-weight: bold;
 		}
-		#slidebox .area-thumbnail .active h2{
-			border-bottom: 2px solid #fff ;
+		#slidebox .area-thumbnail .active h2:after{
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			content: '';
+			width: 100%;
+			border-bottom: 2px solid #00FFFF;
 		}
 @media(min-width: 768px){
 	#slidebox .area-main{

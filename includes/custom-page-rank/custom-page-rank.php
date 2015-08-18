@@ -18,7 +18,7 @@ class theme_page_rank{
 
 		//add_action('page_settings', 		__CLASS__ . '::display_backend');
 
-		//add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
+		//add_action('wp_ajax_' . __CLASS__, __CLASS__ . '::process');
 		
 		//add_filter('theme_options_save', 	__CLASS__ . '::options_save');
 
@@ -34,7 +34,7 @@ class theme_page_rank{
 	public static function get_options($key = null){
 		static $caches = null;
 		if($caches === null)
-			$caches = (array)theme_options::get_options(self::$iden);
+			$caches = (array)theme_options::get_options(__CLASS__);
 		
 		if(empty($key)){
 			return $caches;
@@ -42,9 +42,9 @@ class theme_page_rank{
 			return isset($caches[$key]) ? $caches[$key] : false;
 		}
 	}
-	public static function options_save($opts){
-		if(isset($_POST[self::$iden])){
-			$opts[self::$iden] = $_POST[self::$iden];
+	public static function options_save(array $opts = []){
+		if(isset($_POST[__CLASS__])){
+			$opts[__CLASS__] = $_POST[__CLASS__];
 		}
 		return $opts;
 	}
@@ -59,15 +59,15 @@ class theme_page_rank{
 					<tr>
 						<th><?= ___('Index Categories');?></th>
 						<td>
-							<?= theme_features::cat_checkbox_list(self::$iden,'cats');?>
+							<?= theme_features::cat_checkbox_list(__CLASS__,'cats');?>
 						</td>
 					</tr>
 					<tr>
 						<th><?= ___('Control');?></th>
 						<td>
-							<div id="<?= self::$iden;?>-tip-clean-cache"></div>
+							<div id="<?= __CLASS__;?>-tip-clean-cache"></div>
 							<p>
-							<a href="javascript:;" class="button" id="<?= self::$iden;?>-clean-cache" data-tip-target="<?= self::$iden;?>-tip-clean-cache"><i class="fa fa-refresh"></i> <?= ___('Flush cache');?></a>
+							<a href="javascript:;" class="button" id="<?= __CLASS__;?>-clean-cache" data-tip-target="<?= __CLASS__;?>-tip-clean-cache"><i class="fa fa-refresh"></i> <?= ___('Flush cache');?></a>
 							</p>
 						</td>
 					</tr>
@@ -79,7 +79,7 @@ class theme_page_rank{
 	public static function process(){
 		theme_features::check_referer();
 		$output = [];
-		wp_cache_delete(self::$iden);
+		wp_cache_delete(__CLASS__);
 		$output['status'] = 'success';
 		$output['msg'] = ___('Cache has been cleaned.');
 		die(theme_features::json_format($output));
@@ -474,20 +474,20 @@ class theme_page_rank{
 			return false;
 			
 		wp_enqueue_style(
-			self::$iden,
+			__CLASS__,
 			theme_features::get_theme_includes_css(__DIR__,'style'),
 			'frontend',
 			theme_file_timestamp::get_timestamp()
 		);
 	}
 	public static function backend_seajs_alias($alias){
-		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__,'backend');
+		$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__,'backend');
 		return $alias;
 	}
 	public static function backend_seajs_use(){
 		?>
-		seajs.use('<?= self::$iden;?>',function(m){
-			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';
+		seajs.use('<?= __CLASS__;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>__CLASS__));?>';
 			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
 			m.init();
 		});

@@ -1,0 +1,22 @@
+#theme_colorful_cats-cat-ids option{
+	color: #fff;
+}
+#theme_colorful_cats-cat-ids option[value="-1"]{
+	color: #000;
+}
+#theme_colorful_cats-preset-colors a{
+	vertical-align: bottom;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border: 1px solid #fff;
+	text-align: center;
+	line-height: 30px;
+	color: #fff;
+	text-decoration: none;
+}
+	#theme_colorful_cats-preset-colors a:hover,
+	#theme_colorful_cats-preset-colors a.active{
+		box-shadow:0 0 0 1px rgb(91, 157, 217), 0 0 2px 1px rgba(30, 140, 190, 0.8);
+		z-index:1;
+	}
