@@ -6,7 +6,7 @@
  * Help you write a wp site quickly.
  *
  * @package KMTF
- * @version 5.0.3
+ * @version 5.0.4
  */
 theme_features::init();
 class theme_features{
@@ -26,7 +26,9 @@ class theme_features{
 	
 	public static $iden = 'theme_features';	
 	
+	
 	public static function init(){
+		self::set_basename();
 		add_action('after_setup_theme',	__CLASS__ . '::after_setup_theme');
 		add_action('wp_footer',			__CLASS__ . '::theme_js',20);
 	}
@@ -161,6 +163,9 @@ class theme_features{
 	public static function set_theme_info(){
 		$theme = self::get_theme_info();
 		set_transient(theme_functions::$iden . 'theme_info',$theme);
+	}
+	public static function set_basename(){
+		theme_functions::$basename = basename(self::get_stylesheet_directory());
 	}
 	public static function get_stylesheet_directory(){
 		static $cache = null;

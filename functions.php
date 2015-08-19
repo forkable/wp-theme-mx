@@ -15,6 +15,7 @@ include __DIR__ . '/core/core-functions.php';
 add_action('after_setup_theme','theme_functions::init');
 class theme_functions{
 	public static $iden = 'mx';
+	public static $basename;
 	public static $theme_edition = 1;
 	public static $theme_date = '2015-02-01 00:00';
 	public static $thumbnail_size = ['thumbnail',320,200,true];
@@ -1722,7 +1723,7 @@ class theme_functions{
 		}
 		global $post;
 		$query = self::get_posts_query(array(
-			'posts_per_page' => 6,
+			'posts_per_page' => 8,
 			'orderby' => 'recomm',
 		));
 		ob_start();
@@ -1756,6 +1757,11 @@ class theme_functions{
 					?>
 				</ul>
 			</div>
+			<?php if(class_exists('theme_page_rank')){ ?>
+				<!-- <div class="mod-footer">
+					<a class="more" href="<?= theme_page_rank::get_tabs('recommend')['url'];?>"><?= ___('Looks more...');?> <i class="fa fa-external-link"></i></a>
+				</div> -->
+			<?php } ?>
 			<?php
 		}else{
 			
@@ -1837,6 +1843,54 @@ class theme_functions{
 		</li>
 		<?php
 	}
+	public static function archive_mixed_content(array $args = []){
+		global $post;
+		$args = array_merge([
+			'classes' => ['col-xs-12 col-md-3'],
+			'lazyload' => true,
+		],$args);
+
+		$args['classes'][] = 'post-list post-mixed-list ';
+		
+		$excerpt = get_the_excerpt();
+		
+		if(!empty($excerpt))
+			$excerpt = esc_html($excerpt);
+			
+		$thumbnail_real_src = esc_url(theme_functions::get_thumbnail_src($post->ID));
+
+		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
+		?>
+		<li class="<?= implode(' ',$args['classes']);?>">
+			<a class="post-list-bg" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID), empty($excerpt) ? null : ' - ' . $excerpt;?>">
+				<div class="thumbnail-container">
+					<img class="placeholder" alt="Placeholder" src="<?= $thumbnail_placeholder;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
+					<?php
+					/**
+					 * lazyload img
+					 */
+					if($args['lazyload']){
+						?>
+						<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
+					<?php }else{ ?>
+						<img class="post-list-img" src="<?= $thumbnail_real_src;?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
+					<?php } ?>
+
+				</div>
+				<h3 class="post-list-title"><?= theme_cache::get_the_title($post->ID);?></h3>
+				
+				<div class="post-list-meta">
+					<span class="meta author" title="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>">
+						<img width="16" height="16" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?= get_avatar_url($post->post_author);?>" alt="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>" class="avatar"> <span class="tx"><?= theme_cache::get_the_author_meta('display_name',$post->post_author);?></span>
+					</span>
+					<time class="meta time" datetime="<?= get_the_time('Y-m-d H:i:s',$post->ID);?>" title="<?= get_the_time(___('M j, Y'),$post->ID);?>">
+						<?= friendly_date(get_the_time('U',$post->ID));?>
+					</time>
+				</div>
+			</a>
+		</li>
+		<?php
+	}
 	public static function the_homebox(array $args = []){
 		if(!class_exists('theme_custom_homebox')) 
 			return false;
@@ -1876,39 +1930,17 @@ class theme_functions{
 <div id="homebox-<?= $k;?>" class="homebox mod">
 	
 	<div class="mod-heading">
-		<h3 class="mod-title">
-			<?php 
-			
-			if(empty($v['link'])){
-				echo stripcslashes($v['title']);
-			}else{
-				?>
-				<a href="<?= esc_url($v['link']);?>"><span class="tx"><?= stripcslashes($v['title']);?></span> <small><?= ___('&raquo; more');?></small></a>
-				<?php
-			}
-			?>
-		</h3>
+		<h2 class="mod-title">
+			<?= stripcslashes($v['title']);?>
+		</h2>
 		<div class="extra">
-			
 			<?php if(!is_null_array($v['keywords'])){ ?>
 				<div class="keywords hidden-xs">
-					<?php 
-					$i = 0;
-					foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){
-						if($i !== 0){
-							?>
-							<i class="split"> &sdot; </i>
-							<?php
-						}
-						++$i;
-						?>
+					<?php foreach(theme_custom_homebox::keywords_to_html($v['keywords']) as $kw){ ?>
 						<a href="<?= esc_url($kw['url']);?>"><?= $kw['name'];?></a>
 					<?php } ?>
 				</div>
 			<?php } ?>
-			
-			
-			
 		</div>
 	</div>
 	<ul class="row post-img-lists">
@@ -1921,7 +1953,7 @@ class theme_functions{
 		if($query->have_posts()){
 			foreach($query->posts as $post){
 				setup_postdata($post);
-				self::archive_img_content(array(
+				self::archive_mixed_content(array(
 					'classes' => array('col-xs-6 col-sm-3'),
 					'lazyload' => $lazyload_i < 1 ? false : true,
 				));
