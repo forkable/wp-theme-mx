@@ -26,17 +26,12 @@ class widget_author_posts extends WP_Widget{
 			'category__in' => [],
 			'content_type' => 'img',
 		],$instance);
-		$title = esc_html($instance['title']);
+		$title = $instance['title'];
 		echo $args['before_title'];
 			?>
-			<i class="fa fa-file-text"></i> 
-			<?= sprintf($title,theme_cache::get_the_author_meta('display_name',$post->post_author));?>
-			<a href="<?php if(class_exists('theme_custom_author_profile')){
-				echo theme_custom_author_profile::get_tabs('works',$post->post_author)['url'];
-			}else{
-				echo theme_cache::get_author_posts_url($post->post_author);
-			} ?>" class="more" title="<?= ___('Views more author posts.');?>">
-				<?= ___('More &raquo;');?>
+			<a href="<?= class_exists('theme_custom_author_profile') ? theme_custom_author_profile::get_tabs('works',$post->post_author)['url'] : theme_cache::get_author_posts_url($post->post_author);?>" title="<?= ___('Views more author posts.');?>">
+				<i class="fa fa-file-text"></i> 
+				<?= sprintf($title,theme_cache::get_the_author_meta('display_name',$post->post_author));?>
 			</a>
 			<?php
 		echo $args['after_title'];
@@ -46,6 +41,7 @@ class widget_author_posts extends WP_Widget{
 			'posts_per_page' => (int)$instance['posts_per_page'],
 			'orderby' => $instance['orderby'],
 			'author' => $post->post_author,
+			'post_not__in' => [$post->ID],
 		]);
 		$content_type_class = $instance['content_type'] === 'tx' ? ' post-tx-lists ' : ' post-img-list ';
 		?>

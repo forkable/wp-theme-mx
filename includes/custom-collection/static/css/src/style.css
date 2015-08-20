@@ -34,7 +34,7 @@
 		z-index: 10;
 	}
 	.clt-list:hover:after{
-		color:#d9534f;
+		color:#FF4081;
 	}
 		.clt-list:nth-child(2):after{content:'2';}
 		.clt-list:nth-child(3):after{content:'3';}

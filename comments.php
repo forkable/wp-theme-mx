@@ -8,17 +8,16 @@ $have_comments = have_comments();
 
 <div id="comments" class="comment-wrapper panel panel-default <?= $have_comments ? null : 'none';?>">
 	<div class="panel-heading">
-		<h3 class="have-comments-title panel-title">
+		<h2 class="have-comments-title panel-title">
 			<i class="fa fa-comments"></i> 
 			<span id="comment-number-<?= $post->ID;?>">-</span> 
 			<?= ___('Comments');?>
 
-			<a href="#respond" id="goto-comment" >
-				<?= ___('Respond');?> 
-				<i class="fa fa-pencil-square-o"></i> 
-				
-			</a>
-		</h3>
+		</h2>
+		<a href="#respond" id="goto-comment" >
+			<?= ___('Respond');?> 
+			<i class="fa fa-pencil-square-o"></i> 
+		</a>
 	</div>
 
 	<div class="panel-body">			

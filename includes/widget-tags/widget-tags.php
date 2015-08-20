@@ -17,7 +17,7 @@ class widget_hot_tags extends WP_Widget{
 		);
 	}
 	public static function frontend_display($args = [],$instance = []){
-		$cache_id = md5(serialize($instance));
+		$cache_id = md5(json_encode($instance));
 		
 		$cache = wp_cache_get($cache_id);
 
@@ -99,15 +99,13 @@ class widget_hot_tags extends WP_Widget{
 		echo $args['before_widget'];
 		if(!empty($instance['title'])){
 			echo $args['before_title'];
-			?>
-			<i class="fa fa-tags"></i> <?= $instance['title'];?>
-			<?php
 			/**
 			 * if have theme page tags, mark as more
 			 */
-			if(class_exists('theme_page_tags') && theme_page_tags::get_url()){
-				?><a title="<?= ___('Views tags index');?>" href="<?= theme_page_tags::get_url();?>" class="more"><?= ___('More &raquo;');?></a>
+			if(class_exists('theme_page_tags') && theme_page_tags::get_url()){ ?><a title="<?= ___('Views tags index');?>" href="<?= theme_page_tags::get_url();?>">
 			<?php } ?>
+			<i class="fa fa-tags"></i> <?= $instance['title'];?>
+			<?php if(class_exists('theme_page_tags') && theme_page_tags::get_url()){ ?></a><?php } ?>
 			
 			<?php
 			echo $args['after_title'];

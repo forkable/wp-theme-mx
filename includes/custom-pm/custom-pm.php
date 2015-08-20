@@ -280,6 +280,7 @@ class theme_custom_pm{
 					'name' => esc_html($user->display_name),
 					'avatar' => get_avatar_url($user->ID),
 					'msg' => ___('User data loaded, you can send P.M. now.'),
+					'url' => theme_cache::get_author_posts_url($user->ID),
 				]));
 			/**
 			 * remove user lists
@@ -349,6 +350,7 @@ class theme_custom_pm{
 						'pm_author' => self::get_niceid($pm->pm_author),
 						'pm_date' => current_time('Y/m/d H:i:s'),
 						'pm_content' => $pm->pm_content,
+						'url' => theme_cache::get_author_posts_url($pm->pm_receiver),
 					],
 					'msg' => ___('Message sent.'),
 				]));
@@ -400,6 +402,7 @@ class theme_custom_pm{
 							'pm_author_avatar' => get_avatar_url($latest_pm->pm_author),
 							'pm_date' => current_time('Y/m/d H:i:s'),
 							'pm_content' => $latest_pm->pm_content,
+							'url' => theme_cache::get_author_posts_url($pm->pm_author),
 						],
 						'timestamp' => $timestamp,
 					]));
@@ -734,7 +737,7 @@ class theme_custom_pm{
 			
 		foreach($pm_lists as $user_id){ 
 			?>
-			<a id="pm-tab-<?= theme_custom_pm::get_niceid($user_id);?>" href="javascript:;" data-uid="<?= theme_custom_pm::get_niceid($user_id);?>" class="<?= self::is_unread($current_user_id,$user_id) ? 'new-msg' : null;?>">
+			<a id="pm-tab-<?= theme_custom_pm::get_niceid($user_id);?>" href="javascript:;" data-uid="<?= theme_custom_pm::get_niceid($user_id);?>" data-url="<?= theme_cache::get_author_posts_url($user_id);?>" class="<?= self::is_unread($current_user_id,$user_id) ? 'new-msg' : null;?>">
 				<img src="<?= get_avatar_url($user_id);?>" alt="<?= ___('Avatar');?>" class="avatar" width="24" height="24"> 
 				<span class="author"><?= theme_cache::get_the_author_meta('display_name',$user_id);?></span>
 				<b class="close">&times;</b>
@@ -781,7 +784,7 @@ class theme_custom_pm{
 				<section class="pm-dialog-<?= $current_user_id == $history->pm_author ? 'me' : 'sender' ;?>">
 					<div class="pm-dialog-bg">
 						<h4>
-							<span class="name"><?= $name;?></span> 
+							<span class="name"><a href="<?= theme_cache::get_author_posts_url($history->pm_author);?>" target="_blank"><?= $name;?></a></span> 
 							<span class="date"><?= date('Y/m/d H:i:s',strtotime($history->pm_date));?></span>
 						</h4>
 						<div class="media-content">
@@ -842,6 +845,10 @@ class theme_custom_pm{
 				'action' => __CLASS__,
 			]);?>';
 			m.config.my_uid = <?= self::get_niceid(theme_cache::get_current_user_id());?>;
+			m.config.userdata.me = {
+				name : '<?= ___('Me');?>',
+				url : '<?= theme_cache::get_author_posts_url(theme_cache::get_current_user_id());?>'
+			};
 			m.init();
 		});
 		<?php

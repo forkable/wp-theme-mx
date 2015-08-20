@@ -1,6 +1,7 @@
 
-define(function(require,exports,module){'use strict';var tools=require('modules/tools');exports.init=function(){tools.ready(function(){var $box=document.getElementById('slidebox');if(!$box)
-return false;var $checkboxes=$box.querySelectorAll('input[type="radio"]');if($checkboxes.length<2)
-return false;var i=0,t,switch_checkbox=function(){if(!t)
-return false;if(i===$checkboxes.length)
-i=0;$checkboxes[i].checked=true;i++;},switch_timer=function(){t=setInterval(switch_checkbox,5000);};switch_timer();$box.addEventListener('mouseover',function(){clearInterval(t);switch_timer();})});}});
+define(function(require,exports,module){'use strict';var tools=require('modules/tools');exports.init=function(){tools.ready(exports.bind);}
+var cache={};exports.bind=function(){cache.$slide=document.querySelector('.slidebox-container');if(!cache.$slide)
+return;cache.$blurs=cache.$slide.querySelectorAll('.area-blur .item');cache.$mains=cache.$slide.querySelectorAll('.area-main .item');cache.$thumbnails=cache.$slide.querySelectorAll('.area-thumbnail .item');cache.len=cache.$thumbnails.length;cache.current_i=0;function event_hover(e){var current_i=this.getAttribute('data-i');if(cache.current_i==current_i)
+return false;cache.current_i=current_i;for(var i=0;i<cache.len;i++){cache.$blurs[i].classList.contains('active')&&cache.$blurs[i].classList.remove('active');cache.$mains[i].classList.contains('active')&&cache.$mains[i].classList.remove('active');cache.$thumbnails[i].classList.contains('active')&&cache.$thumbnails[i].classList.remove('active');}
+this.classList.add('active');cache.$blurs[current_i].classList.add('active');cache.$mains[current_i].classList.add('active');}
+for(var i=0;i<cache.len;i++){cache.$thumbnails[i].setAttribute('data-i',i);cache.$thumbnails[i].addEventListener('mouseover',event_hover);}}});

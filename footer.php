@@ -21,7 +21,6 @@
 				echo theme_user_code::get_frontend_footer_code();
 			}
 			?>
-			<?= sprintf(___('CDN %s'),'<a href="http://blog.eqoe.cn" target="_blank" rel="nofollow">eqoe</a>');?>
 		</p>
 	</div>
 </footer>

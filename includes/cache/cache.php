@@ -420,9 +420,9 @@ class theme_cache{
 			$cache = (bool)is_user_logged_in();
 		return $cache;
 	}
-	public static function get_author_posts_url($user_id){
+	public static function get_author_posts_url($user_id,$author_nicename = ''){
 		static $caches = [];
-		$cache_id = $user_id;
+		$cache_id = $user_id . $author_nicename;
 		$group_id = 'author_posts_urls';
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
@@ -430,7 +430,7 @@ class theme_cache{
 		$caches[$cache_id] = wp_cache_get($cache_id,$group_id);
 		
 		if(!$caches[$cache_id]){
-			$caches[$cache_id] = get_author_posts_url($user_id);
+			$caches[$cache_id] = get_author_posts_url($user_id,$author_nicename);
 			wp_cache_set($group_id,$caches[$cache_id],$group_id,2505600);
 		}
 		

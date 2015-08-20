@@ -11,7 +11,6 @@ define(function(require, exports, module){
 			M04 : 'Send P.M.',
 			M05 : 'Hello, I am %name%, welcome to chat with me what do you want.',
 			M06 : 'P.M. is sending, please wait...',
-			M07 : 'Me',
 			E01 : 'Sorry, server is busy now, can not respond your request, please try again later.'
 		},
 		uid : 'new',
@@ -40,9 +39,6 @@ define(function(require, exports, module){
 		cache.$dialog_new_uid = I('pm-dialog-content-new');
 		cache.$tabs = {};
 		cache.$dialogs = {};
-		config.userdata.me = {
-			name : config.lang.M07
-		};
 
 
 		/** hide loading tip */
@@ -63,7 +59,8 @@ define(function(require, exports, module){
 			if(uid !== 'new'){
 				config.userdata[uid] = {
 					name : cache.$tabs[uid].querySelector('.author').innerHTML,
-					avatar : cache.$tabs[uid].querySelector('img').src
+					avatar : cache.$tabs[uid].querySelector('img').src,
+					url : cache.$tabs[uid].getAttribute('data-url')
 				};
 			}
 			/** scroll bottom */
@@ -217,7 +214,8 @@ define(function(require, exports, module){
 				/** set userdata cache */
 				config.userdata[uid] = {
 					avatar : data.avatar,
-					name : data.name
+					name : data.name,
+					url : data.url
 				};
 				/** tip */
 				tools.ajax_loading_tip(data.status,data.msg,3);
@@ -402,7 +400,7 @@ define(function(require, exports, module){
 		return '<section class="pm-dialog-' + sender + '">' + 
 			'<div class="pm-dialog-bg">' + 
 				'<h4>' + 
-					'<span class="name">' + config.userdata[uid].name + '</span> ' + 
+					'<span class="name"><a href="' + config.userdata[uid].url + '" target="_blank">' + config.userdata[uid].name + '</a></span> ' + 
 					'<span class="date"> ' + d + ' </span>' + 
 				'</h4>' + 
 				'<div class="media-content">' + msg + '</div>' + 
@@ -449,6 +447,7 @@ define(function(require, exports, module){
 						config.userdata[author_uid] = {
 							name : data.pm.pm_author_name,
 							avatar : data.pm.pm_author_avatar,
+							url : data.pm.url
 						};
 					}
 					//console.log(cache.$dialogs[author_uid]);

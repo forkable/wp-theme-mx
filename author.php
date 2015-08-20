@@ -14,22 +14,20 @@ if(empty($tab_active) || !isset($tabs[$tab_active]))
 		<?= get_avatar($author);?>
 		<?= theme_cache::get_the_author_meta('display_name',$author);?> - <?= $tabs[$tab_active]['text'];?>
 	</h3>
+	<ul class="nav nav-pills nav-justified">
+		<?php 
+		foreach($tabs as $k => $v){
+			$class_active = $tab_active === $k ? ' active ' : null;
+			?>
+			<li role="presentation" class="<?= $class_active;?>">
+				<a href="<?= esc_url($v['url']);?>">
+					<i class="fa fa-<?= $v['icon'];?> fa-fw"></i> 
+					<?= $v['text'];?>
+				</a>
+			</li>
+		<?php } ?>					
+	</ul>	
 	<div class="panel panel-default">
-		<div class="panel-heading">
-			<ul class="nav nav-pills">
-				<?php 
-				foreach($tabs as $k => $v){
-					$class_active = $tab_active === $k ? ' active ' : null;
-					?>
-					<li role="presentation" class="<?= $class_active;?>">
-						<a href="<?= esc_url($v['url']);?>">
-							<i class="fa fa-<?= $v['icon'];?> fa-fw"></i> 
-							<?= $v['text'];?>
-						</a>
-					</li>
-				<?php } ?>					
-			</ul>
-		</div>
 		<?php include __DIR__ . '/tpl/author-' . $tab_active . '.php';?>
 	</div>
 </div>

@@ -1,13 +1,12 @@
 <!DOCTYPE html><html <?php language_attributes(); ?>><head>
-	<meta charset="<?= theme_cache::get_bloginfo( 'charset' ); ?>" />
-	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta http-equiv="Cache-Control" content="no-transform" /><![endif]-->
-	<meta name="renderer" content="webkit" />
-	<meta name="viewport" content="width=device-width,initial-scale=1" />
-	<meta name="author" content="INN STUDIO" />
-	<link rel="profile" href="http://gmpg.org/xfn/11" />
-	<link rel="pingback" href="<?= theme_cache::get_bloginfo('pingback_url'); ?>" />
-	<?php wp_head();?>
-</head>
+<meta charset="<?= theme_cache::get_bloginfo( 'charset' ); ?>">
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><meta http-equiv="Cache-Control" content="no-transform"><![endif]-->
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="INN STUDIO">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="<?= theme_cache::get_bloginfo('pingback_url'); ?>">
+<?php wp_head();?></head>
 <body <?php body_class(); ?>>
 
 <?php if(!wp_is_mobile()){ ?>
@@ -17,15 +16,15 @@
 			/** 
 			 * menu top-bar
 			 */
-           theme_cache::wp_nav_menu( array(
+           theme_cache::wp_nav_menu([
                 'theme_location'    => 'menu-top-bar',
                 'container'         => 'nav',
                 'container_class'   => 'top-bar-nav',
                 'menu_class'        => 'nav navbar-nav',
                 'menu_id' 			=> 'menu-top-bar',
                 'fallback_cb'       => 'custom_navwalker::fallback',
-                'walker'            => new custom_navwalker())
-            );
+                'walker'            => new custom_navwalker()
+            ]);
 			?>
 			<div class="top-bar-tools">
 				<?php include __DIR__ . '/tpl/header-topbar-tools.php';?>
@@ -35,27 +34,28 @@
 <?php } ?>
 
 
-<?php
-/** 
- * banner
- */
-$header_img = get_header_image();
-if(!wp_is_mobile() && (bool)$header_img){ ?>
-<a class="banner hidden-xs" href="<?= theme_cache::home_url();?>" title="<?= theme_cache::get_bloginfo('name');?> - <?= theme_cache::get_bloginfo('description');?>">
-	<div class="container">
-		<img src="<?= $header_img; ?>" alt="<?= theme_cache::get_bloginfo('name');?>" width="1600" height="250">
-		<?php if(display_header_text()){ ?>
-			<h1 hidden><?= theme_cache::get_bloginfo('name');?></h1>
-			<span hidden><?= theme_cache::get_bloginfo('description');?></span>
-		<?php } ?>
-	</div>
-</a>
-<?php } ?>
+
+
 
 <div class="main-nav navbar navbar-inverse">
 	<div class="container">
 	<!-- <div class="container-fluid"> -->
 		<div class="navbar-header">
+			<?php
+			/** 
+			 * banner
+			 */
+			$header_img = get_header_image();
+			if(!wp_is_mobile() && (bool)$header_img){ ?>
+			<a class="logo hidden-xs" href="<?= theme_cache::home_url();?>" title="<?= theme_cache::get_bloginfo('name');?> - <?= theme_cache::get_bloginfo('description');?>">
+				<img src="<?= $header_img; ?>" alt="<?= theme_cache::get_bloginfo('name');?>" width="100" height="40">
+				<?php if(display_header_text()){ ?>
+					<h1 hidden><?= theme_cache::get_bloginfo('name');?></h1>
+					<span hidden><?= theme_cache::get_bloginfo('description');?></span>
+				<?php } ?>
+			</a>
+			<?php } ?>
+			
 			<a href="javascript:;" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".menu-mobile">
 	            <span class="sr-only"></span>
 	            <span class="icon-bar"></span>
@@ -86,7 +86,7 @@ if(!wp_is_mobile() && (bool)$header_img){ ?>
 		 * menu menu-header
 		 */
 		if(!wp_is_mobile()){
-			theme_cache::wp_nav_menu(array(
+			theme_cache::wp_nav_menu([
 		        'theme_location'    => 'menu-header',
 		        'container'         => 'nav',
 		        'container_class'   => 'menu-header navbar-left navbar-collapse collapse',
@@ -94,12 +94,12 @@ if(!wp_is_mobile() && (bool)$header_img){ ?>
 		        'menu_id' 			=> 'menu-header',
 		        'fallback_cb'       => 'custom_navwalker::fallback',
 		        'walker'            => new custom_navwalker
-		   	));
+		   	]);
 	   	}else{
 			/** 
 			 * menu menu-header
 			 */
-			theme_cache::wp_nav_menu(array(
+			theme_cache::wp_nav_menu([
 		        'theme_location'    => 'menu-mobile',
 		        'container'         => 'nav',
 		        'container_class'   => 'menu-header menu-mobile navbar-left navbar-collapse collapse',
@@ -107,7 +107,7 @@ if(!wp_is_mobile() && (bool)$header_img){ ?>
 		        'menu_id' 			=> 'menu-mobile',
 		        'fallback_cb'       => 'custom_navwalker::fallback',
 		        'walker'            => new custom_navwalker
-		   	));
+		   	]);
 	   	}
 		?>
 
