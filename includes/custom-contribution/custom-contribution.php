@@ -265,6 +265,11 @@ class theme_custom_contribution{
 					die(theme_features::json_format($output));
 				}
 				/**
+				 * post excerpt
+				 */
+				$post_excerpt = isset($ctb['post-excerpt']) && is_string($ctb['post-excerpt']) ? trim($ctb['post-excerpt']) : null;
+				
+				/**
 				 * post content
 				 */
 				$post_content = isset($ctb['post-content']) && is_string($ctb['post-content']) ? trim($ctb['post-content']) : null;
@@ -336,6 +341,7 @@ class theme_custom_contribution{
 						'post_title' => $post_title,
 						'post_status' => $old_post->post_status,
 						'post_type' => $old_post->post_type,
+						'post_excerpt' => fliter_script($post_excerpt),
 						'post_content' => fliter_script($post_content),
 						'post_category' => $all_cats,
 						'tags_input' => $tags,
@@ -347,6 +353,7 @@ class theme_custom_contribution{
 				}else{
 					$post_id = wp_insert_post([
 						'post_title' => $post_title,
+						'post_excerpt' => fliter_script($post_excerpt),
 						'post_content' => fliter_script($post_content),
 						'post_status' => $post_status,
 						'post_author' => theme_cache::get_current_user_id(),

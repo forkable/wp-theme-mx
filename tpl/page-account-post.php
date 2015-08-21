@@ -11,7 +11,7 @@ function post_form($post_id = null){
 	$edit = false;
 	$post_title = null;
 	$post_content = null;
-	
+	$post_excerpt = null;
 
 	
 	/**
@@ -79,6 +79,7 @@ function post_form($post_id = null){
 		$edit = true;
 		$post_title = $post->post_title;
 		$post_content = $post->post_content;
+		$post_excerpt = stripslashes($post->post_excerpt);
 		
 	}
 
@@ -103,6 +104,15 @@ function post_form($post_id = null){
 					required 
 					autofocus
 				>
+			</div>
+		</div>
+		<!-- post excerpt -->
+		<div class="form-group">
+			<label for="ctb-excerpt" class="col-sm-2 control-label">
+				<?= ___('Post excerpt');?>
+			</label>
+			<div class="col-sm-10">
+				<textarea name="ctb[post-excerpt]" id="ctb-excerpt" rows="3" class="form-control" placeholder="<?= ___('Your can write the post excerpt here, it will show every page nagination header.');?>"><?= $post_excerpt;?></textarea>
 			</div>
 		</div>
 		<!-- post content -->

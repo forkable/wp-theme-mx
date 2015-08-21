@@ -29,11 +29,11 @@ class theme_custom_slidebox{
 		add_action('backend_css',__CLASS__ . '::backend_css'); 
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 	}
-	public static function options_save($options){
+	public static function options_save(array $opts = []){
 		if(isset($_POST['slidebox'])){
-			$options[__CLASS__] = $_POST['slidebox'];
+			$opts[__CLASS__] = $_POST['slidebox'];
 		}
-		return $options;
+		return $opts;
 	}
 	private static function get_cat_checkbox_list($name,$id,$selected_cat_ids = []){
 		$cats = get_categories(array(

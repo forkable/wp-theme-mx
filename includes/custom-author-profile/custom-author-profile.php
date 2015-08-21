@@ -90,8 +90,8 @@ class theme_custom_author_profile{
 			],
 		];
 		if(is_numeric($user_id_or_role)){
-			//var_dump(theme_cache::get_the_author_meta('wp_capabilities',$user_id_or_role));die;
-			$user_id_or_role = array_keys(theme_cache::get_the_author_meta('wp_capabilities',$user_id_or_role))[0];
+			$user_id_or_role = array_keys(theme_cache::get_the_author_meta('wp_capabilities',$user_id_or_role));
+			$user_id_or_role = isset($user_id_or_role[0]) ? $user_id_or_role[0] : 'contributor';
 		}
 		return isset($roles[$user_id_or_role]) ? $roles[$user_id_or_role] : false;
 	}

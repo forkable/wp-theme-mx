@@ -49,7 +49,7 @@ class theme_custom_homebox{
 	public static function get_options($key = null){
 		static $caches = null;
 		if($caches === null)
-			$caches = (array)theme_options::get_options(self::$iden);
+			$caches = (array)theme_options::get_options(__CLASS__);
 
 		if($key)
 			return isset($caches[$key]) ? $caches[$key] : null;
@@ -66,11 +66,11 @@ class theme_custom_homebox{
 		foreach($cats as $cat){
 			$checked = !empty($exists_cats) && in_array($cat->term_id,$exists_cats) ? ' checked ' : null;
 			?>
-			<label for="<?= self::$iden;?>-cats-<?= $placeholder;?>-<?= $cat->term_id;?>" class="button <?= empty($checked) ? null : 'button-primary';?>">
+			<label for="<?= __CLASS__;?>-cats-<?= $placeholder;?>-<?= $cat->term_id;?>" class="button <?= empty($checked) ? null : 'button-primary';?>">
 				<input 
 					type="checkbox" 
-					name="<?= self::$iden;?>[<?= $placeholder;?>][cats][]"
-					id="<?= self::$iden;?>-cats-<?= $placeholder;?>-<?= $cat->term_id;?>"
+					name="<?= __CLASS__;?>[<?= $placeholder;?>][cats][]"
+					id="<?= __CLASS__;?>-cats-<?= $placeholder;?>-<?= $cat->term_id;?>"
 					value="<?= $cat->term_id;?>"
 					<?= $checked;?>
 				/>
@@ -95,17 +95,17 @@ class theme_custom_homebox{
 				}
 			}
 			?>
-			<table class="form-table" id="<?= self::$iden;?>-control">
+			<table class="form-table" id="<?= __CLASS__;?>-control">
 				<tbody>
 					<tr>
 						<th scope="row"><?= ___('Home box control');?></th>
 						<td>
-							<a id="<?= self::$iden;?>-add" href="javascript:;" class="button-primary"><i class="fa fa-plus"></i> <?= ___('Add a new home box');?></a>
+							<a id="<?= __CLASS__;?>-add" href="javascript:;" class="button-primary"><i class="fa fa-plus"></i> <?= ___('Add a new home box');?></a>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<input type="hidden" name="<?= self::$iden;?>[hash]" value="<?= md5(serialize($opt));?>">
+			<input type="hidden" name="<?= __CLASS__;?>[hash]" value="<?= md5(serialize($opt));?>">
 		</fieldset>
 	<?php
 	
@@ -114,7 +114,10 @@ class theme_custom_homebox{
 		$boxes = self::get_options();
 		
 		$title = isset($boxes[$placeholder]['title']) ? stripcslashes($boxes[$placeholder]['title']) : null;
-		
+
+		if($placeholder !== '%placeholder%' && !$title)
+			return false;
+			
 		$link = isset($boxes[$placeholder]['link']) ? $boxes[$placeholder]['link'] : null;
 		
 		$selected = isset($boxes[$placeholder]['cat']) ? (int)$boxes[$placeholder]['cat'] : null;
@@ -124,18 +127,18 @@ class theme_custom_homebox{
 		ob_start();
 		?>
 		<table 
-			class="form-table <?= self::$iden;?>-item" 
-			id="<?= self::$iden;?>-item-<?= $placeholder;?>" 
+			class="form-table <?= __CLASS__;?>-item" 
+			id="<?= __CLASS__;?>-item-<?= $placeholder;?>" 
 			data-placeholder="<?= $placeholder;?>" 
 		>
 		<tbody>
 		<tr>
-			<th><label for="<?= self::$iden;?>-title-<?= $placeholder;?>"><?= ___('Box title');?></label></th>
+			<th><label for="<?= __CLASS__;?>-title-<?= $placeholder;?>"><?= ___('Box title');?></label></th>
 			<td>
 				<input 
 					type="text" 
-					name="<?= self::$iden;?>[<?= $placeholder;?>][title]" 
-					id="<?= self::$iden;?>-title-<?= $placeholder;?>" 
+					name="<?= __CLASS__;?>[<?= $placeholder;?>][title]" 
+					id="<?= __CLASS__;?>-title-<?= $placeholder;?>" 
 					class="widefat" 
 					value="<?= esc_attr($title);?>" 
 					placeholder="<?= ___('Box title');?>"
@@ -143,12 +146,12 @@ class theme_custom_homebox{
 			</td>
 		</tr>
 		<tr>
-			<th><label for="<?= self::$iden;?>-link-<?= $placeholder;?>"><?= ___('Box link');?></label></th>
+			<th><label for="<?= __CLASS__;?>-link-<?= $placeholder;?>"><?= ___('Box link');?></label></th>
 			<td>
 				<input 
 					type="url" 
-					name="<?= self::$iden;?>[<?= $placeholder;?>][link]" 
-					id="<?= self::$iden;?>-link-<?= $placeholder;?>" 
+					name="<?= __CLASS__;?>[<?= $placeholder;?>][link]" 
+					id="<?= __CLASS__;?>-link-<?= $placeholder;?>" 
 					class="widefat" 
 					value="<?= esc_attr($link);?>" 
 					placeholder="<?= ___('Box link (include http://)');?>"
@@ -162,11 +165,11 @@ class theme_custom_homebox{
 			</td>
 		</tr>
 		<tr>
-			<th><label for="<?= self::$iden;?>-<?= $placeholder;?>-keywords"><?= ___('Keywords and links');?></label></th>
+			<th><label for="<?= __CLASS__;?>-<?= $placeholder;?>-keywords"><?= ___('Keywords and links');?></label></th>
 			<td>
-				<textarea name="<?= self::$iden;?>[<?= $placeholder;?>][keywords]" id="<?= self::$iden;?>-<?= $placeholder;?>-keywords" cols="30" rows="5" class="widefat" placeholder="<?= ___('Eg. Tag1 = http://inn-studio.com');?>"><?= esc_textarea($keywords);?></textarea>
+				<textarea name="<?= __CLASS__;?>[<?= $placeholder;?>][keywords]" id="<?= __CLASS__;?>-<?= $placeholder;?>-keywords" cols="30" rows="5" class="widefat" placeholder="<?= ___('Eg. Tag1 = http://inn-studio.com');?>"><?= esc_textarea($keywords);?></textarea>
 				<span class="description"><?= ___('Per keyword/line');?></span>
-				<a href="javascript:;" class="<?= self::$iden;?>-del delete" id="<?= self::$iden;?>-del-<?= $placeholder;?>" data-id="<?= $placeholder;?>" data-target="#<?= self::$iden;?>-item-<?= $placeholder;?>"><?= esc_html(___('Delete this item'));?></a>
+				<a href="javascript:;" class="<?= __CLASS__;?>-del delete" id="<?= __CLASS__;?>-del-<?= $placeholder;?>" data-id="<?= $placeholder;?>" data-target="#<?= __CLASS__;?>-item-<?= $placeholder;?>"><?= esc_html(___('Delete this item'));?></a>
 				
 			</td>
 		</tr>
@@ -181,25 +184,26 @@ class theme_custom_homebox{
 		die(theme_features::json_format($output));
 	}
 	public static function options_save(array $opts = []){
-		if(isset($_POST[self::$iden])){
-			$opts[self::$iden] = $_POST[self::$iden];
+		if(isset($_POST[__CLASS__])){
+			$opts[__CLASS__] = $_POST[__CLASS__];
 
-			unset($_POST[self::$iden]['hash']);
-			if($_POST[self::$iden]['hash'] !== md5(json_encode($_POST[self::$iden])))
+			$hash = md5(json_encode($_POST[__CLASS__]));
+			
+			if($_POST[__CLASS__]['hash'] !== $hash){
 				self::delete_cache();
+				$opts[__CLASS__]['hash'] = $hash;
+			}
 		}
 		return $opts;
 	}
 	public static function delete_cache(){
-		wp_cache_delete(self::$iden);
+		theme_cache::delete(__CLASS__);
 	}
 	public static function set_cache($data){
-		wp_cache_set(self::$iden,$data,null,3600*24);
+		theme_cache::set(__CLASS__,$data,null,3600*24);
 	}
 	public static function get_cache(){
-		if(theme_dev_mode::is_enabled())
-			return false;
-		return wp_cache_get(self::$iden);
+		return theme_cache::get(__CLASS__);
 	}
 	public static function backend_css(){
 		?>
@@ -208,7 +212,7 @@ class theme_custom_homebox{
 	}
 	public static function after_backend_tab_init(){
 		?>
-		seajs.use('<?= self::$iden;?>',function(_m){
+		seajs.use('<?= __CLASS__;?>',function(_m){
 			_m.config.tpl = <?= json_encode(html_minify(self::get_home_box_tpl('%placeholder%')));?>;
 			_m.init();
 		});
@@ -216,7 +220,7 @@ class theme_custom_homebox{
 	
 	}
 	public static function backend_seajs_alias($alias){
-		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__,'backend.js');
+		$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__,'backend.js');
 		return $alias;
 	}
 }

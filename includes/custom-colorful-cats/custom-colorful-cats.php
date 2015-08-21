@@ -44,13 +44,16 @@ class theme_colorful_cats{
 	}
 	public static function get_cat_color($cat_id,$rgb = false){
 		static $caches = null;
+		$rgb = $rgb ? 1 : 0;
 		$cache_id = $cat_id . $rgb;
 		if(!isset($caches[$cache_id])){
 			$colors = (array)self::get_options('cat-color');
 			$rand_color = self::get_rand_color();
-			if($rgb)
-				$rand_color = self::hex2rgb($rand_color);
-			$caches[$cache_id] = isset($colors[$cache_id]) ? $colors[$cache_id] : $rand_color;
+		
+			$caches[$cache_id] = isset($colors[$cat_id]) ? $colors[$cat_id] : $rand_color;
+			
+			if($rgb === 1)
+				$caches[$cache_id] = self::hex2rgb($caches[$cache_id]);
 		}
 		return $caches[$cache_id];
 	}

@@ -14,24 +14,22 @@ if(!theme_page_rank::get_tabs($active_tab))
 
 ?>
 <div class="container">
+	<ul class="nav nav-pills nav-justified">
+		<?php
+		foreach(theme_page_rank::get_tabs() as $k => $v){
+			$active_class = $active_tab === $k ? 'class="active"' : null;
+			?>
+			<li role="presentation" <?= $active_class;?> >
+				<a href="<?= theme_page_rank::get_tabs($k)['url'];?>">
+					<i class="fa fa-<?= theme_page_rank::get_tabs($k)['icon'];?>"></i> 
+					<?= theme_page_rank::get_tabs($k)['tx'];?>
+				</a>
+			</li>
+			<?php
+		}
+		?>
+	</ul>
 	<div class="panel panel-default panel-rank">
-		<div class="panel-heading">
-			<ul class="nav nav-pills">
-				<?php
-				foreach(theme_page_rank::get_tabs() as $k => $v){
-					$active_class = $active_tab === $k ? 'class="active"' : null;
-					?>
-					<li role="presentation" <?= $active_class;?> >
-						<a href="<?= theme_page_rank::get_tabs($k)['url'];?>">
-							<i class="fa fa-<?= theme_page_rank::get_tabs($k)['icon'];?>"></i> 
-							<?= theme_page_rank::get_tabs($k)['tx'];?>
-						</a>
-					</li>
-					<?php
-				}
-				?>
-			</ul>
-		</div>
 		<?php
 		$include_filepath = __DIR__ . '/tpl/page-rank-' . $active_tab . '.php';
 		if(is_file($include_filepath)){

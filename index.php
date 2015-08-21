@@ -1,6 +1,6 @@
 <?php get_header();?>
 <?php 
-if(class_exists('theme_custom_slidebox')){
+if(!wp_is_mobile() && class_exists('theme_custom_slidebox')){
 	if(!theme_custom_slidebox::display_frontend()){
 		?><div class="page-tip"><?= status_tip('info',___('Please set some slidebox posts.'));?></div>
 	<?php 

@@ -641,7 +641,16 @@ class theme_functions{
 
 			<div class="panel-body">
 
-				
+				<!-- post-excerpt -->
+				<?php 
+				$excerpt = $post->post_excerpt;
+				if($excerpt !== ''){ 
+					?>
+					<blockquote class="post-excerpt well">
+						<span class="qoe"><?= ___('Excerpt:');?></span>
+						<?= $excerpt;?>
+					</blockquote>
+				<?php } ?>
 				<!-- post-content -->
 				<div class="post-content content-reset">
 					<?php the_content();?>
@@ -1759,7 +1768,7 @@ class theme_functions{
 			</div>
 			<?php if(class_exists('theme_page_rank')){ ?>
 				<!-- <div class="mod-footer">
-					<a class="more" href="<?= theme_page_rank::get_tabs('recommend')['url'];?>"><?= ___('Looks more...');?> <i class="fa fa-external-link"></i></a>
+					<a class="more" href="<?= theme_page_rank::get_tabs('recommend')['url'];?>"><?= ___('Readmore...');?> <i class="fa fa-external-link"></i></a>
 				</div> -->
 			<?php } ?>
 			<?php
