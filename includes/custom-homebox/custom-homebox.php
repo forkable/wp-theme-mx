@@ -186,12 +186,17 @@ class theme_custom_homebox{
 	public static function options_save(array $opts = []){
 		if(isset($_POST[__CLASS__])){
 			$opts[__CLASS__] = $_POST[__CLASS__];
-
-			$hash = md5(json_encode($_POST[__CLASS__]));
+			$old_hash = $_POST[__CLASS__]['hash'];
 			
-			if($_POST[__CLASS__]['hash'] !== $hash){
+			unset($_POST[__CLASS__]);
+			
+			$new_hash = md5(json_encode($_POST[__CLASS__]));
+			
+			if($old_hash !== $new_hash){
 				self::delete_cache();
-				$opts[__CLASS__]['hash'] = $hash;
+				$opts[__CLASS__]['hash'] = $new_hash;
+			}else{
+				$opts[__CLASS__]['hash'] = $old_hash;
 			}
 		}
 		return $opts;
@@ -200,7 +205,7 @@ class theme_custom_homebox{
 		theme_cache::delete(__CLASS__);
 	}
 	public static function set_cache($data){
-		theme_cache::set(__CLASS__,$data,null,3600*24);
+		theme_cache::set(__CLASS__,$data,null,3600);
 	}
 	public static function get_cache(){
 		return theme_cache::get(__CLASS__);

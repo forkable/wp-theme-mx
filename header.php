@@ -20,7 +20,7 @@
                 'theme_location'    => 'menu-top-bar',
                 'container'         => 'nav',
                 'container_class'   => 'top-bar-nav',
-                'menu_class'        => 'nav navbar-nav',
+                'menu_class'        => 'menu',
                 'menu_id' 			=> 'menu-top-bar',
                 'fallback_cb'       => 'custom_navwalker::fallback',
                 'walker'            => new custom_navwalker()
@@ -37,84 +37,78 @@
 
 
 
-<div class="main-nav navbar navbar-inverse">
+<div class="main-nav">
 	<div class="container">
-	<!-- <div class="container-fluid"> -->
-		<div class="navbar-header">
-			<?php
-			/** 
-			 * banner
-			 */
-			$header_img = get_header_image();
-			if(!wp_is_mobile() && (bool)$header_img){ ?>
-			<a class="logo hidden-xs" href="<?= theme_cache::home_url();?>" title="<?= theme_cache::get_bloginfo('name');?> - <?= theme_cache::get_bloginfo('description');?>">
-				<img src="<?= $header_img; ?>" alt="<?= theme_cache::get_bloginfo('name');?>" width="100" height="40">
-				<?php if(display_header_text()){ ?>
-					<h1 hidden><?= theme_cache::get_bloginfo('name');?></h1>
-					<span hidden><?= theme_cache::get_bloginfo('description');?></span>
-				<?php } ?>
-			</a>
-			<?php } ?>
-			
-			<a href="javascript:;" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".menu-mobile">
-	            <span class="sr-only"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	        </a>
-	        <a href="<?= theme_cache::home_url();?>" class="navbar-brand visible-xs-block">
-				<?= theme_cache::get_bloginfo('name');?>
-			</a>
-			<!-- search btn -->
-			<a class="mx-tool mx-search-btn dropdown-toggle" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
-				<i class="fa fa-search fa-fw fa-fw"></i>
-			</a>
+		<a href="javascript:;" class="navicon toggle visible-xs-block fa fa-navicon fa-2x fa-fw" data-target=".menu-mobile" data-icon-active="fa-times" data-icon-original="fa-navicon"></a>
 
-			<!-- account btn -->
-			<?php if(theme_cache::is_user_logged_in()){ ?>
-				<a class="mx-tool mx-account-btn dropdown-toggle" href="javascript:;" data-toggle="collapse" data-target=".header-nav-account-menu">
-					<i class="fa fa-user fa-fw"></i>
-				</a>
-			<?php }else{ ?>
-				<a class="mx-tool mx-account-btn dropdown-toggle" href="<?= esc_url(wp_login_url(get_current_url()));?>">
-					<?= ___('Login');?>
-				</a>
-			<?php } ?>
-		</div>
 		<?php
 		/** 
-		 * menu menu-header
+		 * banner
+		 */
+		$header_img = get_header_image();
+		if((bool)$header_img){ ?>
+		<a class="logo" href="<?= theme_cache::home_url();?>" title="<?= theme_cache::get_bloginfo('name');?> - <?= theme_cache::get_bloginfo('description');?>">
+			<img src="<?= $header_img; ?>" alt="<?= theme_cache::get_bloginfo('name');?>" width="100" height="40">
+			<?php if(display_header_text()){ ?>
+				<h1 hidden><?= theme_cache::get_bloginfo('name');?></h1>
+				<span hidden><?= theme_cache::get_bloginfo('description');?></span>
+			<?php } ?>
+		</a>
+		<?php } ?>
+
+		
+		<?php
+		/** 
+		 * menu-header
 		 */
 		if(!wp_is_mobile()){
 			theme_cache::wp_nav_menu([
-		        'theme_location'    => 'menu-header',
-		        'container'         => 'nav',
-		        'container_class'   => 'menu-header navbar-left navbar-collapse collapse',
-		        'menu_class'        => 'menu nav navbar-nav',
-		        'menu_id' 			=> 'menu-header',
-		        'fallback_cb'       => 'custom_navwalker::fallback',
-		        'walker'            => new custom_navwalker
-		   	]);
-	   	}else{
+				'theme_location'    => 'menu-header',
+				'container'         => 'nav',
+				'container_class'   => 'menu-header',
+				'menu_class'        => 'menu',
+				'menu_id' 			=> 'menu-header',
+				'fallback_cb'       => 'custom_navwalker::fallback',
+				'walker'            => new custom_navwalker
+			]);
+		}
+		?>
+		
+		<div class="tools">
+			<?php if(wp_is_mobile()){ ?>
+				<!-- account btn -->
+				<?php if(theme_cache::is_user_logged_in()){ ?>
+					<a class="tool mx-account-btn fa fa-user fa-fw fa-2x" href="javascript:;" data-target=".header-nav-account-menu" data-icon-active="fa-times" data-icon-original="fa-user"></a>
+				<?php }else{ ?>
+					<a class="tool mx-account-btn toggle" href="<?= esc_url(wp_login_url(get_current_url()));?>">
+						<?= ___('Login');?>
+					</a>
+				<?php } ?>
+			<?php } ?>
+			<!-- search btn -->
+			<a class="tool search fa fa-search fa-fw fa-2x" href="javascript:;" data-target="#fm-search" data-focus-target="#fm-search-s" data-icon-active="fa-times" data-icon-original="fa-search"></a>
+
+		</div><!-- /.tools -->
+	</div><!-- /.container -->
+	<div class="container">
+		<?php
+		
+	   	if(wp_is_mobile()){
 			/** 
-			 * menu menu-header
+			 * menu menu-mobile
 			 */
 			theme_cache::wp_nav_menu([
-		        'theme_location'    => 'menu-mobile',
-		        'container'         => 'nav',
-		        'container_class'   => 'menu-header menu-mobile navbar-left navbar-collapse collapse',
-		        'menu_class'        => 'menu nav navbar-nav',
-		        'menu_id' 			=> 'menu-mobile',
-		        'fallback_cb'       => 'custom_navwalker::fallback',
-		        'walker'            => new custom_navwalker
-		   	]);
+				'theme_location'    => 'menu-mobile',
+				'container'         => 'nav',
+				'container_class'   => 'menu-mobile',
+				'menu_class'        => 'menu',
+				'menu_id' 			=> 'menu-mobile',
+				'fallback_cb'       => 'custom_navwalker::fallback',
+				'walker'            => new custom_navwalker
+			]);
 	   	}
 		?>
 
-		<!-- search btn -->
-		<a class="mx-tool mx-search-btn search hidden-xs" href="javascript:;" data-toggle="collapse" data-target=".navbar-collapse-form">
-			<i class="fa fa-search fa-fw"></i>
-		</a>
 		
 		<?php
 		/**
@@ -125,30 +119,26 @@
 			if(!$active_tab)
 				$active_tab = 'dashboard';
 			?>
-			<div class="header-nav-account-menu collapse">
-				<ul class="nav navbar-nav">
-					<?php
-					$account_navs = apply_filters('account_navs',[]);
-					if(!empty($account_navs)){
-						foreach($account_navs as $k => $v){
-							$active_class = $k === $active_tab ? ' active ' : null;
-							?>
-							<li class="<?= theme_custom_account::is_page() ? $active_class : null;?>"><?= $v;?></li>
-							<?php
-						}
+			<ul class="header-nav-account-menu">
+				<?php
+				$account_navs = apply_filters('account_navs',[]);
+				if(!empty($account_navs)){
+					foreach($account_navs as $k => $v){
+						$active_class = $k === $active_tab ? ' active ' : null;
+						?>
+						<li class="<?= theme_custom_account::is_page() ? $active_class : null;?>"><?= $v;?></li>
+						<?php
 					}
-					?>
-				</ul>
-			</div>
+				}
+				?>
+			</ul>
 		<?php } ?>
-
-		<!-- search form -->
-		<form class="mx-form navbar-form navbar-collapse-form collapse" role="search" action="<?= theme_cache::home_url('/'); ?>" method="get">
-            <div class="input-group">
-                <input name="s" class="form-control text-center" placeholder="<?= ___('Keywords');?>" value="<?= esc_attr(get_search_query())?>" type="search">
-            </div>
+	 </div><!-- /.container -->
+	 
+	<!-- search form -->
+	<div class="container">
+		<form id="fm-search" action="<?= theme_cache::home_url('/'); ?>" data-focus-target="#fm-search-s">
+			<input id="fm-search-s" name="s" class="form-control" placeholder="<?= ___('Please input search keyword');?>" value="<?= esc_attr(get_search_query())?>" type="search" required>
         </form>		
-        
-	<!-- </div> --><!-- /.container-fluid -->
 	</div>
 </div><!-- /.main-nav -->

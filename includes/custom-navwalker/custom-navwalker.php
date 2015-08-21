@@ -13,114 +13,94 @@
 custom_navwalker::custom_nav_menu_hook();
 class custom_navwalker extends Walker_Nav_Menu{
 	/**
-	 * 
+	 * Starts the list before the elements are added.
+	 *
 	 * @see Walker::start_lvl()
+	 *
 	 * @since 3.0.0
+	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int $depth Depth of page. Used for padding.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   An array of arguments. @see wp_nav_menu()
 	 */
-	public function start_lvl(& $output, $depth = 0, $args = []){
-		//$indent = str_repeat("\t", $depth);
-		$output .= "<ul role=\"menu\" class=\" dropdown-menu\">";
+	public function start_lvl( &$output, $depth = 0, $args = [] ) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "\n$indent<ul class=\"sub-menu\">\n";
+		//$output .= '<ul class="sub-menu">';
 	}
+
 	/**
-	 * 
-	 * @see Walker::start_el()
+	 * Ends the list of after the elements are added.
+	 *
+	 * @see Walker::end_lvl()
+	 *
 	 * @since 3.0.0
+	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $item Menu item data object.
-	 * @param int $depth Depth of menu item. Used for padding.
-	 * @param int $current_page Menu item ID.
-	 * @param object $args 
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   An array of arguments. @see wp_nav_menu()
 	 */
-	public function start_el(& $output, $item, $depth = 0, $args = [], $id = 0){
-		//$indent = ($depth) ? str_repeat("\t", $depth) : '';
-		/**
-		 * Dividers, Headers or Disabled
-		 * =============================
-		 * Determine whether the item is a Divider, Header, Disabled or regular
-		 * menu item. To prevent errors we use the strcasecmp() function to so a
-		 * comparison that is not case sensitive. The strcasecmp() function returns
-		 * a 0 if the strings are equal.
-		 */
+	public function end_lvl( &$output, $depth = 0, $args = [] ) {
+		$indent = str_repeat("\t", $depth);
+		$output .= "$indent</ul>\n";
+		//$output .= '</ul>';
+	}
+
+	/**
+	 * Start the element output.
+	 *
+	 * @see Walker::start_el()
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $item   Menu item data object.
+	 * @param int    $depth  Depth of menu item. Used for padding.
+	 * @param array  $args   An array of arguments. @see wp_nav_menu()
+	 * @param int    $id     Current item ID.
+	 */
+	public function start_el( &$output, $item, $depth = 0, $args = [], $id = 0 ) {
+		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+
+		$classes = empty( $item->classes ) ? [] : (array) $item->classes;
+		$classes[] = 'menu-item-' . $item->ID;
+
 		
-		if (strcasecmp($item->attr_title, 'divider') == 0 && $depth === 1){
-			$output .= '<li role="presentation" class="divider">';
-		}else if (strcasecmp($item->title, 'divider') == 0 && $depth === 1){
-			$output .= '<li role="presentation" class="divider">';
-		}else if (strcasecmp($item->attr_title, 'dropdown-header') == 0 && $depth === 1){
-			$output .= '<li role="presentation" class="dropdown-header">' . $item->title ;
-		}else if (strcasecmp($item->attr_title, 'disabled') == 0){
-			$output .= '<li role="presentation" class="disabled"><a href="javascript:;">' . $item->title . '</a>';
-		}else{
-			$class_names = $value = '';
-			$classes = empty($item->classes) ? [] : (array) $item->classes;
-			$classes[] = 'menu-item-' . $item->ID;
-			$class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
-		if ($args->has_children)
-			$class_names .= ' dropdown';
-			
-		/**
-		 * current
-		 */
-		$curr_class = ['current-menu-item','current-post-ancestor','current-menu-parent'];
-		$is_curr = false;
-		foreach($classes as $v){
-			if(strpos($v,'current') !== false){
-				$is_curr = true;
-				break;
-			}
-		}
-		if ($is_curr)
-			$class_names .= ' active';
-			
-			$class_names = $class_names ? ' class="' . $class_names . '"' : '';
-			
-			$id = apply_filters('nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args);
-			$id = $id ? ' id="' . $id . '"' : '';
-			
-			$output .= '<li' . $id . $value . $class_names . '>';
-			
-			$atts = [];
-			
-			$atts['title'] = ! empty($item->title) ? strip_tags($item->title) : '';
-			
-			$atts['target'] = ! empty($item->target) ? $item->target : '';
-			
-			$atts['rel'] = ! empty($item->xfn) ? $item->xfn : '';
+		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
+		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
-			$atts['href'] = $item->url;
+		
+		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args, $depth );
+		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
 
-			
-			//$atts['icon'] = isset($item->awesome) ? $item->awesome : null;
-			
-			// If item has_children add atts to a.
-		if ($args->has_children && $depth === 0){
-			$atts['data-toggle'] = 'dropdown';
-			$atts['class'] = 'dropdown-toggle';
-			//$atts['aria-haspopup'] = 'true';
-		}
-		$atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args);
+		$output .= $indent . '<li' . $id . $class_names .'>';
+
+		$atts = [];
+		$atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
+		$atts['target'] = ! empty( $item->target )     ? $item->target     : '';
+		$atts['rel']    = ! empty( $item->xfn )        ? $item->xfn        : '';
+		$atts['href']   = ! empty( $item->url )        ? $item->url        : '';
+
+		
+		$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
+
 		$attributes = '';
-		foreach ($atts as $attr => $value){
-			if (! empty($value)){
-				$value = ('href' === $attr) ? esc_url($value) : $value;
+		foreach ( $atts as $attr => $value ) {
+			if ( ! empty( $value ) ) {
+				$value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
 				$attributes .= ' ' . $attr . '="' . $value . '"';
-				}
 			}
+		}
+
 		$item_output = $args->before;
 		/**
-		 * Glyphicons
-		 * ===========
-		 * Since the the menu item is NOT a Divider or Header we check the see
-		 * if there is a value in the attr_title property. If the attr_title
-		 * property is NOT null we apply it as the class name for the glyphicon.
+		 * icon
 		 */
 		if ( !empty($item->awesome) )
 			$item_output .= '<a' . $attributes . '><i class="fa fa-fw fa-' . $item->awesome . '"></i>';
 		else
 			$item_output .= '<a' . $attributes . '>';
-
+			
 		/**
 		 * hide title option
 		 */
@@ -128,57 +108,40 @@ class custom_navwalker extends Walker_Nav_Menu{
 		
 		if(isset($item->hide_title) && $item->hide_title == 1){
 			$hide_title = true;
-			$link_html = '<span class="hide">' . $link_html . '</span>';
+			$link_html = '<i class="hide">' . $link_html . '</i>';
 		}else{
 			$hide_title = false;
 		}
-		//$item_output .= $link_html;
-
+		
 		/**
 		 * add splace if has icon
 		 */
 		if( !$hide_title )
 			$item_output .= '&nbsp;';
-			
-		$item_output .= $link_html;
-		
-		$item_output .= ($args->has_children && 0 === $depth) ? ' <span class="caret"></span></a>' : '</a>';
-		
+
+		$item_output .= $link_html . '</a>';
+
 		$item_output .= $args->after;
+
 		
-		$output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
-		}
+		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}
+
 	/**
-	 * Traverse elements to create list from elements.
-	 * 
-	 * Display one element if the element doesn't have any children otherwise,
-	 * display the element and its children. Will only traverse up to the max
-	 * depth and no ignore elements under that depth.
-	 * 
-	 * This method shouldn't be called directly, use the walk() method instead.
-	 * 
-	 * @see Walker::start_el()
-	 * @since 2.5.0
-	 * @param object $element Data object
-	 * @param array $children_elements List of elements to continue traversing.
-	 * @param int $max_depth Max depth to traverse.
-	 * @param int $depth Depth of current element.
-	 * @param array $args 
+	 * Ends the element output, if needed.
+	 *
+	 * @see Walker::end_el()
+	 *
+	 * @since 3.0.0
+	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @return null Null on failure with no changes to parameters.
+	 * @param object $item   Page data object. Not used.
+	 * @param int    $depth  Depth of page. Not Used.
+	 * @param array  $args   An array of arguments. @see wp_nav_menu()
 	 */
-	public function display_element($element, & $children_elements, $max_depth, $depth, $args, & $output){
-		if (! $element)
-			return;
-			
-		$id_field = $this->db_fields['id'];
-		// Display this element.
-		if (is_object($args[0]))
-			$args[0]->has_children = ! empty($children_elements[ $element->$id_field ]);
-			
-		parent::display_element($element, $children_elements, $max_depth, $depth, $args, $output);
-		}
+	public function end_el( &$output, $item, $depth = 0, $args = [] ) {
+		$output .= "</li>\n";
+	}
 	/**
 	 * Menu Fallback
 	 * =============
