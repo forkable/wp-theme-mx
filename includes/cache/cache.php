@@ -461,19 +461,17 @@ class theme_cache{
 		}
 	}
 
-	private static function build_key($key,$group = ''){
-		return self::$cache_key . $group . '-' . $key;
-	}
 	/**
 	 * Delete cache
 	 *
 	 * @param string $key Cache key
 	 * @param string $group Cache group
 	 * @return bool
-	 * @version 2.0
+	 * @version 2.1
 	 */
-	public static function delete($key,$group = ''){
-		$key = self::build_key($key,$group);
+	public static function delete($key,$group = null){
+		if(!$group)
+			$group = 'default';
 		if(wp_using_ext_object_cache()){
 			return wp_cache_delete($key,$group);
 		}

@@ -1963,7 +1963,7 @@ class theme_functions{
 			foreach($query->posts as $post){
 				setup_postdata($post);
 				self::archive_mixed_content(array(
-					'classes' => array('col-xs-6 col-sm-3'),
+					'classes' => array('col-xs-12 col-sm-3'),
 					'lazyload' => $lazyload_i < 1 ? false : true,
 				));
 			}
@@ -1995,8 +1995,8 @@ class theme_functions{
 				<i class="fa fa-commenting"></i> 
 				<?= ___('Leave a comment');?>
 			</span>
-			<a href="javascript:;" id="cancel-comment-reply-link" class="none" title="<?= ___('Cancel reply');?>">&times;</a>
 		</h3>		
+		<a href="javascript:;" id="cancel-comment-reply-link" class="none" title="<?= ___('Cancel reply');?>">&times;</a>
 	</div>
 	<div class="panel-body">
 		<div class="page-tip" id="respond-loading-ready">

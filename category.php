@@ -13,7 +13,7 @@
 						foreach($wp_query->posts as $post){
 							setup_postdata($post);
 							theme_functions::archive_mixed_content(array(
-								'classes' => array('col-lg-3 col-md-4 col-xs-6'),
+								'classes' => array('col-lg-3 col-md-4'),
 								'lazyload' => $loop_i <= 8 ? false : true,
 							));
 							++$loop_i;

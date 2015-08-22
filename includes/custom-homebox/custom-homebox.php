@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme-custom-homebox
 Feature URI:	http://www.inn-studio.com
-Version:		1.1.2
+Version:		1.1.3
 Description:	
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -202,13 +202,13 @@ class theme_custom_homebox{
 		return $opts;
 	}
 	public static function delete_cache(){
-		theme_cache::delete(__CLASS__);
+		theme_cache::delete('content',__CLASS__);
 	}
 	public static function set_cache($data){
-		theme_cache::set(__CLASS__,$data,null,3600);
+		theme_cache::set('content',$data,__CLASS__,3600);
 	}
 	public static function get_cache(){
-		return theme_cache::get(__CLASS__);
+		return theme_cache::get('content',__CLASS__);
 	}
 	public static function backend_css(){
 		?>
