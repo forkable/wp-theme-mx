@@ -228,6 +228,9 @@ class theme_cache{
 	}
 	public static function get_permalink($post_id,  $leavename = false){
 		static $caches = [];
+		if(is_object($post_id))
+			$post_id = $post_id->ID;
+			
 		if(!isset($caches[$post_id]))
 			$caches[$post_id] = esc_url(get_permalink($post_id,$leavename));
 		return $caches[$post_id];

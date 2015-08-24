@@ -234,8 +234,8 @@ class theme_custom_slidebox{
 	public static function display_frontend(){
 		$boxes = (array)self::get_options();
 	
-		$cache_id = md5(json_encode($boxes));
-		$cache = theme_cache::get($cache_id);
+		$cache_id = md5(serialize($boxes));
+		$cache = theme_cache::get($cache_id,__CLASS__);
 		if($cache){
 			echo $cache;
 			return $cache;
@@ -324,7 +324,7 @@ class theme_custom_slidebox{
 		<?php
 		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
-		theme_cache::set($cache_id,$cache);
+		theme_cache::set($cache_id,$cache,__CLASS__);
 		echo $cache;
 		return $cache;
 	}

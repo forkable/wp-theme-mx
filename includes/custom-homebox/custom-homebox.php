@@ -190,7 +190,7 @@ class theme_custom_homebox{
 			
 			unset($_POST[__CLASS__]);
 			
-			$new_hash = md5(json_encode($_POST[__CLASS__]));
+			$new_hash = md5(serialize($_POST[__CLASS__]));
 			
 			if($old_hash !== $new_hash){
 				self::delete_cache();
@@ -202,7 +202,7 @@ class theme_custom_homebox{
 		return $opts;
 	}
 	public static function delete_cache(){
-		theme_cache::delete('content',__CLASS__);
+		theme_cache::set('content',false,__CLASS__);
 	}
 	public static function set_cache($data){
 		theme_cache::set('content',$data,__CLASS__,3600);
