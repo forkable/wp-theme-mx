@@ -74,7 +74,7 @@ class theme_custom_homebox{
 					value="<?= $cat->term_id;?>"
 					<?= $checked;?>
 				/>
-				<?= esc_html($cat->name);?> - <?= esc_html(urldecode($cat->slug));?>
+				<?= $cat->name;?> - <?= urldecode($cat->slug);?>
 				-
 				<a href="<?= esc_url(get_category_link($cat->term_id));?>" target="_blank"><?= ___('link');?></a>
 			</label>
@@ -105,7 +105,7 @@ class theme_custom_homebox{
 					</tr>
 				</tbody>
 			</table>
-			<input type="hidden" name="<?= __CLASS__;?>[hash]" value="<?= md5(serialize($opt));?>">
+			<input type="hidden" name="<?= __CLASS__;?>[hash]" value="<?= isset($opt['hash']) ? $opt['hash'] : md5(json_encode($opt));?>">
 		</fieldset>
 	<?php
 	
@@ -120,7 +120,7 @@ class theme_custom_homebox{
 			
 		$link = isset($boxes[$placeholder]['link']) ? $boxes[$placeholder]['link'] : null;
 		
-		$selected = isset($boxes[$placeholder]['cat']) ? (int)$boxes[$placeholder]['cat'] : null;
+		$number = isset($boxes[$placeholder]['number']) ? (int)$boxes[$placeholder]['number'] : 8;
 		
 		$keywords = isset($boxes[$placeholder]['keywords']) ? $boxes[$placeholder]['keywords'] : null;
 		
@@ -159,6 +159,22 @@ class theme_custom_homebox{
 			</td>
 		</tr>
 		<tr>
+			<th><label for="<?= __CLASS__;?>-number-<?= $placeholder;?>"><?= ___('Show posts');?></label></th>
+			<td>
+				<input 
+					type="number" 
+					name="<?= __CLASS__;?>[<?= $placeholder;?>][number]" 
+					id="<?= __CLASS__;?>-number-<?= $placeholder;?>" 
+					class="small-text" 
+					value="<?= $number;?>" 
+					placeholder="<?= ___('Posts number.');?>" 
+					min="4" 
+					step="4" 
+				>
+			</td>
+		</tr>
+		
+		<tr>
 			<th><?= ___('Categories');?></th>
 			<td>
 				<?php self::cat_checkbox_tpl($placeholder);?>
@@ -190,7 +206,7 @@ class theme_custom_homebox{
 			
 			unset($_POST[__CLASS__]);
 			
-			$new_hash = md5(serialize($_POST[__CLASS__]));
+			$new_hash = md5(json_encode($_POST[__CLASS__]));
 			
 			if($old_hash !== $new_hash){
 				self::delete_cache();

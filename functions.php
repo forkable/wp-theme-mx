@@ -1858,9 +1858,17 @@ class theme_functions{
 			'classes' => ['col-xs-12 col-md-3'],
 			'lazyload' => true,
 		],$args);
-
+		
 		$args['classes'][] = 'post-list post-mixed-list ';
 		
+		/** sticky */
+		//static $stickies = null;
+		//if($stickies === null)
+		//	$stickies = theme_cache::get_option('sticky_posts');
+		//if(is_array( $stickies ) && in_array( $post->ID, $stickies ))
+		//	$args['classes'][] = 'sticky';
+		
+			
 		$excerpt = get_the_excerpt();
 		
 		if(!empty($excerpt))
@@ -1870,7 +1878,7 @@ class theme_functions{
 
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
-		<li class="<?= implode(' ',$args['classes']);?>">
+		<li <?php post_class($args['classes']);?>>
 			<a class="post-list-bg" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID), empty($excerpt) ? null : ' - ' . $excerpt;?>">
 				<div class="thumbnail-container">
 					<img class="placeholder" alt="Placeholder" src="<?= $thumbnail_placeholder;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
@@ -1956,7 +1964,7 @@ class theme_functions{
 		<?php
 		$query = new WP_Query([
 			'category__in' => isset($v['cats']) ? $v['cats'] : [],
-			'posts_per_page' => 8,
+			'posts_per_page' => isset($v['number']) ? (int)$v['number'] : 8,
 			'ignore_sticky_posts' => false,
 		]);
 		if($query->have_posts()){

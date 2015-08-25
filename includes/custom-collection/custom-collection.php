@@ -437,7 +437,7 @@ class theme_custom_collection{
 				
 				global $post;
 				$post = theme_cache::get_post($post_id);
-				if(!$post || $post->post_type !== 'psot'){
+				if(!$post || $post->post_type !== 'post'){
 					$output['status'] = 'error';
 					$output['code'] = 'post_not_exist';
 					$output['msg'] = ___('Sorry, the post do not exist, please type another post ID.');
@@ -455,7 +455,7 @@ class theme_custom_collection{
 							theme_functions::$thumbnail_size[2],
 						]
 					],
-					'title' 	=> esc_html(theme_cache::get_the_title($post_id)),
+					'title' 	=> theme_cache::get_the_title($post_id),
 					'excerpt' 	=> str_sub(strip_tags(trim($post->post_content)),120,'...'),
 				];
 				wp_reset_postdata();
