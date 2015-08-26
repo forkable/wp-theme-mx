@@ -1968,16 +1968,18 @@ class theme_functions{
 			'ignore_sticky_posts' => false,
 		]);
 		if($query->have_posts()){
+			$i = 0;
 			foreach($query->posts as $post){
 				setup_postdata($post);
 				self::archive_mixed_content(array(
-					'classes' => array('col-xs-12 col-sm-3'),
-					'lazyload' => $lazyload_i < 1 ? false : true,
+					'classes' => $i <= 2 ? ['col-xs-12 col-sm-4'] : ['col-xs-12 col-sm-3'],
+					'lazyload' => wp_is_mobile() && $lazyload_i < 1 ? false : true,
 				));
+				++$i;
 			}
 			wp_reset_postdata();
 		}else{
-			
+			echo status_tip('info',___('No data yet.'));
 		}
 		?>
 	</ul>

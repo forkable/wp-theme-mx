@@ -13,7 +13,6 @@ add_filter('theme_includes',function($fns){
 	return $fns;
 });
 class theme_cache{
-	public static $cache_expire = 3600;
 	public static $iden = 'theme_cache';
 	
 	public static $cache;
@@ -23,7 +22,7 @@ class theme_cache{
 		self::$cache_key = md5(AUTH_KEY . theme_functions::$iden);
 		
 		add_action('advanced_settings',__CLASS__ . '::display_backend');
-		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
+		add_action('wp_ajax_' . __CLASS__, __CLASS__ . '::process');
 		/**
 		 * When delete menu
 		 */
@@ -80,7 +79,7 @@ class theme_cache{
 			$caches = (array)wp_cache_get('pages_by_path');
 			if(isset($caches[$post->post_name])){
 				unset($caches[$post->post_name]);
-				wp_cache_set('pages_by_path',$caches,null,2505600);
+				wp_cache_set('pages_by_path',$caches);
 			}
 		});
 		/**
@@ -91,14 +90,14 @@ class theme_cache{
 			$caches = (array)wp_cache_get('pages_by_path');
 			if(!isset($caches[$post->post_name])){
 				$caches[$post->post_name] = $post_id;
-				wp_cache_set('pages_by_path',$caches,null,2505600);
+				wp_cache_set('pages_by_path',$caches);
 			}
 		});
 		
 	}
 	private static function get_process_url($type){
 		return esc_url(add_query_arg(array(
-			'action' => self::$iden,
+			'action' => __CLASS__,
 			'type' => $type
 		),theme_features::get_process_url()));
 
@@ -108,7 +107,7 @@ class theme_cache{
 	 */
 	public static function display_backend(){
 		?>
-		<fieldset id="<?= self::$iden;?>">
+		<fieldset id="<?= __CLASS__;?>">
 			<legend><?= ___('Theme cache');?></legend>
 			<p class="description"><?= ___('Maybe the theme used cache for improve performance, you can clean it when you modify some site contents if you want.');?></p>
 			<table class="form-table">
@@ -141,7 +140,7 @@ class theme_cache{
 						<th scope="row"><?= ___('Control');?></th>
 						<td>
 							<?php
-							if(isset($_GET[self::$iden])){
+							if(isset($_GET[__CLASS__])){
 								echo status_tip('success',___('Theme cache has been cleaned or rebuilt.'));
 							}
 							?>
@@ -204,7 +203,7 @@ class theme_cache{
 					self::set(self::$cache_key,$caches);
 				}
 		}
-		wp_redirect(admin_url('themes.php?page=core-options&' . self::$iden . '=1'));
+		wp_redirect(admin_url('themes.php?page=core-options&' . __CLASS__ . '=1'));
 
 		die();
 	}
@@ -478,7 +477,6 @@ class theme_cache{
 		if(wp_using_ext_object_cache()){
 			return wp_cache_delete($key,$group);
 		}
-		return self::$cache->delete($key);
 	}
 	/**
 	 * Set cache
@@ -489,13 +487,11 @@ class theme_cache{
 	 * @return int $expire Cache expire time (s)
 	 * @version 2.0.4
 	 */
-	public static function set($key,$data,$group = null,$expire = 3600){
+	public static function set($key,$data,$group = null,$expire = 0){
 		if(theme_dev_mode::is_enabled())
 			return false;
 			
 		if(wp_using_ext_object_cache()){
-			if(!$group)
-				$group = 'default';
 			return wp_cache_set($key,$data,$group,$expire);
 		}
 		return false;
@@ -517,8 +513,6 @@ class theme_cache{
 			return false;
 		
 		if(wp_using_ext_object_cache()){
-			if(!$group)
-				$group = 'default';
 			return wp_cache_get($key,$group,$force);
 		}
 		return false;
@@ -626,7 +620,7 @@ class theme_cache{
 	 * @return string
 	 * @version 2.0.2
 	 */
-	public static function wp_nav_menu($args,$expire = 3600){
+	public static function wp_nav_menu($args,$expire = 0){
 		$cache_group_id = 'nav-menus';
 
 		$cache_id = self::get_page_prefix() . $args['theme_location'];

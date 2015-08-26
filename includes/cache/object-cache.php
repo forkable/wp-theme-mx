@@ -8,7 +8,7 @@ Author: Ryan Boren, Denis de Bernardy, Matt Martz, Km.Van
 
 Install this file to wp-content/object-cache.php
 */
-function wp_cache_add($key, $data, $group = '', $expire = 2505600) {
+function wp_cache_add($key, $data, $group = '', $expire = 0) {
 	global $wp_object_cache;
 
 	return $wp_object_cache->add($key, $data, $group, $expire);
@@ -56,13 +56,13 @@ function wp_cache_init() {
 	$wp_object_cache = new WP_Object_Cache();
 }
 
-function wp_cache_replace($key, $data, $group = '', $expire = 2505600) {
+function wp_cache_replace($key, $data, $group = '', $expire = 0) {
 	global $wp_object_cache;
 
 	return $wp_object_cache->replace($key, $data, $group, $expire);
 }
 
-function wp_cache_set($key, $data, $group = '', $expire = 2505600) {
+function wp_cache_set($key, $data, $group = '', $expire = 0) {
 	global $wp_object_cache;
 
 	if ( defined('WP_INSTALLING') == false )
@@ -94,12 +94,12 @@ class WP_Object_Cache {
 	var $group_ops = [];
 		
 	var $cache_enabled = true;
-	var $default_expiration = 2505600; //29 days
+	var $default_expiration = 0; //29 days
 	
 	var $ns_key = '';
 	var $ns_time = '';
 
-	function add($id, $data, $group = 'default', $expire = 2505600) {
+	function add($id, $data, $group = null, $expire = 0) {
 		
 		if(!$group)
 			$group = 'default';
@@ -217,7 +217,7 @@ class WP_Object_Cache {
 		return $ret;
 	}
 
-	function get($id, $group = 'default', $force = false) {
+	function get($id, $group = null, $force = false) {
 		
 		if(!$group)
 			$group = 'default';
@@ -293,7 +293,7 @@ class WP_Object_Cache {
 		return $this->ns_time . $prefix . $group . ':' . $key;
 	}
 
-	function replace($id, $data, $group = 'default', $expire = 2505600) {
+	function replace($id, $data, $group = null, $expire = 0) {
 		
 		if(!$group)
 			$group = 'default';
@@ -314,7 +314,7 @@ class WP_Object_Cache {
 		return $result;
 	}
 
-	function set($id, $data, $group = 'default', $expire = 2505600) {
+	function set($id, $data, $group = null, $expire = 0) {
 		
 		if(!$group)
 			$group = 'default';

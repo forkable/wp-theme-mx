@@ -120,7 +120,7 @@ class theme_custom_homebox{
 			
 		$link = isset($boxes[$placeholder]['link']) ? $boxes[$placeholder]['link'] : null;
 		
-		$number = isset($boxes[$placeholder]['number']) ? (int)$boxes[$placeholder]['number'] : 8;
+		$number = isset($boxes[$placeholder]['number']) ? (int)$boxes[$placeholder]['number'] : 7;
 		
 		$keywords = isset($boxes[$placeholder]['keywords']) ? $boxes[$placeholder]['keywords'] : null;
 		
@@ -168,7 +168,7 @@ class theme_custom_homebox{
 					class="small-text" 
 					value="<?= $number;?>" 
 					placeholder="<?= ___('Posts number.');?>" 
-					min="4" 
+					min="3" 
 					step="4" 
 				>
 			</td>
@@ -204,7 +204,7 @@ class theme_custom_homebox{
 			$opts[__CLASS__] = $_POST[__CLASS__];
 			$old_hash = $_POST[__CLASS__]['hash'];
 			
-			unset($_POST[__CLASS__]);
+			unset($_POST[__CLASS__]['hash']);
 			
 			$new_hash = md5(json_encode($_POST[__CLASS__]));
 			
