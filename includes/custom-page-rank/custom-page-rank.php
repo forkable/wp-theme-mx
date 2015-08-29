@@ -216,6 +216,7 @@ class theme_page_rank{
 		$defaults = [
 			'posts_per_page ' => 100,
 			'paged' => 1,
+			'ignore_sticky_posts' => true,
 		];
 		$args = array_merge($defaults,$args);
 
@@ -270,18 +271,20 @@ class theme_page_rank{
 					'after'  => '1 ' . $active_filter_tab . ' ago',
 				]
 			],
+			'ignore_sticky_posts' => true,
 		];
 		$args = array_merge($defaults,$args);
 		/**
 		 * orderby points
 		 */
-		if(class_exists('custom_post_point')){
-			$args['meta_key']  = custom_post_point::$post_meta_key['count_points'];
-			$args['orderby'] = 'meta_value_num';
+		//if(class_exists('custom_post_point')){
+		//	$args['meta_key']  = custom_post_point::$post_meta_key['count_points'];
+		//	$args['orderby'] = 'meta_value_num';
 		/**
 		 * orderby views
 		 */
-		}else if(class_exists('theme_post_views')){
+		//}else 
+		if(class_exists('theme_post_views')){
 			$args['meta_key']  = theme_post_views::$post_meta_key;
 			$args['orderby'] = 'meta_value_num';
 		/**
