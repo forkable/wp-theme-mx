@@ -25,7 +25,6 @@ class theme_asset_enqueue{
 			'frontend-seajs' => [
 				'deps' => [],
 				'url' => theme_features::get_theme_js('seajs/sea'),
-				'version' => null,
 			],
 			
 		];
@@ -58,8 +57,8 @@ class theme_asset_enqueue{
 			'bootstrap' => [
 				'deps' => [],
 				//'url' => 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css',
-				'url' => theme_features::get_theme_css('modules/bootstrap',null),
-				'version' => null,
+				'url' => theme_features::get_theme_css('modules/bootstrap',false,false),
+				//'version' => null,
 			],
 			'awesome' => [
 				'deps' => [],

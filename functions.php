@@ -1728,7 +1728,8 @@ class theme_functions{
 		
 		if(!empty($cache)){
 			echo $cache;
-			return $cache;
+			unset($cache);
+			return;
 		}
 		global $post;
 		$query = self::get_posts_query(array(
@@ -1775,12 +1776,13 @@ class theme_functions{
 		}else{
 			
 		}
+		unset($query);
 		$cache = ob_get_contents();
 		ob_end_clean();
-		theme_cache::set($cache_id,$cache,3600*24);
+		theme_cache::set($cache_id,$cache,null,3600*12);
 
 		echo $cache;
-		return $cache;
+		unset($cache);
 	}
 	public static function archive_stick_content(array $args = []){
 		global $post;
@@ -1919,10 +1921,10 @@ class theme_functions{
 		 */
 
 		$cache = theme_custom_homebox::get_cache();
-		
 		if(!empty($cache)){
 			echo $cache;
-			return $cache;
+			unset($cache);
+			return;
 		}
 
 		ob_start();
@@ -1981,6 +1983,7 @@ class theme_functions{
 		}else{
 			echo status_tip('info',___('No data yet.'));
 		}
+		unset($query);
 		?>
 	</ul>
 </div>
@@ -1993,7 +1996,7 @@ class theme_functions{
 		
 		theme_custom_homebox::set_cache($cache);
 		echo $cache;
-		return $cache;
+		unset($cache);
 	}
 	public static function theme_respond(){
 		global $post;

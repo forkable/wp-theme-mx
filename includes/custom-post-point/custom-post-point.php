@@ -46,6 +46,8 @@ class custom_post_point{
 			'list_history_post_be_rate'
 		] as $v)
 			add_action('list_point_histroy',__CLASS__ . '::' . $v);
+
+		//add_action('pre_get_posts' , __CLASS__ . '::pre_get_posts_in_rates');
 	}
 	public static function sync_delete_post($post_id){
 		$post = theme_cache::get_post($post_id);
@@ -270,6 +272,15 @@ class custom_post_point{
 
 		return $points;
 	}
+	public static function get_user_post_ids($user_id){
+		static $caches = [];
+		if(!isset($caches[$user_id]))
+			$caches[$user_id] = get_user_meta($user_id,self::$user_meta_key['posts'],true);
+		if(!$caches[$user_id] || !is_array($caches[$user_id]))
+			return false;
+		$caches[$user_id] = array_keys($caches[$user_id]);
+		return $caches[$user_id];
+	}
 	/**
 	 * 获取用户投币过的文章
 	 *
@@ -279,37 +290,46 @@ class custom_post_point{
 	 * @version 1.0.0
 	 */
 	public static function get_user_posts($user_id,array $query_args = []){
-		static $caches;
-		$defaults = [
+		static $caches = [];
+		$query_args = array_merge([
 			'posts_per_page' => 10,
 			'paged' => 1,
-		];
-		$query_args = array_merge($defaults,$query_args);
-		$cache_id = md5(serialize(func_get_args()));
+		],$query_args);
+		
+		$cache_id = md5(json_encode($query_args));
 		
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
-		$post_ids = (array)get_post_meta($user_id,self::$user_meta_key['posts'],true);
-		
+		$post_ids = self::get_user_post_ids($user_id);
 		if(empty($post_ids)){
 			$caches[$cache_id] = false;
 			return false;
 		}
-		
 		$query_args['post__in'] = $post_ids;
 
 		$caches[$cache_id] = new WP_Query($query_args);
 		return $caches[$cache_id];
 	}
-	public static function filter_custom_point_types(array $types = []){
-		$types['post-swap'] = [
-			'text' => ___('When post point swap'),
-			'type' => 'text',
-			'des' => ___('Use commas to separate multiple point, first as the default.'),
-		];
-		return $types;
+	public static function pre_get_posts_in_rates($query){
+//var_dump($query);
+		if($query->is_author && $query->is_main_query()){
+			if(!get_query_var('tab') === 'rates')
+				return false;
+				
+			$author = $query->query_vars['author'];
+			if(!$author)
+				return false;
+				
+			if(!self::get_user_post_ids($author))
+				return false;
+				
+			$query->set('author',null);
+			$query->set('post__in',self::get_user_post_ids($author));
+			$query->set('ignore_sticky_posts',true);
+		}
 	}
+
 	public static function filter_custom_point_value_default(array $opts = []){
 		$opts['post-swap'] = self::get_point_values_default(true);
 		return $opts;

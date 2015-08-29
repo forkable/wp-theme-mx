@@ -125,24 +125,34 @@ class theme_custom_author_profile{
 				'url' => esc_url(add_query_arg('tab','comments',$baseurl[$author_id])),
 				'count' => self::get_count('comments',$author_id),
 			),
-			'followers' => array(
-				'text' => ___('Followers'),
-				'icon' => 'venus-double',
-				'url' => esc_url(add_query_arg('tab','followers',$baseurl[$author_id])),
-				'count' => self::get_count('followers_count',$author_id),
-			),
-			'following' => array(
-				'text' => ___('Following'),
-				'icon' => 'venus-mars',
-				'url' => esc_url(add_query_arg('tab','following',$baseurl[$author_id])),
-				'count' => self::get_count('following_count',$author_id),
-			)
+			
+			//'followers' => array(
+			//	'text' => ___('Followers'),
+			//	'icon' => 'venus-double',
+			//	'url' => esc_url(add_query_arg('tab','followers',$baseurl[$author_id])),
+			//	'count' => self::get_count('followers_count',$author_id),
+			//),
+			//'following' => array(
+			//	'text' => ___('Following'),
+			//	'icon' => 'venus-mars',
+			//	'url' => esc_url(add_query_arg('tab','following',$baseurl[$author_id])),
+			//	'count' => self::get_count('following_count',$author_id),
+			//)
 		);
+		if(class_exists('custom_post_point')){
+			$caches[$author_id]['rates'] = array(
+				'text' => ___('Rates'),
+				'icon' => 'star',
+				'url' => esc_url(add_query_arg('tab','rates',$baseurl[$author_id])),
+				'count' => self::get_count('followers_count',$author_id),
+			);
+		}
 		if($key){
 			
 			return isset($caches[$author_id][$key]) ? $caches[$author_id][$key] : null;
 		}
 		return $caches[$author_id];
 	}
+
 }
 ?>

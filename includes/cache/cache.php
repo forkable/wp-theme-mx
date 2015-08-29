@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme-cache
 Feature URI:	http://inn-studio.com
-Version:		2.1.7
+Version:		2.1.8
 Description:	theme-cache
 Author:			INN STUDIO
 Author URI:		http://inn-studio.com
@@ -618,7 +618,7 @@ class theme_cache{
 	 * @param string The widget sidebar name/id
 	 * @param int Cache expire time
 	 * @return string
-	 * @version 2.0.2
+	 * @version 2.0.1
 	 */
 	public static function wp_nav_menu($args,$expire = 0){
 		$cache_group_id = 'nav-menus';
@@ -636,6 +636,7 @@ class theme_cache{
 			self::set(self::$cache_key,$caches,null,$expire);
 		}
 		echo $cache;
+		unset($cache);
 	}
 	
 }
