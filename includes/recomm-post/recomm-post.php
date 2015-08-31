@@ -2,15 +2,13 @@
 /**
  * theme recommended post
  *
- * @version 2.0.5
+ * @version 2.0.6
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_recommended_post::init';
 	return $fns;
 });
 class theme_recommended_post{
-	
-	public static $iden = 'theme_recommended_post';
 	
 	public static function init(){
 		add_action('add_meta_boxes',__CLASS__ . '::add_meta_boxes');
@@ -26,7 +24,7 @@ class theme_recommended_post{
 
 		foreach ( $screens as $screen ) {
 			add_meta_box(
-				self::$iden,
+				__CLASS__,
 				___( 'Recommended post' ),
 				__CLASS__ . '::box_display',
 				$screen,
@@ -37,7 +35,7 @@ class theme_recommended_post{
 	public static function get_options($key = null){
 		static $caches = null;
 		if($caches === null)
-			$caches = (array)theme_options::get_options(self::$iden);
+			$caches = (array)theme_options::get_options(__CLASS__);
 
 		if($key)
 			return isset($caches[$key]) ? $caches[$key] : false;
@@ -45,15 +43,15 @@ class theme_recommended_post{
 	}
 	public static function box_display($post){
 	
-		wp_nonce_field(self::$iden,self::$iden . '-nonce' );
+		wp_nonce_field(__CLASS__,__CLASS__ . '-nonce' );
 
 		$recomm_posts = self::get_ids();
 
 		$checked = in_array($post->ID,$recomm_posts) ? ' checked ' : null;
 		$btn_class = $checked ? ' button-primary ' : null;
 		?>
-		<label for="<?= self::$iden;?>-set" class="button widefat <?= $btn_class;?>">
-			<input type="checkbox" id="<?= self::$iden;?>-set" name="<?= self::$iden;?>" value="1" <?= $checked;?> />
+		<label for="<?= __CLASS__;?>-set" class="button widefat <?= $btn_class;?>">
+			<input type="checkbox" id="<?= __CLASS__;?>-set" name="<?= __CLASS__;?>" value="1" <?= $checked;?> />
 			<?= ___('Set as recommended post');?>
 		</label>
 		<?php
@@ -68,17 +66,17 @@ class theme_recommended_post{
 		if($k !== false){
 			unset($opt['ids'][$k]);
 			sort($opt['ids']);
-			theme_options::set_options(self::$iden,$opt);
+			theme_options::set_options(__CLASS__,$opt);
 		}
 	}
 	public static function opttions_default(array $opts = []){
-		$opts[self::$iden]['enabled'] = 1;
+		$opts[__CLASS__]['enabled'] = 1;
 		return $opts;
 	}
 	public static function save_post($post_id){
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return false;
 
-		if(!isset($_POST[self::$iden . '-nonce']) || !wp_verify_nonce($_POST[self::$iden . '-nonce'], self::$iden)) 
+		if(!isset($_POST[__CLASS__ . '-nonce']) || !wp_verify_nonce($_POST[__CLASS__ . '-nonce'], __CLASS__)) 
 			return false;
 
 		$opt = self::get_options();
@@ -88,7 +86,7 @@ class theme_recommended_post{
 		/**
 		 * set to recomm
 		 */
-		if(isset($_POST[self::$iden])){
+		if(isset($_POST[__CLASS__])){
 			if(!isset($opts['ids'][$post_id])){
 				$opt['ids'][$post_id] = $post_id;
 			}
@@ -97,7 +95,7 @@ class theme_recommended_post{
 				unset($opt['ids'][$post_id]);
 			}
 		}
-		theme_options::set_options(self::$iden,$opt);
+		theme_options::set_options(__CLASS__,$opt);
 	}
 	public static function get_ids(){
 		return (array)self::get_options('ids');
@@ -117,8 +115,8 @@ class theme_recommended_post{
 					<tr>
 						<th><?= ___('Enabled');?></th>
 						<td>
-							<label for="<?= self::$iden;?>-enabled">
-								<input type="checkbox" name="<?= self::$iden;?>[enabled]" id="<?= self::$iden;?>-enabled" <?= $checked;?> value="1">
+							<label for="<?= __CLASS__;?>-enabled">
+								<input type="checkbox" name="<?= __CLASS__;?>[enabled]" id="<?= __CLASS__;?>-enabled" <?= $checked;?> value="1">
 								<?= ___('Enabled');?>
 							</label>
 						</td>
@@ -137,9 +135,9 @@ class theme_recommended_post{
 									foreach($query->posts as $post){
 										setup_postdata($post);
 										?>
-<label for="<?= self::$iden;?>-<?= $post->ID;?>" class="button">
-	<input type="checkbox" id="<?= self::$iden;?>-<?= $post->ID;?>" name="<?= self::$iden;?>[ids][<?= $post->ID;?>]" value="<?= $post->ID;?>" checked >
-	<?= esc_html(theme_cache::get_the_title($post->ID));?>
+<label for="<?= __CLASS__;?>-<?= $post->ID;?>" class="button">
+	<input type="checkbox" id="<?= __CLASS__;?>-<?= $post->ID;?>" name="<?= __CLASS__;?>[ids][<?= $post->ID;?>]" value="<?= $post->ID;?>" checked >
+	<?= theme_cache::get_the_title($post->ID);?>
 	-
 	<a href="<?= esc_url(get_edit_post_link($post->ID));?>" target="_blank" title="<?= ___('Open in open window');?>"><i class="fa fa-external-link"></i></a>
 </label>
@@ -161,8 +159,8 @@ class theme_recommended_post{
 		<?php
 	}
 	public static function options_save(array $opts = []){
-		if(isset($_POST[self::$iden])){
-			$opts[self::$iden] = $_POST[self::$iden];
+		if(isset($_POST[__CLASS__])){
+			$opts[__CLASS__] = $_POST[__CLASS__];
 		}
 		return $opts;
 	}

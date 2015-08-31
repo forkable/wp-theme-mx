@@ -1779,7 +1779,7 @@ class theme_functions{
 		unset($query);
 		$cache = ob_get_contents();
 		ob_end_clean();
-		theme_cache::set($cache_id,$cache,null,3600*12);
+		theme_cache::set($cache_id,$cache,null,3600);
 
 		echo $cache;
 		unset($cache);
@@ -1798,7 +1798,7 @@ class theme_functions{
 		if(!empty($excerpt))
 			$excerpt = esc_html($excerpt);
 			
-		$thumbnail_real_src = esc_url(theme_functions::get_thumbnail_src($post->ID));
+		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
@@ -1876,7 +1876,7 @@ class theme_functions{
 		if(!empty($excerpt))
 			$excerpt = esc_html($excerpt);
 			
-		$thumbnail_real_src = esc_url(theme_functions::get_thumbnail_src($post->ID));
+		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
