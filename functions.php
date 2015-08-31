@@ -284,8 +284,8 @@ class theme_functions{
 				if(class_exists('theme_recommended_post')){
 					$query_args['post__in'] = (array)theme_recommended_post::get_ids();
 				}else{
-					$query_args['post__in'] = (array)get_option( 'sticky_posts' );
-				unset($query_args['ignore_sticky_posts']);
+					$query_args['post__in'] = (array)theme_cache::get_option( 'sticky_posts' );
+					unset($query_args['ignore_sticky_posts']);
 				}
 				unset($query_args['post__not_in']);
 				break;
@@ -1723,8 +1723,7 @@ class theme_functions{
 			<?php
 			return false;
 		}
-		$cache_id = md5(json_encode($recomms));
-		$cache = theme_cache::get($cache_id);
+		$cache = theme_recommended_post::get_cache();
 		
 		if(!empty($cache)){
 			echo $cache;
@@ -1773,13 +1772,11 @@ class theme_functions{
 				</div> -->
 			<?php } ?>
 			<?php
-		}else{
-			
 		}
 		unset($query);
 		$cache = ob_get_contents();
 		ob_end_clean();
-		theme_cache::set($cache_id,$cache,null,3600);
+		theme_recommended_post::set_cache($cache);
 
 		echo $cache;
 		unset($cache);

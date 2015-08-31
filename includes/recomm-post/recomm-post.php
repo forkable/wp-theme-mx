@@ -67,6 +67,7 @@ class theme_recommended_post{
 			unset($opt['ids'][$k]);
 			sort($opt['ids']);
 			theme_options::set_options(__CLASS__,$opt);
+			self::clear_cache();
 		}
 	}
 	public static function opttions_default(array $opts = []){
@@ -80,28 +81,43 @@ class theme_recommended_post{
 			return false;
 
 		$opt = self::get_options();
+
 		
 		if(!isset($opt['ids']))
 			$opt['ids'] = [];
+
 		/**
 		 * set to recomm
 		 */
 		if(isset($_POST[__CLASS__])){
-			if(!isset($opts['ids'][$post_id])){
-				$opt['ids'][$post_id] = $post_id;
+			if(!in_array($post_id,$opts['ids'])){
+				$opt['ids'][] = $post_id;
+				theme_options::set_options(__CLASS__,$opt);
+				self::clear_cache();
 			}
 		}else{
-			if(isset($opt['ids'][$post_id])){
-				unset($opt['ids'][$post_id]);
+			$key = array_search($post_id,$opt['ids']);
+			if($key !== false){
+				unset($opt['ids'][$key]);
+				theme_options::set_options(__CLASS__,$opt);
+				self::clear_cache();
 			}
 		}
-		theme_options::set_options(__CLASS__,$opt);
 	}
 	public static function get_ids(){
 		return (array)self::get_options('ids');
 	}
 	public static function is_enabled(){
 		return self::get_options('enabled') == 1 ? true : false;
+	}
+	public static function clear_cache(){
+		theme_cache::delete(__CLASS__);
+	}
+	public static function set_cache($data){
+		theme_cache::set(__CLASS__,$data,null,3600);
+	}
+	public static function get_cache(){
+		return theme_cache::get(__CLASS__);
 	}
 	public static function display_backend(){
 		$checked = self::is_enabled() ? ' checked ' : null;
@@ -136,7 +152,7 @@ class theme_recommended_post{
 										setup_postdata($post);
 										?>
 <label for="<?= __CLASS__;?>-<?= $post->ID;?>" class="button">
-	<input type="checkbox" id="<?= __CLASS__;?>-<?= $post->ID;?>" name="<?= __CLASS__;?>[ids][<?= $post->ID;?>]" value="<?= $post->ID;?>" checked >
+	<input type="checkbox" id="<?= __CLASS__;?>-<?= $post->ID;?>" name="<?= __CLASS__;?>[ids][]" value="<?= $post->ID;?>" checked >
 	<?= theme_cache::get_the_title($post->ID);?>
 	-
 	<a href="<?= esc_url(get_edit_post_link($post->ID));?>" target="_blank" title="<?= ___('Open in open window');?>"><i class="fa fa-external-link"></i></a>
