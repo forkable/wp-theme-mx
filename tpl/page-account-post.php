@@ -136,34 +136,22 @@ function post_form($post_id = null){
 			</div>
 		</div>
 		<!-- split with next-page -->
-		<?php
-		if(isset($_COOKIE['ctb-split']) && $_COOKIE['ctb-split'] == 'nextpage'){
-			$ctb_split_check_nextpage = 'checked';
-			$ctb_split_check_unset = null;
-		}else{
-			$ctb_split_check_nextpage = null;
-			$ctb_split_check_unset = 'checked';
-		}
-		?>
 		<div class="form-group">
 			<div class="col-sm-2 control-label">
 				<i class="fa fa-scissors"></i>
-				<?= ___('Use split tag for each image?');?>
+				<?= ___('Image next-page tag');?>
 			</div>
 			<div class="col-sm-10">
-				<div class="checkbox-select">
-				<label for="ctb-split-unset" class="ctb-tag">
-					<input type="radio" name="ctb[split]" id="ctb-split-unset" value="unset" <?= $ctb_split_check_unset;?> hidden> 
-					<span class="label label-default"><?= ___('No use');?></span>
-				</label> 
-				<label for="ctb-split-nextpage" class="ctb-tag">
-					<input type="radio" name="ctb[split]" id="ctb-split-nextpage" value="<!--nextpage-->" <?= $ctb_split_check_nextpage;?> hidden> 
-					<span class="label label-default"><?= ___('Use "next page" tag');?></span>
-				</label> 
-				<span class="description"><?= ___('Please confirm before uploading image.');?></span>
-				</div>
+				<select id="ctb-split-number" class="form-control">
+					<option value="0"><?= ___('Do not use next-page tag');?></option>
+					<?php for($i=1;$i<=10;++$i){ ?>
+						<option value="<?= $i;?>"><?= sprintf(___('%d image(s) / page'),$i);?></option>
+					<?php } ?>
+				</select>
+				<p class="description"><?= ___('How many images to split with next-page tag?');?> <?= ___('Please confirm before uploading image.');?></p>
 			</div>
 		</div>
+		
 		<!-- upload image -->
 		<div class="form-group">
 			<div class="col-sm-2 control-label">
@@ -252,8 +240,8 @@ function post_form($post_id = null){
 			</div>
 			<div class="col-sm-10">
 				<?php
-				$selected_cat_id = 0;
 				if($edit){
+					$selected_cat_id = 0;
 					$cats = get_the_category($post->ID);
 					
 					if(isset($cats[0]->term_id))
@@ -263,17 +251,18 @@ function post_form($post_id = null){
 						if($cat->parent != 0)
 							$selected_cat_id = $cat->term_id;
 					}
-					
+					wp_dropdown_categories([
+						'id' => 'ctb-cat',
+						'name' => 'ctb[cat]',
+						'class' => 'form-control',
+						'selected' => $selected_cat_id,
+						'show_option_none' => ___('Select category'),
+						'hierarchical' => true,
+						'include' => (array)theme_custom_contribution::get_cat_ids(),
+					]); 
+				}else{
+					theme_custom_contribution::output_cats();
 				}
-				wp_dropdown_categories([
-					'id' => 'ctb-cat',
-					'name' => 'ctb[cat]',
-					'class' => 'form-control',
-					'selected' => $selected_cat_id,
-					'show_option_none' => ___('Select a category'),
-					'hierarchical' => true,
-					'include' => (array)theme_custom_contribution::get_options('cats'),
-				]); 
 				?>
 			</div>
 		</div>
@@ -340,9 +329,7 @@ function post_form($post_id = null){
 							</span>
 						</label>
 						
-						<?php
-					}
-					?>
+					<?php } ?>
 				</div>
 			</div>
 		</div>

@@ -329,7 +329,14 @@ class custom_post_point{
 			$query->set('ignore_sticky_posts',true);
 		}
 	}
-
+	public static function filter_custom_point_types(array $types = []){
+		$types['post-swap'] = [
+			'text' => ___('When post point swap'),
+			'type' => 'text',
+			'des' => ___('Use commas to separate multiple point, first as the default.'),
+		];
+		return $types;
+	}
 	public static function filter_custom_point_value_default(array $opts = []){
 		$opts['post-swap'] = self::get_point_values_default(true);
 		return $opts;

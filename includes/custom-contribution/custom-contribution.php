@@ -91,14 +91,14 @@ class theme_custom_contribution{
 		</fieldset>
 		<?php
 	}
-	public static function options_save($opts){
+	public static function options_save(array $opts = []){
 		if(!isset($_POST[self::$iden]))
 			return $opts;
 
 		$opts[self::$iden] = $_POST[self::$iden];
 		return $opts;
 	}
-	public static function options_default($opts){
+	public static function options_default(array $opts = []){
 		$opts[self::$iden]['tags-number'] = 6;
 		return $opts;
 	}
@@ -107,11 +107,12 @@ class theme_custom_contribution{
 		if($caches === null)
 			$caches = (array)theme_options::get_options(self::$iden);
 			
-		if(empty($key)){
-			return $caches;
-		}else{
-			return isset($caches[$key]) ? $caches[$key] : null;
-		}
+		if($key)
+			return isset($caches[$key]) ? $caches[$key] : false;
+		return $caches;
+	}
+	public static function get_cat_ids(){
+		return self::get_options('cats');
 	}
 	public static function get_url(){
 		static $cache = null;
@@ -436,6 +437,77 @@ class theme_custom_contribution{
 
 		die(theme_features::json_format($output));
 	}
+	public static function get_order_cats(){
+		if(!self::get_cats())
+			return false;
+			
+		$cats = [];
+		$order_cats = [];
+		
+		foreach(self::get_cats() as $cat)
+			$cats[$cat->term_id] = (array)$cat;
+		
+		foreach($cats as $cat){
+			if (isset($cats[$cat['parent']])){
+				$cats[$cat['parent']]['children'][] = &$cats[$cat['term_id']];
+			}else{
+				$order_cats[] = &$cats[$cat['term_id']];
+			}
+		}
+		
+		return $order_cats;
+	}
+	public static function get_cats($array = false){
+		static $cache = null;
+		if($cache === null)
+			$cache = get_categories([
+				'include' => self::get_cat_ids(),
+			]);
+		if($array){
+			$cats = [];
+			foreach($cache as $cat)
+				$cats[$cat->term_id] = (array)$cat;
+			return $cats;
+		}
+		return $cache;
+	}
+	public static function output_cats(){
+		if(!self::get_cat_ids())
+			return false;
+
+		self::output_cat(0);
+
+		foreach(self::get_cats() as $cat){
+			self::output_cat($cat->term_id);
+		}
+	}
+	public function output_cat($parent_cat_id){
+		$cats = [];
+		foreach(self::get_cats() as $cat){
+			if($cat->parent == $parent_cat_id){
+				$cats[] = '<option value="' . $cat->term_id . '" title="' . $cat->description . '">' . $cat->name . '</option>';
+			}
+		}
+		if(!$cats)
+			return false;
+			
+		?>
+		<select 
+			id="ctb-cat-<?= $parent_cat_id;?>" 
+			<?= $parent_cat_id == 0 ? null : 'name="ctb[cat]"' ;?> 
+			class="ctb-cat form-control <?= $parent_cat_id == 0 ? null : 'ctb-cat-child';?>" 
+			data-parent="<?= $parent_cat_id;?>" >
+			<?php 
+			if(count($cats) > 1){
+				?><option value=""><?= ___('Select a category');?></option><?php
+				echo implode('',$cats);
+			}else{
+				echo $cats[0];
+			}
+			?>
+		</select>
+		<?php
+	}
 	/**
 	 * Get thumbnail data
 	 *
@@ -514,6 +586,14 @@ class theme_custom_contribution{
 		seajs.use('<?= self::$iden;?>',function(m){
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
 			m.config.default_size = '<?= self::$thumbnail_size;?>';
+			m.config.cats = <?= json_encode(array_map(function($v){
+				return [
+					'id' => $v['term_id'],
+					'name' => $v['name'],
+					'des' => $v['description'],
+					'parent' => $v['parent'],
+				];
+			},self::get_cats(true)));?>;
 			m.config.lang = {
 				M00001 : '<?= ___('Loading, please wait...');?>',
 				M00002 : '<?= ___('Uploading {0}/{1}, please wait...');?>',

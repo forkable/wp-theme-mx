@@ -14,6 +14,7 @@ define(function(require, exports, module){
 		edit : false,
 		thumbnail_id : false,
 		attachs : false,
+		cats : false,
 		
 		default_size : 'large',
 		process_url : '',
@@ -56,7 +57,7 @@ define(function(require, exports, module){
 		cache.$file_progress_bar = 	I('ctb-file-progress-bar');
 		cache.$file_progress_tx = 	I('ctb-file-progress-tx');
 		
-		cache.$split_nextpage = I('ctb-split-nextpage');
+		cache.$split_number = I('ctb-split-number');
 
 		if(!cache.$fm) 
 			return false;
@@ -65,10 +66,13 @@ define(function(require, exports, module){
 		
 		upload();
 
-		fm_validate(cache.$fm);	
+		cats();
 		
 		toggle_reprint_group();
 		
+		fm_validate(cache.$fm);	
+
+
 	}
 	/**
 	 * send_to_editor
@@ -228,9 +232,11 @@ define(function(require, exports, module){
 			append_tpl(data);
 			/** send to editor */
 			var editor_content = send_content(data.full.url,data[config.default_size].url);
+			
 			/** nextpage checked */
-			if(cache.$split_nextpage.checked && cache.file_index > 1){
-				editor_content = cache.$split_nextpage.value + editor_content;
+			if(cache.$split_number.value >= 1 && cache.file_index > 1){
+				if(cache.file_index % cache.$split_number.value == 0)
+					editor_content = '<!--nextpage-->' + editor_content;
 			}
 			send_to_editor(editor_content);
 		
@@ -330,10 +336,7 @@ define(function(require, exports, module){
 			send_content_helper = function(){
 					/** send to editor */
 				var editor_content = send_content(args.full.url,args[this.getAttribute('data-size')].url);
-				/** nextpage checked */
-				if(cache.$split_nextpage.checked){
-					editor_content = cache.$split_nextpage.value + editor_content;
-				}
+				
 				send_to_editor(editor_content);
 			};
 		for(var i = 0, len = $insert_btn.length; i < len; i++){
@@ -347,7 +350,8 @@ define(function(require, exports, module){
 		return '<p><a href="' + full_url + '" title="' + title + '" target="_blank" >' + 
 			'<img src="' + img_url + '" alt="' + title + '" >' +
 		'</a></p>';
-	}	
+	}
+
 	/**
 	 * The tip when pic is uploading
 	 *
@@ -390,7 +394,32 @@ define(function(require, exports, module){
 			m.init();
 		
 	}
+	function cats(){
+		if(!config.cats)
+			return false;
+		cache.$cat_child = document.querySelectorAll('.ctb-cat-child');
 
+		if(!cache.$cat_child[0])
+			return false;
+			
+		function event_parent_change(){
+			var $target = I('ctb-cat-' + this.value);
+			
+			for(var i=0, len=cache.$cat_child.length; i<len; i++){
+				if(cache.$cat_child[i].classList.contains('selected'))
+					cache.$cat_child[i].classList.remove('selected');
+				cache.$cat_child[i].removeAttribute('required');
+			}
+			if(!$target)
+				return;
+			$target.classList.add('selected');
+			$target.setAttribute('required',true);
+		}
+		
+		cache.$cat_0 = I('ctb-cat-0');
+		cache.$cat_0.setAttribute('required',true);
+		cache.$cat_0.addEventListener('change',event_parent_change);
+	}
 	function toggle_reprint_group(){
 		var $reprint_group = I('reprint-group'),
 			$radios = document.querySelectorAll('.theme_custom_post_source-source-radio'),

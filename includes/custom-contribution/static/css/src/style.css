@@ -159,13 +159,25 @@
 #fm-ctb .page-tip{
 	display: none;
 }
+
+#fm-ctb .form-group:nth-child(2n){
+	background: #F8F8F8; 
+}
 /**
- * #ctb-cat
+ * .ctb-cat
  */
-#ctb-cat{
+.ctb-cat{
+	display: none;
 	width: auto;
 	cursor: pointer;
 }
+	.ctb-cat:first-child{
+		display: inline-block;
+	}
+	.ctb-cat.selected{
+		display: inline-block;
+	}
+	
 
 /**
  * .howto
