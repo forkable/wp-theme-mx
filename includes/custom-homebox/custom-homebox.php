@@ -123,6 +123,8 @@ class theme_custom_homebox{
 		$number = isset($boxes[$placeholder]['number']) ? (int)$boxes[$placeholder]['number'] : 7;
 		
 		$keywords = isset($boxes[$placeholder]['keywords']) ? $boxes[$placeholder]['keywords'] : null;
+
+		$ad = isset($boxes[$placeholder]['ad']) ? stripslashes($boxes[$placeholder]['ad']) : null;
 		
 		ob_start();
 		?>
@@ -189,16 +191,18 @@ class theme_custom_homebox{
 				
 			</td>
 		</tr>
+		<tr>
+			<th><label for="<?= __CLASS__;?>-<?= $placeholder;?>-ad"><?= ___('AD code');?></label></th>
+			<td>
+				<textarea name="<?= __CLASS__;?>[<?= $placeholder;?>][ad]" id="<?= __CLASS__;?>-<?= $placeholder;?>-ad" cols="30" rows="5" class="widefat" placeholder="<?= ___('HTML code will display below this box.');?>"><?= $ad;?></textarea>
+			</td>
+		</tr>
 		<?php
 		$content = ob_get_contents();
 		ob_end_clean();
 		return $content;
 	}
-	public static function process(){
-		$output = [];
-		
-		die(theme_features::json_format($output));
-	}
+
 	public static function options_save(array $opts = []){
 		if(isset($_POST[__CLASS__])){
 			$opts[__CLASS__] = $_POST[__CLASS__];
@@ -218,7 +222,7 @@ class theme_custom_homebox{
 		return $opts;
 	}
 	public static function delete_cache(){
-		theme_cache::set('content',false,__CLASS__);
+		theme_cache::delete('content',__CLASS__);
 	}
 	public static function set_cache($data){
 		theme_cache::set('content',$data,__CLASS__,3600);

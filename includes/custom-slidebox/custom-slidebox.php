@@ -32,6 +32,7 @@ class theme_custom_slidebox{
 	public static function options_save(array $opts = []){
 		if(isset($_POST['slidebox'])){
 			$opts[__CLASS__] = $_POST['slidebox'];
+			self::delete_cache();
 		}
 		return $opts;
 	}
@@ -231,14 +232,23 @@ class theme_custom_slidebox{
 		</fieldset>
 	<?php
 	}
+	public static function delete_cache(){
+		theme_cache::delete(__CLASS__);
+	}
+	public static function set_cache($data){
+		theme_cache::set(__CLASS__,$data);
+	}
+	public static function get_cache(){
+		return theme_cache::get(__CLASS__);
+	}
 	public static function display_frontend(){
 		$boxes = (array)self::get_options();
 	
-		$cache_id = md5(serialize($boxes));
-		$cache = theme_cache::get($cache_id,__CLASS__);
+		$cache = self::get_cache();
 		if($cache){
 			echo $cache;
-			return $cache;
+			unset($cache);
+			return;
 		}
 		
 		if(is_null_array($boxes) || count($boxes) < 2) return false;
@@ -267,7 +277,8 @@ class theme_custom_slidebox{
 			++$i;
 			$rel_nofollow = isset($v['rel']['nofollow']) ? 'rel="nofollow"' : null;
 			$target_blank = isset($v['target']['blank']) ? 'target="blank"' : null;
-			$title = $v['title'];
+			$title = esc_html($v['title']);
+			$subtitle = esc_html($v['subtitle']);
 			$img_url = esc_url($v['img-url']);
 			$link_url = esc_url($v['link-url']);
 			?>
@@ -275,21 +286,21 @@ class theme_custom_slidebox{
 				<a 
 					class="img" 
 					href="<?= $link_url;?>" 
-					title="<?= $v['title'];?>" 
+					title="<?= $title;?>" 
 					<?= $rel_nofollow;?> 
 					<?= $target_blank;?> 
-				><img src="<?= $img_url;?>" alt="<?= $v['title'];?>" width="<?= self::$image_size[0];?>" height="<?= self::$image_size[1];?>"></a>
+				><img src="<?= $img_url;?>" alt="<?= $title;?>" width="<?= self::$image_size[0];?>" height="<?= self::$image_size[1];?>"></a>
 
 				<a 
 					class="des" 
 					href="<?= $link_url;?>" 
-					title="<?= $v['title'];?>" 
+					title="<?= $title;?>" 
 					<?= $rel_nofollow;?> 
 					<?= $target_blank;?> 
 				>
-					<span class="title"><?= $v['title'];?></span>
-					<?php if($v['subtitle'] !== ''){ ?>
-						<span class="sub-title"><?= $v['subtitle'];?></span>
+					<span class="title"><?= $title;?></span>
+					<?php if($subtitle !== ''){ ?>
+						<span class="sub-title"><?= $subtitle;?></span>
 					<?php } ?>
 					<span class="more"><?= ___('Detail &raquo;');?></span>
 				</a>
@@ -303,14 +314,14 @@ class theme_custom_slidebox{
 			++$i;
 			$rel_nofollow = isset($v['rel']['nofollow']) ? 'rel="nofollow"' : null;
 			$target_blank = isset($v['target']['blank']) ? 'target="blank"' : null;
-			$title = $v['title'];
+			$title = esc_html($v['title']);
 			$img_url = esc_url($v['img-url']);
 			$link_url = esc_url($v['link-url']);
 			?>
 			<a 
 				class="item <?= $i === 1 ? 'active' : null;?>" 
 				href="<?= $link_url;?>" 
-				title="<?= $v['title'];?>" 
+				title="<?= $title;?>" 
 				<?= $rel_nofollow;?> 
 				<?= $target_blank;?> 
 			>
@@ -324,9 +335,9 @@ class theme_custom_slidebox{
 		<?php
 		$cache = html_minify(ob_get_contents());
 		ob_end_clean();
-		theme_cache::set($cache_id,$cache,__CLASS__);
+		self::set_cache($cache);
 		echo $cache;
-		return $cache;
+		unset($cache);
 	}
 	private static function get_labels($boxes){
 		static $cache = null;

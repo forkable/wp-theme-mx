@@ -494,7 +494,7 @@ class theme_custom_contribution{
 		?>
 		<select 
 			id="ctb-cat-<?= $parent_cat_id;?>" 
-			<?= $parent_cat_id == 0 ? null : 'name="ctb[cat]"' ;?> 
+			name="ctb[cat]" 
 			class="ctb-cat form-control <?= $parent_cat_id == 0 ? null : 'ctb-cat-child';?>" 
 			data-parent="<?= $parent_cat_id;?>" >
 			<?php 

@@ -1,4 +1,5 @@
 <?php
+remove_action( 'admin_init', '_wp_check_for_scheduled_split_terms' );
 
 /** Theme options */
 include __DIR__ . '/core/core-options.php';
@@ -1983,6 +1984,14 @@ class theme_functions{
 		unset($query);
 		?>
 	</ul>
+	<?php
+	/**
+	 * ad
+	 */
+	if(isset($v['ad']) || !empty($v['ad'])){
+		?>
+		<div class="homebox-ad"><?= stripslashes($v['ad']);?></div>
+	<?php } ?>
 </div>
 			<?php
 			++$lazyload_i;
