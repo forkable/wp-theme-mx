@@ -44,9 +44,9 @@ function fm_validate($fm){var m=new tools.validate();m.process_url=config.proces
 function cats(){if(!config.cats)
 return false;cache.$cat_child=document.querySelectorAll('.ctb-cat-child');if(!cache.$cat_child[0])
 return false;function event_parent_change(){var $target=I('ctb-cat-'+this.value);for(var i=0,len=cache.$cat_child.length;i<len;i++){if(cache.$cat_child[i].classList.contains('selected'))
-cache.$cat_child[i].classList.remove('selected');cache.$cat_child[i].removeAttribute('required');}
+cache.$cat_child[i].classList.remove('selected');cache.$cat_child[i].removeAttribute('required');cache.$cat_child[i].setAttribute('disabled',true);}
 if(!$target)
-return;$target.classList.add('selected');$target.setAttribute('required',true);}
+return;$target.classList.add('selected');$target.setAttribute('required',true);$target.removeAttribute('disabled');}
 cache.$cat_0=I('ctb-cat-0');cache.$cat_0.setAttribute('required',true);cache.$cat_0.addEventListener('change',event_parent_change);}
 function toggle_reprint_group(){var $reprint_group=I('reprint-group'),$radios=document.querySelectorAll('.theme_custom_post_source-source-radio'),action=function($radio){if($radio.id==='theme_custom_post_source-source-reprint'&&$radio.checked){$reprint_group.style.display='block';var $input=$reprint_group.querySelector('input');if($input.value.trim()==='')
 $input.focus();}else{$reprint_group.style.display='none';}},help=function(){action(this)};for(var i=0,len=$radios.length;i<len;i++){action($radios[i]);$radios[i].addEventListener('change',help,false);}}});

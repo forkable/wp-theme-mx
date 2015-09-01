@@ -409,11 +409,13 @@ define(function(require, exports, module){
 				if(cache.$cat_child[i].classList.contains('selected'))
 					cache.$cat_child[i].classList.remove('selected');
 				cache.$cat_child[i].removeAttribute('required');
+				cache.$cat_child[i].setAttribute('disabled',true);
 			}
 			if(!$target)
 				return;
 			$target.classList.add('selected');
 			$target.setAttribute('required',true);
+			$target.removeAttribute('disabled');
 		}
 		
 		cache.$cat_0 = I('ctb-cat-0');
