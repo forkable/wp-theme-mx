@@ -484,7 +484,8 @@ img{
 		text-align: center;
 		background: #fff;
 		padding: 5px 0;
-		box-shadow: 0 1px 0 1px rgba(0,0,0,.07);
+		border: 1px solid rgba(0,0,0,.07);
+		border-bottom-width: 2px;
 		color: #666;
 		margin: -20px 0 20px;
 	}
@@ -509,7 +510,8 @@ img{
 		display: block;
 		color:#333;
 		border-radius: 2px;
-		box-shadow: 0px 1px 0 1px rgba(0,0,0,.07);
+		border: 1px solid rgba(0,0,0,.07);
+		border-bottom-width: 2px;
 	}
 		.post-img-list a:hover{
 			/*color: #FF4081;*/
@@ -747,6 +749,10 @@ img{
 	border: 1px solid rgba(0,0,0,.07);
 	border-bottom-width: 2px;
 }
+	.widget_adbox img{
+		display: block;
+		width: 100%;
+	}
 /**
  * .widget_rank
  */
@@ -2685,6 +2691,7 @@ label.error{
 }
 @media (min-width: 1300px){
 	.container{
-		width: 1270px;
+		width: auto;
+		padding: 0 20px;
 	}
 }
