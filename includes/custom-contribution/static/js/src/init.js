@@ -408,13 +408,11 @@ define(function(require, exports, module){
 			for(var i=0, len=cache.$cat_child.length; i<len; i++){
 				if(cache.$cat_child[i].classList.contains('selected'))
 					cache.$cat_child[i].classList.remove('selected');
-				cache.$cat_child[i].removeAttribute('required');
 				cache.$cat_child[i].setAttribute('disabled',true);
 			}
 			if(!$target)
 				return;
 			$target.classList.add('selected');
-			$target.setAttribute('required',true);
 			$target.removeAttribute('disabled');
 		}
 		

@@ -6,7 +6,7 @@
  * Help you write a wp site quickly.
  *
  * @package KMTF
- * @version 5.0.4
+ * @version 5.0.5
  */
 theme_features::init();
 class theme_features{
@@ -110,17 +110,25 @@ class theme_features{
 			/** 
 			 * replace // to /,\ to /,\\ to /
 			 */
-			$search = array('//','\\','\\\\','/\\','\\/');
-			$replace = '/';
-			$file = str_replace($search,$replace,$file);
+			$file = str_replace(
+				[
+					'//',
+					'\\',
+					'\\\\',
+					'/\\',
+					'\\/'
+				],
+				'/',
+				$file
+			);
 			/** 
 			 * check has /src/ keyword and minify
 			 */
 			$self_basedir_src = 'basedir_' . $ext . '_src';
 			$self_basedir_min = 'basedir_' . $ext . '_min';
-			$found = stristr($file,self::$$self_basedir_src);
+			$found = strstr($file,self::$$self_basedir_src);
 			if($found !== false){
-				$file_min = str_ireplace(self::$$self_basedir_src,self::$$self_basedir_min,$file);
+				$file_min = str_replace(self::$$self_basedir_src,self::$$self_basedir_min,$file);
 				self::minify($file,$file_min);
 			}
 		}
@@ -137,7 +145,7 @@ class theme_features{
 	 */
 	public static function get_theme_info($key = null,$stylesheet = null, $theme_root = null){
 		static $caches = [],$theme = null;
-		$cache_id = md5(serialize(func_get_args()));
+		$cache_id = md5(json_encode(func_get_args()));
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
@@ -225,10 +233,12 @@ class theme_features{
 	 * @param string 
 	 * @param string 
 	 * @return n/a
-	 * @version 1.0.0
+	 * @version 1.0.1
 	 */
 	public static function minify($file_path = null,$file_path_min){
-		if(!file_exists($file_path)) return false;
+		if(!is_file($file_path)) 
+			return false;
+			
 		$file_path_info = pathinfo($file_path);
 		/**
 		 * minify
@@ -242,10 +252,11 @@ class theme_features{
 					include self::get_theme_includes_path('class/jsmin.php');
 					
 				$source = file_get_contents($file_path);
-				$min = theme_includes\JSMin::minify($source);
-				mk_dir(dirname($file_path_min));
-				file_put_contents($file_path_min,$min);
-				unset($min);
+				$min_dir = dirname($file_path_min);
+				if(!is_dir($min_dir))
+					mkdir($min_dir,0755,true);
+				file_put_contents($file_path_min,theme_includes\JSMin::minify($source));
+				unset($source);
 				break;
 			/**
 			 * CSS file
@@ -256,10 +267,11 @@ class theme_features{
 					
 				$source = file_get_contents($file_path);
 				$cssmin = new theme_includes\CSSMin();
-				$min = $cssmin->run($source);
-				mk_dir(dirname($file_path_min));
-				file_put_contents($file_path_min,$min);
-				unset($min);
+				$min_dir = dirname($file_path_min);
+				if(!is_dir($min_dir))
+					mkdir($min_dir,0755,true);
+				file_put_contents($file_path_min,$cssmin->run($source));
+				unset($source);
 				break;
 			/**
 			 * Other
@@ -284,7 +296,8 @@ class theme_features{
 		/**
 		 * cache
 		 */
-		$cache_id = $file_basename . $url_only . $version;
+		$cache_id = md5($file_basename . $url_only . $version);
+		
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
@@ -334,7 +347,7 @@ class theme_features{
 		/**
 		 * cache
 		 */
-		$cache_id = md5(serialize(func_get_args()));
+		$cache_id = md5(json_encode(func_get_args()));
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 
@@ -396,17 +409,16 @@ class theme_features{
 	 * @version 2.0.0
 	 */
 	public static function get_theme_extension_url(array $args = []){
-		$defaults = [
+		$args = array_merge([
 			'type' => null,
 			'basedir' => null,
 			'file_basename' => null,
 			'ext' => null,
 			'mtime' => false,
 			'url_only' => true,
-		];
-		$args = array_merge($defaults,$args);
+		],$args);
 		
-		$dev_mode = class_exists('theme_dev_mode') && theme_dev_mode::is_enabled() ? true : false;
+		$dev_mode = class_exists('theme_dev_mode') && theme_dev_mode::is_enabled();
 
 
 		$file_ext = substr(strrchr($args['file_basename'], '.'), 1);
@@ -460,7 +472,7 @@ class theme_features{
 	 */
 	public static function get_theme_includes_js($DIR = null,$filename = 'init',$url_only = true){
 		static $caches = [];
-		$cache_id = md5($DIR.$filename.$url_only);
+		$cache_id = md5($DIR . $filename . $url_only);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
@@ -521,7 +533,8 @@ class theme_features{
 	public static function get_theme_includes_image($DIR,$filename){
 		static $caches = [];
 		
-		$cache_id = md5($DIR.$filename);
+		$cache_id = $DIR . $filename;
+		
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
@@ -554,13 +567,12 @@ class theme_features{
 		 * )
 		 */
 		if(!$args || !is_array($args)) return false;
-		$defaults = array(
+		$r = array_merge([
 			'type' => null,
 			'basedir' => null,
 			'file_basename' => null,
 			'mtime' => true,
-		);
-		$r = array_merge($defaults,$args);
+		],$args);
 		extract($r,EXTR_SKIP);
 		
 		
@@ -645,12 +657,12 @@ class theme_features{
 	 */
 	public static function get_theme_includes_url($DIR = null,$file_basename = null,$mtime = false){
 	
-		$args = array(
+		$args = [
 			'type' => 'includes',
 			'basedir' => basename($DIR),
 			'file_basename' => $file_basename,
 			'mtime' => $mtime,
-		);
+		];
 		return self::get_theme_extension_url_core($args);
 	}
 	/**
@@ -664,7 +676,7 @@ class theme_features{
 	public static function get_theme_images_url($file_basename = null,$mtime = true){
 		static $caches = [];
 		
-		$cache_id = $file_basename.$mtime;
+		$cache_id = md5($file_basename . $mtime);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
@@ -698,11 +710,10 @@ class theme_features{
 	 *
 	 * @param object
 	 * @return string
-	 * @version 1.0.4
+	 * @version 1.0.5
 	 */
-	public static function json_format( $output = [],$die = false,$jsonp = false){
-		if(empty($output)) 
-			return false;
+	public static function json_format($output, $die = false, $jsonp = false){
+
 		/** Reduce the size but will inccrease the CPU load */
 		$output = json_encode($output);
 
@@ -717,7 +728,6 @@ class theme_features{
 		}
 
 		return $die ? die($output) : $output;
-
 	}
 
 	/**
@@ -740,7 +750,10 @@ class theme_features{
 			die(self::json_format($output));
 		}
 	}
-	public static function create_nonce($key = 'theme-nonce'){
+	public static function create_nonce($key = 'theme-nonce',$focus = false){
+		if($focus)
+			return wp_create_nonce($key);
+
 		static $nonce = null;
 		if($nonce === null)
 			$nonce = wp_create_nonce($key);
@@ -751,16 +764,16 @@ class theme_features{
 	 * Check theme nonce code
 	 *
 	 * @return 
-	 * @version 1.3.0
+	 * @version 1.3.1
 	 */
 	public static function check_nonce($action = 'theme-nonce',$key = 'theme-nonce'){
 		$nonce = isset($_REQUEST[$action]) ? $_REQUEST[$action] : null;
 		if(!wp_verify_nonce($nonce,$key)){
-			$output = array(
+			$output = [
 				'status' => 'error',
 				'code' => 'invalid_security_code',
 				'msg' => ___('Sorry, security code is invalid.')
-			);
+			];
 			die(self::json_format($output));
 		}
 	}
@@ -769,12 +782,14 @@ class theme_features{
 	 *
 	 * @param int|object $user The user stdClass object or user ID
 	 * @return string
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 */
 	public static function get_avatar($user,$size = 80,$default = null,$alt = null){
-		$cache_id = md5(serialize(func_get_args()));
 		
 		static $caches = [];
+		
+		$cache_id = md5(json_encode(func_get_args()));
+		
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
@@ -803,8 +818,10 @@ class theme_features{
 	 */
 	public static function get_theme_url($file_basename = null,$mtime = false){
 		
-		static $caches;
-		$cache_id = $file_basename.$mtime;
+		static $caches = [];
+		
+		$cache_id = md5($file_basename . $mtime);
+		
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 			
@@ -822,15 +839,19 @@ class theme_features{
 	 * 
 	 * @param string $file_basename
 	 * @return string $file_path
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 */
 	public static function get_theme_path($file_basename = null){
-		static $caches;
+		static $caches = [];
+
 		$cache_id = md5($file_basename);
+		
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
-		if(!$file_basename) return get_stylesheet_directory() . '/';
+		if(!$file_basename) 
+			return get_stylesheet_directory() . '/';
+			
 		$file_path = $file_basename[0] === '/' ? self::get_stylesheet_directory() . $file_basename : self::get_stylesheet_directory() . '/' . $file_basename;
 
 		$caches[$cache_id] = $file_path;
@@ -841,15 +862,19 @@ class theme_features{
 	 * 
 	 * @param string $file_basename
 	 * @return string $file_path
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 */
 	public static function get_theme_includes_path($file_basename = null){
-		static $caches;
+		static $caches = [];
+
 		$cache_id = md5($file_basename);
+		
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 		
-		if(!$file_basename) return self::get_stylesheet_directory() . self::$basedir_includes;
+		if(!$file_basename) 
+			return self::get_stylesheet_directory() . self::$basedir_includes;
+			
 		$file_path = $file_basename[0] === '/' ? self::get_stylesheet_directory() . self::$basedir_includes . $file_basename : self::get_stylesheet_directory() . self::$basedir_includes . $file_basename;
 		
 		$caches[$cache_id] = $file_path;
@@ -1069,7 +1094,7 @@ class theme_features{
 	 * 
 	 * 
 	 * @return int The current category id
-	 * @version 1.1.0
+	 * @version 1.1.1
 	 * 
 	 */
 	public static function get_current_cat_id(){
@@ -1080,12 +1105,11 @@ class theme_features{
 		global $cat,$post;
 		if($cat){
 			$cat_obj = get_category($cat);
-			$cat_id = $cat_obj->term_id;
+			$cache = $cat_obj->term_id;
 		}else if($post){
 			$cat_obj = get_the_category($post->ID);
-			$cat_id = isset($cat_obj[0]) ? $cat_obj[0]->cat_ID : 0;
+			$cache = isset($cat_obj[0]) ? $cat_obj[0]->cat_ID : 0;
 		}
-		$cache = $cat_id;
 		return $cache;
 	}
 	/**
@@ -1226,13 +1250,15 @@ class theme_features{
 	 */
 	public static function get_wp_themes_local_dir($file_name = null){
 		static $caches = [];
-		if(isset($caches[$file_name]))
-			return $caches[$file_name];
+		$cache_id = md5($file_name);
+		
+		if(isset($caches[$cache_id]))
+			return $caches[$cache_id];
 			
 		$basedir_name = '/themes/';
-		$file_name = $file_name ? '/' .$file_name : '/';
-		$caches[$file_name] = self::get_stylesheet_directory().$basedir_name.$file_name;
-		return $caches[$file_name];
+		$file_name = $file_name ? '/' . $file_name : '/';
+		$caches[$cache_id] = self::get_stylesheet_directory().$basedir_name.$file_name;
+		return $caches[$cache_id];
 	}
 	/**
 	 * get_link_page_url
@@ -1510,58 +1536,57 @@ class theme_features{
 	}
 
 	/* 后台登录logo 链接修改 */
-	public static function custom_login_logo_url($url) {
-		static $cache = null;
-		if($cache === null)
-			$cache = home_url();
-			
-		return $cache;
+	public static function custom_login_logo_url() {
+		return theme_cache::home_url();
 	}
 
 	/* 增強bodyclass樣式 */
 	public static function theme_body_classes(array $classes = []){
-		if(theme_cache::is_singular()){
+		if(theme_cache::is_singular())
 			$classes[] = 'singular';
-		}
 		return $classes;
 	}
 	/** _fix_custom_background_cb */
 	public static function _fix_custom_background_cb() {
 		// $background is the saved custom image, or the default image.
+		$mods = get_theme_mods();
 		$background = set_url_scheme( get_background_image() );
 
-		// $color is the saved custom color.
-		// Added second parameter to get_theme_mod() to get_theme_support() as we need default colors to show with needing to save.
-		$color = get_theme_mod( 'background_color', get_theme_support( 'custom-background', 'default-color' ) );
+		$color = isset($mods['background_color']) ? $mods['background_color'] : get_theme_support( 'custom-background', 'default-color' );
 
 		if ( ! $background && ! $color )
-		return;
+			return;
 
 		$style = $color ? "background-color: #$color;" : '';
 
 		if ( $background ) {
-		$image = " background-image: url('$background');";
+			$image = " background-image: url('$background');";
 
-		$repeat = get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) );
-		if ( ! in_array( $repeat, array( 'no-repeat', 'repeat-x', 'repeat-y', 'repeat' ) ) )
-		$repeat = 'repeat';
-		$repeat = " background-repeat: $repeat;";
+			$repeat = isset($mods['background_repeat']) ? $mods['background_repeat'] : get_theme_support( 'custom-background', 'default-repeat' );
+			
+			if ( ! in_array( $repeat, array( 'no-repeat', 'repeat-x', 'repeat-y', 'repeat' ) ) )
+				$repeat = 'repeat';
+				
+			$repeat = " background-repeat: $repeat;";
 
-		$position = get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) );
-		if ( ! in_array( $position, array( 'center', 'right', 'left' ) ) )
-		$position = 'left';
-		$position = " background-position: top $position;";
+			$position = isset($mods['background_position_x']) ? $mods['background_position_x'] : get_theme_support( 'custom-background', 'default-position-x' );
 
-		$attachment = get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'default-attachment' ) );
-		if ( ! in_array( $attachment, array( 'fixed', 'scroll' ) ) )
-		$attachment = 'scroll';
-		$attachment = " background-attachment: $attachment;";
+			if ( ! in_array( $position, array( 'center', 'right', 'left' ) ) )
+				$position = 'left';
+				
+			$position = " background-position: top $position;";
 
-		$style .= $image . $repeat . $position . $attachment;
+			$attachment = isset($mods['background_attachment']) ? $mods['background_attachment'] : get_theme_support( 'custom-background', 'default-attachment' );
+			if ( ! in_array( $attachment, array( 'fixed', 'scroll' ) ) )
+				$attachment = 'scroll';
+				
+			$attachment = " background-attachment: $attachment;";
+
+			$style .= $image . $repeat . $position . $attachment;
 		}
 		?>
 		<style id="custom-background-css">
-		body.custom-background { <?= trim( $style ); ?> }
+		body.custom-background{<?= $style;?>}
 		</style>
 		<?php
 	}
@@ -1575,17 +1600,17 @@ class theme_features{
 	 * 
 	 */
 	private static function load_includes(){
-		foreach(glob(self::get_theme_includes_path('*')) as $dir_path){
-			$path_info = pathinfo($dir_path);
-
-			$file_path = $path_info['dirname'] . '/' . $path_info['filename'] . '/' . $path_info['filename'] . '.php';
+		$dh = opendir(self::get_theme_includes_path());
+		while(($file = readdir($dh)) !== false){
+			if($file === '.' || $file === '..')
+				continue;
+			$file_path = self::get_theme_includes_path() . $file . '/' . $file . '.php';
 			
+			/** start include */
 			if(is_file($file_path))
 				include $file_path;
-				
-
 		}
-		
+		closedir($dh);
 		/**
 		 * HOOK fires init include features
 		 * 
@@ -1695,7 +1720,7 @@ class theme_features{
 	 */
 	public static function cat_option_list($group_id,$cat_id,$child = false){
 		static $caches = [];
-		$cache_id = md5(serialize(func_get_args()));
+		$cache_id = md5(json_encode(func_get_args()));
 
 		if(isset($caches[$cache_id]))
 			echo $caches[$cache_id];
@@ -1729,7 +1754,7 @@ class theme_features{
 	 */
 	public static function cat_checkbox_list($group_id,$ids_name){
 		static $caches = [];
-		$cache_id = md5(serialize(func_get_args()));
+		$cache_id = md5(json_encode(func_get_args()));
 
 		if(isset($caches[$cache_id]))
 			echo $caches[$cache_id];
@@ -1789,7 +1814,7 @@ class theme_features{
 	 */
 	public static function page_option_list($group_id,$page_slug){
 		static $caches = [];
-		$cache_id = md5(serialize(func_get_args()));
+		$cache_id = md5(json_encode(func_get_args()));
 
 		if(isset($caches[$cache_id]))
 			echo $caches[$cache_id];
@@ -1841,11 +1866,9 @@ class theme_features{
 			'audio' 		=> 'music',
 		);
 		$icons = apply_filters('post-format-icons',$icons,$key);
-		if(!$key){
-			return $icons;
-		}else{
-			return isset($icons[$key]) ? $icons[$key] : null;
-		}
+		if($key)
+			return isset($icons[$key]) ? $icons[$key] : false;
+		return $icons;
 	}
 	/**
 	 * Get comment pages count

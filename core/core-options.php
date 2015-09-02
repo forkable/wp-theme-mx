@@ -17,13 +17,10 @@ class theme_options{
 	 * @version 2.0.0
 	 */
 	public static function init(){
-		
 		add_action('admin_menu', __CLASS__ . '::add_page');
 		add_action('admin_bar_menu', __CLASS__ . '::add_bar',61);
-		add_action('wp_ajax_' . self::$iden , __CLASS__ . '::process');
-		
+		add_action('wp_ajax_' . __CLASS__ , __CLASS__ . '::process');
 		add_action('admin_init', __CLASS__ . '::admin_init' );
-
 	}
 	public static function admin_init(){
 		if(!self::is_options_page())
@@ -43,7 +40,7 @@ class theme_options{
 	public static function get_options($key = null){
 		static $mod = null;
 		if($mod === null)
-			$mod = (array)get_theme_mod(self::$iden);
+			$mod = (array)get_theme_mod(__CLASS__);
 			
 		/** Default options hook */
 		self::$opts = array_merge(
@@ -51,18 +48,16 @@ class theme_options{
 			$mod
 		);
 
-		if($key){
-			return isset(self::$opts[$key]) ? self::$opts[$key] : null;
-		}else{
-			return self::$opts;
-		}
+		if($key)
+			return isset(self::$opts[$key]) ? self::$opts[$key] : false;
+		return self::$opts;
 	}
 	public static function process(){
 		
-		if(!isset($_POST[self::$iden]['nonce']))
+		if(!isset($_POST[__CLASS__]['nonce']))
 			die();
 			
-		if(!wp_verify_nonce($_POST[self::$iden]['nonce'],self::$iden))
+		if(!wp_verify_nonce($_POST[__CLASS__]['nonce'],__CLASS__))
 			die();
 		
 		self::options_save();
@@ -72,14 +67,13 @@ class theme_options{
 			true,
 			self::get_url()
 		));
-		die();
+		die;
 	}
 	public static function get_url(){
-		static $caches = [];
-		if(!isset($caches[self::$iden]))
-			$caches[self::$iden] = admin_url('themes.php?page=core-options');
-
-		return $caches[self::$iden];
+		static $cache = null;
+		if($cache === null)
+			$cache = admin_url('themes.php?page=core-options');
+		return $cache;
 	}
 	public static function backend_header(){
 		if(!theme_cache::current_user_can('manage_options'))
@@ -160,7 +154,7 @@ class theme_options{
 				</div>
 			<?php } ?>
 			<form id="backend-options-frm" method="post" action="<?= theme_features::get_process_url([
-				'action' => self::$iden,
+				'action' => __CLASS__,
 			]);?>">
 				
 				<div class="backend-tab-loading"><?= status_tip('loading',___('Loading, please wait...'));?></div>
@@ -217,12 +211,12 @@ class theme_options{
 				</dl>
 		
 				<p>
-					<input type="hidden" name="<?= self::$iden;?>[nonce]" value="<?= wp_create_nonce(self::$iden);?>">
+					<input type="hidden" name="<?= __CLASS__;?>[nonce]" value="<?= wp_create_nonce(__CLASS__);?>">
 					
 					<button id="submit" type="submit" class="button button-primary button-large"><i class="fa fa-check"></i> <span class="tx"><?= ___('Save all settings');?></span></button>
 					
 					<label for="options-restore" class="label-options-restore" title="<?= ___('Something error with theme? Try to restore. Be careful, theme options will be cleared up!');?>">
-						<input id="options-restore" name="<?= self::$iden;?>[restore]" type="checkbox" value="1"/>
+						<input id="options-restore" name="<?= __CLASS__;?>[restore]" type="checkbox" value="1"/>
 						<?= ___('Restore to theme default options');?> <i class="fa fa-question-circle"></i>
 					</label>
 				</p>
@@ -240,14 +234,14 @@ class theme_options{
 		if(!theme_cache::current_user_can('manage_options'))
 			return false;
 
-		$opts_new = apply_filters(self::$iden . '_save',[]);
+		$opts_new = apply_filters(__CLASS__ . '_save',[]);
 		
 		/** Reset the options? */
-		if(isset($_POST[self::$iden]['restore'])){
+		if(isset($_POST[__CLASS__]['restore'])){
 			/** Delete theme options */
-			set_theme_mod(self::$iden,[]);
+			set_theme_mod(__CLASS__,[]);
 		}else{
-			set_theme_mod(self::$iden,$opts_new);
+			set_theme_mod(__CLASS__,$opts_new);
 		}
 	}
 	/**
@@ -261,7 +255,7 @@ class theme_options{
 	public static function set_options($key,$data){
 		self::$opts = self::get_options();		
 		self::$opts[$key] = $data;
-		set_theme_mod(self::$iden,self::$opts);
+		set_theme_mod(__CLASS__,self::$opts);
 		return self::$opts;
 	}
 	/**
@@ -277,7 +271,7 @@ class theme_options{
 			return false;
 		
 		unset(self::$opts[$key]);
-		set_theme_mod(self::$iden,self::$opts);
+		set_theme_mod(__CLASS__,self::$opts);
 		return self::$opts;
 	}
 	/**

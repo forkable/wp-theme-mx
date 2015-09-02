@@ -10,7 +10,7 @@
 <body <?php body_class(); ?>>
 
 <?php if(!wp_is_mobile()){ ?>
-	<div class="top-bar navbar navbar-inverse hidden-xs">	
+	<div class="top-bar navbar navbar-inverse navbar-fixed-top hidden-xs">	
 		<div class="container">
 			<?php
 			/** 
@@ -37,7 +37,7 @@
 
 
 
-<div class="main-nav top">
+<div class="main-nav">
 	<div class="container">
 		<a href="javascript:;" class="navicon toggle visible-xs-block fa fa-navicon fa-2x fa-fw" data-target=".menu-mobile" data-icon-active="fa-times" data-icon-original="fa-navicon"></a>
 

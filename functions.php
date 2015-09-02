@@ -1564,7 +1564,7 @@ class theme_functions{
 			
 			$parent_author = get_comment_author($parent_comment->comment_ID);
 			
-			$comment_content = '<a href="' . esc_url(theme_cache::get_permalink($parent_comment->comment_post_ID)) . '#comment-' . $parent_comment->comment_ID . '" class="at" rel="nofollow">@' . $parent_author . '</a> ' . $comment_content;
+			$comment_content = '<a href="' . theme_cache::get_permalink($parent_comment->comment_post_ID) . '#comment-' . $parent_comment->comment_ID . '" class="at" rel="nofollow">@' . $parent_author . '</a> ' . $comment_content;
 		}
 		return $comment_content;
 	}
@@ -1984,7 +1984,7 @@ class theme_functions{
 				setup_postdata($post);
 				self::archive_mixed_content(array(
 					'classes' => $i <= 2 ? ['col-xs-12 col-sm-4'] : ['col-xs-12 col-sm-3'],
-					'lazyload' => wp_is_mobile() && $lazyload_i < 1 ? false : true,
+					'lazyload' => !wp_is_mobile() && $lazyload_i < 1 ? false : true,
 				));
 				++$i;
 			}

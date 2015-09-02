@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.1
+ * @version 1.0.2
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_user_settings::init';
@@ -262,8 +262,9 @@ class theme_custom_user_settings{
 				$filesub_url = '/avatar/' . $filename;
 
 				$timestamp = '?v=' . $_SERVER['REQUEST_TIME'];
-				
-				mk_dir($wp_uplaod_dir['basedir'] . '/avatar');
+
+				if(!is_dir($wp_uplaod_dir['basedir'] . '/avatar'))
+					mkdir($wp_uplaod_dir['basedir'] . '/avatar',0755,true);
 				
 				$filepath = $wp_uplaod_dir['basedir'] . $filesub_url;
 								
@@ -419,7 +420,7 @@ class theme_custom_user_settings{
 		?>
 		<li class="list-group-item">
 			<?php theme_custom_point::the_list_icon('github-alt');?>
-			<?php theme_custom_point::the_point_sign(0 - (theme_custom_point::get_point_value('save-avatar')));?>
+			<?php theme_custom_point::the_point_sign(0 - abs(theme_custom_point::get_point_value('save-avatar')));?>
 			
 			<span class="history-text">
 				<?= ___('You modified your avatar.');?>

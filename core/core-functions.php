@@ -25,7 +25,7 @@ function get_option_list($value,$text,$current_value){
 	ob_start();
 	$selected = $value == $current_value ? ' selected ' : null;
 	?>
-	<option value="<?= esc_attr($value);?>" <?= $selected;?>><?= $text;?></option>
+	<option value="<?= $value;?>" <?= $selected;?>><?= $text;?></option>
 	<?php
 	$content = ob_get_contents();
 	ob_end_clean();
@@ -124,53 +124,33 @@ function chmodr($path = null, $filemode = 0777) {
 		return false;
 	}
 }
-/**
- * mk_dir
- * 
- * 
- * @param string $target
- * @return bool
- * @version 1.0.2
- * 
- */
-function mk_dir($target = null){
-	if(!$target) return false;
-	$target = str_replace('//', '/', $target); 
-	if(file_exists($target)) return is_dir($target); 
 
-	if(@mkdir($target)){
-		$stat = stat(dirname($target)); 
-		@chmod($target, 0755); 
-		return true; 
-	}else if(is_dir(dirname($target))){
-		return false; 
-	} 
-	/* If the above failed, attempt to create the parent node, then try again. */
-	if(($target != '/')&&(mk_dir(dirname($target)))){
-		return mk_dir($target); 
-	}
-	return false; 
-}
  /**
   * remove_dir
   * 
   * 
   * @param string $path
   * @return 
-  * @version 1.0.2
+  * @version 1.0.3
   * 
   */
-function remove_dir($path = null){
-	if(!$path || !file_exists($path)) return false;
-	if(file_exists($path) || is_file($path)) @unlink($path);
+function remove_dir($path){
+	if(!file_exists($path)) 
+		return false;
+		
+	if(is_file($path)){
+		unlink($path);
+		return;
+	}
+		
 	if($handle = opendir($path)){
-		while(false !==($item = readdir($handle))){
-			if($item != "." && $item != ".."){
-				if(is_dir($path . '/' . $item)){
-					remove_dir($path . '/' . $item);
-				}else{
-					unlink($path . '/' . $item);
-				}
+		while(false !== ($item = readdir($handle))){
+			if($item == '.' || $item == '..')
+				continue;
+			if(is_dir($path . '/' . $item)){
+				remove_dir($path . '/' . $item);
+			}else{
+				unlink($path . '/' . $item);
 			}
 		}
 		closedir($handle);
@@ -490,21 +470,21 @@ function html_minify($html){
  * @param string $url The want to go url
  * @param string/array $param The wnat to go url's param
  * @return bool false that not enough param, otherwise refer to the url
- * @version 1.0.1
+ * @version 1.0.2
  * @author INN STUDIO
  * 
  */
-function refer_url($url = null,$param = null){
-	if(!$url) return false;
-	$param = is_array($param) ? http_build_query($param) : $param;
-	$url_obj = parse_url($url);
-	if(isset($url_obj['query'])){
-		$header = $param ? 'Location: ' .$url. '&' .$param : 'Location: ' .$url;
+function refer_url($url,$param = null){
+	if(is_array($param))
+		$param = http_build_query($param);
+
+	$parse_url = parse_url($url);
+	if(isset($parse_url['query'])){
+		$location = $param ? 'Location: ' . $url . '&' . $param : 'Location: ' . $url;
 	}else{
-		$header = $param ? 'Location: ' .$url. '?' .$param : 'Location: ' .$url;
+		$location = $param ? 'Location: ' . $url . '?' . $param : 'Location: ' . $url;
 	}
-	header($header);
-	exit;
+	die(header($location));
 }
 /**
  * encode
@@ -578,16 +558,7 @@ function authcode($string, $operation = 'decode', $key = 'innstudio', $expiry = 
 function get_client_ip(){
 	return preg_replace( '/[^0-9a-fA-F:., ]/', '',$_SERVER['REMOTE_ADDR'] );
 }
-/**
- * delete file
- *
- * @version 1.0.0
- */
-function delete_files($file_path){
-	if(!file_exists($file_path)) 
-		return false;
-	return unlink($file_path);
-}
+
 /**
  * Download file
  *
@@ -596,13 +567,10 @@ function delete_files($file_path){
  * @param string $name Saven filename
  * @param int $time_limit
  * @return bool
- * @version 1.0.0
+ * @version 1.0.1
  */
- function download_file($url,$dir = null,$name = null,$time_limit = 300){
+ function download_file($url,$dir,$name = null,$time_limit = 300){
 	set_time_limit($time_limit);
-	
-	if(!$dir)
-		$dir = __DIR__;
 	
 	if(!$name){
 		$default_name = explode('/',$url);
@@ -622,19 +590,6 @@ function delete_files($file_path){
 	return true;
 }
 
-/**
- * Get file modify time
- *
- * @param string $filepath File path
- * @param string $format Date format
- * @return string
- * @version 1.0.0
- */
-function get_filemtime($filepath,$format = 'YmdHis'){
-	if(!is_file($filepath))
-		return false;
-	return date($format,filemtime($filepath));
-}
 /**
  * get_img_source
  *
