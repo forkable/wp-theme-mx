@@ -1943,13 +1943,24 @@ class theme_functions{
 		foreach($opt as $k => $v){
 			if(!isset($v['title']) || trim($v['title']) === '')
 				continue;
+			$link = isset($v['link']) && !empty($v['link']) ? esc_url($v['link']) : false;
 			?>
 <div id="homebox-<?= $k;?>" class="homebox mod">
 	
 	<div class="mod-heading">
 		<h2 class="mod-title">
+			<?php if($link){ ?><a href="<?= $link;?>" title="<?= ___('More');?>"><?php } ?>
 			<?= stripcslashes($v['title']);?>
+			<?php if($link){ ?></a><?php } ?>
 		</h2>
+		<?php
+		/**
+		 * more link
+		 */
+		if($link){ ?>
+			<a href="<?= $link;?>" class="more"><?= ___('More &raquo;');?></a>
+		<?php } ?>
+		
 		<div class="extra">
 			<?php if(!is_null_array($v['keywords'])){ ?>
 				<div class="keywords hidden-xs">
@@ -2004,6 +2015,9 @@ class theme_functions{
 		echo $cache;
 		unset($cache);
 	}
+	/**
+	 * Theme respond
+	 */
 	public static function theme_respond(){
 		global $post;
 		?>

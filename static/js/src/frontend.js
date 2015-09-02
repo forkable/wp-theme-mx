@@ -15,8 +15,72 @@ define(function(require, exports, module){
 			exports.hide_no_js();
 			exports.search();
 			exports.posts_nav();
+			exports.scroll_menu();
 			exports.menu();
 		});
+	}
+	exports.scroll_menu = function(){
+		var $menu = document.querySelector('.main-nav'),
+			y = 0,
+			fold = false,
+			st = false,
+			uping = false;
+		if(!$menu)
+			return false;
+
+		function hide(){
+			if( !fold ){
+				$menu.classList.add('fold');
+				$menu.classList.remove('top')
+				fold = true;
+			}
+		}
+		function show(){
+			if( fold ){
+				$menu.classList.remove('fold');
+				fold = false;
+			}
+		}
+		function dely_clearst(){
+			clearTimeout(st);
+		}
+		function delay_show(){
+			if(uping){
+				show();
+			}else{
+				if(uping)
+					clearTimeout(st);
+					
+				st = setTimeout(function(){
+					if(!uping){
+						uping = true;
+					}
+				},500);
+			}
+			
+			
+		}
+		window.addEventListener('scroll', function () {
+			
+			if(this.pageYOffset === 0){
+				show();
+				$menu.classList.add('top');
+			/**
+			 * scroll down
+			 */
+			}else if( y <= this.pageYOffset ){
+				hide();
+				if(uping)
+					uping = false;
+			/**
+			 * scroll up
+			 */
+			}else{
+				delay_show();
+			}
+			y = this.pageYOffset;
+			
+		}, false);
 	}
 	exports.menu = function(){
 		var $toggles = document.querySelectorAll('a[data-target]');
@@ -47,9 +111,7 @@ define(function(require, exports, module){
 				if(focus_target){
 					var $focus_target = Q(focus_target);
 					if($focus_target){
-						setTimeout(function(){
-							$focus_target.focus();
-						},200);
+						$focus_target.focus();
 					}
 					
 				}

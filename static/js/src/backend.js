@@ -42,7 +42,7 @@ define(function(require, exports, module){
 	exports.backend_tab = function(args){
 		this.config = {
 			tab_id : 'backend-tab',
-			tab_cookie_id : 'backend_default_tab',
+			tab_remember_key : 'backend_default_tab',
 		}
 
 		var that = this,
@@ -51,7 +51,7 @@ define(function(require, exports, module){
 		if(!$tab)
 			return false;
 		require('modules/jquery.kandytabs');
-		var current_tab = tools.cookie.get(that.config.tab_cookie_id),
+		var current_tab = localStorage.getItem(that.config.tab_remember_key),
 			$scroll_ele = navigator.userAgent.toLowerCase().indexOf('webkit') === -1 ? jQuery('html') : jQuery('body'),
 			admin_bar_height = I('wpadminbar').offsetHeight;
 
@@ -175,7 +175,7 @@ define(function(require, exports, module){
 			resize:false,
 			current:current_tab,
 			custom:function(b,c,i,t){
-				tools.cookie.set(that.config.tab_cookie_id,i+1);
+				localStorage.setItem(that.config.tab_remember_key,i+1);
 				args.custom(b,c,i,t);
 				
 				/**

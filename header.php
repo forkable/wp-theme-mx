@@ -37,7 +37,7 @@
 
 
 
-<div class="main-nav">
+<div class="main-nav top">
 	<div class="container">
 		<a href="javascript:;" class="navicon toggle visible-xs-block fa fa-navicon fa-2x fa-fw" data-target=".menu-mobile" data-icon-active="fa-times" data-icon-original="fa-navicon"></a>
 
@@ -142,3 +142,4 @@
         </form>		
 	</div>
 </div><!-- /.main-nav -->
+<div class="main-nav-placeholder"></div>

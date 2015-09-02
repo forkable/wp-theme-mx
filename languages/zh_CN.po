@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-31 19:55+0800\n"
-"PO-Revision-Date: 2015-08-31 19:55+0800\n"
+"POT-Creation-Date: 2015-09-02 10:53+0800\n"
+"PO-Revision-Date: 2015-09-02 10:54+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "No content yet."
 msgstr "暂无资料"
 
-#: comments.php:14 functions.php:1849
+#: comments.php:14 functions.php:1847
 #: includes/custom-author-profile/custom-author-profile.php:123
 #: tpl/author-profile.php:75
 msgid "Comments"
@@ -31,7 +31,7 @@ msgstr "评论"
 msgid "Respond"
 msgstr "添加评论"
 
-#: comments.php:26 core/core-options.php:166 functions.php:2016
+#: comments.php:26 core/core-options.php:166 functions.php:2036
 #: includes/clean-up/clean-up.php:227
 #: includes/comment-ajax/comment-ajax.php:472
 #: includes/custom-collection/custom-collection.php:573
@@ -45,7 +45,7 @@ msgstr "添加评论"
 #: includes/custom-post-point/custom-post-point.php:861
 #: includes/custom-post-point/custom-post-point.php:883
 #: includes/custom-sign/custom-sign.php:599
-#: includes/custom-slidebox/custom-slidebox.php:383
+#: includes/custom-slidebox/custom-slidebox.php:394
 #: includes/custom-user-settings/custom-user-settings.php:467
 #: includes/custom-user-settings/custom-user-settings.php:478
 #: includes/mailer/mailer.php:216
@@ -89,7 +89,7 @@ msgstr "选择目录"
 msgid "(%s)"
 msgstr "（%s）"
 
-#: core/core-features.php:1775 includes/custom-slidebox/custom-slidebox.php:69
+#: core/core-features.php:1775 includes/custom-slidebox/custom-slidebox.php:70
 #: includes/widget-author-posts/widget-author-posts.php:221
 #: includes/widget-rank/widget-rank.php:252
 msgid "No category, pleass go to add some categories."
@@ -123,7 +123,7 @@ msgstr "%d天前"
 msgid "%dm ago"
 msgstr "%d个月前"
 
-#: core/core-functions.php:707 functions.php:610 functions.php:1905
+#: core/core-functions.php:707 functions.php:611 functions.php:1903
 msgid "M j, Y"
 msgstr "Y年m月d日"
 
@@ -194,270 +194,270 @@ msgstr "请放一些小工具到底部栏目"
 msgid "Back to top"
 msgstr "返回顶部"
 
-#: functions.php:38
+#: functions.php:39
 msgid "MX"
 msgstr "MX"
 
-#: functions.php:39
+#: functions.php:40
 msgid "http://inn-studio.com/mx"
 msgstr "http://inn-studio.com/mx"
 
-#: functions.php:40
+#: functions.php:41
 msgid "http://inn-studio.com"
 msgstr "http://inn-studio.com/"
 
-#: functions.php:41
+#: functions.php:42
 msgid "INN STUDIO"
 msgstr "INN STUDIO"
 
-#: functions.php:51
+#: functions.php:52
 msgid "Professional edition"
 msgstr "专业版"
 
-#: functions.php:52
+#: functions.php:53
 msgid "MX - Dream starts"
 msgstr "MX - 梦想起航"
 
-#: functions.php:64
+#: functions.php:65
 msgid "Header menu"
 msgstr "头部菜单"
 
-#: functions.php:65
+#: functions.php:66
 msgid "Mobile menu"
 msgstr "手机菜单"
 
-#: functions.php:66
+#: functions.php:67
 msgid "Top bar menu"
 msgstr "顶栏菜单"
 
-#: functions.php:117
+#: functions.php:118
 msgid "Home widget area"
 msgstr "首页小工具区域"
 
-#: functions.php:119
+#: functions.php:120
 msgid "Appears on home in the sidebar."
 msgstr "显示在首页的边栏中。"
 
-#: functions.php:122
+#: functions.php:123
 msgid "Archive page widget area"
 msgstr "归档页面小工具区域"
 
-#: functions.php:124
+#: functions.php:125
 msgid "Appears on archive page in the sidebar."
 msgstr "显示在归档页面的边栏中。"
 
-#: functions.php:128
+#: functions.php:129
 msgid "Footer widget area"
 msgstr "底部 小工具区域"
 
-#: functions.php:130
+#: functions.php:131
 msgid "Appears on all page in the footer."
 msgstr "显示在每个页面的底部。"
 
-#: functions.php:135
+#: functions.php:136
 msgid "Singular post widget area"
 msgstr "单文章小工具区域"
 
-#: functions.php:137
+#: functions.php:138
 msgid "Appears on post in the sidebar."
 msgstr "显示在文章页面的边栏中。"
 
-#: functions.php:140
+#: functions.php:141
 msgid "Singular page widget area"
 msgstr "单页 小工具区域"
 
-#: functions.php:142
+#: functions.php:143
 msgid "Appears on page in the sidebar."
 msgstr "显示在单页的边栏中。"
 
-#: functions.php:145
+#: functions.php:146
 msgid "Sign page widget area"
 msgstr "登录页面 小工具区域"
 
-#: functions.php:147
+#: functions.php:148
 msgid "Appears on sign page in the sidebar."
 msgstr "显示在登录页面的边栏中。"
 
-#: functions.php:150
+#: functions.php:151
 msgid "404 page widget area"
 msgstr "404 页面小工具区域"
 
-#: functions.php:152
+#: functions.php:153
 msgid "Appears on 404 no found page in the sidebar."
 msgstr "显示在 404 页面的边栏中。"
 
-#: functions.php:184
+#: functions.php:185
 msgid "Lastest"
 msgstr "最新"
 
-#: functions.php:188 includes/custom-page-rank/custom-page-rank.php:145
+#: functions.php:189 includes/custom-page-rank/custom-page-rank.php:145
 msgid "Popular"
 msgstr "最赞"
 
-#: functions.php:192 includes/widget-author-posts/widget-author-posts.php:171
+#: functions.php:193 includes/widget-author-posts/widget-author-posts.php:171
 #: includes/widget-rank/widget-rank.php:191
 msgid "Random"
 msgstr "随机"
 
-#: functions.php:382 includes/widget-author-posts/widget-author-posts.php:159
+#: functions.php:383 includes/widget-author-posts/widget-author-posts.php:159
 #: includes/widget-rank/widget-rank.php:179
 msgid "Thumb up"
 msgstr "顶/赞"
 
-#: functions.php:389
+#: functions.php:390
 msgid "Comment count"
 msgstr "评论统计"
 
-#: functions.php:397 functions.php:622 functions.php:1845
+#: functions.php:398 functions.php:623 functions.php:1843
 #: includes/post-views/post-views.php:190 tpl/page-account-edit.php:18
 msgid "Views"
 msgstr "查看数"
 
-#: functions.php:588 functions.php:615
+#: functions.php:589 functions.php:616
 #, php-format
 msgid "Views all post by %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:589
+#: functions.php:590
 msgid "Author avatar"
 msgstr "作者头像"
 
-#: functions.php:603 tpl/page-account-post.php:239
+#: functions.php:604 tpl/page-account-post.php:239
 msgid "Category"
 msgstr "分类"
 
-#: functions.php:650
+#: functions.php:651
 msgid "Excerpt:"
 msgstr "摘要："
 
-#: functions.php:726
+#: functions.php:727
 msgid "comment"
 msgstr "评论"
 
-#: functions.php:726
+#: functions.php:727
 msgid "comments"
 msgstr "评论"
 
-#: functions.php:755
+#: functions.php:756
 msgid ", "
 msgstr "、"
 
-#: functions.php:764 functions.php:778
+#: functions.php:765 functions.php:779
 #, php-format
 msgid "Views all posts by %s tag"
 msgstr "查看 %s 标签下的所有文章"
 
-#: functions.php:856 functions.php:866
+#: functions.php:857 functions.php:867
 msgid "No more post found"
 msgstr "暂无更多文章"
 
-#: functions.php:858 functions.php:1388
+#: functions.php:859 functions.php:1389
 #, php-format
 msgid "Previous post: %s"
 msgstr "上一篇：%s"
 
-#: functions.php:859 functions.php:1010
+#: functions.php:860 functions.php:1011
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: functions.php:868 functions.php:1404
+#: functions.php:869 functions.php:1405
 #, php-format
 msgid "Next post: %s"
 msgstr "下一篇：%s"
 
-#: functions.php:870 functions.php:1011
+#: functions.php:871 functions.php:1012
 msgid "&raquo;"
 msgstr "&raquo;"
 
-#: functions.php:902 functions.php:904
+#: functions.php:903 functions.php:905
 msgid "Back to Homepage"
 msgstr "返回到首页"
 
-#: functions.php:917
+#: functions.php:918
 msgid "Category Browser"
 msgstr "目录浏览"
 
-#: functions.php:924
+#: functions.php:925
 msgid "Tags Browser"
 msgstr "标签归档浏览"
 
-#: functions.php:942
+#: functions.php:943
 msgid "Date Browser"
 msgstr "日期归档浏览"
 
-#: functions.php:946
+#: functions.php:947
 #, php-format
 msgid "Search Result: %s"
 msgstr "搜索结果：%s"
 
-#: functions.php:952 includes/widget-author-posts/widget-author-posts.php:23
+#: functions.php:953 includes/widget-author-posts/widget-author-posts.php:23
 #: includes/widget-author-posts/widget-author-posts.php:79
 msgid "Author posts"
 msgstr "作者文章"
 
-#: functions.php:956
+#: functions.php:957
 msgid "Archive Browser"
 msgstr "归档浏览"
 
-#: functions.php:975
+#: functions.php:976
 #, php-format
 msgid "View all posts in %s"
 msgstr "查看 %s 目录下的所有文章"
 
-#: functions.php:982
+#: functions.php:983
 msgid "Not found"
 msgstr "暂无资料"
 
-#: functions.php:1026
+#: functions.php:1027
 msgid "Posts pagination navigation"
 msgstr "文章分页导航"
 
-#: functions.php:1057 functions.php:1308 functions.php:1310 functions.php:1317
-#: functions.php:1319 functions.php:1705
+#: functions.php:1058 functions.php:1309 functions.php:1311 functions.php:1318
+#: functions.php:1320 functions.php:1706
 msgid "Previous page"
 msgstr "上一页"
 
-#: functions.php:1076 functions.php:1082 functions.php:1090
+#: functions.php:1077 functions.php:1083 functions.php:1091
 #, php-format
 msgid "Page %d"
 msgstr "第 %d 页"
 
-#: functions.php:1205
+#: functions.php:1206
 msgid ""
 "Sorry, I was not able to find what you need, what about look at other "
 "content :)"
 msgstr "抱歉，我没能找到您需要的内容，不放看看其他东西 ：）"
 
-#: functions.php:1329 functions.php:1330 functions.php:1337 functions.php:1338
-#: functions.php:1702
+#: functions.php:1330 functions.php:1331 functions.php:1338 functions.php:1339
+#: functions.php:1703
 msgid "Next page"
 msgstr "下一页"
 
-#: functions.php:1385 functions.php:1401
+#: functions.php:1386 functions.php:1402
 msgid "Placeholder"
 msgstr "占位符"
 
-#: functions.php:1493
+#: functions.php:1494
 msgid "Your comment is awaiting moderation."
 msgstr "您的评论正在审核中。"
 
-#: functions.php:1519
+#: functions.php:1520
 msgid "Reply"
 msgstr "回复"
 
-#: functions.php:1601 includes/related-post/related-post.php:54
+#: functions.php:1602 includes/related-post/related-post.php:54
 msgid "Maybe you will like them"
 msgstr "或许您会喜欢"
 
-#: functions.php:1634
+#: functions.php:1635
 msgid "No data."
 msgstr "暂无资料"
 
-#: functions.php:1680
+#: functions.php:1681
 msgid "No data yet"
 msgstr "此类别暂无资料"
 
-#: functions.php:1722
+#: functions.php:1723
 msgid "Please set some recommended posts to display."
 msgstr "请设置一些推荐文章以显示。"
 
@@ -473,11 +473,19 @@ msgstr "更多 &raquo;"
 msgid "Readmore..."
 msgstr "查看更多……"
 
-#: functions.php:1936
+#: functions.php:1934
 msgid "Please add some homebox."
 msgstr "请添加一些首页盒子。"
 
-#: functions.php:1984 includes/custom-dashboard/dashboards.php:36
+#: functions.php:1952
+msgid "More"
+msgstr "更多"
+
+#: functions.php:1961 includes/widget-rank/widget-rank.php:36
+msgid "More &raquo;"
+msgstr "更多 &raquo;"
+
+#: functions.php:1993 includes/custom-dashboard/dashboards.php:36
 #: includes/widget-author-posts/widget-author-posts.php:65
 #: includes/widget-rank/widget-rank.php:72
 #: includes/widget-tags/widget-tags.php:87 tpl/page-account-edit.php:80
@@ -485,49 +493,49 @@ msgstr "请添加一些首页盒子。"
 msgid "No data yet."
 msgstr "此类别暂无资料"
 
-#: functions.php:2009
+#: functions.php:2029
 msgid "Leave a comment"
 msgstr "留下评论"
 
-#: functions.php:2012
+#: functions.php:2032
 msgid "Cancel reply"
 msgstr "取消回复"
 
-#: functions.php:2022
+#: functions.php:2042
 #, php-format
 msgid "You must be %s to post a comment."
 msgstr "您需要 %s 后才能发表评论。"
 
-#: functions.php:2023 includes/custom-point-bomb/custom-point-bomb.php:229
+#: functions.php:2043 includes/custom-point-bomb/custom-point-bomb.php:229
 msgid "log-in"
 msgstr "登录"
 
-#: functions.php:2055 tpl/author-profile.php:21
+#: functions.php:2075 tpl/author-profile.php:21
 #: tpl/page-account-settings.php:84
 msgid "Nickname"
 msgstr "昵称"
 
-#: functions.php:2057
+#: functions.php:2077
 msgid "Whats your nickname?"
 msgstr "您的昵称"
 
-#: functions.php:2068
+#: functions.php:2088
 msgid "Email"
 msgstr "邮箱"
 
-#: functions.php:2070
+#: functions.php:2090
 msgid "Whats your Email?"
 msgstr "您的邮箱"
 
-#: functions.php:2081
+#: functions.php:2101
 msgid "Hi, have something to say?"
 msgstr "Hi, 有什么要说的吗？"
 
-#: functions.php:2082
+#: functions.php:2102
 msgid "Nothing to say?"
 msgstr "没什么好说的吗？"
 
-#: functions.php:2102 functions.php:2104
+#: functions.php:2122 functions.php:2124
 msgid "Post comment"
 msgstr "发表评论"
 
@@ -692,7 +700,7 @@ msgstr "点击之前保存设置。"
 #: includes/custom-page-tags/custom-page-tags.php:66
 #: includes/custom-pm/custom-pm.php:160
 #: includes/custom-point/custom-point.php:144
-#: includes/custom-slidebox/custom-slidebox.php:224
+#: includes/custom-slidebox/custom-slidebox.php:225
 #: includes/file-timestamp/file-timestamp.php:58
 #: includes/min-rebuild/min-rebuild.php:37
 msgid "Control"
@@ -802,7 +810,7 @@ msgstr "数据库已在 %s 秒内更新。"
 
 #: includes/clean-up/clean-up.php:228
 #: includes/custom-point/custom-point.php:1052
-#: includes/custom-slidebox/custom-slidebox.php:384
+#: includes/custom-slidebox/custom-slidebox.php:395
 #: includes/mailer/mailer.php:217
 msgid "Server error or network is disconnected."
 msgstr "服务器错误或网络未连接。"
@@ -1025,8 +1033,8 @@ msgid "Post preview"
 msgstr "文章预览图"
 
 #: includes/custom-collection/custom-collection.php:160
-#: includes/custom-homebox/custom-homebox.php:188
-#: includes/custom-slidebox/custom-slidebox.php:193
+#: includes/custom-homebox/custom-homebox.php:190
+#: includes/custom-slidebox/custom-slidebox.php:194
 msgid "Delete this item"
 msgstr "删除此条目"
 
@@ -1064,13 +1072,13 @@ msgstr "新建专刊"
 
 #: includes/custom-collection/custom-collection.php:269
 #: includes/custom-contribution/custom-contribution.php:178
-#: includes/custom-slidebox/custom-slidebox.php:95
+#: includes/custom-slidebox/custom-slidebox.php:96
 msgid "Invaild file type."
 msgstr "无效的文件类型。"
 
 #: includes/custom-collection/custom-collection.php:296
 #: includes/custom-contribution/custom-contribution.php:201
-#: includes/custom-slidebox/custom-slidebox.php:125
+#: includes/custom-slidebox/custom-slidebox.php:126
 msgid "Upload success."
 msgstr "上传成功。"
 
@@ -1414,42 +1422,50 @@ msgstr "盒子操作"
 msgid "Add a new home box"
 msgstr "添加一个新的盒子"
 
-#: includes/custom-homebox/custom-homebox.php:136
-#: includes/custom-homebox/custom-homebox.php:144
+#: includes/custom-homebox/custom-homebox.php:138
+#: includes/custom-homebox/custom-homebox.php:146
 msgid "Box title"
 msgstr "盒子标题"
 
-#: includes/custom-homebox/custom-homebox.php:149
+#: includes/custom-homebox/custom-homebox.php:151
 msgid "Box link"
 msgstr "盒子链接"
 
-#: includes/custom-homebox/custom-homebox.php:157
+#: includes/custom-homebox/custom-homebox.php:159
 msgid "Box link (include http://)"
 msgstr "盒子地址（包括 http://）"
 
-#: includes/custom-homebox/custom-homebox.php:162
+#: includes/custom-homebox/custom-homebox.php:164
 msgid "Show posts"
 msgstr "显示文章数量"
 
-#: includes/custom-homebox/custom-homebox.php:170
+#: includes/custom-homebox/custom-homebox.php:172
 msgid "Posts number."
 msgstr "文章数量"
 
-#: includes/custom-homebox/custom-homebox.php:178 tpl/page-account-edit.php:13
+#: includes/custom-homebox/custom-homebox.php:180 tpl/page-account-edit.php:13
 msgid "Categories"
 msgstr "分类"
 
-#: includes/custom-homebox/custom-homebox.php:184
+#: includes/custom-homebox/custom-homebox.php:186
 msgid "Keywords and links"
 msgstr "关键词与链接"
 
-#: includes/custom-homebox/custom-homebox.php:186
+#: includes/custom-homebox/custom-homebox.php:188
 msgid "Eg. Tag1 = http://inn-studio.com"
 msgstr "例如 标签1 = http://inn-studio.com"
 
-#: includes/custom-homebox/custom-homebox.php:187
+#: includes/custom-homebox/custom-homebox.php:189
 msgid "Per keyword/line"
 msgstr "一行一个关键词"
+
+#: includes/custom-homebox/custom-homebox.php:195
+msgid "AD code"
+msgstr "广告代码"
+
+#: includes/custom-homebox/custom-homebox.php:197
+msgid "HTML code will display below this box."
+msgstr "HTML 代码将显示此盒子下面。"
 
 #: includes/custom-lottery/custom-lottery.php:52
 msgid "Lottery"
@@ -2294,7 +2310,7 @@ msgstr "立即下载"
 
 #: includes/custom-post-storage/custom-post-storage.php:267
 #: includes/custom-post-storage/custom-post-storage.php:303
-#: includes/custom-slidebox/custom-slidebox.php:190
+#: includes/custom-slidebox/custom-slidebox.php:191
 msgid "Open in new window"
 msgstr "在新窗口中打开"
 
@@ -2460,69 +2476,69 @@ msgstr "恭喜，您的帐号已成功寻回！密码已更新。正在跳转到
 msgid "Invalid type."
 msgstr "抱歉，无效的类型。"
 
-#: includes/custom-slidebox/custom-slidebox.php:104
+#: includes/custom-slidebox/custom-slidebox.php:105
 msgid "You have not permission to upload."
 msgstr "您没有上传的权限。"
 
-#: includes/custom-slidebox/custom-slidebox.php:148
+#: includes/custom-slidebox/custom-slidebox.php:149
 #, php-format
 msgid "Slide-box title - %s"
 msgstr "幻灯片标题 - %s"
 
-#: includes/custom-slidebox/custom-slidebox.php:149
+#: includes/custom-slidebox/custom-slidebox.php:150
 msgid "Title will be display as attribute-alt"
 msgstr "将会被作用于 alt 属性"
 
-#: includes/custom-slidebox/custom-slidebox.php:152
+#: includes/custom-slidebox/custom-slidebox.php:153
 msgid "Subtitles (optional)"
 msgstr "子标题（可选）"
 
-#: includes/custom-slidebox/custom-slidebox.php:153
+#: includes/custom-slidebox/custom-slidebox.php:154
 msgid "Subtitle can be date or any text"
 msgstr "子标题可以是日期或任何纯文本"
 
-#: includes/custom-slidebox/custom-slidebox.php:154
+#: includes/custom-slidebox/custom-slidebox.php:155
 msgid "Current date"
 msgstr "当前日期"
 
-#: includes/custom-slidebox/custom-slidebox.php:158
+#: includes/custom-slidebox/custom-slidebox.php:159
 msgid "Categories (optional)"
 msgstr "分类目录（可选）"
 
-#: includes/custom-slidebox/custom-slidebox.php:168
+#: includes/custom-slidebox/custom-slidebox.php:169
 msgid "Link url"
 msgstr "链接 url"
 
-#: includes/custom-slidebox/custom-slidebox.php:169
+#: includes/custom-slidebox/custom-slidebox.php:170
 msgid "Url address"
 msgstr "Url 地址"
 
-#: includes/custom-slidebox/custom-slidebox.php:172
+#: includes/custom-slidebox/custom-slidebox.php:173
 msgid "Image url"
 msgstr "图片 url"
 
-#: includes/custom-slidebox/custom-slidebox.php:175
+#: includes/custom-slidebox/custom-slidebox.php:176
 msgid "Image address"
 msgstr "图片地址"
 
-#: includes/custom-slidebox/custom-slidebox.php:176
+#: includes/custom-slidebox/custom-slidebox.php:177
 #: tpl/page-account-post.php:159
 msgid "Upload image"
 msgstr "上传图片"
 
-#: includes/custom-slidebox/custom-slidebox.php:182
+#: includes/custom-slidebox/custom-slidebox.php:183
 msgid "Addon options"
 msgstr "附加选项"
 
-#: includes/custom-slidebox/custom-slidebox.php:186
+#: includes/custom-slidebox/custom-slidebox.php:187
 msgid "Nofollow link"
 msgstr "Nofollow 链接"
 
-#: includes/custom-slidebox/custom-slidebox.php:208
+#: includes/custom-slidebox/custom-slidebox.php:209
 msgid "Slide-box settings"
 msgstr "幻灯片设置"
 
-#: includes/custom-slidebox/custom-slidebox.php:210
+#: includes/custom-slidebox/custom-slidebox.php:211
 #, php-format
 msgid ""
 "You can set images and link to slide-box on homepage. Image size is %s&times;"
@@ -2531,15 +2547,15 @@ msgstr ""
 "您可以设置图片和链接在首页的幻灯片中。图像尺寸为 %s&times;%s 象素。记得完成设"
 "置后保存哦。"
 
-#: includes/custom-slidebox/custom-slidebox.php:210
+#: includes/custom-slidebox/custom-slidebox.php:211
 msgid "unlimited"
 msgstr "不限制"
 
-#: includes/custom-slidebox/custom-slidebox.php:226
+#: includes/custom-slidebox/custom-slidebox.php:227
 msgid "Add a new item"
 msgstr "添加新条目"
 
-#: includes/custom-slidebox/custom-slidebox.php:294
+#: includes/custom-slidebox/custom-slidebox.php:305
 msgid "Detail &raquo;"
 msgstr "详细 &raquo;"
 
@@ -2663,8 +2679,8 @@ msgstr "开发者模式"
 
 #: includes/dev-mode/dev-mode.php:77 includes/dev-mode/dev-mode.php:89
 #: includes/dev-mode/dev-mode.php:100 includes/post-views/post-views.php:68
-#: includes/recomm-post/recomm-post.php:118
-#: includes/recomm-post/recomm-post.php:122
+#: includes/recomm-post/recomm-post.php:132
+#: includes/recomm-post/recomm-post.php:136
 msgid "Enabled"
 msgstr "启用"
 
@@ -3257,32 +3273,32 @@ msgstr ""
 "使用缓存提高性能。当每篇文章查看数大于最大储存次数后，查看数会写入到数据库保"
 "存。"
 
-#: includes/recomm-post/recomm-post.php:30
+#: includes/recomm-post/recomm-post.php:28
 msgid "Recommended post"
 msgstr "推荐文章"
 
-#: includes/recomm-post/recomm-post.php:57
+#: includes/recomm-post/recomm-post.php:55
 msgid "Set as recommended post"
 msgstr "作为推荐文章"
 
-#: includes/recomm-post/recomm-post.php:113
+#: includes/recomm-post/recomm-post.php:127
 msgid "Recommended posts"
 msgstr "推荐文章"
 
-#: includes/recomm-post/recomm-post.php:114
+#: includes/recomm-post/recomm-post.php:128
 msgid "Recommended posts will display on home page if enabled."
 msgstr "如果启用，将会在首页显示推荐文章。"
 
-#: includes/recomm-post/recomm-post.php:127
+#: includes/recomm-post/recomm-post.php:141
 msgid "Marked posts"
 msgstr "已标记的文章"
 
-#: includes/recomm-post/recomm-post.php:144
+#: includes/recomm-post/recomm-post.php:158
 msgid "Open in open window"
 msgstr "在新窗口中打开"
 
-#: includes/recomm-post/recomm-post.php:150
-#: includes/recomm-post/recomm-post.php:153
+#: includes/recomm-post/recomm-post.php:164
+#: includes/recomm-post/recomm-post.php:167
 msgid "No any post yet"
 msgstr "暂无任何资料"
 
@@ -3790,10 +3806,6 @@ msgstr "排行榜"
 msgid "Views more about %s"
 msgstr "查看更多%s"
 
-#: includes/widget-rank/widget-rank.php:36
-msgid "More &raquo;"
-msgstr "更多 &raquo;"
-
 #: includes/widget-rank/widget-rank.php:124 tpl/page-account-edit.php:15
 msgid "Date"
 msgstr "日期"
@@ -3835,10 +3847,6 @@ msgstr "标签数量（必填）"
 #: includes/widget-tags/widget-tags.php:158
 msgid "Sticky tags (optional, one tag per line)"
 msgstr "固定标签（可选，一行一个）"
-
-#: index.php:5
-msgid "Please set some slidebox posts."
-msgstr "请设置一些幻灯片文章"
 
 #: page-cats-index.php:13 page-tags-index.php:13
 msgid "Missing initialization files."
@@ -4393,6 +4401,9 @@ msgstr "向每个人介绍自己"
 #: tpl/page-account-settings.php:117
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "Please set some slidebox posts."
+#~ msgstr "请设置一些幻灯片文章"
 
 #~ msgid "Keywords"
 #~ msgstr "搜索关键词"

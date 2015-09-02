@@ -242,7 +242,6 @@ class theme_custom_slidebox{
 		return theme_cache::get(__CLASS__);
 	}
 	public static function display_frontend(){
-		$boxes = (array)self::get_options();
 	
 		$cache = self::get_cache();
 		if($cache){
@@ -250,6 +249,7 @@ class theme_custom_slidebox{
 			unset($cache);
 			return;
 		}
+		$boxes = (array)self::get_options();
 		
 		if(is_null_array($boxes) || count($boxes) < 2) return false;
 
