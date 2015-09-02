@@ -29,6 +29,7 @@ define(function(require, exports, module){
 		tools.ready(function(){
 			exports.page_nagi.init();
 			exports.pagi_ajax();
+			exports.img_link();
 		});
 	}
 	exports.page_nagi = {
@@ -87,6 +88,24 @@ define(function(require, exports, module){
 			return l;
 		}
 	};
+	exports.img_link = function(){
+		if(!cache.$nagi)
+			return;
+		var $imgs = cache.$post_content.querySelectorAll('a > img'),
+			len = $imgs.length;
+		if(len == 0)
+			return;
+
+		function event_img_click(e){
+			e.preventDefault();
+			cache.$as[1].click();
+		}
+		for(var i = 0; i < len; i++){
+			var $parent = $imgs[i].parentNode;
+			$parent.href = 'javascript:;';
+			$parent.addEventListener('click',event_img_click);
+		}
+	}
 	exports.pagi_ajax = function(){
 		if(!cache.$nagi)
 			return;
@@ -153,6 +172,7 @@ define(function(require, exports, module){
 				set_post_content(get_data_from_cache(get_next_page()));
 				pagenumber();
 				hash();
+				exports.img_link();
 				return;
 			}
 			tools.ajax_loading_tip('loading',config.lang.M01);
@@ -186,6 +206,8 @@ define(function(require, exports, module){
 				pagenumber();
 				/** hash */
 				hash();
+				/** img link */
+				exports.img_link();
 				/** hide tip */
 				tools.ajax_loading_tip('hide');
 			}else if(data.status === 'error'){
