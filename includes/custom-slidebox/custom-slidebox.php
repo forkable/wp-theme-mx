@@ -269,7 +269,7 @@ class theme_custom_slidebox{
 		<div class="item <?= $i === 1 ? 'active' : null;?>" style="background-image:url(<?= esc_url($v['img-url']);?>)"></div>
 	<?php } ?>
 </div>
-<div id="slidebox" class="container">
+<div id="slidebox" class="container hidden-xs">
 	<div class="area-main">
 		<?php
 		$i = 0;
