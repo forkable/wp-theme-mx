@@ -293,18 +293,30 @@ class theme_custom_contribution{
 				/**
 				 * cats
 				 */
-				$cat_id = isset($ctb['cat']) && is_numeric($ctb['cat']) ?(int)$ctb['cat'] : null;
-				if($cat_id < 1){
-					$output['status'] = 'error';
-					$output['code'] = 'invaild_cat_id';
-					$output['msg'] = ___('Please select a category.');
-					die(theme_features::json_format($output));
+				if($edit_post_id == 0){
+					/** new post */
+					$cat_ids = isset($ctb['cats']) && is_array($ctb['cats']) ? $ctb['cats'] : null;
+					if(is_null_array($cat_ids)){
+						$output['status'] = 'error';
+						$output['code'] = 'invaild_cat_id';
+						$output['msg'] = ___('Please select a category.');
+						die(theme_features::json_format($output));
+					}
+					/** edit post */
+				}else{
+					/**
+					 * get all cats
+					 */
+					$cat_id = isset($ctb['cat']) && is_numeric($ctb['cat']) ? (int)$ctb['cats'] : null;
+					if(empty($cat_ids)){
+						$output['status'] = 'error';
+						$output['code'] = 'invaild_cat_id';
+						$output['msg'] = ___('Please select a category.');
+						die(theme_features::json_format($output));
+					}
+					$cat_ids = [];
+					theme_features::get_all_cats_by_child($cat_id,$cat_ids);
 				}
-				/**
-				 * get all cats
-				 */
-				$all_cats = [];
-				theme_features::get_all_cats_by_child($cat_id,$all_cats);
 				/**
 				 * tags
 				 */
@@ -318,15 +330,12 @@ class theme_custom_contribution{
 				/**
 				 * post status
 				 */
-				
 				if(theme_cache::current_user_can('publish_posts')){
 					$post_status = 'publish';
 				}else{
 					$post_status = 'pending';
 				} 
-				/**
-				 * old post
-				 */
+				
 				/*****************************
 				 * PASS ALL, WRITE TO DB
 				 *****************************/
@@ -344,7 +353,7 @@ class theme_custom_contribution{
 						'post_type' => $old_post->post_type,
 						'post_excerpt' => fliter_script($post_excerpt),
 						'post_content' => fliter_script($post_content),
-						'post_category' => $all_cats,
+						'post_category' => $cat_ids,
 						'tags_input' => $tags,
 					],true);
 					
@@ -358,7 +367,7 @@ class theme_custom_contribution{
 						'post_content' => fliter_script($post_content),
 						'post_status' => $post_status,
 						'post_author' => theme_cache::get_current_user_id(),
-						'post_category' => $all_cats,
+						'post_category' => $cat_ids,
 						'tags_input' => $tags,
 					],true);
 				}
@@ -494,7 +503,7 @@ class theme_custom_contribution{
 		?>
 		<select 
 			id="ctb-cat-<?= $parent_cat_id;?>" 
-			name="ctb[cat]" 
+			name="ctb[cats][]" 
 			class="ctb-cat form-control <?= $parent_cat_id == 0 ? null : 'ctb-cat-child';?>" 
 			data-parent="<?= $parent_cat_id;?>" >
 			<?php 
