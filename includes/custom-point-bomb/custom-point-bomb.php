@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.0
+ * @version 1.0.1
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_point_bomb::init';
@@ -8,27 +8,26 @@ add_filter('theme_includes',function($fns){
 });
 class theme_custom_point_bomb{
 
-	public static $iden = 'theme_custom_point_bomb';
 	public static $page_slug = 'account';
 	
 	public static function init(){
-		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
+		add_action('wp_enqueue_scripts', __CLASS__ . '::frontend_css');
 		
 		foreach(self::get_tabs() as $k => $v){
 			$nav_fn = 'filter_nav_' . $k; 
-			add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
+			add_filter('account_navs', __CLASS__ . "::$nav_fn",$v['filter_priority']);
 		}
 
-		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
+		add_filter('wp_title', __CLASS__ . '::wp_title',10,2);
 
 		
-		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
-		add_action('wp_ajax_nopriv_' . self::$iden, __CLASS__ . '::process');
+		add_action('wp_ajax_' . __CLASS__, __CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . __CLASS__, __CLASS__ . '::process');
 		
-		add_filter('frontend_seajs_alias',__CLASS__ . '::frontend_seajs_alias');
-		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
+		add_filter('frontend_seajs_alias', __CLASS__ . '::frontend_seajs_alias');
+		add_action('frontend_seajs_use', __CLASS__ . '::frontend_seajs_use');
 
-		add_filter('custom_point_value_default',__CLASS__ . '::filter_custom_point_value_default');
+		add_filter('custom_point_value_default', __CLASS__ . '::filter_custom_point_value_default');
 
 		add_filter('custom_point_types',__CLASS__ . '::filter_custom_point_types');
 
@@ -159,7 +158,7 @@ class theme_custom_point_bomb{
 	public static function get_options($key = null){
 		static $caches = null;
 		if($caches === null)
-			$caches = theme_options::get_options(self::$iden);
+			$caches = theme_options::get_options(__CLASS__);
 
 		if($key)
 			return isset($caches[$key]) ? $caches[$key] : false;
@@ -167,12 +166,12 @@ class theme_custom_point_bomb{
 		return $caches;
 	}
 	public static function options_default(array $opts = []){
-		$opts[self::$iden]['des'] = self::get_des_default();
+		$opts[__CLASS__]['des'] = self::get_des_default();
 		return $opts;
 	}
 	public static function options_save(array $opts = []){
-		if(isset($_POST[self::$iden])){
-			$opts[self::$iden] = $_POST[self::$iden];
+		if(isset($_POST[__CLASS__])){
+			$opts[__CLASS__] = $_POST[__CLASS__];
 		}
 		return $opts;
 	}
@@ -184,7 +183,7 @@ class theme_custom_point_bomb{
 				<tr>
 					<th><?= ___('Description');?></th>
 					<td>
-						<textarea name="<?= self::$iden;?>[des]" id="<?= self::$iden;?>-des" cols="50" rows="3" class="widefat"><?= self::get_des();?></textarea>
+						<textarea name="<?= __CLASS__;?>[des]" id="<?= __CLASS__;?>-des" cols="50" rows="3" class="widefat"><?= self::get_des();?></textarea>
 					</td>
 				</tr>
 			</tbody>
@@ -269,7 +268,7 @@ class theme_custom_point_bomb{
 	private static function get_times_group_id(){
 		static $cache = null;
 		if($cache === null)
-			$cache = self::$iden . theme_cache::get_current_user_id() . current_time('Ymd');
+			$cache = __CLASS__ . theme_cache::get_current_user_id() . current_time('Ymd');
 
 		return $cache;
 	}
@@ -744,7 +743,7 @@ class theme_custom_point_bomb{
 	}
 	public static function frontend_seajs_alias($alias){
 		if(self::is_page()){
-			$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+			$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__);
 		}
 		return $alias;
 	}
@@ -752,8 +751,8 @@ class theme_custom_point_bomb{
 		if(!self::is_page()) 
 			return false;
 		?>
-		seajs.use('<?= self::$iden;?>',function(m){
-			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
+		seajs.use('<?= __CLASS__;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action' => __CLASS__));?>';
 			m.config.lang.M01 = '<?= ___('Target locking...');?>';
 			m.config.lang.M02 = '<?= ___('Bombing, please wait...');?>';
 			m.config.lang.E01 = '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>';
@@ -766,7 +765,7 @@ class theme_custom_point_bomb{
 			return false;
 			
 		wp_enqueue_style(
-			self::$iden,
+			__CLASS__,
 			theme_features::get_theme_includes_css(__DIR__),
 			'frontend',
 			theme_file_timestamp::get_timestamp()

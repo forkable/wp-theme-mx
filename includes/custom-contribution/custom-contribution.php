@@ -307,8 +307,8 @@ class theme_custom_contribution{
 					/**
 					 * get all cats
 					 */
-					$cat_id = isset($ctb['cat']) && is_numeric($ctb['cat']) ? (int)$ctb['cats'] : null;
-					if(empty($cat_ids)){
+					$cat_id = isset($ctb['cat']) && is_numeric($ctb['cat']) ? (int)$ctb['cat'] : null;
+					if(empty($cat_id)){
 						$output['status'] = 'error';
 						$output['code'] = 'invaild_cat_id';
 						$output['msg'] = ___('Please select a category.');

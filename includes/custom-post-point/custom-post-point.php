@@ -7,7 +7,6 @@ add_filter('theme_includes',function($fns){
 	return $fns;
 });
 class custom_post_point{
-	public static $iden = 'custom_post_point';
 	public static $post_meta_key = [
 		'users'				=> '_point_raters',
 		'count_users' 		=> '_point_count_raters',
@@ -19,10 +18,10 @@ class custom_post_point{
 	public static $error = [];
 	
 	public static function init(){
-		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
-		add_action('wp_ajax_nopriv_' . self::$iden, __CLASS__ . '::process');
+		add_action('wp_ajax_' . __CLASS__, __CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . __CLASS__, __CLASS__ . '::process');
 		
-		add_action('wp_ajax_backend_' . self::$iden, __CLASS__ . '::process_backend');
+		add_action('wp_ajax_backend_' . __CLASS__, __CLASS__ . '::process_backend');
 
 
 		add_action('before_delete_post',__CLASS__ . '::sync_delete_post');
@@ -103,7 +102,7 @@ class custom_post_point{
 						update_post_meta($post->ID,self::$post_meta_key['count_points'],$new_points);
 					}
 				}
-				header('location: ' . theme_options::get_url() . '&' . self::$iden);
+				header('location: ' . theme_options::get_url() . '&' . __CLASS__);
 				die();
 				
 				break;
@@ -124,12 +123,12 @@ class custom_post_point{
 					<th><?= ___('Recalculate all posts point');?></th>
 					<td>
 						<?php
-						if(isset($_GET[self::$iden])){
+						if(isset($_GET[__CLASS__])){
 							echo status_tip('success',___('Operation completed.'));
 						}
 						?>
 						<a href="<?= theme_features::get_process_url([
-							'action' => 'backend_' . self::$iden,
+							'action' => 'backend_' . __CLASS__,
 							'type' => 'recalculate',
 							'theme-nonce' => theme_features::create_nonce(),
 						]);?>" class="button">
@@ -163,7 +162,7 @@ class custom_post_point{
 		];
 		$args = array_merge($defaults,$args);
 		$cache_id = md5(serialize(func_get_args()));
-		$caches = wp_cache_get('most_point_posts',self::$iden);
+		$caches = wp_cache_get('most_point_posts',__CLASS__);
 		if(isset($caches[$cache_id]))
 			return $caches[$cache_id];
 
@@ -198,7 +197,7 @@ class custom_post_point{
 		
 		$caches[$cache_id] = $query;
 		//wp_reset_postdata();
-		wp_cache_set('most_point_posts',$caches,self::$iden,$args['expire']);
+		wp_cache_set('most_point_posts',$caches,__CLASS__,$args['expire']);
 		return $caches[$cache_id];
 	}
 
@@ -564,12 +563,7 @@ class custom_post_point{
 		add_user_meta(theme_cache::get_post($post_id)->post_author,theme_custom_point::$user_meta_key['history'],$meta);
 		
 	}
-	public static function set_error($error){
-		if(is_array($error))
-			self::$error = $error;
-		return $error;
-	}
-	//public static function get_error()
+
 	/**
 	 * 递增文章积分统计
 	 *
@@ -850,18 +844,18 @@ class custom_post_point{
 		if(!theme_cache::is_singular_post())
 			return $alias;
 			
-		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+		$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__);
 		return $alias;
 	}
 	public static function frontend_seajs_use(){
 		if(!theme_cache::is_singular_post())
 			return;
 		?>
-		seajs.use(['<?= self::$iden;?>'],function(m){
+		seajs.use(['<?= __CLASS__;?>'],function(m){
 			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
 			m.config.lang.E00001 = '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>';
 			m.config.process_url = '<?= theme_features::get_process_url([
-				'action' => self::$iden,
+				'action' => __CLASS__,
 				'type' => 'incr'
 			]);?>';
 			m.init();
