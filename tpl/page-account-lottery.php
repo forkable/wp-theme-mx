@@ -13,12 +13,16 @@
 						if($box['type'] === 'point'){
 							$icon = '<img src="' . theme_custom_point::get_point_img_url() . '" alt="icon" width="16" height="16">';
 						}else{
-							$icon = '<i class="fa fa-yelp"></i>';
+							$icon = '<i class="fa fa-yelp fa-fw"></i>';
 						}
 						?>
-						<label for="lottery-box-<?= $k;?>" class="label label-default" title="<?= esc_attr($box['des']);?>">
-							<?= $icon;?> <?= $box['name'];?>
-							<input type="radio" name="lottery[id]" id="lottery-box-<?= $k;?>" data-target="lottery-box-<?= $k;?>" value="<?= $k;?>" hidden>
+						<input type="radio" class="lottery-item" name="lottery[id]" id="lottery-item-<?= $k;?>" data-target="lottery-box-<?= $k;?>" value="<?= $k;?>"  required >
+						<label id="lottery-box-<?= $k;?>" for="lottery-item-<?= $k;?>" class="lottery-box">
+							<span class="icon"><?= $icon;?></span>
+							<span class="name"><?= $box['name'];?> </span>
+							<span class="remaining"><?= sprintf(___('Remaining: %d'),$box['remaining']);?></span>
+							<span class="des"><?= $box['des'];?></span>
+							
 						</label>
 						<?php
 					}
@@ -28,7 +32,7 @@
 			<div class="form-group">
 				<button type="submit" class="btn btn-success btn-block btn-lg" data-loading-tx="<?= ___('Loading...');?>" >
 					<i class="fa fa-check"></i> 
-					<?= ___('Start!');?>
+					<?= ___('Good luck!');?>
 				</button>
 			</div>
 		</form>

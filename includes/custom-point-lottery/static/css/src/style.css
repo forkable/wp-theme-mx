@@ -1,0 +1,47 @@
+.lottery-box{
+	position: relative;
+	display: block;
+	padding: 20px;
+	border: 2px solid #eee;
+	margin: -2px 0 0;
+	line-height: 30px;
+}
+	.lottery-item{
+		display: none;
+	}
+	.lottery-box:hover,
+	.lottery-item:checked + .lottery-box{
+		background: rgba(255,64,129,.1);
+		z-index: 1;
+		border-color: rgba(255,64,129,.1);
+		border-radius: 2px;
+	}
+	.lottery-item:checked + .lottery-box{
+		border-color: #FF4081;
+	}
+.lottery-box .icon,
+.lottery-box .name,
+.lottery-box .remaining{
+}
+.lottery-box .icon{
+	float: left;
+	width: 30px;
+}
+.lottery-box .name{
+	float: left;
+	margin-right: 20px;
+	font-weight: bold;
+	font-size: 20px;
+}
+.lottery-box .remaining{
+	float: left;
+}
+.lottery-box .des{
+	display: block;
+	clear: both;
+	padding-left: 30px;
+	color: #999;
+}
+.lottery-item:checked + .lottery-box .des{
+	color: #333;
+}
