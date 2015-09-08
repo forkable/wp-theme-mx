@@ -2,10 +2,8 @@
 /*
 Feature Name:	SEO PLUS
 Feature URI:	http://www.inn-studio.com
-Version:		1.4.2
+Version:		1.4.3
 Description:	Improve the seo friendly
-Author:			INN STUDIO
-Author URI:		http://www.inn-studio.com
 */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_seo_plus::init';
@@ -26,15 +24,12 @@ class theme_seo_plus{
 		return str_replace('|',$sep,$title);
 	}
 	public static function get_options($key = null){
-		static $caches = [];
-		if(!isset($caches[self::$iden]))
-			$caches[self::$iden] = (array)theme_options::get_options(self::$iden);
-
-		if($key){
-			return isset($caches[self::$iden][$key]) ? $caches[self::$iden][$key] : null;
-		}else{
-			return $caches[self::$iden];
-		}
+		static $cache = null;
+		if($cache === null)
+			$cache = (array)theme_options::get_options(__CLASS__);
+		if($key)
+			return isset($cache[$key]) ? $cache[$key] : null;
+		return $cache;
 	}
 	public static function display_backend(){
 		?>
@@ -47,14 +42,14 @@ class theme_seo_plus{
 					<tr>
 						<th scope="row"><label for="seo_plus_description"><?= ___('Site description');?></label></th>
 						<td>
-							<input id="seo_plus_description" name="<?= self::$iden;?>[description]" class="widefat" type="text" value="<?= esc_attr(self::get_options('description'));?>"/>
+							<input id="seo_plus_description" name="<?= __CLASS__;?>[description]" class="widefat" type="text" value="<?= esc_attr(self::get_options('description'));?>"/>
 							<p class="description"><?= ___('Recommend to control that less than 100 words.');?></p>
 						</td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="seo_plus_keywords"><?= ___('Site keywords');?></label></th>
 						<td>
-							<input id="seo_plus_keywords" name="<?= self::$iden;?>[keywords]" class="widefat" type="text" value="<?= esc_attr(self::get_options('keywords'));?>"/>
+							<input id="seo_plus_keywords" name="<?= __CLASS__;?>[keywords]" class="widefat" type="text" value="<?= esc_attr(self::get_options('keywords'));?>"/>
 							<p class="description"><?= sprintf(___('For example: graphic design%s 3D design ...'),self::$keywords_split);?></p>
 						</td>
 					</tr>
@@ -64,11 +59,11 @@ class theme_seo_plus{
 	<?php
 	}
 	
-	public static function options_save($options){
-		if(isset($_POST[self::$iden])){
-			$options[self::$iden] = $_POST[self::$iden];
+	public static function options_save(array $opts = []){
+		if(isset($_POST[__CLASS__])){
+			$opts[__CLASS__] = $_POST[__CLASS__];
 		}
-		return $options;
+		return $opts;
 	}
 	public static function get_site_description($echo = true){
 		$descriptions = [];
@@ -76,7 +71,7 @@ class theme_seo_plus{
 		 * in home page
 		 */
 		if(is_home()){
-			if(!empty(self::get_options('description'))){
+			if(!self::get_options('description')){
 				$descriptions[] = apply_filters('meta_description_home',self::get_options('description'));
 			}else{
 				$descriptions[] = apply_filters('meta_description_home',theme_cache::get_bloginfo('description'));

@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme-cache
 Feature URI:	http://inn-studio.com
-Version:		2.1.8
+Version:		2.1.9
 Description:	theme-cache
 Author:			INN STUDIO
 Author URI:		http://inn-studio.com
@@ -273,7 +273,7 @@ class theme_cache{
 	}
 	public static function wp_title($sep = '&raquo;', $display = true, $seplocation = ''){
 		static $caches = [];
-		$cache_id = md5(func_get_args());
+		$cache_id = md5(json_encode(func_get_args()));
 		if(!isset($caches[$cache_id]))
 			$caches[$cache_id] = esc_html(wp_title($sep, $display, $seplocation));
 		return $caches[$cache_id];
@@ -315,7 +315,7 @@ class theme_cache{
 	}
 	public static function is_post_type_archive($post_types = null){
 		static $caches = [];
-		$cache_id = md5(func_get_args());
+		$cache_id = md5(json_encode(func_get_args()));
 		if(!isset($caches[$cache_id]))
 			$caches[$cache_id] = (bool)is_post_type_archive($post_types);
 		return $caches[$cache_id];
@@ -523,11 +523,11 @@ class theme_cache{
 	 * @param string $id The cache id
 	 * @param int $expire Cache expire time
 	 * @return mixed
-	 * @version 2.0.1
+	 * @version 2.0.2
 	 */
 	public static function get_comments($args,$expire = 3600){
 		$cache_group_id = 'comments';
-		$id = md5(serialize(func_get_args()));
+		$id = md5(json_encode(func_get_args()));
 		$caches = (array)self::get(self::$cache_key);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
 		if(empty($cache)){
@@ -547,7 +547,7 @@ class theme_cache{
 	 */
 	public static function get_queries($args,$expire = 3600){
 		$cache_group_id = 'queries';
-		$cache_id = md5(serialize(func_get_args()));
+		$cache_id = md5(json_encode(func_get_args()));
 		$caches = (array)self::get(self::$cache_key);
 		$cache = isset($caches[$cache_group_id][$cache_id]) ? $caches[$cache_group_id][$cache_id] : null;
 		if(empty($cache)){

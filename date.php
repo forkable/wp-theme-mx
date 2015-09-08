@@ -1,1 +1,1 @@
-<?php include __DIR__ '/category.php'; ?>
+<?php include __DIR__ . '/category.php'; ?>

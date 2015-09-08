@@ -71,26 +71,13 @@ fieldset{
 	padding-top:10px;
 	border-radius:3px;
 	background:rgb(245,245,245);
-	background:linear-gradient(rgb(250,251,253),rgb(245,245,245));
-	background:-moz-linear-gradient(rgb(250,251,253),rgb(245,245,245));
-	background:-webkit-linear-gradient(rgb(250,251,253),rgb(245,245,245));
-	background:-o-linear-gradient(rgb(250,251,253),rgb(245,245,245));
-	background:-webkit-gradient(linear,from(rgb(250,251,253)),to(rgb(245,245,245)));
-
 	box-shadow:0 0 0 1px white inset;
-
-	
 }
 	fieldset legend{
 		margin-left:10px;
 		margin-top:5px;
 		padding:10px 20px;
 		background:rgb(245,245,245);
-		background:linear-gradient(rgb(250,251,253),rgb(245,245,245));
-		background:-moz-linear-gradient(rgb(250,251,253),rgb(245,245,245));
-		background:-webkit-linear-gradient(rgb(250,251,253),rgb(245,245,245));
-		background:-o-linear-gradient(rgb(250,251,253),rgb(245,245,245));
-		background:-webkit-gradient(linear,from(rgb(250,251,253)),to(rgb(245,245,245)));
 		border:1px solid #DDD;
 		color:rgb(33, 117, 155);
 		text-shadow:0 1px 0 white;
@@ -104,16 +91,12 @@ fieldset{
 
 fieldset.active,
 fieldset:hover{
-	background:rgb(245,245,245);
-	background:linear-gradient(rgb(245,245,245),rgb(250,251,253));
-	background:-moz-linear-gradient(rgb(245,245,245),rgb(250,251,253));
-	background:-webkit-linear-gradient(rgb(245,245,245), rgb(250,251,253));
-	background:-o-linear-gradient(rgb(245,245,245), rgb(250,251,253));
-	background:-webkit-gradient(linear,from(rgb(245,245,245)),to(rgb(250,251,253)));
+	background:rgb(248,248,248);
 }
 	fieldset:hover > legend,
 	fieldset.active > legend{
 		color:#D54E21;
+		background:rgb(248,248,248);
 	}
 h3{
 	padding:10px;

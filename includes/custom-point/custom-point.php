@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.1
+ * @version 1.0.2
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_point::init';
@@ -44,7 +44,7 @@ class theme_custom_point{
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
 
 		/** ajax */
-		add_action('wp_ajax_' . self::$iden,__CLASS__ . '::process');
+		add_action('wp_ajax_' . __CLASS__,__CLASS__ . '::process');
 
 		add_action('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 		add_action('after_backend_tab_init',__CLASS__ . '::backend_seajs_use');
@@ -73,21 +73,21 @@ class theme_custom_point{
 			<table class="form-table">
 				<tbody>
 					<tr>
-						<th><label for="<?= self::$iden;?>-point-name"><?= ___('Point name');?></label></th>
+						<th><label for="<?= __CLASS__;?>-point-name"><?= ___('Point name');?></label></th>
 						<td>
-							<input type="text" name="<?= self::$iden;?>[point-name]" class="widefat" id="<?= self::$iden;?>-point-name" value="<?= esc_attr(self::get_point_name());?>">
+							<input type="text" name="<?= __CLASS__;?>[point-name]" class="widefat" id="<?= __CLASS__;?>-point-name" value="<?= esc_attr(self::get_point_name());?>">
 						</td>
 					</tr>
 					<?php foreach(self::get_point_types() as $k => $type){ ?>
 <tr>
 	<th>
-		<label for="<?= self::$iden;?>-<?= $k;?>"><?= $type['text'];?></label>
+		<label for="<?= __CLASS__;?>-<?= $k;?>"><?= $type['text'];?></label>
 	</th>
 	<td>
 		<input 
 			type="<?= isset($type['type']) ? $type['type'] : 'text';?>" 
-			name="<?= self::$iden;?>[points][<?= $k;?>]" class="short-text" 
-			id="<?= self::$iden;?>-<?= $k;?>" 
+			name="<?= __CLASS__;?>[points][<?= $k;?>]" class="short-text" 
+			id="<?= __CLASS__;?>-<?= $k;?>" 
 			value="<?= isset($points[$k]) ? $points[$k] : self::get_point_value_default($k);?>"
 		>
 		<?php if(isset($type['des'])){ ?>
@@ -97,13 +97,13 @@ class theme_custom_point{
 </tr>
 					<?php } ?>
 					<tr>
-						<th><label for="<?= self::$iden;?>-point-des"><?= ___('Description on point history page');?></label></th>
+						<th><label for="<?= __CLASS__;?>-point-des"><?= ___('Description on point history page');?></label></th>
 						<td>
-							<textarea name="<?= self::$iden;?>[point-des]" id="<?= self::$iden;?>-des" rows="3" class="widefat code"><?= self::get_point_des();?></textarea>
+							<textarea name="<?= __CLASS__;?>[point-des]" id="<?= __CLASS__;?>-des" rows="3" class="widefat code"><?= self::get_point_des();?></textarea>
 						</td>
 					</tr>
 					<tr>
-						<th><label for="<?= self::$iden;?>-point-img-url">
+						<th><label for="<?= __CLASS__;?>-point-img-url">
 							<?= ___('Point image url');?>
 							<?php if(self::get_point_img_url() !== ''){ ?>
 								<br>
@@ -111,7 +111,7 @@ class theme_custom_point{
 							<?php } ?>
 						</label></th>
 						<td>
-							<input type="url" name="<?= self::$iden;?>[point-img-url]" id="<?= self::$iden;?>-img-url" class="widefat code" value="<?= self::get_point_img_url();?>">
+							<input type="url" name="<?= __CLASS__;?>[point-img-url]" id="<?= __CLASS__;?>-img-url" class="widefat code" value="<?= self::get_point_img_url();?>">
 						</td>
 					</tr>
 				</tbody>
@@ -123,38 +123,38 @@ class theme_custom_point{
 					<tr>
 						<th><?= ___('User ID');?></th>
 						<td>
-							<input class="short-text" type="number" id="<?= self::$iden;?>-special-user-id" data-target="<?= self::$iden;?>-special-tip-user-id" data-ajax-type="get-points" data-ajax-field="user-id">
-							<span id="<?= self::$iden;?>-special-tip-user-id"></span>
+							<input class="short-text" type="number" id="<?= __CLASS__;?>-special-user-id" data-target="<?= __CLASS__;?>-special-tip-user-id" data-ajax-type="get-points" data-ajax-field="user-id">
+							<span id="<?= __CLASS__;?>-special-tip-user-id"></span>
 						</td>
 					</tr>
 					<tr>
 						<th><?= ___('How many point to add/reduce');?></th>
 						<td>
-							<input class="short-text" type="number" id="<?= self::$iden;?>-special-point" data-target="<?= self::$iden;?>-special-tip-user-point" data-ajax-field="point">
-							<span id="<?= self::$iden;?>-special-tip-user-point"></span>
+							<input class="short-text" type="number" id="<?= __CLASS__;?>-special-point" data-target="<?= __CLASS__;?>-special-tip-user-point" data-ajax-field="point">
+							<span id="<?= __CLASS__;?>-special-tip-user-point"></span>
 						</td>
 					</tr>
 					<tr>
 						<th><?= ___('Event description');?></th>
 						<td>
-							<input class="widefat" type="text" id="<?= self::$iden;?>-special-event" data-ajax-field="event">
+							<input class="widefat" type="text" id="<?= __CLASS__;?>-special-event" data-ajax-field="event">
 						</td>
 					</tr>
 					<tr>
 						<th><?= ___('Control');?></th>
 						<td>
-							<a href="javascript:;" class="button button-primary" id="<?= self::$iden;?>-special-set" data-target="<?= self::$iden;?>-special-tip-set">
+							<a href="javascript:;" class="button button-primary" id="<?= __CLASS__;?>-special-set" data-target="<?= __CLASS__;?>-special-tip-set">
 								<i class="fa fa-pencil-square-o"></i> 
 								<?= ___('Add/Reduce');?>
 							</a>
 							
-							<span class="page-tip" id="<?= self::$iden;?>-special-tip-set"></span>
+							<span class="page-tip" id="<?= __CLASS__;?>-special-tip-set"></span>
 							
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<?php do_action(self::$iden . '_backend');?>
+			<?php do_action(__CLASS__ . '_backend');?>
 			<h3><?= ___('Restore point options');?></h3>
 			<p class="description"><?= ___('You can restore the point options when you want.');?></p>
 			<table class="form-table">
@@ -162,8 +162,8 @@ class theme_custom_point{
 					<tr>
 						<th><?= ___('Restore');?></th>
 						<td>
-							<label for="<?= self::$iden;?>-restore">
-								<input type="checkbox" name="<?= self::$iden;?>[restore]" id="<?= self::$iden;?>-restore" value="1"> 
+							<label for="<?= __CLASS__;?>-restore">
+								<input type="checkbox" name="<?= __CLASS__;?>[restore]" id="<?= __CLASS__;?>-restore" value="1"> 
 								<?= ___('Restore');?>
 							</label> 
 							<span class="description"><?= ___('Check the box and save all settings to restore point options.');?></span>
@@ -338,14 +338,14 @@ class theme_custom_point{
 		return $caches;
 	}
 	public static function options_default(array $opts = []){
-		$opts[self::$iden] = [
+		$opts[__CLASS__] = [
 			'points' 		=> self::get_point_value_default(),
 			'point-name' 	=> ___('Cat-paw'), /** 名称 */
 			'point-des' 	=> ___('Point can exchange many things.'),
 			'point-img-url' => 'http://ww1.sinaimg.cn/large/686ee05djw1epfzp00krfg201101e0qn.gif',
 		];
 		
-		$opts[self::$iden] = apply_filters('custom_point_options_default',$opts[self::$iden]);
+		$opts[__CLASS__] = apply_filters('custom_point_options_default',$opts[__CLASS__]);
 		return $opts;
 	}
 	/**
@@ -372,9 +372,9 @@ class theme_custom_point{
 		return $values;
 	}
 	public static function options_save(array $opts = []){
-		if(isset($_POST[self::$iden])){
-			if(!isset($_POST[self::$iden]['restore'])){
-				$opts[self::$iden] = $_POST[self::$iden];
+		if(isset($_POST[__CLASS__])){
+			if(!isset($_POST[__CLASS__]['restore'])){
+				$opts[__CLASS__] = $_POST[__CLASS__];
 			}
 		}
 		return $opts;
@@ -394,7 +394,7 @@ class theme_custom_point{
 	public static function get_options($key = null){
 		static $caches;
 		if(!is_array($caches))			
-			$caches = (array)theme_options::get_options(self::$iden);
+			$caches = (array)theme_options::get_options(__CLASS__);
 			
 		if($key){
 			return isset($caches[$key]) ? $caches[$key] : null;
@@ -416,7 +416,7 @@ class theme_custom_point{
 	 *
 	 * @param int User id
 	 * @param bool $force Force to get point value without cache.
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 * @return int
 	 */
 	public static function get_point($user_id,$force = false){
@@ -424,10 +424,9 @@ class theme_custom_point{
 		if(isset($caches[$user_id]) && !$force)
 			return $caches[$user_id];
 
-		$point = (int)get_user_meta($user_id,self::$user_meta_key['point'],true);
+		$caches[$user_id] = (int)get_user_meta($user_id,self::$user_meta_key['point'],true);
 
-		$caches[$user_id] = $point;
-		return $point;
+		return $caches[$user_id];
 	}
 	/**
 	 * Get user history
@@ -665,7 +664,7 @@ class theme_custom_point{
 		 */
 		if(!theme_cache::is_user_logged_in()) return $output;
 		if(self::action_add_history_signin_daily() === true){
-			$point = (int)theme_options::get_options(self::$iden)['points']['signin-daily'];
+			$point = (int)theme_options::get_options(__CLASS__)['points']['signin-daily'];
 			$output['signin-daily'] = array(
 				'point' => $point,
 				'msg' => sprintf(___('Sign-in daily points: +%s'),$point),
@@ -834,7 +833,7 @@ class theme_custom_point{
 		 * update point
 		 */
 		$old_point = self::get_point($user_id);
-		update_user_meta($user_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['signin-daily']);
+		update_user_meta($user_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(__CLASS__)['points']['signin-daily']);
 
 		return true;
 	}
@@ -936,7 +935,7 @@ class theme_custom_point{
 			return false;
 			
 		$old_point = self::get_point($comment_author_id);
-		update_user_meta($comment_author_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['comment-publish']);		
+		update_user_meta($comment_author_id,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(__CLASS__)['points']['comment-publish']);		
 	}
 	/**
 	 * action_add_history_core_post_reply
@@ -1027,27 +1026,27 @@ class theme_custom_point{
 			return false;
 			
 		$old_point = self::get_point($post->post_author);
-		update_user_meta($post->post_author,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(self::$iden)['points']['post-publish']);
+		update_user_meta($post->post_author,self::$user_meta_key['point'],$old_point + (int)theme_options::get_options(__CLASS__)['points']['post-publish']);
 	}
 	public static function frontend_css(){
 		if(!self::is_page()) 
 			return false;
 			
 		wp_enqueue_style(
-			self::$iden,
+			__CLASS__,
 			theme_features::get_theme_includes_css(__DIR__),
 			'frontend',
 			theme_file_timestamp::get_timestamp()
 		);
 	}
 	public static function backend_seajs_alias(array $alias = []){
-		$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__,'backend');
+		$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__,'backend');
 		return $alias;
 	}
 	public static function backend_seajs_use(){
 		?>
-		seajs.use('<?= self::$iden;?>',function(m){
-			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>self::$iden));?>';
+		seajs.use('<?= __CLASS__;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action'=>__CLASS__));?>';
 			m.config.lang.M00001 = '<?= ___('Loading, please wait...');?>';
 			m.config.lang.E00001 = '<?= ___('Server error or network is disconnected.');?>';
 			m.init();
@@ -1055,4 +1054,3 @@ class theme_custom_point{
 		<?php
 	}
 }
-?>
