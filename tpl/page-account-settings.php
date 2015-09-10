@@ -56,7 +56,7 @@ get_currentuserinfo();
 			<?php 
 			$avatar = get_avatar($current_user->ID,100);
 			?>
-			<a href="<?= get_avatar_url($current_user->ID);?>" target="_blank" title="<?= ___('Views source image');?>"><?= $avatar;?></a>
+			<a href="<?= theme_cache::get_avatar_url($current_user->ID);?>" target="_blank" title="<?= ___('Views source image');?>"><?= $avatar;?></a>
 		</div>
 		<div class="col-sm-10">
 			<div class="form-control-static">

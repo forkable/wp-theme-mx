@@ -280,7 +280,7 @@ class theme_notification{
 		<div class="media">
 			<div class="media-left">
 				<a href="<?php comment_author_url($noti['comment-id']);?>">
-				<img src="<?= get_avatar_url($comment->user_id);?>" class="avatar media-object" alt="avatar" width="60" height="60">
+				<img src="<?= theme_cache::get_avatar_url($comment->user_id);?>" class="avatar media-object" alt="avatar" width="60" height="60">
 				</a>
 			</div>
 			<div class="media-body">
@@ -289,7 +289,7 @@ class theme_notification{
 					<?php
 					echo sprintf(
 						___('Your post %1$s has a comment by %2$s.'),
-						'<a href="' . theme_cache::get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '">' . esc_html(theme_cache::get_the_title($comment->comment_post_ID)) . '</a>',
+						'<a href="' . theme_cache::get_permalink($comment->comment_post_ID) . '#comment-' . $comment->comment_ID . '">' . theme_cache::get_the_title($comment->comment_post_ID) . '</a>',
 						get_comment_author_link($noti['comment-id'])
 					);
 					?>
@@ -312,7 +312,7 @@ class theme_notification{
 		<div class="media">
 			<div class="media-left">
 				<a href="<?= comment_author_url($noti['comment-id']);?>">
-					<img src="<?= theme_features::get_theme_images_url('frontend/avatar.jpg');?>" data-src="<?= get_avatar_url($comment->user_id);?>" class="avatar media-object" alt="avatar" width="60" height="60">
+					<img src="<?= theme_features::get_theme_images_url('frontend/avatar.jpg');?>" data-src="<?= theme_cache::get_avatar_url($comment->user_id);?>" class="avatar media-object" alt="avatar" width="60" height="60">
 				</a>
 			</div>
 			<div class="media-body">
@@ -345,7 +345,7 @@ class theme_notification{
 		<div class="media">
 			<div class="media-left">
 				<a href="<?php comment_author_url();?>">
-					<img src="<?= esc_url(get_avatar_url($follower_id));?>" class="avatar media-object" alt="avatar" width="60" height="60">
+					<img src="<?= theme_cache::get_avatar_url($follower_id);?>" class="avatar media-object" alt="avatar" width="60" height="60">
 				</a>
 			</div>
 			<div class="media-body">

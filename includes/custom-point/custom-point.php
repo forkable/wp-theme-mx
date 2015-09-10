@@ -7,8 +7,6 @@ add_filter('theme_includes',function($fns){
 	return $fns;
 });
 class theme_custom_point{
-	public static $iden = 'theme_custom_point';
-
 	public static $page_slug = 'account';
 	
 	public static $user_meta_key = array(

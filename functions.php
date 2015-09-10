@@ -587,7 +587,7 @@ class theme_functions{
 				<div class="media">
 					<div class="media-left">
 						<a class="post-meta post-author" href="<?= $author_url;?>" title="<?= sprintf(___('Views all post by %s'),$author_display_name);?>">
-							<img class="avatar" src="<?= get_avatar_url($post->post_author);?>" alt="<?= ___('Author avatar');?>" width="50" height="50">
+							<img class="avatar" src="<?= theme_cache::get_avatar_url($post->post_author);?>" alt="<?= ___('Author avatar');?>" width="50" height="50">
 						</a>
 					</div>
 					<div class="media-body">
@@ -1833,7 +1833,7 @@ class theme_functions{
 				<h3 class="post-list-title"><?= theme_cache::get_the_title($post->ID);?></h3>
 				<div class="post-list-meta">
 					<span class="meta author" title="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>">
-						<img width="16" height="16" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?= get_avatar_url($post->post_author);?>" alt="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>" class="avatar"> <span class="tx"><?= theme_cache::get_the_author_meta('display_name',$post->post_author);?></span>
+						<img width="16" height="16" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?= theme_cache::get_avatar_url($post->post_author);?>" alt="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>" class="avatar"> <span class="tx"><?= theme_cache::get_the_author_meta('display_name',$post->post_author);?></span>
 					</span>
 					<?php
 					/**
@@ -1898,7 +1898,7 @@ class theme_functions{
 				
 				<div class="post-list-meta">
 					<span class="meta author" title="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>">
-						<img width="16" height="16" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?= get_avatar_url($post->post_author);?>" alt="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>" class="avatar"> <span class="tx"><?= theme_cache::get_the_author_meta('display_name',$post->post_author);?></span>
+						<img width="16" height="16" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?= theme_cache::get_avatar_url($post->post_author);?>" alt="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>" class="avatar"> <span class="tx"><?= theme_cache::get_the_author_meta('display_name',$post->post_author);?></span>
 					</span>
 					<time class="meta time" datetime="<?= get_the_time('Y-m-d H:i:s',$post->ID);?>" title="<?= get_the_time(___('M j, Y'),$post->ID);?>">
 						<?= friendly_date(get_the_time('U',$post->ID));?>
@@ -2199,7 +2199,7 @@ class theme_functions{
 
 		$avatar_placeholder = theme_features::get_theme_images_url(self::$avatar_placeholder);
 
-		$avatar_url = get_avatar_url($user->ID);
+		$avatar_url = theme_cache::get_avatar_url($user->ID);
 		?>
 		<div class="user-list <?= $args['classes'];?>">
 			<a href="<?= theme_cache::get_author_posts_url($user->ID)?>" title="<?= $display_name;?>">

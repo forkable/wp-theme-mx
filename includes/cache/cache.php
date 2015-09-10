@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme-cache
 Feature URI:	http://inn-studio.com
-Version:		2.1.9
+Version:		2.1.10
 Description:	theme-cache
 Author:			INN STUDIO
 Author URI:		http://inn-studio.com
@@ -211,6 +211,13 @@ class theme_cache{
 		if(wp_using_ext_object_cache()){
 			return wp_cache_flush();
 		}
+	}
+	public static function get_avatar_url($id_or_email){
+		static $caches = [];
+		$cache_id = md5($id_or_email);
+		if(!isset($caches[$cache_id]))
+			$caches[$cache_id] = get_avatar_url($id_or_email);
+		return $caches[$cache_id];
 	}
 	public static function get_post($post_id, $output = OBJECT, $filter = 'raw'){
 		static $caches = [];

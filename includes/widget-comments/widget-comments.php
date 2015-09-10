@@ -72,7 +72,7 @@ class widget_comments extends WP_Widget{
 <li class="list-group-item">
 	<a class="media" href="<?= theme_cache::get_permalink($comment->comment_post_ID);?>#comment-<?= $comment->comment_ID;?>" title="<?= theme_cache::get_the_title($comment->comment_post_ID);?>">
 		<div class="media-left">
-			<img class="avatar media-object" data-src="<?= esc_url(get_avatar_url($comment));?>" src="<?= $caches['avatar_placeholder'];?>" alt="<?= $caches['author_name'][$comment->comment_author];?>" width="<?= self::$avatar_size;?>" height="<?= self::$avatar_size;?>"/>
+			<img class="avatar media-object" data-src="<?= esc_url(theme_cache::get_avatar_url($comment));?>" src="<?= $caches['avatar_placeholder'];?>" alt="<?= $caches['author_name'][$comment->comment_author];?>" width="<?= self::$avatar_size;?>" height="<?= self::$avatar_size;?>"/>
 		</div>
 		<div class="media-body">
 			<h4 class="media-heading">

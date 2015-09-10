@@ -244,7 +244,7 @@ class theme_custom_homebox{
 		<?php
 	
 	}
-	public static function backend_seajs_alias($alias){
+	public static function backend_seajs_alias(array $alias = []){
 		$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__,'backend.js');
 		return $alias;
 	}

@@ -1,6 +1,22 @@
+.my-info{
+	font-size: 20px;
+}
+.my-info .meta{
+	margin-right: 20px;
+}
+#modify-count{
+	display: none;
+}
+#modify-count.plus{
+	color: #FF4081;
+}
+#modify-count.mins{
+	color: green;
+}
 .lottery-box{
 	position: relative;
 	display: block;
+	background: #f8f8f8;
 	padding: 20px;
 	border: 2px solid #eee;
 	margin: -2px 0 0;
@@ -11,7 +27,7 @@
 	}
 	.lottery-box:hover,
 	.lottery-item:checked + .lottery-box{
-		background: rgba(255,64,129,.1);
+		background: rgba(255,64,129,.05);
 		z-index: 1;
 		border-color: rgba(255,64,129,.1);
 		border-radius: 2px;
@@ -22,19 +38,17 @@
 .lottery-box .icon,
 .lottery-box .name,
 .lottery-box .remaining{
+	float: left;
 }
 .lottery-box .icon{
-	float: left;
 	width: 30px;
 }
 .lottery-box .name{
-	float: left;
 	margin-right: 20px;
 	font-weight: bold;
 	font-size: 20px;
 }
 .lottery-box .remaining{
-	float: left;
 }
 .lottery-box .des{
 	display: block;

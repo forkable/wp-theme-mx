@@ -3,7 +3,7 @@
  * Theme Options
  * the theme options and show admin control planel
  * 
- * @version 5.0.2
+ * @version 5.0.3
  * 
  */
 theme_options::init();
@@ -25,7 +25,7 @@ class theme_options{
 	public static function admin_init(){
 		if(!self::is_options_page())
 			return false;
-		add_action('admin_head',__CLASS__ . '::backend_header');
+		add_action('admin_footer',__CLASS__ . '::backend_js');
 		add_action('backend_seajs_alias', __CLASS__ . '::backend_seajs_alias');
 	}
 	/**
@@ -55,10 +55,10 @@ class theme_options{
 	public static function process(){
 		
 		if(!isset($_POST[__CLASS__]['nonce']))
-			die();
+			die;
 			
 		if(!wp_verify_nonce($_POST[__CLASS__]['nonce'],__CLASS__))
-			die();
+			die;
 		
 		self::options_save();
 		
@@ -75,7 +75,7 @@ class theme_options{
 			$cache = admin_url('themes.php?page=core-options');
 		return $cache;
 	}
-	public static function backend_header(){
+	public static function backend_js(){
 		if(!theme_cache::current_user_can('manage_options'))
 			return false;
 
@@ -83,7 +83,7 @@ class theme_options{
 		if(!self::is_options_page())
 			return false;
 		?>
-		<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css">
 		<?php
 		echo theme_features::get_theme_css('backend/style','normal');
 		/**

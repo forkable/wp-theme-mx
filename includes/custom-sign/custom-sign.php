@@ -571,7 +571,7 @@ class theme_custom_sign{
 				'display_name' 	=> $current_user->display_name,
 				'posts_url' 	=> theme_cache::get_author_posts_url($current_user->ID),
 				'logout_url' 	=> wp_logout_url(theme_cache::home_url()),
-				'avatar_url'	=> get_avatar_url($current_user->ID),
+				'avatar_url'	=> theme_cache::get_avatar_url($current_user->ID),
 			);
 		}else{
 			$datas['user'] = array(

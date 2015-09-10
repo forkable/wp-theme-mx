@@ -525,14 +525,14 @@ class theme_comment_ajax{
 						
 						$user_name = $commenter['comment_author'];
 						$user_url = $commenter['comment_author_url'];
-						$avatar_url = get_avatar_url($commenter['comment_author_email']);
+						$avatar_url = theme_cache::get_avatar_url($commenter['comment_author_email']);
 						$user_email = $commenter['comment_author_email'];
 					}else{
 						global $current_user;
 						get_currentuserinfo();
 						$user_name = $current_user->display_name;
 						$user_url = theme_cache::get_author_posts_url($current_user->ID);
-						$avatar_url =  get_avatar_url($current_user->ID);
+						$avatar_url =  theme_cache::get_avatar_url($current_user->ID);
 					}
 					$output[self::$iden] = [
 						'comments' => self::get_comments_list($post_id,$cpage),

@@ -209,13 +209,14 @@ h3{
 }
 	.tabnav:after{clear: both;content:'.';display: block;overflow:hidden;visibility:hidden;font-size:0;line-height:0;width:0;height:0;}
 	.tabnav li{
-		padding: 5px 20px;
+		padding: 3px 10px;
 		text-decoration: none;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
 		cursor: pointer;
 		margin: 0;
+		font-size: 12px;
 	}
 			.tabnav li.active,
 			.tabnav li:hover{

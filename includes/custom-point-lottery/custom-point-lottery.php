@@ -10,7 +10,7 @@ class theme_point_lottery{
 
 	public static $page_slug = 'account';
 	public static $user_meta_key = [
-		'code' => 'lottery_redeem_codes',
+		'redeem' => 'lottery_redeems',
 	];
 	
 	public static function init(){
@@ -31,8 +31,9 @@ class theme_point_lottery{
 		add_action('frontend_seajs_use', __CLASS__ . '::frontend_seajs_use');
 
 		add_action('page_settings' , __CLASS__ . '::display_backend');
-		//add_action('admin_menu', __CLASS__ . '::add_page' );
-		//add_action('admin_bar_menu', __CLASS__ . '::admin_bar_menu' );
+		
+		add_filter('after_backend_tab_init',__CLASS__ . '::after_backend_tab_init');
+		add_filter('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
 		/**
 		 * list history
 		 */
@@ -41,74 +42,6 @@ class theme_point_lottery{
 		add_filter('theme_options_save', __CLASS__ . '::options_save');
 		add_action('list_point_histroy', __CLASS__ . '::list_history');
 
-	}
-	public static function admin_bar_menu($wp_admin_bar){
-		if(!theme_cache::current_user_can('manage_options'))
-			return false;
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'appearance',
-			'id' => __CLASS__,
-			'title' => ___('Redeem lists'),
-			'href' => admin_url('admin.php?page=' . __CLASS__ . '-redeem-lists')
-		));
-		
-	}
-	public static function add_page(){
-		if(!theme_cache::current_user_can('manage_options'))
-			return false;
-		add_menu_page(
-			___('Redeem lists'),
-			___('Redeem lists'),
-			'edit_themes', 
-			__CLASS__ . '-redeem-lists',
-			__CLASS__ . '::display_backend_redeem_lists',
-			'dashicons-groups',
-			6
-		);
-	}
-	public static function display_backend_redeem_lists(){
-		?>
-		<div class="wrap">
-			<h2><?php echo ___('Redeem lists');?></h2>
-			<table class="wp-list-table widefat fixed pages">
-				<thead>
-					<tr>
-						<?php foreach(self::get_types() as $k => $v){ ?>
-						<th><?php echo $v['text'];?></th>
-						<?php } ?>
-					</tr>
-				</thead>
-				<tfoot>
-					<tr>
-						<?php foreach(self::get_types() as $k => $v){ ?>
-						<th><?php echo $v['text'];?></th>
-						<?php } ?>
-					</tr>
-				</tfoot>
-				<tbody>
-					<?php if(empty($lists)){ ?>
-						<tr><td><?php echo ___('No customer quote request yet.');?></td></tr>
-					<?php }else{ ?>
-						<?php
-						$i = 0;
-						foreach($lists as $list){ 
-						++$i;
-							?>
-							<tr class="<?php echo $i%2 == 0 ? '' : 'alternate';?>">
-								<?php foreach(self::get_types() as $k => $v){ ?>
-									<td>
-										<?php echo $k === 'name' ? '<strong>' : null;?>
-										<?php echo isset($list[$k]) && !empty($list[$k]) ? esc_html($list[$k]) : '-';?>
-										<?php echo $k === 'name' ? '</strong>' : null;?>
-									</td>
-								<?php } ?>
-							</tr>
-						<?php } ?>
-					<?php } ?>
-				</tbody>
-			</table>
-		</div>
-		<?php
 	}
 	public static function wp_title($title, $sep){
 		if(!self::is_page()) 
@@ -171,23 +104,23 @@ class theme_point_lottery{
 		<tbody>
 		<tr>
 			<th><label for="<?= __CLASS__;?>-name-<?= $placeholder;?>"><?= sprintf(___('Lottery-box name - %s'),$placeholder);?></label></th>
-			<td><input type="text" id="<?= __CLASS__;?>-name-<?= $placeholder;?>" name="<?= __CLASS__;?>[<?= $placeholder;?>][name]" class="widefat" placeholder="<?= ___('Name');?>" value="<?= $name;?>"/></td>
+			<td><input type="text" id="<?= __CLASS__;?>-name-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][name]" class="widefat" placeholder="<?= ___('Name');?>" value="<?= $name;?>"/></td>
 		</tr>
 		<tr>
 			<th><label for="<?= __CLASS__;?>-consume-<?= $placeholder;?>"><?= ___('Consume point');?></label></th>
-			<td><input type="number" id="<?= __CLASS__;?>-consume-<?= $placeholder;?>" name="<?= __CLASS__;?>[<?= $placeholder;?>][consume]" class="short-number" placeholder="<?= ___('Consume point');?>" value="<?= $consume;?>" step="1"/></td>
+			<td><input type="number" id="<?= __CLASS__;?>-consume-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][consume]" class="short-number" placeholder="<?= ___('Consume point');?>" value="<?= $consume;?>" step="1"/></td>
 		</tr>
 		<tr>
 			<th><label for="<?= __CLASS__;?>-award-<?= $placeholder;?>"><?= ___('award point');?></label></th>
-			<td><input type="number" id="<?= __CLASS__;?>-award-<?= $placeholder;?>" name="<?= __CLASS__;?>[<?= $placeholder;?>][award]" class="short-number" placeholder="<?= ___('award point');?>" value="<?= $award;?>" step="1"/></td>
+			<td><input type="number" id="<?= __CLASS__;?>-award-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][award]" class="short-number" placeholder="<?= ___('award point');?>" value="<?= $award;?>" step="1"/></td>
 		</tr>
 		<tr>
 			<th><label for="<?= __CLASS__;?>-percent-<?= $placeholder;?>"><?= ___('Rewrad percent');?></label></th>
-			<td><input type="number" id="<?= __CLASS__;?>-percent-<?= $placeholder;?>" name="<?= __CLASS__;?>[<?= $placeholder;?>][percent]" class="short-number" placeholder="<?= ___('Rewrad percent');?>" value="<?= $percent;?>" min="0" max="100" step="1"/> %</td>
+			<td><input type="number" id="<?= __CLASS__;?>-percent-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][percent]" class="short-number" placeholder="<?= ___('Rewrad percent');?>" value="<?= $percent;?>" min="0" max="100" step="1"/> %</td>
 		</tr>
 		<tr>
 			<th><label for="<?= __CLASS__;?>-percent-<?= $placeholder;?>"><?= ___('Remaining');?></label></th>
-			<td><input type="number" id="<?= __CLASS__;?>-remaining-<?= $placeholder;?>" name="<?= __CLASS__;?>[<?= $placeholder;?>][remaining]" class="short-number" placeholder="<?= ___('Remaining number');?>" value="<?= $remaining;?>" min="0" step="1"/></td>
+			<td><input type="number" id="<?= __CLASS__;?>-remaining-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][remaining]" class="short-number" placeholder="<?= ___('Remaining number');?>" value="<?= $remaining;?>" min="0" step="1"/></td>
 		</tr>
 		<tr>
 			<th>
@@ -201,7 +134,7 @@ class theme_point_lottery{
 			<th>
 				<label for="<?= __CLASS__;?>-des-<?= $placeholder;?>"><?= ___('Description');?></label>
 				<td>
-					<textarea name="<?= __CLASS__;?>[<?= $placeholder;?>][des]" id="<?= __CLASS__;?>-des-<?= $placeholder;?>" rows="3" class="widefat"><?= $des;?></textarea>
+					<textarea name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][des]" id="<?= __CLASS__;?>-des-<?= $placeholder;?>" rows="3" class="widefat"><?= $des;?></textarea>
 				</td>
 			</th>
 		</tr>
@@ -209,7 +142,7 @@ class theme_point_lottery{
 			<th>
 				<label for="<?= __CLASS__;?>-success-<?= $placeholder;?>"><?= ___('Success description');?></label>
 				<td>
-					<input  type="text" name="<?= __CLASS__;?>[<?= $placeholder;?>][success]" id="<?= __CLASS__;?>-success-<?= $placeholder;?>" rows="3" class="widefat" value="<?= $success;?>">
+					<input  type="text" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][success]" id="<?= __CLASS__;?>-success-<?= $placeholder;?>" rows="3" class="widefat" value="<?= $success;?>">
 				</td>
 			</th>
 		</tr>
@@ -217,14 +150,14 @@ class theme_point_lottery{
 			<th>
 				<label for="<?= __CLASS__;?>-fail-<?= $placeholder;?>"><?= ___('Fail description');?></label>
 				<td>
-					<input type="text" name="<?= __CLASS__;?>[<?= $placeholder;?>][fail]" id="<?= __CLASS__;?>-fail-<?= $placeholder;?>" rows="3" class="widefat" value="<?= $fail;?>">
+					<input type="text" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][fail]" id="<?= __CLASS__;?>-fail-<?= $placeholder;?>" rows="3" class="widefat" value="<?= $fail;?>">
 				</td>
 			</th>
 		</tr>
 		<tr>
 			<th><?= ___('Box control');?></th>
 			<td>
-				<a href="javascript:;" data-target="<?= __CLASS__;?>-item-<?= $placeholder;?>" class="del"><?= ___('Delete this item');?></a>
+				<a href="javascript:;" data-target="<?= __CLASS__;?>-item-<?= $placeholder;?>" class="delete"><?= ___('Delete this item');?></a>
 			</td>
 		</tr>
 		</tbody>
@@ -238,10 +171,10 @@ class theme_point_lottery{
 		$type = self::get_box($placeholder,'type');
 		$types = [
 			'point' => ___('Point'),
-			'other' => ___('Other'),
+			'redeem' => ___('Redeem'),
 		];
 		?>
-		<select name="<?= __CLASS__;?>[<?= $placeholder;?>][type]" class="widefat">
+		<select name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][type]" class="widefat">
 			<?php foreach($types as $k => $v){ ?>
 				<option value="<?= $k;?>" <?= $type === $k ? 'selected' : null;?> ><?= $v;?></option>
 			<?php } ?>
@@ -264,7 +197,7 @@ class theme_point_lottery{
 					<tr>
 						<th><label for="<?= __CLASS__;?>-max-times"><?= ___('Max times daily');?></label></th>
 						<td>
-							<input type="number" name="<?= __CLASS__;?>[max-times]" id="<?= __CLASS__;?>--max-times" class="short-number" value="<?= self::get_max_times();?>" step="1" min="1">
+							<input type="number" name="<?= __CLASS__;?>[max-times]" id="<?= __CLASS__;?>-max-times" class="short-number" value="<?= self::get_max_times();?>" step="1" min="1">
 						</td>
 					</tr>
 				</tbody>
@@ -289,6 +222,21 @@ class theme_point_lottery{
 			</td>
 			</tr>
 			</tbody>
+			</table>
+			<hr>
+			<table class="form-table">
+				<tr>
+					<th><?= ___('Check redeem code');?></th>
+					<td>
+						<div id="<?= __CLASS__;?>-tip" class="page-tip"></div>
+						<div id="<?= __CLASS__;?>-btns">
+							<input type="number" id="<?= __CLASS__;?>-redeem-user-id" placeholder="<?= ___('User ID');?>" class="short_number"> 
+							<input type="number" id="<?= __CLASS__;?>-redeem-code" placeholder="<?= ___('Redeem code');?>" class="short_number"> 
+							
+							<a href="javascript:;" class="button button-primary" id="<?= __CLASS__;?>-check-redeem"><?= ___('Check and set redeem code');?></a>
+						</div>
+					</td>
+				</tr>
 			</table>
 		</fieldset>
 		<?php
@@ -328,7 +276,7 @@ class theme_point_lottery{
 		$types['lottery-percent'] = [
 			'text' => ___('Victory percentage'),
 			'type' => 'number',
-			'des' => ___('User lotterys other user points victory percentage. The unit is the percentage.'),
+			'des' => ___('User lotterys redeem user points victory percentage. The unit is the percentage.'),
 		];
 		$types['lottery'] = [
 			'text' => ___('When user lottery points'),
@@ -353,10 +301,10 @@ class theme_point_lottery{
 	public static function options_default(array $opts = []){
 		$opts[__CLASS__] = [
 			'boxes' => [
-				0 => [
+				1 => [
 					'name' => ___('Lottery 100'),
 					'consume' => 100,
-					'award' => 100,
+					'award' => 200,
 					'percent' => 50,
 					'remaining' => 9999,
 					'type' => 'point',
@@ -364,7 +312,7 @@ class theme_point_lottery{
 					'success' => ___('Congratulations! You win 200 points.'),
 					'fail' => ___('Not lucky, you lost the game and consume 100 points. Try again?'),
 				],
-				1 => [
+				2 => [
 					'name' => ___('Lottery 200'),
 					'consume' => 200,
 					'award' => 400,
@@ -375,13 +323,13 @@ class theme_point_lottery{
 					'success' => ___('Congratulations! You win 400 points.'),
 					'fail' => ___('Not lucky, you lost the game and consume 200 points. Try again?'),
 				],
-				2 => [
+				3 => [
 					'name' => ___('Keychain'),
 					'consume' => 1000,
 					'award' => 0,
 					'percent' => 10,
 					'remaining' => 10,
-					'type' => 'other',
+					'type' => 'redeem',
 					'des' => ___('You can consume 1000 points to get a keychain if you win.'),
 					'success' => ___('Congratulations! You win a keychain, the redeem code is %redeem%. Please contact administrator to get your award.'),
 					'fail' => ___('Not lucky, you lost the game and get nothing. Try again?'),
@@ -457,9 +405,7 @@ class theme_point_lottery{
 		theme_features::check_nonce();
 		$output = [];
 		
-		$type = isset($_REQUEST['type']) && is_string($_REQUEST['type']) ? $_REQUEST['type'] : null;
-
-		$target_id = isset($_REQUEST['target']) && is_numeric($_REQUEST['target']) ? $_REQUEST['target'] : null;
+		$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : null;
 
 		$current_user_id = theme_cache::get_current_user_id();
 		
@@ -470,8 +416,8 @@ class theme_point_lottery{
 			case 'start':
 
 				/** item */
-				$item = isset($_REQUEST['item']) && is_string($_REQUEST['item']) ? $_REQUEST['item'] : false;
-				if(!$item){
+				$item_id = isset($_REQUEST['id']) && is_string($_REQUEST['id']) ? $_REQUEST['id'] : false;
+				if($item_id === false){
 					die(theme_features::json_format([
 						'status' => 'error',
 						'code' => 'empty_item',
@@ -479,18 +425,11 @@ class theme_point_lottery{
 					]));
 				}
 
-				/** lottery boxes */
-				$boxes = self::get_box();
-				if(empty($boxes)){
-					die(theme_features::json_format([
-						'status' => 'error',
-						'code' => 'empty_lottery_item',
-						'msg' => ___('It is not any lottery yet.'),
-					]));
-				}
+				/** lottery box */
+				$box = self::get_box($item_id);
 
-				/** check item is in boxes */
-				if(!isset($boxes[$item])){
+				/** check item */
+				if(!$box){
 					die(theme_features::json_format([
 						'status' => 'error',
 						'code' => 'invaild_item',
@@ -500,7 +439,7 @@ class theme_point_lottery{
 
 				/** check current user points */
 				$current_user_points = theme_custom_point::get_point($current_user_id);
-				if($current_user_points < $boxes[$item]['consume']){
+				if($current_user_points < $box['consume']){
 					die(theme_features::json_format([
 						'status' => 'error',
 						'code' => 'not_enough_points',
@@ -509,7 +448,7 @@ class theme_point_lottery{
 				}
 
 				/** check remaining time */
-				if($boxes[$item]['remaining'] == 0){
+				if($box['remaining'] == 0){
 					die(theme_features::json_format([
 						'status' => 'error',
 						'code' => 'not_enough_remaining',
@@ -526,9 +465,103 @@ class theme_point_lottery{
 					]));
 				}
 
+				$win = self::get_win_status($item_id,$current_user_id);
+
+				/** add history */
+				$history_data = $box;
+				unset($history_data['type']);
+				$history_data['win'] = $win;
+				$history_data['points'] = (int)$box['award'] - (int)$box['consume'];
 				
+				$history_data = self::add_history($current_user_id,$history_data);
+				
+				/** output win */
+				if($win === true){
+					$output['msg'] = $box['success'];
+					if($box['type'] === 'point'){
+						$user_new_points = theme_custom_point::get_point($current_user_id) + $box['award'];
+					}else{
+						/** get redeem */
+						$redeem = isset($history_data['redeem']) ? $history_data['redeem'] : false;
+
+						/** add to redeem meta */
+						self::add_user_redeem($current_user_id,[
+							'id' => $redeem,
+							'name' => $box['name'],
+						]);
+					}
+				}else{
+					$output['msg'] = $box['fail'];
+					$user_new_points = theme_custom_point::get_point($current_user_id) - $box['consume'];
+				}
+				
+				/** update user point */
+				theme_custom_point::update_user_points($current_user_id,$user_new_points);
+				
+				$output['win'] = $win;
+				$output['new-points'] = theme_custom_point::get_point($current_user_id,true);
+				$output['status'] = $win ? 'success' : 'warning';
+
+				
+				/** update remaining */
+				$output['new-remaining'] = (int)self::reduce_remaining($item_id);
+				
+				/** check the type is point */
+				if($box['type'] === 'redeem'){
+					$output['redeem'] = $redeem;
+				}
 				die(theme_features::json_format($output));
-						
+
+			/** change status for redeem */
+			case 'redeemed':
+				/** check permission */
+				if(!theme_cache::current_user_can('manage_options'))
+					die(theme_features::json_format([
+						'status' => 'error',
+						'code' => 'invaild_permission',
+						'msg' => ___('Sorry, your permission is invaild.'),
+					]));
+					
+				/** check user */
+				$user_id = isset($_REQUEST['user-id']) && is_numeric($_REQUEST['user-id']) ? $_REQUEST['user-id'] : false;
+				$user = get_user($user_id);
+				if(!$user)
+					die(theme_features::json_format([
+						'status' => 'error',
+						'code' => 'invaild_user',
+						'msg' => ___('Sorry, the user is invaild.'),
+					]));
+				/** check redeem */
+				$redeem_id = isset($_REQUEST['redeem']) && is_string($_REQUEST['redeem']) ? $_REQUEST['redeem'] : false;
+				if(!$redeem_id)
+					die(theme_features::json_format([
+						'status' => 'error',
+						'code' => 'invaild_redeem',
+						'msg' => ___('Sorry, the redeem is invaild.'),
+					]));
+				/** get redeem metas */
+				$redeems = self::get_user_redeem_codes($user_id);
+				if(!isset($redeems[$redeem_id]))
+					die(theme_features::json_format([
+						'status' => 'error',
+						'code' => 'not_exist_redeem',
+						'msg' => ___('Sorry, the redeem does not exist.'),
+					]));
+
+				/** redeemed */
+				if(isset($redeems[$redeem_id]['redeemed']))
+					die(theme_features::json_format([
+						'status' => 'error',
+						'code' => 'already_redeemed',
+						'msg' => ___('Sorry, the redeem code has been redeemed.'),
+					]));
+
+				/** update */
+				self::update_user_redeem($user_id,$redeem_id);
+				die(theme_features::json_format([
+					'status' => 'success',
+					'msg' => ___('Sorry, type param is invaild.'),
+				]));
 			default:
 				die(theme_features::json_format([
 					'status' => 'error',
@@ -537,26 +570,57 @@ class theme_point_lottery{
 				]));
 		}
 	}
+	private static function reduce_remaining($item_id){
+		$box = self::get_box($item_id);
+		if(!$box)
+			return false;
+		$opts = self::get_options();
+		--$opts['boxes'][$item_id]['remaining'];
+		theme_options::set_options(__CLASS__,$opts);
+		return $opts['boxes'][$item_id]['remaining'];
+	}
+	private static function get_win_status($item_id,$user_id){
+		$percent = (int)self::get_box($item_id,'percent');
+		$consume = (int)self::get_box($item_id,'consume');
+		$user_points = theme_custom_point::get_point($user_id);
+		
+		if(!$percent)
+			return false;
+
+		$user_point_percent = $user_points * 0.0001;
+		if($user_point_percent > 5)
+			$user_point_percent = 5;
+
+		$consume_percent = $consume * 0.001;
+		if($consume_percent > 5)
+			$consume_percent = 5;
+			
+		$rand = mt_rand(1,100) + $user_point_percent + $consume_percent;
+		
+		return $percent >= $rand;
+	}
 	private static function get_timestamp(){
 		static $cache = null;
 		if($cache === null)
 			$cache = current_time('timestamp');
 		return $cache;
 	}
-	public static function add_history(array $data = []){
+	public static function add_history($user_id,array $data = []){
 		$meta = [
 			'type'=> 'lottery',
 			'timestamp' => self::get_timestamp(),
 			'win' => (bool)$data['win'],
 			'consume' => (int)$data['consume'],
-			'type' => $data['type'],
+			'lottery-type' => $data['type'],
 			'points' => (int)$data['points'],
 		];
 
-		if($data['type'] === 'other'){
-			$data['code'] = md5(json_encode($meta));
+		if($data['type'] === 'redeem'){
+			$meta['redeem'] = crc32(json_encode($meta));
 		}
-		add_user_meta($data['user-id'],theme_custom_point::$user_meta_key['history'],$meta);
+		add_user_meta($user_id,theme_custom_point::$user_meta_key['history'],$meta);
+		
+		return $meta;
 	}
 	private static function get_user_meta($user_id,$key){
 		static $caches = [];
@@ -575,18 +639,18 @@ class theme_point_lottery{
 		if(isset($codes[$data['id']]))
 			return false;
 		$codes[$data['id']] = $data;
-		update_user_meta($user_id,self::$user_meta_key['code'],$codes);
+		update_user_meta($user_id,self::$user_meta_key['redeem'],$codes);
 	}
 	public static function update_user_redeem($user_id,$code_key){
 		$codes = self::get_user_redeem_codes($user_id);
 		if(isset($codes[$code_key]))
 			return false;
-		$codes[$code_key]['redeemed'] = true;
-		update_user_meta($user_id,self::$user_meta_key['code'],$codes);
+		$codes[$code_key]['redeemed'] = self::get_timestamp();
+		update_user_meta($user_id,self::$user_meta_key['redeem'],$codes);
 	}
 	
 	public static function get_user_redeem_codes($user_id,$code_key = null){
-		$codes = self::get_user_meta($user_id,self::$user_meta_key['code']);
+		$codes = self::get_user_meta($user_id,self::$user_meta_key['redeem']);
 		if($code_key)
 			return isset($codes[$code_key]) ? $codes[$code_key] : false;
 		return $codes;
@@ -603,17 +667,16 @@ class theme_point_lottery{
 	public static function list_history($history){
 		if($history['type'] !== 'lottery')
 			return false;
-
 		?>
 		<li class="list-group-item">
-			<?php theme_custom_point::the_list_icon('lottery');?>
+			<?php theme_custom_point::the_list_icon('yelp');?>
 			<?php theme_custom_point::the_point_sign($history['points']);?>
 			<span class="history-text">
 
 				<?php
 				if($history['win']){
 					/** type is point */
-					if($history['type'] === 'point'){
+					if($history['lottery-type'] === 'point'){
 						echo sprintf(
 							___('You won the lottery game and got %1$s %2$s.'),
 							
@@ -621,21 +684,23 @@ class theme_point_lottery{
 							
 							theme_custom_point::get_point_name()
 						);
-					/** type is other */
+					/** type is redeem */
 					}else{
 						echo sprintf(
-							___('You won the lottery game and got a redemption: %s.'),
+							___('You consume %1$s %2$s and won the lottery game. Here is redeem code: %3%s.'),
+
+							'<strong>' . (0 - abs($history['consume'])) . '</strong>',
 							
-							'<strong class="label label-default">+' . abs($history['code']) . '</strong>'
+							theme_custom_point::get_point_name(),
+							
+							'<strong class="label label-default">+' . $history['redeem'] . '</strong>'
 						);
 					}
 				}else{
 					echo sprintf(
-						___('You lotteryed %1$s but miss! You lost %2$s %3$s.'),
+						___('You lost the lottery game and consumed %1$s %2$s.'),
 						
-						'<a href="' . esc_url(theme_cache::get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar"> ' . $target_name  . '</a>',
-						
-						'<strong>' . (0 - abs($history['points'])) . '</strong>',
+						'<strong>' . (0 - abs($history['consume'])) . '</strong>',
 						
 						theme_custom_point::get_point_name()
 					);
@@ -653,14 +718,26 @@ class theme_point_lottery{
 		}
 		return $alias;
 	}
+	public static function after_backend_tab_init(){
+		?>
+		seajs.use('<?= __CLASS__;?>',function(_m){
+			_m.config.tpl = <?= json_encode(self::get_box_tpl('%placeholder%'));?>;
+			_m.init();
+		});
+		<?php
+	
+	}
+	public static function backend_seajs_alias(array $alias = []){
+		$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__,'backend.js');
+		return $alias;
+	}
 	public static function frontend_seajs_use(){
 		if(!self::is_page()) 
 			return false;
 		?>
 		seajs.use('<?= __CLASS__;?>',function(m){
 			m.config.process_url = '<?= theme_features::get_process_url(array('action' => __CLASS__));?>';
-			m.config.lang.M01 = '<?= ___('Target locking...');?>';
-			m.config.lang.M02 = '<?= ___('lotterying, please wait...');?>';
+			m.config.lang.M01 = '<?= ___('Results coming soon...');?>';
 			m.config.lang.E01 = '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>';
 			m.init();
 		});

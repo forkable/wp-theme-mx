@@ -325,7 +325,7 @@ class theme_custom_point_bomb{
 				$output = [
 					'status' => 'success',
 					'points' => theme_custom_point::get_point($target_id),
-					'avatar' => str_replace('&#038;','&',get_avatar_url($target_id)),
+					'avatar' => theme_cache::get_avatar_url($target_id),
 					'name' => esc_html($target->display_name),
 					'msg' => ___('Target locked, bomb is ready.'),
 				];
@@ -582,7 +582,7 @@ class theme_custom_point_bomb{
 					echo sprintf(
 						___('You bombed %1$s and hit! You got %2$s %3$s.'),
 						
-						'<a href="' . esc_url(theme_cache::get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar">' . $target_name  . '</a>',
+						'<a href="' . esc_url(theme_cache::get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . theme_cache::get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar">' . $target_name  . '</a>',
 						
 						'<strong>+' . abs($history['points']) . '</strong>',
 						
@@ -592,7 +592,7 @@ class theme_custom_point_bomb{
 					echo sprintf(
 						___('You bombed %1$s but miss! You lost %2$s %3$s.'),
 						
-						'<a href="' . esc_url(theme_cache::get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar"> ' . $target_name  . '</a>',
+						'<a href="' . esc_url(theme_cache::get_author_posts_url($history['target-id'])) . '" target="_blank"><img src="' . theme_cache::get_avatar_url($history['target-id']) . '" alt="' . $target_name . '" width="16" height="16" class="avatar"> ' . $target_name  . '</a>',
 						
 						'<strong>' . (0 - abs($history['points'])) . '</strong>',
 						
@@ -612,7 +612,7 @@ class theme_custom_point_bomb{
 
 		$attacker_name = theme_cache::get_the_author_meta('display_name',$history['attacker-id']);
 		
-		$attacker_name = '<a href="' . esc_url(theme_cache::get_author_posts_url($history['attacker-id'])) . '" attacker="_blank"><img src="' . get_avatar_url($history['attacker-id']) . '" alt="' . $attacker_name . '" width="16" height="16" class="avatar"> ' . $attacker_name  . '</a>';
+		$attacker_name = '<a href="' . esc_url(theme_cache::get_author_posts_url($history['attacker-id'])) . '" attacker="_blank"><img src="' . theme_cache::get_avatar_url($history['attacker-id']) . '" alt="' . $attacker_name . '" width="16" height="16" class="avatar"> ' . $attacker_name  . '</a>';
 
 		if(class_exists('number_user_nicename')){
 			$fight_back_url = self::get_tabs('bomb',$history['attacker-id'] + number_user_nicename::$prefix_number)['url'];
@@ -690,7 +690,7 @@ class theme_custom_point_bomb{
 		<div class="media">
 			<div class="media-left">
 				<a href="<?php esc_url(theme_cache::get_author_posts_url($noti['attacker-id']));?>">
-				<img src="<?= get_avatar_url($noti['attacker-id']);?>" class="avatar media-object" alt="avatar" width="60" height="60">
+				<img src="<?= theme_cache::get_avatar_url($noti['attacker-id']);?>" class="avatar media-object" alt="avatar" width="60" height="60">
 				</a>
 			</div>
 			<div class="media-body">
