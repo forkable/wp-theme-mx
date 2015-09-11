@@ -34,6 +34,7 @@ class theme_point_lottery{
 		
 		add_filter('after_backend_tab_init',__CLASS__ . '::after_backend_tab_init');
 		add_filter('backend_seajs_alias',__CLASS__ . '::backend_seajs_alias');
+		add_action('backend_css', __CLASS__ . '::backend_css'); 
 		/**
 		 * list history
 		 */
@@ -104,23 +105,23 @@ class theme_point_lottery{
 		<tbody>
 		<tr>
 			<th><label for="<?= __CLASS__;?>-name-<?= $placeholder;?>"><?= sprintf(___('Lottery-box name - %s'),$placeholder);?></label></th>
-			<td><input type="text" id="<?= __CLASS__;?>-name-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][name]" class="widefat" placeholder="<?= ___('Name');?>" value="<?= $name;?>"/></td>
+			<td><input type="text" id="<?= __CLASS__;?>-name-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][name]" class="widefat" placeholder="<?= ___('Lottery item name');?>" title="<?= ___('Lottery item name');?>" value="<?= $name;?>"/></td>
 		</tr>
 		<tr>
 			<th><label for="<?= __CLASS__;?>-consume-<?= $placeholder;?>"><?= ___('Consume point');?></label></th>
-			<td><input type="number" id="<?= __CLASS__;?>-consume-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][consume]" class="short-number" placeholder="<?= ___('Consume point');?>" value="<?= $consume;?>" step="1"/></td>
+			<td><input type="number" id="<?= __CLASS__;?>-consume-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][consume]" class="short-number" placeholder="<?= ___('Consume points');?>" title="<?= ___('Consume points');?>" value="<?= $consume;?>" step="1"/></td>
 		</tr>
 		<tr>
 			<th><label for="<?= __CLASS__;?>-award-<?= $placeholder;?>"><?= ___('award point');?></label></th>
-			<td><input type="number" id="<?= __CLASS__;?>-award-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][award]" class="short-number" placeholder="<?= ___('award point');?>" value="<?= $award;?>" step="1"/></td>
+			<td><input type="number" id="<?= __CLASS__;?>-award-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][award]" class="short-number" placeholder="<?= ___('award points');?>" value="<?= $award;?>" step="1" placeholder="<?= ___('Award points');?>"/></td>
 		</tr>
 		<tr>
-			<th><label for="<?= __CLASS__;?>-percent-<?= $placeholder;?>"><?= ___('Rewrad percent');?></label></th>
-			<td><input type="number" id="<?= __CLASS__;?>-percent-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][percent]" class="short-number" placeholder="<?= ___('Rewrad percent');?>" value="<?= $percent;?>" min="0" max="100" step="1"/> %</td>
+			<th><label for="<?= __CLASS__;?>-percent-<?= $placeholder;?>"><?= ___('Award percent');?></label></th>
+			<td><input type="number" id="<?= __CLASS__;?>-percent-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][percent]" class="short-number" placeholder="<?= ___('Award percent');?>" value="<?= $percent;?>" min="0" max="100" step="1" title="<?= ___('Award percent');?>"/> %</td>
 		</tr>
 		<tr>
 			<th><label for="<?= __CLASS__;?>-percent-<?= $placeholder;?>"><?= ___('Remaining');?></label></th>
-			<td><input type="number" id="<?= __CLASS__;?>-remaining-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][remaining]" class="short-number" placeholder="<?= ___('Remaining number');?>" value="<?= $remaining;?>" min="0" step="1"/></td>
+			<td><input type="number" id="<?= __CLASS__;?>-remaining-<?= $placeholder;?>" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][remaining]" class="short-number" placeholder="<?= ___('Remaining number');?>" value="<?= $remaining;?>" min="0" step="1" title="<?= ___('Remaining number');?>" /></td>
 		</tr>
 		<tr>
 			<th>
@@ -134,7 +135,7 @@ class theme_point_lottery{
 			<th>
 				<label for="<?= __CLASS__;?>-des-<?= $placeholder;?>"><?= ___('Description');?></label>
 				<td>
-					<textarea name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][des]" id="<?= __CLASS__;?>-des-<?= $placeholder;?>" rows="3" class="widefat"><?= $des;?></textarea>
+					<textarea name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][des]" id="<?= __CLASS__;?>-des-<?= $placeholder;?>" rows="3" class="widefat" placeholder="<?= ___('About the lottery item description.');?>"><?= $des;?></textarea>
 				</td>
 			</th>
 		</tr>
@@ -142,7 +143,7 @@ class theme_point_lottery{
 			<th>
 				<label for="<?= __CLASS__;?>-success-<?= $placeholder;?>"><?= ___('Success description');?></label>
 				<td>
-					<input  type="text" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][success]" id="<?= __CLASS__;?>-success-<?= $placeholder;?>" rows="3" class="widefat" value="<?= $success;?>">
+					<input  type="text" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][success]" id="<?= __CLASS__;?>-success-<?= $placeholder;?>" rows="3" class="widefat" value="<?= $success;?>" placeholder="<?= ___('When user win the lottery game message.');?>">
 				</td>
 			</th>
 		</tr>
@@ -150,7 +151,7 @@ class theme_point_lottery{
 			<th>
 				<label for="<?= __CLASS__;?>-fail-<?= $placeholder;?>"><?= ___('Fail description');?></label>
 				<td>
-					<input type="text" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][fail]" id="<?= __CLASS__;?>-fail-<?= $placeholder;?>" rows="3" class="widefat" value="<?= $fail;?>">
+					<input type="text" name="<?= __CLASS__;?>[boxes][<?= $placeholder;?>][fail]" id="<?= __CLASS__;?>-fail-<?= $placeholder;?>" rows="3" class="widefat" value="<?= $fail;?>" placeholder="<?= ___('When user lose the lottery game message.');?>">
 				</td>
 			</th>
 		</tr>
@@ -730,6 +731,11 @@ class theme_point_lottery{
 	public static function backend_seajs_alias(array $alias = []){
 		$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__,'backend.js');
 		return $alias;
+	}
+	public static function backend_css(){
+		?>
+		<link href="<?= theme_features::get_theme_includes_css(__DIR__,'backend',true,true);?>" rel="stylesheet"  media="all"/>
+		<?php
 	}
 	public static function frontend_seajs_use(){
 		if(!self::is_page()) 
