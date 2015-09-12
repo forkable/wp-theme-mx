@@ -513,9 +513,11 @@ class theme_point_lottery{
 				$output['new-points'] = theme_custom_point::get_point($current_user_id,true);
 				$output['status'] = $win ? 'success' : 'warning';
 
-				
-				/** update remaining */
-				$output['new-remaining'] = (int)self::reduce_remaining($item_id);
+
+				if($win){
+					/** update remaining */
+					$output['new-remaining'] = (int)self::reduce_remaining($item_id);
+				}
 				
 				/** check the type is point */
 				if($box['type'] === 'redeem'){
