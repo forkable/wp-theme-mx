@@ -67,25 +67,23 @@ fieldset{
 	max-width:100%;
 	overflow:hidden;
 	border:1px solid rgb(220,220,220);
-	padding:20px;
+	padding:20px 20px 10px;
 	padding-top:10px;
-	border-radius:3px;
+	border-radius:4px;
 	background:rgb(245,245,245);
 	box-shadow:0 0 0 1px white inset;
 }
 	fieldset legend{
-		margin-left:10px;
-		margin-top:5px;
+		margin: 5px 0 0;
 		padding:10px 20px;
 		background:rgb(245,245,245);
 		border:1px solid #DDD;
 		color:rgb(33, 117, 155);
 		text-shadow:0 1px 0 white;
-		border-radius:3px;
+		border-radius:4px;
 		font-weight:bold;
 		font-size:15px;
-		box-shadow:0 0 6px rgba(0,0,0,0.05),0 0 0 1px white inset;
-
+		box-shadow:0 1px 3px rgba(0,0,0,.1),0 0 0 1px white inset;
 	}
 @media screen and (-webkit-min-device-pixel-ratio:0){fieldset legend{border-top-width:2px;}}
 

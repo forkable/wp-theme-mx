@@ -3,7 +3,7 @@
  * Theme Options
  * the theme options and show admin control planel
  * 
- * @version 5.0.3
+ * @version 5.0.4
  * 
  */
 theme_options::init();
@@ -25,6 +25,7 @@ class theme_options{
 	public static function admin_init(){
 		if(!self::is_options_page())
 			return false;
+		add_action('admin_head',__CLASS__ . '::backend_css');
 		add_action('admin_footer',__CLASS__ . '::backend_js');
 		add_action('backend_seajs_alias', __CLASS__ . '::backend_seajs_alias');
 	}
@@ -75,21 +76,30 @@ class theme_options{
 			$cache = admin_url('themes.php?page=core-options');
 		return $cache;
 	}
-	public static function backend_js(){
+	public static function backend_css(){
 		if(!theme_cache::current_user_can('manage_options'))
 			return false;
 
 
 		if(!self::is_options_page())
 			return false;
+
 		?>
 		<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<?= theme_features::get_theme_css('backend/style','normal');?>
 		<?php
-		echo theme_features::get_theme_css('backend/style','normal');
 		/**
 		 * add admin_css hook 
 		 */
 		do_action('backend_css');
+	}
+	public static function backend_js(){
+		if(!theme_cache::current_user_can('manage_options'))
+			return false;
+
+		if(!self::is_options_page())
+			return false;
+
 		?><script id="seajsnode" src="<?= theme_features::get_theme_js('seajs/sea');?>"></script>
 		<script>
 		<?php
@@ -103,7 +113,7 @@ class theme_options{
 			'locale' => str_replace('-','_',theme_cache::get_bloginfo('language')),
 			'theme_js' => theme_features::get_theme_js(),
 			'theme_css' => theme_features::get_theme_css(),
-			'process_url' => esc_js(theme_features::get_process_url()),
+			'process_url' => theme_features::get_process_url(),
 		);
 		$config['map'] = array(
 			['.css','.css?v=' . theme_file_timestamp::get_timestamp()],
