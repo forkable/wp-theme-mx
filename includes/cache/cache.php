@@ -214,7 +214,7 @@ class theme_cache{
 	}
 	public static function get_avatar_url($id_or_email){
 		static $caches = [];
-		$cache_id = md5($id_or_email);
+		$cache_id = md5(json_encode($id_or_email));
 		if(!isset($caches[$cache_id]))
 			$caches[$cache_id] = get_avatar_url($id_or_email);
 		return $caches[$cache_id];
