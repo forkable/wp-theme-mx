@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KMTF-1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-12 16:17+0800\n"
-"PO-Revision-Date: 2015-09-12 17:13+0800\n"
+"POT-Creation-Date: 2015-09-12 18:13+0800\n"
+"PO-Revision-Date: 2015-09-12 18:13+0800\n"
 "Last-Translator: Km.Van <kmvan.com@gmail.com>\n"
 "Language-Team: INN STUDIO <kmvan.com@gmail.com>\n"
 "Language: zh_CN\n"
@@ -904,8 +904,8 @@ msgstr "第 {n} 页"
 #: includes/custom-follow/custom-follow.php:141
 #: includes/custom-pm/custom-pm.php:842
 #: includes/custom-point-bomb/custom-point-bomb.php:758
-#: includes/custom-point-lottery/custom-point-lottery.php:735
-#: includes/custom-point-lottery/custom-point-lottery.php:757
+#: includes/custom-point-lottery/custom-point-lottery.php:739
+#: includes/custom-point-lottery/custom-point-lottery.php:761
 #: includes/custom-post-point/custom-post-point.php:856
 #: includes/custom-sign/custom-sign.php:600
 #: includes/custom-user-settings/custom-user-settings.php:469
@@ -1652,7 +1652,7 @@ msgstr "超时"
 
 #: includes/custom-pm/custom-pm.php:422
 #: includes/custom-point-bomb/custom-point-bomb.php:485
-#: includes/custom-point-lottery/custom-point-lottery.php:580
+#: includes/custom-point-lottery/custom-point-lottery.php:583
 #: includes/custom-post-point/custom-post-point.php:113
 msgid "Sorry, type param is invaild."
 msgstr "抱歉，缺少类型参数。"
@@ -1982,7 +1982,7 @@ msgid "Check and set redeem code"
 msgstr "检查并设置兑换码"
 
 #: includes/custom-point-lottery/custom-point-lottery.php:279
-#: includes/custom-point-lottery/custom-point-lottery.php:688
+#: includes/custom-point-lottery/custom-point-lottery.php:692
 msgid "Lottery game"
 msgstr "抽奖游戏"
 
@@ -2064,48 +2064,50 @@ msgstr "抱歉，抽奖条目库存为空。"
 msgid "Sorry, you reached max lottery times today, see you tomorrow."
 msgstr "抱歉，您今天已经达到最大抽奖次数，明天见。"
 
-#: includes/custom-point-lottery/custom-point-lottery.php:533
+#: includes/custom-point-lottery/custom-point-lottery.php:535
 #: includes/mailer/mailer.php:154
 msgid "Sorry, your permission is invaild."
 msgstr "抱歉，您的权限无效。"
 
-#: includes/custom-point-lottery/custom-point-lottery.php:543
+#: includes/custom-point-lottery/custom-point-lottery.php:545
 msgid "Sorry, the user is invaild."
 msgstr "抱歉，该用户无效。"
 
-#: includes/custom-point-lottery/custom-point-lottery.php:551
+#: includes/custom-point-lottery/custom-point-lottery.php:553
 msgid "Sorry, the redeem is invaild."
 msgstr "抱歉，兑换码无效。"
 
-#: includes/custom-point-lottery/custom-point-lottery.php:559
+#: includes/custom-point-lottery/custom-point-lottery.php:561
 msgid "Sorry, the redeem does not exist."
 msgstr "抱歉，兑换码不存在。"
 
-#: includes/custom-point-lottery/custom-point-lottery.php:567
-msgid "Sorry, the redeem code has been redeemed."
-msgstr "抱歉，该兑换码已经被兑换过了。"
+#: includes/custom-point-lottery/custom-point-lottery.php:569
+#, php-format
+msgid "[%s] Sorry, the redeem code has been redeemed."
+msgstr "[%s] 抱歉，该兑换码已经被兑换过了。"
 
-#: includes/custom-point-lottery/custom-point-lottery.php:574
-msgid "Redeem code status has been updated to redeemed."
-msgstr "兑换码状态已成功更新为已兑换。"
+#: includes/custom-point-lottery/custom-point-lottery.php:577
+#, php-format
+msgid "[%s] Redeem code status has been updated to redeemed."
+msgstr "[%s] 兑换码状态已成功更新为已兑换。"
 
-#: includes/custom-point-lottery/custom-point-lottery.php:694
+#: includes/custom-point-lottery/custom-point-lottery.php:698
 #, php-format
 msgid "You won %1$s . Here is redeem code: %2$s."
 msgstr "您赢得了 %1$s。这个是兑换码：%2$s。"
 
-#: includes/custom-point-lottery/custom-point-lottery.php:703
+#: includes/custom-point-lottery/custom-point-lottery.php:707
 #, php-format
 msgid "You won %s."
 msgstr "您赢得了 %s。"
 
-#: includes/custom-point-lottery/custom-point-lottery.php:711
+#: includes/custom-point-lottery/custom-point-lottery.php:715
 #, php-format
 msgid "You lost the lottery game %s."
 msgstr "您在%s的抽奖游戏中输了。"
 
-#: includes/custom-point-lottery/custom-point-lottery.php:734
-#: includes/custom-point-lottery/custom-point-lottery.php:756
+#: includes/custom-point-lottery/custom-point-lottery.php:738
+#: includes/custom-point-lottery/custom-point-lottery.php:760
 msgid "Results coming soon..."
 msgstr "结果出炉中……"
 
@@ -4664,6 +4666,12 @@ msgstr "向每个人介绍自己"
 #: tpl/page-account-settings.php:117
 msgid "Save my settings"
 msgstr "保存我的设置"
+
+#~ msgid "Sorry, the redeem code has been redeemed."
+#~ msgstr "抱歉，该兑换码已经被兑换过了。"
+
+#~ msgid "Redeem code status has been updated to redeemed."
+#~ msgstr "兑换码状态已成功更新为已兑换。"
 
 #~ msgid "You can edit lottery item for users"
 #~ msgstr "您可以编辑抽奖条目。"

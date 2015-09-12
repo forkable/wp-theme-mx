@@ -566,7 +566,7 @@ class theme_point_lottery{
 					die(theme_features::json_format([
 						'status' => 'error',
 						'code' => 'already_redeemed',
-						'msg' => ___('Sorry, the redeem code has been redeemed.'),
+						'msg' => sprintf(___('[%s] Sorry, the redeem code has been redeemed.'),$redeems[$redeem_id]['name']),
 					]));
 
 				/** update */
@@ -574,7 +574,7 @@ class theme_point_lottery{
 				
 				die(theme_features::json_format([
 					'status' => 'success',
-					'msg' => ___('Redeem code status has been updated to redeemed.'),
+					'msg' => sprintf(___('[%s] Redeem code status has been updated to redeemed.'),$redeems[$redeem_id]['name']),
 				]));
 			default:
 				die(theme_features::json_format([
