@@ -2,7 +2,7 @@
 /*
 Feature Name:	SEO PLUS
 Feature URI:	http://www.inn-studio.com
-Version:		1.4.3
+Version:		1.4.4
 Description:	Improve the seo friendly
 */
 add_filter('theme_includes',function($fns){
@@ -17,7 +17,7 @@ class theme_seo_plus{
 		add_action('wp_head',__CLASS__ . '::get_site_keywords');
 		add_action('wp_head',__CLASS__ . '::get_site_description');
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
-		add_filter('wp_title',__CLASS__ . '::wp_title',10,2);
+		add_filter('wp_title',__CLASS__ . '::wp_title',999,2);
 	}
 	public static function wp_title($title, $sep){
 		$sep = ' - ';
