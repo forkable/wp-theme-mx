@@ -2,10 +2,10 @@
 /**
  * @version 1.0.0
  */
-add_filter('theme_includes',function($fns){
-	$fns[] = 'theme_img_lazyload::init';
-	return $fns;
-});
+//add_filter('theme_includes',function($fns){
+//	$fns[] = 'theme_img_lazyload::init';
+//	return $fns;
+//});
 class theme_img_lazyload{
 	public static $iden = 'theme_img_lazyload';
 	public static function init(){

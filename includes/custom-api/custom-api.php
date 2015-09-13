@@ -1,19 +1,17 @@
 <?php
 /**
- * @version 1.0.2
+ * @version 1.0.3
  */
 add_filter('theme_includes',function($fns){
-	$fns[] = 'theme_custom_api::init';
+	$fns[] = 'theme_api::init';
 	return $fns;
 });
-class theme_custom_api{
-
-	public static $iden = 'theme_api';
+class theme_api{
 
 	public static function init(){
 
-		add_action('wp_ajax_' . self::$iden,	__CLASS__ . '::process');
-		add_action('wp_ajax_nopriv_' . self::$iden,	__CLASS__ . '::process');
+		add_action('wp_ajax_' . __CLASS__,	__CLASS__ . '::process');
+		add_action('wp_ajax_nopriv_' . __CLASS__,	__CLASS__ . '::process');
 	}
 
 	public static function process(){
@@ -34,14 +32,14 @@ class theme_custom_api{
 				/**
 				 * get cache
 				 */
-				$cache = wp_cache_get($type,self::$iden);
+				$cache = wp_cache_get($type,__CLASS__);
 				if($cache)
 					die(theme_features::json_format($cache));
 
 				/**
 				 * set cache
 				 */
-				wp_cache_set($type,$output,self::$iden,3600*24);
+				wp_cache_set($type,$output,__CLASS__,3600*24);
 				die(theme_features::json_format($output));
 			/**
 			 * get posts
@@ -105,7 +103,7 @@ class theme_custom_api{
 				 * get cache
 				 */
 				$cache_id = md5(json_encode($query_args));
-				$cache = wp_cache_get($cache_id,self::$iden);
+				$cache = wp_cache_get($cache_id,__CLASS__);
 				if($cache)
 					die(theme_features::json_format($cache));
 				
@@ -128,7 +126,7 @@ class theme_custom_api{
 				/**
 				 * set cache
 				 */
-				wp_cache_set($cache_id,$output,self::$iden,3600);
+				wp_cache_set($cache_id,$output,__CLASS__,3600);
 				die(theme_features::json_format($output));
 			/**
 			 * get post
@@ -147,7 +145,7 @@ class theme_custom_api{
 				/**
 				 * get cache
 				 */
-				$cache = wp_cache_get($post_id,self::$iden);
+				$cache = wp_cache_get($post_id,__CLASS__);
 				if($cache)
 					die(theme_features::json_format($cache));
 					
@@ -169,7 +167,7 @@ class theme_custom_api{
 				/**
 				 * set cache
 				 */
-				wp_cache_set($post_id,$output,self::$iden,3600);
+				wp_cache_set($post_id,$output,__CLASS__,3600);
 				
 				die(theme_features::json_format($output));
 			default:
@@ -201,6 +199,10 @@ class theme_custom_api{
 		 */
 		$output['url'] = theme_cache::get_permalink($post->ID);
 		/**
+		 * post author
+		 */
+		$output['post_author'] = self::get_userdata($post->post_author);
+		/**
 		 * thumbnail
 		 */
 		$sizes = ['thumbnail', 'medium' ];
@@ -216,10 +218,18 @@ class theme_custom_api{
 		
 		return $output;
 	}
+	public static function get_userdata($user_id){
+		return [
+			'name' => theme_cache::get_the_author_meta('display_name',$user_id),
+			'avatar' => theme_cache::get_avatar_url($user_id),
+			'description' => theme_cache::get_the_author_meta('description',$user_id),
+			'url' => theme_cache::get_author_posts_url($user_id),
+		];
+	}
 	public static function get_options($key = null){
 		static $caches = null;
 		if($caches === null)
-			$caches = theme_options::get_options(self::$iden);
+			$caches = theme_options::get_options(__CLASS__);
 
 		if($key)
 			return isset($caches[$key]) ? $caches[$key] : false;
@@ -229,6 +239,7 @@ class theme_custom_api{
 	public static function display_backend(){
 		
 	}
+	//public static function get_user
 	public static function get_cat_data($cat){
 		$cat = (array)$cat;
 		$cat['url'] = get_category_link($cat['term_id']);
