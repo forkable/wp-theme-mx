@@ -2,7 +2,7 @@
 /*
 Feature Name:	theme_custom_slidebox
 Feature URI:	http://www.inn-studio.com
-Version:		2.0.0
+Version:		2.0.1
 Description:	theme_custom_slidebox
 Author:			INN STUDIO
 Author URI:		http://www.inn-studio.com
@@ -12,7 +12,6 @@ add_filter('theme_includes',function($fns){
 	return $fns;
 });
 class theme_custom_slidebox{
-	public static $iden = 'theme_custom_slidebox';
 	public static $file_exts = ['png','jpg','gif'];
 	public static $image_size = [800,500,true];
 	public static function init(){
@@ -20,13 +19,13 @@ class theme_custom_slidebox{
 		add_action('page_settings',__CLASS__ . '::display_backend');
 		add_action('wp_ajax_' . __CLASS__,__CLASS__ . '::process');
 		add_filter('theme_options_save',__CLASS__ . '::options_save');
+		add_action('backend_css',__CLASS__ . '::backend_css'); 
 
 		/**
 		 * frontend
 		 */
 		add_action('frontend_seajs_alias',__CLASS__ . '::frontend_seajs_alias');
 		add_action('frontend_seajs_use',__CLASS__ . '::frontend_seajs_use');
-		add_action('backend_css',__CLASS__ . '::backend_css'); 
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 	}
 	public static function options_save(array $opts = []){
@@ -89,7 +88,7 @@ class theme_custom_slidebox{
 		 * if not image
 		 */
 		$filename = isset($_FILES['img']['name']) ? $_FILES['img']['name'] : null;
-		$file_ext = $filename ? array_slice(explode('.',$filename),-1,1)[0] : null;
+		$file_ext = $filename ? strtolower(array_slice(explode('.',$filename),-1,1)[0]) : null;
 		if(!in_array($file_ext,self::$file_exts)){
 			$output['status'] = 'error';
 			$output['code'] = 'invaild_file_type';

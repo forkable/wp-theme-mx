@@ -6,7 +6,7 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="page-tip">
-					<?= status_tip('info', ___('Please set some widgets in singluar post.'));?>
+					<?= status_tip('info', ___('Please set some widgets in singular post.'));?>
 				</div>
 			</div>
 		</div>

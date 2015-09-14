@@ -24,7 +24,7 @@ class theme_custom_contribution{
 		add_filter('theme_options_default', 	__CLASS__ . '::options_default');
 		
 		
-		add_action('wp_ajax_' . self::$iden, __CLASS__ . '::process');
+		add_action('wp_ajax_' . __CLASS__, __CLASS__ . '::process');
 
 		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
 
@@ -72,19 +72,19 @@ class theme_custom_contribution{
 				<tr>
 					<th><?= ___('Shows categories');?></th>
 					<td>
-						<?php theme_features::cat_checkbox_list(self::$iden,'cats');?>
+						<?php theme_features::cat_checkbox_list(__CLASS__,'cats');?>
 					</td>
 				</tr>
 				<tr>
-					<th><label for="<?= self::$iden;?>-tags-number"><?= ___('Shows tags number');?></label></th>
+					<th><label for="<?= __CLASS__;?>-tags-number"><?= ___('Shows tags number');?></label></th>
 					<td>
-						<input class="short-text" type="number" name="<?= self::$iden;?>[tags-number]" id="<?= self::$iden;?>-tags-number" value="<?= isset($opt['tags-number']) ?  $opt['tags-number'] : 6;?>">
+						<input class="short-text" type="number" name="<?= __CLASS__;?>[tags-number]" id="<?= __CLASS__;?>-tags-number" value="<?= isset($opt['tags-number']) ?  $opt['tags-number'] : 6;?>">
 					</td>
 				</tr>
 				<tr>
-					<th><label for="<?= self::$iden;?>-description"><?= ___('You can write some description for contribution page header. Please use tag <p> to wrap your HTML codes.');?></label></th>
+					<th><label for="<?= __CLASS__;?>-description"><?= ___('You can write some description for contribution page header. Please use tag <p> to wrap your HTML codes.');?></label></th>
 					<td>
-						<textarea name="<?= self::$iden;?>[description]" id="<?= self::$iden;?>-description" class="widefat" rows="5"><?= self::get_des();?></textarea>
+						<textarea name="<?= __CLASS__;?>[description]" id="<?= __CLASS__;?>-description" class="widefat" rows="5"><?= self::get_des();?></textarea>
 					</td>
 				</tr>
 			</table>
@@ -92,20 +92,20 @@ class theme_custom_contribution{
 		<?php
 	}
 	public static function options_save(array $opts = []){
-		if(!isset($_POST[self::$iden]))
+		if(!isset($_POST[__CLASS__]))
 			return $opts;
 
-		$opts[self::$iden] = $_POST[self::$iden];
+		$opts[__CLASS__] = $_POST[__CLASS__];
 		return $opts;
 	}
 	public static function options_default(array $opts = []){
-		$opts[self::$iden]['tags-number'] = 6;
+		$opts[__CLASS__]['tags-number'] = 6;
 		return $opts;
 	}
 	public static function get_options($key = null){
 		static $caches = null;
 		if($caches === null)
-			$caches = (array)theme_options::get_options(self::$iden);
+			$caches = (array)theme_options::get_options(__CLASS__);
 			
 		if($key)
 			return isset($caches[$key]) ? $caches[$key] : false;
@@ -471,6 +471,7 @@ class theme_custom_contribution{
 		if($cache === null)
 			$cache = get_categories([
 				'include' => self::get_cat_ids(),
+				'hide_empty' => false,
 			]);
 		if($array){
 			$cats = [];
@@ -526,6 +527,7 @@ class theme_custom_contribution{
 	 * @version 1.0.0
 	 */
 	public static function get_thumbnail_data($attach_id, array $output = []){
+		$output['attach-page-url'] = theme_cache::get_permalink($attach_id);
 		foreach([ 'thumbnail' ,'medium','large','full' ] as $size){
 			$output[$size] = [
 				'url' => 
@@ -584,7 +586,7 @@ class theme_custom_contribution{
 	}
 	public static function frontend_seajs_alias($alias){
 		if(self::is_page()){
-			$alias[self::$iden] = theme_features::get_theme_includes_js(__DIR__);
+			$alias[__CLASS__] = theme_features::get_theme_includes_js(__DIR__);
 		}
 		return $alias;
 	}
@@ -592,8 +594,8 @@ class theme_custom_contribution{
 		if(!self::is_page()) 
 			return false;
 		?>
-		seajs.use('<?= self::$iden;?>',function(m){
-			m.config.process_url = '<?= theme_features::get_process_url(array('action' => self::$iden));?>';
+		seajs.use('<?= __CLASS__;?>',function(m){
+			m.config.process_url = '<?= theme_features::get_process_url(array('action' => __CLASS__));?>';
 			m.config.default_size = '<?= self::$thumbnail_size;?>';
 			m.config.cats = <?= json_encode(array_map(function($v){
 				return [
@@ -604,20 +606,20 @@ class theme_custom_contribution{
 				];
 			},self::get_cats(true)));?>;
 			m.config.lang = {
-				M00001 : '<?= ___('Loading, please wait...');?>',
-				M00002 : '<?= ___('Uploading {0}/{1}, please wait...');?>',
-				M00003 : '<?= ___('Click to delete');?>',
-				M00004 : '<?= ___('{0} files have been uploaded.');?>',
-				M00005 : '<?= ___('Source');?>',
-				M00006 : '<?= ___('Click to view source');?>',
-				M00007 : '<?= ___('Set as cover.');?>',
-				M00008 : '<?= ___('Optional: some description');?>',
-				M00009 : '<?= ___('Insert');?>',
-				M00010 : '<?= ___('Preview');?>',
-				M00011 : '<?= ___('Large size');?>',
-				M00012 : '<?= ___('Medium size');?>',
-				M00013 : '<?= ___('Small size');?>',
-				E00001 : '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>'
+				M01 : '<?= ___('Loading, please wait...');?>',
+				M02 : '<?= ___('Uploading {0}/{1}, please wait...');?>',
+				M03 : '<?= ___('Click to delete');?>',
+				M04 : '<?= ___('{0} files have been uploaded.');?>',
+				M05 : '<?= ___('Source');?>',
+				M06 : '<?= ___('Click to view source');?>',
+				M07 : '<?= ___('Set as cover.');?>',
+				M08 : '<?= ___('Optional: some description');?>',
+				M09 : '<?= ___('Insert to content');?>',
+				M10 : '<?= ___('Preview');?>',
+				M11 : '<?= ___('Large size');?>',
+				M12 : '<?= ___('Medium size');?>',
+				M13 : '<?= ___('Small size');?>',
+				E01 : '<?= ___('Sorry, server is busy now, can not respond your request, please try again later.');?>'
 			};
 			<?php
 			if(self::is_edit()){
@@ -635,6 +637,7 @@ class theme_custom_contribution{
 					unset($attachs[$thumbnail_id]);
 					array_unshift($attachs,$unshift_attach);
 				}
+				unset($attachs_data);
 				asort($attachs);
 				?>
 				m.config.edit = 1;
@@ -652,7 +655,7 @@ class theme_custom_contribution{
 			return false;
 			
 		wp_enqueue_style(
-			self::$iden,
+			__CLASS__,
 			theme_features::get_theme_includes_css(__DIR__),
 			'frontend',
 			theme_file_timestamp::get_timestamp()

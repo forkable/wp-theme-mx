@@ -444,12 +444,11 @@ class theme_functions{
 	public static function widget_rank_img_content($args = []){
 		global $post;
 		
-		$defaults = array(
+		$args = array_merge([
 			'classes' => '',
 			'lazyload' => true,
 			'excerpt' => false,
-		);
-		$args = array_merge($defaults,$args);
+		],$args);
 
 		$excerpt = get_the_excerpt();
 		if(!empty($excerpt))
@@ -499,23 +498,21 @@ class theme_functions{
 	public static function page_content($args = []){
 		global $post;
 		
-		$defaults = array(
+		$args = array_merge([
 			'classes'			=> [],
 			'lazyload'			=> true,
-			
-		);
-		$args = array_merge($defaults,$args);
+		],$args);
 		
 		/** 
 		 * classes
 		 */
-		$args['classes'][] = 'singluar-post panel panel-default';
+		$args['classes'][] = 'singular-post panel panel-default';
 
 		?>
 		<article id="post-<?php $post->ID;?>" <?php post_class($args['classes']);?>>
 			<div class="panel-heading">
 				<?php if(theme_cache::get_the_title($post->ID) !== ''){ ?>
-					<h3 class="entry-title panel-title"><?= theme_cache::get_the_title($post->ID);?></h3>
+					<h2 class="entry-title panel-title"><?= theme_cache::get_the_title($post->ID);?></h2>
 				<?php } ?>
 
 			</div>
@@ -566,17 +563,16 @@ class theme_functions{
 	public static function singular_content(array $args = []){
 		global $post;
 
-		$defaults = array(
+		$args = array_merge(array(
 			'classes'			=> [],
 			'lazyload'			=> true,
 			
-		);
-		$args = array_merge($defaults,$args);
+		),$args);
 		
 		/** 
 		 * classes
 		 */
-		$args['classes'][] = 'singluar-post panel panel-default';
+		$args['classes'][] = 'singular-post panel panel-default';
 
 		$author_display_name = theme_cache::get_the_author_meta('display_name',$post->post_author);
 
@@ -592,7 +588,7 @@ class theme_functions{
 					</div>
 					<div class="media-body">
 						<?php if(theme_cache::get_the_title($post->ID) !== ''){ ?>
-							<h3 class="entry-title panel-title"><?= theme_cache::get_the_title($post->ID);?></h3>
+							<h2 class="entry-title panel-title"><?= theme_cache::get_the_title($post->ID);?></h2>
 						<?php } ?>
 						<header class="post-header post-metas clearfix">
 							
@@ -751,7 +747,10 @@ class theme_functions{
 	public static function the_post_tags(){
 		global $post;
 		$tags = get_the_tags();
-		if(empty($tags)) return false;
+		
+		if(empty($tags)) 
+			return false;
+			
 		$first_tag = array_shift($tags);
 		$split_str = '<span class="split">' . ___(', ') . '</span>';
 		?>
@@ -960,7 +959,7 @@ class theme_functions{
 			global $post;
 			/* The page parent */
 			if($post->post_parent){
-				$links['singluar'] = '<a href="' . theme_cache::get_permalink($post->post_parent) . '">' . theme_cache::get_the_title($post->post_parent) . '</a>';
+				$links['singular'] = '<a href="' . theme_cache::get_permalink($post->post_parent) . '">' . theme_cache::get_the_title($post->post_parent) . '</a>';
 			}
 			/**
 			 * post / page
@@ -968,12 +967,12 @@ class theme_functions{
 			if(theme_features::get_current_cat_id() > 1){
 				$categories = get_the_category();
 				foreach ($categories as $key => $row) {
-							$parent_id[$key] = $row->category_parent;
+					$parent_id[$key] = $row->category_parent;
 				}
 				array_multisort($parent_id, SORT_ASC,$categories);
 				foreach($categories as $cat){
 					$cat_name = esc_html($cat->name);
-					$links['singluar'] = '<a href="' . esc_url(get_category_link($cat->cat_ID)) . '" title="' . sprintf(___('View all posts in %s'),$cat_name) . '">' . $cat_name . '</a>';
+					$links['singular'] = '<a href="' . esc_url(get_category_link($cat->cat_ID)) . '" title="' . sprintf(___('View all posts in %s'),$cat_name) . '">' . $cat_name . '</a>';
 				}
 			}
 			//$links['curr_text'] = esc_html(theme_cache::get_the_title($post->ID));
@@ -1069,7 +1068,7 @@ class theme_functions{
 						/**
 						 * Previous 5 page
 						 */
-						for( $i = $page - 3; $i < $page; $i++){
+						for( $i = $page - 3; $i < $page; ++$i ){
 							if($i < 1 )
 								continue;
 							?>
@@ -1083,7 +1082,7 @@ class theme_functions{
 							<?= sprintf(___('Page %d'),$page);?>
 						</option>
 						<?php
-						for( $i = $page + 1; $i < $page + 4; $i++ ) {
+						for( $i = $page + 1; $i < $page + 4; ++$i ) {
 							if($i > $count)
 								break;
 							?>
@@ -1705,7 +1704,7 @@ class theme_functions{
 			$prev_page = $page - 1;
 			$output = '<a href="' . theme_features::get_link_page_url($prev_page) . '" class="prev_page">' . ___('Previous page') . '</a>';
 		}
-		$output = $output ? '<div class="singluar_page">' . $output . '</div>' : null;
+		$output = $output ? '<div class="singular_page">' . $output . '</div>' : null;
 		$args = array(
 			'range' => 3
 		);

@@ -35,7 +35,7 @@ define(function(require, exports, module){
 	exports.page_nagi = {
 		init : function(){
 			var that = this;
-			cache.$post = document.querySelector('.singluar-post');
+			cache.$post = document.querySelector('.singular-post');
 			cache.$nagi = document.querySelector('.page-pagination');
 			cache.$next = cache.$nagi.querySelector('.next');
 			cache.$prev = cache.$nagi.querySelector('.prev');

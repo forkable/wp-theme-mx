@@ -327,6 +327,12 @@ class theme_cache{
 			$caches[$cache_id] = (bool)is_post_type_archive($post_types);
 		return $caches[$cache_id];
 	}
+	public static function is_attachment(){
+		static $cache = null;
+		if($cache === null)
+			$cache = (bool)is_attachment();
+		return $cache;
+	}
 	public static function is_front_page(){
 		static $cache = null;
 		if($cache === null)

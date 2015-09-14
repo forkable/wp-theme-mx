@@ -1,0 +1,65 @@
+
+.attachment .singular-post .panel-body{
+	padding: 0;
+}
+.attachment .entry-title{
+	text-align: center;
+}
+	.attachment .entry-title a{
+		border-bottom: 1px dotted #FF4081;
+	}
+.attachment-slide a{
+	display: block;
+
+}
+.attachment-slide img{
+	display: block;
+	max-width: 100%;
+}
+.attachment-slide-content{
+	margin-bottom: 10px;
+}
+	.attachment-slide-content img{
+		margin: 0 auto;
+	}
+.attachment-slide-thumbnail{
+	text-align: center;
+	overflow-x: auto;
+	white-space: nowrap;
+	padding: 10px 0 0;
+}
+	.attachment-slide-thumbnail a{
+		position: relative;
+		display: inline-block;
+		border: 2px solid #fff;
+	}
+	.attachment-slide-thumbnail a img{
+		width: auto;
+		height: 80px;
+	}
+	.attachment-slide-thumbnail a.active,
+	.attachment-slide-thumbnail a:hover{
+		border-color: #FF4081;
+	}
+	
+	.attachment-slide-thumbnail a.active:after{
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		margin-left: -10px;
+		display: block;
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 0 10px 10px 10px;
+		border-color: transparent transparent #FF4081 transparent;
+		content: '';
+	}
+
+@media( min-width: 768px ){
+
+	.attachment-slide-thumbnail a img{
+		width: auto;
+		height: 100px;
+	}
+}

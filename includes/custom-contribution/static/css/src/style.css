@@ -98,23 +98,26 @@
 			display: none;
 		}
 		.ctb-insert-btn{
+			padding: 5px 0;
+			font-size: 12px;
 			margin-bottom: 5px;
 		}
 		.ctb-set-cover-btn{
 			display: block;
 			border: 1px solid #b2b2b2;
-			border-radius: 4px;
-			padding: .1em 0;
+			border-radius:2px;
+			padding: 2px 0;
 			text-align: center;
 			font-weight: normal;
+			font-size: 12px;
 		}
 			.ctb-set-cover-btn:hover{
 				background: #eee;
 			}
 		#ctb-files .thumbnail-tpl .img-thumbnail-checkbox:checked + .ctb-set-cover-btn{
-			background: #428bca;
+			background: #2196F3;
 			color: #fff;
-			border-color: #428bca;
+			border-color: #2196F3;
 		}
 		.ctb-set-cover-btn i{
 			display: none;

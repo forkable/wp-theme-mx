@@ -258,6 +258,7 @@ function post_form($post_id = null){
 						'selected' => $selected_cat_id,
 						'show_option_none' => ___('Select category'),
 						'hierarchical' => true,
+						'hide_empty' => false,
 						'include' => (array)theme_custom_contribution::get_cat_ids(),
 					]); 
 				}else{

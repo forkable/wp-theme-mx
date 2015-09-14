@@ -20,44 +20,42 @@ define(function(require, exports, module){
 		process_url : '',
 		
 		lang : {
-			M00001 : 'Loading, please wait...',
-			M00002 : 'Uploading {0}/{1}, please wait...',
-			M00003 : 'Click to delete',
-			M00004 : '{0} files have been uploaded.',
-			M00005 : 'Source',
-			M00006 : 'Click to view source',
-			M00007 : 'Set as cover.',
-			M00008 : 'Optional: some description',
-			M00009 : 'Insert',
-			M00010 : 'Preview',
-			M00011 : 'Large size',
-			M00012 : 'Medium size',
-			M00013 : 'Small size',
-			E00001 : 'Sorry, server error please try again later.'
+			M01 : 'Loading, please wait...',
+			M02 : 'Uploading {0}/{1}, please wait...',
+			M03 : 'Click to delete',
+			M04 : '{0} files have been uploaded.',
+			M05 : 'Source',
+			M06 : 'Click to view source',
+			M07 : 'Set as cover.',
+			M08 : 'Optional: some description',
+			M09 : 'Insert',
+			M10 : 'Preview',
+			M11 : 'Large size',
+			M12 : 'Medium size',
+			M13 : 'Small size',
+			E01 : 'Sorry, server is busy now, can not respond your request, please try again later.'
 		}
 	}
 	var config = exports.config,
 		cache = {};
 	exports.init = function(){
-		tools.ready(function(){
-			exports.bind();
-		});
+		tools.ready(exports.bind);
 	}
 	function I(e){
 		return document.getElementById(e);
 	}
 	exports.bind = function(){
-		cache.$fm = 			I('fm-ctb');
-		cache.$file_area = 		I('ctb-file-area');
-		cache.$file_btn = 		I('ctb-file-btn');
-		cache.$file = 			I('ctb-file');
-		cache.$files = 			I('ctb-files');
+		cache.$fm = 				I('fm-ctb');
+		cache.$file_area = 			I('ctb-file-area');
+		cache.$file_btn = 			I('ctb-file-btn');
+		cache.$file = 				I('ctb-file');
+		cache.$files = 				I('ctb-files');
 		cache.$file_progress = 		I('ctb-file-progress');
 		cache.$file_completion_tip = I('ctb-file-completion');
 		cache.$file_progress_bar = 	I('ctb-file-progress-bar');
 		cache.$file_progress_tx = 	I('ctb-file-progress-tx');
 		
-		cache.$split_number = I('ctb-split-number');
+		cache.$split_number = 		I('ctb-split-number');
 
 		if(!cache.$fm) 
 			return false;
@@ -127,6 +125,7 @@ define(function(require, exports, module){
 			return false;
 			
 		for(var i in config.attachs){
+			console.log(config.attachs[i]);
 			append_tpl(config.attachs[i]);
 		}
 	}
@@ -207,19 +206,19 @@ define(function(require, exports, module){
 		xhr.send(fd);
 	}
 	function file_beforesend_callback(){
-		var tx = config.lang.M00002.format(cache.file_index + 1,cache.file_count);
+		var tx = config.lang.M02.format(cache.file_index + 1,cache.file_count);
 		cache.$file_progress_bar.style.width = '10%';
 		uploading_tip('loading',tx);
 	}
 	function file_error_callback(msg){
-		msg = msg ? msg : config.lang.E00001;
+		msg = msg ? msg : config.lang.E01;
 		uploading_tip('error',msg);
 	}
 	/** 
 	 * upload_started
 	 */
 	function upload_started(i,file,count){
-		var t = config.lang.M00002.format(i,count);
+		var t = config.lang.M02.format(i,count);
 		uploading_tip('loading',t);
 	}
 	function file_complete_callback(data){
@@ -231,7 +230,12 @@ define(function(require, exports, module){
 		if(data && data.status === 'success'){
 			append_tpl(data);
 			/** send to editor */
-			var editor_content = send_content(data.full.url,data[config.default_size].url);
+			var editor_content = send_content({
+				attach_page_url : data['attach-page-url'],
+				width : data.large.width,
+				height : data.large.height,
+				img_url : data[config.default_size].url
+			});
 			
 			/** nextpage checked */
 			if(cache.$split_number.value >= 1 && cache.file_index > 1){
@@ -244,7 +248,7 @@ define(function(require, exports, module){
 			 * check all thing has finished, if finished
 			 */
 			if(cache.file_count === cache.file_index){
-				var tx = config.lang.M00004.format(cache.file_index,cache.file_count);
+				var tx = config.lang.M04.format(cache.file_index,cache.file_count);
 				uploading_tip('success',tx);
 				cache.$file.value = '';
 			/**
@@ -276,7 +280,7 @@ define(function(require, exports, module){
 				if(data && data.status === 'error'){
 					file_error_callback(data.msg);
 				}else{
-					file_error_callback(config.lang.E00001);
+					file_error_callback(config.lang.E01);
 					console.error(data);
 				}
 				/** 
@@ -308,13 +312,17 @@ define(function(require, exports, module){
 			cache.$post_title = I('ctb-title');
 			
 		var $tpl = document.createElement('div'),
-			M00010 = cache.$post_title == '' ? config.lang.M00010 : cache.$post_title.value,
-			content = '<a class="img-link" href="' + args.full.url + '" target="_blank" title="' + config.lang.M00006 + '">' + 
-					'<img src="' + args.thumbnail.url + '" alt="' + M00010 +'" >' +
+			M10 = cache.$post_title == '' ? config.lang.M10 : cache.$post_title.value,
+			content = '<a class="img-link" href="' + args.full.url + '" target="_blank" title="' + config.lang.M06 + '">' + 
+					'<img src="' + args.thumbnail.url + '" alt="' + M10 +'" >' +
 				'</a>' +
-				'<a href="javascript:;" class="btn btn-primary btn-block ctb-insert-btn" id="ctb-insert-' + args['attach-id'] + '" data-size="large"><i class="fa fa-plug"></i> ' + config.lang.M00009 + '</a>' +
+				
+				'<a href="javascript:;" class="btn btn-primary btn-block ctb-insert-btn" id="ctb-insert-' + args['attach-id'] + '" data-size="large" data-attach-page-url="' + args['attach-page-url'] + '" data-width="' + args['large']['width'] + '" data-height="' + args['large']['height'] + '"><i class="fa fa-plug"></i> ' + config.lang.M09 + '</a>' +
+				
 				'<input type="radio" name="ctb[thumbnail-id]" id="img-thumbnail-' + args['attach-id'] + '" value="' + args['attach-id'] + '" hidden class="img-thumbnail-checkbox" required >' +
-				'<label for="img-thumbnail-' + args['attach-id'] + '" class="ctb-set-cover-btn"><i class="fa fa-star"></i> ' + config.lang.M00007 + '</label>' +
+				
+				'<label for="img-thumbnail-' + args['attach-id'] + '" class="ctb-set-cover-btn"><i class="fa fa-star"></i> ' + config.lang.M07 + '</label>' +
+				
 				'<input type="hidden" name="ctb[attach-ids][]" value="' + args['attach-id'] + '" >';
 				
 		$tpl.id = 'img-' + args['attach-id'];
@@ -334,10 +342,13 @@ define(function(require, exports, module){
 		 */
 		var $insert_btn = $tpl.querySelectorAll('.ctb-insert-btn'),
 			send_content_helper = function(){
-					/** send to editor */
-				var editor_content = send_content(args.full.url,args[this.getAttribute('data-size')].url);
-				
-				send_to_editor(editor_content);
+				/** send to editor */
+				send_to_editor(send_content({
+					attach_page_url : this.getAttribute('data-attach-page-url'),
+					width : this.getAttribute('data-width'),
+					height : this.getAttribute('data-height'),
+					img_url : args[this.getAttribute('data-size')].url
+				}));
 			};
 		for(var i = 0, len = $insert_btn.length; i < len; i++){
 			$insert_btn[i].addEventListener('click',send_content_helper,false);
@@ -345,10 +356,10 @@ define(function(require, exports, module){
 
 		return $tpl;
 	}
-	function send_content(full_url,img_url){
-		var title = cache.$post_title == '' ? config.lang.M00010 : cache.$post_title.value;
-		return '<p><a href="' + full_url + '" title="' + title + '" target="_blank" >' + 
-			'<img src="' + img_url + '" alt="' + title + '" >' +
+	function send_content(data){
+		var title = cache.$post_title == '' ? config.lang.M10 : cache.$post_title.value;
+		return '<p><a href="' + data.attach_page_url + '" title="' + title + '" target="_blank" >' + 
+			'<img src="' + data.img_url + '" alt="' + title + '" width="'+ data.width + '" height="'+ data.height + '">' +
 		'</a></p>';
 	}
 
@@ -383,8 +394,8 @@ define(function(require, exports, module){
 	function fm_validate($fm){
 		var m = new tools.validate();
 			m.process_url = config.process_url;
-			m.loading_tx = config.lang.M00001;
-			m.error_tx = config.lang.E00001;
+			m.loading_tx = config.lang.M01;
+			m.error_tx = config.lang.E01;
 			m.$fm = $fm;
 			m.done = function(data){
 				if(config.edit){
