@@ -13,7 +13,7 @@
 - 购买主题：[联系QQ](http://wpa.qq.com/msgrd?v=3&uin=272778765&site=qq&menu=yes)或[作者邮箱](mailto:kmvan.com@mgail.com)或[主题官网](http://inn-studio.com/mx)
 
 # 主题预览图
-![http://inn-studio.com/mx](http://inn-studio.com/wp-content/uploads/2015/05/56eefaf5858beeea138e1c82101f88501.jpg)
+![http://inn-studio.com/mx](http://inn-studio.com/wp-content/uploads/2015/05/bf7ad7b824e8f533bf74d42c3e832ae4.jpg)
 # 主题描述
 > 这是一款以互动分享为主的主题，其强大的功能与简洁的界面，在 WordPoi 基础上得以实现，可谓是 INN STUDIO 创立以来至 2015 春季精心之作。
 界面以 Bootstrap3 为主，追求简单一目了然的风格。各种操作快速响应，无拖泥带水之感。

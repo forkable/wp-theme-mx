@@ -34,7 +34,7 @@ class theme_custom_attachment{
 			'post_parent' => $post->post_parent,
 			'post_status' => 'inherit',
 			'post_type' => 'attachment',
-			
+			'order' => 'ASC',
 		]);
 		
 		$count = count($children);

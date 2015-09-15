@@ -131,6 +131,7 @@
 					}
 				}
 				?>
+				<li><a href="<?= wp_login_url(get_current_url());?>"><i class="fa fa-sign-out fa-fw"></i> <?= ___('Log-out');?></a></li>
 			</ul>
 		<?php } ?>
 	 </div><!-- /.container -->

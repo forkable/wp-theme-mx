@@ -327,25 +327,19 @@ class theme_functions{
 	 */
 	public static function archive_img_content(array $args = []){
 		global $post;
-		$defaults = array(
+		$args = array_merge([
 			'classes' => [],
 			'lazyload' => true,
-		);
-		$args = array_merge($defaults,$args);
+		],$args);
 
 		$args['classes'][] = 'post-list post-img-list';
-		
-		$excerpt = get_the_excerpt();
-		
-		if(!empty($excerpt))
-			$excerpt = esc_html($excerpt);
 			
 		$thumbnail_real_src = esc_url(theme_functions::get_thumbnail_src($post->ID));
 
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
 		<li class="<?= implode(' ',$args['classes']);?>">
-			<a class="post-list-bg" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID), empty($excerpt) ? null : ' - ' . $excerpt;?>">
+			<a class="post-list-bg" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID);?>">
 				<div class="thumbnail-container">
 					<img class="placeholder" alt="Placeholder" src="<?= $thumbnail_placeholder;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
 					<?php
@@ -459,7 +453,7 @@ class theme_functions{
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
 		<li class="list-group-item <?= $args['classes'];?>">
-			<a class="post-list-bg media" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID), empty($excerpt) ? null : ' - ' . $excerpt;?>">
+			<a class="post-list-bg media" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID);?>">
 				<div class="media-left">
 					<img src="<?= $thumbnail_placeholder;?>" alt="<?= theme_cache::get_the_title($post->ID);?>" class="media-object placeholder">
 					<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= theme_cache::get_the_title($post->ID);?>"/>
@@ -1790,18 +1784,15 @@ class theme_functions{
 
 		$args['classes'][] = 'post-list post-stick-list';
 		
-		$excerpt = get_the_excerpt();
-		
-		if(!empty($excerpt))
-			$excerpt = esc_html($excerpt);
-			
 		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
+
+		$post_title = theme_cache::get_the_title($post->ID);
 		?>
 		<li class="<?= implode(' ',$args['classes']);?>">
-			<a class="post-list-bg" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID), empty($excerpt) ? null : ' - ' . $excerpt;?>">
-				<div class="thumbnail-container">
+			<div class="post-list-bg" >
+				<a href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= $post_title;?>" class="thumbnail-container" >
 					<img class="placeholder" alt="Placeholder" src="<?= $thumbnail_placeholder;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
 					<?php
 					/**
@@ -1809,9 +1800,9 @@ class theme_functions{
 					 */
 					if($args['lazyload']){
 						?>
-						<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
+						<img class="post-list-img" src="<?= $thumbnail_placeholder;?>" data-src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
 					<?php }else{ ?>
-						<img class="post-list-img" src="<?= $thumbnail_real_src;?>" alt="<?= theme_cache::get_the_title($post->ID);?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
+						<img class="post-list-img" src="<?= $thumbnail_real_src;?>" alt="<?= $post_title;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>"/>
 					<?php } ?>
 
 					<?php if(class_exists('theme_colorful_cats')){ ?>
@@ -1828,12 +1819,14 @@ class theme_functions{
 						</div>
 					<?php } ?>
 
-				</div>
-				<h3 class="post-list-title"><?= theme_cache::get_the_title($post->ID);?></h3>
+				</a>
+				<h3 class="post-list-title">
+					<a href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= $post_title;?>"><?= $post_title;?></a>
+				</h3>
 				<div class="post-list-meta">
-					<span class="meta author" title="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>">
-						<img width="16" height="16" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?= theme_cache::get_avatar_url($post->post_author);?>" alt="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>" class="avatar"> <span class="tx"><?= theme_cache::get_the_author_meta('display_name',$post->post_author);?></span>
-					</span>
+					<a href="<?= theme_cache::get_author_posts_url($post->post_author);?>" class="meta author" title="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>">
+						<img width="32" height="32" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?= theme_cache::get_avatar_url($post->post_author);?>" alt="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>" class="avatar"> <span class="tx"><?= theme_cache::get_the_author_meta('display_name',$post->post_author);?></span>
+					</a>
 					<?php
 					/**
 					 * views
@@ -1847,7 +1840,7 @@ class theme_functions{
 						<i class="fa fa-comment"></i> <?= (int)$post->comment_count;?>
 					</span>
 				</div>
-			</a>
+			</div>
 		</li>
 		<?php
 	}
@@ -1860,25 +1853,12 @@ class theme_functions{
 		
 		$args['classes'][] = 'post-list post-mixed-list ';
 		
-		/** sticky */
-		//static $stickies = null;
-		//if($stickies === null)
-		//	$stickies = theme_cache::get_option('sticky_posts');
-		//if(is_array( $stickies ) && in_array( $post->ID, $stickies ))
-		//	$args['classes'][] = 'sticky';
-		
-			
-		$excerpt = get_the_excerpt();
-		
-		if(!empty($excerpt))
-			$excerpt = esc_html($excerpt);
-			
 		$thumbnail_real_src = theme_functions::get_thumbnail_src($post->ID);
 
 		$thumbnail_placeholder = theme_features::get_theme_images_url(theme_functions::$thumbnail_placeholder);
 		?>
 		<li <?php post_class($args['classes']);?>>
-			<a class="post-list-bg" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID), empty($excerpt) ? null : ' - ' . $excerpt;?>">
+			<a class="post-list-bg" href="<?= theme_cache::get_permalink($post->ID);?>" title="<?= theme_cache::get_the_title($post->ID);?>">
 				<div class="thumbnail-container">
 					<img class="placeholder" alt="Placeholder" src="<?= $thumbnail_placeholder;?>" width="<?= self::$thumbnail_size[1];?>" height="<?= self::$thumbnail_size[2];?>">
 					<?php
@@ -1897,7 +1877,7 @@ class theme_functions{
 				
 				<div class="post-list-meta">
 					<span class="meta author" title="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>">
-						<img width="16" height="16" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?= theme_cache::get_avatar_url($post->post_author);?>" alt="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>" class="avatar"> <span class="tx"><?= theme_cache::get_the_author_meta('display_name',$post->post_author);?></span>
+						<img width="32" height="32" src="<?= theme_features::get_theme_images_url(self::$avatar_placeholder);?>" data-src="<?= theme_cache::get_avatar_url($post->post_author);?>" alt="<?= theme_cache::get_the_author_meta('display_name',$post->post_author);?>" class="avatar"> <span class="tx"><?= theme_cache::get_the_author_meta('display_name',$post->post_author);?></span>
 					</span>
 					<time class="meta time" datetime="<?= get_the_time('Y-m-d H:i:s',$post->ID);?>" title="<?= get_the_time(___('M j, Y'),$post->ID);?>">
 						<?= friendly_date(get_the_time('U',$post->ID));?>

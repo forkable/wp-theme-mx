@@ -1,42 +1,41 @@
 <?php
 /** 
- * @version 1.0.1
+ * @version 1.0.2
  */
 add_filter('theme_includes',function($fns){
 	$fns[] = 'theme_custom_contribution::init';
 	return $fns;
 });
 class theme_custom_contribution{
-	public static $iden = 'theme_custom_contribution';
 	public static $page_slug = 'account';
-	public static $file_exts = array('png','jpg','gif');
+	public static $file_exts = ['png','jpg','gif'];
 	public static $thumbnail_size = 'large';
 	public static $pages = [];
-	public static $post_meta_key = array(
+	public static $post_meta_key = [
 		'bdyun' => '_theme_ctb_bdyun'
-	);
+	];
 	public static function init(){
-		add_filter('frontend_seajs_alias',	__CLASS__ . '::frontend_seajs_alias');
+		add_filter('frontend_seajs_alias', __CLASS__ . '::frontend_seajs_alias');
 	
-		add_action('frontend_seajs_use',	__CLASS__ . '::frontend_seajs_use');
+		add_action('frontend_seajs_use', __CLASS__ . '::frontend_seajs_use');
 
-		add_filter('theme_options_save', 	__CLASS__ . '::options_save');
-		add_filter('theme_options_default', 	__CLASS__ . '::options_default');
+		add_filter('theme_options_save', __CLASS__ . '::options_save');
+		add_filter('theme_options_default', __CLASS__ . '::options_default');
 		
 		
 		add_action('wp_ajax_' . __CLASS__, __CLASS__ . '::process');
 
-		add_action('wp_enqueue_scripts', 	__CLASS__ . '::frontend_css');
+		add_action('wp_enqueue_scripts', __CLASS__ . '::frontend_css');
 
 		
 		foreach(self::get_tabs() as $k => $v){
 			$nav_fn = 'filter_nav_' . $k; 
-			add_filter('account_navs',__CLASS__ . "::$nav_fn",$v['filter_priority']);
+			add_filter('account_navs', __CLASS__ . "::$nav_fn",$v['filter_priority']);
 		}
 
-		add_filter('wp_title',				__CLASS__ . '::wp_title',10,2);
+		add_filter('wp_title', __CLASS__ . '::wp_title',10,2);
 
-		add_action('page_settings',			__CLASS__ . '::display_backend');
+		add_action('page_settings', __CLASS__ . '::display_backend');
 
 
 	}
