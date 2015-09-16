@@ -9,7 +9,6 @@ add_filter('theme_includes',function($fns){
 class theme_custom_attachment{
 
 	public static function init(){
-
 		add_filter('the_content', __CLASS__ . '::filter_the_content');
 		/**
 		 * frontend
@@ -21,9 +20,9 @@ class theme_custom_attachment{
 	public static function filter_the_content($content){
 		if(!theme_cache::is_attachment())
 			return $content;
+			
 		global $post;
 		$post_title = theme_cache::get_the_title($post->post_parent);
-		//var_dump($post);
 		if(!wp_attachment_is_image($post->ID))
 			return $content;
 			
@@ -37,20 +36,25 @@ class theme_custom_attachment{
 			'order' => 'ASC',
 		]);
 		
+		$children = array_values($children);
+		
 		$count = count($children);
 		$child_posts = [];
+		$current_post_index = 0;
 		
-		foreach($children as $child){
-			$child_img = wp_get_attachment_image_src($child->ID,'thumbnail');
-			$child_posts[] = [
-				'id' => $child->ID,
-				'permalink' => theme_cache::get_permalink($child->ID) . '#main',
+		for($i = 0; $i<$count; ++$i){
+			$child_img = wp_get_attachment_image_src($children[$i]->ID,'thumbnail');
+			$child_posts[$i] = [
+				'id' => $children[$i]->ID,
+				'permalink' => theme_cache::get_permalink($children[$i]->ID) . '#main',
 				'src' => $child_img[0],
 				'w' => $child_img[1],
 				'h' => $child_img[2],
 			];
+			if($children[$i]->ID == $post->ID){
+				$current_post_index = $i;
+			}
 		}
-		//unset($children);
 		unset($child_img);
 
 		ob_start();
@@ -58,12 +62,13 @@ class theme_custom_attachment{
 		<div class="attachment-slide">
 			<div class="attachment-slide-content">
 				<?php
-				if($post->ID !== $child_posts[$count - 1]['id']){
-					$url_next = $img_full['permalink'];
-					$title_next = ___('Next page');
-				}else{
+				/** if current is last post */
+				if($current_post_index == $count - 1){
 					$url_next = 'javascript:;';
 					$title_next = ___('Already last page');
+				}else{
+					$url_next = $child_posts[$current_post_index + 1]['permalink'];
+					$title_next = ___('Next page');
 				}
 				?>
 				<a href="<?= $url_next;?>" title="<?= $title_next;?>">
@@ -72,12 +77,11 @@ class theme_custom_attachment{
 			</div>
 			<div class="attachment-slide-thumbnail">
 				<?php
-				foreach($child_posts as $child){
-					$child_img = wp_get_attachment_image_src($child->ID,'thumbnail');
-					$class_active = $post->ID === $child['id'] ? 'active' : null;
+				for($i = 0; $i<$count; ++$i){
+					$class_active = $post->ID === $child_posts[$i]['id'] ? 'active' : null;
 					?>
-					<a class="<?= $class_active;?>" href="<?= theme_cache::get_permalink($child['id']);?>#main">
-						<img src="<?= $child['src'];?>" alt="<?= $post_title;?>" width="<?= $child['w'];?>" height="<?= $child['h'];?>">
+					<a class="<?= $class_active;?>" href="<?= $child_posts[$i]['permalink'];?>">
+						<img src="<?= $child_posts[$i]['src'];?>" alt="<?= $post_title;?>" width="<?= $child_posts[$i]['w'];?>" height="<?= $child_posts[$i]['h'];?>">
 					</a>
 				<?php } ?>
 			</div>
